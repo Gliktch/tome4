@@ -59,6 +59,7 @@ teams = {
 	{ "#name#-gfx.team", "optional", "/" },
 }
 
+i18n_support = true
 show_funfacts = true
 loading_wait_ticks = 260
 profile_stats_fields = {"artifacts", "characters", "deaths", "uniques", "scores", "lore", "escorts"}

@@ -27,6 +27,7 @@ dofile("/engine/colors.lua")
 dofile("/engine/resolvers.lua")
 
 require "config"
+local I18N = require "engine.I18N"
 require "engine.Game"
 require "engine.version"
 require "engine.interface.GameMusic"
