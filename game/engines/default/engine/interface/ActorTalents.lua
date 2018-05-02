@@ -52,6 +52,8 @@ function _M:newTalentType(t)
 	assert(t.type, "no talent type type")
 	t.description = t.description or ""
 	t.points = t.points or 1
+	-- I18N
+	t.name = _t(t.name)
 	t.talents = {}
 	table.insert(self.talents_types_def, t)
 	self.talents_types_def[t.type] = self.talents_types_def[t.type] or t
@@ -80,6 +82,9 @@ function _M:newTalent(t)
 	-- Remove line stat with tabs to be cleaner ..
 	local info = t.info
 	t.info = function(self, t) return info(self, t):gsub("\n\t+", "\n") end
+
+	-- I18N
+	t.name = _t(t.name)
 
 	t.id = "T_"..t.short_name
 	self.talents_def[t.id] = t

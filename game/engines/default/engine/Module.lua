@@ -924,8 +924,9 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 
 	-- Load localizations
 	if mod.i18n_support then
-		I18N:loadLocale("/data/i18n/"..config.settings.locale..".lua")
-		I18N:setLocale(config.settings.locale or "en_US")
+		local locale = config.settings.locale or "en_US"
+		I18N:setLocale(locale)
+		I18N:loadLocale("/data/i18n/"..locale..".lua")
 	end
 
 	-- Load font packages
