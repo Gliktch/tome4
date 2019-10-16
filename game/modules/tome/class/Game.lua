@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@ local Actor = require "mod.class.Actor"
 local Party = require "mod.class.Party"
 local Player = require "mod.class.Player"
 local NPC = require "mod.class.NPC"
+local Entity = require "engine.Entity"
 
 local DebugConsole = require "engine.DebugConsole"
 local FlyingText = require "engine.FlyingText"
@@ -374,14 +375,9 @@ function _M:applyDifficulty(zone, level_range)
 			zone.level_range = table.clone(level_range)
 		end
 		-- difficulty effects are phased in as the player reaches level 10
-		local lev_mult, lev_add, diff_adjust = 1, 0, math.min(1, game:getPlayer(true).level/10)
-		if self.difficulty == self.DIFFICULTY_NIGHTMARE then
-			lev_mult, lev_add = 1.5, 0
-		elseif self.difficulty == self.DIFFICULTY_INSANE then
-			lev_mult, lev_add = 1.5, 1
-		elseif self.difficulty == self.DIFFICULTY_MADNESS then
-			lev_mult, lev_add = 2.5, 2
-		end
+		local diff_adjust = math.min(1, game:getPlayer(true).level/10)
+		local lev_mult = game.state.birth.difficulty_level_mult or 1
+		local lev_add = game.state.birth.difficulty_level_add or 0
 		
 		if lev_mult ~= 1 then
 			local diff_adjust = math.min(1, game:getPlayer(true).level/10)
@@ -418,6 +414,12 @@ function _M:loaded()
 	Zone.alter_filter = function(...) return self.state:entityFilterAlter(...) end
 	Zone.post_filter = function(...) return self.state:entityFilterPost(...) end
 	Zone.ego_filter = function(...) return self.state:egoFilter(...) end
+	Entity.alter_entity_load = function(e)
+		if e:getEntityKind() == "object" and e.unique and not e.randart and e.level_range and not e.force_max_level_range then
+			e.level_range = table.clone(e.level_range)
+			e.level_range[2] = nil
+		end
+	end
 
 	self.uiset = (require("mod.class.uiset."..(config.settings.tome.uiset_mode or "Minimalist"))).new()
 
@@ -639,6 +641,7 @@ function _M:createFBOs()
 			timestop = Shader.new("main_fbo/timestop"),
 			line_grids = Shader.new("main_fbo/line_grids"),
 			gestures = Shader.new("main_fbo/gestures"),
+			sharpen = Shader.new("main_fbo/sharpen"),
 		}
 		self.posteffects_use = { self.fbo_shader.shad }
 		if not self.fbo_shader.shad then self.fbo = nil self.fbo_shader = nil end
@@ -1204,6 +1207,8 @@ function _M:changeLevelReal(lev, zone, params)
 			if newx and newy then blocking_actor:move(newx, newy, true)
 			else blocking_actor:teleportRandom(x, y, 10) end
 		end
+		self.player:move(x, y, true)
+		self.player.last_wilderness = self.zone.short_name
 	-- Place the player on the level
 	else
 		local x, y = nil, nil
@@ -1667,7 +1672,7 @@ function _M:displayDelayedLogDamage()
 		for src, tgts in pairs(psrcs) do
 			for target, dams in pairs(tgts) do
 				if #dams.descs > 1 then
-					game.uiset.logdisplay(self:logMessage(src, dams.srcSeen, target, dams.tgtSeen, "#Source# hits #Target# for %s (%0.0f total damage)%s.", table.concat(dams.descs, ", "), dams.total, dams.healing<0 and (" #LIGHT_GREEN#[%0.0f healing]#LAST#"):format(-dams.healing) or ""))
+					game.uiset.logdisplay(self:logMessage(src, dams.srcSeen, target, dams.tgtSeen, "#Source# hits #Target# for %s (#RED##{bold}#%0.0f#LAST##{normal}# total damage)%s.", table.concat(dams.descs, ", "), dams.total, dams.healing<0 and (" #LIGHT_GREEN#[%0.0f healing]#LAST#"):format(-dams.healing) or ""))
 				else
 					if dams.healing >= 0 then
 						game.uiset.logdisplay(self:logMessage(src, dams.srcSeen, target, dams.tgtSeen, "#Source# hits #Target# for %s damage.", table.concat(dams.descs, ", ")))
@@ -1872,9 +1877,14 @@ function _M:display(nb_keyframes)
 	-- If switching resolution, blank everything but the dialog
 	if self.change_res_dialog then engine.GameTurnBased.display(self, nb_keyframes) return end
 
-	-- Reset gamma setting, something somewhere is disrupting it, this is a stop gap solution
-	if self.support_shader_gamma and self.full_fbo_shader and self.full_fbo_shader.shad then self.full_fbo_shader.shad:uniGamma(config.settings.gamma_correction / 100) end
+	if not core.display.redrawingForSavefileScreenshot() then
+		-- Don't change gamma here during redrawing for savefile screenshot.
+		-- I suspect that the following code is actually unnecessary, but I'm not changing it.
 
+		-- Reset gamma setting, something somewhere is disrupting it, this is a stop gap solution
+		if self.support_shader_gamma and self.full_fbo_shader and self.full_fbo_shader.shad then self.full_fbo_shader.shad:uniGamma(config.settings.gamma_correction / 100) end
+	end
+ 
 	if self.full_fbo then self.full_fbo:use(true) end
 
 	-- Now the ui
@@ -1994,20 +2004,35 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
-			self:changeLevel(1, "cults+godfeaster")
+			local f, err = loadfile("/data/general/events/weird-pedestals.lua")
+			print(f, err)
+			setfenv(f, setmetatable({level=self.level, zone=self.zone}, {__index=_G}))
+			print(pcall(f))
+do return end
+			package.loaded["mod.dialogs.Donation"] = nil
+			self:registerDialog(require("mod.dialogs.Donation").new())
+do return end
+			if self.zone.short_name ~= "test" then
+				self:changeLevel(1, "test")
+			else
+				self:changeLevel(game.level.level + 1)
+			end
 do return end
 			local m = game.zone:makeEntity(game.level, "actor", {name="elven mage"}, nil, true)
 			local x, y = util.findFreeGrid(game.player.x, game.player.y, 20, true, {[Map.ACTOR]=true})
 			if m and x then
 				game.zone:addEntity(game.level, m, "actor", x, y)
 			end
-do return end
-			local f, err = loadfile("/data/general/events/fearscape-portal.lua")
-			print(f, err)
-			setfenv(f, setmetatable({level=self.level, zone=self.zone}, {__index=_G}))
-			print(pcall(f))
 		end end,
 		[{"_f","ctrl"}] = function() if config.settings.cheat then
+			local m = game.zone:makeEntityByName(game.level, "actor", "NPC_HUMANOID_KROG")
+			local x, y = util.findFreeGrid(game.player.x, game.player.y, 20, true, {[Map.ACTOR]=true})
+			if m and x then
+				game.zone:addEntity(game.level, m, "actor", x, y)
+			end
+do return end
+			Birther:showCosmeticCustomizer(self.player, "plops")
+do return end
 			self.player.quests["love-melinda"] = nil
 			self.player:grantQuest("love-melinda")
 			self.player:hasQuest("love-melinda"):melindaCompanion(self.player, "Defiler", "Corruptor")
@@ -2395,7 +2420,19 @@ do return end
 				self.log("Movement Mode: #LIGHT_RED#Passive#LAST#.")
 				game_or_player.bump_attack_disabled = true
 			end
-		end
+		end,
+
+		MTXN_PURCHASE = function()
+			if not profile:canMTXN() then return end
+			package.loaded["engine.dialogs.microtxn.ShowPurchasable"] = nil
+			self:registerDialog(require("engine.dialogs.microtxn.ShowPurchasable").new())
+		end,
+
+		MTXN_USE = function()
+			if not profile:canMTXN() then return end
+			package.loaded["engine.dialogs.microtxn.UsePurchased"] = nil
+			self:registerDialog(require("engine.dialogs.microtxn.UsePurchased").new())
+		end,
 	}
 	-- add key bindings for targeting mode
 	self.targetmode_key:addBinds{
@@ -2687,22 +2724,15 @@ end
 --- Take a screenshot of the game
 -- @param for_savefile The screenshot will be used for savefile display
 function _M:takeScreenshot(for_savefile)
+	core.display.forceRedrawForScreenshot(for_savefile)
 	if for_savefile then
-		self.suppressDialogs = true
-		core.display.forceRedraw()
-
 		local x, y = self.w / 4, self.h / 4
 		if self.level then
-			x, y = self.level.map:getTileToScreen(self.player.x, self.player.y)
+			x, y = self.level.map:getTileToScreen(self.player.x, self.player.y, true)
 			x, y = x - self.w / 4, y - self.h / 4
 			x, y = util.bound(x, 0, self.w / 2), util.bound(y, 0, self.h / 2)
 		end
-		local sc = core.display.getScreenshot(x, y, self.w / 2, self.h / 2)
-
-		self.suppressDialogs = nil
-		core.display.forceRedraw()
-
-		return sc
+		return core.display.getScreenshot(x, y, self.w / 2, self.h / 2)
 	else
 		return core.display.getScreenshot(0, 0, self.w, self.h)
 	end

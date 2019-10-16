@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@ local basetrap = function(self, t, x, y, dur, add)
 	local trap = {
 		id_by_type=true, unided_name = "trap",
 		display = '^',
+		disarmable = false,
+		no_disarm_message = true,
+		message = false,
 		faction = self.faction,
 		summoner = self, summoner_gain_exp = true,
 		temporary = dur,
@@ -158,7 +161,7 @@ newTalent{
 		return tg
 	end,
 	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 3.3, 4.7)) end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 180) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 180) end,  -- 100, 900 at 6.5 assuming all hit.  Not bad.
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -199,14 +202,26 @@ newTalent{
 	no_energy = true,
 	tactical = { BUFF = 2 },
 	getNb = function(self, t) return math.floor(self:combatTalentLimit(t, 15, 5, 9)) end, -- Limit duration < 15	
+	callbackOnTalentPost = function(self, t, ab)
+		if not self:hasEffect(self.EFF_AETHER_AVATAR) then return end
+		if ab.mode == "sustained" then return end
+		if ab.use_only_arcane then return end
+		if ab.type[1] == "spell/aegis" and self:hasEffect(self.EFF_AETHER_AVATAR).aegis then return end
+		if self.turn_procs.aether_avatar_penalty then return end
+		self:incMana(-50)
+		game.logSeen(self, "#VIOLET#%s loses 50 mana from using a non-Arcane talent!#LAST#", self.name:capitalize())
+
+		self.turn_procs.aether_avatar_penalty = true
+	end,
 	action = function(self, t)
-		self:setEffect(self.EFF_AETHER_AVATAR, t.getNb(self, t), {})
+		local aegis
+		self:setEffect(self.EFF_AETHER_AVATAR, t.getNb(self, t), {aegis = (self:getTalentLevel(t) > 4 )})
 		game:playSoundNear(self, "talents/arcane")
 		return true
 	end,
 	info = function(self, t)
 		return ([[Fill yourself with aether forces, completely surrounding your body for %d turns.
-		While active, you can only cast arcane or aether spells, your cooldown for them is divided by 3, your arcane damage is increased by 25%%, your Disruption Shield can be used at any time, and your maximum mana is increased by 33%%.]]):
+		While active, you lose 50 mana the first time you use a non-sustain, non-Arcane or Aether talent each turn, your cooldown for them is divided by 3, your arcane damage and penetration is increased by 25%%, your Disruption Shield radius is increased to 10, and your maximum mana is increased by 33%%.]]):
 		format(t.getNb(self, t))
 	end,
 }
@@ -249,7 +264,7 @@ newTalent{
 		local damageinc = t.getDamageIncrease(self, t)
 		local ressistpen = t.getResistPenalty(self, t)
 		return ([[Surround yourself with Pure Aether, increasing all your arcane damage by %0.1f%% and ignoring %d%% arcane resistance of your targets.
-		At level 5 it allows Aegis spells to be used while in Aether Avatar form.]])
+		At level 4 it allows Aegis spells to be used while in Aether Avatar form without penalty.]])
 		:format(damageinc, ressistpen)
 	end,
 }

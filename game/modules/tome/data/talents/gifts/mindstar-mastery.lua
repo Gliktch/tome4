@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -37,16 +37,18 @@ newTalent{
 	getPowermult = function(self,t,level) return 1.076 + 0.324*(level or self:getTalentLevel(t))^.5 end,
 	getStatmult = function(self,t,level) return 1.076 + 0.324*(level or self:getTalentLevel(t))^.5 end,
 	getAPRmult = function(self,t,level) return 0.65 + 0.51*(level or self:getTalentLevel(t))^.5 end,
-	getDamage = function(self, t) return 0 end,
+	getDamage = function(self, t) return 30 end,
 	getPercentInc = function(self, t) return math.sqrt(self:getTalentLevel(t) / 5) / 1.5 end,
 	activate = function(self, t)
 		local r = {
 			tmpid = self:addTemporaryValue("psiblades_active", self:getTalentLevel(t)),
 		}
 
+		self:attr("on_wear_simple_reload", 1)
 		for i, o in ipairs(self:getInven("MAINHAND") or {}) do self:onTakeoff(o, self.INVEN_MAINHAND, true) self:onWear(o, self.INVEN_MAINHAND, true) end
 		for i, o in ipairs(self:getInven("OFFHAND") or {}) do self:onTakeoff(o, self.INVEN_OFFHAND, true) self:onWear(o, self.INVEN_OFFHAND, true) end
 		for i, o in ipairs(self:getInven("PSIONIC_FOCUS") or {}) do self:onTakeoff(o, self.INVEN_PSIONIC_FOCUS, true) self:onWear(o, self.INVEN_PSIONIC_FOCUS, true) end
+		self:attr("on_wear_simple_reload", -1)
 		self:updateModdableTile()
 
 		return r
@@ -54,9 +56,11 @@ newTalent{
 	deactivate = function(self, t, p)
 		self:removeTemporaryValue("psiblades_active", p.tmpid)
 
+		self:attr("on_wear_simple_reload", 1)
 		for i, o in ipairs(self:getInven("MAINHAND") or {}) do self:onTakeoff(o, self.INVEN_MAINHAND, true) self:checkMindstar(o) self:onWear(o, self.INVEN_MAINHAND, true) end
 		for i, o in ipairs(self:getInven("OFFHAND") or {}) do self:onTakeoff(o, self.INVEN_OFFHAND, true) self:checkMindstar(o) self:onWear(o, self.INVEN_OFFHAND, true) end
 		for i, o in ipairs(self:getInven("PSIONIC_FOCUS") or {}) do self:onTakeoff(o, self.INVEN_PSIONIC_FOCUS, true) self:checkMindstar(o) self:onWear(o, self.INVEN_PSIONIC_FOCUS, true) end
+		self:attr("on_wear_simple_reload", -1)
 		self:updateModdableTile()
 
 		return true
@@ -66,7 +70,7 @@ newTalent{
 		local inc = t.getPercentInc(self, t)
 		return ([[Channel your mental power through your wielded mindstars, generating psionic blades.
 		Mindstar psiblades have their damage modifiers (how much damage they gain from stats) multiplied by %0.2f, their armour penetration by %0.2f and mindpower, willpower and cunning by %0.2f.
-		Also increases weapon damage by %d%% when using mindstars.]]):
+		Also passively increases weapon damage by %d%% and physical power by 30 when using mindstars.]]):
 		format(t.getStatmult(self, t), t.getAPRmult(self, t), t.getPowermult(self, t), 100 * inc) --I5
 	end,
 }

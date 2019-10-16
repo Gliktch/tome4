@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ local TreeList = require "engine.ui.TreeList"
 local Textzone = require "engine.ui.Textzone"
 local Separator = require "engine.ui.Separator"
 local GetQuantity = require "engine.dialogs.GetQuantity"
+local GetQuantitySlider = require "engine.dialogs.GetQuantitySlider"
 local Tabs = require "engine.ui.Tabs"
 local GraphicMode = require("mod.dialogs.GraphicMode")
 local FontPackage = require "engine.FontPackage"
@@ -412,6 +413,24 @@ function _M:generateListUi()
 		self.c_list:drawItem(item)
 	end,}
 
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString"Always display the combat properties of gloves even if you don't know unarmed attack talents.#WHITE#"}
+	list[#list+1] = { zone=zone, name=string.toTString"#GOLD##{bold}#Always show glove combat properties#WHITE##{normal}#", status=function(item)
+		return tostring(config.settings.tome.display_glove_stats and "enabled" or "disabled")
+	end, fct=function(item)
+		config.settings.tome.display_glove_stats = not config.settings.tome.display_glove_stats
+		game:saveSettings("tome.display_glove_stats", ("tome.display_glove_stats = %s\n"):format(tostring(config.settings.tome.display_glove_stats)))
+		self.c_list:drawItem(item)
+	end,}
+
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString"Always display combat properties of shields even if you don't know shield attack talents.#WHITE#"}
+	list[#list+1] = { zone=zone, name=string.toTString"#GOLD##{bold}#Always show shield combat properties#WHITE##{normal}#", status=function(item)
+		return tostring(config.settings.tome.display_shield_stats and "enabled" or "disabled")
+	end, fct=function(item)
+		config.settings.tome.display_shield_stats = not config.settings.tome.display_shield_stats
+		game:saveSettings("tome.display_shield_stats", ("tome.display_shield_stats = %s\n"):format(tostring(config.settings.tome.display_shield_stats)))
+		self.c_list:drawItem(item)
+	end,}
+
 	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString"When you do a mouse gesture (right click + drag) a color coded trail is displayed.#WHITE#"}
 	list[#list+1] = { zone=zone, name=string.toTString"#GOLD##{bold}#Display mouse gesture trails#WHITE##{normal}#", status=function(item)
 		return tostring(config.settings.hide_gestures and "disabled" or "enabled")
@@ -428,6 +447,19 @@ function _M:generateListUi()
 		config.settings.tome.quest_popup = not config.settings.tome.quest_popup
 		game:saveSettings("tome.quest_popup", ("tome.quest_popup = %s\n"):format(tostring(config.settings.tome.quest_popup)))
 		self.c_list:drawItem(item)
+	end,}
+
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString"Sharpen Visuals, set to 0 to disable.#WHITE#"}
+	list[#list+1] = { zone=zone, name=string.toTString"#GOLD##{bold}#Sharpen Visuals#WHITE##{normal}#", status=function(item)
+		return tostring((config.settings.tome.sharpen_display or 0))
+	end, fct=function(item)
+		game:registerDialog(GetQuantitySlider.new("Enter Sharpen Power", "From 0(disable) to 10", math.floor(config.settings.tome.sharpen_display or 0), 0, 10, 1, function(qty)
+			qty = util.bound(qty, 0, 10)
+			game:saveSettings("tome.sharpen_display", ("tome.sharpen_display = %f\n"):format(qty))
+			config.settings.tome.sharpen_display = qty
+			self.c_list:drawItem(item)
+			if self:isTome() and game.player then game.player:updateMainShader() end
+		end))
 	end,}
 
 	self.list = list
@@ -586,7 +618,7 @@ function _M:generateListOnline()
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString"Keep a copy of your character sheets (not the whole savefile) on the online vault at te4.org.\nFor each characters you will be given a link to this online character sheet so that you drag about your heroic deeds or sad deaths to your friends or the whole community.#WHITE#"}
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString"Keep a copy of your character sheets (not the whole savefile) on the online vault at te4.org.\nFor each character you will be given a link to this online character sheet so that you can brag about your heroic deeds or sad deaths to your friends or the whole community.#WHITE#"}
 	list[#list+1] = { zone=zone, name=string.toTString"#GOLD##{bold}#Upload characters sheets to the online vault#WHITE##{normal}#", status=function(item)
 		return tostring(config.settings.upload_charsheet and "enabled" or "disabled")
 	end, fct=function(item)
@@ -613,15 +645,14 @@ This includes, but is not limited to:
 - Characters vault: You will not be able to upload any character to the online vault to show your glory
 - Item's Vault: You will not be able to access the online item's vault, this includes both storing and retrieving items.
 - Ingame chat: The ingame chat requires to connect to the server to talk to other players, this will not be possible.
-- Donator benefits: The base game being free, the only way to give donators their bonuses fairly is to check their online profile. This will thus be disabled.
-- Expansions & DLCs: Similarly any and all official expansions to the game works under the same principles as the donator benfits and will thus also be disabled.
+- Purchaser / Donator benefits: The base game being free, the only way to give donators their bonuses fairly is to check their online profile. This will thus be disabled.
 - Easy addons downloading & installation: You will not be able to see ingame the list of available addons, nor to one-click install them. You may still do so manually.
 - Version checks: Addons will not be checked for new versions.
-- Discord: If you use Discord Rich Presence integration this will also be disabled byt this setting.
+- Discord: If you use Discord Rich Presence integration this will also be disabled by this setting.
 - Ingame game news: The main menu will stop showing you info about new updates to the game.
 
 Note that this setting only affects the game itself. If you use the game launcher, whose sole purpose is to make sure the game is up to date, it will still do so.
-If you do not want that, simply run the game directly: the #{bold}#only#{normal}# of the launcher is to update the game.
+If you do not want that, simply run the game directly: the #{bold}#only#{normal}# use of the launcher is to update the game.
 
 #{bold}##CRIMSON#This is an extremely restrictive setting. It is recommended you only activate it if you have no other choice as it will remove many fun and acclaimed features.
 A full exit and restart of the game is neccessary to apply this setting.#{normal}#]]}

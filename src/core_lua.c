@@ -26,7 +26,6 @@
 #include "auxiliar.h"
 #include "types.h"
 #include "script.h"
-#include "display.h"
 #include "physfs.h"
 #include "physfsrwops.h"
 #include "SFMT.h"
@@ -35,6 +34,7 @@
 #include "main.h"
 #include "useshader.h"
 #include "core_lua.h"
+#include "utf8proc/utf8proc.h"
 #include <math.h>
 #include <time.h>
 #include <locale.h>
@@ -608,6 +608,17 @@ static int lua_disable_connectivity(lua_State *L)
 	return 0;
 }
 
+static int lua_stdout_write(lua_State *L)
+{
+	int i = 1;
+	while (i <= lua_gettop(L)) {
+		const char *s = lua_tostring(L, i);
+		printf("%s", s);
+		i++;
+	}
+	return 0;
+}
+
 static int lua_open_browser(lua_State *L)
 {
 #if defined(SELFEXE_LINUX) || defined(SELFEXE_BSD)
@@ -647,6 +658,7 @@ static const struct luaL_Reg gamelib[] =
 	{"checkError", lua_check_error},
 	{"resetLocale", lua_reset_locale},
 	{"openBrowser", lua_open_browser},
+	{"stdout_write", lua_stdout_write},	
 	{"disableConnectivity", lua_disable_connectivity},
 	{NULL, NULL},
 };
@@ -933,11 +945,36 @@ static void font_make_texture_line(lua_State *L, SDL_Surface *s, int id, bool is
 	lua_rawseti(L, -2, id);
 }
 
+static bool draw_string_split_anywhere = FALSE;
+static int font_display_split_anywhere(lua_State *L) {
+	draw_string_split_anywhere = lua_toboolean(L, 1);
+	return 0;
+}
+static int font_display_split_anywhere_get(lua_State *L) {
+	lua_pushboolean(L, draw_string_split_anywhere);
+	return 1;
+}
+
+static int string_find_next_utf(lua_State *L) {
+	size_t str_len;
+	const char *str = luaL_checklstring(L, 1, &str_len);
+	int pos = lua_tonumber(L, 2) - 1;
+
+	int32_t _dummy_;
+	ssize_t nextutf = utf8proc_iterate((const uint8_t*)str + pos, str_len - pos, &_dummy_);
+	if (nextutf < 1) nextutf = 1;
+	if (pos + nextutf >= str_len) lua_pushboolean(L, FALSE);
+	else lua_pushnumber(L, 1 + pos + nextutf);
+	return 1;
+}
+
 extern GLint max_texture_size;
 static int sdl_font_draw(lua_State *L)
 {
 	TTF_Font **f = (TTF_Font**)auxiliar_checkclass(L, "sdl{font}", 1);
-	const char *str = luaL_checkstring(L, 2);
+	size_t str_len;
+	const char *str = luaL_checklstring(L, 2, &str_len);
+	const char *str_end = str + str_len;
 	int max_width = luaL_checknumber(L, 3);
 	int r = luaL_checknumber(L, 4);
 	int g = luaL_checknumber(L, 5);
@@ -980,32 +1017,58 @@ static int sdl_font_draw(lua_State *L)
 	int max_size = 0;
 	int size = 0;
 	bool is_separator = FALSE;
+	int32_t _dummy_;
+	ssize_t nextutf;
 	int i;
+	int inced;
 	bool force_nl = FALSE;
 	SDL_Surface *txt = NULL;
-	while (TRUE)
-	{
-		if ((*next == '\n') || (*next == ' ') || (*next == '\0') || (*next == '#'))
-		{
-			bool inced = FALSE;
-			if (*next == ' ' && *(next+1))
-			{
-				inced = TRUE;
-				stop = next;
-				next++;
+	while (TRUE) {
+		bool split_force = FALSE;
+		if (draw_string_split_anywhere) {
+			while ((*next != '\n') && (*next != '\0') && (*next != '#')) {
+				nextutf = utf8proc_iterate((const uint8_t*)next, str_end - next, &_dummy_);
+				if (nextutf < 1) { nextutf = 1; } // WOOPS!
+				next += nextutf;
+
+				char old = *next;
+				*next = '\0';
+				int ttw, tth;
+				TTF_SizeUTF8(*f, start, &ttw, &tth);
+				// printf("incr %d + %d : '%s' : '%s' (%s) :=: %d + %d > %d?\n", next, nextutf, next, next+nextutf, start, size, ttw, max_width);
+				*next = old;
+
+				if (size + ttw > max_width) {
+					next -= nextutf;
+					split_force = TRUE;
+					break;
+				}
 			}
-			else stop = next - 1;
+		}
+
+		if ((*next == '\n') || (split_force || *next == ' ') || (*next == '\0') || (*next == '#')) {
+			inced = 0;
+			if (!split_force) {
+				if ((*next == ' ') && *(next+1)) {
+					stop = next;
+					inced = nextutf = utf8proc_iterate((const uint8_t*)next, str_end - next, &_dummy_);
+					// printf("adv1 %d + %d : '%s' : '%s'\n", next, nextutf, next, next+nextutf);
+					if (nextutf < 1) { nextutf = 1; } // WOOPS!
+					next += nextutf;
+				}
+				else stop = next - 1;
+			}
 
 			// Make a surface for the word
 			char old = *next;
 			*next = '\0';
 			if (txt) SDL_FreeSurface(txt);
+			// printf("rndr %d : '%s'\n", start, start);
 			if (no_text_aa) txt = TTF_RenderUTF8_Blended(*f, start, color);
 			else txt = TTF_RenderUTF8_Blended(*f, start, color);
 
 			// If we must do a newline, flush the previous word and the start the new line
-			if (!no_linefeed && (force_nl || (txt && (size + txt->w > max_width))))
-			{
+			if (!no_linefeed && (force_nl || (txt && (size + txt->w > max_width)))) {
 				// Push it & reset the surface
 				font_make_texture_line(L, s, nb_lines, is_separator, id_real_line, line_data, line_data_size, direct_uid_draw, size);
 				is_separator = FALSE;
@@ -1022,8 +1085,7 @@ static int sdl_font_draw(lua_State *L)
 				force_nl = FALSE;
 			}
 
-			if (txt)
-			{
+			if (txt) {
 				// Detect separators
 				if ((*start == '-') && (*(start+1) == '-') && (*(start+2) == '-') && !(*(start+3))) is_separator = TRUE;
 
@@ -1033,15 +1095,22 @@ static int sdl_font_draw(lua_State *L)
 				size += txt->w;
 			}
 			*next = old;
-			if (inced) next--;
-			start = next + 1;
+			if (inced) next -= inced;
+
+			if (!split_force) {
+				nextutf = utf8proc_iterate((const uint8_t*)next, str_end - next, &_dummy_);
+				// printf("star %d + %d : '%s' : '%s'\n", next, nextutf, next, next+nextutf);
+				if (nextutf < 1) { nextutf = 1; } // WOOPS!
+				start = next + nextutf;
+			} else {
+				start = next;
+			}
 
 			// Force a linefeed
 			if (*next == '\n') force_nl = TRUE;
 
 			// Handle special codes
-			else if (*next == '#')
-			{
+			else if (*next == '#') {
 				char *codestop = next + 1;
 				while (*codestop && *codestop != '#') codestop++;
 				// Font style
@@ -1053,8 +1122,7 @@ static int sdl_font_draw(lua_State *L)
 				}
 				// Entity UID
 				else if ((codestop - (next+1) > 4) && (*(next+1) == 'U') && (*(next+2) == 'I') && (*(next+3) == 'D') && (*(next+4) == ':')) {
-					if (!direct_uid_draw)
-					{
+					if (!direct_uid_draw) {
 						lua_getglobal(L, "__get_uid_surface");
 						char *colon = next + 5;
 						while (*colon && *colon != ':') colon++;
@@ -1178,7 +1246,11 @@ static int sdl_font_draw(lua_State *L)
 			}
 		}
 		if (*next == '\0') break;
-		next++;
+
+		nextutf = utf8proc_iterate((const uint8_t*)next, str_end - next, &_dummy_);
+		// printf("adv2 %d + %d : '%s' : '%s' (%s)\n", next, nextutf, next, next+nextutf, start);
+		if (nextutf < 1) { nextutf = 1; } // WOOPS!
+		next += nextutf;
 	}
 
 	font_make_texture_line(L, s, nb_lines, is_separator, id_real_line, line_data, line_data_size, direct_uid_draw, size);
@@ -2465,11 +2537,26 @@ static int sdl_set_window_pos(lua_State *L)
 	return 1;
 }
 
-extern void on_redraw();
 static int sdl_redraw_screen(lua_State *L)
 {
-	on_redraw();
+	redraw_now(redraw_type_normal);
 	return 0;
+}
+
+static int sdl_redraw_screen_for_screenshot(lua_State *L)
+{
+	bool for_savefile = lua_toboolean(L, 1);
+	if (for_savefile)
+		redraw_now(redraw_type_savefile_screenshot);
+	else
+		redraw_now(redraw_type_user_screenshot);
+	return 0;
+}
+
+static int redrawing_for_savefile_screenshot(lua_State *L)
+{
+	lua_pushboolean(L, (get_current_redraw_type() == redraw_type_savefile_screenshot));
+	return 1;
 }
 
 int mouse_cursor_s_ref = LUA_NOREF;
@@ -2966,17 +3053,32 @@ static int sdl_set_gamma(lua_State *L)
 	{
 		gamma_correction = lua_tonumber(L, 1);
 
-		Uint16 red_ramp[256];
-		Uint16 green_ramp[256];
-		Uint16 blue_ramp[256];
-
-		SDL_CalculateGammaRamp(gamma_correction, red_ramp);
-		SDL_memcpy(green_ramp, red_ramp, sizeof(red_ramp));
-		SDL_memcpy(blue_ramp, red_ramp, sizeof(red_ramp));
-		SDL_SetWindowGammaRamp(window, red_ramp, green_ramp, blue_ramp);
+		// SDL_SetWindowBrightness is sufficient for a simple gamma adjustment.
+		SDL_SetWindowBrightness(window, gamma_correction);
 	}
 	lua_pushnumber(L, gamma_correction);
 	return 1;
+}
+
+static void screenshot_apply_gamma(png_byte *image, unsigned long width, unsigned long height)
+{
+	// User screenshots (but not saved game screenshots) should have gamma applied.
+	if (gamma_correction != 1.0 && get_current_redraw_type() == redraw_type_user_screenshot)
+	{
+		Uint16 ramp16[256];
+		png_byte ramp8[256];
+		unsigned long i;
+
+		// This is sufficient for the simple gamma adjustment used above.
+		// If that changes, we may need to query the gamma ramp.
+		SDL_CalculateGammaRamp(gamma_correction, ramp16);
+		for (i = 0; i < 256; i++)
+			ramp8[i] = ramp16[i] / 256;
+
+		// Red, green and blue component are all the same for simple gamma.
+		for (i = 0; i < width * height * 3; i++)
+			image[i] = ramp8[image[i]];
+	}
 }
 
 static void png_write_data_fn(png_structp png_ptr, png_bytep data, png_size_t length)
@@ -2984,6 +3086,7 @@ static void png_write_data_fn(png_structp png_ptr, png_bytep data, png_size_t le
 	luaL_Buffer *B = (luaL_Buffer*)png_get_io_ptr(png_ptr);
 	luaL_addlstring(B, data, length);
 }
+
 static void png_output_flush_fn(png_structp png_ptr)
 {
 }
@@ -3003,6 +3106,12 @@ static int sdl_get_png_screenshot(lua_State *L)
 	png_colorp palette;
 	png_byte *image;
 	png_bytep *row_pointers;
+	int aw, ah;
+
+	SDL_GetWindowSize(window, &aw, &ah);
+
+	/* Y coordinate must be reversed for OpenGL. */
+	y = ah - (y + height);
 
 	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 
@@ -3051,6 +3160,7 @@ static int sdl_get_png_screenshot(lua_State *L)
 
 	glPixelStorei(GL_PACK_ALIGNMENT, 1);
 	glReadPixels(x, y, width, height, GL_RGB, GL_UNSIGNED_BYTE, (GLvoid *)image);
+	screenshot_apply_gamma(image, width, height);
 
 	for (i = 0; i < height; i++)
 	{
@@ -3361,6 +3471,8 @@ static const struct luaL_Reg displaylib[] =
 	{"setTextBlended", set_text_aa},
 	{"getTextBlended", get_text_aa},
 	{"forceRedraw", sdl_redraw_screen},
+	{"forceRedrawForScreenshot", sdl_redraw_screen_for_screenshot},
+	{"redrawingForSavefileScreenshot", redrawing_for_savefile_screenshot},
 	{"size", sdl_screen_size},
 	{"windowPos", sdl_window_pos},
 	{"newFont", sdl_new_font},
@@ -3376,6 +3488,9 @@ static const struct luaL_Reg displaylib[] =
 	{"safeMode", is_safe_mode},
 	{"forceSafeMode", set_safe_mode},
 	{"disableFBO", gl_fbo_disable},
+	{"stringNextUTF", string_find_next_utf},
+	{"breakTextAllCharacter", font_display_split_anywhere},
+	{"getBreakTextAllCharacter", font_display_split_anywhere_get},
 	{"drawStringNewSurface", sdl_surface_drawstring_newsurface},
 	{"drawStringBlendedNewSurface", sdl_surface_drawstring_newsurface_aa},
 	{"loadImage", sdl_load_image},

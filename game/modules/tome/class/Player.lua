@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -182,7 +182,7 @@ function _M:onEnterLevel(zone, level)
 
 	-- Clear existing player created effects on the map
 	for i, eff in ipairs(level.map.effects) do
-		if eff.src and eff.src.player then
+		if (eff.src and (eff.src.player or (eff.src.summoner and eff.src:resolveSource().player))) then
 			eff.duration = 0
 			eff.grids = {}
 			print("[onEnterLevel] Cancelling player created effect ", tostring(eff.name))
@@ -414,6 +414,14 @@ function _M:act()
 	end
 end
 
+function _M:useEnergy(val)
+	mod.class.Actor.useEnergy(self, val)
+	if self.player and self.energy.value < game.energy_to_act then
+		game.paused = false
+		self:fireTalentCheck("callbackOnActEnd")
+	end
+end
+
 function _M:tooltip(x, y, seen_by)
 	local str = mod.class.Actor.tooltip(self, x, y, seen_by)
 	if not str then return end
@@ -460,8 +468,8 @@ function _M:updateMainShader()
 		end
 
 		-- Colorize shader
-		if self:attr("stealth") and self:attr("stealth") > 0 then game.fbo_shader:setUniform("colorize", {0.9,0.9,0.9,0.6})
-		elseif self:attr("invisible") and self:attr("invisible") > 0 then game.fbo_shader:setUniform("colorize", {0.3,0.4,0.9,0.8})
+		if self:attr("stealth") and self:attr("stealth") > 0 then game.fbo_shader:setUniform("colorize", {0.9,0.9,0.9,0.4})
+		elseif self:attr("invisible") and self:attr("invisible") > 0 then game.fbo_shader:setUniform("colorize", {0.3,0.4,0.9,0.3})
 		elseif self:attr("unstoppable") then game.fbo_shader:setUniform("colorize", {1,0.2,0,1})
 		elseif self:attr("lightning_speed") then game.fbo_shader:setUniform("colorize", {0.2,0.3,1,1})
 		elseif game.level and game.level.data.is_eidolon_plane then game.fbo_shader:setUniform("colorize", {1,1,1,1})
@@ -499,6 +507,12 @@ function _M:updateMainShader()
 		if self:attr("timestopping") and pf.timestop and pf.timestop.shad then
 			effects[pf.timestop.shad] = true
 			pf.timestop.shad:paramNumber("tick_start", core.game.getTime())
+		end
+
+		-- Sharpen shader
+		if config.settings.tome.sharpen_display and config.settings.tome.sharpen_display > 1 then
+			effects[pf.sharpen.shad] = true
+			pf.sharpen.shad:paramNumber("sharpen_power", config.settings.tome.sharpen_display)
 		end
 
 		game.posteffects_use = table.keys(effects)
@@ -620,19 +634,6 @@ function _M:playerFOV()
 	end
 
 	if not self:attr("blind") then
-		-- Handle dark vision; same as infravision, but also sees past creeping dark
-		-- this is treated as a sense, but is filtered by custom LOS code
-		if self:knowTalent(self.T_DARK_VISION) then
-			local t = self:getTalentFromId(self.T_DARK_VISION)
-			local range = self:getTalentRange(t)
-			self:computeFOV(range, "block_sense", function(x, y)
-				local actor = game.level.map(x, y, game.level.map.ACTOR)
-				if actor and self:hasLOS(x, y) then
-					game.level.map.seens(x, y, 0.6)
-				end
-			end, true, true, true)
-		end
-
 		-- Handle infravision/heightened_senses which allow to see outside of lite radius but with LOS
 		-- Note: Overseer of Nations bonus already factored into attributes
 		if self:attr("infravision") or self:attr("heightened_senses") then
@@ -651,7 +652,12 @@ function _M:playerFOV()
 		local lradius = self.lite
 		if self.radiance_aura and lradius < self.radiance_aura then lradius = self.radiance_aura end
 		if self.lite <= 0 then game.level.map:applyLite(self.x, self.y)
-		else self:computeFOV(lradius, "block_sight", function(x, y, dx, dy, sqdist) game.level.map:applyLite(x, y) end, true, true, true) end
+		else
+			self:computeFOV(lradius, "block_sight", function(x, y, dx, dy, sqdist)
+				game.level.map:applyExtraLite(x, y) 
+			end, 
+			true, true, true)
+		end
 
 		-- For each entity, generate lite
 		local uid, e = next(game.level.entities)
@@ -682,26 +688,10 @@ function _M:lineFOV(tx, ty, extra_block, block, sx, sy)
 	local act = game.level.map(x, y, Map.ACTOR)
 	local sees_target = game.level.map.seens(tx, ty)
 
-	local darkVisionRange
-	if self:knowTalent(self.T_DARK_VISION) then
-		local t = self:getTalentFromId(self.T_DARK_VISION)
-		darkVisionRange = self:getTalentRange(t)
-	end
-	local inCreepingDark = false
-
 	extra_block = type(extra_block) == "function" and extra_block
 		or type(extra_block) == "string" and function(_, x, y) return game.level.map:checkAllEntities(x, y, extra_block) end
 
 	block = block or function(_, x, y)
-		if darkVisionRange then
-			if game.level.map:checkAllEntities(x, y, "creepingDark") then
-				inCreepingDark = true
-			end
-			if inCreepingDark and core.fov.distance(sx, sy, x, y) > darkVisionRange then
-				return true
-			end
-		end
-
 		if sees_target then
 			return game.level.map:checkAllEntities(x, y, "block_sight") or
 				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
@@ -904,7 +894,7 @@ function _M:automaticTalents()
 		if cd <= turns_used and t.mode ~= "sustained" then
 			game.logPlayer(self, "Automatic use of talent %s #DARK_RED#skipped#LAST#: cooldown too low (%d).", self:getTalentDisplayName(t), cd)
 		elseif (t.mode ~= "sustained" or not self.sustain_talents[tid]) and not self.talents_cd[tid] and self:preUseTalent(t, true, true) and (not t.auto_use_check or t.auto_use_check(self, t)) then
-			if (c == 1) or (c == 2 and #spotted <= 0) or (c == 3 and #spotted > 0) then
+			if (c == 1) or (c == 2 and #spotted <= 0) or (c == 3 and #spotted > 0) or (c == 5 and not self.in_combat) then
 				if c ~= 2 then
 					uses[#uses+1] = {name=t.name, turns_used=turns_used, cd=cd, fct=function() self:useTalent(tid) end}
 				else
@@ -982,7 +972,12 @@ function _M:restCheck()
 
 	-- Resting improves regen
 	for act, def in pairs(game.party.members) do if game.level:hasEntity(act) and not act.dead then
-		local perc = math.min(self.resting.cnt / 10, 8)
+		-- Drastically improve regen while resting as this is one of the most common areas lag causes frustration
+		-- To avoid interactions with life regen buffs and minimize any other non-QOL impacts we wait 15 turns before doing any enhancement
+		local perc = 0
+		if self.resting.cnt >= 15 then
+			perc = math.min(self.resting.cnt, 16)
+		end
 		local old_shield = act.arcane_shield
 		act.arcane_shield = nil
 		act:heal(act.life_regen * perc)
@@ -1431,13 +1426,16 @@ end
 -- This doesnt call the base interface onWear, it copies the code because we need some tricky stuff
 function _M:onWear(o, slot, bypass_set)
 	mod.class.Actor.onWear(self, o, slot, bypass_set)
-	self:cooldownWornObject(o)
-	if self.hotkey and o:canUseObject() and config.settings.tome.auto_hotkey_object and not o.no_auto_hotkey then
-		local position
-		local name = o:getName{no_count=true, force_id=true, no_add_name=true}
 
-		if not self:isHotkeyBound("inventory", name) then
-			self:addNewHotkey("inventory", name)
+	if not self:attr("on_wear_simple_reload") then
+		self:cooldownWornObject(o)
+		if self.hotkey and o:canUseObject() and config.settings.tome.auto_hotkey_object and not o.no_auto_hotkey then
+			local position
+			local name = o:getName{no_count=true, force_id=true, no_add_name=true}
+
+			if not self:isHotkeyBound("inventory", name) then
+				self:addNewHotkey("inventory", name)
+			end
 		end
 	end
 

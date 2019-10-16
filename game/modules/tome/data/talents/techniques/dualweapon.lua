@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -221,6 +221,7 @@ newTalent{
 	stamina = 15,
 	require = techs_dex_req1,
 	requires_target = true,
+	is_melee = true,
 	tactical = { ATTACK = { weapon = 1, offhand = 1 }, DISABLE = { stun = 2 } },
 	on_pre_use = function(self, t, silent) if not self:hasDualWeapon() then if not silent then game.logPlayer(self, "You require two weapons to use this talent.") end return false end return true end,
 	getStunDuration = function(self, t) return math.floor(self:combatTalentScale(t, 3, 7)) end,
@@ -266,9 +267,10 @@ newTalent{
 	points = 5,
 	random_ego = "attack",
 	cooldown = 12,
-	stamina = 15,
+	stamina = 30,
 	require = techs_dex_req2,
 	requires_target = true,
+	is_melee = true,
 	tactical = { ATTACK = { weapon = 4 } },
 	on_pre_use = function(self, t, silent) if not self:hasDualWeapon() then if not silent then game.logPlayer(self, "You require two weapons to use this talent.") end return false end return true end,
 	action = function(self, t)
@@ -299,12 +301,13 @@ newTalent{
 	points = 5,
 	random_ego = "attack",
 	cooldown = 8,
-	stamina = 18,
+	stamina = 10,
 	require = techs_dex_req3,
+	is_melee = true,
 	getDamage = function (self, t) return self:combatTalentWeaponDamage(t, 1.0, 1.7) end,
 	getCrit = function(self, t) return self:combatTalentLimit(t, 50, 10, 30) end,
 	target = function(self, t) return {type="bolt", range=self:getTalentRange(t)} end,
-	range = function(self, t) return math.floor(self:combatTalentLimit(t, 10, 3, 5.5)) end,
+	range = function(self, t) return math.floor(self:combatTalentLimit(t, 10, 3, 5.5))+1 end,
 	requires_target = true,
 	tactical = { ATTACK = { weapon = 2 }, CLOSEIN = 2 },
 	on_pre_use = function(self, t, silent) 
@@ -366,14 +369,15 @@ newTalent{
 	points = 5,
 	random_ego = "attack",
 	cooldown = 10,
-	stamina = 30,
+	stamina = 10,
+	is_melee = true,
 	require = techs_dex_req4,
 	tactical = { ATTACKAREA = { weapon = 2 }, CLOSEIN = 1.5 },
 	range = function(self, t) return math.floor(self:combatTalentLimit(t, 6, 2, 4)) end,
 	radius = 1,
 	requires_target = true,
 	target = function(self, t)
-		return  {type="beam", range=self:getTalentRange(t), talent=t }
+		return  {type="beam", nolock=true, default_target=self, range=self:getTalentRange(t), talent=t }
 	end,
 	getDamage = function (self, t) return self:combatTalentWeaponDamage(t, 0.6, 1.1) end,
 	proj_speed = 20, --not really a projectile, so make this super fast
@@ -388,6 +392,8 @@ newTalent{
 		return true 
 	end,
 	action = function(self, t)
+		local mh, oh = self:hasDualWeapon()
+		if not (mh and oh) then return end
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
 		if not (x and y) then return nil end
@@ -416,35 +422,26 @@ newTalent{
 		end
 
 		game.logSeen(self, "%s becomes a whirlwind of weapons!", self.name:capitalize())
-		-- Create a high-speed projectile tracing a path to the destination that does the actual damage
-		local wwproj = self:projectile(tg, mx, my, function(px, py, tg, self, tmp_proj)
+
+		local seen_targets = {}
+		for px, py in core.fov.lineIterator(self.x, self.y, mx, my, "block_NOTHINGLOL") do
 			local aoe = {type="ball", radius=1, friendlyfire=false, selffire=false, talent=t, display={ } }
-			self.__project_source = nil
 			game.level.map:particleEmitter(px, py, 1, "meleestorm", {img="spinningwinds_red"})
 			self:project(aoe, px, py, function(tx, ty)
 				local target = game.level.map(tx, ty, engine.Map.ACTOR)
-				if not target or tmp_proj[target] or self.dead then return end
-				local mh, oh = self:hasDualWeapon()
-				if not (mh and oh) then return end
+				if not target or seen_targets[target] or self.dead then return end
 				local dam = 0
-				tmp_proj.targets = (tmp_proj.targets or 0) + 1
-				tmp_proj[target] = true
-				local s, h, d = self:attackTargetWith(target, mh.combat, nil, tmp_proj.weapon_mult)
+				seen_targets[target] = true
+				local s, h, d = self:attackTargetWith(target, mh.combat, nil, t.getDamage(self, t))
 				if h and d > 0 then dam = dam + d end
-				--print("\t WW mainhand damage", d)
-				s, h, d = self:attackTargetWith(target, oh.combat, nil, tmp_proj.weapon_mult)
+				s, h, d = self:attackTargetWith(target, oh.combat, nil, t.getDamage(self, t))
 				if h and d > 0 then dam = dam + d end
-				--print("\t WW offhand damage", d)
 				if dam > 0 and target:canBe('cut') then
 					target:setEffect(target.EFF_CUT, 5, {power=dam*0.1, src=self, apply_power=self:combatPhysicalpower(), no_ct_effect=true})
 				end
 			end)
-			
 		end
-		)
-		wwproj.tmp_proj.weapon_mult = t.getDamage(self, t)
-		wwproj.energy.value = game.energy_to_act -- make sure projectile begins moving immediately
-		
+
 		-- move the talent user
 		self:move(mx, my, true)
 

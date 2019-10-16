@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -51,6 +51,7 @@ function _M:newTalentType(t)
 	assert(t.name, "no talent type name")
 	assert(t.type, "no talent type type")
 	t.description = t.description or ""
+	t.category = t.category or t.type:gsub("/.*", "")
 	t.points = t.points or 1
 	-- I18N
 	t.name = _t(t.name)
@@ -100,7 +101,8 @@ end
 function _M:init(t)
 	self.talents = t.talents or {}
 	self.talents_types = t.talents_types or {}
-	self.talents_types_mastery = self.talents_types_mastery  or {}
+	self.talents_types_mastery = self.talents_types_mastery or {}
+	self.talents_mastery_bonus = self.talents_mastery_bonus or {}
 	self.talents_cd = self.talents_cd or {}
 	self.sustain_talents = self.sustain_talents or {}
 	self.talents_auto = self.talents_auto or {}
@@ -182,6 +184,7 @@ function _M:useTalent(id, who, force_level, ignore_cd, force_target, silent, no_
 			game.logPlayer(who, "%s is still on cooldown for %d turns.", ab.name:capitalize(), self.talents_cd[ab.id])
 			return false
 		end
+		if ignore_cd == "ignore_check_only" then ignore_cd = nil end
 		co = coroutine.create(function() -- coroutine to run sustainable talent code
 			if cancel then
 				success = false
@@ -193,6 +196,7 @@ function _M:useTalent(id, who, force_level, ignore_cd, force_target, silent, no_
 			
 			local ok, ret, special
 			if not self.sustain_talents[id] then -- activating
+				if self.deactivating_sustain_talent == ab.id then return end
 				ok, ret, special = xpcall(function() return ab.activate(who, ab) end, debug.traceback)
 				if not ok then self:onTalentLuaError(ab, ret) error(ret) end
 				if ret == true then ret = {} end -- fix for badly coded talents
@@ -500,6 +504,19 @@ function _M:numberKnownTalent(type, exclude_id, limit_type)
 	return nb
 end
 
+--- Returns how many levels talents of this type the actor knows
+-- @param type the talent type to count
+-- @param exclude_id if not nil the count will ignore this talent id
+-- @param limit_type if not nil the count will ignore talents with talent category level equal or higher that this
+function _M:numberKnownTalentLevels(type, exclude_id, limit_type)
+	local nb = 0
+	for id, lvl in pairs(self.talents) do
+		local t = _M.talents_def[id]
+		if t.type[1] == type and (not exclude_id or exclude_id ~= id) and (not limit_type or not t.type[2] or t.type[2] < limit_type) then nb = nb + lvl end
+	end
+	return nb
+end
+
 --- Actor learns a talent
 -- @param t_id the id of the talent to learn
 -- @param force if true do not check canLearnTalent
@@ -729,6 +746,11 @@ function _M:canLearnTalent(t, offset, ignore_special)
 				end
 			end
 		end
+		if req.birth_descriptors then
+			for _, d in ipairs(req.birth_descriptors) do
+				if not self.descriptor or self.descriptor[d[1]] ~= d[2] then return nil, ("is not %s"):format(d[2]) end
+			end
+		end
 	end
 
 	if not self:knowTalentType(t.type[1]) and not t.type_no_req then return nil, "unknown talent type" end
@@ -749,7 +771,7 @@ end
 function _M:getTalentReqDesc(t_id, levmod)
 	local t = _M.talents_def[t_id]
 	local req = t.require
-	if not req then return "" end
+	if not req then return tstring{}, nil end
 	if type(req) == "function" then req = req(self, t) end
 
 	local tlev = self:getTalentLevelRaw(t_id) + (levmod or 0)
@@ -799,8 +821,14 @@ function _M:getTalentReqDesc(t_id, levmod)
 			end
 		end
 	end
+	if req.birth_descriptors then
+		for _, d in ipairs(req.birth_descriptors) do
+			local c = self.descriptor and self.descriptor[d[1]] == d[2] and {"color", 0x00,0xff,0x00} or {"color", 0xff,0x00,0x00}
+			str:add(c, ("- Is %s"):format(d[2]), true)
+		end
+	end
 
-	return str
+	return str, req
 end
 
 --- Return the full description of a talent
@@ -836,7 +864,8 @@ function _M:getTalentLevel(id)
 	else
 		t = _M.talents_def[id]
 	end
-	return t and (self:getTalentLevelRaw(id)) * ((self.talents_types_mastery[t.type[1]] or 0) + 1) or 0
+	return t and (self:getTalentLevelRaw(id)) * (self:getTalentMastery(t) or 0) or 0
+
 end
 
 --- Talent type level, sum of all raw levels of talents inside
@@ -1002,12 +1031,13 @@ function _M:getTalentDisplayName(t)
 	return t.display_name
 end
 
---- Cooldown all talents by one
+--- Cooldown all talents
 -- This should be called in your actors "act()" method
-function _M:cooldownTalents()
+-- @param turns the number of turns to cooldown the talents
+function _M:cooldownTalents(turns)
 	for tid, c in pairs(self.talents_cd) do
 		self.changed = true
-		self.talents_cd[tid] = self.talents_cd[tid] - 1
+		self.talents_cd[tid] = self.talents_cd[tid] - (turns or 1)
 		if self.talents_cd[tid] <= 0 then
 			self.talents_cd[tid] = nil
 			if self.onTalentCooledDown then self:onTalentCooledDown(tid) end

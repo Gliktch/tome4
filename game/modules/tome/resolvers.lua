@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -791,6 +791,7 @@ function resolvers.calc.moddable_tile(t, e)
 	elseif slot == "shotbag" then r = {"shotbag_01","shotbag_02","shotbag_03","shotbag_04","shotbag_05"}
 	elseif slot == "gembag" then r = {"gembag_01","gembag_02","gembag_03","gembag_04","gembag_05"}
 	end
+	if not r then return end
 	local ml = e.material_level or 1
 	r = r[util.bound(ml, 1, #r)]
 	if r2 then
@@ -897,7 +898,7 @@ function resolvers.calc.tactic(t, e)
 	if t[1] == "default" then return {type="default", }
 	elseif t[1] == "standby" then return {type="standby", standby=1}
 	elseif t[1] == "melee" then return {type="melee", attack=2, attackarea=2, disable=2, escape=0, closein=2, go_melee=1}
-	elseif t[1] == "ranged" then return {type="ranged", disable=1.5, escape=3, closein=0, defend=2, heal=2, safe_range=4}
+	elseif t[1] == "ranged" then return {type="ranged", disable=1.5, escape=1.5, closein=0, defend=2, heal=2, safe_range=2}
 	elseif t[1] == "tank" then return {type="tank", disable=3, escape=0, closein=2, defend=2, protect=2, heal=3, go_melee=1}
 	elseif t[1] == "survivor" then return {type="survivor", disable=2, escape=5, closein=0, defend=3, protect=0, heal=6, safe_range=8}
 	end
@@ -933,6 +934,15 @@ function resolvers.calc.talented_ai_tactic(t, e)
 	--print("talented_ai_tactic resolver setting up on_added_to_level function")
 	--print(debug.traceback())
 	local on_added = function(e, level, x, y)
+		if e.ai_tactic then
+			for k, v in pairs(e.ai_tactic) do
+				if type(v) == "number" and v > 0 then
+					print("running talented_ai_tactic resolver but aborting due to existing tactics")
+					return
+				end
+			end
+		end
+
 		print("running talented_ai_tactic resolver on_added_to_level function for", e.uid, e.name)
 		local t = e.__ai_tactic_resolver
 		if not t then print("talented_ai_tactic: No resolver table. Aborting") return end
@@ -1083,6 +1093,11 @@ function resolvers.calc.talented_ai_tactic(t, e)
 		tactic.type = "simple_recursive"
 		--- print("### talented_ai_tactic resolver ai_tactic table:")
 		--- for tac, wt in pairs(tactic) do print("    ##", tac, wt) end
+
+		-- No thanks
+		tactic.escape = 0
+		tactic.safe_range = nil
+
 		e.ai_tactic = tactic
 --		e.__ai_tactic_resolver = nil
 		return tactic
@@ -1173,6 +1188,109 @@ function resolvers.calc.racial(t, e)
 end
 
 
+--- Racial Visuals resolver
+local racials_visuals = {
+	Human = {
+		Cornac = {
+			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
+			{kind="skin", percent=5, filter={"oneof", {"Skin Color 6", "Skin Color 7", "Skin Color 8"}}},
+			{kind="hairs", filter={"findname", "Dark Hair"}},
+			{kind="hairs", percent=10, filter={"findname", "Redhead "}},
+			{kind="facial_features", percent=20, filter={"findname", "Dark Beard "}},
+			{kind="facial_features", percent=20, filter={"findname", "Dark Mustache "}},
+		},
+		Higher = {
+			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
+			{kind="skin", percent=5, filter={"oneof", {"Skin Color 6", "Skin Color 7", "Skin Color 8"}}},
+			{kind="hairs", filter={"findname", "Blond Hair"}},
+			{kind="hairs", percent=10, filter={"findname", "Redhead "}},
+			{kind="facial_features", percent=20, filter={"findname", "Blonde Beard "}},
+			{kind="facial_features", percent=20, filter={"findname", "Blonde Mustache "}},
+		},
+	},
+	Elf = {
+		Shalore = {
+			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
+			{kind="skin", percent=15, filter={"oneof", {"Skin Color 6", "Skin Color 7", "Skin Color 8", "Skin Color 9"}}},
+			{kind="hairs", filter={"findname", "Blond Hair"}},
+			{kind="hairs", percent=15, filter={"findname", "Redhead "}},
+		},
+		Thalore = {
+			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
+			{kind="hairs", filter={"findname", "Dark Hair"}},
+			{kind="hairs", percent=15, filter={"findname", "Redhead "}},
+		},
+	},
+	Halfling = {
+		Halfling = {
+			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4"}}},
+			{kind="skin", percent=5, filter={"oneof", {"Skin Color 5", "Skin Color 6"}}},
+			{kind="hairs", filter={"all"}},
+		},
+	},
+	Dwarf = {
+		Dwarf = {
+			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
+			{kind="hairs", filter={"all"}},
+			{kind="facial_features", percent=25, filter={"findname", "Beard"}},
+			{kind="facial_features", percent=25, filter={"findname", "Mustache"}},
+		},
+	},
+	Giant = {
+		Ogre = {
+			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
+			{kind="skin", percent=15, filter={"oneof", {"Skin Color 6", "Skin Color 7", "Skin Color 8", "Skin Color 9"}}},
+			{kind="hairs", filter={"all"}},
+			{kind="facial_features", percent=20, filter={"all"}},
+			{kind="tatoos", percent=35, filter={"all"}},
+		},
+	},
+}
+resolvers.racials_visuals_defs = racials_visuals
+
+local racials_visuals_birther = nil
+
+function resolvers.racial_visual(sex, race, subrace)
+	return {__resolver="racial_visual", sex, race, subrace}
+end
+function resolvers.calc.racial_visual(t, e)
+	local sex = t[1]
+	local race = t[2]
+	local subrace = t[3]
+
+	if not sex then sex = rng.table{"Male", "Female"} end
+	if type(race) == "table" then race = rng.table(race) end
+	if type(subrace) == "table" then subrace = rng.table(subrace) end
+
+	if not racials_visuals[race] or not racials_visuals[race][subrace] then return end
+
+	if sex == "Female" then e.female = true end
+
+	e.descriptor = e.descriptor or {}
+	e.descriptor.sex = sex
+	e.descriptor.race = race
+	e.descriptor.subrace = subrace
+
+	if not racials_visuals_birther then
+		local Birther = require "mod.dialogs.Birther"
+		racials_visuals_birther = Birther.new("", e, {}, function() end, nil, nil, nil)
+		racials_visuals_birther.not_birthing = true
+	end
+
+	racials_visuals_birther.actor = e -- Bypass clone
+
+	racials_visuals_birther:setDescriptor("sex", e.descriptor.sex)
+	racials_visuals_birther:setDescriptor("race", e.descriptor.race)
+	racials_visuals_birther:setDescriptor("subrace", e.descriptor.subrace)
+
+	racials_visuals_birther:selectRandomCosmetics(racials_visuals[race][subrace])
+
+	racials_visuals_birther:setTile(nil, nil, nil, true)
+
+	return nil
+end
+
+
 function resolvers.emote_random(def)
 	return {__resolver="emote_random", def}
 end
@@ -1248,4 +1366,15 @@ function resolvers.command_staff()
 end
 function resolvers.calc.command_staff(t, e)
 	e:commandStaff()
+end
+
+function resolvers.birth_extra_tier1_zone(data)
+	return {__resolver = "birth_extra_tier1_zone", data}
+end
+function resolvers.calc.birth_extra_tier1_zone(t, e)
+	if not game.creating_player then return end
+	-- Add bonus starting zones to the tier1 list only if the zone they actually started in matches the race/classes
+	-- This is a hacky way to figure out which class/race start got prioritized
+	game.state.birth.bonus_zone_tiers = game.state.birth.bonus_zone_tiers or {}
+	game.state.birth.bonus_zone_tiers[#game.state.birth.bonus_zone_tiers+1] = e[1]
 end

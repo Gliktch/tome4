@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -75,9 +75,12 @@ newEntity{ define_as = "TROLL_PROX",
 	inc_damage = { all = -40 },
 
 	autolevel = "warrior",
-	auto_classes={{class="Berserker", start_level=11, level_rate=75},},
+	auto_classes={{class="Berserker", start_level=12, level_rate=75},},
 	ai = "tactical", ai_state = { talent_in=3, ai_move="move_astar", },
 	ai_tactic = resolvers.tactic"melee",
+
+	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
+	low_level_tactics_override = {escape=0},
 
 	-- Drop the note when near death (but before death, so that Kill bill achievement is possible)
 	on_takehit = function(self, val)
@@ -138,10 +141,13 @@ newEntity{ define_as = "TROLL_SHAX",
 	inc_damage = { all = -40 },
 
 	autolevel = "warrior",
-	auto_classes={{class="Berserker", start_level=11, level_rate=75},},
+	auto_classes={{class="Berserker", start_level=12, level_rate=75},},
 	ai = "tactical", ai_state = { talent_in=3, ai_move="move_astar", },
 	ai_tactic = resolvers.tactic"melee",
 
+	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
+	low_level_tactics_override = {escape=0},
+	
 	-- Drop the note when near death (but before death, so that Kill bill achievement is possible)
 	on_takehit = function(self, val)
 		if self.life - val < self.max_life * 0.4 then
@@ -202,7 +208,7 @@ This is the troll the notes spoke about, no doubt.]],
 	resolvers.inscriptions(1, {"wild infusion", "heroism infusion"}),
 
 	autolevel = "warrior",
-	auto_classes={{class="Berserker", start_level=11, level_rate=75},},
+	auto_classes={{class="Berserker", start_level=10, level_rate=100},},
 	ai = "tactical", ai_state = { talent_in=3, ai_move="move_astar", },
 	ai_tactic = resolvers.tactic"melee",
 

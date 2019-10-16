@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -134,8 +134,7 @@ newTalent{
 		end
 	end,
 	callbackOnMove = function(self, t, moved, force, ox, oy)
-		if force or not moved or (ox == self.x and oy == self.y) or not self:hasLightArmor() then return end
-
+		if not moved or (ox == self.x and oy == self.y) or not self:hasLightArmor() then return end
 		local nb_foes = 0
 		local add_if_visible_enemy = function(x, y)
 			local target = game.level.map(x, y, game.level.map.ACTOR)
@@ -147,7 +146,7 @@ newTalent{
 		self:project(adjacent_tg, self.x, self.y, add_if_visible_enemy)
 
 		if nb_foes > 0 then
-			self:setEffect(self.EFF_MOBILE_DEFENCE, 2, {power=t.getDefense(self,t)/2, stamina=0})
+			self:setEffect(self.EFF_MOBILE_DEFENCE, 3, {power=t.getDefense(self,t)/2, stamina=0})
 		end
 	end,
 	info = function(self, t)
@@ -181,12 +180,12 @@ newTalent{
 	points = 5,
 	require = { stat = { str=function(level) return 12 + level * 6 end }, },
 	mode = "passive",
-	getDamage = function(self, t) return 0 end,
+	getDamage = function(self, t) return 30 end,
 	getPercentInc = function(self, t) return math.sqrt(self:getTalentLevel(t) / 5) / 1.5 end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local inc = t.getPercentInc(self, t)
-		return ([[Increases weapon damage by %d%% when using swords, axes or maces.]]):
+		return ([[Increases weapon damage by %d%% and physical power by 30 when using swords, axes or maces.]]):
 		format(100*inc)
 	end,
 }
@@ -199,12 +198,12 @@ newTalent{
 	points = 5,
 	require = { stat = { dex=function(level) return 10 + level * 6 end }, },
 	mode = "passive",
-	getDamage = function(self, t) return 0 end,
+	getDamage = function(self, t) return 30 end,
 	getPercentInc = function(self, t) return math.sqrt(self:getTalentLevel(t) / 5) / 1.5 end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local inc = t.getPercentInc(self, t)
-		return ([[Increases weapon damage by %d%% when using daggers.]]):
+		return ([[Increases weapon damage by %d%% and physical power by 30 when using daggers.]]):
 		format(100*inc)
 	end,
 }
@@ -217,12 +216,12 @@ newTalent{
 	points = 5,
 	require = { stat = { str=function(level) return 10 + level * 6 end, dex=function(level) return 10 + level * 6 end }, },
 	mode = "passive",
-	getDamage = function(self, t) return 0 end,
+	getDamage = function(self, t) return 30 end,
 	getPercentInc = function(self, t) return math.sqrt(self:getTalentLevel(t) / 5) / 1.5 end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local inc = t.getPercentInc(self, t)
-		return ([[Increases weapon damage by %d%% when using exotic weapons.]]):
+		return ([[Increases weapon damage by %d%% and physical power by 30 when using exotic weapons.]]):
 		format(100*inc)
 	end,
 }

@@ -36,6 +36,7 @@
 #include "physfs.h"
 #include "physfsrwops.h"
 #include "core_lua.h"
+#include "wfc/lua_wfc_external.h"
 #include "getself.h"
 #include "music.h"
 #include "serial.h"
@@ -55,6 +56,7 @@
 #define JOY_DEADZONE 0.21
 
 int start_xpos = -1, start_ypos = -1;
+bool ignore_window_change_pos = FALSE;
 char *override_home = NULL;
 int g_argc = 0;
 char **g_argv;
@@ -94,6 +96,9 @@ int requested_fps_idle = DEFAULT_IDLE_FPS;
 int requested_fps_idle_saved = 0;
 bool forbid_idle_mode = FALSE;
 bool no_connectivity = FALSE;
+
+bool desktop_gamma_set = FALSE;
+float desktop_gamma = 1.0;
 
 SDL_TimerID display_timer_id = 0;
 SDL_TimerID realtime_timer_id = 0;
@@ -694,6 +699,7 @@ void call_draw(int nb_keyframes)
 }
 
 long total_keyframes = 0;
+redraw_type_t current_redraw_type = redraw_type_normal;
 void on_redraw()
 {
 	static int Frames = 0;
@@ -742,8 +748,17 @@ void on_redraw()
 //	printf("keyframes: %f / %f by %f => %d\n", nb_keyframes, reference_fps, step, nb - (last_keyframe));
 	call_draw(nb - last_keyframe);
 
-	//SDL_GL_SwapBuffers();
-	SDL_GL_SwapWindow(window);
+	switch (current_redraw_type)
+	{
+	case redraw_type_user_screenshot:
+	case redraw_type_savefile_screenshot:
+		// glReadPixels reads from the back buffer, so skip swap when we're doing a screenshot.
+		break;
+	default:
+		//SDL_GL_SwapBuffers();
+		SDL_GL_SwapWindow(window);
+		break;
+	}
 
 	last_keyframe = nb;
 
@@ -755,6 +770,46 @@ void on_redraw()
 	te4_discord_update();
 #endif
 	if (te4_web_update) te4_web_update(L);
+}
+
+void redraw_now(redraw_type_t rtype)
+{
+	bool changed_gamma = FALSE;
+	if (rtype == redraw_type_savefile_screenshot)
+	{
+		if (current_game != LUA_NOREF)
+		{
+			// current_game:setFullscreenShaderGamma(1)
+			lua_rawgeti(L, LUA_REGISTRYINDEX, current_game);
+			lua_pushstring(L, "setFullscreenShaderGamma");
+			lua_gettable(L, -2);
+			lua_remove(L, -2);
+			lua_rawgeti(L, LUA_REGISTRYINDEX, current_game);
+			lua_pushnumber(L, 1);
+			docall(L, 2, 0);
+			changed_gamma = TRUE;
+		}
+	}
+
+	current_redraw_type = rtype;
+	on_redraw();
+
+	if (changed_gamma)
+	{
+		// current_game:setFullscreenShaderGamma(gamma_correction)
+		lua_rawgeti(L, LUA_REGISTRYINDEX, current_game);
+		lua_pushstring(L, "setFullscreenShaderGamma");
+		lua_gettable(L, -2);
+		lua_remove(L, -2);
+		lua_rawgeti(L, LUA_REGISTRYINDEX, current_game);
+		lua_pushnumber(L, gamma_correction);
+		docall(L, 2, 0);
+	}
+}
+
+redraw_type_t get_current_redraw_type()
+{
+	return current_redraw_type;
 }
 
 void pass_command_args(int argc, char *argv[])
@@ -971,8 +1026,13 @@ extern bool resizeNeedsNewWindow(int w, int h, bool fullscreen, bool borderless)
 /* @see main.h#do_move */
 void do_move(int w, int h) {
 	/* Save the origin in case a window needs to be remade later. */
-	start_xpos = w;
-	start_ypos = h;
+	if (!ignore_window_change_pos) {
+		start_xpos = w;
+		start_ypos = h;
+	} else {
+		// w = start_xpos;
+		h = start_ypos;
+	}
 
 	/* Can't move a fullscreen SDL window in one go.*/
 	if (is_fullscreen) {
@@ -1055,6 +1115,11 @@ void do_resize(int w, int h, bool fullscreen, bool borderless, float zoom)
 				, TRUE);
 		SDL_SetWindowIcon(window, windowIconSurface);
 
+		if (!desktop_gamma_set) {
+			desktop_gamma = SDL_GetWindowBrightness(window);
+			desktop_gamma_set = TRUE;
+			printf("[GAMMA] Getting desktop gamma of %f\n", desktop_gamma);
+		}
 	} else {
 
 		/* SDL won't allow a fullscreen resolution change in one go.  Check. */
@@ -1176,6 +1241,7 @@ void boot_lua(int state, bool rebooting, int argc, char *argv[])
 		luaopen_zlib(L);
 		luaopen_bit(L);
 		luaopen_wait(L);
+		luaopen_wfc(L);
 
 		physfs_reset_dir_allowed(L);
 
@@ -1395,6 +1461,7 @@ int main(int argc, char *argv[])
 		if (!strncmp(arg, "--no-debug", 10)) no_debug = TRUE;
 		if (!strncmp(arg, "--xpos", 6)) start_xpos = strtol(argv[++i], NULL, 10);
 		if (!strncmp(arg, "--ypos", 6)) start_ypos = strtol(argv[++i], NULL, 10);
+		if (!strncmp(arg, "--ignore-window-change-pos", 26)) ignore_window_change_pos = TRUE;
 		if (!strncmp(arg, "--safe-mode", 11)) safe_mode = TRUE;
 		if (!strncmp(arg, "--home", 6)) override_home = strdup(argv[++i]);
 		if (!strncmp(arg, "--no-steam", 10)) no_steam = TRUE;
@@ -1599,6 +1666,7 @@ int main(int argc, char *argv[])
 				{
 				case 0:
 					if (isActive) {
+						current_redraw_type = redraw_type_normal;
 						on_redraw();
 						SDL_mutexP(renderingLock);
 						redraw_pending = 0;
@@ -1679,6 +1747,8 @@ int main(int argc, char *argv[])
 	printf("Terminating!\n");
 	te4_web_terminate();
 	printf("Webcore shutdown complete\n");
+	// Restore default gamma on exit.
+	if (desktop_gamma_set) SDL_SetWindowBrightness(window, desktop_gamma);
 //	SDL_Quit();
 	printf("SDL shutdown complete\n");
 //	deinit_openal();

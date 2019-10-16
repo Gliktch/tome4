@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ local Textzone = require "engine.ui.Textzone"
 module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init(dialogdef, profile_help_text)
-	Dialog.init(self, "Online profile "..dialogdef.name, 600, 400)
+	Dialog.init(self, "Online profile "..dialogdef.name, math.min(800, game.w * 0.9), 400)
 	self.profile_help_text = profile_help_text
 	self.dialogdef = dialogdef
 	self.alpha = 230
@@ -46,8 +46,8 @@ function _M:init(dialogdef, profile_help_text)
 	end
 
 	if self.justlogin then
-		self.c_login = Textbox.new{title="Username: ", text="", chars=30, max_len=20, fct=function(text) self:okclick() end}
-		self.c_pass = Textbox.new{title="Password: ", text="", chars=30, max_len=20, hide=true, fct=function(text) self:okclick() end}
+		self.c_login = Textbox.new{title="Username: ", text="", chars=30, max_len=200, fct=function(text) self:okclick() end}
+		self.c_pass = Textbox.new{title="Password: ", text="", chars=30, max_len=200, hide=true, fct=function(text) self:okclick() end}
 		local ok = require("engine.ui.Button").new{text="Login", fct=function() self:okclick() end}
 		local cancel = require("engine.ui.Button").new{text="Cancel", fct=function() self:cancelclick() end}
 
@@ -62,11 +62,11 @@ function _M:init(dialogdef, profile_help_text)
 	else
 		local pwa = "Password again: "
 		self.c_login = Textbox.new{title="Username: ", size_title=pwa, text="", chars=30, max_len=20, filter=login_filter, fct=function(text) self:okclick() end}
-		self.c_pass = Textbox.new{title="Password: ", size_title=pwa, text="", chars=30, max_len=20, hide=true, filter=pass_filter, fct=function(text) self:okclick() end}
-		self.c_pass2 = Textbox.new{title=pwa, text="", size_title=pwa, chars=30, max_len=20, hide=true, filter=pass_filter, fct=function(text) self:okclick() end}
-		self.c_email = Textbox.new{title="Email: ", size_title=pwa, text="", chars=30, max_len=60, filter=pass_filter, fct=function(text) self:okclick() end}
-		self.c_news = Checkbox.new{title="Accept to receive #{bold}#very infrequent#{normal}# (a few per year) mails", default=false, fct=function() self:okclick() end}
-		self.c_news2 = Textzone.new{text="about important game events from us.", width=self.iw - 20, auto_height=true}
+		self.c_pass = Textbox.new{title="Password: ", size_title=pwa, text="", chars=30, max_len=40, hide=true, filter=pass_filter, fct=function(text) self:okclick() end}
+		self.c_pass2 = Textbox.new{title=pwa, text="", size_title=pwa, chars=30, max_len=40, hide=true, filter=pass_filter, fct=function(text) self:okclick() end}
+		self.c_email = Textbox.new{title="Email: ", size_title=pwa, text="", chars=30, max_len=80, filter=pass_filter, fct=function(text) self:okclick() end}
+		self.c_news = Checkbox.new{title="Accept to receive #{bold}#very infrequent#{normal}# (a few per year) mails about important game events from us.", default=false, fct=function() self:okclick() end}
+		self.c_age = Checkbox.new{title="You at least 16 years old, or have parental authorization to play the game.", default=false, fct=function() self:okclick() end}
 		local ok = require("engine.ui.Button").new{text="Create", fct=function() self:okclick() end}
 		local privacy = require("engine.ui.Button").new{text="Privacy Policy (opens in browser)", fct=function() self:privacypolicy() end}
 		local cancel = require("engine.ui.Button").new{text="Cancel", fct=function() self:cancelclick() end}
@@ -78,7 +78,7 @@ function _M:init(dialogdef, profile_help_text)
 			{left=0, top=self.c_desc.h+self.c_login.h+self.c_pass.h+5, ui=self.c_pass2},
 			{left=0, top=self.c_desc.h+self.c_login.h+self.c_pass.h+self.c_pass2.h+10, ui=self.c_email},
 			{left=0, top=self.c_desc.h+self.c_login.h+self.c_pass.h+self.c_pass2.h+self.c_email.h+10, ui=self.c_news},
-			{left=0, top=self.c_desc.h+self.c_login.h+self.c_pass.h+self.c_pass2.h+self.c_email.h+self.c_news2.h+10, ui=self.c_news2},
+			{left=0, top=self.c_desc.h+self.c_login.h+self.c_pass.h+self.c_pass2.h+self.c_email.h+self.c_news.h+10, ui=self.c_age},
 			{left=0, bottom=0, ui=ok},
 			{right=0, bottom=0, ui=cancel},
 			{hcenter=0, bottom=0, ui=privacy},
@@ -108,6 +108,10 @@ function _M:okclick()
 	end
 	if self.c_email and (self.c_email.text:len() < 6 or not self.c_email.text:find("@")) then
 		self:simplePopup("Email", "Your email seems invalid")
+		return
+	end
+	if not self.c_age.checked then
+		self:simplePopup("Age Check", "You need to be 16 years old or more or to have parental authorization to play this game.")
 		return
 	end
 

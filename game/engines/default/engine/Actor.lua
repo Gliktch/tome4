@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -480,8 +480,6 @@ function _M:useEnergy(val)
 	val = val or game.energy_to_act
 	self.energy.value = self.energy.value - val
 	self.energy.used = true
-	if self.player and self.energy.value < game.energy_to_act then game.paused = false end
---	print("USE ENERGY", self.name, self.uid, "::", self.energy.value, game.paused, "::", self.player)
 end
 
 --- What is our reaction toward the target

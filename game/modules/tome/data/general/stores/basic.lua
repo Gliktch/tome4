@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="armor", subtype="heavy", id=true, tome_drops="store"},
 			{type="armor", subtype="massive", id=true, tome_drops="store"},
@@ -44,6 +45,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="armor", subtype="light", id=true, tome_drops="store"},
 			{type="armor", subtype="hands", id=true, tome_drops="store"},
@@ -62,6 +64,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="armor", subtype="cloth", id=true, tome_drops="store"},
 			{type="armor", subtype="cloak", id=true, tome_drops="store"},
@@ -79,6 +82,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="greatsword", id=true, tome_drops="store"},
 			{type="weapon", subtype="longsword", id=true, tome_drops="store"},
@@ -95,6 +99,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="waraxe", id=true, tome_drops="store"},
 			{type="weapon", subtype="battleaxe", id=true, tome_drops="store"},
@@ -111,6 +116,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="mindstar", id=true, tome_drops="store"},
 			{type="charm", subtype="torque", id=true, tome_drops="store"},
@@ -128,6 +134,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="greatmaul", id=true, tome_drops="store"},
 			{type="weapon", subtype="mace", id=true, tome_drops="store"},
@@ -144,6 +151,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{special=function(o) return o.type == "weapon" and o.twohanded end, id=true, tome_drops="store"},
 		},
@@ -159,6 +167,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{special=function(o) return o.type == "weapon" and not o.twohanded end, id=true, tome_drops="store"},
 		},
@@ -174,6 +183,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="longbow", id=true, tome_drops="store"},
 			{type="weapon", subtype="sling", id=true, tome_drops="store"},
@@ -191,6 +201,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = function()
 			return {type="weapon", subtype="dagger", id=true, tome_drops="store"}
 		end,
@@ -205,6 +216,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = function()
 			return {type="weapon", subtype="staff", id=true, tome_drops="store"}
 		end,
@@ -218,8 +230,9 @@ newEntity{
 	store = {
 		purse = 10,
 		empty_before_restock = false,
-		nb_fill = 4,
+		nb_fill = 3,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="scroll", subtype="infusion", id=true, ego_chance = 1000},
 		},
@@ -233,8 +246,9 @@ newEntity{
 	store = {
 		purse = 10,
 		empty_before_restock = false,
-		nb_fill = 4,
+		nb_fill = 3,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="scroll", subtype="rune", id=true, ego_chance = 1000},
 		},
@@ -250,6 +264,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="gem", id=true},
 		},
@@ -265,6 +280,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="lite", id=true, tome_drops="store"},
 			{type="tool", subtype="digger", id=true, tome_drops="store"},
@@ -285,6 +301,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = function()
 			return rng.table{
 				{type="weapon", subtype="staff", id=true, tome_drops="store"},
@@ -305,6 +322,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="jewelry", id=true},
 		},
@@ -328,6 +346,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="scroll", subtype="rune", id=true, ego_chance = 1000},
 		},
@@ -411,6 +430,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="armor", subtype="heavy", id=true, tome_drops="store"},
 			{type="armor", subtype="massive", id=true, tome_drops="store"},
@@ -433,6 +453,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="armor", subtype="light", id=true, tome_drops="store"},
 			{type="armor", subtype="hands", id=true, tome_drops="store"},
@@ -455,6 +476,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="greatsword", id=true, tome_drops="store"},
 			{type="weapon", subtype="longsword", id=true, tome_drops="store"},
@@ -475,6 +497,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="waraxe", id=true, tome_drops="store"},
 			{type="weapon", subtype="battleaxe", id=true, tome_drops="store"},
@@ -495,6 +518,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="greatmaul", id=true, tome_drops="store"},
 			{type="weapon", subtype="mace", id=true, tome_drops="store"},
@@ -515,6 +539,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = function()
 			return {type="weapon", subtype="dagger", id=true, tome_drops="store"}
 		end,
@@ -534,6 +559,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 4,
 		player_material_level = true,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="sling", id=true, tome_drops="store"},
 			{type="weapon", subtype="longbow", id=true, tome_drops="store"},
@@ -635,6 +661,7 @@ newEntity{
 		nb_fill = 2,
 		sell_percent = 300,
 		empty_before_restock = false,
+		minimum_level = 10,
 		filters = {
 			{type="armor", subtype="heavy", id=true, tome_drops="store"},
 			{type="armor", subtype="massive", id=true, tome_drops="store"},
@@ -656,6 +683,7 @@ newEntity{
 		nb_fill = 2,
 		sell_percent = 300,
 		empty_before_restock = false,
+		minimum_level = 10,
 		filters = {
 				{type="armor", subtype="light", id=true, tome_drops="store"},
 				{type="armor", subtype="hands", id=true, tome_drops="store"},
@@ -677,6 +705,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 2,
 		sell_percent = 300,
+		minimum_level = 10,
 		filters = {
 			{type="armor", subtype="cloth", id=true, tome_drops="store"},
 			{type="armor", subtype="cloak", id=true, tome_drops="store"},
@@ -697,6 +726,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 2,
 		sell_percent = 300,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="greatsword", id=true, tome_drops="store"},
 			{type="weapon", subtype="longsword", id=true, tome_drops="store"},
@@ -716,6 +746,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 2,
 		sell_percent = 300,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="waraxe", id=true, tome_drops="store"},
 			{type="weapon", subtype="battleaxe", id=true, tome_drops="store"},
@@ -735,6 +766,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 2,
 		sell_percent = 300,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="greatmaul", id=true, tome_drops="store"},
 			{type="weapon", subtype="mace", id=true, tome_drops="store"},
@@ -754,6 +786,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 2,
 		sell_percent = 300,
+		minimum_level = 10,
 		filters = function()
 			return {type="weapon", subtype="dagger", id=true, tome_drops="store"}
 		end,
@@ -772,6 +805,7 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 2,
 		sell_percent = 300,
+		minimum_level = 10,
 		filters = {
 			{type="weapon", subtype="sling", id=true, tome_drops="store"},
 			{type="weapon", subtype="longbow", id=true, tome_drops="store"},
@@ -792,10 +826,12 @@ newEntity{
 		empty_before_restock = false,
 		nb_fill = 2,
 		sell_percent = 300,
+		minimum_level = 10,
 		filters = {
-			{type="weapon", subtype="sling", id=true, tome_drops="store"},
-			{type="weapon", subtype="longbow", id=true, tome_drops="store"},
-			{type="ammo", id=true, tome_drops="store"},
+			{type="weapon", subtype="staff", id=true, tome_drops="store"},
+			{type="weapon", subtype="staff", id=true, tome_drops="store"},
+			{type="weapon", subtype="staff", id=true, tome_drops="store"},
+			{type="charm", subtype="wand", id=true, tome_drops="store"},
 		},
 		post_filter = function(e)
 			if e.greater_ego and e.greater_ego > 1 then return true else return false end
@@ -812,6 +848,7 @@ newEntity{
 		nb_fill = 4,
 		player_material_level = true,
 		empty_before_restock = false,
+		minimum_level = 10,
 		filters = {
 			{type="scroll", subtype="rune", id=true, ego_chance = 1000 },
 		},
@@ -827,6 +864,7 @@ newEntity{
 		nb_fill = 4,
 		player_material_level = true,
 		empty_before_restock = false,
+		minimum_level = 10,
 		filters = {
 			{type="scroll", subtype="infusion", id=true, ego_chance = 1000},
 		},

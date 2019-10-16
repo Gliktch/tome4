@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -114,8 +114,10 @@ function _M:drawItem(item, nb_keyframes)
 			local s = col.surface
 
 			local offset = 0
+			item.offset_x = 0
 			if i == 1 then
 				offset = level * self.level_offset
+				item.offset_x = level * self.level_offset
 				if item.nodes then offset = offset + self.plus.w end
 			end
 			local startx = col.frame_sel.b4.w + offset
@@ -352,7 +354,7 @@ function _M:display(x, y, nb_keyframes)
 
 			if item.nodes and j == 1 then
 				local s = item.shown and self.minus or self.plus
-				s.t:toScreenFull(x, y + (self.fh - s.h) / 2, s.w, s.h, s.th, s.th)
+				s.t:toScreenFull(x + item.offset_x, y + (self.fh - s.h) / 2, s.w, s.h, s.th, s.th)
 			end
 
 			x = x + col.width

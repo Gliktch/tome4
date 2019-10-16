@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -66,7 +66,7 @@ carrionworm = function(self, target, duration, x, y)
 			desc = [[A worm spawned from a damaged horror.  Destroying it may have consequences.]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "tactical",
-			ai_state = { ai_move="move_complex", talent_in=1, ally_compassion=10 },
+			ai_state = { ai_move="move_complex", talent_in=1, ally_compassion=10, ai_target="target_closest", },
 			ai_tactic = resolvers.tactic"melee",
 			stats = { str=10, dex=15, mag=3, con=3 },
 			level_range = {1, self.level}, exp_worth = 0,
@@ -99,8 +99,8 @@ carrionworm = function(self, target, duration, x, y)
 	m.unused_talents_types = 0
 	m.no_inventory_access = true
 	m.no_points_on_levelup = true
+	m.carrion_worm = true  -- This keeps the on_death effect from spamming the damage log with 0s
 	m.save_hotkeys = true
-	m.ai_state = m.ai_state or {}
 	m.ai_state.tactic_leash = 100
 	-- Try to use stored AI talents to preserve tweaking over multiple summons
 	m.ai_talents = self.stored_ai_talents and self.stored_ai_talents[m.name] or {}
@@ -155,7 +155,7 @@ newTalent{
 	getDamageReduction = function(self, t) 
 		return self:combatTalentLimit(t, 0.5, 0.1, 0.22)
 	end,
-	tactical = { BUFF = 2 },
+	tactical = {BUFF = 3},
 	activate = function(self, t)
 		local resist = t.getResist(self,t)
 		local affinity = t.getAffinity(self,t)
@@ -175,11 +175,10 @@ newTalent{
 		self:removeTemporaryValue("worm", p.worm)
 		return true
 	end,
-	callbackPriorities={callbackOnHit = -5},  -- High priority since we do more than just reduce damage and want to make sure the worm spawn happens often
-	callbackOnHit = function(self, t, cb)
-		if ( cb.value > (0.15 * self.max_life) ) then
-			local damageReduction = cb.value * t.getDamageReduction(self, t)
-			cb.value = cb.value - damageReduction
+	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
+		if ( dam > (0.15 * self.max_life) ) then
+			local damageReduction = dam * t.getDamageReduction(self, t)
+			dam = dam - damageReduction
 
 			local nb = 0 
 			if game.level then
@@ -206,7 +205,7 @@ newTalent{
 					carrionworm(self, self, 5, gx, gy)
 				end
 			end
-			return cb.value
+			return {dam = dam}
 		end
 	end,
 	info = function(self, t)
@@ -237,8 +236,8 @@ newTalent{
 	getVim = function(self, t) return 8 + math.floor(self:combatTalentScale(t, 5, 35)) end,
 	getDam = function(self, t) return self:combatTalentLimit(t, 1, 20, 5) end,
 	tactical = {HEAL = 0.5},  -- Only use the healing functionality of this since in practice thats almost always optimal, but use it rarely so we don't waste time hopping around a lot as a melee
-	target = function(self, t)
-		return {type="hit", range=self:getTalentRange(t)}
+	target = function(self, t) -- no change to default_target because worms will usually be in melee with an enemy
+		return {type="hit", nolock=true, range=self:getTalentRange(t)}
 	end,
 	onAIGetTarget = function(self, t) -- Find a worm to target
 		local tgts = {}

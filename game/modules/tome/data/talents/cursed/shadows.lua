@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -315,7 +315,7 @@ local function createShadow(self, level, tCallShadows, tShadowWarriors, tShadowM
 				value = value * self.avoid_master_damage
 			end
 
-			if self:knowTalent(self.T_SHADOW_FADE) and not self:isTalentCoolingDown(self.T_SHADOW_FADE) then
+			if self:knowTalent(self.T_SHADOW_FADE) and not self:isTalentCoolingDown(self.T_SHADOW_FADE) and not (self.avoid_master_damage == 0) then
 				self:forceUseTalent(self.T_SHADOW_FADE, {ignore_energy=true})
 			end
 
@@ -421,6 +421,11 @@ newTalent{
 		game.zone:addEntity(game.level, shadow, "actor", x, y)
 		shadow:feed()
 		game.level.map:particleEmitter(x, y, 1, "teleport_in")
+
+		-- Reduce power of shadows for low level rares
+		if self.inc_damage and self.inc_damage.all and self.inc_damage.all < 0 then
+			shadow.inc_damage.all = (shadow.inc_damage.all or 0) + self.inc_damage.all
+		end
 
 		shadow.no_party_ai = true
 		shadow.unused_stats = 0

@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -202,7 +202,12 @@ newTalent{
 	createDark = function(summoner, x, y, damage, duration, creep, creepChance, initialCreep)
 		local e = Object.new{
 			name = summoner.name:capitalize() .. "'s creeping dark",
-			block_sight=true,
+			block_sight=function(self, x, y, who)
+				if who and who.attr and who:attr("pierce_creeping_darkness") and x and who.x and core.fov.distance(x, y, who.x, who.y) <= who:attr("pierce_creeping_darkness") then
+					return false
+				end
+				return true
+			end,
 			canAct = false,
 			canCreep = true,
 			x = x, y = y,
@@ -351,11 +356,12 @@ newTalent{
 	points = 5,
 	mode = "passive",
 	random_ego = "attack",
-	range = function(self, t)
-		return math.floor(self:combatTalentScale(t, 2, 6))
-	end,
+	range = 10,
 	getMovementSpeedChange = function(self, t)
 		return self:combatTalentScale(t, 0.75, 2.5, 0.75)
+	end,
+	passives = function(self, t, p)
+		self:talentTemporaryValue(p, "pierce_creeping_darkness", self:getTalentRange(t))
 	end,
 	info = function(self, t)
 		local range = self:getTalentRange(t)
@@ -404,7 +410,7 @@ newTalent{
 						end
 					end
 				end
-				if rng.percent(25) and self:knowTalent(self.T_CREEPING_DARKNESS) then
+				if self:knowTalent(self.T_CREEPING_DARKNESS) then
 					local tCreepingDarkness = self:getTalentFromId(self.T_CREEPING_DARKNESS)
 					local damage = tCreepingDarkness.getDamage(self, tCreepingDarkness)
 					tCreepingDarkness.createDark(self, x, y, damage, 3, 2, 33, 0)

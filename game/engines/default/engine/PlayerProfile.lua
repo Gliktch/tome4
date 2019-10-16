@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -77,6 +77,7 @@ function _M:init()
 	self.chat = UserChat.new()
 	self.dlc_files = {classes={}, files={}}
 	self.saved_events = {}
+	self.temporary_event_handlers = {}
 	self.generic = {}
 	self.modules = {}
 	self.evt_cbs = {}
@@ -579,7 +580,7 @@ function _M:eventGetNews(e)
 end
 
 function _M:eventIncrLogConsume(e)
-	local module = game.__mod_info.short_name
+	local module = type(game) == "table" and game.__mod_info.short_name
 	if not module then return end
 	print("[PROFILE] Server accepted our incr log, deleting")
 	local pop = self:mountProfile(true, module)
@@ -650,11 +651,20 @@ function _M:eventFunFacts(e)
 	end
 end
 
+function _M:registerTemporaryEventHandler(name, fct)
+	self.temporary_event_handlers[name] = self.temporary_event_handlers[name] or {}
+	table.insert(self.temporary_event_handlers[name], fct)
+end
+
 --- Got an event from the profile thread
 function _M:handleEvent(e)
 	if type(e) == "string" then e = e:unserialize() end
 	if not e then return end
-	if self["event"..e.e] then self["event"..e.e](self, e) end
+	if self["event"..e.e] then self["event"..e.e](self, e)
+	elseif self.temporary_event_handlers[e.e] then
+		for _, fct in ipairs(self.temporary_event_handlers[e.e]) do print("[PROFILE] temporary_event_handlers", e.e, pcall(fct, e)) end
+		self.temporary_event_handlers[e.e] = nil
+	end
 	return e
 end
 
@@ -849,6 +859,8 @@ function _M:sendError(what, err)
 	end
 	local version = game.__mod_info.version_name
 	if game.__mod_info.version_desc then version = game.__mod_info.version_name.." ("..tostring(game.__mod_info.version_desc)..")" end
+	local beta = engine.version_hasbeta()
+	if beta then version = version.."-"..beta end
 	core.profile.pushOrder(table.serialize{
 		o="SendError",
 		login=self.login,
@@ -856,6 +868,7 @@ function _M:sendError(what, err)
 		err=err,
 		module=game.__mod_info.short_name,
 		version=version,
+		charuuid=game:getPlayer(true) and game:getPlayer(true).__te4_uuid,
 		addons=table.concat(addons, ", "),
 	})
 end
@@ -1043,8 +1056,13 @@ function _M:isDonator(s)
 	if not self.auth or not tonumber(self.auth.donated) or tonumber(self.auth.donated) < s then return false else return true end
 end
 
+function _M:canMTXN()
+	return self:isDonator()
+end
+
 function _M:allowDLC(dlc)
-	if core.steam then if core.steam.checkDLC(dlc[2]) then return true end end
-	if self.auth and self.auth.dlcs and self.auth.dlcs[dlc[1]] then return true end
-	return false
+	-- if core.steam then if core.steam.checkDLC(dlc[2]) then return true end end
+	-- if self.auth and self.auth.dlcs and self.auth.dlcs[dlc[1]] then return true end
+	-- return false
+	return true
 end

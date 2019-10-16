@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -89,6 +89,11 @@ newBirthDescriptor{
 			local x, y = mod.class.Encounter:findSpot(where)
 			return x, y
 		end,
+		zone_tiers = {
+			{name="tier1", "trollmire", "norgos-lair", "scintillating-caves", "rhaloren-camp", "heart-gloom", "ruins-kor-pul"},
+			{name="tier2", "sandworm-lair", "old-forest", "maze", "daikara", "halfling-ruins"},
+			{name="tier3", "dreadfell", "reknor", "unremarkable-cave", "vor-armoury", "briagh-lair"}
+		}		
 	},
 }
 

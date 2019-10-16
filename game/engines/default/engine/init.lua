@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -82,14 +82,22 @@ chat.filter = {}
 chat.ignores = {}
 addons = {}
 allow_online_events = true
-disable_all_connectivity = false
+disable_all_connectivity = true
 upload_charsheet = true
 upgrades { v1_0_5=true }
 ]]
+local loaded_config_files = {}
 for i, file in ipairs(fs.list("/settings/")) do
 	if file:find(".cfg$") then
 		config.load("/settings/"..file)
+		loaded_config_files[file] = true
 	end
+end
+
+-- Keep the same setting when upgrading
+-- What a FRELLING MESS
+if not loaded_config_files["disable_all_connectivity.cfg"] and not config.settings.firstrun_gdpr then
+	config.settings.disable_all_connectivity = false
 end
 
 if config.settings.disable_all_connectivity then

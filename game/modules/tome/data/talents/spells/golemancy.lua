@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -32,12 +32,14 @@ function makeAlchemistGolem(self)
 		type = "construct", subtype = "golem",
 		name = "golem",
 		display = 'g', color=colors.WHITE, image = "npc/alchemist_golem.png",
+		descriptor = {sex="Male", race="Construct", subrace="Runic Golem"},
 		moddable_tile = "runic_golem",
 		moddable_tile_nude = 1,
 		moddable_tile_base = resolvers.generic(function() return "base_0"..rng.range(1, 5)..".png" end),
 --		level_range = {1, 50}, exp_worth=0,
 		level_range = {1, self.max_level}, exp_worth=0,
 		life_rating = 13,
+		life_regen = 1,  -- Prevent resting tedium
 		never_anger = true,
 		save_hotkeys = true,
 
@@ -68,8 +70,8 @@ function makeAlchemistGolem(self)
 		},
 
 		resolvers.equip{ id=true,
-			{type="weapon", subtype="battleaxe", autoreq=true, id=true, ego_chance=-1000},
-			{type="armor", subtype="heavy", autoreq=true, id=true, ego_chance=-1000}
+			{type="weapon", subtype="battleaxe", autoreq=true, id=true, ego_chance=-1000, not_properties = {"unique"}},
+			{type="armor", subtype="heavy", autoreq=true, id=true, ego_chance=-1000, not_properties = {"unique"}}
 		},
 
 		talents_types = {
