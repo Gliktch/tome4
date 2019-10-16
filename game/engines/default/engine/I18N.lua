@@ -24,8 +24,10 @@ require "engine.class"
 module(..., package.seeall, class.make)
 
 local locales = {}
+local locales_args = {}
 local cur_locale_name = "en_US"
 local cur_locale = {}
+local cur_locale_args = {}
 local cur_unlocalized = {}
 
 _G._t = function(s, debugadd)
@@ -42,13 +44,28 @@ _G._t = function(s, debugadd)
 	return cur_locale[s] or s
 end
 
+function string.tformat(s, ...)
+	if cur_locale_args[s] then
+		local sargs = {...}
+		local args = {}
+		for sidx, didx in pairs(cur_locale_args[s]) do
+			args[didx] = sargs[sidx]
+		end
+		s = _t(s)
+		return s:format(unpack(args))
+	else
+		s = _t(s)
+		return s:format(...)
+	end
+end
+
 function _M:loadLocale(file)
 	if not fs.exists(file) then print("[I18N] Warning, localization file does not exists:", file) return end
 	local lc = nil
 	local env = setmetatable({
-		locale = function(s) lc = s; locales[lc] = locales[lc] or {} end,
+		locale = function(s) lc = s; locales[lc] = locales[lc] or {} locales_args[lc] = locales_args[lc] or {} end,
 		section = function(s) end, -- Not used ingame
-		t = function(src, dst) self:t(lc, src, dst) end,
+		t = function(src, dst, args_order) self:t(lc, src, dst, args_order) end,
 	}, {__index=getfenv(2)})
 	local f, err = util.loadfilemods(file, env)
 	if not f and err then error(err) end
@@ -58,11 +75,16 @@ end
 function _M:setLocale(lc)
 	cur_locale_name = lc
 	cur_locale = locales[lc] or {}
+	cur_locale_args = locales_args[lc] or {}
 end
 
-function _M:t(lc, src, dst)
+function _M:t(lc, src, dst, args_order)
 	locales[lc] = locales[lc] or {}
 	locales[lc][src] = dst
+	if args_order then
+		locales_args[lc] = locales_args[lc] or {}
+		locales_args[lc][src] = args_order
+	end
 end
 
 function _M:dumpUnknowns()
@@ -83,4 +105,17 @@ function _M:dumpUnknowns()
 		f:write('\n\n')
 	end
 	f:close()
+end
+
+function _M:test()
+	self:loadLocale("/data/locales/fr_FR.lua")
+	self:setLocale("fr_FR")
+
+	print'==================='
+	print'==================='
+	print(("Testing arg one %d and two %d"):tformat(1, 2))
+	print'==================='
+	print'==================='
+
+	os.crash()
 end
