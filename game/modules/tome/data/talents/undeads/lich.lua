@@ -65,7 +65,7 @@ newTalent{
 		The first time this happens, your transformation into a Lich is completed, granting you all the powers of Lichdom.
 		Any further death will still regenerate you but you will need to consume the essence of a creature of unique/boss/elite boss or more rank within %d turns to sustain yourself.
 		If you have not killed one when the duration expires or if you are killed again in this duration, you die permanently.
-		If this happens this power can never re-activate, even if you managed to ressurect by other means.]]):
+		If this happens this power can never re-activate, even if you managed to resurrect by other means.]]):
 		format(t.getDieAt(self, t), t.getTurns(self, t))
 	end,
 }
@@ -508,7 +508,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You are so full with power that it overflows out of you whenever you cast a spell.
-		Upon spell cast you have %d%% chances to boost the physical power spellpower, mindpower and all saves of all friendly undeads in sight (including yourself) by %d for 4 turns.]]):
+		Upon spell cast you have %d%% chances to boost the physical power, spellpower, mindpower and all saves of all friendly undeads in sight (including yourself) by %d for 4 turns.]]):
 		format(t.getChance(self, t), t.getPower(self, t))
 	end,
 }
