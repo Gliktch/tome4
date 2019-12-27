@@ -4543,3 +4543,55 @@ newEffect{
 		self:effectTemporaryValue(eff, "inc_damage", {[DamageType.PHYSICAL] = eff.power})
 	end,
 }
+
+newEffect{
+	name = "LICH_RESISTED", image = "talents/lichform.png",
+	desc = "Immune to Frightening Presence",
+	long_desc = function(self, eff) return ("You resisted a Lich and are immune to its frightening presence.") end,
+	type = "magical",
+	subtype = { lich=true, fear=true},
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		game:onTickEnd(function() self:removeEffect(self.EFF_LICH_FEAR) end)
+	end,
+}
+
+newEffect{
+	name = "LICH_FEAR", image = "talents/lichform.png",
+	desc = "Frightening Presence",
+	long_desc = function(self, eff) return ("The mere sight of a Lich sent you into a frightened state, reducing all saves by %d, all damage by %d%% and movement speed by %d%%."):format(eff.saves, eff.dam, eff.speed) end,
+	type = "magical",
+	subtype = { lich=true, fear=true},
+	status = "detrimental",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "inc_damage", {all = -eff.dam})
+		self:effectTemporaryValue(eff, "combat_mentalresist", -eff.saves)
+		self:effectTemporaryValue(eff, "combat_physresist", -eff.saves)
+		self:effectTemporaryValue(eff, "combat_spellresist", -eff.saves)
+		self:effectTemporaryValue(eff, "movement_speed", -eff.speed / 100)
+	end,
+}
+
+newEffect{
+	name = "COMMANDER_OF_THE_DEAD", image = "talents/commander_of_the_dead.png",
+	desc = "Commander of the Dead",
+	long_desc = function(self, eff) return ("Physical power, spellpower and all saves increased by %d."):format(eff.power) end,
+	type = "magical",
+	subtype = { lich=true, power=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "combat_mentalresist", eff.power)
+		self:effectTemporaryValue(eff, "combat_physresist", eff.power)
+		self:effectTemporaryValue(eff, "combat_spellresist", eff.power)
+		self:effectTemporaryValue(eff, "combat_generic_power", eff.power)
+	end,
+}
