@@ -353,6 +353,7 @@ uberTalent{
 	},
 	is_race_evolution = function(self, t)
 		if self:attr("necromancy_immune") then return false end
+		if self:attr("greater_undead") then return false end
 		local nb = 0
 		for tid, lvl in pairs(self.talents) do local t = self:getTalentFromId(tid) if t.is_necromancy then nb = nb + lvl end end
 		return not self:attr("true_undead") and nb > 0
@@ -396,6 +397,7 @@ uberTalent{
 
 		self:attr("undead", 1)
 		self:attr("true_undead", 1)
+		self:attr("greater_undead", 1)
 
 		self:learnTalentType("undead/lich", true)
 
