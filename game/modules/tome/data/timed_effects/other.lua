@@ -899,7 +899,7 @@ newEffect{
 			self:doFOV() -- update actors seen
 			for i = 1, #self.fov.actors_dist do
 				act = self.fov.actors_dist[i]
-				if act and self:reactionToward(act) < 0 and not act.dead and act:isNear(eff.x, eff.y, maxdist) then
+				if act and self:reactionToward(act) < 0 and not act.dead and eff.x and act:isNear(eff.x, eff.y, maxdist) then
 					local sx, sy = util.findFreeGrid(act.x, act.y, 1, true, {[engine.Map.ACTOR]=true})
 					if sx then acts[#acts+1] = {act, sx, sy} end
 				end
@@ -3631,7 +3631,7 @@ newEffect{
 
 newEffect{
 	name = "DEMI_GODMODE",
-	desc = "Demigod Mode", --image = "",
+	desc = "Demigod Mode", image = "effects/darkgod.png",
 	long_desc = function(self, eff) return ("DEMI-GODMODE: Target has 10000 additional life and regenerates 2000 life per turn.  It deals +500%% damage, and has full ESP."):format() end,
 	type = "other",
 	subtype = { cheat=true },
@@ -3662,7 +3662,7 @@ newEffect{
 
 newEffect{
 	name = "GODMODE",
-	desc = "God Mode", --image = "",
+	desc = "God Mode", image = "effects/darkgod.png",
 	long_desc = function(self, eff) return ("GODMODE: Target is invulnerable to damage, immune to bad status effects, deals +10000%% damage (100%% penetration), does not need to breathe, and has full ESP."):format() end,
 	type = "other",
 	subtype = { cheat=true },
@@ -3752,7 +3752,7 @@ newEffect{
 newEffect{
 	name = "STEALTH_SKEPTICAL", image = "talents/stealth.png",
 	desc = "Skeptical",
-	long_desc = function(self, eff) return "The target doesn't believe it's ally truly saw anything in the shadows." end,
+	long_desc = function(self, eff) return "The target doesn't believe its ally truly saw anything in the shadows." end,
 	type = "other",
 	subtype = { },
 	status = "neutral",
@@ -3972,5 +3972,20 @@ newEffect{
 		if eff.dur <= 0 or eff.src.dead then
 			self:removeEffect(eff.src.EFF_FED_UPON, false, true)
 		end
+	end,
+}
+
+newEffect{
+	name = "DOZING", image = "talents/sleep.png",
+	desc = "Dozing",
+	long_desc = function(self, eff) return "The target is completely asleep, unable to act." end,
+	type = "other",
+	subtype = { sleep=true },
+	status = "detrimental",
+	parameters = { },
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "dont_act", 1)
+	end,
+	deactivate = function(self, eff)
 	end,
 }

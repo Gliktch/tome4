@@ -30,7 +30,7 @@ newTalent{
 	direct_hit = true,
 	reflectable = true,
 	requires_target = true,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 390) end, -- Gradually increase burst potential with c/d
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 300) end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 3, 7)) end,
 	target = function(self, t)
 		if necroEssenceDead(self, true) then
@@ -43,8 +43,6 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		local _ _, _, _, x, y = self:canProject(tg, x, y)
-		local target = game.level.map(x, y, Map.ACTOR)
 		if not x or not y then return nil end
 
 		if necroEssenceDead(self, true) then
@@ -57,9 +55,12 @@ newTalent{
 		self:project(tg, x, y, DamageType.COLD, dam, {type="freeze"})
 		self:project(tg, x, y, DamageType.FREEZE, {dur=t.getDuration(self, t), hp=70 + dam * 1.5})
 
-		if target and self:reactionToward(target) >= 0 then
-			game:onTickEnd(function() self:alterTalentCoolingdown(t.id, -math.floor((self.talents_cd[t.id] or 0) * 0.33)) end)
-		end
+		tg.type = "hit"
+		self:projectApply(tg, x, y, Map.ACTOR, function(target)
+			if self:reactionToward(target) >= 0 then
+				game:onTickEnd(function() self:alterTalentCoolingdown(t.id, -math.floor((self.talents_cd[t.id] or 0) * 0.33)) end)
+			end
+		end)
 
 		game:playSoundNear(self, "talents/water")
 		return true
@@ -177,7 +178,7 @@ newTalent{
 	cooldown = 30,
 	tactical = { BUFF = 2 },
 	getColdDamageIncrease = function(self, t) return self:combatTalentScale(t, 2.5, 10) end,
-	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 100, 17, 50) end, -- Limit < 100
+	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 60, 17, 50) end, -- Limit < 60
 	getPierce = function(self, t) return math.min(100, self:getTalentLevelRaw(t) * 20) end, 
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/ice")

@@ -294,6 +294,26 @@ newEntity{ base = "BASE_AMULET",
 	},
 }
 
+newEntity{ base = "BASE_AMULET",
+	power_source = {unknown=true},
+	unique = true,
+	name = "The Far-Hand", color = colors.YELLOW, image = "object/artifact/the_far_hand.png",
+	unided_name = "a weird metallic hand",
+	desc = [[You can feel this strange metallic hand wriggling around, it feels as if space distorts around it.]],
+	level_range = {20, 40},
+	rarity = 200,
+	cost = 1000,
+	material_level = 3,
+	wielder = {
+		teleport_immune = 1,
+		inc_stats = {
+			[Stats.STAT_CON] = 10,
+		},
+	},
+	max_power = 36, power_regen = 1,
+	use_talent = { id = Talents.T_TELEPORT, level = 4, power = 36 },
+}
+
 newEntity{ base = "BASE_AMULET", define_as = "SET_GARKUL_TEETH",
 	power_source = {technique=true},
 	unique = true,
@@ -549,10 +569,13 @@ newEntity{ base = "BASE_SHIELD",
 		fatigue = 20,
 		learn_talent = { [Talents.T_BLOCK] = 1, },
 	},
-	on_block = {desc = "30% chance that you'll breathe fire in a cone at the attacker (if within range 6).", fct = function(self, who, target, type, dam, eff)
-	if rng.percent(30) then
-		if not target or not target.x or not target.y or core.fov.distance(who.x, who.y, target.x, target.y) > 6 then return end
+	on_block = {desc = "30% chance that you'll breathe fire in a cone at the attacker (if within range 6).  This can only occur up to 4 times per turn.", fct = function(self, who, target, type, dam, eff)
+		local hits = table.get(who.turn_procs, "flame_shield_procs") or 0
+		if hits and hits >= 4 then return end
 
+		if rng.percent(30) then
+		table.set(who.turn_procs, "flame_shield_procs", hits + 1)
+		if not target or not target.x or not target.y or core.fov.distance(who.x, who.y, target.x, target.y) > 6 then return end
 			who:forceUseTalent(who.T_FIRE_BREATH, {ignore_energy=true, no_talent_fail=true, no_equilibrium_fail=true, ignore_cd=true, force_target=target, force_level=2, ignore_ressources=true})
 		end
 	end,
@@ -7302,7 +7325,7 @@ newEntity{ base = "BASE_GREATMAUL",
 		special_on_hit = { --thanks nsrr!--
 			desc=function(self, who, special)
 				local damage = special.damage(self, who)
-				local s = ("Sends a tremor through the ground which causes jagged rocks to errupt in a beam of length 5, dealing %d Physical damage (equal to your Strength, up to 150) and causing targets hit to bleed for an additional 50 damage over 5 turns. Bleeding can stack."):format(damage)
+				local s = ("Sends a tremor through the ground which causes jagged rocks to erupt in a beam of length 5, dealing %d Physical damage (equal to your Strength, up to 150) and causing targets hit to bleed for an additional 50 damage over 5 turns. Bleeding can stack."):format(damage)
 				return s
 			end,
 			damage = function(self, who)

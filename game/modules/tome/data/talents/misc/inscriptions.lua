@@ -493,6 +493,7 @@ newInscription{
 	type = {"inscriptions/runes", 1},
 	points = 1,
 	is_spell = true,
+	use_only_arcane = 1,
 	no_break_stealth = true,
 	tactical = { MANA = 1 },
 	on_pre_use = function(self, t)
@@ -886,7 +887,7 @@ newInscription{
 							orders = {},
 						})
 
-						image:forceUseTalent(image.T_TAUNT, {})
+						image:forceUseTalent(image.T_TAUNT, {ignore_cd=true, no_talent_fail = true})
 					end
 				end
 			end
@@ -955,7 +956,7 @@ newInscription{
 	info = function(self, t)
 		return ([[Activate the rune to instantly dissipate the energy of your ailments, cleansing all cross tier effects and 1 physical, mental, and magical effect.
 		You use the dissipated energy to create a shield lasting 3 turns and blocking %d damage per debuff cleansed (not counting cross-tier ones).
-		If there was only cross-tier effects to clean, no shield is created and the rune goes on a 75%% faster cooldown.]])
+		If there were only cross-tier effects to cleanse, no shield is created and the rune goes on a 75%% reduced cooldown.]])
 		:format(t.getShield(self, t) * (100 + (self:attr("shield_factor") or 0)) / 100)
 	end,
 	short_info = function(self, t)
@@ -970,11 +971,22 @@ newInscription{
 	type = {"inscriptions/runes", 1},
 	points = 1,
 	is_spell = true,
-	no_npc_use = true, -- Quest reward
 	range = 10,
 	direct_hit = true,
+	target = function(self, t) return {default_target=self, type="hit", nowarning=true, range=self:getTalentRange(t)} end,
+	tactical = {
+		DISABLE = function(self, t, aitarget)
+			local nb = 0
+			for tid, act in pairs(aitarget.sustain_talents) do
+				if act then
+					local talent = aitarget:getTalentFromId(tid)
+					if talent.is_spell then nb = nb + 1 end
+				end
+			end
+			return nb^0.5
+	end},
 	action = function(self, t)
-		local tg = {default_target=self, type="hit", nowarning=true, range=self:getTalentRange(t)}
+		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
 		if not (x and y) or not target or not self:canProject(tg, x, y) then return nil end
 
@@ -986,7 +998,7 @@ newInscription{
 				end
 				return false
 			end,
-			4)
+			8)
 		else
 			target:removeEffectsFilter({type="magical", status="detrimental"}, 999)
 		end
@@ -996,7 +1008,7 @@ newInscription{
 	end,
 	info = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		return ([[Activate the rune to remove 4 beneficial magical sustains from an enemy target or all magical debuffs from you.]]):
+		return ([[Activate the rune to remove 8 beneficial magical sustains from an enemy target or all magical debuffs from you.]]):
 		format()
 	end,
 	short_info = function(self, t)

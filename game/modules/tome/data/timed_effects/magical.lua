@@ -227,9 +227,11 @@ newEffect{
 	on_lose = function(self, err) return "#Target#'s skin returns to normal.", "-Reflective Skin" end,
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("reflect_damage", eff.power)
+		self:addShaderAura("reflective_skin", "awesomeaura", {time_factor=5500, alpha=0.6, flame_scale=0.6}, "particles_images/arcaneshockwave.png")
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("reflect_damage", eff.tmpid)
+		self:removeShaderAura("reflective_skin")
 	end,
 }
 
@@ -339,9 +341,14 @@ newEffect{
 	status = "beneficial",
 	charges = function(self, eff) return math.floor(eff.blocks) end,
 	parameters = {threshold = 1, blocks = 1,},
-	on_gain = function(self, err) return "#Target# summons a storm to protect him!", "+Stormshield" end,
+	on_gain = function(self, err) return "#Target# summons a storm to protect them!", "+Stormshield" end,
 	on_lose = function(self, err) return "#Target#'s storm dissipates.", "-Stormshield" end,
 	activate = function(self, eff)
+	if core.shader.active(4) then
+			self:effectParticles(eff, {type="shader_ring_rotating", args={rotation=0, radius=1.0, img="lightningshield"}, shader={type="lightningshield"}})
+		else
+			self:effectParticles(eff, {type = "stormshield"})
+		end
 	end,
 	deactivate = function(self, eff)
 	end,
@@ -2633,7 +2640,7 @@ newEffect{
 newEffect{
 	name = "AETHER_BREACH", image = "talents/aether_breach.png",
 	desc = "Aether Breach",
-	long_desc = function(self, eff) return ("Fires an arcane explosion each turn doing %0.2f arcane damage in radius 1."):format(eff.dam) end,
+	long_desc = function(self, eff) return ("Fires an arcane explosion each turn doing %0.2f arcane damage in radius 2."):format(eff.dam) end,
 	type = "magical",
 	subtype = { arcane=true },
 	status = "beneficial",
@@ -2649,6 +2656,14 @@ newEffect{
 		game.level.map:particleEmitter(spot.x, spot.y, 2, "generic_sploom", {rm=150, rM=180, gm=20, gM=60, bm=180, bM=200, am=80, aM=150, radius=2, basenb=120})
 
 		game:playSoundNear(self, "talents/arcane")
+	end,
+	on_merge = function(self, old_eff, new_eff)
+		new_eff.dur = new_eff.dur + old_eff.dur
+		if old_eff.particle then game.level.map:removeParticleEmitter(old_eff.particle) end
+		new_eff.particle = Particles.new("circle", new_eff.radius, {a=150, speed=0.15, img="aether_breach", radius=new_eff.radius})
+		new_eff.particle.zdepth = 6
+		game.level.map:addParticleEmitter(new_eff.particle, new_eff.x, new_eff.y)		
+		return new_eff
 	end,
 	activate = function(self, eff)
 		eff.particle = Particles.new("circle", eff.radius, {a=150, speed=0.15, img="aether_breach", radius=eff.radius})
@@ -4053,6 +4068,7 @@ newEffect{
 	name = "BLIGHT_POISON", image = "effects/poisoned.png",
 	desc = "Blight Poison",
 	long_desc = function(self, eff) return ("The target is poisoned, taking %0.2f blight damage per turn."):format(eff.power) end,
+	charges = function(self, eff) return math.floor(eff.power) end,
 	type = "magical",
 	subtype = { poison=true, blight=true }, no_ct_effect = true,
 	status = "detrimental",

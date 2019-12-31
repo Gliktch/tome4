@@ -1763,6 +1763,7 @@ function _M:onTurn()
 
 	if self.turn % 500 ~= 0 then return end
 	self:dieClonesDie()
+	truncate_printlog(Savefile.TRUNCATE_PRINTLOG_TO)
 end
 
 function _M:updateFOV()
@@ -2013,14 +2014,14 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
-			game.player:takeHit(100, game.player)
-do return end
 			self:changeLevel(game.level.level + 1)
 do return end
-			local f, err = loadfile("/data/general/events/rat-lich.lua")
+			local f, err = loadfile("/data/general/events/weird-pedestals.lua")
 			print(f, err)
 			setfenv(f, setmetatable({level=self.level, zone=self.zone}, {__index=_G}))
 			print(pcall(f))
+do return end
+			game.player:takeHit(100, game.player)
 do return end
 			package.loaded["mod.dialogs.shimmer.ShimmerDemo"] = nil
 			self:registerDialog(require("mod.dialogs.shimmer.ShimmerDemo").new(game.player, "iron throne couture: "))
@@ -2523,12 +2524,17 @@ function _M:setupMouse(reset)
 		if not config.settings.tome.disable_mouse_targeting and self:targetMouse(button, mx, my, xrel, yrel, event) then return end
 
 		-- Cheat kill
-		if config.settings.cheat and button == "right" and core.key.modState("ctrl") and core.key.modState("shift") and not xrel and not yrel and event == "button" and self.zone and not self.zone.wilderness then
-			local target = game.level.map(tmx, tmy, Map.ACTOR)
-			if target then
-				target:die(game.player)
+		if config.settings.cheat then
+			if button == "right" and core.key.modState("ctrl") and core.key.modState("shift") and core.key.modState("alt") and not xrel and not yrel and event == "button" and self.zone and not self.zone.wilderness then
+				local target = game.level.map(tmx, tmy, Map.ACTOR)
+				if target then game._cheat_move_actor = target game.log("#GOLD#CHEAT MOVE ACTOR %s: ctrl+shift+alt+right click on an empty map spot to move it", target.name)
+				elseif game._cheat_move_actor then game._cheat_move_actor:move(tmx, tmy, true) end
+				return
+			elseif button == "right" and core.key.modState("ctrl") and core.key.modState("shift") and not xrel and not yrel and event == "button" and self.zone and not self.zone.wilderness then
+				local target = game.level.map(tmx, tmy, Map.ACTOR)
+				if target then target:die(game.player) end
+				return
 			end
-			return
 		end
 
 		-- Handle Use menu
