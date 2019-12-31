@@ -35,7 +35,6 @@ newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=tru
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/meta", name = "meta", description = "Meta spells alter the working of magic itself." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/temporal", name = "temporal", description = "The school of time manipulation." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/phantasm", name = "phantasm", description = "Control the power of tricks and illusions." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/phantasm2", name = "phantasm", description = "Control the power of tricks and illusions." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/enhancement", name = "enhancement", description = "Magical enhancement of your body." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/conveyance", name = "conveyance", generic = true, description = "Conveyance is the school of travel. It allows you to travel faster and to track others." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/divination", name = "divination", generic = true, description = "Divination allows the caster to sense its surroundings, and find hidden things." }
@@ -269,7 +268,6 @@ load("/data/talents/spells/meta.lua")
 load("/data/talents/spells/divination.lua")
 load("/data/talents/spells/temporal.lua")
 load("/data/talents/spells/phantasm.lua")
-load("/data/talents/spells/phantasm2.lua")
 load("/data/talents/spells/enhancement.lua")
 
 load("/data/talents/spells/explosives.lua")

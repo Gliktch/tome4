@@ -33,12 +33,7 @@ newTalent{
 			end
 			return 0
 		end,
-		ATTACKAREA = function(self, t)
-			if self:getTalentLevel(t) >= 4 then
-				return { LIGHT = 2 }
-			end
-			return 0
-		end,
+		ATTACKAREA = { LIGHT = 1 },
 	},
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 28, 180) end,
 	getBlindPower = function(self, t) if self:getTalentLevel(t) >= 5 then return 4 else return 3 end end,
@@ -50,9 +45,7 @@ newTalent{
 		if self:getTalentLevel(t) >= 3 then
 			self:project(tg, self.x, self.y, DamageType.BLIND, t.getBlindPower(self, t))
 		end
-		if self:getTalentLevel(t) >= 4 then
-			self:project(tg, self.x, self.y, DamageType.LIGHT, self:spellCrit(t.getDamage(self, t)))
-		end
+		self:project(tg, self.x, self.y, DamageType.LIGHT, self:spellCrit(t.getDamage(self, t)))
 		tg.selffire = true
 		self:project(tg, self.x, self.y, DamageType.LITE, 1)
 		game:playSoundNear(self, "talents/heal")
@@ -62,48 +55,17 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local turn = t.getBlindPower(self, t)
 		local dam = t.getDamage(self, t)
-		return ([[Creates a globe of pure light within a radius of %d that illuminates the area.
-		At level 3, it also blinds all who see it (except the caster) for %d turns.
-		At level 4, it also deals %0.2f light damage.]]):
-		format(radius, turn, damDesc(self, DamageType.LIGHT, dam))
-	end,
-}
-
-newTalent{
-	name = "Blur Sight",
-	type = {"spell/phantasm", 2},
-	mode = "sustained",
-	require = spells_req2,
-	points = 5,
-	sustain_mana = 30,
-	cooldown = 10,
-	tactical = { BUFF = 2 },
-	getDefense = function(self, t) return self:combatScale(self:getTalentLevel(t)*self:combatSpellpower(), 0, 0, 28.6, 267, 0.75) end,
-	activate = function(self, t)
-		game:playSoundNear(self, "talents/heal")
-		return {
-			particle = self:addParticles(Particles.new("phantasm_shield", 1)),
-			def = self:addTemporaryValue("combat_def", t.getDefense(self, t)),
-		}
-	end,
-	deactivate = function(self, t, p)
-		self:removeParticles(p.particle)
-		self:removeTemporaryValue("combat_def", p.def)
-		return true
-	end,
-	info = function(self, t)
-		local defence = t.getDefense(self, t)
-		return ([[The caster's image blurs, granting a %d bonus to Defense.
-		The bonus will increase with your Spellpower.]]):
-		format(defence)
+		return ([[Creates a globe of pure light within a radius of %d that illuminates the area and deals %0.2f damage to all creatures.
+		At level 3, it also blinds all who see it (except the caster) for %d turns.]]):
+		format(radius, damDesc(self, DamageType.LIGHT, dam), turn)
 	end,
 }
 
 newTalent{
 	name = "Phantasmal Shield",
-	type = {"spell/phantasm", 3},
+	type = {"spell/phantasm", 2},
 	mode = "sustained",
-	require = spells_req3,
+	require = spells_req2,
 	points = 5,
 	sustain_mana = 20,
 	cooldown = 10,
@@ -135,49 +97,23 @@ newTalent{
 
 newTalent{
 	name = "Invisibility",
-	type = {"spell/phantasm", 4},
-	mode = "sustained",
-	require = spells_req4,
+	type = {"spell/phantasm", 3},
+	require = spells_req3,
 	points = 5,
-	sustain_mana = 150,
-	cooldown = 30,
+	mana = 35,
+	cooldown = 20,
 	tactical = { ESCAPE = 2, DEFEND = 2 },
 	getInvisibilityPower = function(self, t) return self:combatTalentSpellDamage(t, 10, 50) end,
+	getDamPower = function(self, t) return self:combatTalentScale(t, 10, 30) end,
 	activate = function(self, t)
+		self:setEffect(self.EFF_GREATER_INVISIBILITY, 7, {dam=t.getDamPower(self, t), power=t.getInvisibilityPower(self, t)})
 		game:playSoundNear(self, "talents/heal")
-		local ret = {
-			invisible = self:addTemporaryValue("invisible", t.getInvisibilityPower(self, t)),
-			invisible_damage_penalty = self:addTemporaryValue("invisible_damage_penalty", 0.7),
-			drain = self:addTemporaryValue("mana_regen", -2),
-		}
-		if not self.shader then
-			ret.set_shader = true
-			self.shader = "invis_edge"
-			self:removeAllMOs()
-			game.level.map:updateMap(self.x, self.y)
-		end
-		self:resetCanSeeCacheOf()
-		return ret
-	end,
-	deactivate = function(self, t, p)
-		if p.set_shader then
-			self.shader = nil
-			self:removeAllMOs()
-			game.level.map:updateMap(self.x, self.y)
-		end
-		self:removeTemporaryValue("invisible", p.invisible)
-		self:removeTemporaryValue("invisible_damage_penalty", p.invisible_damage_penalty)
-		self:removeTemporaryValue("mana_regen", p.drain)
-		self:resetCanSeeCacheOf()
 		return true
 	end,
 	info = function(self, t)
-		local invisi = t.getInvisibilityPower(self, t)
-		return ([[The caster fades from sight, granting %d bonus to invisibility.
-		Beware -- you should take off your light, or you will still be easily spotted.
-		As you become invisible, you fade out of phase with reality. All your damage is reduced by 70%%.
-		This powerful spell constantly drains your mana (2 per turn) while active.
+		return ([[Weave a net of arcane disturbances around your body, removing yourself from the sight of all, granting %d bonus to invisibility for 7 turns.
+		While invisible all damage you deal against blinded or dazzled foes is increased by %d%% (additive with other damage increases).
 		The invisibility bonus will increase with your Spellpower.]]):
-		format(invisi)
+		format(t.getInvisibilityPower(self, t), t.getDamPower(self, t))
 	end,
 }

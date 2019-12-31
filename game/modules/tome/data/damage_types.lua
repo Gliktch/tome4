@@ -209,6 +209,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			if src.combatGetDamageIncrease then inc = src:combatGetDamageIncrease(type)
 			else inc = (src.inc_damage.all or 0) + (src.inc_damage[type] or 0) end
 			if src.getVim and src:attr("demonblood_dam") then inc = inc + ((src.demonblood_dam or 0) * (src:getVim() or 0)) end
+			if src.attr and src:attr("blind_inc_damage") and (target:attr("blind") or target:attr("dazzled")) then inc = inc + src:attr("blind_inc_damage") end
 			if inc ~= 0 then print("[PROJECTOR] after DamageType increase dam", dam + (dam * inc / 100)) end
 		end
 

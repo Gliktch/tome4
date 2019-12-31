@@ -254,6 +254,36 @@ newEffect{
 }
 
 newEffect{
+	name = "GREATER_INVISIBILITY", image = "effects/invisibility.png",
+	desc = "Invisibility",
+	long_desc = function(self, eff) return ("Improves/gives invisibility (power %d), and increases damage dealt to blind or dazzled creatures by %d%%%s."):format(eff.power, eff.dam) end,
+	type = "magical",
+	subtype = { phantasm=true, invisibility=true },
+	status = "beneficial",
+	parameters = { power=10, dam=10 },
+	on_gain = function(self, err) return "#Target# vanishes from sight.", "+Invis" end,
+	on_lose = function(self, err) return "#Target# is no longer invisible.", "-Invis" end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "invisible", eff.power)
+		self:effectTemporaryValue(eff, "blind_inc_damage", eff.dam)
+		if not self.shader then
+			eff.set_shader = true
+			self.shader = "invis_edge"
+			self:removeAllMOs()
+			game.level.map:updateMap(self.x, self.y)
+		end
+	end,
+	deactivate = function(self, eff)
+		if eff.set_shader then
+			self.shader = nil
+			self:removeAllMOs()
+			game.level.map:updateMap(self.x, self.y)
+		end
+		self:resetCanSeeCacheOf()
+	end,
+}
+
+newEffect{
 	name = "INVISIBILITY", image = "effects/invisibility.png",
 	desc = "Invisibility",
 	long_desc = function(self, eff) return ("Improves/gives invisibility (power %d), reducing damage dealt by %d%%%s."):format(eff.power, eff.penalty*100, eff.regen and " and preventing healing and life regeneration" or "") end,
