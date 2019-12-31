@@ -208,12 +208,6 @@ newTalent{
 		ghoul.unused_generics = 0
 		ghoul.unused_talents_types = 0
 
-		if self:knowTalent(self.T_BLIGHTED_SUMMONING) then
-			ghoul:incIncStat("mag", self:getMag())
-			ghoul.blighted_summon_talent = self.T_REND
-		end
-		self:attr("summoned_times", 1)
-
 		game.zone:addEntity(game.level, ghoul, "actor", x, y)
 		game.level.map:particleEmitter(target.x, target.y, 1, "slime")
 		game:playSoundNear(target, "talents/slime")
@@ -257,7 +251,7 @@ newTalent{
 		return ([[Gnaw your target for %d%% damage.  If your attack hits, the target may be infected with Ghoul Rot for %d turns.
 		Each turn, Ghoul Rot inflicts %0.2f blight damage.
 		Targets suffering from Ghoul Rot rise as friendly ghouls when slain.
-		Ghouls last for %d turns and can use Gnaw, Ghoulish Leap, Stun, and Rotting Disease.  Some of these talents will increase with level.
+		Ghouls last for %d turns and can use Gnaw, Ghoulish Leap, Stun, and Rotting Disease.
 		The blight damage scales with your Constitution.]]):
 		format(100 * damage, duration, damDesc(self, DamageType.BLIGHT, disease_damage), ghoul_duration)
 	end,

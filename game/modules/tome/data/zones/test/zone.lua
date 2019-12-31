@@ -42,8 +42,10 @@ return {
 			['_'] = "FLOOR", ['O'] = "WALL", 
 			[';'] = "GRASS", ['T'] = "TREE",
 			['='] = "DEEP_WATER",
+			mapscript = "!rooms_test",
+			-- mapscript = "!bsp_islands",
 			-- mapscript = "!cavernous_forest",
-			mapscript = "!testroom2",
+			-- mapscript = "!testroom2",
 			-- mapscript = "!inner_outer",
 --]]
 --[[

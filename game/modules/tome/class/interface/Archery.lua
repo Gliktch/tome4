@@ -282,7 +282,7 @@ function _M:archeryAcquireTargets(tg, params, force)
 		local speed = self:combatSpeed(weaponC or pf_weaponC, params.add_speed or 0)
 		print("[SHOOT] speed", speed or 1, "=>", game.energy_to_act * (speed or 1))
 		if not params.no_energy then self:useEnergy(game.energy_to_act * (speed or 1)) end
-		if sound then game:playSoundNear(self, sound) end
+		if not params.no_sound and sound then game:playSoundNear(self, sound) end
 		return targets
 	else
 		return nil
@@ -454,7 +454,12 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 
 		target:fireTalentCheck("callbackOnArcheryMiss", self, tg)
 	end
-
+	
+	if tg.archery.proc_mult then
+		self.__global_accuracy_damage_bonus = self.__global_accuracy_damage_bonus or 1
+		self.__global_accuracy_damage_bonus = self.__global_accuracy_damage_bonus * tg.archery.proc_mult
+	end
+	
 	-- Ranged project
 	local weapon_ranged_project = weapon.ranged_project or {}
 	local ammo_ranged_project = ammo.ranged_project or {}
@@ -657,8 +662,10 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 		target.turn_procs.roll_with_it = true
 	end
 
-	self.turn_procs.weapon_type = nil
+	self.turn_procs.weapon_type = nil	
 	if tg.archery.use_psi_archery then self:attr("use_psi_combat", -1) end
+	self.__global_accuracy_damage_bonus = nil
+
 end
 
 -- Store it for addons

@@ -20,6 +20,9 @@
 --- Utility functionality used by a lot of the base classes
 -- @script engine.utils
 
+if not core.game.stdout_write then core.game.stdout_write = print end
+if not core.display.breakTextAllCharacter then core.display.breakTextAllCharacter = function()end end
+
 local lpeg = require "lpeg"
 
 function math.decimals(v, nb)
@@ -56,6 +59,23 @@ function math.scale(i, imin, imax, dmin, dmax)
 	return bi * dm / bm + dmin
 end
 
+function math.boundscale(i, imin, imax, dmin, dmax)
+	local bi = i - imin
+	local bm = imax - imin
+	local dm = dmax - dmin
+	return util.bound(bi * dm / bm + dmin, dmin, dmax)
+end
+
+function math.triangle_area(p1, p2, p3)
+	local u = {x=p2.x - p1.x, y=p2.y - p1.y}
+	local v = {x=p3.x - p1.x, y=p3.y - p1.y}
+	local au = math.atan2(u.y, u.x)
+	local av = math.atan2(v.y, v.x)
+	local lu = math.sqrt(u.x*u.x + u.y*u.y)
+	local lv = math.sqrt(v.x*v.x + v.y*v.y)
+	return math.abs(0.5 * lu * lv * math.sin(av - au))
+end
+
 function lpeg.anywhere (p)
 	return lpeg.P{ p + 1 * lpeg.V(1) }
 end
@@ -77,6 +97,21 @@ table.to_strings = function(src, fmt)
 		tt[#tt+1] = (fmt):format(label, tostring(val))
 	end
 	return tt
+end
+
+--- Same as ipairs but first shallow clone the table so that the base table can be altered safely
+function ipairsclone(t)
+	return ipairs(table.clone(t, false))
+end
+
+--- Same as pairs but first shallow clone the table so that the base table can be altered safely
+function pairsclone(t)
+	return pairs(table.clone(t, false))
+end
+
+--- Same as ripairs but first shallow clone the table so that the base table can be altered safely
+function ripairsclone(t)
+	return ripairs(table.clone(t, false))
 end
 
 function ripairs(t)
@@ -2192,6 +2227,16 @@ function util.getval(val, ...)
 	end
 end
 
+function util.finalize(init, uninit, fct)
+	return function(...)
+		local myenv = {}
+		init(myenv, ...)
+		local rets = {fct(myenv, ...)}
+		uninit(myenv, ...)
+		return unpack(rets)
+	end
+end
+
 function fs.reset()
 	local list = fs.getSearchPath(true)
 	for i, m in ipairs(list) do
@@ -2454,25 +2499,30 @@ function core.fov.beam_any_angle_grids(x, y, radius, angle, source_x, source_y, 
 end
 
 local function is_point_in_triangle(P, A, B, C)
-	-- local as_x = s.x-a.x
-	-- local as_y = s.y-a.y
+	local vector = require "vector"
+	local P, A, B, C = vector.newFrom(P), vector.newFrom(A), vector.newFrom(B), vector.newFrom(C)
 
-	-- local s_ab = (b.x-a.x)*as_y-(b.y-a.y)*as_x > 0
+	if P == A or P == B or P == C then return true end
 
-	-- if (c.x-a.x)*as_y-(c.y-a.y)*as_x > 0 == s_ab then return false end
+	-- Compute vectors
+	local v0 = C - A
+	local v1 = B - A
+	local v2 = P - A
 
-	-- if (c.x-b.x)*(s.y-b.y)-(c.y-b.y)*(s.x-b.x) > 0 ~= s_ab then return false end
+	-- Compute dot products
+	local dot00 = v0:dot(v0)
+	local dot01 = v0:dot(v1)
+	local dot02 = v0:dot(v2)
+	local dot11 = v1:dot(v1)
+	local dot12 = v1:dot(v2)
 
-	-- return true;
+	-- Compute barycentric coordinates
+	local invDenom = 1 / (dot00 * dot11 - dot01 * dot01)
+	local u = (dot11 * dot02 - dot01 * dot12) * invDenom
+	local v = (dot00 * dot12 - dot01 * dot02) * invDenom
 
-	local s1 = C.y - A.y;
-	local s2 = C.x - A.x;
-	local s3 = B.y - A.y;
-	local s4 = P.y - A.y;
-
-	local w1 = (A.x * s1 + s4 * s2 - P.x * s1) / (s3 * s2 - (B.x-A.x) * s1);
-	local w2 = (s4- w1 * s3) / s1;
-	return w1 >= 0 and w2 >= 0 and (w1 + w2) <= 1
+	-- Check if point is in triangle
+	return (u >= 0) and (v >= 0) and (u + v < 1)
 end
 
 -- Very naive implementation, this will do for now
@@ -2781,6 +2831,12 @@ function rng.rarityTable(t, rarity_field)
 	end
 end
 
+function util.has_upvalues(fct)
+	local n, v = debug.getupvalue(fct, 1)
+	if not n then return false end
+	return true
+end
+
 function util.show_function_calls()
 	debug.sethook(function(event, line)
 		local t = debug.getinfo(2)
@@ -2803,17 +2859,41 @@ end
 
 function util.send_error_backtrace(msg)
 	local level = 2
-	local trace = {}
+	local errs = {}
 
-	trace[#trace+1] = "backtrace:"
+	errs[#errs+1] = "backtrace:"
 	while true do
 		local stacktrace = debug.getinfo(level, "nlS")
 		if stacktrace == nil then break end
-		trace[#trace+1] = (("    function: %s (%s) at %s:%d"):format(stacktrace.name or "???", stacktrace.what, stacktrace.source or stacktrace.short_src or "???", stacktrace.currentline))
+		local src = stacktrace.source or stacktrace.short_src or "???"
+		errs[#errs+1] = (("    function: %s (%s) at %s:%d"):format(stacktrace.name or "???", stacktrace.what, src, stacktrace.currentline))
+		if src:prefix("@") then pcall(function()
+			local rpath = fs.getRealPath(src:sub(2))
+			local sep = fs.getPathSeparator()
+			if rpath then errs[#errs+1] = (("      =from= %s"):format(rpath:gsub("^.*"..sep.."game"..sep, ""))) end
+		end) end
 		level = level + 1
 	end
 
-	profile:sendError(msg, table.concat(trace, "\n"))
+	pcall(function()
+		local beta = engine.version_hasbeta()
+		if game.getPlayer and game:getPlayer(true) and game:getPlayer(true).__created_in_version then
+			table.insert(errs, 1, "Game version (character creation): "..game:getPlayer(true).__created_in_version)
+		end
+		table.insert(errs, 1, "Game version: "..game.__mod_info.version_name..(beta and "-"..beta or ""))
+		local addons = {}
+		for name, data in pairs(game.__mod_info.addons or {}) do
+			local extra = ""
+			-- So ugly!!! :<
+			if data.for_module == "tome" then
+				extra = "["..(data.author[1]=="DarkGod" and "O" or "X")..(engine.version_patch_same(game.__mod_info.version, data.version) and "" or "!").."]"
+			end
+			addons[#addons+1] = name.."-"..data.version_txt..extra
+		end
+		table.insert(errs, 2, "Addons: "..table.concat(addons, ", ").."\n")
+	end)
+
+	profile:sendError(msg, table.concat(errs, "\n"))
 end
 
 function util.uuid()

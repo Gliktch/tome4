@@ -116,7 +116,7 @@ newTalent{
 		if self:knowTalent(self.T_SOOTHING_DARKNESS) then
 			local shadowguard = self:knowTalent(self.T_SHADOWGUARD) and 25 or 0
 			local life = self:callTalent(self.T_SOOTHING_DARKNESS, "getLife") * 5
-			local sta = self:callTalent(self.T_SOOTHING_DARKNESS, "getStamina")
+			local sta = self:callTalent(self.T_SOOTHING_DARKNESS, "getStamina") * 5
 			local dur = self:callTalent(self.T_SOOTHING_DARKNESS, "getDuration")
 			self:setEffect(self.EFF_SOOTHING_DARKNESS, dur, {life=life, stamina=sta, shadowguard = shadowguard})
 		end
@@ -149,7 +149,7 @@ newTalent{
 		Any non-instant, non-movement action will break stealth if not otherwise specified.
 
 		Enemies uncertain of your location will still make educated guesses at it.
-		While stealthed, enemies cannot share information about your location with each other and will be delayed in relaying that you exist at all.]]):
+		While stealthed, enemies cannot share information about your location with each other and will be delayed in telling their allies that you exist at all.]]):
 		format(stealthpower, radius, xs)
 	end,
 }
@@ -162,6 +162,7 @@ newTalent{
 	points = 5,
 	getMultiplier = function(self, t) return self:combatTalentScale(t, 0.15, 0.40, 0.1) end,
 	getDuration = function(self,t) if self:getTalentLevel(t) >= 3 then return 4 else return 3 end end,
+	no_npc_use = true,  -- Massive damage scaler on almost all forms of attack	
 	passives = function(self, t, p) -- attribute that increases crit multiplier vs targets that cannot see us
 		self:talentTemporaryValue(p, "unseen_critical_power", t.getMultiplier(self, t))
 	end,
@@ -191,7 +192,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You have a special affinity for darkness and shadows.
 		When standing in an unlit grid, the minimum range to your foes for activating stealth or for maintaining it after a Shadow Dance is reduced by %d.
-		While stealthed, your life regeneration is increased by %0.1f (based on your Cunning) and your stamina regeneration is increased by %0.1f.  The regeneration effects persist for %d turns after exiting stealth, with 5 times the normal life regeneration rate.]]):
+		While stealthed, your life regeneration is increased by %0.1f (based on your Cunning) and your stamina regeneration is increased by %0.1f.  The regeneration effects persist for %d turns after exiting stealth, with 5 times the normal rate.]]):
 		format(t.getRadius(self, t, true), t.getLife(self,t), t.getStamina(self,t), t.getDuration(self, t))
 	end,
 }

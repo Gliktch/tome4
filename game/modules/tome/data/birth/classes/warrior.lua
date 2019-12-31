@@ -326,7 +326,7 @@ newBirthDescriptor{
 			{type="weapon", subtype="greatsword", name="iron greatsword", autoreq=true, ego_chance=-1000, ego_chance=-1000},
 			{type="armor", subtype="light", name="rough leather armour", autoreq=true, ego_chance=-1000, ego_chance=-1000},
 		},
-		resolvers.inscription("RUNE:_MANASURGE", {cooldown=25, dur=10, mana=620}, 3),
+		resolvers.inscription("RUNE:_MANASURGE", {cooldown=15, dur=10, mana=820}, 3),
 	},
 	copy_add = {
 		life_rating = 2,
@@ -374,6 +374,7 @@ newBirthDescriptor{
 		[ActorTalents.T_ARMOUR_TRAINING] = 1,
 		[ActorTalents.T_UNARMED_MASTERY] = 1,
 	},
+	npc_class_use_default_combat_table = true,
 	copy = {
 		resolvers.auto_equip_filters{-- will not try to equip weapons
 			MAINHAND = {type="none"}, OFFHAND = {type="none"}

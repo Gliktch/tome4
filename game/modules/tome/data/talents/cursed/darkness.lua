@@ -95,6 +95,9 @@ local function createDarkTendrils(summoner, x, y, target, damage, duration, pinD
 				self.target:setEffect(self.target.EFF_PINNED, self.pinDuration, {})
 
 				-- explode
+				if tCreepingDarkness.canCreep(self.x, self.y) then
+					tCreepingDarkness.createDark(self.summoner, self.x, self.y, self.damage, 3, 2, 33, 0)
+				end
 				local dark = game.level.map:checkAllEntities(self.x, self.y, "creepingDark")
 				if dark then
 					dark.duration = math.max(dark.duration, self.pinDuration + 1)
@@ -136,7 +139,7 @@ end
 
 local function getDamageIncrease(self)
 	local total = 0
-		
+
 	local t = self:getTalentFromId(self.T_CREEPING_DARKNESS)
 	if t then total = total + self:getTalentLevelRaw(t) end
 	t = self:getTalentFromId(self.T_DARK_VISION)
@@ -145,7 +148,7 @@ local function getDamageIncrease(self)
 	if t then total = total + self:getTalentLevelRaw(t) end
 	t = self:getTalentFromId(self.T_DARK_TENDRILS)
 	if t then total = total + self:getTalentLevelRaw(t) end
-	
+
 	return self:combatScale(total, 5, 1, 40, 20)
 end
 
@@ -304,10 +307,12 @@ newTalent{
 		local damage = self:mindCrit(t.getDamage(self, t))
 		local darkCount = t.getDarkCount(self, t)
 
-		local tg = {type="ball", nolock=true, pass_terrain=false, nowarning=true, friendly_fire=true, default_target=self, range=range, radius=radius, talent=t}
+		local tg = {type="ball", can_autoaccept=true, nolock=true, pass_terrain=false, nowarning=true, friendly_fire=true, default_target=self, range=range, radius=radius, talent=t}
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
+
 		local _ _, _, _, x, y = self:canProject(tg, x, y)
+		if t.canCreep(x, y) then t.createDark(self, x, y, damage, rng.range(5, 8), 4, 40, 0) end --creep target
 
 		-- get locations in line of movement from center
 		local locations = {}
@@ -344,7 +349,7 @@ newTalent{
 		local damage = self:damDesc(DamageType.DARKNESS, t.getDamage(self, t))
 		local darkCount = t.getDarkCount(self, t)
 		local damageIncrease = getDamageIncrease(self)
-		return ([[Creeping dark slowly spreads from %d spots in a radius of %d around the targeted location. The dark deals %0.2f darkness damage each turn to anything in its area, and blocks the sight of any who do not possess Dark Vision or some other magical means of seeing.
+		return ([[Creeping dark slowly spreads from the target location and %d spots in a radius of %d around the targeted location. The dark deals %0.2f darkness damage each turn to anything in its area, and blocks the sight of any who do not possess Dark Vision or some other magical means of seeing.
 		The damage will increase with your Mindpower. You do +%d%% damage to anything that has entered your creeping dark.]]):format(darkCount, radius, damage, damageIncrease)
 	end,
 }
@@ -381,7 +386,7 @@ newTalent{
 	hate = 8,
 	cooldown = 6,
 	tactical = { ATTACK = { DARKNESS = 2 }, DISABLE = { blind = 1 } },
-	range = 5,
+	range = 7,
 	direct_hit = true,
 	reflectable = true,
 	requires_target = true,
@@ -472,4 +477,3 @@ newTalent{
 		The damage will increase with your Mindpower. You do +%d%% damage to anything that has entered your creeping dark.]]):format(pinDuration, damage, damageIncrease)
 	end,
 }
-

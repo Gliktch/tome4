@@ -732,7 +732,7 @@ newTalent{
 	range = 10,
 	reflectable = true,
 	requires_target = true,
-	proj_speed = 2,
+	proj_speed = 20,
 	target = function(self, t) return {type="beam", range=self:getTalentRange(t), talent=t, selffire=false, display={particle="bolt_void", trail="voidtrail"}} end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -1192,6 +1192,7 @@ newTalent{
 	range = 10,
 	tactical = { ATTACK = 3 },
 	direct_hit = true,
+	no_difficulty_boost = true,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 6, 10)) end,
 	action = function(self, t)
 		local rad = self:getTalentRadius(t)
@@ -1226,6 +1227,7 @@ newTalent{
 	message = "@Source@ shrieks.",
 	range = 10,
 	direct_hit = true,
+	no_difficulty_boost = true,
 	tactical = { ATTACK = 3 },
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 6, 10)) end,
 	action = function(self, t)
@@ -2132,10 +2134,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Calls forth a powerful beam of lightning doing %0.2f to %0.2f lightning damage.
+		return ([[Calls forth a powerful beam of lightning doing %0.2f to %0.2f lightning damage (%0.2f average).
 		The damage will increase with your Mindpower.]]):
 		format(damDesc(self, DamageType.LIGHTNING, damage / 3),
-		damDesc(self, DamageType.LIGHTNING, damage))
+		damDesc(self, DamageType.LIGHTNING, damage),
+		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
 	end,
 }
 

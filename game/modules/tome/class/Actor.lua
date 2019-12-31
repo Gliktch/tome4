@@ -75,6 +75,16 @@ _M._no_save_fields.resting = true
 -- No need to save __project_source either, it's a turn by turn thing
 _M._no_save_fields.__project_source = true
 
+-- Dont save the the AI caches
+_M._no_save_fields._ai_tact_wt_cache = true 
+_M._no_save_fields._turn_ai_tactical = true
+_M._no_save_fields.aiOHash = true
+_M._no_save_fields.aiDHash = true
+_M._no_save_fields.OHash = true
+_M._no_save_fields.OHashProps = true
+_M._no_save_fields.DHash = true
+_M._no_save_fields.DHashProps = true
+
 -- alt_node fields (controls fields copied with cloneActor by default)
 _M.clone_nodes = table.merge({running_fov=false, running_prev=false,
 	-- spawning/death fields:
@@ -94,7 +104,7 @@ _M.clone_copy = table.merge({no_drops=true, no_rod_recall=true, no_inventory_acc
 
 	energy={value=0},
 	}, _M.clone_copy or {})
-	
+
 -- Use distance maps
 _M.__do_distance_map = true
 
@@ -233,10 +243,10 @@ function _M:init(t, no_default)
 	t.life_regen = t.life_regen or 0.25 -- Life regen real slow
 	t.equilibrium_regen = t.equilibrium_regen or 0 -- Equilibrium does not regen
 	t.vim_regen = t.vim_regen or 0 -- Vim does not regen
-	t.positive_regen = t.positive_regen or -0.2 -- Positive energy slowly decays
-	t.negative_regen = t.negative_regen or -0.2 -- Positive energy slowly decays
-	t.positive_regen_ref = t.positive_regen_ref or 0.2
-	t.negative_regen_ref = t.negative_regen_ref or 0.2
+	t.positive_regen = t.positive_regen or 0.5 -- Positive energy regens
+	t.negative_regen = t.negative_regen or 0.5 -- Positive energy regens
+	t.positive_regen_ref = t.positive_regen_ref or 0.5 -- Largely depreciated
+	t.negative_regen_ref = t.negative_regen_ref or 0.5 -- Largely depreciated
 	t.paradox_regen = t.paradox_regen or 0 -- Paradox does not regen
 	t.psi_regen = t.psi_regen or 0.2 -- Energy regens slowly
 	t.hate_regen = t.hate_regen or 0 -- Hate does not regen
@@ -350,6 +360,12 @@ end
 -- Dummy
 function _M:runStop() end
 function _M:restStop() end
+
+function _M:hasDescriptor(kind, value)
+	if not self.descriptor then return false end
+	if self.descriptor[kind] ~= value then return false end
+	return true
+end
 
 function _M:getSpeed(speed_type)
 	if type(speed_type) == "number" then return speed_type end
@@ -541,6 +557,7 @@ function _M:actBase()
 		t.updateRegen(self, t)
 	end
 
+	-- Largely depreciated
 	if self:attr("positive_at_rest") then
 		local v = self.positive_at_rest * self.max_positive / 100
 		if self:getPositive() > v or self:attr("positive_at_rest_disable") then self.positive_regen = -self.positive_regen_ref + (self.positive_regen_ref_mod or 0)
@@ -574,7 +591,7 @@ function _M:actBase()
 	-- The idea here is that we suffocate (EFF_SUFFOCATING checks this flag) if a) something (including own effects) tries to suffocate us between our actBase calls, or
 	-- b) we cannot breathe on the current terrain. The first is force_suffocate flag. It only works for one base turn, of course.
 	-- These are all flags because there is no turn_base_procs. :(
-	if not self.force_suffocate then                                                
+	if not self.force_suffocate then
 		self.is_suffocating = nil
 	else
 		self.force_suffocate = nil
@@ -592,7 +609,7 @@ function _M:actBase()
 	if self:knowTalent(self.T_GESTURE_OF_GUARDING) then self:setEffect(self.EFF_GESTURE_OF_GUARDING,1,{}) end
 	if self:knowTalent(self.T_COUNTER_ATTACK) then self:setEffect(self.EFF_COUNTER_ATTACKING,1,{}) end
 	if self:knowTalent(self.T_DEFENSIVE_THROW) then self:setEffect(self.EFF_DEFENSIVE_GRAPPLING,1,{}) end
-	
+
 	self:timedEffects()
 
 	-- Handle thunderstorm, even if the actor is stunned or incapacitated it still works
@@ -612,10 +629,10 @@ end
 
 function _M:hasProc(proc)
 	if not self.turn_procs then return end
-	if self.turn_procs[proc] then 
-		return self.turn_procs[proc] 
-	elseif self.turn_procs.multi then 
-		return self.turn_procs.multi[proc] 
+	if self.turn_procs[proc] then
+		return self.turn_procs[proc]
+	elseif self.turn_procs.multi then
+		return self.turn_procs.multi[proc]
 	end
 end
 
@@ -625,7 +642,7 @@ function _M:setProc(name, val, turns)
 	local proc = {val = val, turns = turns}
 	if turns > 1 then
 		table.set(self, "turn_procs", "multi", name, proc)
-	else 
+	else
 		self.turn_procs[name] = proc
 	end
 end
@@ -648,6 +665,7 @@ function _M:act()
 	end
 
 	self.turn_procs = {}
+	self._turn_ai_tactical = nil
 	if temp then self.turn_procs.multi = temp end
 
 	-- Break some sustains if certain resources are too low
@@ -673,7 +691,7 @@ function _M:act()
 		end
 		if deact then self:forceUseTalent(tid, {ignore_energy=true}) end
 	end
-	
+
 	-- clear grappling
 	if self:hasEffect(self.EFF_GRAPPLING) and self.stamina < 1 and not self:hasEffect(self.EFF_ADRENALINE_SURGE) then
 		self:removeEffect(self.EFF_GRAPPLING)
@@ -1351,10 +1369,10 @@ function _M:move(x, y, force)
 				x, y = self.x + rng.range(-1, 1), self.y + rng.range(-1, 1)
 			end
 		end
-		
+
 		-- Sleeping?  Do nothing..
 		if not force and self:attr("sleep") and not self:attr("lucid_dreamer") then
-			game.logPlayer(self, "You are asleep and unable to move!")	
+			game.logPlayer(self, "You are asleep and unable to move!")
 		-- Encased in ice, attack the ice
 		elseif not force and self:attr("encased_in_ice") then
 			self:attackTarget(self)
@@ -1419,13 +1437,13 @@ function _M:move(x, y, force)
 			end end
 		end
 	end
-	
+
 	-- knowing Unnatural Body allows you to get the Cursed Aura tree
 	if moved and self:knowTalent(self.T_UNNATURAL_BODY) and not self:knowTalentType("cursed/cursed-aura") and self.chooseCursedAuraTree then
 		if self.player then
 			-- function placed in defiling touch where cursing logic exists
 			local t = self:getTalentFromId(self.T_DEFILING_TOUCH)
-			if t.chooseCursedAuraTree(self, t) then 
+			if t.chooseCursedAuraTree(self, t) then
 				self.chooseCursedAuraTree = nil
 			end
 		end
@@ -1516,6 +1534,16 @@ function _M:pull(srcx, srcy, dist, recursive)
 	end
 end
 
+--- Force move to a place, with animation
+function _M:forceMoveAnim(x, y)
+	local ox, oy = self.x, self.y
+	self:move(x, y, true)
+	if config.settings.tome.smooth_move > 0 then
+		self:resetMoveAnim()
+		self:setMoveAnim(ox, oy, 8, 5)
+	end
+end
+
 --- Get the "path string" for this actor
 -- See Map:addPathString() for more info
 function _M:getPathString()
@@ -1574,19 +1602,19 @@ function _M:teleportRandom(x, y, dist, min_dist)
 	if self:attr("encased_in_ice") then return end
 	if self:attr("cant_teleport") then return end
 	if self:hasEffect(self.EFF_DIMENSIONAL_ANCHOR) then self:callEffect(self.EFF_DIMENSIONAL_ANCHOR, "onTeleport") return end
-	
+
 	-- Special teleport handlers
 	if game.level.data.no_teleport_south and y + dist > self.y then
 		y = self.y - math.ceil(dist)
 	end
-	
+
 	-- For precise teleports look for a free grid first
 	-- This helps the AI use precision teleporting more effectively and is a nice quality of life hack for the player
 	if dist == 0 then
-		x, y = util.findFreeGrid(x, y, 5, true, {[Map.ACTOR]=true})	
+		x, y = util.findFreeGrid(x, y, 5, true, {[Map.ACTOR]=true})
 	end
 	if not x or not y then return end
-	
+
 	-- Store our old x, y to pass to our callback
 	local ox, oy = self.x, self.y
 
@@ -1617,26 +1645,26 @@ function _M:teleportRandom(x, y, dist, min_dist)
 	if #poss > 0 then
 		-- prior to moving
 		self:dropNoTeleportObjects()
-	
+
 		-- Teleport
 		local pos = poss[rng.range(1, #poss)]
 		self:move(pos[1], pos[2], true)
 		teleported = true
-		
+
 		if self.runStop then self:runStop("teleported") end
 		if self.restStop then self:restStop("teleported") end
-		
+
 		-- after moving
 		if self:attr("defense_on_teleport") or self:attr("resist_all_on_teleport") or self:attr("effect_reduction_on_teleport") then
 			self:setEffect(self.EFF_OUT_OF_PHASE, 5, {})
 		end
 	end
-	
+
 	self:fireTalentCheck("callbackOnTeleport", teleported, ox, oy, self.x, self.y)
 
 	-- We store this so the AI can determine when an "abnormal" movement occured and not immediately cheat to their location with their own teleport, mostly
 	if teleported then self.last_special_movement = game.turn end
-	
+
 	return teleported
 end
 
@@ -1664,7 +1692,7 @@ function _M:detectTrap(trap, x, y, power)
 		if not known then
 			if self == trap.summoner and known == nil then trap:setKnown(self, true, x, y) return end
 			known = self:canSee(trap) and self:checkHit(power, trap.detect_power)
-			if known then 
+			if known then
 				trap:setKnown(self, true, x, y)
 				if self.player then
 					game.level.map:updateMap(x, y)
@@ -1730,6 +1758,19 @@ function _M:incMoney(v)
 		world:gainAchievement("DRAGON_GREED", self)
 		if v >= 0 then game:playSound("actions/coins")
 		else game:playSound("actions/coins_less") end
+	end
+end
+
+function _M:getRankTalkativeAdjust()
+	if self.rank == 1 then return 1
+	elseif self.rank == 2 then return 4
+	elseif self.rank == 3 then return 9
+	elseif self.rank == 3.2 then return 12
+	elseif self.rank == 3.5 then return 15
+	elseif self.rank == 4 then return 25
+	elseif self.rank == 5 then return 50
+	elseif self.rank >= 10 then return 100
+	else return 0
 	end
 end
 
@@ -1902,10 +1943,10 @@ function _M:tooltip(x, y, seen_by)
 	else ts:add({"color", 0, 255, 255}, ("Level: %d"):format(self.level), {"color", "WHITE"}, true) end
 	if self:attr("invulnerable") then ts:add({"color", "PURPLE"}, "INVULNERABLE!", true) end
 	ts:add({"color", 255, 0, 0}, ("HP: %d (%d%%) #GREEN#+%0.2f#LAST#"):format(self.life, self.life * 100 / self.max_life, self.life_regen * util.bound(self.healing_factor or 1)), {"color", "WHITE"})
-	
+
 	-- Avoid cluttering tooltip if resources aren't relevant (add menu option?)
 	if game.player:knowTalentType("wild-gift/antimagic") then
-		if self:knowTalent(self.T_MANA_POOL) then 
+		if self:knowTalent(self.T_MANA_POOL) then
 			ts:add(("\nMana:  "..self.resources_def.mana.color.."%d / %d#LAST#"):format(self.mana, self.max_mana, true))
 		end
 		if self:knowTalent(self.T_VIM_POOL) then
@@ -1931,6 +1972,13 @@ function _M:tooltip(x, y, seen_by)
 	if game.player:knowTalent(self.T_VIM_POOL) then
 		ts:add({"color", 0, 255, 128}, ("%sVim Value: %d#LAST#"):format(self.resources_def.vim.color, (game.player:getWil() * 0.5 + 1) * self.rank), {"color", "WHITE"}, true)
 	end
+	if game.player:knowTalent(self.T_PREDATOR) then
+		local predatorcount = game.player.predator_type_history and game.player.predator_type_history[self.type] or 0
+		local tp = game.player:getTalentFromId(game.player.T_PREDATOR)
+		local predatorATK = tp.getATK(game.player, tp) * predatorcount
+		local predatorAPR = tp.getAPR(game.player, tp) * predatorcount
+		ts:add({"color", 0, 255, 128}, ("#ffa0ff#Predator: +%d acc, +%d apr#LAST#"):format(predatorATK, predatorAPR), {"color", "WHITE"}, true)
+	end
 
 	--ts:add(("Stats: %d / %d / %d / %d / %d / %d"):format(self:getStr(), self:getDex(), self:getCon(), self:getMag(), self:getWil(), self:getCun()), true)
 	--if #resists > 0 then ts:add("Resists: ", table.concat(resists, ','), true) end
@@ -1944,7 +1992,7 @@ function _M:tooltip(x, y, seen_by)
 	local resists = tstring{}
 	local first = true
 	ts:add({"color", "ANTIQUE_WHITE"}, "Resists: ")
-	for t, _ in table.orderedPairs2(self.resists, dt_order) do
+	for t, _ in table.orderedPairs2(self.resists or {}, dt_order) do
 		local v = self:combatGetResist(t)
 		if t == "all" or t == "absolute" then
 			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(v)) .. "%", " ", {"color", "LAST"}, t..", ")
@@ -2029,6 +2077,27 @@ function _M:tooltip(x, y, seen_by)
 			ts:add(true)
 		end
 	end
+	if self:isUnarmed() then
+		if self:getInven("HANDS") then
+			-- Gloves merge to the Actor.combat table so we have to special case this to display the object but look at self.combat for the damage
+			for i, o in ipairs(self:getInven("HANDS")) do
+				local tst = ("#LIGHT_BLUE#Unarmed:#LAST#"..o:getShortName({force_id=true, do_color=true, no_add_name=true})):toTString()
+				tst = tst:splitLines(game.tooltip.max-1, game.tooltip.font, 2)
+				tst = tst:extractLines(true)[1]
+				tst:add(" ("..math.floor(self:combatDamage(self.combat))..") ")
+				table.append(ts, tst)
+				ts:add(true)
+			end
+		else
+			-- We have no gloves, just list the damage
+			local tst = ("#LIGHT_BLUE#Unarmed:#LAST#"):toTString()
+			tst = tst:splitLines(game.tooltip.max-1, game.tooltip.font, 2)
+			tst = tst:extractLines(true)[1]
+			tst:add(" ("..math.floor(self:combatDamage(self.combat))..") ")
+			table.append(ts, tst)
+			ts:add(true)
+		end
+	end
 
 	ts:add({"color", "WHITE"})
 	local retal = 0
@@ -2041,8 +2110,8 @@ function _M:tooltip(x, y, seen_by)
 	if retal > 0 then ts:add("Melee Retaliation: ", {"color", "RED"}, tostring(math.floor(retal)), {"color", "WHITE"}, true ) end
 
 	if self.desc then ts:add(self.desc, true) end
-	if config.settings.cheat and self.descriptor and self.descriptor.classes then
-		ts:add("Classes:", table.concat(self.descriptor.classes or {}, ","), true)
+	if self.descriptor and self.descriptor.classes then
+		ts:add("Classes: ", table.concat(self.descriptor.classes or {}, ","), true)
 	end
 
 	if self.custom_tooltip then
@@ -2157,7 +2226,7 @@ end
 function _M:onHeal(value, src)
 	local raw_value = value
 	value = value * util.bound((self.healing_factor or 1), 0, 2.5)
-	
+
 	for cb in self:iterCallbacks("callbackOnHeal") do
 		local ret = cb(value, src, raw_value)
 		if ret then
@@ -2188,7 +2257,7 @@ function _M:onHeal(value, src)
 			value = math.max(0, self:attr("blood_lock") - self.life)
 		end
 	end
-	
+
 --	print("[HEALING]", self.uid, self.name, "for", value)
 	if (not self.resting and (not game.party:hasMember(self) or not game:getPlayer(true).resting)) and value + psi_heal >= 1 and not self:attr("silent_heal") then
 		if game.level.map.seens(self.x, self.y) then
@@ -2306,7 +2375,7 @@ function _M:onTakeHit(value, src, death_note)
 	if value > 0 and self:knowTalent(self.T_MITOSIS) and self:isTalentActive(self.T_MITOSIS) then
 		local t = self:getTalentFromId(self.T_MITOSIS)
 		local chance = t.getChance(self, t)
-		local perc = math.min(1, 3 * value / self.life)
+		local perc = math.min(1, 3 * value / math.max(self.life, 1))
 		if rng.percent(chance * perc) then
 			t.spawn(self, t, value * 2)
 		end
@@ -2689,7 +2758,7 @@ function _M:onTakeHit(value, src, death_note)
 			self:heal(self.shield_of_light_heal, tal)
 		end
 	end
-	
+
 	if self:attr("unstoppable") then
 		if value > self.life - 1 then
 			game:delayedLogDamage(src, self, 0, ("#RED#(%d refused)#LAST#"):format(value - (self.life - 1)), false)
@@ -2898,9 +2967,19 @@ end
 
 -- Superloaded
 function _M:cloneActor(post_copy, alt_nodes)
+	self._ai_tact_wt_cache = nil
+	self._turn_ai_tactical = nil
 	local a, post_copy = engine.Actor.cloneActor(self, post_copy, alt_nodes)
 	a.immune_possession = 1
+	a:fireTalentCheck("callbackOnCloned", "actor", self, post_copy, alt_nodes)
 	return a, post_copy
+end
+function _M:cloneFull(post_copy)
+	self._ai_tact_wt_cache = nil
+	self._turn_ai_tactical = nil
+	local a = engine.Actor.cloneFull(self, post_copy)
+	a:fireTalentCheck("callbackOnCloned", "full", self, post_copy)
+	return a
 end
 
 --- Remove certain effects when cloned
@@ -2918,7 +2997,7 @@ end
 function _M:unlearnTalentsOnClone()
 	local todel = {}
 	for tid, lev in pairs(self.talents) do
-		if _M.talents_def[tid].unlearn_on_clone then
+		if _M.talents_def[tid] and _M.talents_def[tid].unlearn_on_clone then
 			todel[#todel+1] = tid
 		end
 	end
@@ -2985,6 +3064,9 @@ function _M:die(src, death_note)
 			chat:invoke()
 			self.self_resurrect_chat = nil
 		end
+
+		self:checkTwoHandedPenalty()
+		
 		self.in_resurrect = nil
 		return
 	end
@@ -3077,6 +3159,8 @@ function _M:die(src, death_note)
 						self:removeObject(inven, i, true)
 						game.level.map:addObject(dropx, dropy, o)
 						if game.level.map.attrs(dropx, dropy, "obj_seen") then game.level.map.attrs(dropx, dropy, "obj_seen", false) end
+
+						if o.tinker then self:doTakeoffTinker(o, o.tinker, true) end
 					else
 						o:removed()
 					end
@@ -3143,14 +3227,6 @@ function _M:die(src, death_note)
 	if effStalked and not effStalked.src.dead and effStalked.src:hasEffect(self.EFF_STALKER) then
 		local t = effStalked.src:getTalentFromId(effStalked.src.T_STALK)
 		t.on_targetDied(effStalked.src, t, self)
-	end
-
-	if src and src.hasEffect and src:hasEffect(self.EFF_PREDATOR) then
-		local eff = src:hasEffect(self.EFF_PREDATOR)
-		if self.type == eff.type then
-			local e = self.tempeffect_def[self.EFF_PREDATOR]
-			e.addKill(src, self, e, eff)
-		end
 	end
 
 	if src and src.knowTalent and src:knowTalent(src.T_BLOODRAGE) then
@@ -3248,7 +3324,7 @@ function _M:die(src, death_note)
 		end)
 	end
 	if src and src.attr and src:attr("vim_on_death") and not self:attr("undead") then src:incVim(src:attr("vim_on_death")) end
-	
+
 	if src and ((src.resolveSource and src:resolveSource().player) or src.player) then
 		-- Achievements
 		local p = game.party:findMember{main=true}
@@ -3285,7 +3361,7 @@ function _M:die(src, death_note)
 	-- Ingredients
 	if src and self.ingredient_on_death then
 		local rsrc = src.resolveSource and src:resolveSource() or src
-		if game.party:hasMember(rsrc) then 
+		if game.party:hasMember(rsrc) then
 			if type(self.ingredient_on_death) == "table" then
 				for _, ingredient in ipairs(self.ingredient_on_death) do
 					game.party:collectIngredient(ingredient)
@@ -3349,22 +3425,26 @@ end
 --	t.random_boss_rarity: if defined, the percent chance the talent may be learned each time randomly selected
 function _M:levelupClass(c_data)
 	if game.player.level <= (game.state.birth.fixedboss_class_minimum_level or 0) then return end
-	local difficulty_adjusted_level_rate = (game.state.birth.fixedboss_class_level_rate_mult or 1) * (c_data.level_rate or 100)	
-	
-	
+	local difficulty_adjusted_level_rate = (game.state.birth.fixedboss_class_level_rate_mult or 1) * (c_data.level_rate or 100)
+
+
 	c_data.last_level = c_data.last_level or 0
 	c_data.start_level = c_data.start_level or 1
+	c_data.max_talent_types = c_data.max_talent_types or 2
+	c_data.learned_talent_types = c_data.learned_talent_types or 0
+	c_data.banned_talents = c_data.banned_talents or {}
+
 	if c_data.calculate_tactical then self.ai_calculate_tactical = true end
-	
+
 	local new_level = math.ceil((self.level - c_data.start_level + 1)*difficulty_adjusted_level_rate/100)
 	if new_level <= c_data.last_level then return end
 	print("[Actor:levelupClass]", self.name, "auto level up", c_data.class, c_data.last_level, "-->", new_level, c_data)
-	
+
 	local ttypes
 	-- temporarily remove any previous stat/talent points if they won't be used
 	local base_points = {self.unused_stats, self.unused_talents, self.unused_generics}
 	if not c_data.use_actor_points then
-		self.unused_stats, self.unused_talents, self.unused_generics = 0, 0, 0 
+		self.unused_stats, self.unused_talents, self.unused_generics = 0, 0, 0
 	end
 
 	-- Initialize if needed, updating auto_classes table
@@ -3383,7 +3463,7 @@ function _M:levelupClass(c_data)
 		end
 		if not mclass then
 			print("[Actor:levelupClass] ###class", c_data.class, "has no parent class type###")
-			return 
+			return
 		end
 
 		print(("[Actor:levelupClass] %s %s ## Initialzing auto_class %s (%s) %s%% level_rate from level %s ##"):format(self.uid, self.name, c_data.class, mclass.name, difficulty_adjusted_level_rate, c_data.start_level))
@@ -3392,7 +3472,7 @@ function _M:levelupClass(c_data)
 		self.descriptor = self.descriptor or {}
 		self.descriptor.classes = self.descriptor.classes or {}
 		table.append(self.descriptor.classes, {c_def.name})
-		
+
 		-- build inherent power sources and forbidden power sources
 		-- self.forbid_power_source --> self.not_power_source used for classes
 		self.power_source = table.merge(self.power_source or {}, c_def.power_source or {})
@@ -3400,7 +3480,7 @@ function _M:levelupClass(c_data)
 		-- update power source parameters with the new class
 		self.not_power_source, self.power_source = game.state:updatePowers(game.state:attrPowers(self, self.not_power_source), self.power_source)
 		print("  *** power types: not_power_source =", table.concat(table.keys(self.not_power_source),","), "power_source =", table.concat(table.keys(self.power_source),","))
-		
+
 		-- apply class stat bonuses and set up class auto_stats (in auto_classes)
 		local auto_stats
 		if c_def.stats and c_data.auto_stats ~= false then
@@ -3431,7 +3511,7 @@ function _M:levelupClass(c_data)
 			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt) or 1) + d[2])
 			ttypes[tt] = table.clone(d)
 		end
-		
+
 		-- set up input talent categories specified (generally for non-class talents)
 		if c_data.ttypes then
 			for tt, d in pairs(c_data.ttypes) do
@@ -3451,9 +3531,9 @@ function _M:levelupClass(c_data)
 				ttypes[tt] = {known, (self:getTalentTypeMastery(tt) or 1) - 1}
 			end
 		end
-		
+
 		-- Note: could limit number of talent trees selected here to limit # talents learned
-		
+
 --print("\t *** auto_levelup initialized talent category choices:", mclass.name , c_def.name , "\n\t")
 		-- set up (semi-random) rarity levels for talent categories
 		-- This tends to focus learned talents within certain trees (usually those with improved mastery)
@@ -3470,17 +3550,13 @@ function _M:levelupClass(c_data)
 		end
 		c_data.unknown_tt = unknown_tt
 		c_data.ttypes = ttypes
-		
-		-- Assign class starting talents and set them to level up later
+
+		-- Assign class starting talents
 		for tid, v in pairs(c_def.talents or {}) do
 			c_data.auto_talents = c_data.auto_talents or {}
 			local t = self:getTalentFromId(tid)
 			if not t.no_npc_use and (not t.random_boss_rarity or rng.chance(t.random_boss_rarity)) then
 				local every = 0
-				if t.points > 1 then
-					every = math.ceil(50/(t.points * 1.2))
-					table.insert(c_data.auto_talents, {tid=tid, start_level=c_data.start_level, base=v, every=every})
-				end
 				print(("\t ** learning %s birth talent %s %s (every %s levels)"):format(c_data.class, tid, v, every))
 				self:learnTalent(tid, true, v)
 			end
@@ -3506,27 +3582,16 @@ function _M:levelupClass(c_data)
 			if self.extra_talent_point_every and c_data.last_level % self.extra_talent_point_every == 0 then self.unused_talents = self.unused_talents + 1 end
 			if self.extra_generic_point_every and c_data.last_level % self.extra_generic_point_every == 0 then self.unused_generics = self.unused_generics + 1 end
 
-			-- At levels 10, 20 and 36 and then every 30 levels, we gain a new talent type
-			if c_data.last_level == 10 or c_data.last_level == 20 or c_data.last_level == 36 or (c_data.last_level > 50 and (c_data.last_level - 6) % 30 == 0) then
+			-- At levels 10, 20 and 34 and then every 30 levels, we gain a new talent type
+			if c_data.last_level == 10 or c_data.last_level == 20 or c_data.last_level == 34 or (c_data.last_level > 50 and (c_data.last_level - 4) % 30 == 0) then
 				self.unused_talents_types = self.unused_talents_types + 1
 			end
-			-- if c_data.last_level == 30 or c_data.last_level == 42 then self.unused_prodigies = self.unused_prodigies + 1 end
+			-- if c_data.last_level == 25 or c_data.last_level == 42 then self.unused_prodigies = self.unused_prodigies + 1 end
 		elseif type(self.no_points_on_levelup) == "function" then
 			self:no_points_on_levelup()
 		end
 
 		--print((" *** level: %s/%s stats: %s talents: %s generics: %s categories: %s prodigies: %s"):format(c_data.last_level, new_level, self.unused_stats, self.unused_talents, self.unused_generics, self.unused_talents_types, self.unused_prodigies))
-
-		-- automatically level up any auto_talents, (usualy birth talents)
-		if c_data.auto_talents then
-			for i, d in ipairs(c_data.auto_talents) do
-				if c_data.last_level > d.start_level and (c_data.last_level - d.start_level)%d.every == 0 then
-					--print(("\t ** advancing %s auto_talent %s"):format(c_data.class, d.tid))
-					self:learnTalent(d.tid, true)
-				end
-			end
-		end
-
 		ttypes = c_data.ttypes
 
 		-- generate list of possible talent types based on the master list
@@ -3545,23 +3610,24 @@ function _M:levelupClass(c_data)
 			local tt
 			if rng.percent(50) then	tt = rng.tableRemove(c_data.unknown_tt) end
 			if not tt then tt = rng.table(tt_choices) end
-			
+
 			if tt then
 				if self:knowTalentType(tt.tt) then
 					print("\t *** auto_levelup IMPROVING TALENT TYPE", tt.tt)
 					local ml = self:getTalentTypeMastery(tt.tt) or 1
 					self:setTalentTypeMastery(tt.tt, ml + (ml <= 1 and 0.2 or 0.1)) -- 0.2 for 1st then 0.1 thereafter
-				else
+				elseif c_data.learned_talent_types < c_data.max_talent_types then
 					print("\t *** auto_levelup LEARNING TALENT TYPE", tt.tt)
 					self:learnTalentType(tt.tt, true)
 					tt.rarity = tt.rarity/2  -- makes talents within an unlocked talent tree more likely to be learned
+					c_data.learned_talent_types = c_data.learned_talent_types + 1
 				end
 				--print("\t *** talent type mastery:", tt, self:getTalentTypeMastery(tt))
 				self.unused_talents_types = self.unused_talents_types - 1
 			else fails = fails + 1
 			end
 		end
-		
+
 		-- learn talents randomly from available talent trees
 		-- Note: could put limit on number of talents learned here (similar to previous method)
 		fails = 0
@@ -3581,7 +3647,7 @@ function _M:levelupClass(c_data)
 				local nb_known = self:numberKnownTalent(tt)
 				-- update talent choices with each talent in the tree that can be learned
 				for i, t in ipairs(tt_def.talents) do
-					if t.no_npc_use or t.not_on_random_boss then
+					if t.no_npc_use or t.not_on_random_boss or c_data.banned_talents[t.id] then
 						nb_known = nb_known + 1 -- treat as known to allow later talents to be learned
 					elseif t.type[2] and nb_known >= t.type[2] - 1 and (not t.random_boss_rarity or rng.percent(t.random_boss_rarity)) then -- check category talents known
 						table.insert(t_choices, t)
@@ -3605,7 +3671,7 @@ function _M:levelupClass(c_data)
 					if tlev > max then
 						ok = false
 					end
-					
+
 					if ok and t.require then -- check requirements to learn the talent
 						local req = rawget(t, "require")
 						if type(req) == "function" then req = req(self, t) end
@@ -3614,7 +3680,7 @@ function _M:levelupClass(c_data)
 								local lev = util.getval(req.level, tlev)
 								if c_data.level_by_class then
 									if c_data.last_level < lev then ok = false end
-								elseif self.level < lev then 
+								elseif self.level < lev then
 									ok = false
 								end
 							end
@@ -3654,7 +3720,7 @@ function _M:levelupClass(c_data)
 						end
 					end
 					ok = ok and self:learnTalent(t.id, true)
-					if ok then 
+					if ok then
 --						print("\t *** learning "..(tt_def.generic and "GENERIC" or "CLASS").." talent", t.id, ok)
 						learn_tids[t.id] = (learn_tids[t.id] or 0) + 1
 						if tt_def.generic then self.unused_generics = self.unused_generics - 1 else self.unused_talents = self.unused_talents - 1 end
@@ -3684,7 +3750,7 @@ function _M:levelupClass(c_data)
 		print(" *** auto allocating", self.unused_stats, "remaining stat points")
 		self:learnStats(c_data.auto_stats, 5)
 	end
-	
+
 	-- restore unused stat and talent points
 	if not c_data.use_actor_points then
 		self.unused_stats, self.unused_talents, self.unused_generics = unpack(base_points)
@@ -3696,7 +3762,7 @@ end
 function _M:resetToFull()
 	if self.dead then return end
 	self.life = self.max_life
-	
+
 	-- go through all resources
 	for res, res_def in ipairs(_M.resources_def) do
 		if res_def.short_name == "paradox" then
@@ -3772,11 +3838,11 @@ function _M:levelup()
 		if self.extra_talent_point_every and self.level % self.extra_talent_point_every == 0 then self.unused_talents = self.unused_talents + 1 end
 		if self.extra_generic_point_every and self.level % self.extra_generic_point_every == 0 then self.unused_generics = self.unused_generics + 1 end
 
-		-- At levels 10, 20 and 36 and then every 30 levels, we gain a new talent type
-		if self.level == 10 or self.level == 20 or self.level == 36 or (self.level > 50 and (self.level - 6) % 30 == 0) then
+		-- At levels 10, 20 and 34 and then every 30 levels, we gain a new talent type
+		if self.level == 10 or self.level == 20 or self.level == 34 or (self.level > 50 and (self.level - 4) % 30 == 0) then
 			self.unused_talents_types = self.unused_talents_types + 1
 		end
-		if self.level == 30 or self.level == 42 then
+		if self.level == 25 or self.level == 42 then
 			self.unused_prodigies = self.unused_prodigies + 1
 			if self.player and not config.settings.cheat and not self.silent_levelup then
 				Dialog:simpleLongPopup("Prodigy!", ("You have achieved #LIGHT_GREEN#level %d#WHITE# and gained a #LIGHT_GREEN#prodigy point#LAST#!\n\nProdigies are powerful talents with unique requirements that cannot be unlearned."):format(self.level), 400)
@@ -4060,7 +4126,7 @@ end
 function _M:getObjectModdableTile(slot)
 	local i = self.inven[slot]
 	if not i or not i[1] then return nil end
-	local o = i[1]	
+	local o = i[1]
 	if o.shimmer_moddable then return o.shimmer_moddable end
 	return o
 end
@@ -4886,6 +4952,7 @@ end
 -- @param t_id the id of the talent to learn
 -- @return true if the talent was learnt, nil and an error message otherwise
 function _M:learnTalent(t_id, force, nb, extra)
+	if nb then nb = math.floor(nb) end
 	local just_learnt = not self:knowTalent(t_id)
 	local old_lvl = self:getTalentLevel(t_id)
 	local old_lvl_raw = self:getTalentLevelRaw(t_id)
@@ -5008,7 +5075,7 @@ function _M:learnPool(t)
 	if t.type[1]:find("^psionic/feedback") or t.type[1]:find("^psionic/discharge") or t.feedback or t.sustain_feedback then
 		self:checkPool(t.id, self.T_FEEDBACK_POOL)
 	end
-	
+
 	--go through all resources looking for talent references in the definition
 	for res, res_def in ipairs(_M.resources_def) do
 		if util.getval(t[res_def.short_name], self, t) or util.getval(t[res_def.sustain_prop], self, t) or util.getval(t[res_def.drain_prop], self, t) then
@@ -5036,7 +5103,7 @@ function _M:learnPool(t)
 			self:checkPool(t.id, t.autolearn_talent)
 		end
 	end
-	
+
 	self:recomputeRegenResources()
 
 	return true
@@ -5046,6 +5113,7 @@ end
 -- @param t_id the id of the talent to learn
 -- @return true if the talent was unlearnt, nil and an error message otherwise
 function _M:unlearnTalent(t_id, nb, no_unsustain, extra)
+	if nb then nb = math.floor(nb) end
 	local oldnb = self.talents[t_id] or 0
 	if not engine.interface.ActorTalents.unlearnTalent(self, t_id, nb) then return false end
 
@@ -5086,7 +5154,6 @@ function _M:unlearnTalent(t_id, nb, no_unsustain, extra)
 	if #todel > 0 then for _, eff_id in ipairs(todel) do self:removeEffect(eff_id) end end
 
 	self:recomputeRegenResources()
-
 	if t.is_spell then self:attr("has_arcane_knowledge", -nb) end
 	if t.is_antimagic then self:attr("forbid_arcane", -nb) end
 	if t.type[1]:find("^chronomancy/bow") or t.type[1]:find("^chronomancy/blade") then self:attr("warden_swap", -nb) end
@@ -5161,28 +5228,28 @@ end
 function _M:paradoxDoAnomaly(chance, paradox, def)
 	local def = def or {}
 	local anomaly_type = def.anomaly_type or "random"
-	
+
 	-- Anomaly biases can be set manually for monsters or classes
 	-- Use the following format anomaly_bias = { type = "warp", chance=50}
 	local function check_bias(major)
 		if self.anomaly_bias then
 			local bias_chance = self.anomaly_bias.chance
-			if rng.percent(bias_chance) then 
+			if rng.percent(bias_chance) then
 				anomaly_type = self.anomaly_bias.type
 				return true
 			end
 		end
 	end
-	
+
 	-- See if we create an anomaly
 	if not game.zone.no_anomalies and not self:attr("no_paradox_fail") then
 		-- This is so players can't chain cancel out of targeting to trigger anomalies on purpose, we clear it out in postUse
-		if chance ~= 100 and self.turn_procs.anomalies_checked then return false end  
+		if chance ~= 100 and self.turn_procs.anomalies_checked then return false end
 		if chance ~= 100 then self.turn_procs.anomalies_checked = true end
 
 		if rng.percent(chance) then
 			local anomaly_triggered = true
-			
+
 			-- If our Paradox is over 600 do a major anomaly
 			if anomaly_type ~= "no-major" and (anomaly_type == "major" or self:getModifiedParadox() >= 600) then
 				anomaly_type = "major"
@@ -5215,7 +5282,7 @@ function _M:paradoxDoAnomaly(chance, paradox, def)
 						if self == game.player then
 							game.bignews:saySimple(180, "#STEEL_BLUE#Targeting %s", anom.name)
 						end
-					
+
 						-- targeted talents don't work well with no_energy, so we call the action directly
 						anom.action(self, anom)
 					elseif def.ignore_energy then
@@ -5250,7 +5317,7 @@ function _M:paradoxDoAnomaly(chance, paradox, def)
 				if paradox and paradox > 0 then
 					-- Double the paradox from major anomalies, mostly so NPCs don't become more dangerous when they run out of Paradox
 					if anomaly_type == "major" then paradox = paradox * 2 end
-					
+
 					self:incParadox(-paradox)
 				end
 			end
@@ -5258,6 +5325,16 @@ function _M:paradoxDoAnomaly(chance, paradox, def)
 			return anomaly_triggered
 		end
 	end
+end
+
+-- Overwrite incMana for DS
+local previous_incMana = _M.incMana
+function _M:incMana(mana)
+	if mana < 0 and self:isTalentActive(self.T_DISRUPTION_SHIELD) then
+		self:callTalent(self.T_DISRUPTION_SHIELD, "doLostMana", mana)
+	end
+
+	return previous_incMana(self, mana)
 end
 
 -- Overwrite incParadox to set up threshold log messages
@@ -5335,7 +5412,7 @@ local previous_getVim = _M.getVim
 function _M:getVim()
 	if self.on_preuse_checking_resources then
 		local mult = 2
-		if self:attr("bloodcasting") then mult = self:attr("bloodcasting") / 100 end		
+		if self:attr("bloodcasting") then mult = self:attr("bloodcasting") / 100 end
 		return math.max(self.vim, self.life / mult)
 	else
 		return previous_getVim(self)
@@ -5482,7 +5559,7 @@ function _M:preUseTalent(ab, silent, fake)
 		print("[Actor:preUseTalent] PARSING TALENT for AI info", ab.id, self.name)
 		mod.class.interface.ActorAI.aiParseTalent(ab, self)
 	end
-	
+
 	if self.forbid_talents and self.forbid_talents[ab.id] then
 		if not silent then game.logSeen(self, self.forbid_talents[ab.id] or "%s can not use %s.", self.name:capitalize(), ab.name) end
 		return false
@@ -5534,13 +5611,13 @@ function _M:preUseTalent(ab, silent, fake)
 			return false
 		end
 	end
-	
+
 	-- Sleeping prevents the use of all non-instant talents
 	if self:attr("sleep") and not self:attr("lucid_dreamer") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= (true or "fake") then
 		if not silent then game.logPlayer(self, "%s is sleeping and unable to do this.", self.name:capitalize(), ab.name) end
 		return false
 	end
-	
+
 	if not self:enoughEnergy() and not fake then return false end
 
 	if ab.mode == "sustained" then
@@ -5570,7 +5647,7 @@ function _M:preUseTalent(ab, silent, fake)
 			return false
 		end
 	end
-	
+
 	-- check resource costs (sustains can always be deactivated at no cost)
 	if not self:attr("force_talent_ignore_ressources") and not self:isTalentActive(ab.id) and (not self.talent_no_resources or not self.talent_no_resources[ab.id]) then
 		local rname, cost, rmin, rmax
@@ -5580,7 +5657,8 @@ function _M:preUseTalent(ab, silent, fake)
 			rname = res_def.short_name
 			cost = ab[rname]
 			if cost then
-				cost = (util.getval(cost, self, ab) or 0) * (util.getval(res_def.cost_factor, self, ab, true) or 1)
+				cost = util.getval(cost, self, ab) or 0
+				cost = cost * (util.getval(res_def.cost_factor, self, ab, true, cost) or 1)
 				cost = self:alterTalentCost(ab, rname, cost)
 				if cost ~= 0 then
 					rmin, rmax = self[res_def.getMinFunction](self), self[res_def.getMaxFunction](self)
@@ -5683,7 +5761,7 @@ function _M:preUseTalent(ab, silent, fake)
 				return false
 			end
 		end
-		
+
 		-- Failure chance?
 		if self:attr("talent_fail_chance") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") and not ab.innate then
 			if rng.percent(self:attr("talent_fail_chance")) then
@@ -5697,7 +5775,7 @@ function _M:preUseTalent(ab, silent, fake)
 				return false
 			end
 		end
-		
+
 		-- Fumble
 		if self:attr("scoundrel_failure") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") then
 			local eff = self:hasEffect(self.EFF_FUMBLE)
@@ -5708,7 +5786,7 @@ function _M:preUseTalent(ab, silent, fake)
 				return false
 			end
 		end
-		
+
 		if self:hasEffect(self.EFF_SENTINEL) and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") then
 			if not silent then game.logSeen(self, "%s's %s is interrupted by the shot!", self.name:capitalize(), ab.name) end
 			self.tempeffect_def[self.EFF_SENTINEL].do_proc(self, self:hasEffect(self.EFF_SENTINEL))
@@ -5784,6 +5862,7 @@ local sustainCallbackCheck = {
 	callbackOnSummonDeath = "talents_on_summon_death",
 	callbackOnDie = "talents_on_die",
 	callbackOnKill = "talents_on_kill",
+	callbackOnCombatAttack = "talents_on_combat_attack",
 	callbackOMeleeAttackBonuses = "talents_on_melee_attack_bonus",
 	callbackOnMeleeAttack = "talents_on_melee_attack",
 	callbackOnMeleeHit = "talents_on_melee_hit",
@@ -5812,6 +5891,7 @@ local sustainCallbackCheck = {
 	callbackOnPartyAdd = "talents_on_party_add",
 	callbackOnPartyRemove = "talents_on_party_remove",
 	callbackOnTargeted = "talents_on_targeted",
+	callbackOnCloned = "talents_on_cloned",
 }
 _M.sustainCallbackCheck = sustainCallbackCheck
 
@@ -5914,7 +5994,7 @@ function _M:fireTalentCheck(event, ...)
 	if self[store] then upgradeStore(self[store], store) end
 	if self[store] and next(self[store].__priorities) then
 		local old_ps = self.__project_source
-		for _, info in ipairs(self[store].__sorted) do
+		for _, info in ipairsclone(self[store].__sorted) do
 			local priority, kind, stringId, tid = unpack(info)
 			if kind == "effect" then
 				self.__project_source = self.tmp[tid]
@@ -6166,7 +6246,7 @@ function _M:postUseTalent(ab, ret, silent)
 	-- deduct resource costs
 	if not self:attr("force_talent_ignore_ressources") and not ab.fake_ressource and not self:attr("zero_resource_cost") and (not self.talent_no_resources or not self.talent_no_resources[ab.id]) and not self:isTalentActive(ab.id) then
 		local rname, cost
-		
+
 		if ab.feedback then -- pseudo resource
 			trigger = true; self:incFeedback(-util.getval(ab.feedback, self, ab) * (100 + 2 * self:combatFatigue()) / 100)
 		end
@@ -6186,7 +6266,7 @@ function _M:postUseTalent(ab, ret, silent)
 			cost = self:alterTalentCost(ab, rname, cost)
 			if cost ~= 0 then
 				trigger = true
-				cost = cost * (util.getval(res_def.cost_factor, self, ab) or 1)
+				cost = cost * (util.getval(res_def.cost_factor, self, ab, false, cost) or 1)
 				if res_def.invert_values then
 					self[res_def.incFunction](self, cost)
 				else
@@ -6200,7 +6280,7 @@ function _M:postUseTalent(ab, ret, silent)
 	if self:triggerHook(hd) then
 		trigger = hd.trigger
 	end
-	
+
 	self:fireTalentCheck("callbackOnTalentPost", ab, ret, silent)
 
 	if trigger and self:hasEffect(self.EFF_BURNING_HEX) and not self:attr("talent_reuse") then
@@ -6212,7 +6292,7 @@ function _M:postUseTalent(ab, ret, silent)
 	if not self.turn_procs.resetting_talents then
 		-- Cancel stealth!
 		if not util.getval(ab.no_break_stealth, self, ab) and util.getval(ab.no_energy, self, ab) ~= true then self:breakStealth() end
-		
+
 		if ab.id ~= self.T_LIGHTNING_SPEED then self:breakLightningSpeed() end
 		if ab.id ~= self.T_GATHER_THE_THREADS and ab.is_spell then self:breakChronoSpells() end
 		if not ab.no_reload_break then self:breakReloading() end
@@ -6264,6 +6344,11 @@ function _M:postUseTalent(ab, ret, silent)
 		local name = (ab.display_entity and ab.display_entity:getDisplayString() or "")..ab.name
 		local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 		game.flyers:add(sx, sy - game.level.map.tile_h / 2, 20, rng.float(-0.1, 0.1), rng.float(-0.5,-0.8), name, colors.simple(colors.OLIVE_DRAB))
+	end
+
+	if self.shimmer_sustains_hide and self.shimmer_sustains_hide[ab.id] then
+		local ShimmerRemoveSustains = require "mod.dialogs.shimmer.ShimmerRemoveSustains"
+		ShimmerRemoveSustains:removeAura(self, ab.id, ret)
 	end
 
 	return true
@@ -6338,7 +6423,7 @@ function _M:breakStealth()
 		end
 		-- Do not break stealth
 		if rng.percent(chance) then return end
-		
+
 		if self._breaking_stealth then return end
 		self._breaking_stealth = true
 		self:removeModifierList(breaks)
@@ -6422,7 +6507,7 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 		if t.feedback then d:add({"color",0x6f,0xff,0x83}, "Feedback cost: ", {"color",0xFF, 0xFF, 0x00}, ""..math.round(util.getval(t.feedback, self, t) * (100 + 2 * self:combatFatigue()) / 100, 0.1), true) end
 		if t.fortress_energy then d:add({"color",0x6f,0xff,0x83}, "Fortress Energy cost: ", {"color",0x00,0xff,0xa0}, ""..math.round(t.fortress_energy, 0.1), true) end
 		if t.sustain_feedback then d:add({"color",0x6f,0xff,0x83}, "Sustain feedback cost: ", {"color",0xFF, 0xFF, 0x00}, ""..(util.getval(t.sustain_feedback, self, t)), true) end
-		
+
 		-- resource costs?
 		for res, res_def in ipairs(_M.resources_def) do
 			if not res_def.hidden_resource then
@@ -6430,7 +6515,7 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 				local cost = t[res_def.short_name] and util.getval(t[res_def.short_name], self, t) or 0
 				cost = self:alterTalentCost(t, res_def.short_name, cost)
 				if cost ~= 0 then
-					cost = cost * (util.getval(res_def.cost_factor, self, t) or 1)
+					cost = cost * (util.getval(res_def.cost_factor, self, t, false, cost) or 1)
 					d:add({"color",0x6f,0xff,0x83}, ("%s %s: "):format(res_def.name:capitalize(), cost >= 0 and "cost" or "gain"), res_def.color or {"color",0xff,0xa8,0xa8}, ""..math.round(math.abs(cost), .1), true)
 				end
 				-- list sustain cost
@@ -6968,12 +7053,16 @@ function _M:canSeeNoCache(actor, def, def_pct)
 		end
 	end
 
+	if actor.is_doomed_shadow and self:knowTalent(self.T_SHADOW_SENSES) then
+		return true, 100
+	end
+
 	-- Blindness means can't see anything
 	if self:attr("blind") then
 
 		return false, 0
 	end
-	
+
 	-- Concealment
 	if actor ~= self and actor.attr and actor:attr("concealment") then
 		local dist = core.fov.distance(self.x, self.y, actor.x, actor.y)
@@ -7228,7 +7317,9 @@ function _M:on_set_temporary_effect(eff_id, e, p)
 		p.dur = math.ceil(p.dur * (1 - util.bound(t.getWoundReduction(self, t), 0, 1)))
 	end
 	if e.status == "detrimental" and e.type ~= "other" and self:attr("negative_status_effect_immune") then
-		p.dur = 0
+		if not (self:attr("negative_status_effect_immune_frozen") and (eff_id == self.EFF_WET or eff_id == self.EFF_FROZEN_FEET)) then
+			p.dur = 0
+		end
 	end
 	if e.status == "detrimental" and e.type == "mental" and self:attr("clear_mind_immune") and not e.subtype["cross tier"] then
 		p.dur = 0
@@ -7265,7 +7356,7 @@ function _M:on_set_temporary_effect(eff_id, e, p)
 	if self.player and not old then
 		p.__set_time = core.game.getTime()
 	end
-	
+
 	if p.dur <= 0 then return true end
 	p.dur = math.max(p.dur, olddur) -- don't shorten the existing duration because of a new application (on_merge may change it)
 end
@@ -7397,7 +7488,8 @@ end
 function _M:addedToLevel(level, x, y)
 	if not self._rst_full then self:resetToFull() self._rst_full = true end -- Only do it once, the first time we come into being
 	local summoner = self.summoner
-	if summoner and summoner:knowTalent(summoner.T_BLIGHTED_SUMMONING) then -- apply blighted summoning
+	if summoner then summoner:attr("summoned_times", 1) end -- Count summons times (bonus summoned_times dealt with individually)
+	if summoner and summoner:knowTalent(summoner.T_BLIGHTED_SUMMONING) and not self.escort_quest then -- apply blighted summoning
 		summoner:callTalent(summoner.T_BLIGHTED_SUMMONING, "doBlightedSummon", self)
 	end
 
@@ -7408,7 +7500,7 @@ function _M:addedToLevel(level, x, y)
 			for _, filter in ipairs(self.make_escort) do
 				for i = 1, filter.number do
 					if not filter.chance or rng.percent(filter.chance) then
-					
+
 						-- Find space
 						local x, y = util.findFreeGrid(self.x, self.y, 10, true, {[Map.ACTOR]=true})
 						if not x then break end
@@ -7624,9 +7716,9 @@ function _M:getEncumberTitleUpdator(title)
 end
 
 function _M:transmoPricemod(o) if o.type == "gem" then return 0.40 else return 0.05 end end
-function _M:transmoFilter(o) if o:getPrice() <= 0 or o.quest then return false end return true end
+function _M:transmoFilter(o) if o:getPrice() <= 0 or o.quest or o.plot or o.no_transmo then return false end return true end
 function _M:transmoInven(inven, idx, o, transmo_source)
-	local price = 0 
+	local price = 0
 	o:forAllStack(function(so) price = price + math.min(so:getPrice() * self:transmoPricemod(so), 25) end)  -- handle stacked objects individually
 	price = math.floor(price * 100) / 100 -- Make sure we get at most 2 digit precision
 	if price ~= price or not tostring(price):find("^[0-9]") then price = 1 end -- NaN is the only value that does not equals itself, this is the way to check it since we do not have a math.isnan method
@@ -7763,7 +7855,7 @@ function _M:doWearTinker(wear_inven, wear_item, wear_o, base_inven, base_item, b
 
 	wear_o.tinkered = {}
 	local forbid = wear_o:check("on_tinker", base_o, self)
-	if wear_o.object_tinker then
+	if not forbid and wear_o.object_tinker then
 		for k, e in pairs(wear_o.object_tinker) do
 			wear_o.tinkered[k] = base_o:addTemporaryValue(k, e)
 		end
@@ -7778,7 +7870,8 @@ function _M:doWearTinker(wear_inven, wear_item, wear_o, base_inven, base_item, b
 		if wear_inven and wear_item then self:removeObject(wear_inven, wear_item) end
 
 		self:fireTalentCheck("callbackOnWearTinker", wear_o, base_o)
-
+		if not self:attr("quick_wear_takeoff") or self:attr("quick_wear_takeoff_disable") then self:useEnergy() end
+		if self:attr("quick_wear_takeoff") then self:setEffect(self.EFF_SWIFT_HANDS_CD, 1, {}) self.tmp[self.EFF_SWIFT_HANDS_CD].dur = 0 end
 		return true, base_o
 	else
 		game.logPlayer(self, "You fail to attach %s to %s.", wear_o:getName{do_color=true}, base_o:getName{do_color=true})
@@ -7820,7 +7913,7 @@ end
 
 function _M:enterCombatStatus(src)
 	if src and src.ignore_from_combat_compute then return end
-	
+
 	if not self.in_combat then -- Start combat mode
 		self.in_combat = game.turn
 		self:updateInCombatStatus()
@@ -7842,7 +7935,7 @@ function _M:checkStillInCombat()
 	-- Status effects need rechecking
 	for eff_id, p in pairs(self.tmp) do
 		local e = self:getEffectFromId(eff_id)
-		if e.status == "detrimental" and e.decrease > 0 and e.type ~= "other" and not (e.ignore_from_combat_compute or (p.src and p.src.ignore_from_combat_compute)) then self:enterCombatStatus() break end 
+		if e.status == "detrimental" and e.decrease > 0 and e.type ~= "other" and not (e.ignore_from_combat_compute or (p.src and p.src.ignore_from_combat_compute)) then self:enterCombatStatus() break end
 	end
 
 	if game.turn - self.in_combat < 50 then return end -- Still good?
@@ -7884,8 +7977,8 @@ function _M:projectDoAct(typ, tg, damtype, dam, particles, px, py, tmp)
 		-- Check self- and friendly-fire, and if the projection "misses"
 		local act = game.level.map(px, py, engine.Map.ACTOR)
 		if act and act == self and not (
-			((type(typ.selffire) == "number" and rng.percent(typ.selffire)) 
-			or 
+			((type(typ.selffire) == "number" and rng.percent(typ.selffire))
+			or
 			(type(typ.selffire) ~= "number" and typ.selffire))
 			and (act == game.player and (typ.player_selffire or act.allow_player_selffire))  -- Disable friendlyfire for player projectiles unless explicitly overriden
 			)

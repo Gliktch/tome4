@@ -181,14 +181,16 @@ function _M:playSave(ignore_mod_compat)
 	local save_v = engine.version_from_string(self.save_sel.module_string)
 	local save_m = engine.version_from_string(self.save_sel.mod.version_string)
 	if not ignore_mod_compat and not engine.version_patch_same(save_m, save_v) and save_m.name == save_v.name then
-		Dialog:yesnocancelLongPopup(_t"Original game version not found", ("This savefile was created with game version %s. You can try loading it with the current version if you wish or download the data files of the old version to ensure compatibility (this is a big download but only required once).\nIf the data files are not available you can retry and use the newer version."):tformat(self.save_sel.module_string), 500, function(ret, cancel)
-			if cancel then return end
+		local howgrabold = _t"You can simply grab an older version of the game from where you downloaded it."
+		if core.steam then
+			howgrabold = _t[[You can downgrade the version by selecting it in the Steam's "Beta" properties of the game.]]
+		end
+		Dialog:yesnoLongPopup(_t"Original game version not found", ("This savefile was created with game version %s. You can try loading it with the current version if you wish but it is recommended you play it with the old version to ensure compatibility\n%s"):tformat(self.save_sel.module_string, howgrabold), 500, function(ret)
 			if ret then
-				self:installOldGame(self.save_sel.module_string)
 			else
 				self:playSave(true)
 			end
-		end, _t"Install old data", _t"Run with newer version", _t"Cancel", true)
+		end, _t"Cancel", _t"Run with newer version", true)
 		return
 	end
 

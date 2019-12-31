@@ -63,7 +63,7 @@ newTalent{
 	requires_target = true,
 	no_break_stealth = true,
 	getDuration = function(self, t) return 3 end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 600) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 450) end,
 	speed = "combat",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -76,8 +76,11 @@ newTalent{
 		local sx, sy = util.findFreeGrid(self.x, self.y, 5, true, {[engine.Map.ACTOR]=true})
 		if not sx then return end
 
-		-- Move first so we get the full benefit of Shadowstrike
-		target:move(sx, sy, true)
+		if core.fov.distance(self.x, self.y, target.x, target.y) > 1 then
+			-- Move first so we get the full benefit of Shadowstrike
+			target:move(sx, sy, true)
+		end
+		
 		self:project(tg, target.x, target.y, DamageType.DARKNESS, self:spellCrit(t.getDamage(self, t)))
 
 		if target:canBe("silence") then
@@ -92,6 +95,7 @@ newTalent{
 			game.logSeen(target, "%s resists the disarm!", target.name:capitalize())
 		end
 
+		game:playSoundNear(self, "talents/arcane")
 		return true
 	end,
 	info = function(self, t)

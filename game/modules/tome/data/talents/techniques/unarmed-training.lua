@@ -47,7 +47,7 @@ newTalent{
 	getDamage = function(self, t) return self.level * 0.5 end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Grants %d Physical Power when fightning unarmed (or with gloves or gauntlets).
+		return ([[Grants %d Physical Power when fighting unarmed (or with gloves or gauntlets).
 		This talent's effects will scale with your level.]]):
 		format(damage)
 	end,
@@ -88,7 +88,7 @@ newTalent{
 		end
 	end,
 	info = function(self, t)
-		return ([[Your mastery of unarmed combat unifies your body.  Increases your Strength by %d based on Cunning and your Constitution by %d based on Dexterity.]]):format(t.getStr(self, t), t.getCon(self, t))
+		return ([[Your mastery of unarmed combat unifies your body. Increases your Strength by %d based on Cunning and your Constitution by %d based on Dexterity.]]):format(t.getStr(self, t), t.getCon(self, t))
 	end
 }
 

@@ -18,51 +18,58 @@
 -- darkgod@te4.org
 
 newTalent{
-	name = "Ice Shards",
-	type = {"spell/ice",1},
+	name = "Freeze",
+	type = {"spell/ice", 1},
 	require = spells_req_high1,
 	points = 5,
-	mana = 12,
-	cooldown = 3,
-	tactical = { ATTACKAREA = { COLD = 1, stun = 1 } },
+	random_ego = "attack",
+	mana = 14,
+	cooldown = 8,
+	tactical = { ATTACK = { COLD = 2.5 }, DISABLE = { stun = 1.5 } },
 	range = 10,
-	radius = 1,
-	proj_speed = 4,
+	direct_hit = true,
+	reflectable = true,
 	requires_target = true,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 300) end,
+	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 3, 7)) end,
 	target = function(self, t)
-		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t}
+		if necroEssenceDead(self, true) then
+			return {type="ball", radius=2, range=self:getTalentRange(t), talent=t}
+		else
+			return {type="hit", range=self:getTalentRange(t), talent=t}
+		end
 	end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 18, 200) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		local empower = necroEssenceDead(self)
-		local grids = self:project(tg, x, y, function(px, py)
-			local actor = game.level.map(px, py, Map.ACTOR)
-			if actor and actor ~= self then
-				if empower then
-					local tg2 = {type="beam", range=self:getTalentRange(t), talent=t}
-					self:project(tg2, px, py, DamageType.ICE, self:spellCrit(t.getDamage(self, t)))
-					game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(px-self.x), math.abs(py-self.y)), "ice_beam", {tx=px-self.x, ty=py-self.y})
-				else
-					local tg2 = {type="bolt", range=self:getTalentRange(t), talent=t, display={particle="arrow", particle_args={tile="particles_images/ice_shards"}}}
-					self:projectile(tg2, px, py, DamageType.ICE, self:spellCrit(t.getDamage(self, t)), {type="freeze"})
-				end
+		if not x or not y then return nil end
+
+		if necroEssenceDead(self, true) then
+			self:projectApply(tg, x, y, Map.ACTOR, function(target) target:setEffect(target.EFF_WET, t.getDuration(self, t), {apply_power=self:combatSpellpower()}) end)
+			local empower = necroEssenceDead(self)
+			if empower then empower() end
+		end
+
+		local dam = self:spellCrit(t.getDamage(self, t))
+		self:project(tg, x, y, DamageType.COLD, dam, {type="freeze"})
+		self:project(tg, x, y, DamageType.FREEZE, {dur=t.getDuration(self, t), hp=70 + dam * 1.5})
+
+		tg.type = "hit"
+		self:projectApply(tg, x, y, Map.ACTOR, function(target)
+			if self:reactionToward(target) >= 0 then
+				game:onTickEnd(function() self:alterTalentCoolingdown(t.id, -math.floor((self.talents_cd[t.id] or 0) * 0.33)) end)
 			end
 		end)
-		if empower then empower() end
 
-		game:playSoundNear(self, "talents/ice")
+		game:playSoundNear(self, "talents/water")
 		return true
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Hurl ice shards at the targets in the selected area. Each shard %s and does %0.2f ice damage, hitting all adjacent targets on impact.
-		This spell will never hit the caster.
-		If the target is wet the damage increases by 30%% and the ice freeze chance increases to 50%%.
-		The damage will increase with your Spellpower.]]):
-		format(necroEssenceDead(self, true) and "affects all foes on its path" or "travels slowly", damDesc(self, DamageType.COLD, damage))
+		return ([[Condenses ambient water on a target, freezing it for %d turns and damaging it for %0.2f.
+		If this is used on a friendly target the cooldown is reduced by 33%%.%s
+		The damage will increase with your Spellpower.]]):format(t.getDuration(self, t), damDesc(self, DamageType.COLD, damage), necroEssenceDead(self, true) and "\nAffects all creatures in radius 2." or "")
 	end,
 }
 
@@ -112,6 +119,8 @@ newTalent{
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 320) end,
 	getTargetCount = function(self, t) return math.ceil(self:getTalentLevel(t) + 2) end,
 	action = function(self, t)
+		if self:hasEffect(self.EFF_FROZEN) then self:removeEffect(self.EFF_FROZEN) end
+
 		local max = t.getTargetCount(self, t)
 		for i, act in ipairs(self.fov.actors_dist) do
 			if self:reactionToward(act) < 0 then
@@ -153,6 +162,7 @@ newTalent{
 		* +25%% critical chance against Elites or Bosses
 		All affected foes will get the wet effect.
 		At most, it will affect %d foes.
+		If you are yourself Frozen, it will instantly be destroyed.
 		The damage will increase with your Spellpower.]]):
 		format(damDesc(self, DamageType.COLD, damage), targetcount)
 	end,
@@ -168,7 +178,7 @@ newTalent{
 	cooldown = 30,
 	tactical = { BUFF = 2 },
 	getColdDamageIncrease = function(self, t) return self:combatTalentScale(t, 2.5, 10) end,
-	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 100, 17, 50) end, -- Limit < 100
+	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 60, 17, 50) end, -- Limit < 60
 	getPierce = function(self, t) return math.min(100, self:getTalentLevelRaw(t) * 20) end, 
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/ice")

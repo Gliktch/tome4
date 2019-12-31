@@ -18,6 +18,7 @@
 -- darkgod@te4.org
 
 local Object = require "mod.class.Object"
+local Grid = require "mod.class.Grid"
 
 newTalent{
 	name = "Pulverizing Auger", short_name="DIG",
@@ -25,8 +26,9 @@ newTalent{
 	require = spells_req1,
 	points = 5,
 	mana = 15,
-	cooldown = 6,
-	range = function(self, t) return math.min(10, math.floor(self:combatTalentScale(t, 3, 7))) end,
+	cooldown = 3,
+	is_body_of_stone_affected = true,
+	range = 10,
 	tactical = { ATTACK = {PHYSICAL = 2} },
 	direct_hit = true,
 	requires_target = true,
@@ -34,15 +36,22 @@ newTalent{
 		local tg = {type="beam", range=self:getTalentRange(t), talent=t}
 		return tg
 	end,
+	getBonus = function(self, t) return math.floor(self:combatTalentScale(t, 15, 30)) end,
 	getDigs = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5, "log")) end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 300) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 230) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 
+		self.turn_procs.has_dug = nil
+		tg.range = t.getDigs(self, t)
 		for i = 1, t.getDigs(self, t) do self:project(tg, x, y, DamageType.DIG, 1) end
+		if self.turn_procs.has_dug and self.turn_procs.has_dug > 0 then
+			self:setEffect(self.EFF_AUGER_OF_DESTRUCTION, 6, {power=t.getBonus(self,t)})
+		end
 
+		tg.range = self:getTalentRange(t)
 		self:project(tg, x, y, DamageType.PHYSICAL, self:spellCrit(t.getDamage(self, t)), nil)
 		local _ _, x, y = self:canProject(tg, x, y)
 		game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "earth_beam", {tx=x-self.x, ty=y-self.y})
@@ -52,10 +61,11 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local nb = t.getDigs(self, t)
-		return ([[Fire a powerful beam of stone-shaterring force, digging out any walls in its path up to %d.
-		The beam also affect any creatures in its path, dealing %0.2f physical damage to all.
+		return ([[Fire a powerful beam of stone-shattering force, digging out any walls in its path up to %d range.
+		The beam continues to a range of %d, affecting any creatures in its path, dealing %0.2f physical damage to them.
+		If any walls are dug, you gain %d%% physical damage bonus for 6 turns.
 		The damage will increase with your Spellpower.]]):
-		format(nb, damDesc(self, DamageType.PHYSICAL, damage))
+		format(nb, self:getTalentRange(t), damDesc(self, DamageType.PHYSICAL, damage), t.getBonus(self, t))
 	end,
 }
 
@@ -114,12 +124,13 @@ newTalent{
 
 newTalent{
 	name = "Mudslide",
-    type = {"spell/earth",3},
+	type = {"spell/earth",3},
 	require = spells_req3,
 	points = 5,
 	random_ego = "attack",
 	mana = 20,
 	cooldown = 12,
+	is_body_of_stone_affected = true,
 	direct_hit = true,
 	tactical = { ATTACKAREA = { PHYSICAL = 2 }, DISABLE = { knockback = 2 }, ESCAPE = { knockback = 1 } },
 	range = 0,
@@ -197,7 +208,10 @@ newTalent{
 
 				local e = Object.new{
 					old_feat = oe,
-					name = "stone wall", image = "terrain/granite_wall1.png",
+					name = "stone wall",
+					image = oe.image,
+					add_mos = table.clone(oe.add_mos or {}, true),
+					add_displays = table.clone(oe.add_displays or {}),
 					display = '#', color_r=255, color_g=255, color_b=255, back_color=colors.GREY,
 					desc = "a summoned wall of stone",
 					type = "wall", --subtype = "floor",
@@ -228,6 +242,7 @@ newTalent{
 					summoner_gain_exp = true,
 					summoner = self,
 				}
+				e.add_displays[#e.add_displays+1] = Grid.new{image="terrain/spell_stonewall_0"..rng.range(1,3)..".png", z=19}
 				e.tooltip = mod.class.Grid.tooltip
 				game.level:addEntity(e)
 				game.level.map(x + i, y + j, Map.TERRAIN, e)

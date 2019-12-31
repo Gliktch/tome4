@@ -231,6 +231,11 @@ function _M:newGame()
 
 		if config.settings.cheat then self.player.__cheated = true end
 
+		if game.__mod_info then
+			local beta = engine.version_hasbeta()
+			self.player.__created_in_version = game.__mod_info.version_name..(beta and "-"..beta or "")
+		end
+
 		self.player:recomputeGlobalSpeed()
 		self:rebuildCalendar()
 
@@ -717,7 +722,11 @@ end
 function _M:updateCurrentChar()
 	if not self.party then return end
 	local player = self.party:findMember{main=true}
-	profile:currentCharacter(self.__mod_info.full_version_string, ("%s the level %d %s %s"):format(player.name, player.level, player.descriptor.subrace, player.descriptor.subclass), player.__te4_uuid)
+
+	local class_evo = ""
+	if self.descriptor and self.descriptor.class_evolution then class_evo = " ("..self.descriptor.class_evolution..")" end
+	profile:currentCharacter(self.__mod_info.full_version_string, ("%s the level %d %s %s"):format(player.name, player.level, player.descriptor.subrace, (player.descriptor.subclass or "")..class_evo), player.__te4_uuid)
+
 	if core.discord and self.zone then
 		local all_kills_kind = player.all_kills_kind or {}
 
@@ -742,7 +751,7 @@ function _M:updateCurrentChar()
 
 		local info = {}
 		info.zone = self:getZoneName()
-		info.char = ("Lvl %d %s %s"):format(player.level, player.descriptor.subrace, player.descriptor.subclass)
+		info.char = ("Lvl %d %s %s"):format(player.level, player.descriptor.subrace, (player.descriptor.subclass or "")..class_evo)
 		info.splash = "default"
 		info.splash_text = ("%d elite/%d rare/%d boss kills; playtime %s"):format(all_kills_kind.elite or 0, all_kills_kind.rare or 0, all_kills_kind.boss or 0, playtime)
 		
@@ -1008,12 +1017,12 @@ function _M:changeLevelFailure(lev, zone, params, level, old_zone, old_level)
 end
 
 function _M:changeLevelReal(lev, zone, params)
-	local oz, ol = self.zone, self.level
-
 	-- Unlock first!
-	if not params.temporary_zone_shift_back and self.zone and self.zone.temp_shift_zone and zone and zone == self.zone.short_name then
+	if not params.temporary_zone_shift_back and self.zone and self.zone.temp_shift_zone and zone and zone ~= self.zone.short_name then
 		self:changeLevelReal(1, "useless", {temporary_zone_shift_back=true})
 	end
+
+	local oz, ol = self.zone, self.level
 
 	local st = core.game.getTime()
 	local sti = 1
@@ -1754,6 +1763,7 @@ function _M:onTurn()
 
 	if self.turn % 500 ~= 0 then return end
 	self:dieClonesDie()
+	truncate_printlog(Savefile.TRUNCATE_PRINTLOG_TO)
 end
 
 function _M:updateFOV()
@@ -2004,13 +2014,19 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			self:changeLevel(game.level.level + 1)
+do return end
 			local f, err = loadfile("/data/general/events/weird-pedestals.lua")
 			print(f, err)
 			setfenv(f, setmetatable({level=self.level, zone=self.zone}, {__index=_G}))
 			print(pcall(f))
 do return end
-			package.loaded["mod.dialogs.Donation"] = nil
-			self:registerDialog(require("mod.dialogs.Donation").new())
+			game.player:takeHit(100, game.player)
+do return end
+			package.loaded["mod.dialogs.shimmer.ShimmerDemo"] = nil
+			self:registerDialog(require("mod.dialogs.shimmer.ShimmerDemo").new(game.player, "iron throne couture: "))
+do return end
+			self:changeLevel(1, "tareyal+bamboo-forest")
 do return end
 			if self.zone.short_name ~= "test" then
 				self:changeLevel(1, "test")
@@ -2250,6 +2266,12 @@ do return end
 		TOGGLE_AUTOTALENT = function()
 			self.player.no_automatic_talents = not self.player.no_automatic_talents
 			game.log("#GOLD#Automatic talent usage: %s", not self.player.no_automatic_talents and "#LIGHT_GREEN#enabled" or "#LIGHT_RED#disabled")
+		end,
+
+		TOGGLE_AUTOACCEPT_TARGET = function()
+			config.settings.auto_accept_target = not config.settings.auto_accept_target
+			game:saveSettings("auto_accept_target", ("auto_accept_target = %s\n"):format(tostring(config.settings.auto_accept_target)))
+			game.log("#GOLD#Automatic accept target mode: %s", config.settings.auto_accept_target and "#LIGHT_GREEN#enabled" or "#LIGHT_RED#disabled")			
 		end,
 
 		SAVE_GAME = function()
@@ -2502,12 +2524,17 @@ function _M:setupMouse(reset)
 		if not config.settings.tome.disable_mouse_targeting and self:targetMouse(button, mx, my, xrel, yrel, event) then return end
 
 		-- Cheat kill
-		if config.settings.cheat and button == "right" and core.key.modState("ctrl") and core.key.modState("shift") and not xrel and not yrel and event == "button" and self.zone and not self.zone.wilderness then
-			local target = game.level.map(tmx, tmy, Map.ACTOR)
-			if target then
-				target:die(game.player)
+		if config.settings.cheat then
+			if button == "right" and core.key.modState("ctrl") and core.key.modState("shift") and core.key.modState("alt") and not xrel and not yrel and event == "button" and self.zone and not self.zone.wilderness then
+				local target = game.level.map(tmx, tmy, Map.ACTOR)
+				if target then game._cheat_move_actor = target game.log("#GOLD#CHEAT MOVE ACTOR %s: ctrl+shift+alt+right click on an empty map spot to move it", target.name)
+				elseif game._cheat_move_actor then game._cheat_move_actor:move(tmx, tmy, true) end
+				return
+			elseif button == "right" and core.key.modState("ctrl") and core.key.modState("shift") and not xrel and not yrel and event == "button" and self.zone and not self.zone.wilderness then
+				local target = game.level.map(tmx, tmy, Map.ACTOR)
+				if target then target:die(game.player) end
+				return
 			end
-			return
 		end
 
 		-- Handle Use menu
@@ -2712,7 +2739,8 @@ function _M:saveGame()
 			party:attr("save_cleanup", 1)
 			party:stripForExport()
 			party:attr("save_cleanup", -1)
-			game.player:saveUUID(party)
+			game.player:saveUUID(nil)
+			-- game.player:saveUUID(party)
 		end end))
 		_G.game = self
 

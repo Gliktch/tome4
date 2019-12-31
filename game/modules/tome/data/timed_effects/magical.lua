@@ -25,7 +25,7 @@ local Chat = require "engine.Chat"
 local Map = require "engine.Map"
 local Level = require "engine.Level"
 
----------- Item specific 
+---------- Item specific
 
 
 -- Use a word other than disease because diseases are associated with damage
@@ -227,9 +227,11 @@ newEffect{
 	on_lose = function(self, err) return "#Target#'s skin returns to normal.", "-Reflective Skin" end,
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("reflect_damage", eff.power)
+		self:addShaderAura("reflective_skin", "awesomeaura", {time_factor=5500, alpha=0.6, flame_scale=0.6}, "particles_images/arcaneshockwave.png")
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("reflect_damage", eff.tmpid)
+		self:removeShaderAura("reflective_skin")
 	end,
 }
 
@@ -337,11 +339,16 @@ newEffect{
 	type = "magical",
 	subtype = { lightning=true, shield=true },
 	status = "beneficial",
-	charges = function(self, eff) return eff.blocks end,
+	charges = function(self, eff) return math.floor(eff.blocks) end,
 	parameters = {threshold = 1, blocks = 1,},
-	on_gain = function(self, err) return "#Target# summons a storm to protect him!", "+Stormshield" end,
+	on_gain = function(self, err) return "#Target# summons a storm to protect them!", "+Stormshield" end,
 	on_lose = function(self, err) return "#Target#'s storm dissipates.", "-Stormshield" end,
 	activate = function(self, eff)
+	if core.shader.active(4) then
+			self:effectParticles(eff, {type="shader_ring_rotating", args={rotation=0, radius=1.0, img="lightningshield"}, shader={type="lightningshield"}})
+		else
+			self:effectParticles(eff, {type = "stormshield"})
+		end
 	end,
 	deactivate = function(self, eff)
 	end,
@@ -497,7 +504,7 @@ newEffect{
 	name = "BANE_CONFUSED", image = "effects/bane_confused.png",
 	desc = "Bane of Confusion",
 	long_desc = function(self, eff) return ("The target is confused, acting randomly (chance %d%%), unable to perform complex actions and takes %0.2f darkness damage per turn."):format(eff.power, eff.dam) end,
-	charges = function(self, eff) return (tostring(math.floor(eff.power)).."%") end,	
+	charges = function(self, eff) return (tostring(math.floor(eff.power)).."%") end,
 	type = "magical",
 	subtype = { bane=true, confusion=true },
 	status = "detrimental",
@@ -508,7 +515,7 @@ newEffect{
 		DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, eff.dam)
 	end,
 	activate = function(self, eff)
-		eff.power = util.bound(eff.power, 0, 50)
+		eff.power = math.floor(util.bound(eff.power, 0, 50))
 		eff.tmpid = self:addTemporaryValue("confused", eff.power)
 		if eff.power <= 0 then eff.dur = 0 end
 	end,
@@ -1368,23 +1375,32 @@ newEffect{
 
 newEffect{
 	name = "DIVINE_GLYPHS", image = "talents/glyph_of_explosion.png",
-	desc = "Divine Glyphs",
+	desc = "Empowered Glyphs",
 	long_desc = function(self, eff)
-		return ("A divine glyph recently triggered, providing %d%% light and darkness affinity and resistence."):format(math.min(eff.maxStacks, eff.glyphstacks or 1)*5)
+		return ("A divine glyph recently triggered, providing %d%% light and darkness affinity and resistence."):format(eff.power)
 	end,
 	type = "magical",
 	subtype = {light=true, darkness=true},
 	status = "beneficial",
 	paramters ={},
 	activate = function(self, eff)
-		local power = math.min(eff.maxStacks, eff.glyphstacks or 1)*5
-		self:effectTemporaryValue(eff, "damage_affinity", {[DamageType.LIGHT]=power, [DamageType.DARKNESS]=power})
-		self:effectTemporaryValue(eff, "resists", {[DamageType.LIGHT]=power, [DamageType.DARKNESS]=power})
+		eff.power = math.min(eff.maxStacks, eff.glyphstacks or 1)*5
+		eff.aff = self:addTemporaryValue("damage_affinity", {[DamageType.LIGHT]=eff.power, [DamageType.DARKNESS]=eff.power})
+		eff.res = self:addTemporaryValue("resists", {[DamageType.LIGHT]=eff.power, [DamageType.DARKNESS]=eff.power})
 	end,
 	on_merge = function(self, old_eff, new_eff)
+		self:removeTemporaryValue("damage_affinity", old_eff.aff)
+		self:removeTemporaryValue("resists", old_eff.res)
 		old_eff.glyphstacks = (old_eff.glyphstacks or 0) + 1
+		old_eff.power = math.min(old_eff.maxStacks, old_eff.glyphstacks or 1)*5
+		old_eff.aff = self:addTemporaryValue("damage_affinity", {[DamageType.LIGHT]=old_eff.power, [DamageType.DARKNESS]=old_eff.power})
+		old_eff.res = self:addTemporaryValue("resists", {[DamageType.LIGHT]=old_eff.power, [DamageType.DARKNESS]=old_eff.power})
 		old_eff.dur = new_eff.dur
 		return old_eff
+	end,
+	deactivate = function(self, eff)
+		self:removeTemporaryValue("damage_affinity", eff.aff)
+		self:removeTemporaryValue("resists", eff.res)
 	end,
 }
 
@@ -2231,6 +2247,22 @@ newEffect{
 	end,
 }
 
+newEffect{
+	name = "WOEFUL_CRIPPLE", image = "talents/cripple.png",
+	desc = "Woeful Cripple",
+	long_desc = function(self, eff) return ("The target is crippled, reducing melee, spellcasting and mind speed by %d%%."):format(eff.speed*100) end,
+	type = "magical",
+	subtype = { slow=true },
+	status = "detrimental",
+	parameters = { speed=0.2 },
+	on_gain = function(self, err) return "#Target# is crippled." end,
+	on_lose = function(self, err) return "#Target# is not crippled anymore." end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "combat_physspeed", -eff.speed)
+		self:effectTemporaryValue(eff, "combat_spellspeed", -eff.speed)
+		self:effectTemporaryValue(eff, "combat_mindspeed", -eff.speed)
+	end,
+}
 
 newEffect{
 	name = "EPIDEMIC", image = "talents/epidemic.png",
@@ -2547,6 +2579,11 @@ newEffect{
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("global_speed_add", -eff.slow)
 		eff.prjid = self:addTemporaryValue("slow_projectiles_outgoing", eff.proj)
+		if core.shader.allow("distort") then
+			self:effectParticles(eff, {type="congeal_time"})
+		else
+			self:effectParticles(eff, {type="circle", args={oversize=0.5, a=80, base_rot=180, shader=true, appear=8, img="combination_kicks_2", speed=2, radius=0}})
+		end
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("global_speed_add", eff.tmpid)
@@ -2603,7 +2640,7 @@ newEffect{
 newEffect{
 	name = "AETHER_BREACH", image = "talents/aether_breach.png",
 	desc = "Aether Breach",
-	long_desc = function(self, eff) return ("Fires an arcane explosion each turn doing %0.2f arcane damage in radius 1."):format(eff.dam) end,
+	long_desc = function(self, eff) return ("Fires an arcane explosion each turn doing %0.2f arcane damage in radius 2."):format(eff.dam) end,
 	type = "magical",
 	subtype = { arcane=true },
 	status = "beneficial",
@@ -2619,6 +2656,14 @@ newEffect{
 		game.level.map:particleEmitter(spot.x, spot.y, 2, "generic_sploom", {rm=150, rM=180, gm=20, gM=60, bm=180, bM=200, am=80, aM=150, radius=2, basenb=120})
 
 		game:playSoundNear(self, "talents/arcane")
+	end,
+	on_merge = function(self, old_eff, new_eff)
+		new_eff.dur = new_eff.dur + old_eff.dur
+		if old_eff.particle then game.level.map:removeParticleEmitter(old_eff.particle) end
+		new_eff.particle = Particles.new("circle", new_eff.radius, {a=150, speed=0.15, img="aether_breach", radius=new_eff.radius})
+		new_eff.particle.zdepth = 6
+		game.level.map:addParticleEmitter(new_eff.particle, new_eff.x, new_eff.y)		
+		return new_eff
 	end,
 	activate = function(self, eff)
 		eff.particle = Particles.new("circle", eff.radius, {a=150, speed=0.15, img="aether_breach", radius=eff.radius})
@@ -4023,6 +4068,7 @@ newEffect{
 	name = "BLIGHT_POISON", image = "effects/poisoned.png",
 	desc = "Blight Poison",
 	long_desc = function(self, eff) return ("The target is poisoned, taking %0.2f blight damage per turn."):format(eff.power) end,
+	charges = function(self, eff) return math.floor(eff.power) end,
 	type = "magical",
 	subtype = { poison=true, blight=true }, no_ct_effect = true,
 	status = "detrimental",
@@ -4177,6 +4223,7 @@ newEffect{
 
 		local equi = self:getEquilibrium() - self:getMinEquilibrium()
 		if equi > 0 then
+			self:alterTalentCoolingdown(self.T_BLOCK, -1000)
 			self:incMana(equi)
 			self:incEquilibrium(-equi)
 			self:project({type="ball", radius=eff.radius, friendlyfire=false}, self.x, self.y, DamageType.ARCANE, math.min(equi, eff.maxdam))
@@ -4351,7 +4398,7 @@ newEffect{
 	name = "EMPATHIC_HEX", image = "talents/empathic_hex.png",
 	desc = "Empathic Hex",
 	long_desc = function(self, eff) return ("The target is hexed, creating an empathic bond with its victims. It takes %d%% feedback damage from all damage done."):format(eff.power) end,
-	charges = function(self, eff) return (tostring(math.floor(eff.power)).."%") end,	
+	charges = function(self, eff) return (tostring(math.floor(eff.power)).."%") end,
 	type = "magical",
 	subtype = { hex=true, dominate=true },
 	status = "detrimental",
@@ -4486,5 +4533,20 @@ newEffect{
 		self:effectTemporaryValue(eff, "numbed", eff.reduce)
 	end,
 	deactivate = function(self, eff)
+	end,
+}
+
+newEffect{
+	name = "AUGER_OF_DESTRUCTION", image = "talents/dig.png",
+	desc = "Auger of Destruction",
+	long_desc = function(self, eff) return ("Physical damage increased by %d%%."):format(eff.power) end,
+	type = "magical",
+	subtype = { physical=true,},
+	status = "beneficial",
+	parameters = {power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "inc_damage", {[DamageType.PHYSICAL] = eff.power})
 	end,
 }

@@ -27,7 +27,7 @@ newTalent{
 	require = gifts_req1,
 	mode = "passive",
 	points = 5,
-	getRegen = function(self, t) return 0.5 end,
+	getRegen = function(self, t) return 1 end,
 	getResist = function(self, t) return 5 + combatTalentPhysicalMindDamage(self, t, 15, 30) end,  -- This can crit
 	on_absorb = function(self, t, damtype)
 		if not DamageType:get(damtype).antimagic_resolve then return end
@@ -81,6 +81,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
 		if not x or not y then return nil end
+		if not self:canProject(tg, x, y) then return end
 		local nb = 0
 		self:project(tg, x, y, function(px, py)
 			local target = game.level.map(px, py, Map.ACTOR)
@@ -188,7 +189,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
 		if not x or not y then return nil end
-
+		if not self:canProject(tg, x, y) then return end
 		self:project(tg, x, y, function(px, py)
 			local target = game.level.map(px, py, Map.ACTOR)
 			if not target then return end

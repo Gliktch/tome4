@@ -125,10 +125,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Strikes the target with a spark of lightning doing %0.2f to %0.2f damage.
+		return ([[Strikes the target with a spark of lightning doing %0.2f to %0.2f damage (%0.2f average).
 		The damage will increase with the Magic stat]]):
 		format(damDesc(self, DamageType.LIGHTNING, damage / 3),
-		damDesc(self, DamageType.LIGHTNING, damage))
+		damDesc(self, DamageType.LIGHTNING, damage),
+		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
 	end,
 }
 
@@ -611,7 +612,7 @@ newTalent{
 	range = 6,
 	requires_target = true,
 	tactical = { ATTACK = 2 },
-	target = function(self, t) return {type="hit", range=self:getTalentRange(t), nowarning=true} end,
+	target = function(self, t) return {type="hit", range=self:getTalentRange(t), nowarning=true, can_autoaccept=true } end,
 	on_pre_use = function(self, t, silent)
 		return self:isTalentActive(self.T_CALL_SHADOWS)
 	end,

@@ -510,14 +510,14 @@ newTalent{
 		o.power = charges
 		if not result then
 			game.logPlayer(self, "Your animated sentry struggles for a moment and then returns to your inventory inexplicably.")
-			self.summoner:addObject(self.summoner.INVEN_INVEN, self.cursed_item )
+			self:addObject(self.INVEN_INVEN, o)
 			return nil
 		end
 		local qo = nil
 		if o.archery then
 			local level = o.material_level or 1
 			-- Trying to replicate the ego pattern on the weapon. Kinky.
-			local egos = o.egos_number or (o.ego_list and #o.ego_list) or (e.egoed and 1) or 0
+			local egos = o.egos_number or (o.ego_list and #o.ego_list) or (o.egoed and 1) or 0
 			local greater = o.greater_ego or 0
 			local double_greater = (o.unique and egos == 0) or greater > 1  -- artifact or purple
 			local greater_normal = (o.unique and egos > 2) or greater == 1 and egos > 1 -- randart or blue
@@ -537,8 +537,9 @@ newTalent{
 		local stats = sentry.unused_stats
 		local use_stats = {}
 		local total = 0
-		local dammod = sentry:getDammod(o.combat.dammod or {})
+		local dammod = sentry:getDammod(o.combat or {})
 		if qo then
+			dammod = {}
 			for stat, mod in pairs(sentry:getDammod(qo.combat.dammod or {})) do
 				dammod[stat] = (dammod[stat] or 0) + mod
 			end

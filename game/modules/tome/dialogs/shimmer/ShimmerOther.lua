@@ -18,12 +18,14 @@
 -- darkgod@te4.org
 
 require "engine.class"
+local CommonData = require "mod.dialogs.shimmer.CommonData"
 local Dialog = require "engine.ui.Dialog"
 local Textzone = require "engine.ui.Textzone"
 local ActorFrame = require "engine.ui.ActorFrame"
-local List = require "engine.ui.List"
+local Textbox = require "engine.ui.Textbox"
+local ListColumns = require "engine.ui.ListColumns"
 
-module(..., package.seeall, class.inherit(Dialog))
+module(..., package.seeall, class.inherit(Dialog, CommonData))
 
 function _M:init(player, slot)
 	self.slot = slot
@@ -32,18 +34,21 @@ function _M:init(player, slot)
 	self.actor.x, self.actor.y = nil, nil
 	self.actor:removeAllMOs()
 
-	Dialog.init(self, "Shimmer: "..self:getShimmerName(), 680, 500)
+	Dialog.init(self, "Shimmer: "..self:getShimmerName(player, slot), 680, 500)
 
 	self:generateList()
 
-	self.c_list = List.new{scrollbar=true, width=300, height=self.ih - 5, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
+	self.c_search = Textbox.new{title="Search: ", text="", chars=20, max_len=60, fct=function() end, on_change=function(text) self:search(text) end}
+
+	self.c_list = ListColumns.new{columns={{name="Name", width=100, display_prop="name", sort="sortname"}}, hide_columns=true, scrollbar=true, width=300, height=self.ih - 5 - self.c_search.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
 	local donatortext = ""
 	if not profile:isDonator(1) then donatortext = "\n#{italic}##CRIMSON#This cosmetic feature is only available to donators/buyers. You can only preview.#WHITE##{normal}#" end
 	local help = Textzone.new{width=math.floor(self.iw - self.c_list.w - 20), height=self.ih, no_color_bleed=true, auto_height=true, text="You can alter your look.\n#{bold}#This is a purely cosmetic change.#{normal}#"..donatortext}
 	local actorframe = ActorFrame.new{actor=self.actor, w=128, h=128}
 
 	self:loadUI{
-		{left=0, top=0, ui=self.c_list},
+		{left=0, top=0, ui=self.c_search},
+		{left=0, top=self.c_search, ui=self.c_list},
 		{right=0, top=0, ui=help},
 		{right=(help.w - actorframe.w) / 2, vcenter=0, ui=actorframe},
 	}
@@ -54,15 +59,6 @@ function _M:init(player, slot)
 			game:unregisterDialog(self)
 		end,
 	}
-end
-
-function _M:getShimmerName()
-	if self.slot == "SHIMMER_DOLL" then return "Character's Skin"
-	elseif self.slot == "SHIMMER_HAIR" then return "Character's Hair"
-	elseif self.slot == "SHIMMER_FACIAL" then return "Character's Facial Features"
-	elseif self.slot == "SHIMMER_AURA" then return "Character's Aura"
-	end
-	return "unknown"
 end
 
 function _M:applyShimmer(actor, shimmer)
@@ -98,8 +94,7 @@ function _M:use(item)
 	game:unregisterDialog(self)
 
 	if profile:isDonator(1) then
-		self:applyShimmer(self.true_actor, item.moddables)
-		self.true_actor:updateModdableTile()
+		self:applyShimmers(self.true_actor, self.slot, item.id)
 	else
 		Dialog:yesnoPopup("Donator Cosmetic Feature", "This cosmetic feature is only available to donators/buyers.", function(ret) if ret then
 			game:registerDialog(require("mod.dialogs.Donation").new("shimmer ingame"))
@@ -109,8 +104,19 @@ end
 
 function _M:select(item)
 	if not item then end
-	self:applyShimmer(self.actor, item.moddables)
-	self.actor:updateModdableTile()
+	self:applyShimmers(self.actor, self.slot, item.id)
+end
+
+function _M:search(text)
+	if text == "" then self.search_filter = nil
+	else self.search_filter = text end
+
+	self:generateList()
+end
+
+function _M:matchSearch(name)
+	if not self.search_filter then return true end
+	return name:lower():find(self.search_filter:lower(), 1, 1)
 end
 
 function _M:generateList()
@@ -120,19 +126,24 @@ function _M:generateList()
 	list[#list+1] = {
 		moddables = nil,
 		name = "#GREY#[Default]",
+		id = "invisible",
 		sortname = "--",
 	}
 
 	for name, data in pairs(unlocked) do
-		local d = {
-			moddables = table.clone(data.moddables, true),
-			name = name,
-			sortname = name:removeColorCodes(),
-		}
-		d.moddables.name = name
-		list[#list+1] = d
+		if self:matchSearch(name:removeColorCodes()) then
+			local d = {
+				moddables = table.clone(data.moddables, true),
+				name = name,
+				id = name,
+				sortname = name:removeColorCodes(),
+			}
+			d.moddables.name = name
+			list[#list+1] = d
+		end
 	end
 	table.sort(list, "sortname")
 
 	self.list = list
+	if self.c_list then self.c_list:setList(list) end
 end

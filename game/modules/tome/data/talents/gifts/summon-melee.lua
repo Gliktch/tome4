@@ -71,7 +71,7 @@ newTalent{
 		return ([[%d%% chance to split upon taking a single hit dealing at least %d%% of your maximum life.]]):format(t.getChance(self, t), t.getDamage(self, t))
 	end,
 }
-	
+
 newTalent{
 	name = "War Hound",
 	type = {"wild-gift/summon-melee", 1},
@@ -110,10 +110,10 @@ newTalent{
 	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 5, 0, 10, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t,fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			str=15 + (fake and mp or self:mindCrit(mp)) * 2 * self:combatTalentScale(t, 0.2, 1, 0.75) + self:combatTalentScale(t, 2, 10, 0.75),
 			dex=15 + (fake and mp or self:mindCrit(mp)) * 1 * self:combatTalentScale(t, 0.2, 1, 0.75) + self:combatTalentScale(t, 2, 10, 0.75),
-			con=15 
+			con=15
 		}
 	end,
 	action = function(self, t)
@@ -160,14 +160,15 @@ newTalent{
 			m.name = m.name.." (wild summon)"
 			m[#m+1] = resolvers.talents{ [self.T_TOTAL_THUGGERY]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
-		
+
 		if self:knowTalent(self.T_RESILIENCE) then
 			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
 			m.max_life = m.max_life * incLife
 			m.life = m.max_life
 		end
-		
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
@@ -175,7 +176,7 @@ newTalent{
 		local incStats = t.incStats(self, t, true)
 		return ([[Summon a War Hound for %d turns to attack your foes. War hounds are good basic melee attackers.
 		It will get %d Strength, %d Dexterity and %d Constitution.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		The hound's Strength and Dexterity will increase with your Mindpower.]])
 		:format(t.summonTime(self, t), incStats.str, incStats.dex, incStats.con)
 	end,
@@ -218,7 +219,7 @@ newTalent{
 	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 5, 0, 10, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t, fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			con=10 + (fake and mp or self:mindCrit(mp)) * 1.6 * self:combatTalentScale(t, 0.2, 1, 0.75),
 			str=10 + self:combatTalentScale(t, 2, 10, 0.75)
 		}
@@ -280,14 +281,15 @@ newTalent{
 			m.name = m.name.." (wild summon)"
 			m[#m+1] = resolvers.talents{ [self.T_JELLY_MITOTIC_SPLIT]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
-		
+
 		if self:knowTalent(self.T_RESILIENCE) then
 			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
 			m.max_life = m.max_life * incLife
 			m.life = m.max_life
 		end
-		
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
@@ -295,7 +297,7 @@ newTalent{
 		local incStats = t.incStats(self, t, true)
 		return ([[Summon a Jelly for %d turns to attack your foes. Jellies do not move, but your equilibrium will be reduced by 10%% of all damage received by the jelly.
 		It will get %d Constitution and %d Strength.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		The jelly's Constitution will increase with your Mindpower.]])
 		:format(t.summonTime(self, t), incStats.con, incStats.str)
        end,
@@ -337,7 +339,7 @@ newTalent{
 	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 2, 0, 7, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t,fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			str=25 + (fake and mp or self:mindCrit(mp)) * 2.1 * self:combatTalentScale(t, 0.2, 1, 0.75) + self:combatTalentScale(t, 2, 10, 0.75),
 			dex=10 + (fake and mp or self:mindCrit(mp)) * 1.8 * self:combatTalentScale(t, 0.2, 1, 0.75) + self:combatTalentScale(t, 2, 10, 0.75),
 			con=10 + self:combatTalentScale(t, 2, 10, 0.75)
@@ -394,14 +396,15 @@ newTalent{
 			m.name = m.name.." (wild summon)"
 			m[#m+1] = resolvers.talents{ [self.T_RUSH]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
-		
+
 		if self:knowTalent(self.T_RESILIENCE) then
 			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
 			m.max_life = m.max_life * incLife
 			m.life = m.max_life
 		end
-		
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
@@ -409,7 +412,7 @@ newTalent{
 		local incStats = t.incStats(self, t, true)
 		return ([[Summon a Minotaur for %d turns to attack your foes. Minotaurs cannot stay summoned for long, but they deal high damage.
 		It will get %d Strength, %d Constitution and %d Dexterity.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		The minotaur's Strength and Dexterity will increase with your Mindpower.]])
 		:format(t.summonTime(self,t), incStats.str, incStats.con, incStats.dex)
 	end,
@@ -455,7 +458,7 @@ newTalent{
 	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 5, 0, 10, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t,fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			str=15 + (fake and mp or self:mindCrit(mp)) * 2 * self:combatTalentScale(t, 0.2, 1, 0.75) + self:combatTalentScale(t, 2, 10, 0.75),
 			dex=15 + (fake and mp or self:mindCrit(mp)) * 1.9 * self:combatTalentScale(t, 0.2, 1, 0.75) + self:combatTalentScale(t, 2, 10, 0.75),
 			con=10 + self:combatTalentScale(t, 2, 10, 0.75)
@@ -514,14 +517,15 @@ newTalent{
 			m.name = m.name.." (wild summon)"
 			m[#m+1] = resolvers.talents{ [self.T_DISARM]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
-		
+
 		if self:knowTalent(self.T_RESILIENCE) then
 			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
 			m.max_life = m.max_life * incLife
 			m.life = m.max_life
 		end
-		
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
@@ -529,7 +533,7 @@ newTalent{
 		local incStats = t.incStats(self, t,true)
 		return ([[Summon a Stone Golem for %d turns to attack your foes. Stone golems are formidable foes that can become unstoppable.
 		It will get %d Strength, %d Constitution and %d Dexterity.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		The golem's Strength and Dexterity will increase with your Mindpower.]])
 		:format(t.summonTime(self, t), incStats.str, incStats.con, incStats.dex)
 	end,

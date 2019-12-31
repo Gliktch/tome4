@@ -50,7 +50,7 @@ newBirthDescriptor{
 	copy = {
 		mana_regen = 0.5,
 		mana_rating = 7,
-		resolvers.inscription("RUNE:_MANASURGE", {cooldown=25, dur=10, mana=620}, 3),
+		resolvers.inscription("RUNE:_MANASURGE", {cooldown=15, dur=10, mana=820}, 3),
 	},
 }
 
@@ -192,7 +192,7 @@ newBirthDescriptor{
 		["spell/water"]={true, 0.3},
 		["spell/air"]={true, 0.3},
 		["spell/phantasm"]={true, 0.3},
-		["spell/temporal"]={false, 0.3},
+		["spell/temporal"]={true, 0.3},
 		["spell/meta"]={false, 0.3},
 		["spell/divination"]={true, 0.3},
 		["spell/conveyance"]={true, 0.3},

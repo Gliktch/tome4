@@ -899,7 +899,7 @@ newEffect{
 			self:doFOV() -- update actors seen
 			for i = 1, #self.fov.actors_dist do
 				act = self.fov.actors_dist[i]
-				if act and self:reactionToward(act) < 0 and not act.dead and act:isNear(eff.x, eff.y, maxdist) then
+				if act and self:reactionToward(act) < 0 and not act.dead and eff.x and act:isNear(eff.x, eff.y, maxdist) then
 					local sx, sy = util.findFreeGrid(act.x, act.y, 1, true, {[engine.Map.ACTOR]=true})
 					if sx then acts[#acts+1] = {act, sx, sy} end
 				end
@@ -1511,12 +1511,13 @@ newEffect{
 #CRIMSON#Power 1+: %sRemoved from Reality: %+d Physical Resistance, %+d Maximum Physical Resistance
 #CRIMSON#Power 2+: %s%+d Luck, %+d Willpower
 #CRIMSON#Power 3+: %sHarrow: When a foe attempts to inflict a detrimental effect upon you, your harrowing aura retaliates against a random foe in range 10, dealing %d mind and %d darkness damage.
-#CRIMSON#Power 4+: %sNightmare: Each time you are damaged by a foe there is a chance (currently %d%%) of triggering a radius %d nightmare (slow effects, hateful whispers, and summoned Terrors) for 8 turns. This chance grows each time you are struck but fades over time.]]):format(
+#CRIMSON#Power 4+: %sNightmare: Each time you are damaged by a foe there is a chance (currently %d%%) of triggering a radius %d nightmare (summon Terrors and chances to slow, deal %d Mind damage, and deal %d Darkness damage) for 8 turns. The chance grows each time you are struck but fades over time.]]):format(
 		def.getVisionsReduction(eff, level),
 		bonusLevel >= 1 and "#WHITE#" or "#GREY#", def.getResistsPhysicalChange(math.max(level, 1)), def.getResistsCapPhysicalChange(math.max(level, 1)),
 		bonusLevel >= 2 and "#WHITE#" or "#GREY#", def.getLckChange(eff, math.max(level, 2)), def.getWilChange(math.max(level, 2)),
 		bonusLevel >= 3 and "#WHITE#" or "#GREY#", self:damDesc(DamageType.MIND, def.getHarrowDam(self, math.max(level, 3))), self:damDesc(DamageType.DARKNESS,  def.getHarrowDam(self, math.max(level, 3))),
-		bonusLevel >= 4 and "#WHITE#" or "#GREY#", eff.nightmareChance or 0, def.getNightmareRadius(math.max(level, 4)), def.getNightmareChance(math.max(level, 4)))
+		bonusLevel >= 4 and "#WHITE#" or "#GREY#", eff.nightmareChance or 0, def.getNightmareRadius(math.max(level, 4)), self:damDesc(DamageType.MIND, 10+self:combatMindpower()), self:damDesc(DamageType.DARKNESS, 10+self:combatMindpower())
+	)
 	end,
 	activate = function(self, eff)
 		local def, level, bonusLevel = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES], eff.level, math.min(eff.unlockLevel, eff.level)
@@ -1546,33 +1547,41 @@ newEffect{
 
 	--Harrow
 	callbackOnTemporaryEffect = function(self, eff, eff_id, e, p)
-		local def, level, bonusLevel = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES], eff.level, math.min(eff.unlockLevel, eff.level)
-		if math.min(eff.unlockLevel, eff.level) >= 3 then
-			--if e.status == "detrimental" and not e.subtype["cross tier"] and p.src and p.src._is_actor and not p.src.dead then
-				--local e = self.tempeffect_def[eff_id]
-			if e.status ~= "detrimental" or e.type == "other" or e.subtype["cross tier"] then return end
-			local harrowDam = def.getHarrowDam(self, level)
-			if p.src and p.src._is_actor then
-				DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.MIND, dam)
-				DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.DARKNESS, dam)
-				--game.logSeen(self, "#F53CBE#%s harrows '%s'!", self.name:capitalize(), p.src.name)
-				game.logSeen(self, "#F53CBE#%s harrows %s!", self.name:capitalize(), target.name)
-			else
-				local tgts = {}
-				self:project({type="ball", radius=10}, self.x, self.y, function(px, py)
-					local act = game.level.map(px, py, Map.ACTOR)
-					if not act or self:reactionToward(act) >= 0 then return end
-					tgts[#tgts+1] = act
-				end)
-				if #tgts > 0 then
-					local target = rng.table(tgts)
-					DamageType:get(DamageType.MIND).projector(self, target.x, target.y, DamageType.MIND, harrowDam)
-					DamageType:get(DamageType.MIND).projector(self, target.x, target.y, DamageType.DARKNESS, harrowDam)
-					--self:logCombat(target, "#F53CBE##Source# harrows #Target#!", self.name:capitalize(), target.name)
+		if self.turn_procs.curse_of_nightmare_3 then return end
+		if self.__curse_nightmare_recurse then return end
+		self.__curse_nightmare_recurse = true
+		(function()
+			local def, level, bonusLevel = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES], eff.level, math.min(eff.unlockLevel, eff.level)
+			if math.min(eff.unlockLevel, eff.level) >= 3 then
+				--if e.status == "detrimental" and not e.subtype["cross tier"] and p.src and p.src._is_actor and not p.src.dead then
+					--local e = self.tempeffect_def[eff_id]
+				if e.status ~= "detrimental" or e.type == "other" or e.subtype["cross tier"] then return end
+				local harrowDam = def.getHarrowDam(self, level)
+				if p.src and p.src._is_actor then
+					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.MIND, harrowDam)
+					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.DARKNESS, harrowDam)
+					--game.logSeen(self, "#F53CBE#%s harrows '%s'!", self.name:capitalize(), p.src.name)
 					game.logSeen(self, "#F53CBE#%s harrows %s!", self.name:capitalize(), target.name)
+					self.turn_procs.curse_of_nightmare_3 = true
+				else
+					local tgts = {}
+					self:project({type="ball", radius=10}, self.x, self.y, function(px, py)
+						local act = game.level.map(px, py, Map.ACTOR)
+						if not act or self:reactionToward(act) >= 0 then return end
+						tgts[#tgts+1] = act
+					end)
+					if #tgts > 0 then
+						local target = rng.table(tgts)
+						DamageType:get(DamageType.MIND).projector(self, target.x, target.y, DamageType.MIND, harrowDam)
+						DamageType:get(DamageType.MIND).projector(self, target.x, target.y, DamageType.DARKNESS, harrowDam)
+						--self:logCombat(target, "#F53CBE##Source# harrows #Target#!", self.name:capitalize(), target.name)
+						game.logSeen(self, "#F53CBE#%s harrows %s!", self.name:capitalize(), target.name)
+						self.turn_procs.curse_of_nightmare_3 = true
+					end
 				end
 			end
-		end
+		end)()
+		self.__curse_nightmare_recurse = nil
 	end,
 	on_merge = function(self, old_eff, new_eff) return old_eff end,
 	--[[doSuffocate = function(self, eff, target)
@@ -1621,12 +1630,12 @@ newEffect{
 		if math.min(eff.unlockLevel, eff.level) >= 4 then
 			-- build chance for a nightmare
 			local def = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES]
-			if not self.turn_procs.CoNightmare then --don't build chance on turn nightmare triggered
+			if not self.turn_procs.curse_of_nightmare_4 then --don't build chance on turn nightmare triggered
 				eff.nightmareChance = (eff.nightmareChance or 0) + def.getNightmareChance(eff.level)
 			end
 
 			-- invoke the nightmare, one per turn
-			if not self.turn_procs.CoNightmare and rng.percent(eff.nightmareChance) then
+			if not self.turn_procs.curse_of_nightmare_4 and rng.percent(eff.nightmareChance) then
 				local radius = def.getNightmareRadius(eff.level)
 
 				-- make sure there is at least one creature to torment
@@ -1640,13 +1649,14 @@ newEffect{
 				if not seen then return false end
 
 				-- start the nightmare: slow, hateful whisper, random Terrors (minor horrors)
+				local dam = (10+self:combatMindpower())
 				eff.nightmareChance = 0
 				game.level.map:addEffect(self,
 					self.x, self.y, 8,
-					DamageType.NIGHTMARE, 1,
+					DamageType.NIGHTMARE, dam,
 					radius,
 					5, nil,
-					engine.MapEffect.new{alpha=100, color_br=134, color_bg=60, color_bb=134, effect_shader="shader_images/darkness_effect.png"},
+					engine.MapEffect.new{alpha=93, color_br=134, color_bg=60, color_bb=134, effect_shader="shader_images/darkness_effect.png"},
 					function(e, update_shape_only) if not update_shape_only then
 						-- attempt one summon per turn
 						if not e.src:canBe("summon") then return end
@@ -1684,7 +1694,7 @@ newEffect{
 					end end,
 					false, false)
 
-				self.turn_procs.CoNightmare = true
+				self.turn_procs.curse_of_nightmare_4 = true
 
 				game.logSeen(self, "#F53CBE#The air around %s grows cold and terrifying shapes begin to coalesce. A nightmare has begun.", self.name:capitalize())
 				game:playSoundNear(self, "talents/cloud")
@@ -1897,6 +1907,42 @@ newEffect{
 			end
 		end
 	end,
+}
+
+-- Predator is purely for the player's information
+newEffect{
+	name = "PREDATOR", image = "talents/mark_prey.png",
+	desc = "Marked Prey",
+	no_stop_enter_worlmap = true,
+	decrease = 0,
+	cancel_on_level_change = true,
+	long_desc = function(self, eff)
+		local desc = "Hunting:"
+		local desc2 = ("\n%d%% Received damage reduction against:"):format(eff.power)
+		if not game.level then return desc..desc2 end
+
+		local preys = {}
+		for uid, e in pairs(game.level.entities) do if e.marked_prey then
+			preys[#preys+1] = e
+		end end
+		table.sort(preys, "rank")
+		for _, p in ripairs(preys) do
+			local mprank, mpcolour = p:TextRank()
+			desc = desc..("\n- %s%s#LAST#"):format(mpcolour, p.name:capitalize())
+		end
+
+		local subtypes_list = table.get(self, "mark_prey2", game.level.id)
+		for st, _ in pairs(subtypes_list or {}) do
+			desc2 = desc2..("\n- #ffa0ff#%s#LAST#"):format(tostring(st):capitalize())
+		end
+
+		return desc..desc2
+	end,
+	type = "other",
+	subtype = { predator=true },
+	status = "beneficial",
+	activate = function(self, eff) end,
+	deactivate = function(self, eff) end,
 }
 
 newEffect{
@@ -3072,7 +3118,7 @@ newEffect{
 newEffect{
 	name = "2H_PENALTY", image = "talents/unstoppable.png",
 	desc = "Hit Penalty",
-	long_desc = function(self, eff) return ("The target is using a two handed weapon in a single hand, reducing physical power, spellpower and mindpower by %d%% (based on size); also all damage procs from your offhand are reduced by 50%%."):format(20 - math.min(self.size_category - 4, 4) * 5) end,
+	long_desc = function(self, eff) return ("The target is using a two handed weapon in a single hand, reducing accuracy, physical power, spellpower and mindpower by %d%% (based on size); also all damage procs from your offhand are reduced by 50%%."):format(20 - math.min(self.size_category - 4, 4) * 5) end,
 	type = "other", decrease = 0, no_remove = true,
 	subtype = { combat=true, penalty=true },
 	status = "detrimental",
@@ -3367,7 +3413,7 @@ newEffect{
 	name = "ZONE_AURA_ABASHED",
 	desc = "Abashed Expanse",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: Your Phase Door spell is super easy to use here, allowing you to target it regardless of level.") end,
+	long_desc = function(self, eff) return ("Zone-wide effect: Your Phase Door spell is super easy to use here, allowing you to target it regardless of level. Any projectiles is slowed down by 80%.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3375,6 +3421,8 @@ newEffect{
 	zone_wide_effect = true,
 	parameters = {},
 	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "slow_projectiles_outgoing", 80)
+		self:effectTemporaryValue(eff, "phase_door_force_precise", 1)
 	end,
 	deactivate = function(self, eff)
 	end,
@@ -3583,7 +3631,7 @@ newEffect{
 
 newEffect{
 	name = "DEMI_GODMODE",
-	desc = "Demigod Mode", --image = "",
+	desc = "Demigod Mode", image = "effects/darkgod.png",
 	long_desc = function(self, eff) return ("DEMI-GODMODE: Target has 10000 additional life and regenerates 2000 life per turn.  It deals +500%% damage, and has full ESP."):format() end,
 	type = "other",
 	subtype = { cheat=true },
@@ -3614,7 +3662,7 @@ newEffect{
 
 newEffect{
 	name = "GODMODE",
-	desc = "God Mode", --image = "",
+	desc = "God Mode", image = "effects/darkgod.png",
 	long_desc = function(self, eff) return ("GODMODE: Target is invulnerable to damage, immune to bad status effects, deals +10000%% damage (100%% penetration), does not need to breathe, and has full ESP."):format() end,
 	type = "other",
 	subtype = { cheat=true },
@@ -3704,7 +3752,7 @@ newEffect{
 newEffect{
 	name = "STEALTH_SKEPTICAL", image = "talents/stealth.png",
 	desc = "Skeptical",
-	long_desc = function(self, eff) return "The target doesn't believe it's ally truly saw anything in the shadows." end,
+	long_desc = function(self, eff) return "The target doesn't believe its ally truly saw anything in the shadows." end,
 	type = "other",
 	subtype = { },
 	status = "neutral",
@@ -3842,7 +3890,7 @@ newEffect{
 		local source = eff.src
 		local target = eff.target
 
-		if source.dead or target.dead or not game.level:hasEntity(source) or not game.level:hasEntity(target) or not source:hasLOS(target.x, target.y) or core.fov.distance(self.x, self.y, target.x, target.y) > (eff.range or 10) then
+		if source.dead or target.dead or not game.level:hasEntity(source) or not game.level:hasEntity(target) or not self:canProject(eff.tg, target.x, target.y) then
 			source:removeEffect(source.EFF_FEED)
 			if eff.particles then
 				game.level.map:removeParticleEmitter(eff.particles)
@@ -3924,5 +3972,20 @@ newEffect{
 		if eff.dur <= 0 or eff.src.dead then
 			self:removeEffect(eff.src.EFF_FED_UPON, false, true)
 		end
+	end,
+}
+
+newEffect{
+	name = "DOZING", image = "talents/sleep.png",
+	desc = "Dozing",
+	long_desc = function(self, eff) return "The target is completely asleep, unable to act." end,
+	type = "other",
+	subtype = { sleep=true },
+	status = "detrimental",
+	parameters = { },
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "dont_act", 1)
+	end,
+	deactivate = function(self, eff)
 	end,
 }

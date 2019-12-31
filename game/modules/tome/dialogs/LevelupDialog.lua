@@ -219,9 +219,9 @@ function _M:finish()
 		end
 	end
 
-	for t_id, _ in pairs(self.talents_learned) do
+	for t_id, level in pairs(self.talents_learned) do
 		local t = self.actor:getTalentFromId(t_id)
-		if t.on_levelup_close then
+		if level > 0 and t.on_levelup_close then
 			local lvl = self.actor:getTalentLevel(t_id)
 			local lvl_raw = self.actor:getTalentLevelRaw(t_id)
 			local old_lvl = self.actor_dup:getTalentLevel(t_id)
@@ -350,7 +350,7 @@ function _M:isUnlearnable(t, limit)
 	if limit then min = math.max(1, #list - (max - 1)) end
 	for i = #list, min, -1 do
 		if list[i] == t.id then
-			if not game.state.birth.force_town_respec or not self.in_combat or (game.level and game.level.data and game.level.data.allow_respec == "limited") then
+			if not self.actor.in_combat or (game.level and game.level.data and game.level.data.allow_respec == "limited") then
 				return i
 			else
 				return nil, i
@@ -637,11 +637,11 @@ local desc_types = ([[Talent category points allow you to either:
 - improve a known talent category efficiency by 0.2
 - learn a new inscription slot (up to a maximum of 5, learning it is automatic when using an inscription)
 
-You gain a new point at level 10, 20 and 36.
+You gain a new point at level 10, 20 and 34.
 Some races or items may increase them as well.]]):toTString()
 
 local desc_prodigies = ([[Prodigies are special talents that only the most powerful of characters can attain.
-All of them require at least 50 in a core stat and many also have more special demands. You can learn a new prodigy at level 30 and 42.]]):toTString()
+All of them require at least 50 in a core stat and many also have more special demands. You can learn a new prodigy at level 25 and 42.]]):toTString()
 
 local desc_inscriptions = ([[You can use a category point to unlock a new inscription slot (up to 5 slots).]]):toTString()
 
@@ -924,7 +924,7 @@ function _M:getTalentDesc(item)
 
 	if item.type then
 		text:add({"color",0x00,0xFF,0xFF}, "Talent Category", true)
-		text:add({"color",0x00,0xFF,0xFF}, "A talent category contains talents you may learn. You gain a talent category point at level 10, 20 and 36. You may also find trainers or artifacts that allow you to learn more.\nA talent category point can be used either to learn a new category or increase the mastery of a known one.", true, true, {"color", "WHITE"})
+		text:add({"color",0x00,0xFF,0xFF}, "A talent category contains talents you may learn. You gain a talent category point at level 10, 20 and 34. You may also find trainers or artifacts that allow you to learn more.\nA talent category point can be used either to learn a new category or increase the mastery of a known one.", true, true, {"color", "WHITE"})
 
 		if self.actor.talents_types_def[item.type].generic then
 			text:add({"color",0x00,0xFF,0xFF}, "Generic talent tree", true)
@@ -947,7 +947,7 @@ function _M:getTalentDesc(item)
 			text:add({"color","YELLOW"}, "This talent can alter the world in a permanent way; as such, you can never unlearn it once known.", {"color","LAST"}, true, true)
 		elseif could_unlearn then
 			local max = tostring(self.actor:lastLearntTalentsMax(t.generic and "generic" or "class"))
-			text:add({"color","LIGHT_BLUE"}, "This talent was recently learnt; you can still unlearn it if you are in a quiet area like a #{bold}#town#{normal}#.", true, "The last ", max, t.generic and " generic" or " class", " talents you learnt are always unlearnable.", {"color","LAST"}, true, true)
+			text:add({"color","LIGHT_BLUE"}, "This talent was recently learnt; you can still unlearn it if you are out of combat or in a quiet area like a #{bold}#town#{normal}#.", true, "The last ", max, t.generic and " generic" or " class", " talents you learnt are always unlearnable.", {"color","LAST"}, true, true)
 		end
 
 		local traw = self.actor:getTalentLevelRaw(t.id)
