@@ -256,7 +256,7 @@ newEffect{
 newEffect{
 	name = "GREATER_INVISIBILITY", image = "effects/invisibility.png",
 	desc = "Invisibility",
-	long_desc = function(self, eff) return ("Improves/gives invisibility (power %d), and increases damage dealt to blind or dazzled creatures by %d%%%s."):format(eff.power, eff.dam) end,
+	long_desc = function(self, eff) return ("Improves/gives invisibility (power %d), and increases damage dealt to blind or dazzled creatures by %d%%."):format(eff.power, eff.dam) end,
 	type = "magical",
 	subtype = { phantasm=true, invisibility=true },
 	status = "beneficial",
@@ -4578,5 +4578,52 @@ newEffect{
 	on_lose = function(self, err) return nil, true end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "inc_damage", {[DamageType.PHYSICAL] = eff.power})
+	end,
+}
+
+newEffect{
+	name = "DAZZLED",
+	desc = "Dazzled",
+	long_desc = function(self, eff) return ("All damage decreased by %d%%."):format(eff.power) end,
+	type = "magical",
+	subtype = { stun=true,},
+	status = "detrimental",
+	parameters = {power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "generic_damage_penalty", eff.power)
+	end,
+}
+
+newEffect{
+	name = "ELEMENTAL_MIRAGE1", image = "talents/blur_sight.png",
+	desc = "Elemental Mirage (First Element)",
+	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):format(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
+	type = "magical",
+	subtype = { phantasm=true,},
+	status = "beneficial",
+	parameters = {dt=DamageType.ARCANE, power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "inc_damage", {[eff.dt] = eff.power})
+		if eff.pen then self:effectTemporaryValue(eff, "resists_pen", {[eff.dt] = eff.pen}) end
+	end,
+}
+
+newEffect{
+	name = "ELEMENTAL_MIRAGE2", image = "talents/alter_mirage.png",
+	desc = "Elemental Mirage (Second Element)",
+	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):format(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
+	type = "magical",
+	subtype = { phantasm=true,},
+	status = "beneficial",
+	parameters = {dt=DamageType.FIRE, power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "inc_damage", {[eff.dt] = eff.power})
+		if eff.pen then self:effectTemporaryValue(eff, "resists_pen", {[eff.dt] = eff.pen}) end
 	end,
 }
