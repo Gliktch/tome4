@@ -33,22 +33,22 @@ function _M:init()
 
 	self.list = {}
 	if profile.auth then
-		self.list[#self.list+1] = {name="Logout", fct=function()
-			Dialog:yesnoPopup("You are logged in", "Do you want to log out?", function(ret)
+		self.list[#self.list+1] = {name=_t"Logout", fct=function()
+			Dialog:yesnoPopup(_t"You are logged in", _t"Do you want to log out?", function(ret)
 				if ret then
 					profile:logOut()
 				end
-			end, "Log out", "Cancel")
+			end, _t"Log out", _t"Cancel")
 		end}
 	else
-		self.list[#self.list+1] = {name="Login", fct=function()
+		self.list[#self.list+1] = {name=_t"Login", fct=function()
 			local dialogdef = {}
 			dialogdef.fct = function(login) self:setPlayerLogin(login) end
 			dialogdef.name = "login"
 			dialogdef.justlogin = true
 			game:registerDialog(require('mod.dialogs.ProfileLogin').new(dialogdef, game.profile_help_text))
 		end}
-		self.list[#self.list+1] = {name="Create Account", fct=function()
+		self.list[#self.list+1] = {name=_t"Create Account", fct=function()
 			local dialogdef = {}
 			dialogdef.fct = function(login) self:setPlayerLogin(login) end
 			dialogdef.name = "creation"
