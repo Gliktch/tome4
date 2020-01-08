@@ -118,5 +118,5 @@ function _M:levelup()
 	mod.class.NPC.levelup(self)
 
 	local x, y = game.level.map:getTileToScreen(self.x, self.y, true)
-	game.flyers:add(x, y, 80, 0.5, -2, "LEVEL UP!", {0,255,255})
+	game.flyers:add(x, y, 80, 0.5, -2, _t"LEVEL UP!", {0,255,255})
 end
