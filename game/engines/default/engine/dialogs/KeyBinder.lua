@@ -79,7 +79,7 @@ function _M:use(item)
 	-- Make a dialog to ask for the key
 	--
 	if curcol == 1 or curcol == 2 then
-		local title = "      Press a key (escape to cancel, backspace to remove) for: %s":tformat(tostring(t.name))
+		local title = ("      Press a key (escape to cancel, backspace to remove) for: %s"):tformat(tostring(t.name))
 		local font = self.font
 		local w, h = font:size(title:removeColorCodes())
 		local d = engine.Dialog.new(title, w + 20, h + 25, nil, nil, nil, font)
@@ -132,7 +132,7 @@ function _M:use(item)
 		end
 		game:registerDialog(d)
 	elseif curcol == 3 then
-		local title = "Make gesture (using right mouse button) or type it (or escape) for: %s":tformat(tostring(t.name))
+		local title = ("Make gesture (using right mouse button) or type it (or escape) for: %s"):tformat(tostring(t.name))
 		local font = self.font
 		local w, h = font:size(title)
 		local d = GetText.new(title, _t"Gesture", 0, 10,

@@ -331,7 +331,7 @@ You can fix that by manually downloading the shimmer addon from https://te4.org/
 	local co co = coroutine.create(function()
 		local filename = ("/addons/%s-cosmetic-%s.teaa"):format(game.__mod_info.short_name, item.effect)
 		print("==> downloading", "https://te4.org/download-mtx/"..item.id_purchasable, filename)
-		local d = Downloader.new{title="Downloading cosmetic pack: #LIGHT_GREEN#%s":tformat(item.name), co=co, dest=filename..".tmp", url="https://te4.org/download-mtx/"..item.id_purchasable, allow_downloads={addons=true}}
+		local d = Downloader.new{title=("Downloading cosmetic pack: #LIGHT_GREEN#%s"):tformat(item.name), co=co, dest=filename..".tmp", url="https://te4.org/download-mtx/"..item.id_purchasable, allow_downloads={addons=true}}
 		local ok = d:start()
 		if ok then
 			local wdir = fs.getWritePath()

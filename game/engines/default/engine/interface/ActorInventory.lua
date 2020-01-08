@@ -425,12 +425,12 @@ function _M:canWearObject(o, try_slot)
 				if type(flag) == "table" then
 					if not self:attr(flag[1]) or self:attr(flag[1]) < flag[2] then
 						local name = o.requirement_flags_names and o.requirement_flags_names[flag[1]] or flag[1]
-						return nil, "missing %s (level %s )":tformat(tostring(name), tostring(flag[2]))
+						return nil, ("missing %s (level %s )"):tformat(tostring(name), tostring(flag[2]))
 					end
 				else
 					if not self:attr(flag) then
 						local name = o.requirement_flags_names and o.requirement_flags_names[flag] or flag
-						return nil, "missing %s":tformat(tostring(name))
+						return nil, ("missing %s"):tformat(tostring(name))
 					end
 				end
 			end

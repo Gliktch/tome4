@@ -196,7 +196,7 @@ function _M:onDownload(handlers)
 			if path then
 				local name = file
 				if self._next_download_name and os.time() - self._next_download_name.time <= 3 then name = self._next_download_name.name self._next_download_name = nil end
-				Dialog:yesnoPopup(_t"Confirm addon install/update", _t"Are you sure you want to install this addon: #LIGHT_GREEN##{bold}#%s#{normal}##LAST# ?":tformat(name), function(ret)
+				Dialog:yesnoPopup(_t"Confirm addon install/update", _t("Are you sure you want to install this addon: #LIGHT_GREEN##{bold}#%s#{normal}##LAST# ?"):tformat(name), function(ret)
 					if ret then
 						print("Accepting addon download to:", path..file)
 						self.download_dialog = self:makeDownloadbox(downid, file)
@@ -214,7 +214,7 @@ function _M:onDownload(handlers)
 			if path then
 				local name = file
 				if self._next_download_name and os.time() - self._next_download_name.time <= 3 then name = self._next_download_name.name self._next_download_name = nil end
-				Dialog:yesnoPopup(_t"Confirm module install/update", "Are you sure you want to install this module: #LIGHT_GREEN##{bold}#%s""#{normal}##LAST# ?":tformat(name), function(ret)
+				Dialog:yesnoPopup(_t"Confirm module install/update", ("Are you sure you want to install this module: #LIGHT_GREEN##{bold}#%s#{normal}##LAST#?"):tformat(name), function(ret)
 					if ret then
 						print("Accepting module download to:", path..file)
 						self.download_dialog = self:makeDownloadbox(downid, file)

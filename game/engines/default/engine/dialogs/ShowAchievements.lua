@@ -38,7 +38,7 @@ function _M:init(title, player)
 	local nb = 0
 	for id, data in pairs(world.achieved) do nb = nb + 1 end
 
-	Dialog.init(self, (title or _t"Achievements(%s/%s)":tformat(nb, total) , game.w * 0.8, game.h * 0.8)
+	Dialog.init(self, (title or _t("Achievements(%s/%s)"):tformat(nb, total) , game.w * 0.8, game.h * 0.8)
 
 	self.c_self = Checkbox.new{title=_t"Yours only", default=false, fct=function() end, on_change=function(s) if s then self:switchTo("self") end end}
 	self.c_main = Checkbox.new{title=_t"All achieved", default=true, fct=function() end, on_change=function(s) if s then self:switchTo("main") end end}

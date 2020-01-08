@@ -763,7 +763,7 @@ function _M:saveScreenshot()
 	if core.steam then
 		local desc = self:getSaveDescription()
 		core.steam.screenshot(file, self.w, self.h, desc.description)
-		Dialog:simpleLongPopup(_t"Screenshot taken!", "Screenshot should appear in your Steam client's #LIGHT_GREEN#Screenshots Library#LAST#.\nAlso available on disk: %s":tformat(fs.getRealPath(file)), 600)
+		Dialog:simpleLongPopup(_t"Screenshot taken!", ("Screenshot should appear in your Steam client's #LIGHT_GREEN#Screenshots Library#LAST#.\nAlso available on disk: %s"):tformat(fs.getRealPath(file)), 600)
 	else
 		Dialog:simplePopup(_t"Screenshot taken!", _t"File: "..fs.getRealPath(file))
 	end

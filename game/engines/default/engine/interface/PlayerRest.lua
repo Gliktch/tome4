@@ -34,7 +34,7 @@ function _M:restInit(turns, what, past, on_end, on_very_end)
 		on_end = on_end,
 		on_very_end = on_very_end,
 		cnt = 0,
-		dialog = Dialog:simplePopup(what:capitalize().."...", "You are %s, press Enter to stop.":tformat(what), function()
+		dialog = Dialog:simplePopup(what:capitalize().."...", ("You are %s, press Enter to stop."):tformat(what), function()
 			self:restStop()
 		end),
 	}

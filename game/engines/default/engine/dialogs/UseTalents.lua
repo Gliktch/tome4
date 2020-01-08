@@ -79,7 +79,7 @@ function _M:defineHotkey(id)
 	if not item or not item.talent then return end
 
 	self.actor.hotkey[id] = {"talent", item.talent}
-	self:simplePopup("Hotkey %s assigned":tformat(id), "%s assigned to hotkey %s":tformat(self.actor:getTalentFromId(item.talent).name:capitalize(), id)
+	self:simplePopup(("Hotkey %s assigned"):tformat(id), ("%s assigned to hotkey %s"):tformat(self.actor:getTalentFromId(item.talent).name:capitalize(), id)
 	self.actor.changed = true
 end
 
