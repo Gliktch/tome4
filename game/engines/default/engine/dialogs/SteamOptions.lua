@@ -74,8 +74,8 @@ function _M:generateList()
 	local list = {}
 	local i = 0
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString"Enable Steam Cloud saves.\nYour saves will be put on steam cloud and always be available everywhere.\nDisable if you have bandwidth limitations.#WHITE#"}
-	list[#list+1] = { zone=zone, name=string.toTString"#GOLD##{bold}#Cloud Saves#WHITE##{normal}#", status=function(item)
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Enable Steam Cloud saves.\nYour saves will be put on steam cloud and always be available everywhere.\nDisable if you have bandwidth limitations.#WHITE#"):toTstring()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Cloud Saves#WHITE##{normal}#"):toTstring(), status=function(item)
 		return tostring(core.steam.isCloudEnabled(true) and "enabled" or "disabled")
 	end, fct=function(item)
 		game:saveSettings("steam_cloud_choose", "steam_cloud_choose = true\n")
@@ -83,8 +83,8 @@ function _M:generateList()
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString"Purge all Steam Cloud saves.\nThis will remove all saves from the cloud cloud (but not your local copy). Only use if you somehow encounter storage problems on it (which should not happen, the game automatically manages it for you).#WHITE#"}
-	list[#list+1] = { zone=zone, name=string.toTString"#GOLD##{bold}#Purge Cloud Saves#WHITE##{normal}#", status=function(item)
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Purge all Steam Cloud saves.\nThis will remove all saves from the cloud cloud (but not your local copy). Only use if you somehow encounter storage problems on it (which should not happen, the game automatically manages it for you).#WHITE#"):toTstring()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Purge Cloud Saves#WHITE##{normal}#"):toTstring(), status=function(item)
 		return "purge"
 	end, fct=function(item)
 		Dialog:yesnoPopup(_t"Steam Cloud Purge", _t"Confirm purge?", function(ret) if ret then

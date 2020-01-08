@@ -35,7 +35,7 @@ _M.force_ui_inside = "microtxn"
 
 function _M:init(source)
 	self.donation_source = source or "ingame"
-	Dialog.init(self, "Donations", 600, 300)
+	Dialog.init(self, _t"Donations", 600, 300)
 
 	local desc
 	local recur = false
@@ -60,8 +60,8 @@ If you want to continue supporting ToME you are welcome to make a new donation o
 Thank you for your kindness!]]}
 	end
 
-	self.c_donate = Numberbox.new{title="Donation amount: ", number=10, max=1000, min=5, chars=5, fct=function() end}
-	self.c_recur = Checkbox.new{title="Monthly donation", default=recur, fct=function() end}
+	self.c_donate = Numberbox.new{title=_t"Donation amount: ", number=10, max=1000, min=5, chars=5, fct=function() end}
+	self.c_recur = Checkbox.new{title=_t"Monthly donation", default=recur, fct=function() end}
 	local euro = Textzone.new{auto_width=true, auto_height=true, text=[[euro]]}
 	local patreon = ButtonImage.new{alpha_unfocus=1, file="ui/patreon.png", fct=function() self:patreon() end}
 	local paypal = ButtonImage.new{alpha_unfocus=1, file="ui/paypal.png", fct=function() self:paypal() end}

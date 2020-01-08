@@ -27,7 +27,7 @@ local Separator = require "engine.ui.Separator"
 module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init()
-	Dialog.init(self, "Player Profile", 400, 200)
+	Dialog.init(self, _t"Player Profile", 400, 200)
 
 	self.c_desc = Textzone.new{width=300, height=self.ih, text=""}
 

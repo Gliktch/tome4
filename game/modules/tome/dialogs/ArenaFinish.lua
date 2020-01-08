@@ -29,7 +29,7 @@ module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init(actor)
 	self.actor = actor
-	Dialog.init(self, "Arena mode", 500, 300)
+	Dialog.init(self, _t"Arena mode", 500, 300)
 
 	actor:saveUUID()
 

@@ -41,7 +41,7 @@ function _M:init(title, actor)
 
 	self:generateList()
 
-	self.c_search = Textbox.new{title="Search: ", text="", chars=20, max_len=60, fct=function() end, on_change=function(text) self:search(text) end}
+	self.c_search = Textbox.new{title=_t"Search: ", text="", chars=20, max_len=60, fct=function() end, on_change=function(text) self:search(text) end}
 
 	self.c_list = ListColumns.new{width=math.floor(self.iw / 2 - vsep.w / 2), height=self.ih - 10 - self.c_search.h, scrollbar=true, sortable=true, columns={
 		{name="", width={40,"fixed"}, display_prop="order", sort="order"},

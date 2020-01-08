@@ -37,7 +37,7 @@ function _M:init(actor, def)
 	self.actor = actor
 	self.def = def
 	self:generateList()
-	engine.ui.Dialog.init(self, "Order: "..actor.name, 1, 1)
+	engine.ui.Dialog.init(self, ("Order: %s"):tformat(actor.name), 1, 1)
 
 	local list = List.new{width=400, nb_items=#self.list, list=self.list, fct=function(item) self:use(item) end}
 

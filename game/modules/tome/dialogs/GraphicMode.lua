@@ -44,7 +44,7 @@ function _M:init()
 	self:generateList()
 	self.changed = false
 
-	Dialog.init(self, "Change graphic mode", 300, 20)
+	Dialog.init(self, _t"Change graphic mode", 300, 20)
 
 	self.c_list = List.new{width=self.iw, nb_items=7, list=self.list, fct=function(item) self:use(item) end}
 
@@ -79,9 +79,9 @@ function _M:doCustomTiles()
 	local help = Textzone.new{width=500, auto_height=true, text=[[You can configure the game to use a custom tileset.
 You must place all files of your tileset in a subfolder of the modules's data/gfx/ folder, just like the existing tilesets.
 Each tile must be correctly named according to the existing tilesets.]]}
-	local dir = Textbox.new{title="Folder: ", text="", chars=30, max_len=50, fct=function() end}
-	local moddable_tiles = Checkbox.new{title="Use moddable tiles (equipment showing on player)", default=false, fct=function() end }
-	local adv_tiles = Checkbox.new{title="Use advanced tiles (transitions, wide tiles, ...)", default=false, fct=function() end }
+	local dir = Textbox.new{title=_t"Folder: ", text="", chars=30, max_len=50, fct=function() end}
+	local moddable_tiles = Checkbox.new{title=_t"Use moddable tiles (equipment showing on player)", default=false, fct=function() end }
+	local adv_tiles = Checkbox.new{title=_t"Use advanced tiles (transitions, wide tiles, ...)", default=false, fct=function() end }
 	local ok = Button.new{text="Use custom tileset", fct=function()
 		config.settings.tome.gfx.tiles = "customtiles"
 		config.settings.tome.gfx.tiles_custom_dir = dir.text

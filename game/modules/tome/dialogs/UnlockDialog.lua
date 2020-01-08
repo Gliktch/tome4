@@ -33,7 +33,7 @@ function _M:init(what)
 
 	game.logPlayer(game.player, "#VIOLET#Option unlocked: "..self.name)
 
-	Dialog.init(self, "Option unlocked: "..self.name, 600, 400)
+	Dialog.init(self, ("Option unlocked: %s"):tformat(self.name), 600, 400)
 
 	self.c_desc = Textzone.new{width=math.floor(self.iw - 10), height=self.ih, no_color_bleed=true, auto_height=true, text=self.str}
 

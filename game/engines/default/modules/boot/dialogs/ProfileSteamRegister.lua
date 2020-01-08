@@ -27,7 +27,7 @@ local Textzone = require "engine.ui.Textzone"
 module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init()
-	Dialog.init(self, "Steam User Account", math.min(800, game.w * 0.9), 400)
+	Dialog.init(self, _t"Steam User Account", math.min(800, game.w * 0.9), 400)
 	self.alpha = 230
 
 	self.c_desc = Textzone.new{width=math.floor(self.iw - 10), auto_height=true, text=_t[[Welcome to #GOLD#Tales of Maj'Eyal#LAST#.

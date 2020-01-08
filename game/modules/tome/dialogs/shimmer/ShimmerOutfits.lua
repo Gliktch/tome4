@@ -36,11 +36,11 @@ function _M:init(player)
 	self.actor:removeAllMOs()
 	self.search_filter = nil
 
-	Dialog.init(self, "Shimmer Sets: "..player.name, 680, 500)
+	Dialog.init(self, ("Shimmer Sets: %s"):tformat(player.name), 680, 500)
 
 	self:generateList()
 
-	self.c_search = Textbox.new{title="Search: ", text="", chars=20, max_len=60, fct=function() end, on_change=function(text) self:search(text) end}
+	self.c_search = Textbox.new{title=_t"Search: ", text="", chars=20, max_len=60, fct=function() end, on_change=function(text) self:search(text) end}
 
 	self.c_list = ListColumns.new{columns={{name="Name", width=100, display_prop="name", sort="sortname"}}, hide_columns=true, scrollbar=true, width=300, height=self.ih - 5 - self.c_search.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
 	local donatortext = ""

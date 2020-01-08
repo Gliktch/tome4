@@ -86,7 +86,7 @@ function _M:init(actor, on_finish, on_birth)
 		end
 	end
 
-	Dialog.init(self, "Levelup: "..actor.name..", level "..actor.level, game.w * 0.9, game.h * 0.9, game.w * 0.05, game.h * 0.05)
+	Dialog.init(self, ("Levelup: %s"):tformat(actor.name.."), level "..actor.level, game.w * 0.9, game.h * 0.9, game.w * 0.05, game.h * 0.05)
 	if game.w * 0.9 >= 1000 then
 		self.no_tooltip = true
 	end
@@ -792,7 +792,7 @@ function _M:createDisplay()
 		end
 	end}
 
-	self.c_hide_unknown = Checkbox.new{title="Hide unlearnt categories", default=self.actor.levelup_hide_unknown_catgories, fct=function() end, on_change=function(s)
+	self.c_hide_unknown = Checkbox.new{title=_t"Hide unlearnt categories", default=self.actor.levelup_hide_unknown_catgories, fct=function() end, on_change=function(s)
 		self.actor.levelup_hide_unknown_catgories = s
 		self:generateList()
 		local oldctree, oldgtree = self.c_ctree, self.c_gtree

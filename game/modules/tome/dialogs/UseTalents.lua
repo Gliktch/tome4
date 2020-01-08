@@ -56,7 +56,7 @@ end
 function _M:init(actor)
 	self.actor = actor
 	actor.hotkey = actor.hotkey or {}
-	Dialog.init(self, "Use Talents: "..actor.name, game.w * 0.8, game.h * 0.8)
+	Dialog.init(self, ("Use Talents: %s"):tformat(actor.name), game.w * 0.8, game.h * 0.8)
 
 	local vsep = Separator.new{dir="horizontal", size=self.ih - 10}
 	self.c_tut = Textzone.new{width=math.floor(self.iw / 2 - vsep.w / 2), height=1, auto_height=true, no_color_bleed=true, text=[[

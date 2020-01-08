@@ -29,7 +29,7 @@ function _M:run()
 	local escort_count = 0
 	game.player.advance_zones_data = {}
 
-	game:registerDialog(require('engine.dialogs.GetText').new("Advance Through Zones", "Enter a comma delimited list of zones or zone tiers to clear", 1, 9999, function(text)
+	game:registerDialog(require('engine.dialogs.GetText').new(_t"Advance Through Zones", _t"Enter a comma delimited list of zones or zone tiers to clear", 1, 9999, function(text)
 		
 		list = self:getZones(text)
 		game.player.no_inventory_access = true

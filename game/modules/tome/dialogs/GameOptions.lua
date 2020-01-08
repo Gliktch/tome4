@@ -34,16 +34,16 @@ function _M:init()
 	-- we can be called from the boot menu, so make sure to load initial settings in this case
 	dofile("/mod/settings.lua")
 
-	Dialog.init(self, "Game Options", game.w * 0.8, game.h * 0.8)
+	Dialog.init(self, _t"Game Options", game.w * 0.8, game.h * 0.8)
 
 	self.vsep = Separator.new{dir="horizontal", size=self.ih - 10}
 	self.c_desc = Textzone.new{width=math.floor((self.iw - self.vsep.w)/2), height=self.ih, text=""}
 
 	local tabs = {
-		{title="UI", kind="ui"},
-		{title="Gameplay", kind="gameplay"},
-		{title="Online", kind="online"},
-		{title="Misc", kind="misc"}
+		{title=_t"UI", kind="ui"},
+		{title=_t"Gameplay", kind="gameplay"},
+		{title=_t"Online", kind="online"},
+		{title=_t"Misc", kind="misc"}
 	}
 	self:triggerHook{"GameOptions:tabs", tab=function(title, fct)
 		local id = #tabs+1

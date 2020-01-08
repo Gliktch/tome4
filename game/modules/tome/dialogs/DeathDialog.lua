@@ -31,7 +31,7 @@ module(..., package.seeall, class.inherit(Dialog))
 function _M:init(actor)
 	self.actor = actor
 	self.ui = "deathbox"
-	Dialog.init(self, "You have #LIGHT_RED#died#LAST#!", 500, 600)
+	Dialog.init(self, _t"You have #LIGHT_RED#died#LAST#!", 500, 600)
 
 	actor:saveUUID()
 

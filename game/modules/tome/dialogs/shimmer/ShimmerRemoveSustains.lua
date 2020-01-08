@@ -31,7 +31,7 @@ function _M:init(player)
 	self.actor = player
 	self.actor.shimmer_sustains_hide = self.actor.shimmer_sustains_hide or {}
 
-	Dialog.init(self, "Shimmer: Remove Sustains Effects", 680, 500)
+	Dialog.init(self, _t"Shimmer: Remove Sustains Effects", 680, 500)
 
 	self:generateList()
 

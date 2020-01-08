@@ -29,7 +29,7 @@ module(..., package.seeall, class.inherit(Dialog))
 function _M:init(party)
 	self.party = party
 
-	Dialog.init(self, "Ingredients collected", game.w * 0.8, game.h * 0.8)
+	Dialog.init(self, _t"Ingredients collected", game.w * 0.8, game.h * 0.8)
 
 	self.c_desc = TextzoneList.new{width=math.floor(self.iw / 2 - 10), scrollbar=true, height=self.ih}
 

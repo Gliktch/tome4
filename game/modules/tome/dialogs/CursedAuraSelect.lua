@@ -29,7 +29,7 @@ module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init(actor)
 	self.actor = actor
-	Dialog.init(self, "Cursed Aura Selection", 1, 1)
+	Dialog.init(self, _t"Cursed Aura Selection", 1, 1)
 
 	self:generateList()
 

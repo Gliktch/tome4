@@ -98,15 +98,15 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	self.c_extra_options = Button.new{text="Extra Options", fct=function() self:extraOptions() end}
 	self.c_extra_options.hide = not game.extra_birth_option_defs or #game.extra_birth_option_defs == 0
 
-	self.c_name = Textbox.new{title="Name: ", text=(not config.settings.cheat and game.player_name == "player") and "" or game.player_name, chars=30, max_len=50, fct=function()
+	self.c_name = Textbox.new{title=_t"Name: ", text=(not config.settings.cheat and game.player_name == "player") and "" or game.player_name, chars=30, max_len=50, fct=function()
 		if config.settings.cheat then self:makeDefault() end
 	end, on_change=function() self:setDescriptor() end, on_mouse = function(button) if button == "right" then self:randomName() end end}
 
-	self.c_female = Checkbox.new{title="Female", default=true,
+	self.c_female = Checkbox.new{title=_t"Female", default=true,
 		fct=function() end,
 		on_change=function(s) self.c_male.checked = not s self:setDescriptor("sex", s and "Female" or "Male") end
 	}
-	self.c_male = Checkbox.new{title="Male", default=false,
+	self.c_male = Checkbox.new{title=_t"Male", default=false,
 		fct=function() end,
 		on_change=function(s) self.c_female.checked = not s self:setDescriptor("sex", s and "Male" or "Female") end
 	}

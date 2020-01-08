@@ -47,18 +47,18 @@ function _M:init(actor, start_tab)
 	self.font_w, self.font_h = self.font:size(' ')
 	self.font_h = self.font:lineSkip()
 
-	Dialog.init(self, "Character Sheet: "..self.actor.name, util.bound(self.font_w*200, game.w*0.5, game.w*0.95), util.bound(self.font_h*36, game.h*.35, game.h*.85))
+	Dialog.init(self, ("Character Sheet: %s"):tformat(self.actor.name), util.bound(self.font_w*200, game.w*0.5, game.w*0.95), util.bound(self.font_h*36, game.h*.35, game.h*.85))
 
 	self.talent_sorting = config.settings.tome.charsheet_talent_sorting or 1
 
-	self.c_general = Tab.new{title="[G]eneral", default=start_tab == "general", fct=function() end, on_change=function(s) if s then self:switchTo("general") end end}
-	self.c_attack = Tab.new{title="[A]ttack", default=start_tab == "attack", fct=function() end, on_change=function(s) if s then self:switchTo("attack") end end}
-	self.c_defence = Tab.new{title="[D]efense", default=start_tab == "defense", fct=function() end, on_change=function(s) if s then self:switchTo("defence") end end}
-	self.c_talents = Tab.new{title="[T]alents", default=start_tab == "talents", fct=function() end, on_change=function(s) if s then self:switchTo("talents") end end }
+	self.c_general = Tab.new{title=_t"[G]eneral", default=start_tab == "general", fct=function() end, on_change=function(s) if s then self:switchTo("general") end end}
+	self.c_attack = Tab.new{title=_t"[A]ttack", default=start_tab == "attack", fct=function() end, on_change=function(s) if s then self:switchTo("attack") end end}
+	self.c_defence = Tab.new{title=_t"[D]efense", default=start_tab == "defense", fct=function() end, on_change=function(s) if s then self:switchTo("defence") end end}
+	self.c_talents = Tab.new{title=_t"[T]alents", default=start_tab == "talents", fct=function() end, on_change=function(s) if s then self:switchTo("talents") end end }
 
 	-- Select equipment/switch sets
 	self.equip_set = self.actor.off_weapon_slots and "off" or "main"
-	self.c_equipment = Tab.new{title="[E]quipment: "..self.equip_set.." set", default=start_tab == "equipment",
+	self.c_equipment = Tab.new{title=_t"[E]quipment: "..self.equip_set.." set", default=start_tab == "equipment",
 		fct=function()
 		end,
 		on_change=function(s)
