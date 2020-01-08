@@ -27,7 +27,7 @@ local Textzone = require "engine.ui.Textzone"
 module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init(data)
-	Dialog.init(self, _t"User: "..data.name, 1,1)
+	Dialog.init(self, ("User: %s"):tformat(data.name), 1,1)
 
 	data.current_char = data.current_char or {}
 

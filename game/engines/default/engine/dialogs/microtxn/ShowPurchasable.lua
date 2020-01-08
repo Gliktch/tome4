@@ -366,7 +366,7 @@ function _M:paymentSuccess()
 	end end
 
 	game:unregisterDialog(self)
-	Dialog:simpleLongPopup(_t"Payment", _t"Payment accepted.\n"..table.concat(list, "\n"), 700)
+	Dialog:simpleLongPopup(_t"Payment", "Payment accepted.\n%s":tformat(table.concat(list, "\n")), 700)
 end
 
 function _M:paymentFailure()
@@ -453,7 +453,7 @@ function _M:doPurchaseTE4()
 				end end, _t"Purchase", _t"Cancel")
 			elseif e.info:prefix("requires:") then
 				local more = tonumber(e.info:sub(10))
-				Dialog:yesnoPopup(_t"Online Store", _t"You need "..more.." more coins to purchase those options. Do you want to go to the donation page now?", function(ret) if ret then
+				Dialog:yesnoPopup(_t"Online Store", ("You need %s more coins to purchase those options. Do you want to go to the donation page now?"):tformat(more), function(ret) if ret then
 					util.browserOpenUrl("https://te4.org/donate", {is_external=true})
 				end end, _t"Let's go! (Opens in your browser)", _t"Not now")
 				self:paymentCancel()

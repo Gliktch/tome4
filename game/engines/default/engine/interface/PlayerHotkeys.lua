@@ -174,7 +174,7 @@ end
 function _M:hotkeyInventory(name)
 	local o, item, inven = self:findInAllInventories(name)
 	if not o then
-		Dialog:simplePopup(_t"Item not found", _t"You do not have any "..name..".")
+		Dialog:simplePopup(_t"Item not found", ("You do not have any %s ."):tformat(name))
 	else
 		self:playerUseItem(o, item, inven)
 	end

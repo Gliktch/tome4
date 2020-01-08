@@ -31,7 +31,7 @@ module(..., package.seeall, class.inherit(Dialog))
 function _M:init(actor)
 	self.actor = actor
 	actor.hotkey = actor.hotkey or {}
-	Dialog.init(self, _t"Use Talents: "..actor.name, game.w * 0.7, game.h * 0.7)
+	Dialog.init(self, ("Use Talents: "):tformat(actor.name), game.w * 0.7, game.h * 0.7)
 
 	self.c_tut = Textzone.new{width=math.floor(self.iw / 2 - 10), height=1, auto_height=true, no_color_bleed=true, text=_t[[
 You can bind a talent to a hotkey be pressing the corresponding hotkey while selecting a talent.

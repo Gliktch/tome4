@@ -153,7 +153,7 @@ function _M:gainAchievement(id, src, ...)
 	if not config.settings.cheat then profile:saveModuleProfile("achievements", {id=id, turn=game.turn, who=self:achievementWho(src), gained_on=os.date("%Y-%m-%d %H:%M:%S")}) end
 	local color = a.huge and "GOLD" or "LIGHT_GREEN"
 	game.log("#"..color.."#New Achievement: %s!", a.name)
-	self:showAchievement(_t"New Achievement: #"..color.."#"..a.name, a)
+	self:showAchievement(("New Achievement: #%s#%s"):tformat(color, a.name), a)
 	if not a.no_chat_broadcast then profile.chat:achievement(a.name, a.huge, true) end
 
 	if a.on_gain then a:on_gain(src) end

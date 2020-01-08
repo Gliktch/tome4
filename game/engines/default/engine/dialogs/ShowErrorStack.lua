@@ -132,7 +132,7 @@ If you are not currently connected to the internet, please report this bug when 
 	end
 
 	if realpath_errfile then
-		local realpath_errfile_t = Textzone.new{text=_t"Log saved to file (click to copy to clipboard):#LIGHT_BLUE#"..realpath_errfile, width=self.iw, auto_height=true, fct=function() core.key.setClipboard(realpath_errfile) game.log("File location copied to clipboard.") end}
+		local realpath_errfile_t = Textzone.new{text="Log saved to file (click to copy to clipboard):#LIGHT_BLUE#%s":tformat(realpath_errfile), width=self.iw, auto_height=true, fct=function() core.key.setClipboard(realpath_errfile) game.log("File location copied to clipboard.") end}
 		for i, ui in ipairs(uis) do if ui.bottom then ui.bottom = ui.bottom + realpath_errfile_t.h end end
 		table.insert(uis, 1, {left=0, bottom=0, ui=realpath_errfile_t})
 	end

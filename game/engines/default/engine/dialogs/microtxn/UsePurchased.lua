@@ -111,7 +111,7 @@ Make sure you have #GOLD##{bold}#Allow online events#WHITE##{normal}# in the #GO
 			if e.success then
 				Dialog:simplePopup(item.name, _t"The option has been activated.")			
 			else
-				Dialog:simplePopup(item.name, _t"There was an error from the server: "..tostring(e.error))
+				Dialog:simplePopup(item.name, ("There was an error from the server: %s"):tformat(tostring(e.error)))
 			end
 		end)
 		core.profile.pushOrder(string.format("o='MicroTxn' suborder='use_actionable' module=%q id_purchasable=%d", game.__mod_info.short_name, item.id_purchasable))

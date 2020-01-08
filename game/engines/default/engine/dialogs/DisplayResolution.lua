@@ -74,7 +74,7 @@ function _M:use(item)
 	if core.display.setWindowSizeRequiresRestart(w, h, self.c_fs.checked
 		, self.c_bl.checked) then
 		Dialog:yesnoPopup(_t"Engine Restart Required"
-			, _t"Continue?" .. (game.creating_player and "" or _t" (progress will be saved)")
+			, ("Continue? %s"):tformat(game.creating_player and "" or _t" (progress will be saved)")
 			, function(restart)
 				if restart then
 					local resetPos = Dialog:yesnoPopup(_t"Reset Window Position?"
