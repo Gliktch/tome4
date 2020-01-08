@@ -114,7 +114,7 @@ function _M:simplePopup(title, text, fct, no_leave, any_leave)
 	if not no_leave then
 		d.key:addBind("EXIT", function() game:unregisterDialog(d) if fct then fct() end end)
 		if any_leave then d.key:addCommand("__DEFAULT", function() game:unregisterDialog(d) if fct then fct() end end) end
-		local close = require("engine.ui.Button").new{text="Close", fct=function() d.key:triggerVirtual("EXIT") end}
+		local close = require("engine.ui.Button").new{text=_t"Close", fct=function() d.key:triggerVirtual("EXIT") end}
 		d:loadUI{no_reset=true, {hcenter = 0, bottom = 3, ui=close}}
 		d:setFocus(close)
 	end
@@ -135,7 +135,7 @@ function _M:simpleLongPopup(title, text, w, fct, no_leave, force_height)
 	d:loadUI{{left = 3, top = 3, ui=textzone}}
 	if not no_leave then
 		d.key:addBind("EXIT", function() game:unregisterDialog(d) if fct then fct() end end)
-		local close = require("engine.ui.Button").new{text="Close", fct=function() d.key:triggerVirtual("EXIT") end}
+		local close = require("engine.ui.Button").new{text=_t"Close", fct=function() d.key:triggerVirtual("EXIT") end}
 		d:loadUI{no_reset=true, {hcenter = 0, bottom = 3, ui=close}}
 		d:setFocus(close)
 	end
@@ -335,7 +335,7 @@ function _M:webPopup(url)
 			local url = w.cur_url:gsub("%?_te4&", "?"):gsub("%?_te4", ""):gsub("&_te4", "")
 			core.key.setClipboard(url)
 			print("[WEBVIEW] url copy", url)
-			self:simplePopup("Copy URL", "URL copied to your clipboard.")
+			self:simplePopup(_t"Copy URL", _t"URL copied to your clipboard.")
 		end
 	end}
 	w.on_title = function(title) d:updateTitle(title) end

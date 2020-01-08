@@ -29,9 +29,9 @@ local GetQuantity = require "engine.dialogs.GetQuantity"
 module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init()
-	Dialog.init(self, "Steam Options", game.w * 0.8, game.h * 0.8)
+	Dialog.init(self, _t"Steam Options", game.w * 0.8, game.h * 0.8)
 
-	self.c_desc = Textzone.new{width=math.floor(self.iw / 2 - 10), height=self.ih, text=""}
+	self.c_desc = Textzone.new{width=math.floor(self.iw / 2 - 10), height=self.ih, text=_t""}
 
 	self:generateList()
 
@@ -87,9 +87,9 @@ function _M:generateList()
 	list[#list+1] = { zone=zone, name=string.toTString"#GOLD##{bold}#Purge Cloud Saves#WHITE##{normal}#", status=function(item)
 		return "purge"
 	end, fct=function(item)
-		Dialog:yesnoPopup("Steam Cloud Purge", "Confirm purge?", function(ret) if ret then
+		Dialog:yesnoPopup(_t"Steam Cloud Purge", _t"Confirm purge?", function(ret) if ret then
 			self:purgeCloud()
-			Dialog:simplePopup("Steam Cloud Purge", "All data purged from the cloud.")
+			Dialog:simplePopup(_t"Steam Cloud Purge", _t"All data purged from the cloud.")
 		end end)
 	end,}
 

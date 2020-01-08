@@ -108,7 +108,7 @@ end
 --- Make a dialog popup with the full log
 function _M:showLogDialog(title, shadow)
 	local log = self:getLog()
-	local d = require_first("mod.dialogs.ShowLog", "engine.dialogs.ShowLog").new(title or "Message Log", shadow, {log=log})
+	local d = require_first("mod.dialogs.ShowLog", "engine.dialogs.ShowLog").new(title or _t"Message Log", shadow, {log=log})
 	game:registerDialog(d)
 end
 

@@ -46,7 +46,7 @@ function _M:runInit(dir)
 		block_hard_left = false,
 		block_hard_right = false,
 		cnt = 1,
-		dialog = Dialog:simplePopup("Running...", "You are running, press Enter to stop.", function()
+		dialog = Dialog:simplePopup(_t"Running...", _t"You are running, press Enter to stop.", function()
 			self:runStop()
 		end, false, true),
 	}
@@ -96,7 +96,7 @@ function _M:runFollow(path)
 	self.running = {
 		path = runpath,
 		cnt = 1,
-		dialog = Dialog:simplePopup("Running...", "You are running, press any key to stop.", function()
+		dialog = Dialog:simplePopup(_t"Running...", _t"You are running, press any key to stop.", function()
 			self:runStop()
 		end, false, true),
 	}

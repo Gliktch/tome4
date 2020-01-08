@@ -38,22 +38,22 @@ function _M:init(title, store_inven, actor_inven, store_filter, actor_filter, ac
 	self.actor_inven = actor_inven
 	self.store_filter = store_filter
 	self.actor_filter = actor_filter
-	Dialog.init(self, title or "Store", math.max(800, game.w * 0.8), math.max(600, game.h * 0.8))
+	Dialog.init(self, title or _t"Store", math.max(800, game.w * 0.8), math.max(600, game.h * 0.8))
 
 	self.c_inven = ListColumns.new{width=math.floor(self.iw / 2 - 10), height=self.ih - 10, sortable=true, scrollbar=true, columns={
-		{name="", width={20,"fixed"}, display_prop="char", sort="id"},
-		{name="", width={24,"fixed"}, display_prop="object", direct_draw=function(item, x, y) item.object:toScreen(nil, x+4, y, 16, 16) end},
-		{name="Inventory", width=80, display_prop="name", sort="name"},
-		{name="Category", width=20, display_prop="cat", sort="cat"},
-		{name="Price", width={50,"fixed"}, display_prop="desc_price", sort=function(a, b) return descprice("sell", a.object) <descprice("sell", b.object) end},
+		{name=_t"", width={20,"fixed"}, display_prop="char", sort="id"},
+		{name=_t"", width={24,"fixed"}, display_prop="object", direct_draw=function(item, x, y) item.object:toScreen(nil, x+4, y, 16, 16) end},
+		{name=_t"Inventory", width=80, display_prop="name", sort="name"},
+		{name=_t"Category", width=20, display_prop="cat", sort="cat"},
+		{name=_t"Price", width={50,"fixed"}, display_prop="desc_price", sort=function(a, b) return descprice("sell", a.object) <descprice("sell", b.object) end},
 	}, list={}, fct=function(item, sel) self:use(item) end, select=function(item, sel) self:select(item) end}
 
 	self.c_store = ListColumns.new{width=math.floor(self.iw / 2 - 10), height=self.ih - 10, sortable=true, scrollbar=true, columns={
-		{name="", width={20,"fixed"}, display_prop="char", sort="id"},
-		{name="", width={24,"fixed"}, display_prop="object", direct_draw=function(item, x, y) item.object:toScreen(nil, x+4, y, 16, 16) end},
-		{name="Store", width=80, display_prop="name"},
-		{name="Category", width=20, display_prop="cat"},
-		{name="Price", width={50,"fixed"}, display_prop="desc_price", sort=function(a, b) return descprice("buy", a.object) <descprice("buy", b.object) end},
+		{name=_t"", width={20,"fixed"}, display_prop="char", sort="id"},
+		{name=_t"", width={24,"fixed"}, display_prop="object", direct_draw=function(item, x, y) item.object:toScreen(nil, x+4, y, 16, 16) end},
+		{name=_t"Store", width=80, display_prop="name"},
+		{name=_t"Category", width=20, display_prop="cat"},
+		{name=_t"Price", width={50,"fixed"}, display_prop="desc_price", sort=function(a, b) return descprice("buy", a.object) <descprice("buy", b.object) end},
 	}, list={}, fct=function(item) self:use(item) end, select=function(item, sel) self:select(item) end}
 
 	self:generateList()

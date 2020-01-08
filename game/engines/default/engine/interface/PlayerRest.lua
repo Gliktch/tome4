@@ -26,15 +26,15 @@ module(..., package.seeall, class.make)
 
 --- Initializes resting
 function _M:restInit(turns, what, past, on_end, on_very_end)
-	what = what or "resting"
-	past = past or "rested"
+	what = what or _t"resting"
+	past = past or _t"rested"
 	self.resting = {
 		rest_turns = turns,
 		past = past,
 		on_end = on_end,
 		on_very_end = on_very_end,
 		cnt = 0,
-		dialog = Dialog:simplePopup(what:capitalize().."...", "You are "..what..", press Enter to stop.", function()
+		dialog = Dialog:simplePopup(what:capitalize().."...", "You are %s, press Enter to stop.":tformat(what), function()
 			self:restStop()
 		end),
 	}

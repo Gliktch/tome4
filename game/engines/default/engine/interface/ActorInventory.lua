@@ -409,7 +409,7 @@ function _M:canWearObject(o, try_slot)
 
 	-- check if the slot matches dammit
 	if try_slot and try_slot ~= o.slot and try_slot ~= self:getObjectOffslot(o) then
-		return nil, "wrong equipment slot"
+		return nil, _t"wrong equipment slot"
 	end
 
 	-- Check prerequisites
@@ -417,7 +417,7 @@ function _M:canWearObject(o, try_slot)
 		-- Obviously this requires the ActorStats interface
 		if req.stat then
 			for s, v in pairs(req.stat) do
-				if self:getStat(s) < v then return nil, "not enough stat" end
+				if self:getStat(s) < v then return nil, _t"not enough stat" end
 			end
 		end
 		if req.flag then
@@ -425,25 +425,25 @@ function _M:canWearObject(o, try_slot)
 				if type(flag) == "table" then
 					if not self:attr(flag[1]) or self:attr(flag[1]) < flag[2] then
 						local name = o.requirement_flags_names and o.requirement_flags_names[flag[1]] or flag[1]
-						return nil, "missing "..tostring(name).." (level "..tostring(flag[2])..")"
+						return nil, "missing %s (level %s )":tformat(tostring(name), tostring(flag[2]))
 					end
 				else
 					if not self:attr(flag) then
 						local name = o.requirement_flags_names and o.requirement_flags_names[flag] or flag
-						return nil, "missing "..tostring(name)
+						return nil, "missing %s":tformat(tostring(name))
 					end
 				end
 			end
 		end
 		if req.level and self.level < req.level then
-			return nil, "not enough levels"
+			return nil, _t"not enough levels"
 		end
 		if req.talent then
 			for _, tid in ipairs(req.talent) do
 				if type(tid) == "table" then
-					if self:getTalentLevelRaw(tid[1]) < tid[2] then return nil, "missing dependency" end
+					if self:getTalentLevelRaw(tid[1]) < tid[2] then return nil, _t"missing dependency" end
 				else
-					if not self:knowTalent(tid) then return nil, "missing dependency" end
+					if not self:knowTalent(tid) then return nil, _t"missing dependency" end
 				end
 			end
 		end
@@ -454,7 +454,7 @@ function _M:canWearObject(o, try_slot)
 		local inven = self:getInven(o.slot_forbid)
 		-- If the object cant coexist with that inventory slot and it exists and is not empty, refuse wearing
 		if inven and #inven > 0 then
-			return nil, "cannot use currently due to an other worn object"
+			return nil, _t"cannot use currently due to an other worn object"
 		end
 	end
 
@@ -465,7 +465,7 @@ function _M:canWearObject(o, try_slot)
 				print("fight: ", o.name, wo.name, "::", wo.slot_forbid, try_slot or o.slot)
 				if wo.slot_forbid and self:slotForbidCheck(wo, id) and wo.slot_forbid == (try_slot or o.slot) then
 					print(" impossible => ", o.name, wo.name, "::", wo.slot_forbid, try_slot or o.slot)
-					return nil, "cannot use currently due to an other worn object"
+					return nil, _t"cannot use currently due to an other worn object"
 				end
 			end
 		end

@@ -831,30 +831,30 @@ function string.a_an(str)
 end
 
 function string.he_she(actor)
-	if actor.female then return "she"
-	elseif actor.neuter then return "it"
-	else return "he"
+	if actor.female then return _t"she"
+	elseif actor.neuter then return _t"it"
+	else return _t"he"
 	end
 end
 
 function string.his_her(actor)
-	if actor.female then return "her"
-	elseif actor.neuter then return "its"
-	else return "his"
+	if actor.female then return _t"her"
+	elseif actor.neuter then return _t"its"
+	else return _t"his"
 	end
 end
 
 function string.him_her(actor)
-	if actor.female then return "her"
-	elseif actor.neuter then return "it"
-	else return "him"
+	if actor.female then return _t"her"
+	elseif actor.neuter then return _t"it"
+	else return _t"him"
 	end
 end
 
 function string.his_her_self(actor)
-	if actor.female then return "herself"
-	elseif actor.neuter then return "itself"
-	else return "himself"
+	if actor.female then return _t"herself"
+	elseif actor.neuter then return _t"itself"
+	else return _t"himself"
 	end
 end
 
@@ -1118,7 +1118,7 @@ function string.fromValue(v, recurse, offset, prefix, suffix)
 			local abv = {}
 			if v.__CLASSNAME then abv[#abv+1] = "__CLASSNAME="..tostring(v.__CLASSNAME) end
 			if v.__ATOMIC then abv[#abv+1] = "ATOMIC" end
-			vs = ("%s\"%s%s%s\"%s"):format(prefix, v, v.__CLASSNAME and ", __CLASSNAME="..tostring(v.__CLASSNAME) or "", v.__ATOMIC and ", ATOMIC" or "", suffix)
+			vs = ("%s\"%s%s%s\"%s"):format(prefix, v, v.__CLASSNAME and ", __CLASSname=_t"..tostring(v.__CLASSNAME) or "", v.__ATOMIC and ", ATOMIC" or "", suffix)
 		elseif recurse > 0 then -- get recursive string
 			vs = string.fromTable(v, recurse - 1, offset, prefix, suffix)
 		else vs = prefix.."\""..tostring(v).."\""..suffix

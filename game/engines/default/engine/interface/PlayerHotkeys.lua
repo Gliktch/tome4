@@ -161,7 +161,7 @@ function _M:activateHotkey(id)
 	if self.hotkey[id] then
 		self["hotkey"..self.hotkey[id][1]:capitalize()](self, self.hotkey[id][2])
 	else
-		Dialog:simplePopup("Hotkey not defined", "You may define a hotkey by pressing 'm' and following the instructions there.")
+		Dialog:simplePopup(_t"Hotkey not defined", _t"You may define a hotkey by pressing 'm' and following the instructions there.")
 	end
 end
 
@@ -174,7 +174,7 @@ end
 function _M:hotkeyInventory(name)
 	local o, item, inven = self:findInAllInventories(name)
 	if not o then
-		Dialog:simplePopup("Item not found", "You do not have any "..name..".")
+		Dialog:simplePopup(_t"Item not found", _t"You do not have any "..name..".")
 	else
 		self:playerUseItem(o, item, inven)
 	end
