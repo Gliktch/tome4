@@ -125,7 +125,7 @@ return {
 			if game.level.data.yaech_start_in < 0 then
 				game.level.data.yaech_start_in = nil
 				local melinda = game.party:findMember{type="Girlfriend"}
-				if melinda then melinda:doEmote("Look over there!", 120) end
+				if melinda then melinda:doEmote(_t"Look over there!", 120) end
 				game.level.data.nb_yaech_killed = 0
 				for i = 1, 12 do
 					local m = game.zone:makeEntity(game.level, "actor", {type = "humanoid", subtype = "yaech"}, nil, true)

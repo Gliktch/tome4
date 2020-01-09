@@ -45,6 +45,6 @@ newAI("move_quest_limmir", function(self)
 		game.level.turn_counter_desc = "Protect Limmir from the demons coming from north-east. Hold them off!"
 		game.player.changed = true
 		self.ai = "none"
-		self:doEmote("This place is corrupted! I will cleanse it! Protect me while I do it!", 120)
+		self:doEmote(_t"This place is corrupted! I will cleanse it! Protect me while I do it!", 120)
 	end
 end)

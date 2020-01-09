@@ -104,7 +104,7 @@ newEntity{ base = "BASE_NPC_SUNWALL_DEFENDER", define_as = "SUN_PALADIN_DEFENDER
 	on_added = function(self)
 		self.energy.value = game.energy_to_act self:useTalent(self.T_WEAPON_OF_LIGHT)
 		self.energy.value = game.energy_to_act self:useTalent(self.T_CHANT_OF_FORTRESS)
-		self:doEmote("Go "..game.player.name.."! We will hold the line!", 150)
+		self:doEmote(("Go %s! We will hold the line!"):tformat(game.player.name), 150)
 	end,
 }
 
@@ -210,7 +210,7 @@ newEntity{
 
 	hunted_difficulty_immune = 1,
 	on_acquire_target = function(self, who)
-		self:doEmote("Damn you, you only postpone your death! Fyrk!", 60)
+		self:doEmote(_t"Damn you, you only postpone your death! Fyrk!", 60)
 		game.player:hasQuest("charred-scar"):setStatus(engine.Quest.COMPLETED, "stopped")
 		game.player:hasQuest("charred-scar"):start_fyrk()
 	end,

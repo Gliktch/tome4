@@ -124,11 +124,11 @@ newEntity{ base="BASE_NPC_ORC_RAK_SHOR", define_as = "CULTIST_RAK_SHOR",
 			local x, y = util.findFreeGrid(self.x, self.y, 10, true, {[engine.Map.ACTOR]=true})
 			if x and y then
 				self:logCombat(game.player, "#GREY#The #Source# looks deep into your eyes. You feel torn apart!")
-				self:doEmote("Ra'kk kor merk ZUR!!!", 120)
+				self:doEmote(_t"Ra'kk kor merk ZUR!!!", 120)
 				game.zone:addEntity(game.level, a, "actor", x, y)
 				a:resolve()
 				if is_yeek then
-					a:doEmote("FOR THE WAY! Die cultist!", 120)
+					a:doEmote(_t"FOR THE WAY! Die cultist!", 120)
 					a.can_talk = "shadow-crypt-yeek-clone"
 					self:logCombat(game.player, "#PURPLE#The #Source# looks afraid, he did not plan on his creation turning against him!")
 				end

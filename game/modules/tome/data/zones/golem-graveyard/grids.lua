@@ -28,7 +28,7 @@ newEntity{base="HARDWALL", define_as = "ATAMATHON_BROKEN",
 	resolvers.nice_tile{image="terrain/grass.png", add_displays = {class.new{z=18,image="npc/construct_golem_athamathon_the_giant_golem.png", display_y=-1, display_h=2}}},
 	name = "the remains of Atamathon",
 	show_tooltip = true,
-	desc = [[This giant golem was constructed by the Halflings during the Pyre Wars to fight the orcs, but was felled by Garkul the Devourer.
+	desc = _t[[This giant golem was constructed by the Halflings during the Pyre Wars to fight the orcs, but was felled by Garkul the Devourer.
 Its body is made of marble, its joints of solid voratun, and its sole eye of purest ruby; the other one seems to be missing. At over 40 feet tall, it towers above you.
 Someone foolish has tried to reconstruct it, but was unable to complete the task; the golem needs another eye to be complete.]],
 	dig = false,
@@ -54,9 +54,9 @@ Someone foolish has tried to reconstruct it, but was unable to complete the task
 					game.log("#LIGHT_RED#Atamathon walks the world again, but without control.")
 					game.zone:addEntity(game.level, grass, "terrain", x, y)
 					game.zone:addEntity(game.level, atamathon, "actor", x, y)
-					atamathon:doEmote("Activating defenses. Targetting hostile. **DESTRUCTION**!", 60)
+					atamathon:doEmote(_t"Activating defenses. Targetting hostile. **DESTRUCTION**!", 60)
 					atamathon:setTarget(e)
-				end, "Insert", "Cancel")
+				end, _t"Insert", _t"Cancel")
 			end
 		end
 		return true

@@ -33,7 +33,7 @@ You are strong but you cannot resist them all!]],
 		{_t"So what do you propose?", jump="what"},
 		{_t"[kill him]", action=function(npc, player)
 			npc.die = nil
-			npc:doEmote("ARRGGggg... You are alone! You will be destroyed!", 60)
+			npc:doEmote(_t"ARRGGggg... You are alone! You will be destroyed!", 60)
 			npc:die(player)
 		end},
 	}
@@ -46,7 +46,7 @@ Please!]],
 	answers = {
 		{_t"Thanks for the information. Now you may die. [kill him]", action=function(npc, player)
 			npc.die = nil
-			npc:doEmote("ARRGGggg... You are alone! You will be destroyed!", 60)
+			npc:doEmote(_t"ARRGGggg... You are alone! You will be destroyed!", 60)
 			npc:die(player)
 		end},
 	}

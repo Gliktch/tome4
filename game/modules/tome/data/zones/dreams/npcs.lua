@@ -89,7 +89,7 @@ newEntity{
 			m.inc_damage.all = -50
 			m.life = 30
 			game.zone:addEntity(game.level, m, "actor", self.x, self.y)
-			m:doEmote("GRrrrrrllllll!", 60)
+			m:doEmote(_t"GRrrrrrllllll!", 60)
 		elseif nb <= 1 then
 			local g = game.zone.grid_list.DREAM2_END:clone()
 			game.zone:addEntity(game.level, g, "terrain", self.x, self.y)

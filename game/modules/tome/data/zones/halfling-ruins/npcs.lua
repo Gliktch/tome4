@@ -82,7 +82,7 @@ newEntity{ define_as="SUBJECT_Z",
 
 		wayist:setTarget(self)
 		self:setTarget(wayist)
-		wayist:doEmote("Sacrifice for the Way!", 60)
+		wayist:doEmote(_t"Sacrifice for the Way!", 60)
 
 		-- Warning for our good yeek folks to GTFOH
 		if game:getPlayer(true) and game:getPlayer(true).starting_zone == "town-irkkk" then
@@ -102,13 +102,13 @@ newEntity{ define_as="SUBJECT_Z",
 		local p = game.party:findMember{main=true}
 		-- Yeeks really, really, really, hate halflings
 		if p.descriptor.race == "Halfling" then
-			wayist:doEmote("Halfling?! DIE!!!!!", 70)
+			wayist:doEmote(_t"Halfling?! DIE!!!!!", 70)
 			wayist:checkAngered(p, false, -200)
 		elseif p.descriptor.race == "Yeek" then
-			wayist:doEmote("The Way sent you?", 70)
+			wayist:doEmote(_t"The Way sent you?", 70)
 			wayist.can_talk = "yeek-wayist"
 		else
-			wayist:doEmote("You.. saved me?", 70)
+			wayist:doEmote(_t"You.. saved me?", 70)
 			wayist.can_talk = "yeek-wayist"
 		end
 	end,

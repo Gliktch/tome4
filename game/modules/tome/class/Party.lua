@@ -404,9 +404,9 @@ function _M:giveOrder(actor, order)
 	-------------------------------------------
 	elseif order == "escort_rest" then
 		-- Rest for a few turns
-		if actor.ai_state.tactic_escort_rest then actor:doEmote("No, we must hurry!", 40) return true end
+		if actor.ai_state.tactic_escort_rest then actor:doEmote(_t"No, we must hurry!", 40) return true end
 		actor.ai_state.tactic_escort_rest = rng.range(6, 10)
-		actor:doEmote("Ok, but not for long.", 40)
+		actor:doEmote(_t"Ok, but not for long.", 40)
 	elseif order == "escort_portal" then
 		local dist = core.fov.distance(actor.escort_target.x, actor.escort_target.y, actor.x, actor.y)
 		if dist < 8 then dist = _t"very close"

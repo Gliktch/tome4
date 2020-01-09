@@ -93,7 +93,7 @@ In return let me offer you this powerful trident.]],
 			if o then
 				o:identify(true)
 				player:addObject(player.INVEN_INVEN, o)
-				npc:doEmote("LET US BE BOUND!", 150)
+				npc:doEmote(_t"LET US BE BOUND!", 150)
 				game.level.map:particleEmitter(npc.x, npc.y, 1, "demon_teleport")
 				game.level.map:particleEmitter(player.x, player.y, 1, "demon_teleport")
 				npc.invulnerable = 1

@@ -93,7 +93,7 @@ generate = function(self, player, x, y)
 	end
 	a.on_takehit = function(self, val)
 		if not self.half_life_check and (self.life - val < self.max_life / 2) then
-			self:doEmote("Meet the guardian!")
+			self:doEmote(_t"Meet the guardian!")
 			game:onTickEnd(function()
 				game:changeLevel(1, "paradox-plane")
 			end)

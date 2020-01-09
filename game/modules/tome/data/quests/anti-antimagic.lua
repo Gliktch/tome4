@@ -125,7 +125,7 @@ myssil_dies = function(self)
 	end
 	if not corr then return end
 
-	corr:doEmote("Victory is mine!", 60)
+	corr:doEmote(_t"Victory is mine!", 60)
 	corr.never_anger = nil
 	game.player:setQuestStatus(self.id, self.COMPLETED)
 end
