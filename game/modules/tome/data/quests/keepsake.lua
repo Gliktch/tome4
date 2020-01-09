@@ -19,38 +19,38 @@
 
 -- Keepsake
 
-name = "Keepsake"
+name = _t"Keepsake"
 id = "keepsake"
 
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You have begun to look for a way to overcome the curse that afflicts you."
+	desc[#desc+1] = _t"You have begun to look for a way to overcome the curse that afflicts you."
 	if self:isCompleted("berethh-killed-good") then
-		desc[#desc+1] = "You have found a small iron acorn which you keep as a reminder of your past."
-		desc[#desc+1] = "You have destroyed the merchant caravan that you once considered family."
-		desc[#desc+1] = "Kyless, the one who brought the curse, is dead by your hand."
-		desc[#desc+1] = "Berethh is dead, may he rest in peace."
-		desc[#desc+1] = "Your curse has changed the iron acorn which now serves as a cruel reminder of your past and present."
+		desc[#desc+1] = _t"You have found a small iron acorn which you keep as a reminder of your past."
+		desc[#desc+1] = _t"You have destroyed the merchant caravan that you once considered family."
+		desc[#desc+1] = _t"Kyless, the one who brought the curse, is dead by your hand."
+		desc[#desc+1] = _t"Berethh is dead, may he rest in peace."
+		desc[#desc+1] = _t"Your curse has changed the iron acorn which now serves as a cruel reminder of your past and present."
 	elseif self:isCompleted("berethh-killed-evil") then
-		desc[#desc+1] = "You have found a small iron acorn which you keep as a reminder of your past"
-		desc[#desc+1] = "You have destroyed the merchant caravan that you once considered family."
-		desc[#desc+1] = "Kyless, the one who brought the curse, is dead by your hand."
-		desc[#desc+1] = "Berethh is dead, may he rest in peace."
-		desc[#desc+1] = "Your curse has defiled the iron acorn which now serves as a reminder of your vile nature."
+		desc[#desc+1] = _t"You have found a small iron acorn which you keep as a reminder of your past"
+		desc[#desc+1] = _t"You have destroyed the merchant caravan that you once considered family."
+		desc[#desc+1] = _t"Kyless, the one who brought the curse, is dead by your hand."
+		desc[#desc+1] = _t"Berethh is dead, may he rest in peace."
+		desc[#desc+1] = _t"Your curse has defiled the iron acorn which now serves as a reminder of your vile nature."
 	elseif self:isCompleted("kyless-killed") then
-		desc[#desc+1] = "You have found a small iron acorn which you keep as a reminder of your past."
-		desc[#desc+1] = "You have destroyed the merchant caravan that you once considered family."
-		desc[#desc+1] = "Kyless, the one who brought the curse, is dead by your hand."
-		desc[#desc+1] = "#LIGHT_GREEN#You need to find Berethh, the last person who may be able to help you."
+		desc[#desc+1] = _t"You have found a small iron acorn which you keep as a reminder of your past."
+		desc[#desc+1] = _t"You have destroyed the merchant caravan that you once considered family."
+		desc[#desc+1] = _t"Kyless, the one who brought the curse, is dead by your hand."
+		desc[#desc+1] = _t"#LIGHT_GREEN#You need to find Berethh, the last person who may be able to help you."
 	elseif self:isCompleted("caravan-destroyed") then
-		desc[#desc+1] = "You have found a small iron acorn which you keep as a reminder of your past."
-		desc[#desc+1] = "You have destroyed the merchant caravan that you once considered family."
-		desc[#desc+1] = "#LIGHT_GREEN#Seek out Kyless' cave in the northern part of the meadow and end him. Perhaps the curse will end with him."
+		desc[#desc+1] = _t"You have found a small iron acorn which you keep as a reminder of your past."
+		desc[#desc+1] = _t"You have destroyed the merchant caravan that you once considered family."
+		desc[#desc+1] = _t"#LIGHT_GREEN#Seek out Kyless' cave in the northern part of the meadow and end him. Perhaps the curse will end with him."
 	elseif self:isCompleted("acorn-found") then
-		desc[#desc+1] = "You have found a small iron acorn which you keep as a reminder of your past."
-		desc[#desc+1] = "#LIGHT_GREEN#Discover the meaning of the acorn and the dream."
+		desc[#desc+1] = _t"You have found a small iron acorn which you keep as a reminder of your past."
+		desc[#desc+1] = _t"#LIGHT_GREEN#Discover the meaning of the acorn and the dream."
 	else
-		desc[#desc+1] = "#LIGHT_GREEN#You may have to revist your past to unlock some secret buried there."
+		desc[#desc+1] = _t"#LIGHT_GREEN#You may have to revist your past to unlock some secret buried there."
 	end
 	return table.concat(desc, "\n")
 end

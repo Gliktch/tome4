@@ -17,10 +17,10 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "The Curse of Magic"
+name = _t"The Curse of Magic"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You have been invited to join a group called the Ziguranth, dedicated to opposing magic."
+	desc[#desc+1] = _t"You have been invited to join a group called the Ziguranth, dedicated to opposing magic."
 	return table.concat(desc, "\n")
 end
 

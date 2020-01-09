@@ -19,11 +19,11 @@
 
 use_ui = "quest-main"
 
-name = "Important news"
+name = _t"Important news"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "Orcs were spotted with the staff you seek in an arid waste in the southern desert."
-	desc[#desc+1] = "You should go investigate what is happening there."
+	desc[#desc+1] = _t"Orcs were spotted with the staff you seek in an arid waste in the southern desert."
+	desc[#desc+1] = _t"You should go investigate what is happening there."
 	return table.concat(desc, "\n")
 end
 

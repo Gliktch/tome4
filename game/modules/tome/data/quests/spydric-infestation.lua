@@ -17,14 +17,14 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "Eight legs of wonder"
+name = _t"Eight legs of wonder"
 desc = function(self, who)
 	local desc = {}
 	if not self:isCompleted() and not self:isEnded() then
-		desc[#desc+1] = "Enter the caverns of Ardhungol and look for Sun Paladin Rashim."
-		desc[#desc+1] = "But be careful; those are not small spiders..."
+		desc[#desc+1] = _t"Enter the caverns of Ardhungol and look for Sun Paladin Rashim."
+		desc[#desc+1] = _t"But be careful; those are not small spiders..."
 	else
-		desc[#desc+1] = "#LIGHT_GREEN#You have killed Ungolë in Ardhungol and saved the Sun Paladin."
+		desc[#desc+1] = _t"#LIGHT_GREEN#You have killed Ungolë in Ardhungol and saved the Sun Paladin."
 	end
 	return table.concat(desc, "\n")
 end

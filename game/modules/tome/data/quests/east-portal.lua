@@ -17,40 +17,40 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "Back and there again"
+name = _t"Back and there again"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You have created a portal back to Maj'Eyal. You should try to talk to someone in Last Hope about establishing a link back."
+	desc[#desc+1] = _t"You have created a portal back to Maj'Eyal. You should try to talk to someone in Last Hope about establishing a link back."
 
 	if self:isCompleted("talked-elder") then
-		desc[#desc+1] = "You talked to the Elder in Last Hope who in turn told you to talk to Tannen, who lives in the north of the city."
+		desc[#desc+1] = _t"You talked to the Elder in Last Hope who in turn told you to talk to Tannen, who lives in the north of the city."
 	end
 
 	if self:isCompleted("gave-orb") then
-		desc[#desc+1] = "You gave the Orb of Many Ways to Tannen to study while you look for the athame and diamond in Reknor."
+		desc[#desc+1] = _t"You gave the Orb of Many Ways to Tannen to study while you look for the athame and diamond in Reknor."
 	end
 	if self:isCompleted("withheld-orb") then
-		desc[#desc+1] = "You kept the Orb of Many Ways despite Tannen's request to study it. You must now look for the athame and diamond in Reknor."
+		desc[#desc+1] = _t"You kept the Orb of Many Ways despite Tannen's request to study it. You must now look for the athame and diamond in Reknor."
 	end
 	if self:isCompleted("open-telmur") then
-		desc[#desc+1] = "You brought back the diamond and athame to Tannen who asked you to check the tower of Telmur, looking for a text of portals, although he is not sure it is even there. He told you to come back in a few days."
+		desc[#desc+1] = _t"You brought back the diamond and athame to Tannen who asked you to check the tower of Telmur, looking for a text of portals, although he is not sure it is even there. He told you to come back in a few days."
 	end
 	if self:isCompleted("ask-east") then
-		desc[#desc+1] = "You brought back the diamond and athame to Tannen who asked you to contact Zemekkys to ask some delicate questions."
+		desc[#desc+1] = _t"You brought back the diamond and athame to Tannen who asked you to contact Zemekkys to ask some delicate questions."
 	end
 	if self:isCompleted("just-wait") then
-		desc[#desc+1] = "You brought back the diamond and athame to Tannen who asked you to come back in a few days."
+		desc[#desc+1] = _t"You brought back the diamond and athame to Tannen who asked you to come back in a few days."
 	end
 	if self:isCompleted("tricked-demon") then
-		desc[#desc+1] = "Tannen has tricked you! He swapped the orb for a false one that brought you to a demonic plane. Find the exit, and get revenge!"
+		desc[#desc+1] = _t"Tannen has tricked you! He swapped the orb for a false one that brought you to a demonic plane. Find the exit, and get revenge!"
 	end
 	if self:isCompleted("trapped") then
-		desc[#desc+1] = "Tannen revealed himself as the vile scum he really is and trapped you in his tower."
+		desc[#desc+1] = _t"Tannen revealed himself as the vile scum he really is and trapped you in his tower."
 	end
 
 	if self:isCompleted() then
-		desc[#desc+1] = ""
-		desc[#desc+1] = "#LIGHT_GREEN#* The portal to the Far East is now functional and can be used to go back.#WHITE#"
+		desc[#desc+1] = _t""
+		desc[#desc+1] = _t"#LIGHT_GREEN#* The portal to the Far East is now functional and can be used to go back.#WHITE#"
 	end
 
 	return table.concat(desc, "\n")

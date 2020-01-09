@@ -17,53 +17,53 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "Sher'Tul Fortress"
+name = _t"Sher'Tul Fortress"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You found notes from an explorer inside the Old Forest. He spoke about Sher'Tul ruins sunken below the surface of the lake of Nur, at the forest's center."
-	desc[#desc+1] = "With one of the notes there was a small gem that looks like a key."
+	desc[#desc+1] = _t"You found notes from an explorer inside the Old Forest. He spoke about Sher'Tul ruins sunken below the surface of the lake of Nur, at the forest's center."
+	desc[#desc+1] = _t"With one of the notes there was a small gem that looks like a key."
 	if self:isCompleted("entered") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You used the key inside the ruins of Nur and found a way into the fortress of old.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You used the key inside the ruins of Nur and found a way into the fortress of old.#WHITE#"
 	end
 	if self:isCompleted("weirdling") then
-		desc[#desc+1] = "#LIGHT_GREEN#* The Weirdling Beast is dead, freeing the way into the fortress itself.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* The Weirdling Beast is dead, freeing the way into the fortress itself.#WHITE#"
 	end
 	if self:isCompleted("butler") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have activated what seems to be a ... butler? with your rod of recall.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have activated what seems to be a ... butler? with your rod of recall.#WHITE#"
 	end
 	if self:isCompleted("transmo-chest") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have bound the transmogrification chest to the Fortress power system.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have bound the transmogrification chest to the Fortress power system.#WHITE#"
 	end
 	if self:isCompleted("transmo-chest-extract-gems") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have upgraded the transmogrification chest to automatically transmute metallic items into gems before transmogrifying them.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have upgraded the transmogrification chest to automatically transmute metallic items into gems before transmogrifying them.#WHITE#"
 	end
 	if self:isCompleted("training") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have unlocked the training room.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have unlocked the training room.#WHITE#"
 	end
 	if self:isCompleted("shimmer") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have unlocked the hall of reflections.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have unlocked the hall of reflections.#WHITE#"
 	end
 	if self:isCompleted("recall") then
 		if self:isCompleted("recall-done") then
-			desc[#desc+1] = "#LIGHT_GREEN#* You have upgraded your rod of recall to transport you to the fortress.#WHITE#"
+			desc[#desc+1] = _t"#LIGHT_GREEN#* You have upgraded your rod of recall to transport you to the fortress.#WHITE#"
 		else
-			desc[#desc+1] = "#SLATE#* The fortress shadow has asked that you come back as soon as possible.#WHITE#"
+			desc[#desc+1] = _t"#SLATE#* The fortress shadow has asked that you come back as soon as possible.#WHITE#"
 		end
 	end
 	if self:isCompleted("farportal") then
 		if self:isCompleted("farportal-broken") then
-			desc[#desc+1] = "#RED#* You have forced a recall while in an exploratory farportal zone. The farportal was rendered unusable in the process.#WHITE#"
+			desc[#desc+1] = _t"#RED#* You have forced a recall while in an exploratory farportal zone. The farportal was rendered unusable in the process.#WHITE#"
 		elseif self:isCompleted("farportal-done") then
-			desc[#desc+1] = "#LIGHT_GREEN#* You have entered the exploratory farportal room and defeated the horror lurking there. You can now use the farportal.#WHITE#"
+			desc[#desc+1] = _t"#LIGHT_GREEN#* You have entered the exploratory farportal room and defeated the horror lurking there. You can now use the farportal.#WHITE#"
 		else
-			desc[#desc+1] = "#SLATE#* The fortress shadow has asked that you come back as soon as possible.#WHITE#"
+			desc[#desc+1] = _t"#SLATE#* The fortress shadow has asked that you come back as soon as possible.#WHITE#"
 		end
 	end
 	if self:isCompleted("flight") then
 		if self:isCompleted("flight-done") then
-			desc[#desc+1] = "#LIGHT_GREEN#* You have re-enabled the fortress flight systems. You can now fly around in your fortress!#WHITE#"
+			desc[#desc+1] = _t"#LIGHT_GREEN#* You have re-enabled the fortress flight systems. You can now fly around in your fortress!#WHITE#"
 		else
-			desc[#desc+1] = "#SLATE#* The fortress shadow has asked that you find an Ancient Storm Sapphire, along with at least 250 energy, to re-enable the fortress flight systems.#WHITE#"
+			desc[#desc+1] = _t"#SLATE#* The fortress shadow has asked that you find an Ancient Storm Sapphire, along with at least 250 energy, to re-enable the fortress flight systems.#WHITE#"
 		end
 	end
 	if self.shertul_energy > 0 then

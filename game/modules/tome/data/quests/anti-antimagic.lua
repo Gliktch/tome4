@@ -17,17 +17,17 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "The fall of Zigur"
+name = _t"The fall of Zigur"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You decided to side with the Grand Corruptor and joined forces to assault the Ziguranth main base of power."
+	desc[#desc+1] = _t"You decided to side with the Grand Corruptor and joined forces to assault the Ziguranth main base of power."
 	if self:isStatus(self.FAILED) then
-		desc[#desc+1] = "The Grand Corruptor died during the attack before he had time to teach you his ways."
+		desc[#desc+1] = _t"The Grand Corruptor died during the attack before he had time to teach you his ways."
 	elseif self:isStatus(self.DONE) then
-		desc[#desc+1] = "The defenders of Zigur were crushed, the Ziguranth scattered and weakened."
+		desc[#desc+1] = _t"The defenders of Zigur were crushed, the Ziguranth scattered and weakened."
 	end
 	if self:isStatus(self.COMPLETED, "grand-corruptor-treason") then
-		desc[#desc+1] = "In the aftermath you turned against the Grand Corruptor and dispatched him."
+		desc[#desc+1] = _t"In the aftermath you turned against the Grand Corruptor and dispatched him."
 	end
 
 	return table.concat(desc, "\n")
@@ -134,8 +134,8 @@ function onWin(self, who)
 	if not self:isStatus(self.DONE) then return end
 	if self:isStatus(self.COMPLETED, "grand-corruptor-treason") then return end
 	return 10, {
-		"While you were in the Far East, the Grand Corruptor was busy in Maj'Eyal.",
-		"With the fall of Zigur he was able to attack and take control of Elvala, the Shaloren capital city.",
-		"His plans however do not stop there.",
+		_t"While you were in the Far East, the Grand Corruptor was busy in Maj'Eyal.",
+		_t"With the fall of Zigur he was able to attack and take control of Elvala, the Shaloren capital city.",
+		_t"His plans however do not stop there.",
 	}
 end
