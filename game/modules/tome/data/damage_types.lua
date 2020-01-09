@@ -736,7 +736,7 @@ local function tryDestroy(who, inven, dam, destroy_prop, proof_prop, msg)
 end
 
 newDamageType{
-	name = "cosmetic", type = "COSMETIC", text_color = "#WHITE#",
+	name = _t"cosmetic", type = "COSMETIC", text_color = "#WHITE#",
 	projector = function(src, x, y, type, dam)
 	end,
 	death_message = {"cosmeticed"},
@@ -748,7 +748,7 @@ newDamageType{
 -- Need a provision to allow for compound DamageTypes to work with damDesc, combatGetResist, combatGetDamageIncrease, combatGetResistPen, combatGetAffinity, etc.
 
 newDamageType{
-	name = "physical", type = "PHYSICAL", text_color = "#WHITE#",
+	name = _t"physical", type = "PHYSICAL", text_color = "#WHITE#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -766,13 +766,13 @@ newDamageType{
 
 -- Arcane is basic (usually) unresistable damage
 newDamageType{
-	name = "arcane", type = "ARCANE", text_color = "#PURPLE#",
+	name = _t"arcane", type = "ARCANE", text_color = "#PURPLE#",
 	antimagic_resolve = true,
 	death_message = {"blasted", "energised", "mana-torn", "dweomered", "imploded"},
 }
 -- The elemental damages
 newDamageType{
-	name = "fire", type = "FIRE", text_color = "#LIGHT_RED#",
+	name = _t"fire", type = "FIRE", text_color = "#LIGHT_RED#",
 	antimagic_resolve = true,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -800,7 +800,7 @@ newDamageType{
 	death_message = {"burnt", "scorched", "blazed", "roasted", "flamed", "fried", "combusted", "toasted", "slowly cooked", "boiled"},
 }
 newDamageType{
-	name = "cold", type = "COLD", text_color = "#1133F3#",
+	name = _t"cold", type = "COLD", text_color = "#1133F3#",
 	antimagic_resolve = true,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -819,7 +819,7 @@ newDamageType{
 	death_message = {"frozen", "chilled", "iced", "cooled", "frozen and shattered into a million little shards"},
 }
 newDamageType{
-	name = "lightning", type = "LIGHTNING", text_color = "#ROYAL_BLUE#",
+	name = _t"lightning", type = "LIGHTNING", text_color = "#ROYAL_BLUE#",
 	antimagic_resolve = true,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -838,7 +838,7 @@ newDamageType{
 
 -- Acid, few specific interactions currently aside from damage types later derived from this
 newDamageType{
-	name = "acid", type = "ACID", text_color = "#GREEN#",
+	name = _t"acid", type = "ACID", text_color = "#GREEN#",
 	antimagic_resolve = true,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -856,7 +856,7 @@ newDamageType{
 
 -- Nature & Blight: Opposing damage types
 newDamageType{
-	name = "nature", type = "NATURE", text_color = "#LIGHT_GREEN#",
+	name = _t"nature", type = "NATURE", text_color = "#LIGHT_GREEN#",
 	antimagic_resolve = true,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -873,7 +873,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "blight", type = "BLIGHT", text_color = "#DARK_GREEN#",
+	name = _t"blight", type = "BLIGHT", text_color = "#DARK_GREEN#",
 	antimagic_resolve = true,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -897,14 +897,14 @@ newDamageType{
 
 -- Light damage
 newDamageType{
-	name = "light", type = "LIGHT", text_color = "#YELLOW#",
+	name = _t"light", type = "LIGHT", text_color = "#YELLOW#",
 	antimagic_resolve = true,
 	death_message = {"radiated", "seared", "purified", "sun baked", "jerkied", "tanned"},
 }
 
 -- Darkness damage
 newDamageType{
-	name = "darkness", type = "DARKNESS", text_color = "#GREY#",
+	name = _t"darkness", type = "DARKNESS", text_color = "#GREY#",
 	antimagic_resolve = true,
 	death_message = {"shadowed", "darkened", "swallowed by the void"},
 	projector = function(src, x, y, type, dam, state)
@@ -924,7 +924,7 @@ newDamageType{
 -- Mind damage
 -- Most uses of this have their damage effected by mental save and do not trigger cross tiers, ie, melee items
 newDamageType{
-	name = "mind", type = "MIND", text_color = "#ORANGE#",
+	name = _t"mind", type = "MIND", text_color = "#ORANGE#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -953,7 +953,7 @@ newDamageType{
 -- Cold damage+turn energy drain, used exclusively by the Wintertide weapon
 -- If you use this for something else make sure to note it has no power check or sanity check on how much turn energy is drained
 newDamageType{
-	name = "winter", type = "WINTER",
+	name = _t"winter", type = "WINTER",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -975,7 +975,7 @@ newDamageType{
 
 -- Temporal damage
 newDamageType{
-	name = "temporal", type = "TEMPORAL", text_color = "#LIGHT_STEEL_BLUE#",
+	name = _t"temporal", type = "TEMPORAL", text_color = "#LIGHT_STEEL_BLUE#",
 	antimagic_resolve = true,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -994,7 +994,7 @@ newDamageType{
 
 -- Temporal + Stun
 newDamageType{
-	name = "temporal stun", type = "TEMPORALSTUN",
+	name = _t"temporal stun", type = "TEMPORALSTUN",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1012,7 +1012,7 @@ newDamageType{
 
 -- Lite up the room
 newDamageType{
-	name = "lite", type = "LITE", text_color = "#YELLOW#",
+	name = _t"lite", type = "LITE", text_color = "#YELLOW#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1028,7 +1028,7 @@ newDamageType{
 
 -- Break stealth
 newDamageType{
-	name = "illumination", type = "BREAK_STEALTH",
+	name = _t"illumination", type = "BREAK_STEALTH",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1042,7 +1042,7 @@ newDamageType{
 
 -- Silence
 newDamageType{
-	name = "silence", type = "SILENCE",
+	name = _t"silence", type = "SILENCE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1059,7 +1059,7 @@ newDamageType{
 
 -- Silence
 newDamageType{
-	name = "arcane silence", type = "ARCANE_SILENCE", text_color = "#PURPLE#",
+	name = _t"arcane silence", type = "ARCANE_SILENCE", text_color = "#PURPLE#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1081,7 +1081,7 @@ newDamageType{
 
 -- Silence
 newDamageType{
-	name = "silence", type = "RANDOM_SILENCE",
+	name = _t"silence", type = "RANDOM_SILENCE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1098,7 +1098,7 @@ newDamageType{
 
 -- Blinds
 newDamageType{
-	name = "blindness", type = "BLIND",
+	name = _t"blindness", type = "BLIND",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1113,7 +1113,7 @@ newDamageType{
 	end,
 }
 newDamageType{
-	name = "blindness", type = "BLINDPHYSICAL",
+	name = _t"blindness", type = "BLINDPHYSICAL",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1128,7 +1128,7 @@ newDamageType{
 	end,
 }
 newDamageType{
-	name = "blinding ink", type = "BLINDING_INK",
+	name = _t"blinding ink", type = "BLINDING_INK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1143,7 +1143,7 @@ newDamageType{
 	end,
 }
 newDamageType{
-	name = "blindness", type = "BLINDCUSTOMMIND",
+	name = _t"blindness", type = "BLINDCUSTOMMIND",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1160,7 +1160,7 @@ newDamageType{
 
 -- Lite + Light damage
 newDamageType{
-	name = "bright light", type = "LITE_LIGHT",
+	name = _t"bright light", type = "LITE_LIGHT",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1171,7 +1171,7 @@ newDamageType{
 
 -- Fire damage + DOT
 newDamageType{
-	name = "fire burn", type = "FIREBURN", text_color = "#LIGHT_RED#",
+	name = _t"fire burn", type = "FIREBURN", text_color = "#LIGHT_RED#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1192,7 +1192,7 @@ newDamageType{
 
 -- Fire damage + DOT + 25% chance of Fireflash
 newDamageType{
-	name = "stunning fire", type = "FIRE_STUN", text_color = "#LIGHT_RED#",
+	name = _t"stunning fire", type = "FIRE_STUN", text_color = "#LIGHT_RED#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1215,7 +1215,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "fire burn", type = "GOLEM_FIREBURN",
+	name = _t"fire burn", type = "GOLEM_FIREBURN",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1230,7 +1230,7 @@ newDamageType{
 
 -- Drain Life... with fire!
 newDamageType{
-	name = "devouring flames", type = "FIRE_DRAIN", text_color = "#LIGHT_RED#",
+	name = _t"devouring flames", type = "FIRE_DRAIN", text_color = "#LIGHT_RED#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1247,7 +1247,7 @@ newDamageType{
 
 -- Darkness + Fire
 newDamageType{
-	name = "shadowflame", type = "SHADOWFLAME", text_color = "#BF7F73#",
+	name = _t"shadowflame", type = "SHADOWFLAME", text_color = "#BF7F73#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1258,7 +1258,7 @@ newDamageType{
 
 -- Darkness + Stun
 newDamageType{
-	name = "stunning darkness", type = "DARKSTUN", text_color = "#GREY#",
+	name = _t"stunning darkness", type = "DARKSTUN", text_color = "#GREY#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1277,7 +1277,7 @@ newDamageType{
 
 -- Darkness but not over minions
 newDamageType{
-	name = "darkness", type = "MINION_DARKNESS",
+	name = _t"darkness", type = "MINION_DARKNESS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1290,7 +1290,7 @@ newDamageType{
 
 -- Fore but not over minions
 newDamageType{
-	name = "fire", type = "FIRE_FRIENDS",
+	name = _t"fire", type = "FIRE_FRIENDS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1303,7 +1303,7 @@ newDamageType{
 
 -- Cold + Stun
 newDamageType{
-	name = "cold", type = "COLDSTUN",
+	name = _t"cold", type = "COLDSTUN",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1321,7 +1321,7 @@ newDamageType{
 
 -- Fire DOT + Stun
 newDamageType{
-	name = "flameshock", type = "FLAMESHOCK",
+	name = _t"flameshock", type = "FLAMESHOCK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1340,7 +1340,7 @@ newDamageType{
 
 -- Cold damage + freeze chance
 newDamageType{
-	name = "ice", type = "ICE", text_color = "#1133F3#",
+	name = _t"ice", type = "ICE", text_color = "#1133F3#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1364,7 +1364,7 @@ newDamageType{
 
 -- Cold damage + freeze chance + 20% slow
 newDamageType{
-	name = "slowing ice", type = "ICE_SLOW", text_color = "#1133F3#",
+	name = _t"slowing ice", type = "ICE_SLOW", text_color = "#1133F3#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1384,7 +1384,7 @@ newDamageType{
 
 -- Cold damage + freeze chance, increased if wet
 newDamageType{
-	name = "ice storm", type = "ICE_STORM", text_color = "#1133F3#",
+	name = _t"ice storm", type = "ICE_STORM", text_color = "#1133F3#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1403,7 +1403,7 @@ newDamageType{
 
 -- Increased cold damage + freeze chance if wet
 newDamageType{
-	name = "glacial vapour", type = "GLACIAL_VAPOUR", text_color = "#1133F3#",
+	name = _t"glacial vapour", type = "GLACIAL_VAPOUR", text_color = "#1133F3#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1420,7 +1420,7 @@ newDamageType{
 
 -- Cold damage + freeze ground
 newDamageType{
-	name = "pinning cold", type = "COLDNEVERMOVE", text_color = "#CADET_BLUE#",
+	name = _t"pinning cold", type = "COLDNEVERMOVE", text_color = "#CADET_BLUE#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1442,7 +1442,7 @@ newDamageType{
 
 -- Freezes target, checks for spellresistance and stun resistance
 newDamageType{
-	name = "freeze", type = "FREEZE",
+	name = _t"freeze", type = "FREEZE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1463,7 +1463,7 @@ newDamageType{
 
 -- Dim vision
 newDamageType{
-	name = "sticky smoke", type = "STICKY_SMOKE",
+	name = _t"sticky smoke", type = "STICKY_SMOKE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1480,7 +1480,7 @@ newDamageType{
 
 -- Acid damage + blind chance
 newDamageType{
-	name = "acid blind", type = "ACID_BLIND", text_color = "#GREEN#",
+	name = _t"acid blind", type = "ACID_BLIND", text_color = "#GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1499,7 +1499,7 @@ newDamageType{
 
 -- Darkness damage + blind chance
 newDamageType{
-	name = "blinding darkness", type = "DARKNESS_BLIND",
+	name = _t"blinding darkness", type = "DARKNESS_BLIND",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1518,7 +1518,7 @@ newDamageType{
 
 -- Light damage + blind chance
 newDamageType{
-	name = "blinding light", type = "LIGHT_BLIND", text_color = "#YELLOW#",
+	name = _t"blinding light", type = "LIGHT_BLIND", text_color = "#YELLOW#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1537,7 +1537,7 @@ newDamageType{
 
 -- Lightning damage + daze chance
 newDamageType{
-	name = "dazing lightning", type = "LIGHTNING_DAZE", text_color = "#ROYAL_BLUE#",
+	name = _t"dazing lightning", type = "LIGHTNING_DAZE", text_color = "#ROYAL_BLUE#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1565,7 +1565,7 @@ newDamageType{
 
 -- Cold/physical damage + repulsion; checks for spell power against physical resistance
 newDamageType{
-	name = "cold repulsion", type = "WAVE",
+	name = _t"cold repulsion", type = "WAVE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1597,7 +1597,7 @@ newDamageType{
 
 -- Bloodspring damage + repulsion; checks for spell power against physical resistance
 newDamageType{
-	name = "bloodspring", type = "BLOODSPRING",
+	name = _t"bloodspring", type = "BLOODSPRING",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1620,7 +1620,7 @@ newDamageType{
 
 -- Fireburn damage + repulsion; checks for spell power against physical resistance
 newDamageType{
-	name = "fire repulsion", type = "FIREKNOCKBACK",
+	name = _t"fire repulsion", type = "FIREKNOCKBACK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1643,7 +1643,7 @@ newDamageType{
 
 -- Fireburn damage + repulsion; checks for mind power against physical resistance
 newDamageType{
-	name = "burning repulsion", type = "FIREKNOCKBACK_MIND",
+	name = _t"burning repulsion", type = "FIREKNOCKBACK_MIND",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1666,7 +1666,7 @@ newDamageType{
 
 -- Darkness damage + repulsion; checks for spell power against mental resistance
 newDamageType{
-	name = "darkness repulsion", type = "DARKKNOCKBACK",
+	name = _t"darkness repulsion", type = "DARKKNOCKBACK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1689,7 +1689,7 @@ newDamageType{
 
 -- Physical damage + repulsion; checks for spell power against physical resistance
 newDamageType{
-	name = "physical repulsion", type = "SPELLKNOCKBACK",
+	name = _t"physical repulsion", type = "SPELLKNOCKBACK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1714,7 +1714,7 @@ newDamageType{
 
 -- Physical damage + repulsion; checks for mind power against physical resistance
 newDamageType{
-	name = "physical repulsion", type = "MINDKNOCKBACK",
+	name = _t"physical repulsion", type = "MINDKNOCKBACK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1736,7 +1736,7 @@ newDamageType{
 
 -- Physical damage + repulsion; checks for attack power against physical resistance
 newDamageType{
-	name = "physical repulsion", type = "PHYSKNOCKBACK",
+	name = _t"physical repulsion", type = "PHYSKNOCKBACK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1760,7 +1760,7 @@ newDamageType{
 
 -- Fear check + repulsion; checks for mind power against physical resistance
 newDamageType{
-	name = "fear repulsion", type = "FEARKNOCKBACK",
+	name = _t"fear repulsion", type = "FEARKNOCKBACK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1781,7 +1781,7 @@ newDamageType{
 
 -- Poisoning damage
 newDamageType{
-	name = "poison", type = "POISON", text_color = "#LIGHT_GREEN#",
+	name = _t"poison", type = "POISON", text_color = "#LIGHT_GREEN#",
 	projector = function(src, x, y, t, dam)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1801,7 +1801,7 @@ newDamageType{
 
 -- Inferno: fire and maybe remove stuff
 newDamageType{
-	name = "cleansing fire", type = "INFERNO",
+	name = _t"cleansing fire", type = "INFERNO",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1827,7 +1827,7 @@ newDamageType{
 
 -- Spydric poison: prevents movement
 newDamageType{
-	name = "spydric poison", type = "SPYDRIC_POISON",
+	name = _t"spydric poison", type = "SPYDRIC_POISON",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1842,7 +1842,7 @@ newDamageType{
 
 -- Crippling poison: failure to act
 newDamageType{
-	name = "crippling poison", type = "CRIPPLING_POISON", text_color = "#LIGHT_GREEN#",
+	name = _t"crippling poison", type = "CRIPPLING_POISON", text_color = "#LIGHT_GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1857,7 +1857,7 @@ newDamageType{
 
 -- Insidious poison: prevents healing
 newDamageType{
-	name = "insidious poison", type = "INSIDIOUS_POISON", text_color = "#LIGHT_GREEN#",
+	name = _t"insidious poison", type = "INSIDIOUS_POISON", text_color = "#LIGHT_GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1872,7 +1872,7 @@ newDamageType{
 
 -- Bleeding damage
 newDamageType{
-	name = "bleed", type = "BLEED",
+	name = _t"bleed", type = "BLEED",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1888,7 +1888,7 @@ newDamageType{
 
 -- Physical damage + bleeding (50% of base over 5 turns)
 newDamageType{
-	name = "physical bleed", type = "PHYSICALBLEED",
+	name = _t"physical bleed", type = "PHYSICALBLEED",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1902,7 +1902,7 @@ newDamageType{
 
 -- Slime damage
 newDamageType{
-	name = "nature slow", type = "SLIME", text_color = "#LIGHT_GREEN#",
+	name = _t"nature slow", type = "SLIME", text_color = "#LIGHT_GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1917,7 +1917,7 @@ newDamageType{
 
 
 newDamageType{
-	name = "dig", type = "DIG",
+	name = _t"dig", type = "DIG",
 	projector = function(src, x, y, typ, dam)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1943,7 +1943,7 @@ newDamageType{
 
 -- Slowness
 newDamageType{
-	name = "slow", type = "SLOW",
+	name = _t"slow", type = "SLOW",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1958,7 +1958,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "congeal time", type = "CONGEAL_TIME",
+	name = _t"congeal time", type = "CONGEAL_TIME",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1972,7 +1972,7 @@ newDamageType{
 
 -- Time prison, invulnerability and stun
 newDamageType{
-	name = "time prison", type = "TIME_PRISON",
+	name = _t"time prison", type = "TIME_PRISON",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -1994,7 +1994,7 @@ newDamageType{
 
 -- Confusion
 newDamageType{
-	name = "confusion", type = "CONFUSION",
+	name = _t"confusion", type = "CONFUSION",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2011,7 +2011,7 @@ newDamageType{
 
 -- Confusion
 newDamageType{
-	name = "% chance of confusion", type = "RANDOM_CONFUSION",
+	name = _t"% chance of confusion", type = "RANDOM_CONFUSION",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2029,7 +2029,7 @@ newDamageType{
 
 -- Confusion
 newDamageType{
-	name = "% chance of confusion", type = "RANDOM_CONFUSION_PHYS",
+	name = _t"% chance of confusion", type = "RANDOM_CONFUSION_PHYS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2046,7 +2046,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "% chance of gloom effects", type = "RANDOM_GLOOM",
+	name = _t"% chance of gloom effects", type = "RANDOM_GLOOM",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2083,7 +2083,7 @@ newDamageType{
 -- Name:  item - theme - debuff/effect
 -- This entire system should probably be moved outside of DTs/melee_project at some point
 newDamageType{
-	name = "item darkness numbing", type = "ITEM_DARKNESS_NUMBING",
+	name = _t"item darkness numbing", type = "ITEM_DARKNESS_NUMBING",
 	text_color = "#GREY#",
 	tdesc = function(dam, oldDam, src)
 		local parens = ""
@@ -2115,7 +2115,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item expose", type = "ITEM_MIND_EXPOSE",
+	name = _t"item expose", type = "ITEM_MIND_EXPOSE",
 	text_color = "#GREY#",
 	tdesc = function(dam, oldDam, src)
 		local parens = ""
@@ -2147,7 +2147,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item temporal energize", type = "ITEM_TEMPORAL_ENERGIZE",
+	name = _t"item temporal energize", type = "ITEM_TEMPORAL_ENERGIZE",
 	text_color = "#LIGHT_STEEL_BLUE#",
 	tdesc = function(dam, oldDam, src)
 		local parens = ""
@@ -2180,7 +2180,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item acid corrode", type = "ITEM_ACID_CORRODE", text_color = "#GREEN#",
+	name = _t"item acid corrode", type = "ITEM_ACID_CORRODE", text_color = "#GREEN#",
 	tdesc = function(dam, oldDam, src)
 		local parens = ""
 		dam = dam or 0
@@ -2211,7 +2211,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item blight disease", type = "ITEM_BLIGHT_DISEASE", text_color = "#DARK_GREEN#",
+	name = _t"item blight disease", type = "ITEM_BLIGHT_DISEASE", text_color = "#DARK_GREEN#",
 	tdesc = function(dam, oldDam, src)
 		local parens = ""
 		dam = dam or 0
@@ -2244,7 +2244,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item manaburn arcane", type = "ITEM_ANTIMAGIC_MANABURN", text_color = "#PURPLE#",
+	name = _t"item manaburn arcane", type = "ITEM_ANTIMAGIC_MANABURN", text_color = "#PURPLE#",
 	tdesc = function(dam, oldDam)
 		local parens = ""
 		dam = dam or 0
@@ -2271,7 +2271,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item nature slow", type = "ITEM_NATURE_SLOW", text_color = "#LIGHT_GREEN#",
+	name = _t"item nature slow", type = "ITEM_NATURE_SLOW", text_color = "#LIGHT_GREEN#",
 	tdesc = function(dam, oldDam, src)
 		local parens = ""
 		dam = dam or 0
@@ -2304,7 +2304,7 @@ newDamageType{
 
 -- Reduces all offensive powers by 20%
 newDamageType{
-	name = "item antimagic scouring", type = "ITEM_ANTIMAGIC_SCOURING", text_color = "#ORCHID#",
+	name = _t"item antimagic scouring", type = "ITEM_ANTIMAGIC_SCOURING", text_color = "#ORCHID#",
 	tdesc = function(dam, oldDam)
 		local parens = ""
 		dam = dam or 0
@@ -2332,7 +2332,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item lightning daze", type = "ITEM_LIGHTNING_DAZE",
+	name = _t"item lightning daze", type = "ITEM_LIGHTNING_DAZE",
 	text_color = "#ROYAL_BLUE#",
 	tdesc = function(dam, oldDam)
 		local parens = ""
@@ -2364,7 +2364,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item light blind", type = "ITEM_LIGHT_BLIND",
+	name = _t"item light blind", type = "ITEM_LIGHT_BLIND",
 	text_color = "#YELLOW#",
 	tdesc = function(dam, oldDam)
 		local parens = ""
@@ -2398,7 +2398,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "item mind gloom", type = "ITEM_MIND_GLOOM",
+	name = _t"item mind gloom", type = "ITEM_MIND_GLOOM",
 	text_color = "#YELLOW#",
 	tdesc = function(dam, oldDam)
 		local parens = ""
@@ -2428,17 +2428,17 @@ newDamageType{
 					if target:canBe("confusion") and not target:hasEffect(target.EFF_GLOOM_CONFUSED) then
 						target:setEffect(target.EFF_GLOOM_CONFUSED, 2, {power=25, no_ct_effect=true} )
 					end
-					name = "confusion"
+					name = _t"confusion"
 				elseif effect == 2 then
 					if target:canBe("stun") and not target:hasEffect(target.EFF_GLOOM_STUNNED) then
 						target:setEffect(target.EFF_GLOOM_STUNNED, 2, {no_ct_effect=true})
 					end
-					name = "stun"
+					name = _t"stun"
 				elseif effect == 3 then
 					if target:canBe("slow") and not target:hasEffect(target.EFF_GLOOM_SLOW) then
 						target:setEffect(target.EFF_GLOOM_SLOW, 2, {power=0.3, no_ct_effect=true})
 					end
-					name = "slow'"
+					name = _t"slow'"
 				end
 			end
 		end
@@ -2448,7 +2448,7 @@ newDamageType{
 
 -- Blind
 newDamageType{
-	name = "blinding", type = "RANDOM_BLIND",
+	name = _t"blinding", type = "RANDOM_BLIND",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2466,7 +2466,7 @@ newDamageType{
 
 -- Physical + Blind
 newDamageType{
-	name = "blinding physical", type = "SAND",
+	name = _t"blinding physical", type = "SAND",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2484,7 +2484,7 @@ newDamageType{
 
 -- Physical + Pinned
 newDamageType{
-	name = "physical pinning", type = "PINNING",
+	name = _t"physical pinning", type = "PINNING",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2502,7 +2502,7 @@ newDamageType{
 
 -- Drain Exp
 newDamageType{
-	name = "regressive blight", type = "DRAINEXP",
+	name = _t"regressive blight", type = "DRAINEXP",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2523,7 +2523,7 @@ newDamageType{
 
 -- Drain Life
 newDamageType{
-	name = "draining blight", type = "DRAINLIFE", text_color = "#DARK_GREEN#",
+	name = _t"draining blight", type = "DRAINLIFE", text_color = "#DARK_GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2540,7 +2540,7 @@ newDamageType{
 
 -- Used by Blood Grasp, heal+temporary max life based on damage
 newDamageType{
-	name = "sanguine blight", type = "SANGUINE", text_color = "#DARK_GREEN#",
+	name = _t"sanguine blight", type = "SANGUINE", text_color = "#DARK_GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2556,7 +2556,7 @@ newDamageType{
 }
 -- Drain Vim
 newDamageType{
-	name = "vim draining blight", type = "DRAIN_VIM", text_color = "#DARK_GREEN#",
+	name = _t"vim draining blight", type = "DRAIN_VIM", text_color = "#DARK_GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2572,7 +2572,7 @@ newDamageType{
 
 -- Demonfire: heal demon; damage others
 newDamageType{
-	name = "demonfire", type = "DEMONFIRE",
+	name = _t"demonfire", type = "DEMONFIRE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2589,7 +2589,7 @@ newDamageType{
 
 -- Retch: heal undead; damage living
 newDamageType{
-	name = "purging blight", type = "RETCH",
+	name = _t"purging blight", type = "RETCH",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2643,7 +2643,7 @@ newDamageType{
 
 -- Holy light, damage demon/undead; heal others
 newDamageType{
-	name = "holy light", type = "HOLY_LIGHT",
+	name = _t"holy light", type = "HOLY_LIGHT",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2658,7 +2658,7 @@ newDamageType{
 
 -- Heals
 newDamageType{
-	name = "healing", type = "HEAL",
+	name = _t"healing", type = "HEAL",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2674,7 +2674,7 @@ newDamageType{
 -- Used by Bathe in Light, healing
 -- Keep an eye on this and Weapon of Light for any infinite stack shield then engage combos
 newDamageType{
-	name = "healing light", type = "HEALING_POWER",
+	name = _t"healing light", type = "HEALING_POWER",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2712,7 +2712,7 @@ newDamageType{
 
 -- Light damage+heal source, used by Radiance
 newDamageType{
-	name = "judgement", type = "JUDGEMENT",
+	name = _t"judgement", type = "JUDGEMENT",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2730,7 +2730,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "healing nature", type = "HEALING_NATURE",
+	name = _t"healing nature", type = "HEALING_NATURE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2748,7 +2748,7 @@ newDamageType{
 -- Corrupted blood, blight damage + potential diseases
 -- Should no longer be used on items, use ITEM_BLIGHT_DISEASE
 newDamageType{
-	name = "infective blight", type = "CORRUPTED_BLOOD", text_color = "#DARK_GREEN#",
+	name = _t"infective blight", type = "CORRUPTED_BLOOD", text_color = "#DARK_GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2764,7 +2764,7 @@ newDamageType{
 
 -- blood boiled, blight damage + slow
 newDamageType{
-	name = "hindering blight", type = "BLOOD_BOIL", text_color = "#DARK_GREEN#",
+	name = _t"hindering blight", type = "BLOOD_BOIL", text_color = "#DARK_GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2778,7 +2778,7 @@ newDamageType{
 
 -- life leech (used cursed gloom skill)
 newDamageType{
-	name = "life leech",
+	name = _t"life leech",
 	type = "LIFE_LEECH",
 	text_color = "#F53CBE#",
 	hideMessage=true,
@@ -2787,7 +2787,7 @@ newDamageType{
 
 -- Physical + Stun Chance
 newDamageType{
-	name = "physical stun", type = "PHYSICAL_STUN",
+	name = _t"physical stun", type = "PHYSICAL_STUN",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2805,7 +2805,7 @@ newDamageType{
 
 -- Physical Damage/Cut Split
 newDamageType{
-	name = "physical bleed", type = "SPLIT_BLEED",
+	name = _t"physical bleed", type = "SPLIT_BLEED",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2821,7 +2821,7 @@ newDamageType{
 
 -- Temporal/Physical damage
 newDamageType{
-	name = "warp", type = "WARP",
+	name = _t"warp", type = "WARP",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2832,7 +2832,7 @@ newDamageType{
 
 -- Temporal/Darkness damage
 newDamageType{
-	name = "temporal darkness", type = "VOID", text_color = "#GREY#",
+	name = _t"temporal darkness", type = "VOID", text_color = "#GREY#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2843,7 +2843,7 @@ newDamageType{
 
 -- Gravity damage types
 newDamageType{
-	name = "gravity", type = "GRAVITY",
+	name = _t"gravity", type = "GRAVITY",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2861,7 +2861,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "gravity pin", type = "GRAVITYPIN",
+	name = _t"gravity pin", type = "GRAVITYPIN",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2886,7 +2886,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "physical repulsion", type = "REPULSION",
+	name = _t"physical repulsion", type = "REPULSION",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2912,7 +2912,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "grow", type = "GROW",
+	name = _t"grow", type = "GROW",
 	projector = function(src, x, y, typ, dam)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2935,7 +2935,7 @@ newDamageType{
 
 -- Mosses
 newDamageType{
-	name = "pinning nature", type = "GRASPING_MOSS",
+	name = _t"pinning nature", type = "GRASPING_MOSS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2953,7 +2953,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "healing nature", type = "NOURISHING_MOSS",
+	name = _t"healing nature", type = "NOURISHING_MOSS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2966,7 +2966,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "impeding nature", type = "SLIPPERY_MOSS",
+	name = _t"impeding nature", type = "SLIPPERY_MOSS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2979,7 +2979,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "confounding nature", type = "HALLUCINOGENIC_MOSS",
+	name = _t"confounding nature", type = "HALLUCINOGENIC_MOSS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -2997,7 +2997,7 @@ newDamageType{
 
 -- Circles
 newDamageType{
-	name = "sanctity", type = "SANCTITY",
+	name = _t"sanctity", type = "SANCTITY",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3017,7 +3017,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "defensive darkness", type = "SHIFTINGSHADOWS",
+	name = _t"defensive darkness", type = "SHIFTINGSHADOWS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3033,7 +3033,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "blazing light", type = "BLAZINGLIGHT",
+	name = _t"blazing light", type = "BLAZINGLIGHT",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3050,7 +3050,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "prismatic repulsion", type = "WARDING",
+	name = _t"prismatic repulsion", type = "WARDING",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3073,7 +3073,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "mind slow", type = "MINDSLOW",
+	name = _t"mind slow", type = "MINDSLOW",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3086,7 +3086,7 @@ newDamageType{
 
 -- Freezes target, checks for physresistance
 newDamageType{
-	name = "mind freeze", type = "MINDFREEZE",
+	name = _t"mind freeze", type = "MINDFREEZE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3103,7 +3103,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "implosion", type = "IMPLOSION",
+	name = _t"implosion", type = "IMPLOSION",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3121,7 +3121,7 @@ newDamageType{
 
 -- Temporal + Stat damage
 newDamageType{
-	name = "regressive temporal", type = "CLOCK",
+	name = _t"regressive temporal", type = "CLOCK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3137,7 +3137,7 @@ newDamageType{
 
 -- Temporal Over Time
 newDamageType{
-	name = "wasting temporal", type = "WASTING", text_color = "#LIGHT_STEEL_BLUE#",
+	name = _t"wasting temporal", type = "WASTING", text_color = "#LIGHT_STEEL_BLUE#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3157,7 +3157,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "stop", type = "STOP",
+	name = _t"stop", type = "STOP",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3173,7 +3173,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "debilitating temporal", type = "RETHREAD",
+	name = _t"debilitating temporal", type = "RETHREAD",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3212,7 +3212,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "draining physical", type = "DEVOUR_LIFE",
+	name = _t"draining physical", type = "DEVOUR_LIFE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3234,7 +3234,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "temporal slow", type = "CHRONOSLOW",
+	name = _t"temporal slow", type = "CHRONOSLOW",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3255,7 +3255,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "molten rock", type = "MOLTENROCK",
+	name = _t"molten rock", type = "MOLTENROCK",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3265,7 +3265,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "entangle", type = "ENTANGLE",
+	name = _t"entangle", type = "ENTANGLE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3283,7 +3283,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "manaworm arcane", type = "MANAWORM",
+	name = _t"manaworm arcane", type = "MANAWORM",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3304,7 +3304,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "arcane blast", type = "VOID_BLAST",
+	name = _t"arcane blast", type = "VOID_BLAST",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3318,7 +3318,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "circle of death", type = "CIRCLE_DEATH",
+	name = _t"circle of death", type = "CIRCLE_DEATH",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3341,7 +3341,7 @@ newDamageType{
 
 -- Darkness damage + speed reduction + minion damage inc
 newDamageType{
-	name = "decaying darkness", type = "RIGOR_MORTIS",
+	name = _t"decaying darkness", type = "RIGOR_MORTIS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3355,7 +3355,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "abyssal darkness", type = "ABYSSAL_SHROUD",
+	name = _t"abyssal darkness", type = "ABYSSAL_SHROUD",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3380,7 +3380,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "% chance to summon an orc spirit", type = "GARKUL_INVOKE",
+	name = _t"% chance to summon an orc spirit", type = "GARKUL_INVOKE",
 	text_color = "#SALMON#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -3416,7 +3416,7 @@ newDamageType{
 			autolevel = "warrior",
 			ai = "summoned", ai_real = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=2, },
 			stats = { str=20, dex=8, mag=6, con=16 },
-			name = "orc spirit", color=colors.SALMON, image = "npc/humanoid_orc_orc_berserker.png",
+			name = _t"orc spirit", color=colors.SALMON, image = "npc/humanoid_orc_orc_berserker.png",
 			desc = [[An orc clad in massive armour, wielding a huge axe.]],
 			level_range = {35, nil}, exp_worth = 0,
 			max_life = resolvers.rngavg(110,120), life_rating = 12,
@@ -3452,7 +3452,7 @@ newDamageType{
 
 -- speed reduction, mind dam, darkness dam
 newDamageType{
-	name = "nightmare", type = "NIGHTMARE",
+	name = _t"nightmare", type = "NIGHTMARE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3477,7 +3477,7 @@ newDamageType{
 
 -- cursed/predator/savage hunter/cursed miasma effect damage type
 newDamageType{
-	name = "cursed miasma", type = "CURSED_MIASMA",
+	name = _t"cursed miasma", type = "CURSED_MIASMA",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3496,7 +3496,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "weakness", type = "WEAKNESS",
+	name = _t"weakness", type = "WEAKNESS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3510,7 +3510,7 @@ newDamageType{
 
 -- Generic apply temporary effect
 newDamageType{
-	name = "special effect", type = "TEMP_EFFECT",
+	name = _t"special effect", type = "TEMP_EFFECT",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3527,7 +3527,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "manaburn arcane", type = "MANABURN", text_color = "#PURPLE#",
+	name = _t"manaburn arcane", type = "MANABURN", text_color = "#PURPLE#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3545,7 +3545,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "leaves", type = "LEAVES",
+	name = _t"leaves", type = "LEAVES",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3566,7 +3566,7 @@ newDamageType{
 
 -- Distortion; Includes knockback, penetrate, stun, and explosion paramters
 newDamageType{
-	name = "distorting physical", type = "DISTORTION",
+	name = _t"distorting physical", type = "DISTORTION",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3630,7 +3630,7 @@ newDamageType{
 
 -- Mind/Fire damage with lots of parameter options
 newDamageType{
-	name = "dreamforge", type = "DREAMFORGE",
+	name = _t"dreamforge", type = "DREAMFORGE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3677,7 +3677,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "natural mucus", type = "MUCUS",
+	name = _t"natural mucus", type = "MUCUS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3705,7 +3705,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "disarming acid", type = "ACID_DISARM", text_color = "#GREEN#",
+	name = _t"disarming acid", type = "ACID_DISARM", text_color = "#GREEN#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3725,7 +3725,7 @@ newDamageType{
 
 -- Acid damage + Accuracy/Defense/Armor Down Corrosion
 newDamageType{
-	name = "corrosive acid", type = "ACID_CORRODE",
+	name = _t"corrosive acid", type = "ACID_CORRODE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3740,7 +3740,7 @@ newDamageType{
 
 -- Bouncy slime!
 newDamageType{
-	name = "bouncing slime", type = "BOUNCE_SLIME",
+	name = _t"bouncing slime", type = "BOUNCE_SLIME",
 	projector = function(src, x, y, type, dam, state, _, tg)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3773,7 +3773,7 @@ newDamageType{
 
 -- Acid damage + Slow
 newDamageType{
-	name = "caustic mire", type = "CAUSTIC_MIRE",
+	name = _t"caustic mire", type = "CAUSTIC_MIRE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3788,7 +3788,7 @@ newDamageType{
 
 -- Sun Path damage
 newDamageType{
-	name = "sun path", type = "SUN_PATH",
+	name = _t"sun path", type = "SUN_PATH",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3800,7 +3800,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "telekinetic shove", type = "TK_PUSHPIN",
+	name = _t"telekinetic shove", type = "TK_PUSHPIN",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3829,7 +3829,7 @@ newDamageType{
 
 -- Prevents Teleportation
 newDamageType{
-	name = "dimensional anchor", type = "DIMENSIONAL_ANCHOR",
+	name = _t"dimensional anchor", type = "DIMENSIONAL_ANCHOR",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3843,7 +3843,7 @@ newDamageType{
 
 -- Causes a random warp status effect; these do cause cross tier effects
 newDamageType{
-	name = "phase pulse", type = "RANDOM_WARP",
+	name = _t"phase pulse", type = "RANDOM_WARP",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3884,7 +3884,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "brain storm", type = "BRAINSTORM",
+	name = _t"brain storm", type = "BRAINSTORM",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3908,7 +3908,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "static net", type = "STATIC_NET",
+	name = _t"static net", type = "STATIC_NET",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3923,7 +3923,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "wormblight", type = "WORMBLIGHT",
+	name = _t"wormblight", type = "WORMBLIGHT",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -3939,7 +3939,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "pestilent blight", type = "PESTILENT_BLIGHT",
+	name = _t"pestilent blight", type = "PESTILENT_BLIGHT",
 	text_color = "#GREEN#",
 	tdesc = function(dam, oldDam)
 		local parens = ""
@@ -3987,7 +3987,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "blight poison", type = "BLIGHT_POISON", text_color = "#DARK_GREEN#",
+	name = _t"blight poison", type = "BLIGHT_POISON", text_color = "#DARK_GREEN#",
 	projector = function(src, x, y, t, dam, poison, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4019,7 +4019,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "terror", type = "TERROR",
+	name = _t"terror", type = "TERROR",
 	text_color = "#YELLOW#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -4054,7 +4054,7 @@ newDamageType{
 
 -- Random poison: 25% to be enhanced
 newDamageType{
-	name = "random poison", type = "RANDOM_POISON", text_color = "#LIGHT_GREEN#",
+	name = _t"random poison", type = "RANDOM_POISON", text_color = "#LIGHT_GREEN#",
 	projector = function(src, x, y, t, dam, poison, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4080,7 +4080,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "blinding powder", type = "BLINDING_POWDER",
+	name = _t"blinding powder", type = "BLINDING_POWDER",
 	text_color = "#GREY#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -4101,7 +4101,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "smokescreen", type = "SMOKESCREEN",
+	name = _t"smokescreen", type = "SMOKESCREEN",
 	text_color = "#GREY#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -4126,7 +4126,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "flare", type = "FLARE",
+	name = _t"flare", type = "FLARE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4149,7 +4149,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "flare light", type = "FLARE_LIGHT",
+	name = _t"flare light", type = "FLARE_LIGHT",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4167,7 +4167,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "sticky pitch", type = "PITCH",
+	name = _t"sticky pitch", type = "PITCH",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4184,7 +4184,7 @@ newDamageType{
 
 
 newDamageType{
-	name = "fire sunder", type = "FIRE_SUNDER",
+	name = _t"fire sunder", type = "FIRE_SUNDER",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4199,7 +4199,7 @@ newDamageType{
 
 -- Dim vision+confuse
 newDamageType{
-	name = "shadow smoke", type = "SHADOW_SMOKE",
+	name = _t"shadow smoke", type = "SHADOW_SMOKE",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4211,7 +4211,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "frozen earth", type = "ITEM_FROST_TREADS",
+	name = _t"frozen earth", type = "ITEM_FROST_TREADS",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4226,7 +4226,7 @@ newDamageType{
 }
 
 newDamageType{
-	name = "void echoes", type = "VOID_ECHOES",
+	name = _t"void echoes", type = "VOID_ECHOES",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4244,7 +4244,7 @@ newDamageType{
 
 ---new lite light burst for summertide phial
 newDamageType{
-	name = "#YELLOW#Lite Light#LAST# Burst (radius 1)", type = "LITE_LIGHT_BURST", --text_color = "#YELLOW#",
+	name = _t"#YELLOW#Lite Light#LAST# Burst (radius 1)", type = "LITE_LIGHT_BURST", --text_color = "#YELLOW#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4260,7 +4260,7 @@ newDamageType{
 
 -- Light + Darkness
 newDamageType{
-	name = "dark light", type = "DARKLIGHT", text_color = "#9D9DC9#",
+	name = _t"dark light", type = "DARKLIGHT", text_color = "#9D9DC9#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)

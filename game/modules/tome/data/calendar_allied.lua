@@ -18,16 +18,16 @@
 -- darkgod@te4.org
 
 return {
-	{ 2, "Wintertide", },
-	{ 10, "Allure" },
-	{ 80, "Regrowth" },
-	{ 1, "Time of Balance" },
-	{ 79, "Pyre" },
-	{ 10, "Mirth" },
-	{ 3, "Summertide" },
-	{ 10, "Flare" },
-	{ 79, "Dusk" },
-	{ 1, "Time of Equilibrium" },
-	{ 80, "Haze" },
-	{ 10, "Decay" },
+	{ 2, _t"Wintertide", },
+	{ 10, _t"Allure" },
+	{ 80, _t"Regrowth" },
+	{ 1, _t"Time of Balance" },
+	{ 79, _t"Pyre" },
+	{ 10, _t"Mirth" },
+	{ 3, _t"Summertide" },
+	{ 10, _t"Flare" },
+	{ 79, _t"Dusk" },
+	{ 1, _t"Time of Equilibrium" },
+	{ 80, _t"Haze" },
+	{ 10, _t"Decay" },
 }

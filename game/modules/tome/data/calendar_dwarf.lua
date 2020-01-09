@@ -18,15 +18,15 @@
 -- darkgod@te4.org
 
 return {
-	{ 31, "Iron", },
-	{ 45, "Steel", },
-	{ 30, "Gold", },
-	{ 45, "Stralite", },
-	{ 31, "Voratun", },
-	{ 3, "Acquisition", },
-	{ 45, "Profit", },
-	{ 30, "Wealth", },
-	{ 45, "Dearth", },
-	{ 30, "Loss", },
-	{ 30, "Shortage", },
+	{ 31, _t"Iron", },
+	{ 45, _t"Steel", },
+	{ 30, _t"Gold", },
+	{ 45, _t"Stralite", },
+	{ 31, _t"Voratun", },
+	{ 3, _t"Acquisition", },
+	{ 45, _t"Profit", },
+	{ 30, _t"Wealth", },
+	{ 45, _t"Dearth", },
+	{ 30, _t"Loss", },
+	{ 30, _t"Shortage", },
 }
