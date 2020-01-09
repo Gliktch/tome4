@@ -63,7 +63,7 @@ local imbue_ring = function(npc, player)
 			if gem.unique then price = price * 1.5 end
 			if price > player.money then require("engine.ui.Dialog"):simplePopup("Not enough money", "This costs "..price.." gold, you need more gold.") return end
 
-			require("engine.ui.Dialog"):yesnoPopup("Imbue cost", "This will cost you "..price.." gold, do you accept?", function(ret) if ret then
+			require("engine.ui.Dialog"):yesnoPopup(_t"Imbue cost", ("This will cost you %s gold, do you accept?"):tformat(price), function(ret) if ret then
 				imbueEgo(gem, new_ring)
 				player:incMoney(-price)
 				player:removeObject(player:getInven("INVEN"), gem_item)
@@ -87,7 +87,7 @@ local artifact_imbue_amulet = function(npc, player)
 				local price = 1000
 				if price > player.money then require("engine.ui.Dialog"):simplePopup(_t"Not enough money", _t"Limmir needs more gold for the magical plating.") return end
 
-				require("engine.ui.Dialog"):yesnoPopup("Imbue cost", "You need to use "..price.." gold for the plating, do you accept?", function(ret) if ret then
+				require("engine.ui.Dialog"):yesnoPopup(_t"Imbue cost", ("You need to use %s gold for the plating, do you accept?"):tformat(price), function(ret) if ret then
 					player:incMoney(-price)
 					local gem3, tries = nil, 10
 					while gem3 == nil and tries > 0 do gem3 = game.zone:makeEntity(game.level, "object", {type="gem"}, nil, true) tries = tries - 1 end

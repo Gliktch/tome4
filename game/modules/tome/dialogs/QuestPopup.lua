@@ -27,11 +27,11 @@ local Quest = require "engine.Quest"
 module(..., package.seeall, class.inherit(Dialog))
 
 local statuses = {
-	[-1] = "#LIGHT_GREEN#New#LAST# Quest!",
-	[Quest.PENDING] = "Quest #AQUAMARINE#Updated!",
-	[Quest.COMPLETED] = "Quest #LIGHT_GREEN#Completed!",
-	[Quest.DONE] = "Quest #LIGHT_GREEN#Done!",
-	[Quest.FAILED] = "Quest #CIMSON#Failed!",
+	[-1] = _t"#LIGHT_GREEN#New#LAST# Quest!",
+	[Quest.PENDING] = _t"Quest #AQUAMARINE#Updated!",
+	[Quest.COMPLETED] = _t"Quest #LIGHT_GREEN#Completed!",
+	[Quest.DONE] = _t"Quest #LIGHT_GREEN#Done!",
+	[Quest.FAILED] = _t"Quest #CIMSON#Failed!",
 }
 
 function _M:init(quest, status)

@@ -24,13 +24,13 @@ local List = require "engine.ui.List"
 module(..., package.seeall, class.inherit(engine.ui.Dialog))
 
 local orders = {
-	escort_rest = {-100, function(actor) return "Wait a few turns" end},
-	escort_portal = {-99, function(actor) return "Where is the portal?" end},
-	target = {1, function(actor) return ("Set the target [current: %s]"):format(actor.ai_target.actor and actor.ai_target.actor.name or "none") end},
-	behavior = {2, function(actor) return ("Set behavior [current: %s]"):format(actor.ai_tactic.type or "default") end},
-	anchor = {3, function(actor) return ("Set the leash anchor [current: %s]"):format(actor.ai_state.tactic_leash_anchor and actor.ai_state.tactic_leash_anchor.name or "none") end},
-	leash = {4, function(actor) return ("Set the leash distance [current: %d]"):format(actor.ai_state.tactic_leash) end},
-	talents = {5, function(actor) return ("Define tactical talents usage") end},
+	escort_rest = {-100, function(actor) return _t"Wait a few turns" end},
+	escort_portal = {-99, function(actor) return _t"Where is the portal?" end},
+	target = {1, function(actor) return ("Set the target [current: %s]"):tformat(actor.ai_target.actor and actor.ai_target.actor.name or "none") end},
+	behavior = {2, function(actor) return ("Set behavior [current: %s]"):tformat(actor.ai_tactic.type or "default") end},
+	anchor = {3, function(actor) return ("Set the leash anchor [current: %s]"):tformat(actor.ai_state.tactic_leash_anchor and actor.ai_state.tactic_leash_anchor.name or "none") end},
+	leash = {4, function(actor) return ("Set the leash distance [current: %d]"):tformat(actor.ai_state.tactic_leash) end},
+	talents = {5, function(actor) return (_t"Define tactical talents usage") end},
 }
 
 function _M:init(actor, def)

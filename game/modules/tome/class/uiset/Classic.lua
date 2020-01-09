@@ -260,46 +260,46 @@ function _M:mouseIcon(bx, by)
 			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
 			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
 			if (not game.show_npc_list) then
-				game:tooltipDisplayAtMap(game.w, game.h, "Displaying talents (#{bold}##GOLD#"..key.."#LAST##{normal}#)\nToggle for creature display")
+				game:tooltipDisplayAtMap(game.w, game.h, "Displaying talents (#{bold}##GOLD#%s#LAST##{normal}#)\nToggle for creature display":tformat(key))
 			else
-				game:tooltipDisplayAtMap(game.w, game.h, "Displaying creatures (#{bold}##GOLD#"..key.."#LAST##{normal}#)\nToggle for talent display#")
+				game:tooltipDisplayAtMap(game.w, game.h, "Displaying creatures (#{bold}##GOLD#%s#LAST##{normal}#)\nToggle for talent display#":tformat(key))
 			end
 		elseif bx < 2*_talents_icon_w then
 			virtual = "SHOW_INVENTORY"
 			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
 			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
 			if (key == "I") then
-				game:tooltipDisplayAtMap(game.w, game.h, "#{bold}##GOLD#I#LAST##{normal}#nventory")
+				game:tooltipDisplayAtMap(game.w, game.h, _t"#{bold}##GOLD#I#LAST##{normal}#nventory")
 			else
-				game:tooltipDisplayAtMap(game.w, game.h, "Inventory (#{bold}##GOLD#"..key.."#LAST##{normal}#)")
+				game:tooltipDisplayAtMap(game.w, game.h, "Inventory (#{bold}##GOLD#%s#LAST##{normal}#)":tformat(key))
 			end
 		elseif bx < 3*_talents_icon_w then
 			virtual = "SHOW_CHARACTER_SHEET"
 			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
 			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
 			if (key == "C") then
-				game:tooltipDisplayAtMap(game.w, game.h, "#{bold}##GOLD#C#LAST##{normal}#haracter Sheet")
+				game:tooltipDisplayAtMap(game.w, game.h, _t"#{bold}##GOLD#C#LAST##{normal}#haracter Sheet")
 			else
-				game:tooltipDisplayAtMap(game.w, game.h, "Character Sheet (#{bold}##GOLD#"..key.."#LAST##{normal}#)")
+				game:tooltipDisplayAtMap(game.w, game.h, "Character Sheet (#{bold}##GOLD#%s#LAST##{normal}#)":tformat(key))
 			end
 		elseif bx < 4*_talents_icon_w then
 			virtual = "EXIT"
 			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
 			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
-			game:tooltipDisplayAtMap(game.w, game.h, "Main menu (#{bold}##GOLD#"..key.."#LAST##{normal}#)")
+			game:tooltipDisplayAtMap(game.w, game.h, "Main menu (#{bold}##GOLD#%s#LAST##{normal}#)":tformat(key))
 		elseif bx < 5*_talents_icon_w then
 			virtual = "SHOW_MESSAGE_LOG"
 			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
 			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
-			game:tooltipDisplayAtMap(game.w, game.h, "Show message/chat log (#{bold}##GOLD#"..key.."#LAST##{normal}#)")
+			game:tooltipDisplayAtMap(game.w, game.h, "Show message/chat log (#{bold}##GOLD#%s#LAST##{normal}#)":tformat(key))
 		elseif bx < 6*_talents_icon_w then
 			virtual = "TOGGLE_BUMP_ATTACK"
 			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
 			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
 			if (not config.settings.tome.actor_based_movement_mode and not self.bump_attack_disabled) or (config.settings.tome.actor_based_movement_mode and not game.player.bump_attack_disabled) then
-				game:tooltipDisplayAtMap(game.w, game.h, "Movement: #LIGHT_GREEN#Default#LAST# (#{bold}##GOLD#"..key.."#LAST##{normal}#)\nToggle for passive mode")
+				game:tooltipDisplayAtMap(game.w, game.h, "Movement: #LIGHT_GREEN#Default#LAST# (#{bold}##GOLD#%s#LAST##{normal}#)\nToggle for passive mode":tformat(key))
 			else
-				game:tooltipDisplayAtMap(game.w, game.h, "Movement: #LIGHT_RED#Passive#LAST# (#{bold}##GOLD#"..key.."#LAST##{normal}#)\nToggle for default mode")
+				game:tooltipDisplayAtMap(game.w, game.h, "Movement: #LIGHT_RED#Passive#LAST# (#{bold}##GOLD#%s#LAST##{normal}#)\nToggle for default mode":tformat(key))
 			end
 		end
 	else

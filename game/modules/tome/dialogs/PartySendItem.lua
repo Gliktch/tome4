@@ -73,8 +73,8 @@ function _M:generateList()
 
 	for i, act in ipairs(game.party.m_list) do
 		if not act.no_inventory_access and act ~= game.player and act:getInven(act.INVEN_INVEN) then
-			local warn = act:attr("sleep") and not act:attr("lucid_dreamer") and " #YELLOW#[SLEEPING]#LAST#" or ""
-			if not act:canAddToInven(act.INVEN_INVEN) then warn = " #YELLOW#[NO ROOM]#LAST#" end
+			local warn = act:attr("sleep") and not act:attr("lucid_dreamer") and _t" #YELLOW#[SLEEPING]#LAST#" or ""
+			if not act:canAddToInven(act.INVEN_INVEN) then warn = _t" #YELLOW#[NO ROOM]#LAST#" end
 			list[#list+1] = {name=act.name..warn, actor=act}
 		end
 	end

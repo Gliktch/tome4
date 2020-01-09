@@ -307,15 +307,15 @@ function _M:init()
 	self.locked = true
 
 	self.mhandle_pos = {
-		player = {x=296, y=73, name="Player Infos"},
-		resources = {x=fshat[6] / 2 - move_handle[6], y=0, name="Resources"},
-		minimap = {x=208, y=176, name="Minimap"},
-		buffs = {x=40 - move_handle[6], y=0, name="Current Effects"},
-		party = {x=portrait[6] - move_handle[6], y=0, name="Party Members"},
-		gamelog = {x=function(self) return self.logdisplay.w - move_handle[6] end, y=function(self) return self.logdisplay.h - move_handle[6] end, name="Game Log"},
-		chatlog = {x=function(self) return profile.chat.w - move_handle[6] end, y=function(self) return profile.chat.h - move_handle[6] end, name="Online Chat Log"},
-		hotkeys = {x=function(self) return self.places.hotkeys.w - move_handle[6] end, y=function(self) return self.places.hotkeys.h - move_handle[6] end, name="Hotkeys"},
-		mainicons = {x=0, y=0, name="Game Actions"},
+		player = {x=296, y=73, name=_t"Player Infos"},
+		resources = {x=fshat[6] / 2 - move_handle[6], y=0, name=_t"Resources"},
+		minimap = {x=208, y=176, name=_t"Minimap"},
+		buffs = {x=40 - move_handle[6], y=0, name=_t"Current Effects"},
+		party = {x=portrait[6] - move_handle[6], y=0, name=_t"Party Members"},
+		gamelog = {x=function(self) return self.logdisplay.w - move_handle[6] end, y=function(self) return self.logdisplay.h - move_handle[6] end, name=_t"Game Log"},
+		chatlog = {x=function(self) return profile.chat.w - move_handle[6] end, y=function(self) return profile.chat.h - move_handle[6] end, name=_t"Online Chat Log"},
+		hotkeys = {x=function(self) return self.places.hotkeys.w - move_handle[6] end, y=function(self) return self.places.hotkeys.h - move_handle[6] end, name=_t"Hotkeys"},
+		mainicons = {x=0, y=0, name=_t"Game Actions"},
 	}
 
 	self:resetPlaces()
@@ -358,7 +358,7 @@ end
 
 function _M:getMainMenuItems()
 	return {
-		{"Reset interface positions", function() Dialog:yesnoPopup(_t"Reset UI", _t"Reset all the interface?", function(ret) if ret then
+		{_t"Reset interface positions", function() Dialog:yesnoPopup(_t"Reset UI", _t"Reset all the interface?", function(ret) if ret then
 			self:resetPlaces() self:saveSettings() 
 		end end) end},
 	}
@@ -579,7 +579,7 @@ function _M:uiMoveResize(what, button, mx, my, xrel, yrel, bx, by, event, mode, 
 
 	mode = mode or "rescale"
 
-	game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, self.mhandle_pos[what].name.."\n---\nLeft mouse drag&drop to move the frame\nRight mouse drag&drop to scale up/down\nMiddle click to reset to default scale"..(add_text or ""))
+	game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, ("%s\n---\nLeft mouse drag&drop to move the frame\nRight mouse drag&drop to scale up/down\nMiddle click to reset to default scale%s"):tformat(self.mhandle_pos[what].name, (add_text or "")))
 	if event == "button" and button == "middle" then self.places[what].scale = 1 self:saveSettings()
 	elseif event == "motion" and button == "left" then
 		self.ui_moving = what
@@ -696,16 +696,16 @@ function _M:showResourceTooltip(x, y, w, h, id, desc, is_first)
 								list[#list+1] = {name=res_def.name, id=rname}
 							end
 						end
-						if player:knowTalent(player.T_FEEDBACK_POOL) then list[#list+1] = {name="Feedback", id="feedback"} end
-						if player.is_fortress and player:hasQuest("shertul-fortress") then list[#list+1] = {name="Fortress Energy", id="fortress"} end
+						if player:knowTalent(player.T_FEEDBACK_POOL) then list[#list+1] = {name=_t"Feedback", id="feedback"} end
+						if player.is_fortress and player:hasQuest("shertul-fortress") then list[#list+1] = {name=_t"Fortress Energy", id="fortress"} end
 						
-						Dialog:listPopup("Display/Hide resources", "Toggle:", list, 300, util.bound((8+#list)*(self.init_font_h+1), 14*(self.init_font_h+1), game.h*.75), function(sel)
+						Dialog:listPopup(_t"Display/Hide resources", _t"Toggle:", list, 300, util.bound((8+#list)*(self.init_font_h+1), 14*(self.init_font_h+1), game.h*.75), function(sel)
 							if not sel or not sel.id then return end
 							game.player["_hide_resource_"..sel.id] = not game.player["_hide_resource_"..sel.id]
 						end)
 						return
 					end
-					self:uiMoveResize("resources", button, mx, my, xrel, yrel, bx, by, event, nil, nil, "\nRight click to toggle resources bars visibility")
+					self:uiMoveResize("resources", button, mx, my, xrel, yrel, bx, by, event, nil, nil, _t"\nRight click to toggle resources bars visibility")
 					return
 				end
 			end
@@ -1457,7 +1457,7 @@ function _M:displayParty(scale, bx, by)
 						p = (game.player == a) and portrait_lev or portrait_unsel_lev
 					end
 					p[1]:toScreenFull(x, y, p[6], p[7], p[2], p[3])
-					-- Display turns remaining on summon's portrait ï¿½ Marson
+					-- Display turns remaining on summon's portrait ï¿? Marson
 					if a.summon_time and a.name ~= "shadow" then
 						local gtxt = self.party[a].txt_summon_time
 						if not gtxt or self.party[a].cur_summon_time ~= a.summon_time then
@@ -1589,19 +1589,19 @@ function _M:displayPlayer(scale, bx, by)
 
 			-- Attack/defend
 			if bx >= 22 and bx <= 22 + pf_defend[6] and by >= 67 and by <= 67 + pf_defend[7] then
-				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Toggle for movement mode.\nDefault: when trying to move onto a creature it will attack if hostile.\nPassive: when trying to move onto a creature it will not attack (use ctrl+direction, or right click to attack manually)")
+				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Toggle for movement mode.\nDefault: when trying to move onto a creature it will attack if hostile.\nPassive: when trying to move onto a creature it will not attack (use ctrl+direction, or right click to attack manually)")
 				if event == "button" and button == "left" then game.key:triggerVirtual("TOGGLE_BUMP_ATTACK") end
 			-- Character sheet
 			elseif bx >= 22 and bx <= 22 + 40 and by >= 22 and by <= 22 + 40 then
-				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Show character infos")
+				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Show character infos")
 				if event == "button" and button == "left" then game.key:triggerVirtual("SHOW_CHARACTER_SHEET") end
 			-- Levelup
 			elseif bx >= 269 and bx <= 269 + pf_levelup[6] and by >= 78 and by <= 78 + pf_levelup[7] and (player.unused_stats > 0 or player.unused_talents > 0 or player.unused_generics > 0 or player.unused_talents_types > 0) then
-				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Click to assign stats and talents!")
+				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Click to assign stats and talents!")
 				if event == "button" and button == "left" then game.key:triggerVirtual("LEVELUP") end
 			-- MTX
 			elseif bx >= 298 + pf_mtx_x and bx <= 298 + pf_mtx_x + pf_mtx[6] and by >= 6 + pf_mtx_y and by <= 6 + pf_mtx_y + pf_mtx[7] and profile:canMTXN() then
-				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Show available cosmetic & fun microtransation")
+				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Show available cosmetic & fun microtransation")
 				if event == "button" and button == "left" then
 					package.loaded["engine.dialogs.microtxn.MTXMain"] = nil
 					game:registerDialog(require("engine.dialogs.microtxn.MTXMain").new())
@@ -1647,7 +1647,7 @@ function _M:displayMinimap(scale, bx, by)
 			else self.mhandle.minimap = true end
 			if self.no_minimap then return end
 
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to move\nRight mouse to scroll\nMiddle mouse to show full map")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to move\nRight mouse to scroll\nMiddle mouse to show full map")
 
 			-- Move handle
 			if not self.locked and bx >= self.mhandle_pos.minimap.x and bx <= self.mhandle_pos.minimap.x + move_handle[6] and by >= self.mhandle_pos.minimap.y and by <= self.mhandle_pos.minimap.y + move_handle[7] then
@@ -1856,7 +1856,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_inven")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.inven = 0.6 return else self.tbbuttons.inven = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show inventory")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show inventory")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("SHOW_INVENTORY") end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_inven[6], tb_inven[7], desc_fct, nil, "tb_inven", true, scale)
@@ -1869,7 +1869,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_talents")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.talents = 0.6 return else self.tbbuttons.talents = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show known talents")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show known talents")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("USE_TALENTS") end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_talents[6], tb_talents[7], desc_fct, nil, "tb_talents", true, scale)
@@ -1882,7 +1882,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_quest")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.quest = 0.6 return else self.tbbuttons.quest = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show message/chat log.")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show message/chat log.")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("SHOW_MESSAGE_LOG") end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_quest[6], tb_quest[7], desc_fct, nil, "tb_quest", true, scale)
@@ -1895,7 +1895,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_lore")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.lore = 0.6 return else self.tbbuttons.lore = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show quest log.\nRight mouse to show all known lore.")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show quest log.\nRight mouse to show all known lore.")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("SHOW_QUESTS")
 			elseif button == "right" and not xrel and not yrel and event == "button" then game:registerDialog(require("mod.dialogs.ShowLore").new("Tales of Maj'Eyal Lore", game.party)) end
 		end
@@ -1909,7 +1909,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_mainmenu")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.mainmenu = 0.6 return else self.tbbuttons.mainmenu = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show main menu")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show main menu")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("EXIT") end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_mainmenu[6], tb_mainmenu[7], desc_fct, nil, "tb_mainmenu", true, scale)
@@ -2101,20 +2101,20 @@ function _M:setupMouse(mouse)
 			extra.log_str = str
 			if button == "right" and event == "button" then
 				extra.add_map_action = {
-					{ name="Show chat user", fct=function() profile.chat:showUserInfo(user.login) end },
-					{ name="Whisper", fct=function() profile.chat:setCurrentTarget(false, user.login) profile.chat:talkBox() end },
-					{ name="Ignore", fct=function() Dialog:yesnoPopup("Ignore user", "Really ignore all messages from: "..user.login, function(ret) if ret then profile.chat:ignoreUser(user.login) end end) end },
-					{ name="Report user for bad behavior", fct=function()
-						game:registerDialog(require('engine.dialogs.GetText').new("Reason to report: "..user.login, "Reason", 4, 500, function(text)
+					{ name=_t"Show chat user", fct=function() profile.chat:showUserInfo(user.login) end },
+					{ name=_t"Whisper", fct=function() profile.chat:setCurrentTarget(false, user.login) profile.chat:talkBox() end },
+					{ name=_t"Ignore", fct=function() Dialog:yesnoPopup("Ignore user", ("Really ignore all messages from: %s"):tformat(user.login), function(ret) if ret then profile.chat:ignoreUser(user.login) end end) end },
+					{ name=_t"Report user for bad behavior", fct=function()
+						game:registerDialog(require('engine.dialogs.GetText').new(("Reason to report: %s"):tformat(user.login), _t"Reason", 4, 500, function(text)
 							profile.chat:reportUser(user.login, text)
 							game.log("#VIOLET#", "Report sent.")
 						end))
 					end },
 				}
 				if profile.chat:isFriend(user.login) then
-					table.insert(extra.add_map_action, 3, { name="Remove Friend", fct=function() Dialog:yesnoPopup("Remove Friend", "Really remove "..user.login.." from your friends?", function(ret) if ret then profile.chat:removeFriend(user.login, user.id) end end) end })
+					table.insert(extra.add_map_action, 3, { name=_t"Remove Friend", fct=function() Dialog:yesnoPopup(_t"Remove Friend", ("Really remove %s from your friends?"):tformat(user.login), function(ret) if ret then profile.chat:removeFriend(user.login, user.id) end end) end })
 				else
-					table.insert(extra.add_map_action, 3, { name="Add Friend", fct=function() Dialog:yesnoPopup("Add Friend", "Really add "..user.login.." to your friends?", function(ret) if ret then profile.chat:addFriend(user.login, user.id) end end) end })
+					table.insert(extra.add_map_action, 3, { name=_t"Add Friend", fct=function() Dialog:yesnoPopup(_t"Add Friend", ("Really add %s to your friends?"):tformat(user.login), function(ret) if ret then profile.chat:addFriend(user.login, user.id) end end) end })
 				end
 			end
 		end

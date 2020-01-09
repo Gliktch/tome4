@@ -409,7 +409,7 @@ Items in the chest will not encumber you.]],
 						require("engine.ui.Dialog"):simplePopup(_t"Transmogrification Chest", _t"You do not have any items to transmogrify in your chest or on the floor.")
 					end
 				else
-					require("engine.ui.Dialog"):yesnoPopup("Transmogrification Chest", "Transmogrify all "..floor.." item(s) on the floor?", function(ret)
+					require("engine.ui.Dialog"):yesnoPopup(_t"Transmogrification Chest", ("Transmogrify all %s item(s) on the floor?"):tformat(floor), function(ret)
 						if not ret then return end
 						for i = floor, 1, -1 do
 							local o = game.level.map:getObject(who.x, who.y, i)
@@ -423,7 +423,7 @@ Items in the chest will not encumber you.]],
 				return {id=true, used=true}
 			end
 
-			require("engine.ui.Dialog"):yesnoPopup("Transmogrification Chest", "Transmogrify all "..nb.." item(s) in your chest?", function(ret)
+			require("engine.ui.Dialog"):yesnoPopup(_t"Transmogrification Chest", ("Transmogrify all %s item(s) in your chest?"):tformat(nb), function(ret)
 				if not ret then return end
 				for i = #inven, 1, -1 do
 					local o = inven[i]

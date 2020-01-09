@@ -30,7 +30,7 @@ local orb_activate = function(self, x, y, who, act, couldpass)
 	if not orb then
 		require("engine.ui.Dialog"):simplePopup(_t"Strange Pedestal", _t"This pedestal looks old, you can see the shape of an orb carved on it.")
 	else
-		require("engine.ui.Dialog"):yesnoLongPopup("Strange Pedestal", "The pedestal seems to react to something in your bag. After some tests you notice it is the "..tostring(orb:getName{do_color=true})..".\nDo you wish to use the orb on the pedestal?", 400, function(ret)
+		require("engine.ui.Dialog"):yesnoLongPopup(_t"Strange Pedestal", ("The pedestal seems to react to something in your bag. After some tests you notice it is the %s.\nDo you wish to use the orb on the pedestal?"):tformat(tostring(orb:getName{do_color=true})), 400, function(ret)
 			if ret then game.player:useCommandOrb(orb, x, y) end
 		end)
 	end

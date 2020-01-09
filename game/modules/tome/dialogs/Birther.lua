@@ -87,15 +87,15 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 
 	self.to_reset_cosmetic = {}
 
-	self.c_ok = Button.new{text="     Play!     ", fct=function() self:atEnd("created") end}
-	self.c_random = Button.new{text="Random!", fct=function() self:randomBirth() end}
-	self.c_premade = Button.new{text="Load premade", fct=function() self:loadPremadeUI() end}
-	self.c_tile = Button.new{text="Select custom tile", fct=function() self:selectTile() end}
-	self.c_cancel = Button.new{text="Cancel", fct=function() self:atEnd("quit") end}
-	self.c_tut = Button.new{text="Tutorial", fct=function() self:tutorial() end}
-	self.c_options = Button.new{text="Customize", fct=function() self:customizeOptions() end}
+	self.c_ok = Button.new{text=_t"     Play!     ", fct=function() self:atEnd("created") end}
+	self.c_random = Button.new{text=_t"Random!", fct=function() self:randomBirth() end}
+	self.c_premade = Button.new{text=_t"Load premade", fct=function() self:loadPremadeUI() end}
+	self.c_tile = Button.new{text=_t"Select custom tile", fct=function() self:selectTile() end}
+	self.c_cancel = Button.new{text=_t"Cancel", fct=function() self:atEnd("quit") end}
+	self.c_tut = Button.new{text=_t"Tutorial", fct=function() self:tutorial() end}
+	self.c_options = Button.new{text=_t"Customize", fct=function() self:customizeOptions() end}
 	self.c_options.hide = true
-	self.c_extra_options = Button.new{text="Extra Options", fct=function() self:extraOptions() end}
+	self.c_extra_options = Button.new{text=_t"Extra Options", fct=function() self:extraOptions() end}
 	self.c_extra_options.hide = not game.extra_birth_option_defs or #game.extra_birth_option_defs == 0
 
 	self.c_name = Textbox.new{title=_t"Name: ", text=(not config.settings.cheat and game.player_name == "player") and "" or game.player_name, chars=30, max_len=50, fct=function()
@@ -112,15 +112,15 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	}
 
 	self:generateCampaigns()
-	self.c_campaign_text = Textzone.new{auto_width=true, auto_height=true, text="Campaign: "}
+	self.c_campaign_text = Textzone.new{auto_width=true, auto_height=true, text=_t"Campaign: "}
 	self.c_campaign = Dropdown.new{width=400, fct=function(item) self:campaignUse(item) end, on_select=function(item) self:updateDesc(item) end, list=self.all_campaigns, nb_items=#self.all_campaigns}
 
 	self:generateDifficulties()
-	self.c_difficulty_text = Textzone.new{auto_width=true, auto_height=true, text="Difficulty: "}
+	self.c_difficulty_text = Textzone.new{auto_width=true, auto_height=true, text=_t"Difficulty: "}
 	self.c_difficulty = Dropdown.new{width=100, fct=function(item) self:difficultyUse(item) end, on_select=function(item) self:updateDesc(item) end, list=self.all_difficulties, nb_items=#self.all_difficulties}
 
 	self:generatePermadeaths()
-	self.c_permadeath_text = Textzone.new{auto_width=true, auto_height=true, text="Permadeath: "}
+	self.c_permadeath_text = Textzone.new{auto_width=true, auto_height=true, text=_t"Permadeath: "}
 	self.c_permadeath = Dropdown.new{width=150, fct=function(item) self:permadeathUse(item) end, on_select=function(item) self:updateDesc(item) end, list=self.all_permadeaths, nb_items=#self.all_permadeaths}
 
 	self.c_desc = TextzoneList.new{width=math.floor(self.iw / 3 - 10), height=self.ih - self.c_female.h - self.c_ok.h - self.c_difficulty.h - self.c_campaign.h - 10, scrollbar=true, pingpong=20, no_color_bleed=true}
@@ -414,10 +414,10 @@ function _M:tutorial()
 		self:atEnd("created")
 	end
 
-	local d = Dialog.new("Tutorials", 280, 100)
-	local basic = Button.new{text="Basic Gameplay (recommended)", fct=function() run("Basic") d.key:triggerVirtual("EXIT") end}
---	local stats = Button.new{text="Stats and effects (advanced players)", fct=function() run("Stats") d.key:triggerVirtual("EXIT") end}
-	local cancel = Button.new{text="Cancel", fct=function() d.key:triggerVirtual("EXIT") end}
+	local d = Dialog.new(_t"Tutorials", 280, 100)
+	local basic = Button.new{text=_t"Basic Gameplay (recommended)", fct=function() run("Basic") d.key:triggerVirtual("EXIT") end}
+--	local stats = Button.new{text=_t"Stats and effects (advanced players)", fct=function() run("Stats") d.key:triggerVirtual("EXIT") end}
+	local cancel = Button.new{text=_t"Cancel", fct=function() d.key:triggerVirtual("EXIT") end}
 	local sep = Separator.new{dir="vertical", size=230}
 
 	d:loadUI{
@@ -1086,7 +1086,7 @@ end
 
 function _M:loadPremadeUI()
 	local lss = Module:listVaultSavesForCurrent()
-	local d = Dialog.new("Characters Vault", 600, 550)
+	local d = Dialog.new(_t"Characters Vault", 600, 550)
 
 	local sel = nil
 	local sep = Separator.new{dir="horizontal", size=400}
@@ -1104,9 +1104,9 @@ function _M:loadPremadeUI()
 		select=function(item) desc:switchItem(item, item.description) end
 	}
 
-	local load = Button.new{text=" Load ", fct=function() if sel then self:loadPremade(sel) game:unregisterDialog(d) end end}
-	local del = Button.new{text="Delete", fct=function() if sel then
-		self:yesnoPopup(sel.name, "Really delete premade: "..sel.name, function(ret) if ret then
+	local load = Button.new{text=_t" Load ", fct=function() if sel then self:loadPremade(sel) game:unregisterDialog(d) end end}
+	local del = Button.new{text=_t"Delete", fct=function() if sel then
+		self:yesnoPopup(sel.name, ("Really delete premade: %s"):tformat(sel.name), function(ret) if ret then
 			local vault = CharacterVaultSave.new(sel.short_name)
 			vault:delete()
 			vault:close()
@@ -1377,8 +1377,8 @@ Donators will also gain access to the custom tiles for their characters.]], 400,
 end
 
 function _M:selectTileNoDonations()
-	Dialog:yesnoLongPopup("Custom tiles",
-	[[Custom Tiles have been added as a thank you to everyone that has donated to ToME.
+	Dialog:yesnoLongPopup(_t"Custom tiles",
+	_t[[Custom Tiles have been added as a thank you to everyone that has donated to ToME.
 They are a fun cosmetic feature that allows you to choose a tile for your character from a list of nearly 180 (with more to be added over time), ranging from special humanoid tiles to downright wonky ones!
 
 If you'd like to use this feature and find this game good you should consider donating. It will help ensure its survival.
@@ -1389,11 +1389,11 @@ Donators will also gain access to the Exploration Mode featuring infinite lives.
 		if not ret then
 			game:registerDialog(require("mod.dialogs.Donation").new("custom-tiles"))
 		end
-	end, "Later", "Donate!")
+	end, _t"Later", _t"Donate!")
 end
 
 function _M:selectTile()
-	local d = Dialog.new("Select a Tile", 600, 550)
+	local d = Dialog.new(_t"Select a Tile", 600, 550)
 
 	local list = {
 		"npc/alchemist_golem.png",
@@ -1637,19 +1637,19 @@ function _M:selectTile()
 	end
 
 	self:triggerHook{"Birther:donatorTiles", list=list}
-	local remove = Button.new{text="Use default tile", width=240, fct=function()
+	local remove = Button.new{text=_t"Use default tile", width=240, fct=function()
 		game:unregisterDialog(d)
 		self.has_custom_tile = nil
 		self:setTile()
 	end}
-	local custom = Button.new{text="Use custom-made tile", width=240, fct=function()
-		self:simpleLongPopup("Howto: Custom-made tiles", ([[You can use your own custom tiles if you are a donator.
+	local custom = Button.new{text=_t"Use custom-made tile", width=240, fct=function()
+		self:simpleLongPopup(_t"Howto: Custom-made tiles", ([[You can use your own custom tiles if you are a donator.
 For the game to use them you must simply respect a few rules:
 - they must be 64x64 or 64x128 tiles
 - they must be saved as PNG files
 - you must place them in folder #LIGHT_BLUE#%s#WHITE#
 
-Once you have done so, simply restart the game and the tiles will be listed at the bottom of the list.]]):format(fs.getRealPath("/data/gfx/custom-tiles/")), 500)
+Once you have done so, simply restart the game and the tiles will be listed at the bottom of the list.]]):tformat(fs.getRealPath("/data/gfx/custom-tiles/")), 500)
 	end}
 	local list = ImageList.new{width=500, height=500, tile_w=64, tile_h=64, padding=10, scrollbar=true, list=list, fct=function(item)
 		game:unregisterDialog(d)
@@ -1685,12 +1685,12 @@ function _M:customizeOptions(cosmetic_actor, on_exit, title)
 		self.actor = oldactor
 	end
 
-	local d = Dialog.new(title or "Cosmetic Options", 600, 550)
+	local d = Dialog.new(title or _t"Cosmetic Options", 600, 550)
 
 	local sel = nil
 	local list list = TreeList.new{width=450, tree=self.cosmetic_options, height=400, scrollbar=true, all_clicks=true,
 		columns={
-			{name="Name", width=100, display_prop="name"},
+			{name=_t"Name", width=100, display_prop="name"},
 		},
 		fct=function(item, sel, button)
 			if item.nodes then
@@ -1714,7 +1714,7 @@ function _M:customizeOptions(cosmetic_actor, on_exit, title)
 			if not self:isDonator() then
 				self:yesnoPopup(_t"Donator Feature", _t"Cosmetic customization is a donator-only feature.", function(ret) if ret then
 					game:registerDialog(require("mod.dialogs.Donation").new())
-				end end, "I want to help!", "Dismiss")
+				end end, _t"I want to help!", _t"Dismiss")
 			end
 
 			local selected = false
@@ -1763,7 +1763,7 @@ function _M:customizeOptions(cosmetic_actor, on_exit, title)
 end
 
 function _M:extraOptions()
-	local options = OptionTree.new(game.extra_birth_option_defs, 'Birth Options', 600, 550)
+	local options = OptionTree.new(game.extra_birth_option_defs, _t'Birth Options', 600, 550)
 	options:initialize()
 	game:registerDialog(options)
 end
@@ -1787,7 +1787,7 @@ function _M:showCosmeticCustomizer(actor, title, on_end)
 	birther:setDescriptor("subrace", actor.descriptor.subrace)
 
 	birther:customizeOptions(clone, function()
-		self:yesnoPopup("Confirm", "Apply the selected cosmetics to "..actor.name.."?", function(ret) if ret then
+		self:yesnoPopup(_t"Confirm", ("Apply the selected cosmetics to %s?"):tformat(actor.name), function(ret) if ret then
 			local oldactor = birther.actor
 			birther.actor = actor
 			birther:applyCosmeticActor(true)
