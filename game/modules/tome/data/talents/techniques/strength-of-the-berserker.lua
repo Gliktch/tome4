@@ -154,7 +154,7 @@ newTalent{
 	tactical = { ATTACK = { weapon = 2 }, DISABLE = 2 },
 	range = 1,
 	is_melee = true,
-	target = function(self ,t) return {type="hit", range=self:getTalentRange(t)} end,
+	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	on_pre_use = function(self, t, silent) if not self:hasTwoHandedWeapon() then if not silent then game.logPlayer(self, "You require a two handed weapon to use this talent.") end return false end return true end,
 	getShatter = function(self, t) return self:combatTalentLimit(t, 100, 10, 85) end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 5, 9)) end,
