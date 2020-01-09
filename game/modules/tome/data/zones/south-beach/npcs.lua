@@ -28,7 +28,7 @@ newEntity{
 	image = "player/cornac_female_redhair.png",
 	moddable_tile = "human_female",
 	moddable_tile_base = "base_redhead_01.png",
-	desc = [[Enjoying a lovely day at the beach.]],
+	desc = _t[[Enjoying a lovely day at the beach.]],
 	autolevel = "tank",
 	ai = "move_complex", ai_state = { ai_target="target_player", talent_in=4, },
 	stats = { str=8, dex=7, mag=8, con=12 },

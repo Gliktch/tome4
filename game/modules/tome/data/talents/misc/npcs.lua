@@ -1430,8 +1430,8 @@ newTalent{
 			if self.is_grgglck then
 				game.logSeen(self, "%s spawns one of its tentacles!", self.name:capitalize())
 			else
-				m.name = self.name.."'s summoned tentacle"
-				m.desc = "Ewwww.."
+				m.name = ("%s's summoned tentacle"):tformat(self.name)
+				m.desc = _t"Ewwww.."
 				game.logSeen(self, "%s spawns a tentacle!", self.name:capitalize())
 			end
 		else return

@@ -31,7 +31,7 @@ newEntity{
 	define_as = "BASE_NPC_WIGHT",
 	type = "undead", subtype = "wight",
 	display = "W", color=colors.WHITE,
-	desc = [[These be white wights.]],
+	desc = _t[[These be white wights.]],
 
 	combat = { dam=resolvers.mbonus(30, 10), atk=10, apr=9, damtype=DamageType.DRAINEXP },
 

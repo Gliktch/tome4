@@ -22,7 +22,7 @@ local Talents = require("engine.interface.ActorTalents")
 newEntity{
 	define_as = "BASE_NPC_LICH",
 	type = "undead", subtype = "lich",
-	desc = [[Only the most powerful spellcasters raised to unlife become liches. Doomed to haunt the world for an eternity, they have grown to hate all that breathes or trespasses on their domain. Unfortunately that includes you.]],
+	desc = _t[[Only the most powerful spellcasters raised to unlife become liches. Doomed to haunt the world for an eternity, they have grown to hate all that breathes or trespasses on their domain. Unfortunately that includes you.]],
 	display = "L", color=colors.WHITE,
 	rank = 3, size = 3,
 

@@ -45,7 +45,7 @@ newEntity{
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 	name = "skeletal rat", color=colors.WHITE,
-	desc = [[A skeletal rat, teeth and claws ground to a sharp point. It glares at you menacingly.]],
+	desc = _t[[A skeletal rat, teeth and claws ground to a sharp point. It glares at you menacingly.]],
 	level_range = {5, nil}, exp_worth = 1,
 	rarity = 1,
 	max_life = resolvers.rngavg(25,45),
@@ -68,7 +68,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 	name = "ghoulish rat", color=colors.TAN,
-	desc = [[Layers of rotting skin are peeling off of this rat. One of the eye sockets appears empty.]],
+	desc = _t[[Layers of rotting skin are peeling off of this rat. One of the eye sockets appears empty.]],
 	level_range = {6, nil}, exp_worth = 1,
 	rarity = 1,
 	max_life = resolvers.rngavg(34,56),
@@ -93,7 +93,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 	name = "spectral rat", color=colors.GREY,
-	desc = [[An eerie haze surrounds this translucent rat.]],
+	desc = _t[[An eerie haze surrounds this translucent rat.]],
 	level_range = {9, nil}, exp_worth = 1,
 	rarity = 3,
 	rank = 2,
@@ -129,7 +129,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 	name = "vampire rat", color=colors.WHITE,
-	desc = [[Looks much like a normal rat. That is, other than the very large fangs.]],
+	desc = _t[[Looks much like a normal rat. That is, other than the very large fangs.]],
 	level_range = {8, nil}, exp_worth = 1,
 	rarity = 2,
 	max_life = resolvers.rngavg(45,60),
@@ -151,7 +151,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 	name = "gigantic bone rat", color=colors.LIGHTGREY,
-	desc = [[This massive beast appears to be a rat composed of countless bones fused together.]],
+	desc = _t[[This massive beast appears to be a rat composed of countless bones fused together.]],
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_rodent_gigantic_bone_rat.png", display_h=2, display_y=-1}}},
 	level_range = {14, nil}, exp_worth = 1,
 	rarity = 6,
@@ -184,7 +184,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT", define_as="RATLICH",
 	name = "Rat Lich", color=colors.BLACK,
-	desc = [[The master of the pit is before you. It squeaks with menace as it and a horde of minions approach you.]],
+	desc = _t[[The master of the pit is before you. It squeaks with menace as it and a horde of minions approach you.]],
 	level_range = {16, nil}, exp_worth = 2,
 	rarity = false,
 	rank=3.5,
@@ -241,7 +241,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT", define_as="RATLICH",
 
 			game.logSeen(self, "#RED#Rising again, the Rat Lich's eyes glow with renewed energy!")
 
-			self.desc = self.desc.."\nThe Rat Lich's true power has been unveiled! Swirling with arcane energy, it stalks towards you uttering warsqueaks at its minions!"
+			self.desc = self.desc.._t"\nThe Rat Lich's true power has been unveiled! Swirling with arcane energy, it stalks towards you uttering warsqueaks at its minions!"
 
 			self:forceUseTalent(self.T_SUMMON, {ignore_energy=true, ignore_cd=true, no_equilibrium_fail=true, no_paradox_fail=true})
 			self:forceUseTalent(self.T_SUMMON, {ignore_energy=true, ignore_cd=true, no_equilibrium_fail=true, no_paradox_fail=true})

@@ -23,7 +23,7 @@ newEntity{
 	define_as = "BASE_NPC_VAMPIRE",
 	type = "undead", subtype = "vampire",
 	display = "V", color=colors.WHITE,
-	desc = [[These ancient cursed beings often take the form of a bat and attack their prey.]],
+	desc = _t[[These ancient cursed beings often take the form of a bat and attack their prey.]],
 
 	combat = { dam=resolvers.levelup(resolvers.mbonus(30, 10), 1, 0.8), atk=10, apr=9, damtype=DamageType.DRAINLIFE, dammod={str=1.9} },
 

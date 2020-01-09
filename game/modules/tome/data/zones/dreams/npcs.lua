@@ -52,7 +52,7 @@ newEntity{
 		"npc/humanoid_yeek_yeek_commoner_08.png",
 	},
 	display = "p", color=colors.WHITE,
-	desc = [[What?!]],
+	desc = _t[[What?!]],
 	faction = "neutral",
 
 	combat = { dam=resolvers.rngavg(1,2), atk=2, apr=0, dammod={str=0.4} },
@@ -100,7 +100,7 @@ newEntity{
 newEntity{ base = "BASE_NPC_ORC", define_as = "WIFE",
 	name = "lost wife", color=colors.YELLOW,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_orc_orc_mother.png", display_h=2, display_y=-1}}},
-	desc = [[Your wife has been turned into a giant, bloated form that towers above you. Mucus and slime ooze from every orifice, dripping onto the floor. The sight and the smell make you retch.]],
+	desc = _t[[Your wife has been turned into a giant, bloated form that towers above you. Mucus and slime ooze from every orifice, dripping onto the floor. The sight and the smell make you retch.]],
 	level_range = {10, 10}, exp_worth = 0,
 	female = true,
 	never_move = 1,

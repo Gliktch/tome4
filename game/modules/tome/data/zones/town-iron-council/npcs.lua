@@ -52,7 +52,7 @@ newEntity{
 
 newEntity{ base = "BASE_NPC_IRON_COUNCIL_TOWN",
 	name = "dwarven guard", color=colors.LIGHT_UMBER,
-	desc = [[A stocky dwarf, he looks angry.]],
+	desc = _t[[A stocky dwarf, he looks angry.]],
 	level_range = {1, nil}, exp_worth = 1,
 	rarity = 3,
 	max_life = resolvers.rngavg(70,80),
@@ -65,7 +65,7 @@ newEntity{ base = "BASE_NPC_IRON_COUNCIL_TOWN",
 
 newEntity{ base = "BASE_NPC_IRON_COUNCIL_TOWN",
 	name = "dwarven earthwarden", color=colors.RED,
-	desc = [[A stocky dwarf, he looks angry.]],
+	desc = _t[[A stocky dwarf, he looks angry.]],
 	level_range = {1, nil}, exp_worth = 1,
 	rarity = 3,
 	max_life = resolvers.rngavg(50,60),

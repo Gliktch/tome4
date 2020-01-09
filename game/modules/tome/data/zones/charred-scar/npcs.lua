@@ -49,7 +49,7 @@ newEntity{
 
 newEntity{ base = "BASE_NPC_SUNWALL_DEFENDER", define_as = "SUN_PALADIN_DEFENDER",
 	name = "human sun-paladin", color=colors.GOLD,
-	desc = [[A Human in shiny plate armour.]],
+	desc = _t[[A Human in shiny plate armour.]],
 	level_range = {70, nil}, exp_worth = 1,
 	rank = 3,
 	positive_regen = 10,
@@ -79,7 +79,7 @@ newEntity{ base = "BASE_NPC_SUNWALL_DEFENDER", define_as = "SUN_PALADIN_DEFENDER
 
 newEntity{ base = "BASE_NPC_SUNWALL_DEFENDER", define_as = "SUN_PALADIN_DEFENDER_RODMOUR",
 	name = "High Sun-Paladin Rodmour", color=colors.VIOLET, unique = true,
-	desc = [[A Human in shiny plate armour.]],
+	desc = _t[[A Human in shiny plate armour.]],
 	level_range = {70, nil}, exp_worth = 1,
 	rank = 3,
 	positive_regen = 10,
@@ -134,7 +134,7 @@ newEntity{
 
 newEntity{ base = "BASE_NPC_ORC_ATTACKER", define_as = "ORC_ATTACK",
 	name = "orc warrior", color=colors.DARK_RED,
-	desc = [[A fierce soldier-orc.]],
+	desc = _t[[A fierce soldier-orc.]],
 	level_range = {42, nil}, exp_worth = 1,
 	max_life = resolvers.rngavg(120,140),
 	life_rating = 8,
@@ -165,7 +165,7 @@ newEntity{
 	faction = "sorcerers",
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_shalore_elandar.png", display_h=2, display_y=-1}}},
 
-	desc = [[Renegade mages from Angolwen, the Sorcerers have set up in the Far East, slowly growing corrupt. Now they must be stopped.]],
+	desc = _t[[Renegade mages from Angolwen, the Sorcerers have set up in the Far East, slowly growing corrupt. Now they must be stopped.]],
 	level_range = {70, nil}, exp_worth = 15,
 	max_life = 1000, life_rating = 36, fixed_rating = true,
 	max_mana = 10000,
@@ -225,7 +225,7 @@ newEntity{
 	female = true,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_human_argoniel.png", display_h=2, display_y=-1}}},
 
-	desc = [[Renegade mages from Angolwen, the Sorcerers have set up in the Far East, slowly growing corrupt. Now they must be stopped.]],
+	desc = _t[[Renegade mages from Angolwen, the Sorcerers have set up in the Far East, slowly growing corrupt. Now they must be stopped.]],
 	level_range = {70, nil}, exp_worth = 15,
 	max_life = 1000, life_rating = 36, fixed_rating = true,
 	max_mana = 10000,
@@ -275,7 +275,7 @@ newEntity{ base = "BASE_NPC_FAEROS", define_as = "FYRK",
 	allow_infinite_dungeon = true,
 	name = "Fyrk, Faeros High Guard", color=colors.VIOLET,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/elemental_fire_fyrk__faeros_high_guard.png", display_h=2, display_y=-1}}},
-	desc = [[Faeros are highly intelligent fire elementals, rarely seen outside volcanoes. They are probably not native to this world.
+	desc = _t[[Faeros are highly intelligent fire elementals, rarely seen outside volcanoes. They are probably not native to this world.
 This one looks even nastier and looks toward you with what seems to be disdain. Flames swirl all around him.]],
 	killer_message = "and a sole piece of char was sent to his masters as a totem",
 	level_range = {35, nil}, exp_worth = 2,

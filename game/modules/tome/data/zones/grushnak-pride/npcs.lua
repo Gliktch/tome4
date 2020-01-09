@@ -29,7 +29,7 @@ local Talents = require("engine.interface.ActorTalents")
 newEntity{ base="BASE_NPC_ORC_GRUSHNAK", define_as = "GRUSHNAK",
 	allow_infinite_dungeon = true,
 	name = "Grushnak, Battlemaster of the Pride", color=colors.VIOLET, unique = true,
-	desc = [[An old orc, covered in battle scars, he looks fierce and very, very, dangerous.]],
+	desc = _t[[An old orc, covered in battle scars, he looks fierce and very, very, dangerous.]],
 	killer_message = "and mounted on the barracks wall",
 	level_range = {45, nil}, exp_worth = 1,
 	rank = 5,
