@@ -2157,7 +2157,7 @@ function _M:getUseDesc(use_actor)
 			if self.talent_cooldown then
 				ret = tstring{{"color","YELLOW"}, ("It can be used to activate talent %s, placing all other charms into a %s cooldown :"):tformat(t.name, tostring(math.floor(usepower(self.use_talent.power)))), {"color","LAST"}, true}
 			else
-				ret = tstring{{"color","YELLOW"}, "It can be used to activate talent %s (costing %s power out of %s/%s) :"):tformat(t.name, tostring(math.floor(usepower(self.use_talent.power))), tostring(math.floor(self.power)), tostring(math.floor(self.max_power))), {"color","LAST"}, true}
+				ret = tstring{{"color","YELLOW"}, ("It can be used to activate talent %s (costing %s power out of %s/%s) :"):tformat(t.name, tostring(math.floor(usepower(self.use_talent.power))), tostring(math.floor(self.power)), tostring(math.floor(self.max_power))), {"color","LAST"}, true}
 			end
 			ret:merge(desc)
 		end

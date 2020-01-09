@@ -174,7 +174,7 @@ function _M:use(item, button)
 		table.insert(list, 2, {name=autoMark:getDisplayString()..(automode==1 and ds or "").._t"Auto-use when available", what=(automode==1 and "auto-dis" or "auto-en-1")})
 		table.insert(list, 2, {name=autoMark:getDisplayString()..(automode==2 and ds or "").._t"Auto-use when no enemies are visible", what=(automode==2 and "auto-dis" or "auto-en-2")})
 		table.insert(list, 2, {name=autoMark:getDisplayString()..(automode==3 and ds or "").._t"Auto-use when enemies are visible", what=(automode==3 and "auto-dis" or "auto-en-3")})
-		table.insert(list, 2, {name=autoMark:getDisplayString()..(automode==4 and ds or "")._t."Auto-use when enemies are visible and adjacent", what=(automode==4 and "auto-dis" or "auto-en-4")})
+		table.insert(list, 2, {name=autoMark:getDisplayString()..(automode==4 and ds or "").._t"Auto-use when enemies are visible and adjacent", what=(automode==4 and "auto-dis" or "auto-en-4")})
 		table.insert(list, 2, {name=autoMark:getDisplayString()..(automode==5 and ds or "").._t"Auto-use when out of combat", what=(automode==5 and "auto-dis" or "auto-en-5")})				
 		self:triggerHook{"UseTalents:generate", actor=self.actor, talent=t, menu=list}
 
