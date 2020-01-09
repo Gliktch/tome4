@@ -56,7 +56,7 @@ local function generate_traps()
 						local mastery = nil
 						game.tooltip_x, game.tooltip_y = 1, 1
 						player.turn_procs.trap_mastery_tid = chat_talent.id
-						game:tooltipDisplayAtMap(game.w, game.h, "#GOLD#"..t.name.."#LAST#\n"..tostring(player:getTalentFullDescription(t, 1, {force_level=1})))
+						game:tooltipDisplayAtMap(game.w, game.h, ("#GOLD#%s#LAST#\n%s"):tformat(t.name, tostring(player:getTalentFullDescription(t, 1, {force_level=1}))))
 						player.turn_procs.trap_mastery_tid = nil
 					end,
 				}

@@ -279,7 +279,7 @@ local function generate_rewards()
 							game.tooltip_x, game.tooltip_y = 1, 1
 							local mastery = nil
 							if player:knowTalentType(t.type[1]) == nil then mastery = 1.0 end
-							game:tooltipDisplayAtMap(game.w, game.h, "#GOLD#"..t.name.."#LAST#\n"..tostring(player:getTalentFullDescription(t, 1, nil, mastery)))
+							game:tooltipDisplayAtMap(game.w, game.h, ("#GOLD#%sLAST#\n%s"):tformat(t.name,tostring(player:getTalentFullDescription(t, 1, nil, mastery))))
 						end,
 					}
 			end
@@ -299,7 +299,7 @@ local function generate_rewards()
 				action=doit,
 				on_select=function(npc, player)
 					game.tooltip_x, game.tooltip_y = 1, 1
-					game:tooltipDisplayAtMap(game.w, game.h, "#GOLD#"..(cat:capitalize().." / "..tt_def.name:capitalize()).."#LAST#\n"..tt_def.description)
+					game:tooltipDisplayAtMap(game.w, game.h, ("#GOLD#%s / %s#LAST#\n%s"):tformat(cat:capitalize(), tt_def.name:capitalize(), tt_def.description))
 				end,
 			}
 		end end

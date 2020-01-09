@@ -57,7 +57,7 @@ local function generate_rewards()
 				action=doit,
 				on_select=function(npc, player)
 					game.tooltip_x, game.tooltip_y = 1, 1
-					game:tooltipDisplayAtMap(game.w, game.h, "#GOLD#"..(cat:capitalize().." / "..tt_def.name:capitalize()).."#LAST#\n"..tt_def.description)
+					game:tooltipDisplayAtMap(game.w, game.h, ("#GOLD#%s / %s#LAST#\n"):tformat(cat:capitalize(), tt_def.name:capitalize(), tt_def.description))
 				end,
 			}
 		end end

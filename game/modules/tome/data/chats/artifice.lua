@@ -86,7 +86,7 @@ local function generate_tools()
 					else
 						text = player:getTalentFullDescription(t, nil, {force_level=chat_level})
 					end
-					game:tooltipDisplayAtMap(game.w, game.h, "#GOLD#"..t.name.."#LAST#\n"..tostring(text))
+					game:tooltipDisplayAtMap(game.w, game.h, ("#GOLD#%s#LAST#\n%s"):tformat(t.name, tostring(text)))
 				end,
 			}
 		end

@@ -62,7 +62,7 @@ function _M:init(title, actor, text, dialog_talent, max_traps, trap_tids)
 	c_list.on_select = function(item)
 		if item.talent then
 			actor.turn_procs.trap_mastery_tid = dialog_talent.id
-			game:tooltipDisplayAtMap(game.w, game.h, "#GOLD#"..item.talent.name.."#LAST#\n"..tostring(actor:getTalentFullDescription(item.talent, 1, {force_level=1})))
+			game:tooltipDisplayAtMap(game.w, game.h, ("#GOLD#%sLAST#\n%s"):tformat(item.talent.name, tostring(actor:getTalentFullDescription(item.talent, 1, {force_level=1}))))
 			actor.turn_procs.trap_mastery_tid = nil
 		end
 	end
