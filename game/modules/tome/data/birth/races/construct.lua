@@ -24,10 +24,10 @@ newBirthDescriptor{
 	type = "race",
 	name = "Construct",
 	locked = function() return profile.mod.allow_build.construct and true or "hide" end,
-	locked_desc = "",
+	locked_desc = _t"",
 	desc = {
-		"Constructs are not natural creatures.",
-		"The most usual contructs are golems, but they can vary in shape, form and abilities.",
+		_t"Constructs are not natural creatures.",
+		_t"The most usual contructs are golems, but they can vary in shape, form and abilities.",
 	},
 	descriptor_choices =
 	{
@@ -45,15 +45,15 @@ newBirthDescriptor
 	type = "subrace",
 	name = "Runic Golem",
 	locked = function() return profile.mod.allow_build.construct_runic_golem and true or "hide" end,
-	locked_desc = "",
+	locked_desc = _t"",
 	desc = {
-		"Runic Golems are creatures made of solid rock and animated using arcane forces.",
-		"They cannot be of any class, but they have many intrinsic abilities.",
-		"#GOLD#Stat modifiers:",
-		"#LIGHT_BLUE# * +3 Strength, -2 Dexterity, +3 Constitution",
-		"#LIGHT_BLUE# * +2 Magic, +2 Willpower, -5 Cunning",
-		"#GOLD#Life per level:#LIGHT_BLUE# 13",
-		"#GOLD#Experience penalty:#LIGHT_BLUE# 25%",
+		_t"Runic Golems are creatures made of solid rock and animated using arcane forces.",
+		_t"They cannot be of any class, but they have many intrinsic abilities.",
+		_t"#GOLD#Stat modifiers:",
+		_t"#LIGHT_BLUE# * +3 Strength, -2 Dexterity, +3 Constitution",
+		_t"#LIGHT_BLUE# * +2 Magic, +2 Willpower, -5 Cunning",
+		_t"#GOLD#Life per level:#LIGHT_BLUE# 13",
+		_t"#GOLD#Experience penalty:#LIGHT_BLUE# 25%",
 	},
 	moddable_attachement_spots = "race_runic_golem", moddable_attachement_spots_sexless=true,
 	descriptor_choices =
