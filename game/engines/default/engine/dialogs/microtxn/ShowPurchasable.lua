@@ -366,7 +366,7 @@ function _M:paymentSuccess()
 	end end
 
 	game:unregisterDialog(self)
-	Dialog:simpleLongPopup(_t"Payment", "Payment accepted.\n%s":tformat(table.concat(list, "\n")), 700)
+	Dialog:simpleLongPopup(_t"Payment", ("Payment accepted.\n%s"):tformat(table.concat(list, "\n")), 700)
 end
 
 function _M:paymentFailure()

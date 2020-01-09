@@ -107,7 +107,7 @@ function _M:getTargets(only_friends)
 	end
 
 	local name_added = {}
-	for login, data in pairs(self.chat.friends) do list[#list+1] = {name=("Friend: %s")):tformat(data.name), id=data.name} name_added[data.name] = true end
+	for login, data in pairs(self.chat.friends) do list[#list+1] = {name=("Friend: %s"):tformat(data.name), id=data.name} name_added[data.name] = true end
 
 	if not only_friends and self.chat.channels[self.chat.cur_channel] then
 		for login, data in pairs(self.chat.channels[self.chat.cur_channel].users) do if not name_added[data.name] then list[#list+1] = {name=("User: %s"):tformat(data.name), id=data.name} name_added[data.name] = true end end

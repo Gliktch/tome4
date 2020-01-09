@@ -94,7 +94,7 @@ function _M:generateList()
 						mod.highscores[world] = HighScores.createHighScoreTable(world,formatter)
 					end
 				end
-				mod.zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text="#{bold}##GOLD#%s#GREEN# High Scores#WHITE##{normal}#\n\n":tformat(mod.long_name)}
+				mod.zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=("#{bold}##GOLD#%s#GREEN# High Scores#WHITE##{normal}#\n\n"):tformat(mod.long_name)}
 				table.insert(self.list, mod)
 			end
 		end
@@ -111,7 +111,7 @@ function _M:changemodules(item)
 		self.c_sublist:setList(worlds)
 		if #worlds > 0 then
 			-- show text from first world
-			item.zone.text = "#{bold}##GOLD#%s(%s)#GREEN# High Scores#WHITE##{normal}#\n\n":tformat(item.long_name, worlds[1].world)
+			item.zone.text = ("#{bold}##GOLD#%s(%s)#GREEN# High Scores#WHITE##{normal}#\n\n"):tformat(item.long_name, worlds[1].world)
 			item.zone.text = item.zone.text .. item.highscores[worlds[1].world]
 			item.zone:generate()
 		end
@@ -121,7 +121,7 @@ end
 function _M:changeworlds(item)
 	if item and self.uis[2] then
 		world = item.world;
-		self.cur_sel.zone.text = "#{bold}##GOLD#%s(%s)#GREEN# High Scores#WHITE##{normal}#\n\n":tformat(self.cur_sel.long_name, world)
+		self.cur_sel.zone.text = ("#{bold}##GOLD#%s(%s)#GREEN# High Scores#WHITE##{normal}#\n\n"):tformat(self.cur_sel.long_name, world)
 		self.cur_sel.zone.text = self.cur_sel.zone.text .. self.cur_sel.highscores[world]
 		self.cur_sel.zone:generate()
 	end

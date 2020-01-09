@@ -39,12 +39,12 @@ function _M:init(actor)
 	if self.dont_show then return end
 	if not config.settings.cheat then game:saveGame() end
 
-	local text = [[Death in #{bold}#Tales of Maj'Eyal#{normal}# is usually permanent, but if you have a means of resurrection it will be proposed in the menu below.
+	local text = _t[[Death in #{bold}#Tales of Maj'Eyal#{normal}# is usually permanent, but if you have a means of resurrection it will be proposed in the menu below.
 You can dump your character data to a file to remember her/him forever, or you can exit and try once again to survive in the wilds!
 ]]
 
 	if #game.party.on_death_show_achieved > 0 then
-		self.c_achv = Textzone.new{width=self.iw, scrollbar=true, height=100, text="#LIGHT_GREEN#During your game you#WHITE#:\n* "..table.concat(game.party.on_death_show_achieved, "\n* ")}
+		self.c_achv = Textzone.new{width=self.iw, scrollbar=true, height=100, text=("#LIGHT_GREEN#During your game you#WHITE#:\n* %s"):tformat(table.concat(game.party.on_death_show_achieved, "\n* "))}
 	end
 
 	self:setTitleShadowShader(Shader.default.textoutline and Shader.default.textoutline.shad, 1.5)
@@ -168,7 +168,7 @@ function _M:eidolonPlane()
 	game:onTickEnd(function()
 		if not self.actor:attr("infinite_lifes") then
 			self.actor:attr("easy_mode_lifes", -1)
-			game.log("#LIGHT_RED#You have %s left.", (self.actor:attr("easy_mode_lifes") and self.actor:attr("easy_mode_lifes").." life(s)") or "no more lives")
+			game.log("#LIGHT_RED#You have %s left.", (self.actor:attr("easy_mode_lifes") and self.actor:attr("easy_mode_lifes").._t" life(s)") or _t"no more lives")
 		end
 
 		local is_exploration = game.permadeath == game.PERMADEATH_INFINITE
@@ -213,7 +213,7 @@ function _M:use(item)
 	elseif act == "dump" then
 		game:registerDialog(require("mod.dialogs.CharacterSheet").new(self.actor))
 	elseif act == "log" then
-		game:registerDialog(require("mod.dialogs.ShowChatLog").new("Message Log", 0.6, game.uiset.logdisplay, profile.chat))
+		game:registerDialog(require("mod.dialogs.ShowChatLog").new(_t"Message Log", 0.6, game.uiset.logdisplay, profile.chat))
 	elseif act == "cheat" then
 		game.logPlayer(self.actor, "#LIGHT_BLUE#You resurrect! CHEATER!")
 
@@ -298,7 +298,7 @@ function _M:generateList()
 		allow_res = false
 	end
 
-	if config.settings.cheat then list[#list+1] = {name="Resurrect by cheating", action="cheat"} end
+	if config.settings.cheat then list[#list+1] = {name=_t"Resurrect by cheating", action="cheat"} end
 	if not self.actor.no_resurrect and allow_res then
 		if self.actor:hasEffect(self.actor.EFF_SEE_THREADS) and game._chronoworlds then
 			self:use{action="threads"}
@@ -330,11 +330,11 @@ function _M:generateList()
 		self.actor:fireTalentCheck("callbackOnDeathbox", self, list)
 	end
 
-	list[#list+1] = {name=(not profile.auth and "Message Log" or "Message/Chat log (allows to talk)"), action="log"}
-	list[#list+1] = {name="Character dump", action="dump"}
-	list[#list+1] = {name="Restart the same character", action="exit", subaction="restart"}
-	list[#list+1] = {name="Restart with a new character", action="exit", subaction="restart-new"}
-	list[#list+1] = {name="Exit to main menu", action="exit", subaction="none"}
+	list[#list+1] = {name=(not profile.auth and _t"Message Log" or _t"Message/Chat log (allows to talk)"), action="log"}
+	list[#list+1] = {name=_t"Character dump", action="dump"}
+	list[#list+1] = {name=_t"Restart the same character", action="exit", subaction="restart"}
+	list[#list+1] = {name=_t"Restart with a new character", action="exit", subaction="restart-new"}
+	list[#list+1] = {name=_t"Exit to main menu", action="exit", subaction="none"}
 
 	self.list = list
 	for _, item in ipairs(list) do self.possible_items[item.action] = true end

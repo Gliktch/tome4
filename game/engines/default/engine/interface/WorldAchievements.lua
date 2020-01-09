@@ -110,7 +110,7 @@ function _M:gainPersonalAchievement(silent, id, src, ...)
 	src.achievements[id] = {turn=game.turn, who=self:achievementWho(src), when=os.date("%Y-%m-%d %H:%M:%S")}
 	if not silent then
 		local color = a.huge and "GOLD" or "LIGHT_GREEN"
-		game.log("#%s#Personal New Achievement: %s!". color, a.name)
+		game.log("#%s#Personal New Achievement: %s!", color, a.name)
 		self:showAchievement(("Personal New Achievement: #%s#%s"):tformat(color, a.name), a)
 		if not a.no_chat_broadcast then profile.chat:achievement(a.name, a.huge, false) end
 	end
