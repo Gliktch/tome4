@@ -158,8 +158,8 @@ local generic_profile_defs = {
 	firstrun = {nosync=true, no_sync=true, {firstrun="number"}, receive=function(data, save) save.firstrun = data.firstrun end },
 	online = {nosync=true, no_sync=true, {login="string:40", pass="string:40", v2="number"}, receive=function(data, save) save.login = data.login save.pass = data.pass save.v2 = data.v2 end },
 	onlinesteam = {nosync=true, no_sync=true, {autolog="boolean"}, receive=function(data, save) save.autolog = data.autolog end },
-	modules_played = { {name=_t"index:string:30"}, {time_played="number"}, receive=function(data, save) max_set(save, data.name, data, "time_played") end, export=function(env) for k, v in pairs(env) do add{name=k, time_played=v} end end },
-	modules_loaded = { {name=_t"index:string:30"}, {nb="number"}, receive=function(data, save) max_set(save, data.name, data, "nb") end, export=function(env) for k, v in pairs(env) do add{name=k, nb=v} end end },
+	modules_played = { {name="index:string:30"}, {time_played="number"}, receive=function(data, save) max_set(save, data.name, data, "time_played") end, export=function(env) for k, v in pairs(env) do add{name=k, time_played=v} end end },
+	modules_loaded = { {name="index:string:30"}, {nb="number"}, receive=function(data, save) max_set(save, data.name, data, "nb") end, export=function(env) for k, v in pairs(env) do add{name=k, nb=v} end end },
 }
 
 --- Loads profile generic profile from disk

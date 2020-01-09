@@ -258,7 +258,7 @@ function _M:setupCommands()
 			collectgarbage("collect")
 			local nb = 0
 			for k, e in pairs(__uids) do nb = nb + 1 end
-			game.log("NB: " .. nb)
+			game.log("NB: %d", nb)
 		end end,
 	}
 	self.key:addBinds

@@ -2787,7 +2787,7 @@ end
 
 function _M:unlockBackground(kind, name)
 	if not config.settings['unlock_background_'..kind] then
-		game.log("#ANTIQUE_WHITE#Splash screen unlocked: #GOLD#"..name)
+		game.log("#ANTIQUE_WHITE#Splash screen unlocked: #GOLD#%s", name)
 	end
 	config.settings['unlock_background_'..kind] = true
 	local save = {}

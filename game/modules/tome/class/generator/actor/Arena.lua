@@ -311,7 +311,7 @@ function _M:summonMiniboss(val)
 	local verb = ""
 	game:playSoundNear(game.player, "talents/teleport")
 	if e.wave > 1 then verb = _t" appear!!" else verb = _t" appears!!" end
-	game.log("#LIGHT_RED#"..e.display..verb)
+	game.log("#LIGHT_RED#%s%s", e.display, verb)
 end
 
 function _M:getEntrance(val)
@@ -528,12 +528,12 @@ function _M:setArenaTriggers(e, entry)
 			if self.arenaLastHit >= self.max_life * 2 then
 				local x, y = game.level.map:getTileToScreen(self.x, self.y, true)
 				game.flyers:add(x, y, 90, 0, -0.5, "OVERKILL", { 231, 0, 0 }, false)
-				game.log("#LIGHT_GREEN#Your powerful attack completely obliterates #WHITE#"..self.name.."#LIGHT_GREEN#!")
+				game.log("#LIGHT_GREEN#Your powerful attack completely obliterates #WHITE#%s#LIGHT_GREEN#!", self.name)
 				local val = (self.level * 0.015)
 				if val > 0.5 then game.log("#LIGHT_GREEN#The audience cheers!") end
 				game.level.arena.raiseRank(val)
 			else
-				game.log("#LIGHT_GREEN#You destroy #WHITE#"..self.name.."#LIGHT_GREEN# in a single blow!")
+				game.log("#LIGHT_GREEN#You destroy #WHITE#%s#LIGHT_GREEN# in a single blow!", self.name)
 				local val = (self.level * 0.01)
 				if val > 0.5 then game.log("#LIGHT_GREEN#The audience cheers!") end
 				game.level.arena.raiseRank(val)
@@ -541,7 +541,7 @@ function _M:setArenaTriggers(e, entry)
 		end
 		game.level.arena.danger = game.level.arena.danger - self.arenaPower
 		if game.level.arena.pinch == false then
-			game.log("#LIGHT_GREEN#Your score multiplier increases by #WHITE#"..self.arenaBonusMult.."#LIGHT_GREEN#!")
+			game.log("#LIGHT_GREEN#Your score multiplier increases by #WHITE#%d#LIGHT_GREEN#!", self.arenaBonusMult)
 			game.level.arena.bonusMultiplier = game.level.arena.bonusMultiplier + self.arenaBonusMult
 		else
 			game.level.arena.bonus = game.level.arena.bonus + self.arenaScore

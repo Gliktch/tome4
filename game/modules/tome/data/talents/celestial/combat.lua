@@ -100,7 +100,7 @@ newTalent{
 			self:attackTarget(target, nil, t.getDamage(self, t), true)
 			local range = core.fov.distance(self.x, self.y, target.x, target.y)
 			if range > 1 and rng.percent(t.SecondStrikeChance(self, t, range)) then
-				game.logSeen(self, "#CRIMSON#"..self.name.."strikes twice with Wave of Power!#NORMAL#")
+				game.logSeen(self, "#CRIMSON#%sstrikes twice with Wave of Power!#NORMAL#", self.name)
 				self:attackTarget(target, nil, t.getDamage(self, t, true), true)
 			end
 		else

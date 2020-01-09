@@ -313,7 +313,7 @@ return {
 					elseif newRank == 24 then world:gainAchievement("GRAND_MASTER", game.player)
 					end
 					game.flyers:add(x, y, 90, 0, -0.5, "RANK UP!!", { 2, 57, 185 }, true)
-					game.log("#LIGHT_GREEN#The public is pleased by your performance! You now have the rank of #WHITE#"..game.level.arena.ranks[newRank].."#LIGHT_GREEN#!")
+					game.log("#LIGHT_GREEN#The public is pleased by your performance! You now have the rank of #WHITE#%s#LIGHT_GREEN#!", game.level.arena.ranks[newRank])
 				end
 			end,
 
@@ -324,7 +324,7 @@ return {
 					local b = (k * 0.035) + 0.04
 					game.level.arena.raiseRank(b)
 					game.flyers:add(x, y, 90, 0.5, 0, k.." kills!", { 2, 57, 185 }, false)
-					game.log("#YELLOW#You killed "..k.." enemies in a single turn! The public is excited!")
+					game.log("#YELLOW#You killed %d enemies in a single turn! The public is excited!", k)
 					if k >= 4 and k < 6 then
 						local drop = game.zone:makeEntity(game.level, "object", {tome = { ego=30, double_ego=15, greater=7, greater_normal=1 }}, nil, true)
 						game.zone:addEntity(game.level, drop, "object", game.player.x, game.player.y)
@@ -346,7 +346,7 @@ return {
 			initWave = function (val) --Clean up and start a new wave.
 				if val > 20 then --If the player has more than 20 turns of rest, clean up all items lying around.
 					game.level.arena.clearItems = true
-					game.log("#YELLOW#Items lying around will disappear in #WHITE#"..val.."#YELLOW# turns!#LAST#")
+					game.log("#YELLOW#Items lying around will disappear in #WHITE#%d#YELLOW# turns!#LAST#", val)
 				end
 				game.level.arena.dangerTop = game.level.arena.dangerTop + (2 + math.floor(game.level.arena.currentWave * 0.05))
 				game.level.arena.currentWave = game.level.arena.currentWave + 1
@@ -401,10 +401,10 @@ return {
 				game.player:incMoney(game.level.arena.bonusMultiplier)
 				game.level.arena.score = game.level.arena.score + game.level.arena.bonus
 				game.flyers:add(x, y, 90, 0, -1, "Round Clear! +"..expAward.." EXP!", { 2, 57, 185 }, true)
-				game.log(col.."Wave clear!")
-				game.log(col.."Clear bonus: "..hgh..clearBonus..col.."! Score bonus: "..hgh..scoreBonus..col.."! Danger bonus: "..hgh..dangerBonus..col.."! Rank bonus: "..hgh..rankBonus..col.."!")
-				game.log(col.."Your experience increases by"..hgh..expAward..col.."!")
-				game.log(col.."You earn "..game.level.arena.bonusMultiplier.." gold for your victory!")
+				game.log("%sWave clear!", col)
+				game.log("%sClear bonus: %s%s%s! Score bonus: %s%s%s! Danger bonus: %s%s%s! Rank bonus: %s%s%s!", col, hgh, clearBonus, col, hgh, scoreBonus, col, hgh, dangerBonus, col, hgh, rankBonus, col)
+				game.log("%sYour experience increases by %s%s%s!", hgh, expAward, col)
+				game.log("%sYou earn %s gold for your victory!", game.level.arena.bonusMultiplier)
 				game.player.changed = true
 			end,
 

@@ -281,9 +281,9 @@ function _M:describeFloor(x, y, force)
 
 	local g = game.level.map(x, y, game.level.map.TERRAIN)
 	if g and g.change_level then
-		game.logPlayer(self, "#YELLOW_GREEN#There is "..g.name:a_an().." here (press '<', '>' or right click to use).")
+		game.logPlayer(self, "#YELLOW_GREEN#There is %s here (press '<', '>' or right click to use).", g.name:a_an())
 		local sx, sy = game.level.map:getTileToScreen(x, y, true)
-		game.flyers:add(sx, sy, 60, 0, -1.5, ("Level change (%s)!"):format(g.name), colors.simple(colors.YELLOW_GREEN), true)
+		game.flyers:add(sx, sy, 60, 0, -1.5, ("Level change (%s)!"):tformat(g.name), colors.simple(colors.YELLOW_GREEN), true)
 	end
 end
 

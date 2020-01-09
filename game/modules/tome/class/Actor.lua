@@ -5830,13 +5830,13 @@ function _M:logTalentMessage(ab)
 			if ab.is_inscription then color = "#GREEN#"
 			else color = "#PURPLE#"
 			end
-			game.logSeen(self, "%s casts #{bold}#"..color.."%s.#{normal}##LAST#", self.name:capitalize(), ab.name)
+			game.logSeen(self, "%s casts #{bold}#%s%s.#{normal}##LAST#", self.name:capitalize(), color, ab.name)
 		else
 			if ab.is_mind then color = "#YELLOW#"
 			elseif ab.is_melee then color = "#RED#"
 			elseif ab.is_inscription then color = "#GREEN#"
 			end
-			game.logSeen(self, "%s uses #{bold}#"..color.."%s.#{normal}##LAST#", self.name:capitalize(), ab.name)
+			game.logSeen(self, "%s uses #{bold}#%s%s.#{normal}##LAST#", self.name:capitalize(), color, ab.name)
 		end
 	end
 end
