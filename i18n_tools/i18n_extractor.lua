@@ -1,4 +1,5 @@
 local lfs = require 'lfs'
+local colors = require 'ansicolors'
 local Parser = require 'luafish.parser'
 local p = Parser()
 
@@ -26,26 +27,52 @@ function table.print(src, offset, ret)
 end
 
 local function explore(file, ast)
+	--[[
+	print("========================================")
+	print("========================================")
+	print("========================================", file)
+	print("========================================")
+	print("========================================")
+	table.print(ast)
+	print("========================================")
+	--]]
 	for i, e in ipairs(ast) do
 		if type(e) == "table" then
-			table.print(e)
 			if e.tag == "Id" and e[1] == "_t" then
 				local en = ast[i+1]
 				if en and type(en) == "table" and en.tag == "ExpList" and type(en[1]) == "table" and en[1].tag == "String" then
-					print("!!", en[1][1])
+					print(colors("%{bright cyan}_t"), en[1][1])
 					locales[file] = locales[file] or {}
-					locales[file][en[1][1]] = true
+					locales[file][en[1][1]] = {line=en[1].nline, type="_t"}
 				end
 			elseif e.tag == "String" and e[1] == "tformat" and i == 2 then
 				local en = ast[i-1]
 				if en and type(en) == "table" and en.tag == "Paren" and type(en[1]) == "table" then
 					local sn = en[1]
 					if sn.tag == "String" and sn[1] then
-						print("%%", sn[1])
+						print(colors("%{bright yellow}tformat"), sn[1])
 						locales[file] = locales[file] or {}
-						locales[file][sn[1]] = true
+						locales[file][sn[1]] = {line=sn.nline, type="tformat"}
 					end
 				end
+			elseif e.tag == "Id" and e[1] == "newTalent" then
+				local en = ast[i+1]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "name" then
+						print(colors("%{bright green}newTalent"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="talent name"}
+					end
+				end end
+			elseif e.tag == "Id" and e[1] == "newEntity" then
+				local en = ast[i+1]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "name" then
+						print(colors("%{green}newEntity"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="entity name"}
+					end
+				end end
 			end
 			explore(file, e)
 		end
@@ -58,9 +85,9 @@ local function dofolder(dir)
 		if lfs.attributes(file, "mode") == "directory" and sfile ~= ".." and sfile ~= "." then
 			dofolder(file)
 		elseif sfile:find("%.lua$") then
-			print("-------------------------------------")
-			print("--", file)
-			print("-------------------------------------")
+			print(colors("%{bright}-------------------------------------"))
+			print(colors("%{bright}-- "..file))
+			print(colors("%{bright}-------------------------------------"))
 			explore(file:gsub("%.%./", ""), p:parse{file})
 		end
 	end
@@ -76,11 +103,18 @@ table.sort(slist)
 for _, section in ipairs(slist) do
 	f:write('------------------------------------------------\n')
 	f:write(('section %q\n\n'):format(section))
+	
+	local list = {}
+	for k, v in pairs(locales[section]) do
+		list[#list+1] = {text=k, line=v.line, type=v.type}
+	end
+	table.sort(list, function(a,b) return a.line < b.line end)
 
-	local list = table.keys(locales[section])
-	table.sort(list)
+	-- local list = table.keys(locales[section])
+	-- table.sort(list)
+
 	for _, s in ipairs(list) do
-		f:write(('t(%q, "")\n'):format(s))
+		f:write(('tDef(%s, %q) -- %s\n'):format(s.line, s.text, s.type))
 	end
 	f:write('\n\n')
 end

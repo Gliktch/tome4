@@ -31,6 +31,7 @@ local orders = {
 	anchor = {3, function(actor) return ("Set the leash anchor [current: %s]"):tformat(actor.ai_state.tactic_leash_anchor and actor.ai_state.tactic_leash_anchor.name or "none") end},
 	leash = {4, function(actor) return ("Set the leash distance [current: %d]"):tformat(actor.ai_state.tactic_leash) end},
 	talents = {5, function(actor) return (_t"Define tactical talents usage") end},
+	rename = {6, function(actor) return (_t"Rename") end},
 }
 
 function _M:init(actor, def)
