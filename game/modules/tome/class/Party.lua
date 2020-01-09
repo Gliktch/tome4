@@ -55,7 +55,7 @@ function _M:addMember(actor, def)
 	end
 
 	if type(def.control) == "nil" then def.control = "no" end
-	def.title = def.title or "Party member"
+	def.title = def.title or _t"Party member"
 	self.members[actor] = def
 	self.m_list[#self.m_list+1] = actor
 	def.index = #self.m_list
@@ -364,7 +364,7 @@ function _M:giveOrder(actor, order)
 	local def = self.members[actor]
 
 	if order == "leash" then
-		game:registerDialog(GetQuantity.new("Set action radius: "..actor.name, "Set the maximum distance this creature can go from the party master", actor.ai_state.tactic_leash, actor.ai_state.tactic_leash_max or 100, function(qty)
+		game:registerDialog(GetQuantity.new(("Set action radius: %d"):tformat(actor.name), _t"Set the maximum distance this creature can go from the party master", actor.ai_state.tactic_leash, actor.ai_state.tactic_leash_max or 100, function(qty)
 			actor.ai_state.tactic_leash = util.bound(qty, 1, actor.ai_state.tactic_leash_max or 100)
 			game.logPlayer(game.player, "%s maximum action radius set to %d.", actor.name:capitalize(), actor.ai_state.tactic_leash)
 		end), 1)
@@ -376,7 +376,7 @@ function _M:giveOrder(actor, order)
 				if act then
 					anchor = act
 				else
-					anchor = {x=x, y=y, name="that location"}
+					anchor = {x=x, y=y, name=_t"that location"}
 				end
 				actor.ai_state.tactic_leash_anchor = anchor
 				game.logPlayer(game.player, "%s will stay near %s.", actor.name:capitalize(), anchor.name)
@@ -409,13 +409,13 @@ function _M:giveOrder(actor, order)
 		actor:doEmote("Ok, but not for long.", 40)
 	elseif order == "escort_portal" then
 		local dist = core.fov.distance(actor.escort_target.x, actor.escort_target.y, actor.x, actor.y)
-		if dist < 8 then dist = "very close"
-		elseif dist < 16 then dist = "close"
-		else dist = "still far away"
+		if dist < 8 then dist = _t"very close"
+		elseif dist < 16 then dist = _t"close"
+		else dist = _t"still far away"
 		end
 
 		local dir = game.level.map:compassDirection(actor.escort_target.x - actor.x, actor.escort_target.y - actor.y)
-		actor:doEmote(("The portal is %s, to the %s."):format(dist, dir or "???"), 45)
+		actor:doEmote(("The portal is %s, to the %s."):tformat(dist, dir or "???"), 45)
 	end
 
 	return true

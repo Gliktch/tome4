@@ -1155,7 +1155,7 @@ function _M:runCheck(ignore_memory)
 	if self.air_regen < 0 and self.air < 0.75 * self.max_air then return false, "losing breath!" end
 
 	-- Notice any noticeable terrain
-	local noticed = false
+	local noticed = _tfalse
 	self:runScan(function(x, y, what)
 		-- Objects are always interesting, only on curent spot
 		local obj_seen = game.level.map.attrs(x, y, "obj_seen")
@@ -1163,7 +1163,7 @@ function _M:runCheck(ignore_memory)
 			local obj = game.level.map:getObject(x, y, 1)
 			if obj then
 				if not ignore_memory then game.level.map.attrs(x, y, "obj_seen", is_main_player and true or self) end
-				noticed = "object seen"
+				noticed = _t"object seen"
 				return false, noticed
 			end
 		end
@@ -1171,7 +1171,7 @@ function _M:runCheck(ignore_memory)
 		local grid = game.level.map(x, y, Map.TERRAIN)
 		if grid and grid.special and not grid.autoexplore_ignore and not game.level.map.attrs(x, y, "autoexplore_ignore") and self.running and self.running.path then
 			game.level.map.attrs(x, y, "autoexplore_ignore", true)
-			noticed = "something interesting"
+			noticed = _t"something interesting"
 			return false, noticed
 		end
 
@@ -1188,24 +1188,24 @@ function _M:runCheck(ignore_memory)
 		then
 			if grid and grid.special then
 				game.level.map.attrs(x, y, "autoexplore_ignore", true)
-				noticed = "something interesting"
+				noticed = _t"something interesting"
 			elseif self.running and self.running.explore and self.running.path and self.running.explore ~= "unseen" and self.running.cnt == #self.running.path + 1 then
-				noticed = "at " .. self.running.explore
+				noticed = ("at %s"):tformat(self.running.explore)
 			else
-				noticed = "interesting terrain"
+				noticed = _t"interesting terrain"
 			end
 			-- let's only remember and ignore standard interesting terrain
 			if not ignore_memory and (grid.change_level or grid.orb_portal or grid.escort_portal) then game.level.map.attrs(x, y, "noticed", true) end
 			return false, noticed
 		end
-		if grid and grid.type and grid.type == "store" then noticed = "store entrance spotted" ; return false, noticed end
+		if grid and grid.type and grid.type == "store" then noticed = _t"store entrance spotted" ; return false, noticed end
 
 		-- Only notice interesting characters
 		local actor = game.level.map(x, y, Map.ACTOR)
-		if actor and actor.can_talk then noticed = "interesting character" ; return false, noticed end
+		if actor and actor.can_talk then noticed = _t"interesting character" ; return false, noticed end
 
 		-- We let the engine take care of traps, but we should still notice "trap" stores.
-		if game.level.map:checkAllEntities(x, y, "store") then noticed = "store entrance spotted" ; return false, noticed end
+		if game.level.map:checkAllEntities(x, y, "store") then noticed = _t"store entrance spotted" ; return false, noticed end
 	end)
 	if noticed then return false, noticed end
 

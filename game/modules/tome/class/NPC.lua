@@ -396,8 +396,8 @@ function _M:tooltip(x, y, seen_by)
 	
 	str:add(
 		true,
-		("Killed by you: %s"):format(killed), true,
-		"Target: ", target and target.name or "none"
+		("Killed by you: %s"):tformat(killed), true,
+		_t"Target: ", target and target.name or _t"none"
 	)
 	-- Give hints to stealthed/invisible players about where the NPC is looking (if they have LOS)
 	if target == game.player and (game.player:attr("stealth") or game.player:attr("invisible")) and game.player:hasLOS(self.x, self.y) then
@@ -405,14 +405,14 @@ function _M:tooltip(x, y, seen_by)
 		local dx, dy = tx - self.ai_target.actor.x, ty - self.ai_target.actor.y
 		local offset = engine.Map:compassDirection(dx, dy)
 		if offset then
-			str:add(" looking " ..offset)
+			str:add((" looking %s"):tformat(offset))
 			if config.settings.cheat then str:add((" (%+d, %+d)"):format(dx, dy)) end
 		else
-			str:add(" looking at you.")
+			str:add(_t" looking at you.")
 		end
 	end
 	if config.settings.cheat then
-		str:add(true, "UID: "..self.uid, true, self.image)
+		str:add(true, _t"UID: "..self.uid, true, self.image)
 	end
 	return str
 end

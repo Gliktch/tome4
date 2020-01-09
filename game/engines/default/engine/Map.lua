@@ -1483,6 +1483,7 @@ end
 
 -- Returns the compass direction from a vector
 -- dx, dy = x change (+ is east), y change (+ is south)
+-- I18N-TODO: It should be done with I18n support version
 function _M:compassDirection(dx, dy)
 	local dir = ""
 	if dx == 0 and dy == 0 then
