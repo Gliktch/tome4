@@ -811,7 +811,7 @@ function _M:spawnWorldAmbush(enc, dx, dy, kind)
 	terrains[gen.up].change_level_shift_back = true
 
 	local zone = mod.class.Zone.new("ambush", {
-		name = "Ambush!",
+		name = _t"Ambush!",
 		level_range = {game.player.level, game.player.level},
 		level_scheme = "player",
 		max_level = 1,

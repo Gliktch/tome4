@@ -29,7 +29,7 @@ module(..., package.seeall, class.inherit(mod.class.Player))
 function _M:init(t, no_default)
 	mod.class.Player.init(self, t, no_default)
 
-	self.name = "Yiilkgur, the Sher'Tul Fortress"
+	self.name = _t"Yiilkgur, the Sher'Tul Fortress"
 	self.type = "construct"
 	self.subtype = "fortress"
 	self.size_category = 10
@@ -248,9 +248,9 @@ end
 -- Do not touch!
 function _M:block_move(x, y, e, act)
 	if act and e == game.player then
-		Dialog:yesnoPopup(self.name, "Do you wish to teleport to the fortress?", function(ret) if ret then
+		Dialog:yesnoPopup(self.name, _t"Do you wish to teleport to the fortress?", function(ret) if ret then
 			if not game.zone.wilderness then
-				Dialog:simplePopup(self.name, "The teleport fizzles!")
+				Dialog:simplePopup(self.name, _t"The teleport fizzles!")
 				return
 			end
 			self:takeControl(e)

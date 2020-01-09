@@ -289,7 +289,7 @@ function _M:initialize_resources()
 		end
 		-- generate default tooltip if needed
 		res_gfx[rname].tooltip = _M["TOOLTIP_"..rname:upper()] or ([[#GOLD#%s#LAST#
-%s]]):format(res_def.name, res_def.description or "no description")
+%s]]):tformat(res_def.name, res_def.description or _t"no description")
 
 	end
 	self.res_gfx = res_gfx
@@ -350,9 +350,9 @@ end
 function _M:switchLocked()
 	self.locked = not self.locked
 	if self.locked then
-		game.bignews:say(60, "#CRIMSON#Interface locked, mouse enabled on the map")
+		game.bignews:say(60, _t"#CRIMSON#Interface locked, mouse enabled on the map")
 	else
-		game.bignews:say(60, "#CRIMSON#Interface unlocked, mouse disabled on the map")
+		game.bignews:say(60, _t"#CRIMSON#Interface unlocked, mouse disabled on the map")
 	end
 end
 
@@ -917,7 +917,7 @@ function _M:displayResources(scale, bx, by, a)
 			
 			if not self.res.feedback or self.res.feedback.vc ~= player:getFeedback() or self.res.feedback.vm ~= player:getMaxFeedback() or self.res.feedback.vr ~= player:getFeedbackDecay() then
 				self.res.feedback = {
-					hidable = "Feedback",
+					hidable = _t"Feedback",
 					vc = player:getFeedback(), vm = player:getMaxFeedback(), vr = player:getFeedbackDecay(),
 					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(player:getFeedback(), player:getMaxFeedback()), 255, 255, 255):glTexture()},
 					regen={core.display.drawStringBlendedNewSurface(sfont_sha, ("%+0.2f"):format(-player:getFeedbackDecay()), 255, 255, 255):glTexture()},
@@ -1048,41 +1048,41 @@ function _M:displayResources(scale, bx, by, a)
 				surf[1]:toScreenFull(_x, _y, surf[6], surf[7], surf[2], surf[3], 1, 1, 1, a)
 			end
 			if arena.score > world.arena.scores[1].score then
-				aprint(px, py, ("Score[1st]: %d"):format(arena.score), 255, 255, 100)
+				aprint(px, py, ("Score[1st]: %d"):tformat(arena.score), 255, 255, 100)
 			else
-				aprint(px, py, ("Score: %d"):format(arena.score), 255, 255, 255)
+				aprint(px, py, ("Score: %d"):tformat(arena.score), 255, 255, 255)
 			end
 			local _event = ""
 			if arena.event > 0 then
 				if arena.event == 1 then
-					_event = "[MiniBoss]"
+					_event = _t"[MiniBoss]"
 				elseif arena.event == 2 then
-					_event = "[Boss]"
+					_event = _t"[Boss]"
 				elseif arena.event == 3 then
-					_event = "[Final]"
+					_event = _t"[Final]"
 				end
 			end
 			py = py + h
 			if arena.currentWave > world.arena.bestWave then
-				aprint(px, py, ("Wave(TOP) %d %s"):format(arena.currentWave, _event), 255, 255, 100)
+				aprint(px, py, ("Wave(TOP) %d %s"):tformat(arena.currentWave, _event), 255, 255, 100)
 			elseif arena.currentWave > world.arena.lastScore.wave then
-				aprint(px, py, ("Wave %d %s"):format(arena.currentWave, _event), 100, 100, 255)
+				aprint(px, py, ("Wave %d %s"):tformat(arena.currentWave, _event), 100, 100, 255)
 			else
-				aprint(px, py, ("Wave %d %s"):format(arena.currentWave, _event), 255, 255, 255)
+				aprint(px, py, ("Wave %d %s"):tformat(arena.currentWave, _event), 255, 255, 255)
 			end
 			py = py + h
 			if arena.pinch == true then
-				aprint(px, py, ("Bonus: %d (x%.1f)"):format(arena.bonus, arena.bonusMultiplier), 255, 50, 50)
+				aprint(px, py, ("Bonus: %d (x%.1f)"):tformat(arena.bonus, arena.bonusMultiplier), 255, 50, 50)
 			else
-				aprint(px, py, ("Bonus: %d (x%.1f)"):format(arena.bonus, arena.bonusMultiplier), 255, 255, 255)
+				aprint(px, py, ("Bonus: %d (x%.1f)"):tformat(arena.bonus, arena.bonusMultiplier), 255, 255, 255)
 			end
 			py = py + h
 			if arena.display then
 				aprint(px, py, arena.display[1], 255, 0, 255)
-				aprint(px, py + h, " VS", 255, 0, 255)
+				aprint(px, py + h, _t" VS", 255, 0, 255)
 				aprint(px, py + h + h,  arena.display[2], 255, 0, 255)
 			else
-				aprint(px, py, "Rank: "..arena.printRank(arena.rank, arena.ranks), 255, 255, 255)
+				aprint(px, py, _t"Rank: "..arena.printRank(arena.rank, arena.ranks), 255, 255, 255)
 			end
 		end
 
@@ -1457,7 +1457,7 @@ function _M:displayParty(scale, bx, by)
 						p = (game.player == a) and portrait_lev or portrait_unsel_lev
 					end
 					p[1]:toScreenFull(x, y, p[6], p[7], p[2], p[3])
-					-- Display turns remaining on summon's portrait ï¿? Marson
+					-- Display turns remaining on summon's portrait ?? Marson
 					if a.summon_time and a.name ~= "shadow" then
 						local gtxt = self.party[a].txt_summon_time
 						if not gtxt or self.party[a].cur_summon_time ~= a.summon_time then
@@ -2062,7 +2062,7 @@ function _M:setupMouse(mouse)
 			end
 		end end
 		if item.url then
-			table.append(tooltips, tstring{"Clicking will open ", {"color", "LIGHT_BLUE"}, {"font", "italic"}, item.url, {"color", "WHITE"}, {"font", "normal"}, " in your browser"})
+			table.append(tooltips, (_t"Clicking will open#LIGHT_BLUE##{italic}#%s#WHITE##{normal}# in your browser"):toTstring() )
 		end
 
 		local extra = {}
@@ -2078,18 +2078,18 @@ function _M:setupMouse(mouse)
 
 		local str = tstring{{"color","GOLD"}, {"font","bold"}, user.name, {"color","LAST"}, {"font","normal"}, true}
 		if (user.donator and user.donator ~= "none") or (user.status and user.status == 'dev') then
-			local text, color = "Donator", colors.WHITE
-			if user.status and user.status == 'dev' then text, color = "Developer", colors.CRIMSON
-			elseif user.status and user.status == 'mod' then text, color = "Moderator / Helper", colors.GOLD
-			elseif user.donator == "oneshot" then text, color = "Donator", colors.LIGHT_GREEN
-			elseif user.donator == "recurring" then text, color = "Recurring Donator", colors.LIGHT_BLUE end
+			local text, color = _t"Donator", colors.WHITE
+			if user.status and user.status == 'dev' then text, color = _t"Developer", colors.CRIMSON
+			elseif user.status and user.status == 'mod' then text, color = _t"Moderator / Helper", colors.GOLD
+			elseif user.donator == "oneshot" then text, color = _t"Donator", colors.LIGHT_GREEN
+			elseif user.donator == "recurring" then text, color = _t"Recurring Donator", colors.LIGHT_BLUE end
 			str:add({"color",unpack(colors.simple(color))}, text, {"color", "LAST"}, true)
 		end
-		str:add({"color","ANTIQUE_WHITE"}, "Playing: ", {"color", "LAST"}, user.current_char, true)
-		str:add({"color","ANTIQUE_WHITE"}, "Game: ", {"color", "LAST"}, user.module, "(", user.valid, ")",true)
+		str:add({"color","ANTIQUE_WHITE"}, _t"Playing: ", {"color", "LAST"}, user.current_char, true)
+		str:add({"color","ANTIQUE_WHITE"}, _t"Game: ", {"color", "LAST"}, user.module, "(", user.valid, ")",true)
 
 		if item.url then
-			str:add(true, "---", true, "Clicking will open ", {"color", "LIGHT_BLUE"}, {"font", "italic"}, item.url, {"color", "WHITE"}, {"font", "normal"}, " in your browser")
+			str:add(true, "---", true, _t"Clicking will open ", {"color", "LIGHT_BLUE"}, {"font", "italic"}, item.url, {"color", "WHITE"}, {"font", "normal"}, " in your browser")
 		end
 
 		local extra = {}

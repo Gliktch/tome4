@@ -965,11 +965,11 @@ function _M:changeLevelFailure(lev, zone, params, level, old_zone, old_level)
 	local to_re_add_actors = self.to_re_add_actors
 	print("=====Level Generation Failure: Unable to create level", lev, "of zone:", failed_zone.short_name, "===")
 
-	local choices = {{name=("Stay: level %s of %s"):format(old_level.level, old_zone.name), choice="stay"},
-	{name=("Keep Trying: level %s of %s"):format(lev, failed_zone.name), choice="try"},
-	{name=("Log the problem, Stay: level %s of %s"):format(old_level.level, old_zone.name), choice="log"}}
+	local choices = {{name=("Stay: level %s of %s"):tformat(old_level.level, old_zone.name), choice="stay"},
+	{name=("Keep Trying: level %s of %s"):tformat(lev, failed_zone.name), choice="try"},
+	{name=("Log the problem, Stay: level %s of %s"):tformat(old_level.level, old_zone.name), choice="log"}}
 	if config.settings.cheat then
-		table.insert(choices, {name="Debug the problem (move to the failed zone/level)", choice="debug"})
+		table.insert(choices, {name=_t"Debug the problem (move to the failed zone/level)", choice="debug"})
 	end
 	local function generation_dump()
 		print("\n=====START Level Generation Failure Log=====\n")
@@ -1006,8 +1006,8 @@ function _M:changeLevelFailure(lev, zone, params, level, old_zone, old_level)
 			print("[changeLevelFailure]", sel.name)
 		end
 	end
-	local text = ("The game could not generate level %s of %s after %s attempts. What do you want to do?"):format(lev, failed_zone.name, failed_zone._level_generation_count-1)
-	Dialog:multiButtonPopup("Level Generation Failure", text,
+	local text = ("The game could not generate level %s of %s after %s attempts. What do you want to do?"):tformat(lev, failed_zone.name, failed_zone._level_generation_count-1)
+	Dialog:multiButtonPopup(_t"Level Generation Failure", text,
 		choices, math.max(500, game.w/2), nil, choice_handler,
 		false,
 		1 -- default to stay on the previous level
@@ -1681,7 +1681,7 @@ function _M:displayDelayedLogDamage()
 		for src, tgts in pairs(psrcs) do
 			for target, dams in pairs(tgts) do
 				if #dams.descs > 1 then
-					game.uiset.logdisplay(self:logMessage(src, dams.srcSeen, target, dams.tgtSeen, "#Source# hits #Target# for %s (#RED##{bold}#%0.0f#LAST##{normal}# total damage)%s.", table.concat(dams.descs, ", "), dams.total, dams.healing<0 and (" #LIGHT_GREEN#[%0.0f healing]#LAST#"):format(-dams.healing) or ""))
+					game.uiset.logdisplay(self:logMessage(src, dams.srcSeen, target, dams.tgtSeen, "#Source# hits #Target# for %s (#RED##{bold}#%0.0f#LAST##{normal}# total damage)%s.", table.concat(dams.descs, ", "), dams.total, dams.healing<0 and (" #LIGHT_GREEN#[%0.0f healing]#LAST#"):tformat(-dams.healing) or ""))
 				else
 					if dams.healing >= 0 then
 						game.uiset.logdisplay(self:logMessage(src, dams.srcSeen, target, dams.tgtSeen, "#Source# hits #Target# for %s damage.", table.concat(dams.descs, ", ")))
@@ -1697,8 +1697,8 @@ function _M:displayDelayedLogDamage()
 				local sx, sy = self.level.map:getTileToScreen(x, y, true)
 				if target.dead then
 					if dams.tgtSeen and (rsrc == self.player or rtarget == self.player or self.party:hasMember(rsrc) or self.party:hasMember(rtarget)) then
-						self.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), ("Kill (%d)!"):format(dams.total), {255,0,255}, true)
-						self:delayedLogMessage(target, nil,  "death", self:logMessage(src, dams.srcSeen, target, dams.tgtSeen, "#{bold}##Source# killed #Target#!#{normal}#"))
+						self.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), ("Kill (%d)!"):tformat(dams.total), {255,0,255}, true)
+						self:delayedLogMessage(target, nil,  "death", self:logMessage(src, dams.srcSeen, target, dams.tgtSeen, _t"#{bold}##Source# killed #Target#!#{normal}#"))
 					end
 				elseif dams.total > 0 or dams.healing == 0 then
 					if dams.tgtSeen and (rsrc == self.player or self.party:hasMember(rsrc)) then
