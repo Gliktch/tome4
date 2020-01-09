@@ -147,7 +147,7 @@ end
 -- UI Stuff
 -----------------------------------------------------------------
 
-_M.tuttext = [[Prodigies are special talents that only the most powerful of characters can attain.
+_M.tuttext = _t[[Prodigies are special talents that only the most powerful of characters can attain.
 All of them require at least 50 in a core stat and many also have more special demands. You can learn a new prodigy at level 25 and 42.
 #LIGHT_GREEN#Prodigies available: %d]]
 

@@ -31,7 +31,7 @@ function _M:init(what)
 	setfenv(f, {})
 	self.name, self.str = f()
 
-	game.logPlayer(game.player, "#VIOLET#Option unlocked: "..self.name)
+	game.logPlayer(game.player, "#VIOLET#Option unlocked: %s", self.name)
 
 	Dialog.init(self, ("Option unlocked: %s"):tformat(self.name), 600, 400)
 

@@ -34,7 +34,7 @@ function _M:init(title, actor)
 	local nb = 0
 	for id, data in pairs(actor.lore_known) do nb = nb + 1 end
 
-	Dialog.init(self, (title or "Lore").." ("..nb.."/"..total..")", game.w * 0.8, game.h * 0.8)
+	Dialog.init(self, (title or _t"Lore").." ("..nb.."/"..total..")", game.w * 0.8, game.h * 0.8)
 
 	local vsep = Separator.new{dir="horizontal", size=self.ih - 10}
 	self.c_desc = TextzoneList.new{width=math.floor(self.iw / 2 - vsep.w / 2), scrollbar=true, height=self.ih}
@@ -99,7 +99,7 @@ end
 
 function _M:select(item)
 	if item then
-		self.c_desc:switchItem(item, ("#GOLD#Category:#AQUAMARINE# %s\n#GOLD#Found as:#0080FF# %s\n#GOLD#Text:#ANTIQUE_WHITE# %s"):format(item.cat, item.name, item.desc))
+		self.c_desc:switchItem(item, ("#GOLD#Category:#AQUAMARINE# %s\n#GOLD#Found as:#0080FF# %s\n#GOLD#Text:#ANTIQUE_WHITE# %s"):tformat(item.cat, item.name, item.desc))
 		if item.image then
 			if type(item.image) == "string" then
 				self.image = Image.new{file="lore/"..item.image, auto_width=true, auto_height=true}

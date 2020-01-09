@@ -72,6 +72,6 @@ end
 
 function _M:select(item)
 	if item then
-		self.c_desc:switchItem(item, ("#GOLD#Category:#AQUAMARINE# %s\n#GOLD#Ingredient:#0080FF# %s\n#GOLD#Quantity:#0080FF# %s\n#GOLD#Text:#ANTIQUE_WHITE# %s"):format(item.cat, item.name:toString(), item.nb, item.desc))
+		self.c_desc:switchItem(item, ("#GOLD#Category:#AQUAMARINE# %s\n#GOLD#Ingredient:#0080FF# %s\n#GOLD#Quantity:#0080FF# %s\n#GOLD#Text:#ANTIQUE_WHITE# %s"):tformat(item.cat, item.name:toString(), item.nb, item.desc))
 	end
 end

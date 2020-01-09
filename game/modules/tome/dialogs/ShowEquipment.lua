@@ -31,7 +31,7 @@ function _M:init(title, actor, filter, action)
 	self.actor = actor
 	self.filter = filter
 	self.action = action
-	Dialog.init(self, title or "Equipment", math.max(800, game.w * 0.8), math.max(600, game.h * 0.8))
+	Dialog.init(self, title or _t"Equipment", math.max(800, game.w * 0.8), math.max(600, game.h * 0.8))
 
 	self.c_main_set = Tab.new{title=_t"Main Set", default=not actor.off_weapon_slots, fct=function() end, on_change=function(s) if s then self:switchSets("main") end end}
 	self.c_off_set = Tab.new{title=_t"Off Set", default=actor.off_weapon_slots, fct=function() end, on_change=function(s) if s then self:switchSets("off") end end}
