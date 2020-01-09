@@ -134,7 +134,7 @@ function _M:use(item)
 	if profile:isDonator(1) then
 		self:toggleAura(item.tid)
 	else
-		Dialog:yesnoPopup("Donator Cosmetic Feature", "This cosmetic feature is only available to donators/buyers.", function(ret) if ret then
+		Dialog:yesnoPopup(_t"Donator Cosmetic Feature", _t"This cosmetic feature is only available to donators/buyers.", function(ret) if ret then
 			game:registerDialog(require("mod.dialogs.Donation").new("shimmer ingame"))
 		end end, "Donate", "Cancel")
 	end

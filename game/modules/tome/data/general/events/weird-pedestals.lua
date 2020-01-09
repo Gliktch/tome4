@@ -59,13 +59,13 @@ for i = 1, 3 do
 		if not who or not who.player or not act then return false end
 		who:runStop("weird pedestal")
 		if self.pedestal_activated then return false end
-		require("engine.ui.Dialog"):yesnoPopup("Weird Pedestal", "Do you wish to inspect the pedestal?", function(ret) if ret then
+		require("engine.ui.Dialog"):yesnoPopup(_t"Weird Pedestal", _t"Do you wish to inspect the pedestal?", function(ret) if ret then
 			who:restInit(20, "inspecting", "inspected", function(cnt, max)
 				if cnt > max then
 					self.pedestal_activated = true
 					self.block_move = nil
 					self.autoexplore_ignore = true
-					require("engine.ui.Dialog"):simplePopup("Weird Pedestal", "As you inspect it a shadow materializes near you, and suddenly it is no more a shadow!")
+					require("engine.ui.Dialog"):simplePopup(_t"Weird Pedestal", _t"As you inspect it a shadow materializes near you, and suddenly it is no more a shadow!")
 
 					local m = game.zone:makeEntity(game.level, "actor", {
 						base_list=mod.class.NPC:loadList("/data/general/npcs/humanoid_random_boss.lua"),
@@ -125,7 +125,7 @@ for i = 1, 3 do
 										game.zone:addEntity(game.level, o, "object")
 										m:addObject(m.INVEN_INVEN, o)
 									end
-									require("engine.ui.Dialog"):simplePopup("Weird Pedestal", "You hear a terrible voice saying 'Their lives are mine! I am coming!'")
+									require("engine.ui.Dialog"):simplePopup(_t"Weird Pedestal", _t"You hear a terrible voice saying 'Their lives are mine! I am coming!'")
 								end
 							end
 						end

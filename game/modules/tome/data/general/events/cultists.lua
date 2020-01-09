@@ -120,7 +120,7 @@ for i, p in ipairs(list) do
 				game.level.turn_counter = 10 * 210
 				game.level.max_turn_counter = 10 * 210
 				game.level.turn_counter_desc = "Something the cultists are doing is coming. Beware."
-				require("engine.ui.Dialog"):simplePopup("Cultist", "The cultist's soul seems to be absorbed by the strange stone he was guarding. You feel like something is about to happen...")
+				require("engine.ui.Dialog"):simplePopup(_t"Cultist", _t"The cultist's soul seems to be absorbed by the strange stone he was guarding. You feel like something is about to happen...")
 			end
 		end,
 	}
@@ -238,7 +238,7 @@ if not game.zone.cultist_event_on_turn then
 					m:addObject(m:getInven("INVEN"), o)
 
 					game.zone:addEntity(game.level, m, "actor", x, y)
-					require("engine.ui.Dialog"):simpleLongPopup("Cultist", "A terrible shout thunders across the level: 'Come my darling, come, I will be ssssooo *nice* to you!'\nYou should flee from this level!", 400)
+					require("engine.ui.Dialog"):simpleLongPopup(_t"Cultist", _t"A terrible shout thunders across the level: 'Come my darling, come, I will be ssssooo *nice* to you!'\nYou should flee from this level!", 400)
 				end
 			elseif  game.level.turn_counter == 10 * 180 or
 				game.level.turn_counter == 10 * 150 or

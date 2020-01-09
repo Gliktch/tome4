@@ -52,7 +52,7 @@ newEntity{
 		who.energy.value = game.energy_to_act
 		game.paused = true
 		who:runStop()
-		engine.ui.Dialog:yesnoPopup("Encounter", "You find a hidden trap door, and hear cries for help from within...", function(ok)
+		engine.ui.Dialog:yesnoPopup(_t"Encounter", _t"You find a hidden trap door, and hear cries for help from within...", function(ok)
 			if not ok then
 				game.logPlayer(who, "#LIGHT_BLUE#You carefully get away without making a sound.")
 			else
@@ -61,7 +61,7 @@ newEntity{
 				game.logPlayer(who, "#LIGHT_RED#As you enter you notice the trap door has no visible handle on the inside. You are stuck here!")
 				who:grantQuest("lost-merchant")
 			end
-		end, "Enter the tunnels", "Leave carefully", true)
+		end, _t"Enter the tunnels", _t"Leave carefully", true)
 		return true
 	end,
 }
@@ -77,7 +77,7 @@ newEntity{
 		who.energy.value = game.energy_to_act
 		game.paused = true
 		who:runStop()
-		engine.ui.Dialog:yesnoLongPopup("Encounter", "You find an entrance to an old crypt. An aura of terrible evil emanates from this place. You feel threatened just standing there.\nYou hear the muffled cries of a woman coming from inside.", 400, function(ok)
+		engine.ui.Dialog:yesnoLongPopup(_t"Encounter", _t"You find an entrance to an old crypt. An aura of terrible evil emanates from this place. You feel threatened just standing there.\nYou hear the muffled cries of a woman coming from inside.", 400, function(ok)
 			if not ok then
 				game.logPlayer(who, "#LIGHT_BLUE#You carefully get away without making a sound.")
 			else
@@ -85,7 +85,7 @@ newEntity{
 				game.logPlayer(who, "#LIGHT_RED#You carefully open the door and enter the underground crypt...")
 				game.logPlayer(who, "#LIGHT_RED#As you enter you notice the door has no visible handle on the inside. You are stuck here!")
 			end
-		end, "Enter the crypt", "Leave carefully", true)
+		end, _t"Enter the crypt", _t"Leave carefully", true)
 		return true
 	end,
 }

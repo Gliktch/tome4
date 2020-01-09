@@ -46,7 +46,7 @@ enter_level3 = function(self)
 	g.name = "way to the hidden trollmire treasure"
 	g.desc = "Beware!"
 	g.change_level_check = function()
-		require("engine.ui.Dialog"):yesnoPopup("Danger...", "This way leads to the lair of a mighty troll. Traces of blood are everywhere. Are you sure?", function(ret)
+		require("engine.ui.Dialog"):yesnoPopup(_t"Danger...", _t"This way leads to the lair of a mighty troll. Traces of blood are everywhere. Are you sure?", function(ret)
 			if ret then game:changeLevel(4) end
 		end)
 		return true
@@ -56,5 +56,5 @@ enter_level3 = function(self)
 	game.zone:addEntity(level, g, "terrain", spot.x, spot.y)
 	level.hidden_way_to_bill = true
 
-	require("engine.ui.Dialog"):simplePopup("Hidden treasure", "The way to the treasure is to the east. But beware, death probably awaits there.")
+	require("engine.ui.Dialog"):simplePopup(_t"Hidden treasure", _t"The way to the treasure is to the east. But beware, death probably awaits there.")
 end

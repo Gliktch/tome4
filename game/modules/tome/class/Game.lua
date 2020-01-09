@@ -992,7 +992,7 @@ function _M:changeLevelFailure(lev, zone, params, level, old_zone, old_level)
 
 			print("[changeLevelFailure]", sel.name)
 			generation_dump()
-			Dialog:simplePopup("Information logged", "Information on the failed zone and level dumped to the log file.")
+			Dialog:simplePopup(_t"Information logged", _t"Information on the failed zone and level dumped to the log file.")
 		elseif sel.choice == "debug" then
 			print("[changeLevelFailure]", sel.name)
 			generation_dump()
@@ -1139,9 +1139,9 @@ function _M:changeLevelReal(lev, zone, params)
 			if self.zone.tier1 then
 				if lev == 1 and game.state:tier1Killed(game.state.birth.start_tier1_skip or 3) then
 					self.zone.tier1 = nil
-					Dialog:yesnoPopup("Easy!", "This zone is so easy for you that you can stroll to the last area with ease.", function(ret) if ret then
+					Dialog:yesnoPopup(_t"Easy!", _t"This zone is so easy for you that you can stroll to the last area with ease.", function(ret) if ret then
 						game:changeLevel(self.zone.max_level)
-					end end, "Stroll", "Stay there")
+					end end, _t"Stroll", _t"Stay there")
 				end
 			end
 			if type(self.zone.save_per_level) == "nil" then self.zone.save_per_level = config.settings.tome.save_zone_levels and true or false end
@@ -2623,7 +2623,7 @@ function _M:onQuit()
 	self.player:restStop("quitting")
 
 	if not self.quit_dialog and not self.player.dead and not self:hasDialogUp() then
-		self.quit_dialog = Dialog:yesnoPopup("Save and go back to main menu?", "Save and go back to main menu?", function(ok)
+		self.quit_dialog = Dialog:yesnoPopup(_t"Save and go back to main menu?", _t"Save and go back to main menu?", function(ok)
 			if ok then
 				-- savefile_pipe is created as a global by the engine
 				self:saveGame()
@@ -2639,7 +2639,7 @@ function _M:onExit()
 	self.player:restStop("quitting")
 
 	if not self.quit_dialog and not self.player.dead and not self:hasDialogUp() then
-		self.quit_dialog = Dialog:yesnoPopup("Save and exit game?", "Save and exit game?", function(ok)
+		self.quit_dialog = Dialog:yesnoPopup(_t"Save and exit game?", _t"Save and exit game?", function(ok)
 			if ok then
 				-- savefile_pipe is created as a global by the engine
 				self:saveGame()

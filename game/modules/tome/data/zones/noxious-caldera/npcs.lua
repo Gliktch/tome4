@@ -90,6 +90,6 @@ newEntity{ define_as = "MINDWORM",
 	on_die = function(self)
 		game.zone.fumes_active = false
 		game.level.turn_counter = nil
-		require("engine.ui.Dialog"):simplePopup("Fumes", "As Mindworm dies you can feel the fumes getting less poisonous for your mind.")
+		require("engine.ui.Dialog"):simplePopup(_t"Fumes", _t"As Mindworm dies you can feel the fumes getting less poisonous for your mind.")
 	end,
 }

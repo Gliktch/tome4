@@ -146,7 +146,7 @@ enter_derth = function(self)
 	end
 	self.kill_count = 0
 
-	require("engine.ui.Dialog"):simpleLongPopup("Danger...", "As you arrive in Derth you notice a huge dark cloud hovering over the town.\nYou hear screams coming from the town square.", 400)
+	require("engine.ui.Dialog"):simpleLongPopup(_t"Danger...", _t"As you arrive in Derth you notice a huge dark cloud hovering over the town.\nYou hear screams coming from the town square.", 400)
 end
 
 reenter_derth = function(self)
@@ -157,9 +157,9 @@ reenter_derth = function(self)
 
 		game.player:setQuestStatus(self.id, engine.Quest.COMPLETED, "restored-derth")
 		if self:isCompleted("tempest-entrance") then
-			require("engine.ui.Dialog"):simpleLongPopup("Clear sky", "It seems the Ziguranth have kept their word.\nDerth is free of the storm cloud.", 400)
+			require("engine.ui.Dialog"):simpleLongPopup(_t"Clear sky", _t"It seems the Ziguranth have kept their word.\nDerth is free of the storm cloud.", 400)
 		else
-			require("engine.ui.Dialog"):simpleLongPopup("Clear sky", "It seems the mages have kept their word.\nDerth is free of the storm cloud.", 400)
+			require("engine.ui.Dialog"):simpleLongPopup(_t"Clear sky", _t"It seems the mages have kept their word.\nDerth is free of the storm cloud.", 400)
 			local p = game.party:findMember{main=true}
 			if p:knowTalentType("cunning/trapping") then
 				game.party:learnLore("derth-beam-trap")

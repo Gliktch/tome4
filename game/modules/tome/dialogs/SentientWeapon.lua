@@ -131,22 +131,22 @@ function _M:incStat(v, id)
 	local delta = self.delta * v
 	if v == 1 then
 		if self.o.unused_stats <= 0 then
-			self:simplePopup("Not enough stat points", "You have no stat points left!")
+			self:simplePopup(_t"Not enough stat points", _t"You have no stat points left!")
 			return
 		end
 		print(self.o.wielder[id] or "false", self.o.factory_settings.maxes[id] or "false")
 		if self.o.wielder[id] >= self.o.factory_settings.maxes[id] then
-			self:simplePopup("Stat is at the maximum", "You can not increase this stat further!")
+			self:simplePopup(_t"Stat is at the maximum", _t"You can not increase this stat further!")
 			return
 		end
 	else
 		print(self.o.wielder[id] or "false", self.o.factory_settings.mins[id] or "false")
 		if self.o.wielder[id] <= self.o.factory_settings.mins[id] then
-			self:simplePopup("Impossible", "You cannot take out more points!")
+			self:simplePopup(_t"Impossible", _t"You cannot take out more points!")
 			return
 		end
 		if self.o.wielder[id] + delta <= 0 then
-			self:simplePopup("Impossible", "You cannot take out more points!")
+			self:simplePopup(_t"Impossible", _t"You cannot take out more points!")
 			return
 		end
 	end

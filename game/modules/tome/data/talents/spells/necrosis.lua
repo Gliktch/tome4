@@ -33,7 +33,7 @@ newTalent{
 		if self.player and not self:attr("no_lichform_quest") and not self:hasQuest("lichform") and not self:attr("undead") then
 			self:grantQuest("lichform")
 			if not game:isCampaign("Maj'Eyal") then self:setQuestStatus("lichform", engine.Quest.DONE) end
-			require("engine.ui.Dialog"):simplePopup("Lichform", "You have mastered the lesser arts of overcoming death, but your true goal is before you: the true immortality of Lichform!")
+			require("engine.ui.Dialog"):simplePopup(_t"Lichform", _t"You have mastered the lesser arts of overcoming death, but your true goal is before you: the true immortality of Lichform!")
 		end
 
 		local ret = {
@@ -250,11 +250,11 @@ newTalent{
 		if not self.has_custom_tile then
 			self:removeAllMOs()
 			self:updateModdableTile()
-			require("engine.ui.Dialog"):yesnoLongPopup("Lichform", "#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!\n\n#{italic}#You may now choose to customize the appearance of your Lich, this can not be changed afterwards.", 600, function(ret) if ret then
+			require("engine.ui.Dialog"):yesnoLongPopup(_t"Lichform", _t"#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!\n\n#{italic}#You may now choose to customize the appearance of your Lich, this can not be changed afterwards.", 600, function(ret) if ret then
 				require("mod.dialogs.Birther"):showCosmeticCustomizer(self, "Lich Cosmetic Options")
-			end end, "Customize Appearance", "Use Default", true)
+			end end, _t"Customize Appearance", _t"Use Default", true)
 		else
-			require("engine.ui.Dialog"):simplePopup("Lichform", "#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!")
+			require("engine.ui.Dialog"):simplePopup(_t"Lichform", _t"#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!")
 		end
 
 		game.level.map:particleEmitter(self.x, self.y, 1, "demon_teleport")

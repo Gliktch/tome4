@@ -110,7 +110,7 @@ newEntity{ define_as = "CELIA",
 			end
 
 			local Dialog = require("engine.ui.Dialog")
-			Dialog:simpleLongPopup("Celia", "As you deal the last blow you quickly carve out Celia's heart for your Lichform ritual.\nCarefully weaving magic around it to keep it beating.", 400)
+			Dialog:simpleLongPopup(_t"Celia", _t"As you deal the last blow you quickly carve out Celia's heart for your Lichform ritual.\nCarefully weaving magic around it to keep it beating.", 400)
 			p:setQuestStatus("grave-necromancer", engine.Quest.COMPLETED, "kill-necromancer")
 		else
 			if game.party:knownLore("necromancer-primer-1") and

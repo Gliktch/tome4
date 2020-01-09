@@ -143,11 +143,11 @@ It should automatically create a portal back, but it might not be near your arri
 		if not who.player then return end
 		local Dialog = require "engine.ui.Dialog"
 		local q = who:hasQuest("shertul-fortress")
-		if not q then Dialog:simplePopup("Exploratory Farportal", "The farportal seems to be inactive") return end
-		if q:isCompleted("farportal-broken") then Dialog:simplePopup("Exploratory Farportal", "The farportal is broken and will not be usable anymore.") return end
-		if not q:exploratory_energy(true) then Dialog:simplePopup("Exploratory Farportal", "The fortress does not have enough energy to power a trip through the portal.") return end
+		if not q then Dialog:simplePopup(_t"Exploratory Farportal", _t"The farportal seems to be inactive") return end
+		if q:isCompleted("farportal-broken") then Dialog:simplePopup(_t"Exploratory Farportal", _t"The farportal is broken and will not be usable anymore.") return end
+		if not q:exploratory_energy(true) then Dialog:simplePopup(_t"Exploratory Farportal", _t"The fortress does not have enough energy to power a trip through the portal.") return end
 
-		Dialog:yesnoPopup("Exploratory Farportal", "Do you want to travel in the farportal? You cannot know where you will end up.", function(ret) if ret then
+		Dialog:yesnoPopup(_t"Exploratory Farportal", _t"Do you want to travel in the farportal? You cannot know where you will end up.", function(ret) if ret then
 			if not game:changeLevelCheck(1, {}, {direct_switch=true}) then return end
 			if self:checkSpecialLocation(who, q) then return end
 

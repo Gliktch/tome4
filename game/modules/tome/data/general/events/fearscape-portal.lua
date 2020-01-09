@@ -187,7 +187,7 @@ g.on_move = function(self, x, y, who, act, couldpass)
 		return false
 	end
 
-	require("engine.ui.Dialog"):yesnoPopup("Fearscape Portal", "Do you wish to enter the portal, destroy it, or ignore it (press escape)?", function(ret)
+	require("engine.ui.Dialog"):yesnoPopup(_t"Fearscape Portal", _t"Do you wish to enter the portal, destroy it, or ignore it (press escape)?", function(ret)
 		if ret == "Quit" then
 			game.log("#VIOLET#Ignoring the portal...")
 			return
@@ -196,7 +196,7 @@ g.on_move = function(self, x, y, who, act, couldpass)
 			self:change_level_check()
 		else self:break_portal()
 		end
-	end, "Destroy", "Enter", false, "Quit")
+	end, _t"Destroy", _t"Enter", false, _t"Quit")
 	
 	return false
 end

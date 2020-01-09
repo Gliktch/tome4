@@ -143,7 +143,7 @@ If used near a portal it could probably activate it.]],
 						who:setQuestStatus("east-portal", engine.Quest.COMPLETED, "tricked-demon")
 						local orb = who:findInAllInventoriesBy("define_as", "ORB_MANY_WAYS_DEMON")
 						if orb then orb.name = "Demonic Orb of Many Ways" end
-						require("engine.ui.Dialog"):simplePopup("Demonic Orb of Many Ways", "It felt nothing like your previous uses of the Orb of Many Ways. Tannen must have switched the Orb out for a fake!")
+						require("engine.ui.Dialog"):simplePopup(_t"Demonic Orb of Many Ways", _t"It felt nothing like your previous uses of the Orb of Many Ways. Tannen must have switched the Orb out for a fake!")
 					end,
 				}
 			else
@@ -337,7 +337,7 @@ You have heard of such items before. They are very useful to adventurers, allowi
 					game.logPlayer(who, "Space around you starts to dissolve...")
 					return {id=true, used=true}
 				elseif game.zone.force_farportal_recall then
-					require("engine.ui.Dialog"):yesnoLongPopup("Force a recall", "The Fortress Shadow warned you that trying to force a recall without finding the portal back could break the exploratory farportal forever.", 500, function(ret)
+					require("engine.ui.Dialog"):yesnoLongPopup(_t"Force a recall", _t"The Fortress Shadow warned you that trying to force a recall without finding the portal back could break the exploratory farportal forever.", 500, function(ret)
 						if not ret then
 							who:setEffect(who.EFF_RECALL, 40, { where = self.shertul_fortress and "shertul-fortress" or nil, allow_override=true })
 							game.logPlayer(who, "Space around you starts to dissolve...")
@@ -345,7 +345,7 @@ You have heard of such items before. They are very useful to adventurers, allowi
 								who:hasQuest("shertul-fortress"):break_farportal()
 							end
 						end
-					end, "Cancel", "Recall", true)
+					end, _t"Cancel", _t"Recall", true)
 					return {id=true, used=true}
 				end
 			end
@@ -363,7 +363,7 @@ You have heard of such items before. They are very useful to adventurers, allowi
 
 	on_pickup = function(self, who)
 		if who == game.player then
-			require("engine.ui.Dialog"):simplePopup("Rod of Recall", "You found a Rod of Recall. You can use it to quickly get out of your current zone and return to the worldmap.")
+			require("engine.ui.Dialog"):simplePopup(_t"Rod of Recall", _t"You found a Rod of Recall. You can use it to quickly get out of your current zone and return to the worldmap.")
 		end
 	end,
 }
@@ -402,11 +402,11 @@ Items in the chest will not encumber you.]],
 				local floor = game.level.map:getObjectTotal(who.x, who.y)
 				if floor == 0 then
 					if who:attr("has_transmo") >= 2 then
-						require("engine.ui.Dialog"):yesnoPopup("Transmogrification Chest", "Make the Transmogrification Chest the default item's destroyer?", function(ret) if ret then
+						require("engine.ui.Dialog"):yesnoPopup(_t"Transmogrification Chest", _t"Make the Transmogrification Chest the default item's destroyer?", function(ret) if ret then
 							who.default_transmo_source = self
 						end end)
 					else
-						require("engine.ui.Dialog"):simplePopup("Transmogrification Chest", "You do not have any items to transmogrify in your chest or on the floor.")
+						require("engine.ui.Dialog"):simplePopup(_t"Transmogrification Chest", _t"You do not have any items to transmogrify in your chest or on the floor.")
 					end
 				else
 					require("engine.ui.Dialog"):yesnoPopup("Transmogrification Chest", "Transmogrify all "..floor.." item(s) on the floor?", function(ret)

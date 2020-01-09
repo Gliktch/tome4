@@ -150,7 +150,7 @@ newEntity{ define_as = "SANDWORM_QUEEN",
 				self.move_project = {[engine.DamageType.DIG]=1}
 				
 				local Dialog = require("engine.ui.Dialog")
-				Dialog:simplePopup("Rumbling...", "The ground shakes.  Something very large is stirring in the distance.")				
+				Dialog:simplePopup(_t"Rumbling...", _t"The ground shakes.  Something very large is stirring in the distance.")				
 			end
 		end
 		

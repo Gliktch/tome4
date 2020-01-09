@@ -1067,7 +1067,7 @@ newEntity{ base = "BASE_CLOTH_ARMOR",
 	on_wear = function(self, who)
 		if not game.state.spydre_mantra and who.player then
 			game.state.spydre_mantra = true
-			require("engine.ui.Dialog"):simpleLongPopup("Huh?", "As you wear the strange set of robes, you notice something folded into one of its pockets...", 500, function()
+			require("engine.ui.Dialog"):simpleLongPopup(_t"Huh?", _t"As you wear the strange set of robes, you notice something folded into one of its pockets...", 500, function()
 				game.party:learnLore("shiiak-mantra")
 			end)
 		end

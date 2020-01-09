@@ -255,7 +255,7 @@ uberTalent{
 		t.callbackOnLevelup(self, t)
 	end,
 	on_learn = function(self, t)
-		require("engine.ui.Dialog"):simplePopup("Legacy of the Naloren", "Slasul will be happy to know your faith in his cause. You should return to speak to him.")
+		require("engine.ui.Dialog"):simplePopup(_t"Legacy of the Naloren", _t"Slasul will be happy to know your faith in his cause. You should return to speak to him.")
 	end,
 	info = function(self, t)
 		local level = t.bonusLevel(self,t)

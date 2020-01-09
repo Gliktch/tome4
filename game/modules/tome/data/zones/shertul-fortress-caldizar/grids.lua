@@ -46,7 +46,7 @@ It should automatically create a portal back, but it might not be near your arri
 	block_move = function(self, x, y, who, act, couldpass)
 		if not who or not who.player or not act then return true end
 		local Dialog = require "engine.ui.Dialog"
-		Dialog:simplePopup("Farportal", "The farportal seems to be inactive")
+		Dialog:simplePopup(_t"Farportal", _t"The farportal seems to be inactive")
 		return true
 	end,
 }

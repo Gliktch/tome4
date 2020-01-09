@@ -104,7 +104,7 @@ if tries < 100 then
 						end
 
 						world:gainAchievement("EVENT_OLDBATTLEFIELD", game:getPlayer(true))
-						require("engine.ui.Dialog"):simpleLongPopup("Onslaught", "You have survived the onslaught of undead. You notice a way to climb up you had not seen before in a wall nearby.", 400)
+						require("engine.ui.Dialog"):simpleLongPopup(_t"Onslaught", _t"You have survived the onslaught of undead. You notice a way to climb up you had not seen before in a wall nearby.", 400)
 					elseif game.level.turn_counter % 50 == 0 then
 						for i = 1, math.floor(game.level.nb_pop) do
 							local spot = game.level:pickSpot{type="pop", subtype="undead"}
@@ -143,7 +143,7 @@ if tries < 100 then
 			if not who or not who.player or not act then return false end
 			if game.level.event_battlefield_entered then return false end
 			who:runStop("grave")
-			require("engine.ui.Dialog"):yesnoPopup("Grave", "Do you wish to disturb the grave?", function(ret) if ret then
+			require("engine.ui.Dialog"):yesnoPopup(_t"Grave", _t"Do you wish to disturb the grave?", function(ret) if ret then
 				self:change_level_check()
 			end end)
 			return false
@@ -161,7 +161,7 @@ if tries < 100 then
 			game.level.map:updateMap(self.x, self.y)
 			game.level.event_battlefield_entered = true
 			game:changeLevel(1, self.real_change(self.change_zone), {temporary_zone_shift=true, direct_switch=true})
-			require("engine.ui.Dialog"):simplePopup("Fall...", "As you began digging up the grave, the ground collapsed beneath you. You fall into an eerily lit cavern.")
+			require("engine.ui.Dialog"):simplePopup(_t"Fall...", _t"As you began digging up the grave, the ground collapsed beneath you. You fall into an eerily lit cavern.")
 			for i, gr in ipairs(self.graves) do
 				gr.change_level_check = nil
 				gr.change_level = nil

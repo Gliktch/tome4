@@ -85,7 +85,7 @@ local artifact_imbue_amulet = function(npc, player)
 		player:showInventory("Use which first gem?", player:getInven("INVEN"), function(gem1) return gem1.type == "gem" and (gem1.material_level or 99) <= amulet.material_level and gem1.imbue_powers end, function(gem1, gem1_item)
 			player:showInventory("Use which second gem?", player:getInven("INVEN"), function(gem2) return gem2.type == "gem" and (gem2.material_level or 99) <= amulet.material_level and gem1.name ~= gem2.name and gem2.imbue_powers end, function(gem2, gem2_item)
 				local price = 1000
-				if price > player.money then require("engine.ui.Dialog"):simplePopup("Not enough money", "Limmir needs more gold for the magical plating.") return end
+				if price > player.money then require("engine.ui.Dialog"):simplePopup(_t"Not enough money", _t"Limmir needs more gold for the magical plating.") return end
 
 				require("engine.ui.Dialog"):yesnoPopup("Imbue cost", "You need to use "..price.." gold for the plating, do you accept?", function(ret) if ret then
 					player:incMoney(-price)

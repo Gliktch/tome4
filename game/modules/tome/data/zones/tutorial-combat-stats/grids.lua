@@ -36,7 +36,7 @@ newEntity{
 
 	on_move = function(self, x, y, who)
 		if who == game.player then
-			require("engine.ui.Dialog"):yesnoPopup("Tutorial Lobby Portal", "Enter the portal back to the lobby?", function(ret)
+			require("engine.ui.Dialog"):yesnoPopup(_t"Tutorial Lobby Portal", _t"Enter the portal back to the lobby?", function(ret)
 				if not ret then
 					--game:onLevelLoad("wilderness-1", function(zone, level)
 					--	local spot = level:pickSpot{type="farportal-end", subtype="demon-plane-arrival"}
@@ -61,7 +61,7 @@ newEntity{
 
 	on_move = function(self, x, y, who)
 		if who == game.player then
-			require("engine.ui.Dialog"):yesnoPopup("Tutorial Lobby Portal", "Enter the portal back to the lobby?", function(ret)
+			require("engine.ui.Dialog"):yesnoPopup(_t"Tutorial Lobby Portal", _t"Enter the portal back to the lobby?", function(ret)
 				if not ret then
 					--game:onLevelLoad("wilderness-1", function(zone, level)
 					--	local spot = level:pickSpot{type="farportal-end", subtype="demon-plane-arrival"}

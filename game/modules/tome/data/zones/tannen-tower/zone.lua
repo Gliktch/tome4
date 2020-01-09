@@ -52,7 +52,7 @@ return {
 	},
 	on_enter = function(lev, old_lev, newzone)
 		if newzone and not game.level.shown_warning then
-			require("engine.ui.Dialog"):simplePopup("Tannen's Tower", "The portal brought you to what seems to be a cell in the basement of the tower. You must escape!")
+			require("engine.ui.Dialog"):simplePopup(_t"Tannen's Tower", _t"The portal brought you to what seems to be a cell in the basement of the tower. You must escape!")
 			game.level.shown_warning = true
 		end
 		if lev == 4 then

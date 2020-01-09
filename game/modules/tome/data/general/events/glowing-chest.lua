@@ -73,7 +73,7 @@ g.block_move = function(self, x, y, who, act, couldpass)
 	if not who or not who.player or not act then return false end
 	if self.chest_opened then return false end
 
-	require("engine.ui.Dialog"):yesnoPopup("Glowing Chest", "Open the chest?", function(ret) if ret then
+	require("engine.ui.Dialog"):yesnoPopup(_t"Glowing Chest", _t"Open the chest?", function(ret) if ret then
 		self.chest_opened = true
 		if self.chest_item then
 			game.zone:addEntity(game.level, self.chest_item, "object", x, y)

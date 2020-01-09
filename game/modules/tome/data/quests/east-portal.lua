@@ -153,7 +153,7 @@ tannen_tower = function(self, player)
 end
 
 tannen_exit = function(self, player)
-	require("engine.ui.Dialog"):simplePopup("Back and there again", "A portal appears in the center of the tower!")
+	require("engine.ui.Dialog"):simplePopup(_t"Back and there again", _t"A portal appears in the center of the tower!")
 	local g = game.zone:makeEntityByName(game.level, "terrain", "PORTAL_BACK")
 	game.zone:addEntity(game.level, g, "terrain", 12, 12)
 end

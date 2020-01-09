@@ -220,7 +220,7 @@ function _M:checkNew(fct)
 	local function checkfct()
 		local savename = self.c_name.text:gsub("[^a-zA-Z0-9_-.]", "_")
 		if fs.exists(("/save/%s/game.teag"):format(savename)) then
-			Dialog:yesnoPopup("Overwrite character?", "There is already a character with this name, do you want to overwrite it?", function(ret)
+			Dialog:yesnoPopup(_t"Overwrite character?", _t"There is already a character with this name, do you want to overwrite it?", function(ret)
 				if not ret then fct() end
 			end, "No", "Yes")
 		else
@@ -244,7 +244,7 @@ function _M:checkNew(fct)
 	end
 
 	if is_magic and is_antimagic then
-		Dialog:yesnoPopup("Antimagic Magic combo", "The selected race/class has both magic and antimagic, this is unlikely to work. Continue?", function(ret) if not ret then
+		Dialog:yesnoPopup(_t"Antimagic Magic combo", _t"The selected race/class has both magic and antimagic, this is unlikely to work. Continue?", function(ret) if not ret then
 			checkfct()
 		end end, "No", "Yes I'm sure")
 	else
@@ -1712,7 +1712,7 @@ function _M:customizeOptions(cosmetic_actor, on_exit, title)
 			end
 
 			if not self:isDonator() then
-				self:yesnoPopup("Donator Feature", "Cosmetic customization is a donator-only feature.", function(ret) if ret then
+				self:yesnoPopup(_t"Donator Feature", _t"Cosmetic customization is a donator-only feature.", function(ret) if ret then
 					game:registerDialog(require("mod.dialogs.Donation").new())
 				end end, "I want to help!", "Dismiss")
 			end

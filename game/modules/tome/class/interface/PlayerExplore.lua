@@ -2511,7 +2511,7 @@ function _M:autoExplore()
 					self.running = {
 						path = path,
 						cnt = 1,
-						dialog = Dialog:simplePopup("Running...", "You are exploring, press any key to stop.", function()
+						dialog = Dialog:simplePopup(_t"Running...", _t"You are exploring, press any key to stop.", function()
 							self:runStop()
 						end, false, true),
 						explore = target_type,

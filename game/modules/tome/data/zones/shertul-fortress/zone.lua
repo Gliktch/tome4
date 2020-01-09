@@ -83,7 +83,7 @@ return {
 
 		local Dialog = require("engine.ui.Dialog")
 		if not game.level.shown_warning then
-			Dialog:simpleLongPopup("Yiilkgur", "This level seems to be removed from the rest of the ruins. The air is fresh and the level is lighted. You hear the distant crackling of magical energies.", 400)
+			Dialog:simpleLongPopup(_t"Yiilkgur", _t"This level seems to be removed from the rest of the ruins. The air is fresh and the level is lighted. You hear the distant crackling of magical energies.", 400)
 			game.level.shown_warning = true
 		end
 
@@ -96,7 +96,7 @@ return {
 				game.zone:addEntity(game.level, kitty, "actor", x, y)
 				kitty.faction = game.player.faction
 				game.state.kitty_summoned = true
-				Dialog:simpleLongPopup("Yiilkgur", "As you enter the familiar Fortress you notice a small orange cat has followed you somehow.\nIt looks like the kitty you fed earlier.", 400)
+				Dialog:simpleLongPopup(_t"Yiilkgur", _t"As you enter the familiar Fortress you notice a small orange cat has followed you somehow.\nIt looks like the kitty you fed earlier.", 400)
 			end
 		end
 	end,

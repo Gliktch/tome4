@@ -96,7 +96,7 @@ return {
 	on_enter = function(lev)
 		if lev == 1 and not game.level.data.warned then
 			game.level.data.warned = true
-			require("engine.ui.Dialog"):simplePopup("Caves...", "As you enter the caves you notice the magic here has distorted the land, making sharp angles and turns.")
+			require("engine.ui.Dialog"):simplePopup(_t"Caves...", _t"As you enter the caves you notice the magic here has distorted the land, making sharp angles and turns.")
 		end
 	end,
 }

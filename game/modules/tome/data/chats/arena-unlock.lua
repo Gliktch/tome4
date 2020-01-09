@@ -102,7 +102,7 @@ newChat{ id="go",
 			self:die()
 			player:grantQuest("arena-unlock")
 			game:changeLevel(1, "arena-unlock", {direct_switch=true})
-			require("engine.ui.Dialog"):simpleLongPopup("Get ready!", "Defeat all three enemies!", 400)
+			require("engine.ui.Dialog"):simpleLongPopup(_t"Get ready!", _t"Defeat all three enemies!", 400)
 		end
 		},
 	}

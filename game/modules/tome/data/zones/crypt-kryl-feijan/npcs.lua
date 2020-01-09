@@ -172,7 +172,7 @@ newEntity{ define_as = "ACOLYTE",
 				melinda.image = "npc/woman_redhair_naked.png"
 				melinda:removeAllMOs()
 				game.level.map:updateMap(melinda.x, melinda.y)
-				require("engine.ui.Dialog"):simpleLongPopup("Melinda", "The woman seems to be freed from her bonds.\nShe stumbles on her feet, her naked body still dripping in blood. 'Please get me out of here!'", 400)
+				require("engine.ui.Dialog"):simpleLongPopup(_t"Melinda", _t"The woman seems to be freed from her bonds.\nShe stumbles on her feet, her naked body still dripping in blood. 'Please get me out of here!'", 400)
 			end
 		end
 	end,

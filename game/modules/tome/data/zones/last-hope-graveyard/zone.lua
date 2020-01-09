@@ -89,7 +89,7 @@ return {
 			fct = function(self, x, y, who)
 				local Dialog = require("engine.ui.Dialog")
 				if not who:knowTalentType("cursed/cursed-aura") then
-					Dialog:simplePopup("Curse!", "The coffin was a decoy, a powerful curse was set upon you (check your talents).")
+					Dialog:simplePopup(_t"Curse!", _t"The coffin was a decoy, a powerful curse was set upon you (check your talents).")
 					who:learnTalentType("cursed/cursed-aura", true)
 					who:learnTalent(who.T_DEFILING_TOUCH, true, nil, {no_unlearn=true})
 				else
@@ -130,7 +130,7 @@ return {
 	
 	open_coffin = function(self, x, y, who)
 		local Dialog = require("engine.ui.Dialog")
-		Dialog:yesnoLongPopup("Open the coffin", "In rich families the dead are sometimes put to rest with some treasures. However they also sometime protect the coffins with powerful curses. Open?", 500, function(ret)
+		Dialog:yesnoLongPopup(_t"Open the coffin", _t"In rich families the dead are sometimes put to rest with some treasures. However they also sometime protect the coffins with powerful curses. Open?", 500, function(ret)
 			if not ret then return end
 
 			if self.coffin_open then

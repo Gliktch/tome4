@@ -79,7 +79,7 @@ return {
 	on_enter = function(lev)
 		if lev == 1 and not game.level.data.warned and game.zone.is_invaded then
 			game.level.data.warned = true
-			require("engine.ui.Dialog"):simplePopup("Murgol Lair", "As you enter the lair you can hear the distorted sound of fighting. Somebody is already invading the lair.")
+			require("engine.ui.Dialog"):simplePopup(_t"Murgol Lair", _t"As you enter the lair you can hear the distorted sound of fighting. Somebody is already invading the lair.")
 		end
 	end,
 }

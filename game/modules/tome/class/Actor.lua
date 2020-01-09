@@ -3845,7 +3845,7 @@ function _M:levelup()
 		if self.level == 25 or self.level == 42 then
 			self.unused_prodigies = self.unused_prodigies + 1
 			if self.player and not config.settings.cheat and not self.silent_levelup then
-				Dialog:simpleLongPopup("Prodigy!", ("You have achieved #LIGHT_GREEN#level %d#WHITE# and gained a #LIGHT_GREEN#prodigy point#LAST#!\n\nProdigies are powerful talents with unique requirements that cannot be unlearned."):format(self.level), 400)
+				Dialog:simpleLongPopup(_t"Prodigy!", ("You have achieved #LIGHT_GREEN#level %d#WHITE# and gained a #LIGHT_GREEN#prodigy point#LAST#!\n\nProdigies are powerful talents with unique requirements that cannot be unlearned."):tformat(self.level), 400)
 			end
 		end
 		if self.level == 50 then
@@ -3853,7 +3853,7 @@ function _M:levelup()
 			self.unused_talents = self.unused_talents + 3
 			self.unused_generics = self.unused_generics + 3
 			if self.player and not config.settings.cheat and not self.silent_levelup then
-				Dialog:simpleLongPopup("Level 50!", "You have achieved #LIGHT_GREEN#level 50#WHITE#, congratulations!\n\nThis level is special, it granted you #LIGHT_GREEN#10#WHITE# more stat points, #LIGHT_GREEN#3#WHITE# more class talent points and #LIGHT_GREEN#3#WHITE# more generic talent points.\nNow go forward boldly and triumph!", 400)
+				Dialog:simpleLongPopup(_t"Level 50!", _t"You have achieved #LIGHT_GREEN#level 50#WHITE#, congratulations!\n\nThis level is special, it granted you #LIGHT_GREEN#10#WHITE# more stat points, #LIGHT_GREEN#3#WHITE# more class talent points and #LIGHT_GREEN#3#WHITE# more generic talent points.\nNow go forward boldly and triumph!", 400)
 			end
 		end
 	elseif type(self.no_points_on_levelup) == "function" then
@@ -7570,7 +7570,7 @@ function _M:doDrop(inven, item, on_done, nb)
 	end
 
 	if game.zone.wilderness then
-		Dialog:yesnoLongPopup("Warning", "Any item dropped on the world map will be lost forever.", 300, function(ret)
+		Dialog:yesnoLongPopup(_t"Warning", _t"Any item dropped on the world map will be lost forever.", 300, function(ret)
 			-- The test is reversed because the buttons are reversed, to prevent mistakes
 			if not ret then
 				local o = self:getInven(inven) and self:getInven(inven)[item]
@@ -7585,7 +7585,7 @@ function _M:doDrop(inven, item, on_done, nb)
 					game.logPlayer(self, "You can not destroy %s.", o:getName{do_colour=true})
 				end
 			end
-		end, "Cancel", "Destroy", true)
+		end, _t"Cancel", _t"Destroy", true)
 		return
 	end
 	if nb == nil or nb >= self:getInven(inven)[item]:getNumber() then
@@ -7754,7 +7754,7 @@ function _M:transmoGetNumberItems()
 end
 
 function _M:transmoHelpPopup()
-	Dialog:simplePopup("Transmogrification Chest", "When you close the inventory window, all items in the chest will be transmogrified.")
+	Dialog:simplePopup(_t"Transmogrification Chest", _t"When you close the inventory window, all items in the chest will be transmogrified.")
 end
 
 function _M:transmoGetName()

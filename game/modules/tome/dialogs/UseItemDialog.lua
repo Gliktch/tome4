@@ -65,7 +65,7 @@ function _M:use(item)
 
 	if act == "use" then
 		if self.object:wornInven() and not self.object.wielded and not self.object.use_no_wear then
-			self:simplePopup("Impossible", "You must wear this object to use it!")
+			self:simplePopup(_t"Impossible", _t"You must wear this object to use it!")
 		else
 			self.actor:playerUseItem(self.object, self.item, self.inven, self.onuse)
 			self.onuse(self.inven, self.item, self.object, true)
@@ -114,7 +114,7 @@ function _M:use(item)
 		end
 		if #list == 1 then doit(list[1])
 		elseif #list == 0 then
-			self:simplePopup("Attach to item", "You do not have any equipped items that it can be attached to.")
+			self:simplePopup(_t"Attach to item", _t"You do not have any equipped items that it can be attached to.")
 		else
 			self:listPopup("Attach to item", "Select which item to attach it to:", list, 300, 400, doit)
 		end

@@ -111,19 +111,19 @@ gain_energy = function(self, energy)
 	if self.shertul_energy >= 15 and not self:isCompleted("recall") then
 		game.player:setQuestStatus(self.id, self.COMPLETED, "recall")
 		local Dialog = require "engine.ui.Dialog"
-		Dialog:simpleLongPopup("Fortress Shadow", "Master, you have sent enough energy to improve your rod of recall. Please return to the fortress.", 400)
+		Dialog:simpleLongPopup(_t"Fortress Shadow", _t"Master, you have sent enough energy to improve your rod of recall. Please return to the fortress.", 400)
 	end
 
 	if self.shertul_energy >= 45 and not self:isCompleted("farportal") then
 		game.player:setQuestStatus(self.id, self.COMPLETED, "farportal")
 		local Dialog = require "engine.ui.Dialog"
-		Dialog:simpleLongPopup("Fortress Shadow", "Master, you have sent enough energy to activate the exploratory farportal.\nHowever, there seems to be a disturbance in that room. Please return as soon as possible.", 400)
+		Dialog:simpleLongPopup(_t"Fortress Shadow", _t"Master, you have sent enough energy to activate the exploratory farportal.\nHowever, there seems to be a disturbance in that room. Please return as soon as possible.", 400)
 	end
 
 	-- if self.shertul_energy >= 250 and not self:isCompleted("flight") then
 	-- 	game.player:setQuestStatus(self.id, self.COMPLETED, "flight")
 	-- 	local Dialog = require "engine.ui.Dialog"
-	-- 	Dialog:simpleLongPopup("Fortress Shadow", "Master, you have sent enough energy to activate the flight systems.\nHowever, one control crystal is broken. You need to find an #GOLD#Ancient Storm Sapphire#WHITE#.", 400)
+	-- 	Dialog:simpleLongPopup(_t"Fortress Shadow", _t"Master, you have sent enough energy to activate the flight systems.\nHowever, one control crystal is broken. You need to find an #GOLD#Ancient Storm Sapphire#WHITE#.", 400)
 	-- end
 end
 
@@ -180,7 +180,7 @@ end
 upgrade_rod = function(self)
 	if self.shertul_energy < 15 then
 		local Dialog = require "engine.ui.Dialog"
-		Dialog:simplePopup("Fortress Shadow", "The energy is too low. It needs to be at least 15.")
+		Dialog:simplePopup(_t"Fortress Shadow", _t"The energy is too low. It needs to be at least 15.")
 		return
 	end
 	self.shertul_energy = self.shertul_energy - 15
@@ -196,7 +196,7 @@ end
 upgrade_transmo_gems = function(self)
 	if self.shertul_energy < 25 then
 		local Dialog = require "engine.ui.Dialog"
-		Dialog:simplePopup("Fortress Shadow", "The energy is too low. It needs to be at least 25.")
+		Dialog:simplePopup(_t"Fortress Shadow", _t"The energy is too low. It needs to be at least 25.")
 		return
 	end
 	self.shertul_energy = self.shertul_energy - 25

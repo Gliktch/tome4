@@ -101,7 +101,7 @@ on_status_change = function(self, who, status, sub)
 			end
 		end)
 
-		require("engine.ui.Dialog"):simplePopup("Grand Corruptor", "#LIGHT_GREEN#The Grand Corruptor gazes upon you. You feel knowledge flowing in your mind. You can now train some corruption powers.")
+		require("engine.ui.Dialog"):simplePopup(_t"Grand Corruptor", _t"#LIGHT_GREEN#The Grand Corruptor gazes upon you. You feel knowledge flowing in your mind. You can now train some corruption powers.")
 		game:setAllowedBuild("corrupter")
 		game:setAllowedBuild("corrupter_corruptor", true)
 	end

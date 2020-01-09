@@ -31,7 +31,7 @@ newEntity{
 
 	on_move = function(self, x, y, who)
 		if who == game.player then
-			require("engine.ui.Dialog"):yesnoPopup("Back and there again", "Enter the portal back to Maj'Eyal? (Warning loot Draebor first)", function(ret)
+			require("engine.ui.Dialog"):yesnoPopup(_t"Back and there again", _t"Enter the portal back to Maj'Eyal? (Warning loot Draebor first)", function(ret)
 				if not ret then
 					game:onLevelLoad("wilderness-1", function(zone, level)
 						local p = game:getPlayer(true)

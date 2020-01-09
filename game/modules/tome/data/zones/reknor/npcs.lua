@@ -100,7 +100,7 @@ newEntity{ define_as = "GOLBUG",
 
 	on_die = function(self, who)
 		game.state:activateBackupGuardian("LITHFENGEL", 4, 35, "They say that after it has been confirmed orcs still inhabited Reknor, they found a mighty demon there.", function(gen)
-			if gen then require("engine.ui.Dialog"):simpleLongPopup("Danger...", "When last you saw it, this cavern was littered with the corpses of orcs that you had slain. Now many, many more corpses carpet the floor, all charred and reeking of sulfur. An orange glow dimly illuminates the far reaches of the cavern to the east.", 400) end
+			if gen then require("engine.ui.Dialog"):simpleLongPopup(_t"Danger...", _t"When last you saw it, this cavern was littered with the corpses of orcs that you had slain. Now many, many more corpses carpet the floor, all charred and reeking of sulfur. An orange glow dimly illuminates the far reaches of the cavern to the east.", 400) end
 		end)
 
 		world:gainAchievement("DESTROYER_BANE", game.player:resolveSource())
@@ -203,7 +203,7 @@ newEntity{ define_as = "LITHFENGEL", -- Lord of Ash; backup guardian
 
 	on_die = function(self, who)
 		if who.resolveSource and who:resolveSource().player and who:resolveSource():hasQuest("east-portal") then
-			require("engine.ui.Dialog"):simpleLongPopup("Back and there again", "A careful examination of the demon's body turns up a Blood-Runed Athame and a Resonating Diamond, both covered in soot and gore but otherwise in good condition.", 400)
+			require("engine.ui.Dialog"):simpleLongPopup(_t"Back and there again", _t"A careful examination of the demon's body turns up a Blood-Runed Athame and a Resonating Diamond, both covered in soot and gore but otherwise in good condition.", 400)
 		end
 	end,
 }

@@ -81,7 +81,7 @@ function _M:use(item)
 			self:applyShimmers(self.true_actor, item.set)
 		end
 	else
-		Dialog:yesnoPopup("Donator Cosmetic Feature", "This cosmetic feature is only available to donators/buyers.", function(ret) if ret then
+		Dialog:yesnoPopup(_t"Donator Cosmetic Feature", _t"This cosmetic feature is only available to donators/buyers.", function(ret) if ret then
 			game:registerDialog(require("mod.dialogs.Donation").new("shimmer ingame"))
 		end end, "Donate", "Cancel")
 	end

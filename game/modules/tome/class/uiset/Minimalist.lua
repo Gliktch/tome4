@@ -358,7 +358,7 @@ end
 
 function _M:getMainMenuItems()
 	return {
-		{"Reset interface positions", function() Dialog:yesnoPopup("Reset UI", "Reset all the interface?", function(ret) if ret then
+		{"Reset interface positions", function() Dialog:yesnoPopup(_t"Reset UI", _t"Reset all the interface?", function(ret) if ret then
 			self:resetPlaces() self:saveSettings() 
 		end end) end},
 	}
@@ -1457,7 +1457,7 @@ function _M:displayParty(scale, bx, by)
 						p = (game.player == a) and portrait_lev or portrait_unsel_lev
 					end
 					p[1]:toScreenFull(x, y, p[6], p[7], p[2], p[3])
-					-- Display turns remaining on summon's portrait — Marson
+					-- Display turns remaining on summon's portrait ï¿½ Marson
 					if a.summon_time and a.name ~= "shadow" then
 						local gtxt = self.party[a].txt_summon_time
 						if not gtxt or self.party[a].cur_summon_time ~= a.summon_time then
