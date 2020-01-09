@@ -20,7 +20,7 @@
 local function recharge(npc, player)
 	player:showEquipInven(_t"Select the item to recharge", function(o) return o.recharge_cost and o.power and o.max_power and o.power < o.max_power end, function(o, inven, item)
 		local cost = math.ceil(o.recharge_cost * (o.max_power / (o.use_talent and o.use_talent.power or o.use_power.power)))
-		if cost > player.money then require("engine.ui.Dialog"):simplePopup(_t"Not enough money", )"This costs %d gold."):tformat(cost)) return true end
+		if cost > player.money then require("engine.ui.Dialog"):simplePopup(_t"Not enough money", ("This costs %d gold."):tformat(cost)) return true end
 		require("engine.ui.Dialog"):yesnoPopup(_t"Recharge?", ("This will cost you %d gold."):tformat(cost), function(ok) if ok then
 			o.power = o.max_power
 			player:incMoney(-cost)
