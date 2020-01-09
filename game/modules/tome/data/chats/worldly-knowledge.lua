@@ -53,7 +53,7 @@ local function generate_rewards()
 				if player:knowTalentType(tt) == nil then player:setTalentTypeMastery(tt, 1.0) end
 				player:learnTalentType(tt, true)
 			end
-			answers[#answers+1] = {("[%s (at mastery %0.2f)]"):format(cat:capitalize().." / "..tt_def.name:capitalize(), 1.0),
+			answers[#answers+1] = {("[%s (at mastery %0.2f)]"):tformat(cat:capitalize().." / "..tt_def.name:capitalize(), 1.0),
 				action=doit,
 				on_select=function(npc, player)
 					game.tooltip_x, game.tooltip_y = 1, 1
@@ -66,7 +66,7 @@ local function generate_rewards()
 end
 
 newChat{ id="welcome",
-	text = [[Learn which category?]],
+	text = _t[[Learn which category?]],
 	answers = generate_rewards(),
 }
 

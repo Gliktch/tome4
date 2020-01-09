@@ -225,13 +225,13 @@ local function generate_rewards()
 	local answers = {}
 	if reward.stats then
 		for i = 1, #npc.stats_def do if reward.stats[i] then
-			local doit = function(npc, player) game.party:reward("Select the party member to receive the reward:", function(player)
+			local doit = function(npc, player) game.party:reward(_t"Select the party member to receive the reward:", function(player)
 				player.inc_stats[i] = (player.inc_stats[i] or 0) + reward.stats[i]
 				player:onStatChange(i, reward.stats[i])
 				player.changed = true
-				player:hasQuest(npc.quest_id).reward_message = ("improved %s by +%d"):format(npc.stats_def[i].name, reward.stats[i])
+				player:hasQuest(npc.quest_id).reward_message = ("improved %s by +%d"):tformat(npc.stats_def[i].name, reward.stats[i])
 			end) end
-			answers[#answers+1] = {("[Improve %s by +%d]"):format(npc.stats_def[i].name, reward.stats[i]),
+			answers[#answers+1] = {("[Improve %s by +%d]"):tformat(npc.stats_def[i].name, reward.stats[i]),
 				jump="done",
 				action=doit,
 				on_select=function(npc, player)
@@ -244,12 +244,12 @@ local function generate_rewards()
 	end
 	if reward.saves then
 		for save, v in pairs(reward.saves) do
-			local doit = function(npc, player) game.party:reward("Select the party member to receive the reward:", function(player)
+			local doit = function(npc, player) game.party:reward(_t"Select the party member to receive the reward:", function(player)
 				player:attr("combat_"..save.."resist", v)
 				player.changed = true
-				player:hasQuest(npc.quest_id).reward_message = ("improved %s save by +%d"):format(saves_name[save], v)
+				player:hasQuest(npc.quest_id).reward_message = ("improved %s save by +%d"):tformat(saves_name[save], v)
 			end) end
-			answers[#answers+1] = {("[Improve %s save by +%d]"):format(saves_name[save], v),
+			answers[#answers+1] = {("[Improve %s save by +%d]"):tformat(saves_name[save], v),
 				jump="done",
 				action=doit,
 				on_select=function(npc, player)
@@ -272,7 +272,7 @@ local function generate_rewards()
 					player:hasQuest(npc.quest_id).reward_message = ("%s talent %s (+%d level(s))"):format(game.player:knowTalent(tid) and "improved" or "learnt", t.name, level)
 				end) end
 				answers[#answers+1] = {
-					("[%s talent %s (+%d level(s))]"):format(game.player:knowTalent(tid) and "Improve" or "Learn", t.name, level),
+					("[%s talent %s (+%d level(s))]"):tformat(game.player:knowTalent(tid) and "Improve" or "Learn", t.name, level),
 						jump="done",
 						action=doit,
 						on_select=function(npc, player)
@@ -289,12 +289,12 @@ local function generate_rewards()
 		for tt, mastery in pairs(reward.types) do if game.player:knowTalentType(tt) == nil then
 			local tt_def = npc:getTalentTypeFrom(tt)
 			local cat = tt_def.type:gsub("/.*", "")
-			local doit = function(npc, player) game.party:reward("Select the party member to receive the reward:", function(player)
+			local doit = function(npc, player) game.party:reward(_t"Select the party member to receive the reward:", function(player)
 				if player:knowTalentType(tt) == nil then player:setTalentTypeMastery(tt, mastery - 1 + player:getTalentTypeMastery(tt)) end
 				player:learnTalentType(tt, false)
-				player:hasQuest(npc.quest_id).reward_message = ("gained talent category %s (at mastery %0.2f)"):format(cat:capitalize().." / "..tt_def.name:capitalize(), mastery)
+				player:hasQuest(npc.quest_id).reward_message = ("gained talent category %s (at mastery %0.2f)"):tformat(cat:capitalize().." / "..tt_def.name:capitalize(), mastery)
 			end) end
-			answers[#answers+1] = {("[Allow training of talent category %s (at mastery %0.2f)]"):format(cat:capitalize().." / "..tt_def.name:capitalize(), mastery),
+			answers[#answers+1] = {("[Allow training of talent category %s (at mastery %0.2f)]"):tformat(cat:capitalize().." / "..tt_def.name:capitalize(), mastery),
 				jump="done",
 				action=doit,
 				on_select=function(npc, player)
@@ -307,7 +307,7 @@ local function generate_rewards()
 	if reward.special then
 		for _, data in ipairs(reward.special) do
 			answers[#answers+1] = {data.desc,
-				jump="done",
+				jump=_t"done",
 				action=data.action,
 				on_select=function(npc, player)
 					game.tooltip_x, game.tooltip_y = 1, 1
@@ -320,17 +320,17 @@ local function generate_rewards()
 end
 
 newChat{ id="welcome",
-	text = reward.is_antimagic and [[At the last moment you invoke the power of nature.  The portal fizzles and transports @npcname@ to Zigur.
+	text = reward.is_antimagic and _t[[At the last moment you invoke the power of nature.  The portal fizzles and transports @npcname@ to Zigur.
 You can feel Nature thanking you.]] or
-	[[Thank you, my friend. I do not think I would have survived without you.
+	_t[[Thank you, my friend. I do not think I would have survived without you.
 Please let me reward you:]],
 	answers = generate_rewards(),
 }
 
 newChat{ id="done",
-	text = [[There you go. Farewell!]],
+	text = _t[[There you go. Farewell!]],
 	answers = {
-		{"Thank you."},
+		{_t"Thank you."},
 	},
 }
 
