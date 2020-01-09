@@ -48,7 +48,7 @@ newTalent{
 	info = function(self, t)
 		local chance = t.getChance(self,t)
 		return ([[Your melee and ranged attacks have a %d%% chance to shred enemies inflicting an additional 100%% of the damage dealt as a bleed over 4 turns.]]):
-		format(chance)
+		tformat(chance)
 	end,
 }
 
@@ -106,7 +106,7 @@ newTalent{
 		local dur = t.getDuration(self,t)
 		return ([[Your melee and ranged attacks inflict distracting wounds that reduce the target’s critical strike multiplier by %d%% for 5 turns. 
 In addition, your attacks have a %d%% chance to inflict a painful wound that causes them to forget a random talent for %d turns.  The last effect cannot occur more than once per turn per target.
-		]]):format(crit, chance, dur)
+		]]):tformat(crit, chance, dur)
 	end,
 }
 
@@ -153,7 +153,7 @@ newTalent{
 		return ([[Your abilities in sowing confusion and chaos have reached their peak.  Whenever a foe attempts to apply a detrimental physical effect to you, they have a %d%% chance to fail. If there is an adjacent enemy to you, you misdirect your foe into applying it to them at %d%% duration.
 You gain %d defense.
 The chance to apply status effects increases with your Accuracy and the Defense with your Cunning.]]):
-		format(t.getChance(self,t),t.getDuration(self,t), t.getDefense(self, t))
+		tformat(t.getChance(self,t),t.getDuration(self,t), t.getDefense(self, t))
 	end,
 }
 
@@ -184,6 +184,6 @@ newTalent{
 		If any effect causes the target's turn to fail they fumble and injure themself, taking %0.2f physical damage.
 		If the turn loss was caused by this effect then Fumble is removed.
 		The damage dealt increases with your Cunning.
-		]]):format(stacks*3, damDesc(self, DamageType.PHYSICAL, dam))
+		]]):tformat(stacks*3, damDesc(self, DamageType.PHYSICAL, dam))
 	end,
 }

@@ -113,7 +113,7 @@ newTalent{
 		return ([[Rethread the timeline, dealing %0.2f temporal damage to the target before moving on to a second target.
 		Rethread can hit up to %d targets up to 10 grids apart, and will never hit the same one twice; nor will it hit the caster.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.TEMPORAL, damage), targets)
+		tformat(damDesc(self, DamageType.TEMPORAL, damage), targets)
 	end,
 }
 
@@ -136,7 +136,7 @@ newTalent{
 			local m = makeParadoxClone(self, self, t.getDuration(self, t))
 			-- Add and change some values
 			m.name = self.name.."'s Fugue Clone"
-			m.desc = ([[The real %s... or so %s says.]]):format(self.name, self:he_she())
+			m.desc = ([[The real %s... or so %s says.]]):tformat(self.name, self:he_she())
 			
 			-- Handle some AI stuff
 			m.ai_state = { talent_in=1, ally_compassion=10 }
@@ -190,7 +190,7 @@ newTalent{
 		return ([[For the next %d turns two alternate versions of you enter your timeline.  While the effect is active all damage done by you or your copies is reduced by two thirds and all damage received is split between the three of you.
 		Temporal Fugue does not normally cooldown while active.  You may take direct control of your clones, give them orders, and set their talent usage.
 		Damage you deal to Fugue Clones or that they deal to you or each other is reduced to zero.]]):
-		format(duration)
+		tformat(duration)
 	end,
 }
 
@@ -207,7 +207,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[Your Rethread now braids the lifelines of all targets it hits for %d turns.  Braided targets take %d%% of all damage dealt to other braided targets.
 		The amount of damage shared will scale with your Spellpower.]])
-		:format(duration, braid)
+		:tformat(duration, braid)
 	end
 }
 
@@ -296,7 +296,7 @@ newTalent{
 		If you manage to kill the target while the spell is in effect, you'll be returned to the point in time you cast this spell and the target will be slain.
 		This spell splits the timeline.  Attempting to use another spell that also splits the timeline while this effect is active will be unsuccessful.
 		The resistance penalty will scale with your Spellpower.]])
-		:format(duration, power)
+		:tformat(duration, power)
 	end,
 }
 
@@ -460,6 +460,6 @@ newTalent{
 		Each clone that dies will increase your Paradox by 33%% of the difference between its Paradox and your own.  This will never reduce your Paradox.
 		When only one clone is left, or if you cast the spell while in the fugue state, the spell will end, returning you to the position of the last active clone.
 		The life and damage penalties will be reduced by your Spellpower.]]):
-		format(100 - damage_penalty, damage_penalty, duration)
+		tformat(100 - damage_penalty, damage_penalty, duration)
 	end,
 }]=]--

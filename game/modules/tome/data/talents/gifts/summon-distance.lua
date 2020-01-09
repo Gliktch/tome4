@@ -37,7 +37,7 @@ newTalent{ short_name = "RITCH_FLAMESPITTER_BOLT",
 	end,
 	info = function(self, t)
 		return ([[Spits a bolt of fire, doing %0.2f fire damage.
-		The damage will increase with your Mindpower.]]):format(damDesc(self, DamageType.FIRE, self:combatTalentMindDamage(t, 8, 120)))
+		The damage will increase with your Mindpower.]]):tformat(damDesc(self, DamageType.FIRE, self:combatTalentMindDamage(t, 8, 120)))
 	end,
 }
 
@@ -62,7 +62,7 @@ newTalent{ short_name = "WILD_RITCH_FLAMESPITTER_BOLT",
 	end,
 	info = function(self, t)
 		return ([[Spits a bolt of fire, doing %0.2f fire damage.
-		The damage will increase with your Mindpower.]]):format(damDesc(self, DamageType.FIRE, self:combatTalentMindDamage(t, 8, 120)))
+		The damage will increase with your Mindpower.]]):tformat(damDesc(self, DamageType.FIRE, self:combatTalentMindDamage(t, 8, 120)))
 	end,
 }
 
@@ -93,7 +93,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[A wave of fire emanates from you with radius %d, knocking back anything caught inside and setting them ablaze and doing %0.2f fire damage over 3 turns.
-		The damage will increase with your Mindpower.]]):format(radius, damDesc(self, DamageType.FIRE, damage))
+		The damage will increase with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.FIRE, damage))
 	end,
 }
 
@@ -125,7 +125,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Breathe acid on your foes, doing %0.2f damage.
-		The damage will increase with your Willpower.]]):format(damDesc(self, DamageType.ACID, self:combatTalentStatDamage(t, "wil", 30, 430)))
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.ACID, self:combatTalentStatDamage(t, "wil", 30, 430)))
 	end,
 }
 
@@ -155,7 +155,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Spit acid on a foe, doing %0.2f damage.
-		The damage will increase with your Willpower.]]):format(damDesc(self, DamageType.ACID, self:combatTalentStatDamage(t, "wil", 30, 430)))
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.ACID, self:combatTalentStatDamage(t, "wil", 30, 430)))
 	end,
 }
 
@@ -191,7 +191,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Breathe lightning on your foes, doing %d to %d damage.
 		The damage will increase with your Willpower.]]):
-		format(
+		tformat(
 			damDesc(self, DamageType.LIGHTNING, (self:combatTalentStatDamage(t, "wil", 30, 500)) / 3),
 			damDesc(self, DamageType.LIGHTNING, self:combatTalentStatDamage(t, "wil", 30, 500))
 		)
@@ -226,7 +226,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Spit lightning on your foe, doing %d to %d damage.
 		The damage will increase with your Willpower.]]):
-		format(
+		tformat(
 			damDesc(self, DamageType.LIGHTNING, (self:combatTalentStatDamage(t, "wil", 30, 500)) / 3),
 			damDesc(self, DamageType.LIGHTNING, self:combatTalentStatDamage(t, "wil", 30, 500))
 		)
@@ -261,7 +261,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Breathe poison on your foes, doing %d damage over a few turns.
-		The damage will increase with your Willpower.]]):format(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
 	end,
 }
 
@@ -291,7 +291,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Spit poison on your foes, doing %d damage over a few turns.
-		The damage will increase with your Willpower.]]):format(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
 	end,
 }
 
@@ -335,7 +335,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[A furious ice storm rages around the user doing %0.2f cold damage in a radius of 3 each turn for %d turns.
 		It has 25%% chance to freeze damaged targets.
-		The damage and duration will increase with your Willpower.]]):format(damDesc(self, DamageType.COLD, damage), duration)
+		The damage and duration will increase with your Willpower.]]):tformat(damDesc(self, DamageType.COLD, damage), duration)
 	end,
 }
 
@@ -375,7 +375,7 @@ newTalent{
 		return ([[Grab a target and pull it next to you, covering it with frost while reducing its movement speed by 50%% for %d turns.
 		The ice will also deal %0.2f cold damage.
 		The damage and chance to slow will increase with your Mindpower.]]):
-		format(t.getDuration(self, t), damDesc(self, DamageType.COLD, self:combatTalentMindDamage(t, 5, 140)))
+		tformat(t.getDuration(self, t), damDesc(self, DamageType.COLD, self:combatTalentMindDamage(t, 5, 140)))
 	end,
 }
 
@@ -492,7 +492,7 @@ newTalent{
 		It will get %d Willpower, %d Cunning and %d Constitution.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Willpower and Cunning will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.wil, incStats.cun, incStats.con)
+		:tformat(t.summonTime(self, t), incStats.wil, incStats.cun, incStats.con)
 	end,
 }
 
@@ -620,7 +620,7 @@ newTalent{
 		It will get %d Willpower, %d Constitution and 18 Strength.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Willpower will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.wil, incStats.con, incStats.str)
+		:tformat(t.summonTime(self, t), incStats.wil, incStats.con, incStats.str)
 	end,
 }
 
@@ -737,7 +737,7 @@ newTalent{
 		It will get %d Willpower, %d Cunning and %d Constitution.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Willpower and Cunning will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.wil, incStats.cun, incStats.con)
+		:tformat(t.summonTime(self, t), incStats.wil, incStats.cun, incStats.con)
 	end,
 }
 
@@ -900,6 +900,6 @@ newTalent{
 		It will get %d Strength, %d Constitution and 38 Willpower.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Strength and Constitution will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.str, incStats.con)
+		:tformat(t.summonTime(self, t), incStats.str, incStats.con)
 	end,
 }

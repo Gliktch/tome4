@@ -163,16 +163,16 @@ newTalent{
 			if choose then
 				Dialog:yesnoLongPopup(
 					"Cursed Fate",
-					("The %s lying nearby catches your attention. What draws you to it is not the thing itself, but something burning inside you. You feel contempt for it and all worldly things. This feeling is not new but the power of it overwhelms you. You reach out to touch the object, to curse it, to defile it. And you notice it begin to change. The colors of it begin to fade and are replaced with an insatiable hate. For a moment you hesitate. You know you must choose to resist this manifestation of your curse now and forever, or fall further into your madness."):format(item.name),
+					("The %s lying nearby catches your attention. What draws you to it is not the thing itself, but something burning inside you. You feel contempt for it and all worldly things. This feeling is not new but the power of it overwhelms you. You reach out to touch the object, to curse it, to defile it. And you notice it begin to change. The colors of it begin to fade and are replaced with an insatiable hate. For a moment you hesitate. You know you must choose to resist this manifestation of your curse now and forever, or fall further into your madness."):tformat(item.name),
 					300,
 					function(ret)
 						if ret then
-							Dialog:simpleLongPopup("Cursed Fate", ("The %s lies defiled at your feet. An aura of hatred surrounds you and you now feel truly cursed. You have gained the Cursed Aura talent tree and 1 point in Defiling Touch, but at the cost of 2 Willpower."):format(item.name), 300)
+							Dialog:simpleLongPopup("Cursed Fate", ("The %s lies defiled at your feet. An aura of hatred surrounds you and you now feel truly cursed. You have gained the Cursed Aura talent tree and 1 point in Defiling Touch, but at the cost of 2 Willpower."):tformat(item.name), 300)
 							self:learnTalentType("cursed/cursed-aura", true)
 							self:learnTalent(self.T_DEFILING_TOUCH, true, 1, {no_unlearn=true})
 							self:incIncStat(Stats.STAT_WIL, -2)
 						else
-							Dialog:simplePopup("Cursed Fate", ("The %s returns to normal and your hate subsides."):format(item.name))
+							Dialog:simplePopup("Cursed Fate", ("The %s returns to normal and your hate subsides."):tformat(item.name))
 						end
 					end,
 					"Release your hate upon the object",
@@ -269,7 +269,7 @@ newTalent{
 		level 10 -- ammunition
 		At level 5, you can activate this talent to surround yourself with an aura that adds 2 levels to a curse of your choosing. (%s chosen)
 		Also, talent levels above 5 reduce the negative effects of your curses (currently %d%% reduction).]]):
-		format(t.getCursedAuraName(self, t), (1-t.cursePenalty(self, t))*100)
+		tformat(t.getCursedAuraName(self, t), (1-t.cursePenalty(self, t))*100)
 	end,
 }
 
@@ -296,7 +296,7 @@ newTalent{
 		local xs = t.curseBonusLevel(self,t)
 		return ([[Your curses bring you dark gifts. Unlocks bonus level %d effects on all of your curses, allowing you to gain that effect when the power level of your curse reaches that level. At talent level 5, the luck penalty of cursed effects is reduced to 1.
 		Talent levels above 5 add bonus power levels to your curses, increasing their effects (currently %0.1f).]]):
-		format(level, xs)
+		tformat(level, xs)
 	end,
 }
 
@@ -344,7 +344,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local incDamage = t.getIncDamage(self, t)
 
-		return ([[Curse the earth around you in a radius of %d for %d turns. Any who stand upon it are weakened, reducing the damage they inflict by %d%%]]):format(range, duration, incDamage)
+		return ([[Curse the earth around you in a radius of %d for %d turns. Any who stand upon it are weakened, reducing the damage they inflict by %d%%]]):tformat(range, duration, incDamage)
 	end,
 }
 
@@ -580,6 +580,6 @@ newTalent{
 			Cursed Sentry attack speed (currently %d%%) will improve with talent level.
 			When you first select a weapon, it will be remembered and used as long as it's in your inventory. Use Choose Cursed Sentry talent to alter your selection.
 			At talent level 3, you get the ability to afflict powerful mundane objects (greater egos).
-			At talent level 5, you can corrupt artifacts.]]):format(duration, attackSpeed)
+			At talent level 5, you can corrupt artifacts.]]):tformat(duration, attackSpeed)
 	end,
 }

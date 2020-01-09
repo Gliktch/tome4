@@ -30,7 +30,7 @@ uberTalent{
 	end,
 	info = function(self, t)
 		return ([[Each time that you make a melee attack you have a 50%% chance to execute an additional unarmed strike.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -84,7 +84,7 @@ uberTalent{
 		- you can never damage your friends or neutral creatures while this talent is active.
 		- you love being surrounded by friends; for each friendly creature in sight you gain +10 to all saves and +3%% to global speed (max 15%%)
 		- every party member is also automatically granted Through The Crowd]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -105,7 +105,7 @@ uberTalent{
 		return ([[You have very agile hands; swapping equipment sets (default q key) takes no time, nor does equipping/unequipping items.
 		The free item switch may only happen once per turn.
 		The cooldown for equipping activatable equipment is removed.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -139,7 +139,7 @@ uberTalent{
 	end,
 	info = function(self, t)
 		return ([[You spin madly, generating a sharp gust of wind with your weapons that deals 320%% weapon damage to all targets within radius 4 and disarms them for 4 turns.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -162,7 +162,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[You are attuned with Nature, and she helps you in your fight against the arcane forces.
 		You gain 20%% permanent global speed, 10%% cooldowns reduction and do not trigger pressure traps.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -176,7 +176,7 @@ uberTalent{
 	end} },
 	info = function(self, t)
 		return ([[You are very crafty. You can now also embed gems into helms and belts.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -206,7 +206,7 @@ uberTalent{
 		So long as you can move, you find a way to dodge, evade, deflect or otherwise reduce physical damage against you by %d%%.
 		Once per turn, when you get hit by a melee or archery attack you move back one tile for free and gain 200%% movement speed for a turn.
 		The damage avoidance scales with your Dexterity and applies after resistances.]])
-		:format(100*(1-t.getMult(self, t)))
+		:tformat(100*(1-t.getMult(self, t)))
 	end,
 }
 
@@ -234,6 +234,6 @@ uberTalent{
 	info = function(self, t)
 		return ([[You fire a shot straight at your enemy's vital areas, wounding them terribly.
 		Enemies hit by this shot will take 450%% weapon damage and will be stunned and crippled (losing 50%% physical, magical and mental attack speeds) for five turns due to the devastating impact of the shot.
-		The stun and cripple chances increase with your Accuracy.]]):format()
+		The stun and cripple chances increase with your Accuracy.]]):tformat()
 	end,
 }

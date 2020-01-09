@@ -46,7 +46,7 @@ newTalent{
 		local range = self:getTalentRange(t)
 		local duration = t.getDuration(self, t)
 		return ([[You peer into the future, sensing creatures and traps in a radius of %d for %d turns.
-		If you know Foresight you'll gain additional defense and chance to shrug off critical hits (equal to your Foresight bonuses) while Precognition is active.]]):format(range, duration)
+		If you know Foresight you'll gain additional defense and chance to shrug off critical hits (equal to your Foresight bonuses) while Precognition is active.]]):tformat(range, duration)
 	end,
 }
 
@@ -73,7 +73,7 @@ newTalent{
 		return ([[Gain %d defense and %d%% chance to shrug off critical hits.
 		If you have Precognition or See the Threads active these bonuses will be added to those effects, granting additional defense and chance to shrug off critical hits.
 		These bonuses scale with your Magic stat.]]):
-		format(defense, crits)
+		tformat(defense, crits)
 	end,
 }
 
@@ -157,7 +157,7 @@ newTalent{
 		This effect can only occur once every %d turns and takes place after the damage is resolved.
 
 		Current Contingency Spell: %s]]):
-		format(trigger, cooldown, talent)
+		tformat(trigger, cooldown, talent)
 	end,
 }
 
@@ -208,6 +208,6 @@ newTalent{
 		This spell splits the timeline.  Attempting to use another spell that also splits the timeline while this effect is active will be unsuccessful.
 		If you die in any thread you'll revert the timeline to the point when you first cast the spell and the effect will end.
 		This spell may only be used once per zone level.]])
-		:format(duration)
+		:tformat(duration)
 	end,
 }

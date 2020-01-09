@@ -43,7 +43,7 @@ newTalent{
 		return ([[When you throw your alchemist bombs, you infuse them with lightning damage that can daze your foes.
 		In addition all lightning damage you do is increased by %d%%.
 		You cannot have more than one alchemist infusion sustain active at once.]]):
-		format(daminc)
+		tformat(daminc)
 	end,
 }
 
@@ -73,7 +73,7 @@ newTalent{
 	info = function(self, t)
 		return ([[While Lightning Infusion is active, your bombs energize your golem.
 		All talents on cooldown on your golem have %d%% chance to be reduced by %d.]]):
-		format(t.getChance(self, t), t.getNb(self, t))
+		tformat(t.getChance(self, t), t.getNb(self, t))
 	end,
 }
 
@@ -132,7 +132,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[By crushing an alchemist gem you generate a thunderclap in a cone of radius %d dealing %0.2f physical damage and %0.2f lightning damage.
 		All creatures caught inside are knocked back and disarmed for %d turns.
-		The duration and damage will increase with your Spellpower.]]):format(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), t.getDuration(self, t))
+		The duration and damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), t.getDuration(self, t))
 	end,
 }
 
@@ -210,6 +210,6 @@ newTalent{
 		In addition, damage to your health will energize you.
 		At the start of each turn in which you have lost at least %d life (20%% of your maximum life) since your last turn, you will gain %d%% of a turn.
 		The effects increase with your Spellpower.]]):
-		format(speed, range, damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), self.max_life * 0.2, turn)
+		tformat(speed, range, damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), self.max_life * 0.2, turn)
 	end,
 }

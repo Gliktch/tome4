@@ -31,7 +31,7 @@ newTalent{
 	info = function(self, t)
 		local res = t.getRes(self, t)
 		return ([[Your skin becomes more resilient to damage. Increases resistance to all damage by %0.1f%%.]]):
-		format(res)
+		tformat(res)
 	end,
 }
 
@@ -108,7 +108,7 @@ newTalent{
 		At level 1, it allows you to wear heavy mail armour, gauntlets, helms, and heavy boots.
 		At level 2, it allows you to wear shields.
 		At level 3, it allows you to wear massive plate armour.
-		%s]]):format(armor, hardiness, criticalreduction, classrestriction)
+		%s]]):tformat(armor, hardiness, criticalreduction, classrestriction)
 	end,
 }
 
@@ -154,7 +154,7 @@ newTalent{
 		return ([[You learn to maintain your agility and manage your combat posture while wearing light armour.  When wearing armour no heavier than leather in your main body slot, you gain %d Defense, %d%% Armour hardiness, and %d%% reduced Fatigue.
 		In addition, when you step adjacent to a (visible) enemy, you use the juxtaposition to increase your total Defense by %d for 2 turns.
 		The Defense bonus scales with your Dexterity.]]):
-		format(defense, t.getArmorHardiness(self,t), t.getFatigue(self, t, true), defense/2)
+		tformat(defense, t.getArmorHardiness(self,t), t.getFatigue(self, t, true), defense/2)
 	end,
 }
 
@@ -169,7 +169,7 @@ newTalent{
 	info = function(self, t)
 		local attack = t.getAttack(self, t)
 		return ([[Increases the accuracy of unarmed, melee and ranged weapons by %d.]]):
-		format(attack)
+		tformat(attack)
 	end,
 }
 
@@ -186,7 +186,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local inc = t.getPercentInc(self, t)
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using swords, axes or maces.]]):
-		format(100*inc)
+		tformat(100*inc)
 	end,
 }
 
@@ -204,7 +204,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local inc = t.getPercentInc(self, t)
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using daggers.]]):
-		format(100*inc)
+		tformat(100*inc)
 	end,
 }
 
@@ -222,6 +222,6 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local inc = t.getPercentInc(self, t)
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using exotic weapons.]]):
-		format(100*inc)
+		tformat(100*inc)
 	end,
 }

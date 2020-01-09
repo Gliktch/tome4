@@ -51,7 +51,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Channel raw magical energy into your melee attacks; each blow you land will do an additional %.2f darkness damage.
 		The damage will improve with your Spellpower.]]):
-		format(damDesc(self, DamageType.DARKNESS, damage))
+		tformat(damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
 
@@ -67,7 +67,7 @@ newTalent{
 		local spellpower = t.getSpellpower(self, t)
 		local bonus = self:getCun()*spellpower/100
 		return ([[Your preparations give you greater magical capabilities. You gain a bonus to Spellpower equal to %d%% of your Cunning (Current bonus: %d).]]):
-		format(spellpower, bonus)
+		tformat(spellpower, bonus)
 	end,
 }
 
@@ -102,7 +102,7 @@ newTalent{
 		local manaregen = t.getManaRegen(self, t)
 		return ([[You draw energy from the depths of the shadows.
 		While sustained, you regenerate %0.2f mana per turn, and your physical and spell attack speed increases by %0.1f%%.]]):
-		format(manaregen, t.getAtkSpeed(self, t))
+		tformat(manaregen, t.getAtkSpeed(self, t))
 	end,
 }
 
@@ -155,6 +155,6 @@ newTalent{
 		return ([[Step through the shadows to your target, dazing it for %d turns and hitting it with all your weapons for %d%% darkness weapon damage.
 		Dazed targets are significantly impaired, but any damage will free them.
 		To Shadowstep, you need to be able to see the target.]]):
-		format(duration, t.getDamage(self, t) * 100)
+		tformat(duration, t.getDamage(self, t) * 100)
 	end,
 }

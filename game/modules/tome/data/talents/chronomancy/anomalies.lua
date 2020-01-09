@@ -147,7 +147,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Teleports up to five targets in a radius of %d up to ten tiles away.]]):format(radius)
+		return ([[Teleports up to five targets in a radius of %d up to ten tiles away.]]):tformat(radius)
 	end,
 }
 
@@ -193,7 +193,7 @@ newTalent{
 	info = function(self, t)
 		local range = self:getTalentRange(t)
 		local radius = self:getTalentRadius(t)
-		return ([[Teleports up to five targets in a radius of %d up to %d tiles away.]]):format(radius, range)
+		return ([[Teleports up to five targets in a radius of %d up to %d tiles away.]]):tformat(radius, range)
 	end,
 }
 
@@ -249,7 +249,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You swap locations with a random target.]]):format()
+		return ([[You swap locations with a random target.]]):tformat()
 	end,
 }
 
@@ -295,7 +295,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[50%% chance that damage the caster takes will be warped to a set target.
-		Once the maximum damage (%d) is absorbed, the time runs out, or the target dies, the shield will crumble.]]):format(getAnomalyDamage(self, t)*2)
+		Once the maximum damage (%d) is absorbed, the time runs out, or the target dies, the shield will crumble.]]):tformat(getAnomalyDamage(self, t)*2)
 	end,
 }
 
@@ -388,7 +388,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Creates a wormhole nearby and a second wormhole up to ten tiles away.]]):format()
+		return ([[Creates a wormhole nearby and a second wormhole up to ten tiles away.]]):tformat()
 	end,
 }
 
@@ -432,7 +432,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Allows up to five targets in a radius of %d to travel up to %d tiles through walls.]]):
-		format(getAnomalyDuration(self, t)*2, getAnomalyDuration(self, t))
+		tformat(getAnomalyDuration(self, t)*2, getAnomalyDuration(self, t))
 	end,
 }
 
@@ -476,7 +476,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Up to five targets in a radius of %d are teleporting %d tiles every turn.]]):
-		format(self:getTalentRadius(t), getAnomalyDuration(self, t))
+		tformat(self:getTalentRadius(t), getAnomalyDuration(self, t))
 	end,
 }
 
@@ -631,7 +631,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Slows up to five targets in a radius %d ball by %d%%.]]):
-		format(self:getTalentRadius(t), t.getSlow(self, t)*100)
+		tformat(self:getTalentRadius(t), t.getSlow(self, t)*100)
 	end,
 }
 
@@ -675,7 +675,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Increases global speed of up to five targets in a radius %d ball by %d%%.]]):
-		format(self:getTalentRadius(t), t.getHaste(self, t)*100)
+		tformat(self:getTalentRadius(t), t.getHaste(self, t)*100)
 	end,
 }
 
@@ -720,7 +720,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Stuns up to five targets in a radius %d ball.]]):
-		format(self:getTalentRadius(t))
+		tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -765,7 +765,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Time Prisons up to five targets in a radius %d ball.]]):
-		format(self:getTalentRadius(t))
+		tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -808,7 +808,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Time Shields up to five targets in a radius of %d.]]):
-		format(self:getTalentRadius(t))
+		tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -851,7 +851,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Invigorates up to five targets in a radius of %d.]]):
-		format(self:getTalentRadius(t))
+		tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -898,7 +898,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Clones a random creature within range.]]):format()
+		return ([[Clones a random creature within range.]]):tformat()
 	end,
 }
 
@@ -940,7 +940,7 @@ newTalent{
 		local duration = self:combatScale(getParadoxSpellpower(self, t), 4, 10, 12, 100, 0.75)/2
 		local damage = self:combatScale(getParadoxSpellpower(self, t), 10, 10, 50, 100, 0.75)
 		return ([[Creates a temporal storm for %d to %d turns that deals between %0.2f and %0.2f temporal damage each turn.]])
-		:format(duration/2, duration, damDesc(self, DamageType.TEMPORAL, damage/3),  damDesc(self, DamageType.TEMPORAL, damage))
+		:tformat(duration/2, duration, damDesc(self, DamageType.TEMPORAL, damage/3),  damDesc(self, DamageType.TEMPORAL, damage))
 	end,
 }
 
@@ -986,7 +986,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Increases localized gravity, pulling in targets in a radius of %d.]]):format(self:getTalentRadius(t))
+		return ([[Increases localized gravity, pulling in targets in a radius of %d.]]):tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -1019,7 +1019,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Digs out all terrain in a radius %d ball.]]):format(self:getTalentRadius(t))
+		return ([[Digs out all terrain in a radius %d ball.]]):tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -1096,7 +1096,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Entombs a single target in a wall of stone.]]):format()
+		return ([[Entombs a single target in a wall of stone.]]):tformat()
 	end,
 }
 
@@ -1156,7 +1156,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Places between three and six talents of up to 5 targets in a radius %d ball on cooldown for up to %d turns.]]):
-		format(getAnomalyRadius(self, t), getAnomalyDuration(self, t))
+		tformat(getAnomalyRadius(self, t), getAnomalyDuration(self, t))
 	end,
 }
 
@@ -1202,7 +1202,7 @@ requires_target = true,
 		return true
 	end,
 	info = function(self, t)
-		return ([[Creates a gravity well in a radius %d ball, pinning up to five targets.]]):format(self:getTalentRadius(t))
+		return ([[Creates a gravity well in a radius %d ball, pinning up to five targets.]]):tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -1239,7 +1239,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Causes an earthquake in a radius of %d.]]):
-		format(getAnomalyRadius(self, t))
+		tformat(getAnomalyRadius(self, t))
 	end,
 }
 
@@ -1281,7 +1281,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Reduces the resistances of up to five targets in a ball of radius %d by %d%%.]]):format(self:getTalentRadius(t), getAnomalyEffectPower(self, t))
+		return ([[Reduces the resistances of up to five targets in a ball of radius %d by %d%%.]]):tformat(self:getTalentRadius(t), getAnomalyEffectPower(self, t))
 	end,
 }
 
@@ -1343,7 +1343,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Summons three to six dust storms.]]):format()
+		return ([[Summons three to six dust storms.]]):tformat()
 	end,
 }
 
@@ -1402,7 +1402,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Summons three to six blazing fires.]]):format()
+		return ([[Summons three to six blazing fires.]]):tformat()
 	end,
 }
 
@@ -1444,7 +1444,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Turns up to 5 targets in a radius %d ball to stone for %d turns.]]):
-		format(getAnomalyRadius(self, t), getAnomalyDuration(self, t))
+		tformat(getAnomalyRadius(self, t), getAnomalyDuration(self, t))
 	end,
 }
 
@@ -1486,7 +1486,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Teleports between 3 and 6 targets to the caster.]]):
-		format()
+		tformat()
 	end,
 }
 
@@ -1526,7 +1526,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Substantially toughens and hastes one target for %d turns.]]):format(getAnomalyDuration(self, t))
+		return ([[Substantially toughens and hastes one target for %d turns.]]):tformat(getAnomalyDuration(self, t))
 	end,
 }
 
@@ -1566,7 +1566,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Clones the caster.]]):format(getAnomalyDuration(self, t))
+		return ([[Clones the caster.]]):tformat(getAnomalyDuration(self, t))
 	end,
 }
 
@@ -1612,7 +1612,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Clones all creatures in a radius of 10.]]):format(getAnomalyDuration(self, t))
+		return ([[Clones all creatures in a radius of 10.]]):tformat(getAnomalyDuration(self, t))
 	end,
 }
 
@@ -1646,7 +1646,7 @@ requires_target = true,
 		return true
 	end,
 	info = function(self, t)
-		return ([[Digs out all terrain in between three and six radius %d balls.]]):format(self:getTalentRadius(t))
+		return ([[Digs out all terrain in between three and six radius %d balls.]]):tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -1703,7 +1703,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Summons a sphere of destruction.]]):format()
+		return ([[Summons a sphere of destruction.]]):tformat()
 	end,
 }
 
@@ -1779,7 +1779,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Summons three to six tornados.]]):format()
+		return ([[Summons three to six tornados.]]):tformat()
 	end,
 }
 
@@ -1874,7 +1874,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Causes a meteor to fall from the sky.]]):
-		format()
+		tformat()
 	end,
 }
 
@@ -1955,7 +1955,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Tears a hole in the fabric of spacetime.]]):
-		format()
+		tformat()
 	end,
 }
 
@@ -2004,7 +2004,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Time elementals have been attracted to the timeline.]]):
-		format()
+		tformat()
 	end,
 }
 

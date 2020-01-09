@@ -94,7 +94,7 @@ return ([[Attack the target for %d%% Nature weapon damage.
 		Big:  %d%%
 		Huge:  %d%%
 		Gargantuan:  %d%%]]):
-		format(100 * t.getDamage(self, t), t.getPassiveCrit(self, t),
+		tformat(100 * t.getDamage(self, t), t.getPassiveCrit(self, t),
 			t.maxSwallow(self, t, 1),
 			t.maxSwallow(self, t, 2),
 			t.maxSwallow(self, t, 3),
@@ -137,7 +137,7 @@ newTalent{
 		return ([[You slam the ground, shaking the area around you in a radius of %d.
 		Creatures caught by the quake will be damaged for %d%% weapon damage, and knocked back up to 3 tiles away.
 		The terrain will also be moved around within the radius, and the user will be shifted to a random square within the radius.
-		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):format(radius, dam * 100)
+		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):tformat(radius, dam * 100)
 	end,
 }
 
@@ -163,7 +163,7 @@ newTalent{
 		return ([[Allows you to burrow into earthen walls for %d turns.
 		Your powerful digging abilities also allow you to exploit and smash through enemy defensive weaknesses; You ignore %d of target armor and %d%% of enemy physical damage resistance while this is in effect.
 		At Talent Level 5, this talent can be used instantly, and the cooldown will reduce with levels.
-		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):format(t.getDuration(self, t), t.getPenetration(self, t), t.getPenetration(self, t) / 2)
+		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):tformat(t.getDuration(self, t), t.getPenetration(self, t), t.getPenetration(self, t) / 2)
 	end,
 }
 
@@ -210,6 +210,6 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[You breathe sand in a frontal cone of radius %d. Any target caught in the area will take %0.2f physical damage, and will be blinded for %d turns.
 		The damage will increase with your Strength, the critical chance is based on your Mental crit rate, and the Blind apply power is based on your Mindpower.
-		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):format(self:getTalentRadius(t), damDesc(self, DamageType.PHYSICAL, damage), duration)
+		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.PHYSICAL, damage), duration)
 	end,
 }

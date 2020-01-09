@@ -32,7 +32,7 @@ uberTalent{
 	end,
 	info = function(self, t)
 		return ([[By infusing your shield with raw magic, your block can now block any damage type.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -62,7 +62,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[You gain 25%% absolute damage resistance and 25%% all damage penetration.  Each time you are struck by a weapon these bonuses are reduced by 5%% but fully recovered after 8 turns.
 			Additionally, you gain 70%% of the highest of your Magic or Dexterity stat as defense (%d)]])
-		:format(math.max(self:getMag(), self:getDex()) * 0.7)
+		:tformat(math.max(self:getMag(), self:getDex()) * 0.7)
 	end,
 }
 
@@ -86,7 +86,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[You manifest a thin layer of aether all around you. Any attack passing through it will check arcane resistance instead of the incoming damage resistance.
 		In effect, all of your resistances are equal to 66%% of your arcane resistance, which is increased by 20%% (and cap increased by 10%%).]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -108,7 +108,7 @@ uberTalent{
 		for i, tid in pairs(t.autolearn_talent) do
 			local bonus_t = self:getTalentFromId(tid)
 			if bonus_t then
-				descs = ("%s\n#YELLOW#%s#LAST#\n%s\n"):format(descs, bonus_t.name, self:callTalent(bonus_t.id, "info"))
+				descs = ("%s\n#YELLOW#%s#LAST#\n%s\n"):tformat(descs, bonus_t.name, self:callTalent(bonus_t.id, "info"))
 			end
 		end
 		return ([[Your study of arcane forces has let you develop a new way of applying your aptitude for trapping and poisons.
@@ -119,7 +119,7 @@ uberTalent{
 
 		You learn the following talents:
 %s]])
-		:format(descs)
+		:tformat(descs)
 	end,
 }
 
@@ -132,7 +132,7 @@ uberTalent{
 		Equipped weapons are treated as having an additional 50%% Magic modifier;
 		Your raw Physical Power is increased by 100%% of your raw Spellpower;
 		Your physical critical chance is increased by 25%% of your bonus spell critical chance.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -155,7 +155,7 @@ uberTalent{
 		return ([[You can wrap temporal threads around you, assuming the form of a telugoroth for 10 turns.
 		While in this form you gain pinning, bleeding, blindness and stun immunity, 30%% temporal resistance, your temporal damage bonus is set to your current highest damage bonus + 30%%, 50%% of the damage you deal becomes temporal, and you gain 20%% temporal resistance penetration.
 		You also are able to cast anomalies: Anomaly Rearrange, Anomaly Temporal Storm, Anomaly Flawed Design, Anomaly Gravity Pull and Anomaly Wormhole.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -260,7 +260,7 @@ uberTalent{
 		- Ghouls: Virulent Disease
 		- Vampires / Liches: Blood Grasp and Blood Boil
 		- Ghosts / Wights: Blood Fury and Curse of Death
-		]]):format()
+		]]):tformat()
 	end,
 }
 
@@ -290,7 +290,7 @@ uberTalent{
 		return ([[You can now control the recent past. Upon using this prodigy you gain a temporal effect for 20 turns.
 		While this effect holds you can use the prodigy again to rewrite history.
 		This prodigy splits the timeline. Attempting to use another spell that also splits the timeline while this effect is active will be unsuccessful.]])
-		:format()
+		:tformat()
 	end,
 }
 newTalent{
@@ -310,7 +310,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Rewrite the recent past to go back to when you cast Revisionist History.]])
-		:format()
+		:tformat()
 	end,
 }
 

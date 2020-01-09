@@ -58,7 +58,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Carve 40 to 80 alchemist gems out of a natural gemstone.
-		Alchemist gems are used for many other spells, and each gem type creates a different effect.]]):format()
+		Alchemist gems are used for many other spells, and each gem type creates a different effect.]]):tformat()
 	end,
 }
 
@@ -109,7 +109,7 @@ newTalent{
 		if self:getTalentLevelRaw(t) >=4 then material=material.."	-Stralite\n" end
 		if self:getTalentLevelRaw(t) >=5 then material=material.."	-Voratun" end
 		return ([[Extract magical gems from metal weapons and armours. At this skill level you can work with:
-		%s]]):format(material)
+		%s]]):tformat(material)
 	end,
 }
 
@@ -150,7 +150,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Imbue %s with a gem (up to tier %d), granting it additional powers.
-		You can only imbue items once, and it is permanent.]]):format(self:knowTalent(self.T_CRAFTY_HANDS) and "body armour, a belt, or a head piece" or "a body armour", self:getTalentLevelRaw(t))
+		You can only imbue items once, and it is permanent.]]):tformat(self:knowTalent(self.T_CRAFTY_HANDS) and "body armour, a belt, or a head piece" or "a body armour", self:getTalentLevelRaw(t))
 	end,
 }
 newTalent{
@@ -191,7 +191,7 @@ newTalent{
 	info = function(self, t)
 		local range = t.getRange(self, t)
 		return ([[Crush 5 alchemist gems into dust to mark impassable terrain next to you. You immediately enter it and appear on the other side of the obstacle, up to %d grids away.]]):
-		format(range)
+		tformat(range)
 	end,
 }
 
@@ -238,6 +238,6 @@ newTalent{
 		Stoned creatures are highly resistant to fire and lightning, and somewhat resistant to physical attacks.
 		At level 3 the touch will become a beam.
 		This spell may fail against creatures resistant to being stunned, that are specifically immune to stoning, or certain bosses.]]):
-		format(duration)
+		tformat(duration)
 	end,
 }

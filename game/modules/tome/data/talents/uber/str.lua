@@ -75,7 +75,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[You accurately jump to the target and deal 200%% weapon damage to all foes within radius 1 on impact as well as dazing them for 3 turns.
 		When you jump you free yourself from any stun, daze and pinning effects.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -119,7 +119,7 @@ uberTalent{
 		return ([[You deal a massive blow to your foe, smashing it for 350%% weapon damage, knocking it back 5 tiles, and knocking aside all foes in its path.
 		All targets affected are stunned for 3 turns.
 		For each size category over 'big' you gain an additional +80%% weapon damage.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -157,7 +157,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[You deal a massive blow to your foe, smashing it for 150%% weapon damage and knocking it back 4 tiles (ignoring knockback resistance or physical save).
 		If the knockback makes it hit a wall, it will smash down the wall, deal an additional 350%% weapon damage and apply the Counterstrike effect.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -169,7 +169,7 @@ uberTalent{
 		return ([[When you rush, the creature you rush to is marked. If you kill it in the next two turns then your rush cooldown is reset.
 		Each time that this effect triggers you gain a stacking +20%% damage buff, up to 100%%.
 		Rush now only costs 2 stamina.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -195,7 +195,7 @@ uberTalent{
 		return ([[For 8 turns you gain the mass and power of a star, drawing all creatures within radius 5 toward you and dealing %0.2f fire, %0.2f light and %0.2f physical damage to all foes and reducing their damage dealt by 30%%.
 		Foes closer to you take up to 150%% damage.
 		The damage will increase with your Strength.]])
-		:format(damDesc(self, DamageType.FIRE, dam), damDesc(self, DamageType.LIGHT, dam), damDesc(self, DamageType.PHYSICAL, dam))
+		:tformat(damDesc(self, DamageType.FIRE, dam), damDesc(self, DamageType.LIGHT, dam), damDesc(self, DamageType.PHYSICAL, dam))
 	end,
 }
 
@@ -216,7 +216,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[Your strength is legendary; fatigue and physical exertion mean nothing to you.
 		Your fatigue is permanently set to 0, carrying capacity increased by 500, and strength increased by 50 and you gain a size category.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -262,7 +262,7 @@ uberTalent{
 		return ([[You have sided with Slasul and helped him vanquish Ukllmswwik. You are now able to breathe underwater with ease.
 		You have also learned to use tridents and other exotic weapons easily (talent level %d of Exotic Weapon Mastery), and can Spit Poison (talent level %d) as nagas do. These are bonus talent levels that increase with your character level.
 		In addition, should Slasul still live, he may have a further reward for you as thanks...]])
-		:format(level, level)
+		:tformat(level, level)
 	end,
 }
 
@@ -273,6 +273,6 @@ uberTalent{
 		return ([[A strong body is key to a strong mind, and a strong mind can be powerful enough to make a strong body.
 		This prodigy grants a Mindpower bonus equal to 60%% of your Strength.
 		Additionally, you treat all weapons as having an additional 40%% Willpower modifier.]])
-		:format()
+		:tformat()
 	end,
 }

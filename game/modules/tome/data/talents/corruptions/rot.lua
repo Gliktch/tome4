@@ -53,7 +53,7 @@ newTalent{
 		return ([[Bite the target, dealing %d%% melee damage  
 		If the attack hits you'll inject blight poison into the target, dealing %0.2f blight damage and a further %0.2f blight damage over 4 turns.
 		The bonus damage improves with your Spellpower.]])
-		:format(damage, damDesc(self, DamageType.BLIGHT, poison/4), damDesc(self, DamageType.BLIGHT, poison) )
+		:tformat(damage, damDesc(self, DamageType.BLIGHT, poison/4), damDesc(self, DamageType.BLIGHT, poison) )
 	end
 }
 
@@ -219,7 +219,7 @@ newTalent{
 On taking damage greater than 15%% of your maximum health, the damage will be reduced by %d%% and a carrion worm mass will burst forth onto a nearby tile, attacking your foes for 5 turns.
 You can never have more than 5 worms active from any source at a time.
 When a carrion worm dies it will explode into a radius 2 pool of blight for 5 turns, dealing %0.2f blight damage each turn and healing you for 33%% of that amount.]]):
-		format(resist, affinity, reduction, damDesc(self, DamageType.BLIGHT, dam), dam)
+		tformat(resist, affinity, reduction, damDesc(self, DamageType.BLIGHT, dam), dam)
 	end,
 }
 
@@ -334,7 +334,7 @@ info = function(self, t)
 At talent level 4, this affects targets in a radius 1 ball.
 Your worms also have a %d%% chance to blind, silence, disarm or pin with their melee attacks, lasting 2 turns.
 The chance to apply this effect will increase with your Spellpower.]]):
-		format(chance, duration, chance/2)
+		tformat(chance, duration, chance/2)
 	end,
 }
 
@@ -395,6 +395,6 @@ If not cleared after five turns it will inflict %0.2f blight damage as the larva
 Even if this disease is removed early, there is still a %d%% chance for the larvae to hatch.
 You can never have more than 5 worms active from any source at a time.
 The damage dealt will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.ACID, (damage/2)), damDesc(self, DamageType.BLIGHT, (damage/2)), damDesc(self, DamageType.BLIGHT, (burst)), chance)
+		tformat(damDesc(self, DamageType.ACID, (damage/2)), damDesc(self, DamageType.BLIGHT, (damage/2)), damDesc(self, DamageType.BLIGHT, (burst)), chance)
 	end,
 }

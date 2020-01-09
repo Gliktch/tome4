@@ -55,7 +55,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Spin around, extending your weapon and damaging all targets around you for %d%% weapon damage.]]):format(100 * self:combatTalentWeaponDamage(t, 1.4, 2.1))
+		return ([[Spin around, extending your weapon and damaging all targets around you for %d%% weapon damage.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1.4, 2.1))
 	end,
 }
 
@@ -102,7 +102,7 @@ newTalent{
 		return ([[You enter an aggressive battle stance, increasing Accuracy by %d and Physical Power by %d, at the cost of -10 Defense and -10 Armour.
 		While berserking, you are nearly unstoppable, granting you %d%% stun and pinning resistance.
 		The Accuracy bonus increases with your Dexterity, and the Physical Power bonus with your Strength.]]):
-		format( t.getAtk(self, t), t.getDam(self, t), t.getImmune(self, t)*100)
+		tformat( t.getAtk(self, t), t.getDam(self, t), t.getImmune(self, t)*100)
 	end,
 }
 
@@ -146,7 +146,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Shout your warcry in a frontal cone of radius %d. Any targets caught inside will be confused (power %d%%) for %d turns.]]):
-		format(self:getTalentRadius(t),t.getConfusion(self, t), t.getDuration(self, t))
+		tformat(self:getTalentRadius(t),t.getConfusion(self, t), t.getDuration(self, t))
 	end,
 }
 
@@ -203,7 +203,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Tries to perform a killing blow, doing %d%% weapon damage and dealing an automatic critical hit. If the target ends up with low enough life (<20%%), it might be instantly killed.
 		At level 4, it drains half your remaining stamina, and uses it to increase the blow damage by 100%% of it.
-		The chance to instantly kill will increase with your Physical Power.]]):format(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3))
+		The chance to instantly kill will increase with your Physical Power.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3))
 	end,
 }
 
@@ -251,7 +251,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned for %d turns.
 		The stun chance increases with your Physical Power.]])
-		:format(100 * self:combatTalentWeaponDamage(t, 1, 1.5), t.getDuration(self, t))
+		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5), t.getDuration(self, t))
 	end,
 }
 
@@ -317,7 +317,7 @@ newTalent{
 		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns.
 		Also if the target is protected by a temporary damage shield there is %d%% chance to shatter it.
 		Armor reduction chance increases with your Physical Power.]])
-		:format(100 * self:combatTalentWeaponDamage(t, 1, 1.5),t.getArmorReduc(self, t), t.getDuration(self, t), t.getShatter(self, t))
+		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5),t.getArmorReduc(self, t), t.getDuration(self, t), t.getShatter(self, t))
 	end,
 }
 
@@ -358,7 +358,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's Accuracy is reduced by %d for %d turns.
 		Accuracy reduction chance increases with your Physical Power.]])
-		:format(
+		:tformat(
 			100 * self:combatTalentWeaponDamage(t, 1, 1.5), 3 * self:getTalentLevel(t), t.getDuration(self, t))
 	end,
 }
@@ -399,6 +399,6 @@ newTalent{
 	info = function(self, t)
 		return ([[Enter a blood frenzy, draining stamina quickly (-2 stamina/turn). Each time you kill a foe while in the blood frenzy, you gain a cumulative bonus to Physical Power of %d.
 		Each turn, this bonus decreases by 2.]]):
-		format(t.bonuspower(self,t))
+		tformat(t.bonuspower(self,t))
 	end,
 }

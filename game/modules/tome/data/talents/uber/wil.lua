@@ -32,7 +32,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[Your body is like that of a drake, easily resisting detrimental effects.
 		For 5 turns, no detrimental effects may target you.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -141,7 +141,7 @@ uberTalent{
 
 		Additionally, your fire damage bonus and resistance penetration is set to your current highest damage bonus and resistance penetration. This applies to all fire damage you deal.
 		The damage scales with your Spellpower or Mindpower.]])
-		:format(damDesc(self, DamageType.FIRE, dam), damDesc(self, DamageType.PHYSICAL, dam), damDesc(self, DamageType.FIRE, t.getLava(self, t)))
+		:tformat(damDesc(self, DamageType.FIRE, dam), damDesc(self, DamageType.PHYSICAL, dam), damDesc(self, DamageType.FIRE, t.getLava(self, t)))
 	end,
 }
 
@@ -172,7 +172,7 @@ uberTalent{
 	end} },
 	info = function(self, t)
 		return ([[Garkul's spirit is with you. You now deal 1000%% more damage to constructs and 20%% more damage to humanoids and giants.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -196,7 +196,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[You focus your mind on the task at hand, regardless of how dire the situation is.
 		For 5 turns, none of your talents use any resources.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -216,7 +216,7 @@ uberTalent{
 	end,
 	info = function(self, t)
 		return ([[Every day is your lucky day! You gain a permanent +40 luck bonus and 10%% to move out of the way of every attack.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -232,7 +232,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[Your will is so strong that you simply ignore mental effects used against you.
 		This effect can only occur once every 5 turns.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -257,7 +257,7 @@ uberTalent{
 		Each time that you take damage from a spell, you punish the spellcaster with %0.2f mind damage.
 		Also, they will suffer a 35%% spell failure chance (with duration equal to the cooldown of the spell they used on you).
 		Note: this talent has a cooldown.]])
-		:format(damDesc(self, DamageType.MIND, 20 + self:getWil() * 2))
+		:tformat(damDesc(self, DamageType.MIND, 20 + self:getWil() * 2))
 	end,
 }
 
@@ -292,6 +292,6 @@ uberTalent{
 		return ([[Transcend the physical and rule over all with an iron will!
 		While this sustain is active, 33%% of your damage is converted into mind damage.
 		Additionally, you gain +30%% mind resistance penetration, and +10%% mind damage.]]):
-		format()
+		tformat()
 	end,
 }

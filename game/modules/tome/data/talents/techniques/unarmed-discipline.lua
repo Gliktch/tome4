@@ -103,7 +103,7 @@ newTalent{
 			At talent level 3 #DARK_ORCHID#Magical#LAST# sustains will also be effected.
 			At talent level 5 #YELLOW#Mental#LAST# sustains will also be effected.
 			Using this talent removes your combo points.]])
-		:format(damage)
+		:tformat(damage)
 	end,
 }
 
@@ -119,7 +119,7 @@ newTalent{
 		local stamina = t.getStamina(self, t)
 		local chance = t.getChance(self, t)
 		return ([[When gaining a combo point, you have a %d%% chance to gain an extra combo point. Additionally, every time you earn a combo point, you will regain %0.2f stamina, or %0.2f stamina if you would exceed 5 combo points.]])
-		:format(chance, stamina, stamina*2)
+		:tformat(chance, stamina, stamina*2)
 	end,
 }
 
@@ -151,7 +151,7 @@ newTalent{
 			Current block value: %d
 			Using this talent removes your combo points.
 			The damage absorbed scales with your Physical Power.]])
-		:format(block, block * 5, block * self:getCombo())
+		:tformat(block, block * 5, block * self:getCombo())
 	end,
 }
 
@@ -214,7 +214,7 @@ newTalent{
 		return ([[Using your deep knowledge of anatomy, you strike a target in a vital pressure point for %d%% weapon damage, bypassing their defense and evasion.
 		This strike inflicts terrible wounds inside the target's body, causing them to take physical damage equal to 100%% of any damage dealt during the attack each turn for 4 turns, increasing by %d%% each turn (so after 4 turns, they would have taken a total of %d%% damage).
 		If the target dies while under or from this effect their body will explode in a radius %d shower of bone and gore, inflicting physical damage equal to the current tick to all enemies and granting you 4 combo points.]])
-		:format(damage, mult, finaldam, radius, life)
+		:tformat(damage, mult, finaldam, radius, life)
 	end,
 }
 

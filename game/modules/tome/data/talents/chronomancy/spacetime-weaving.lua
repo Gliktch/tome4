@@ -86,7 +86,7 @@ newTalent{
 	info = function(self, t)
 		local range = self:getTalentRange(t)
 		return ([[Teleports you to up to %d tiles away, to a targeted location in line of sight.
-		At talent level 5 you may swap positions with a target creature.]]):format(range)
+		At talent level 5 you may swap positions with a target creature.]]):tformat(range)
 	end,
 }
 
@@ -122,7 +122,7 @@ newTalent{
 	info = function(self, t)
 		local reduction = t.getReduction(self, t)
 		return ([[When you teleport you reduce the duration of a single detrimental effect by %d turns.]]):
-		format(reduction)
+		tformat(reduction)
 	end,
 }
 
@@ -237,7 +237,7 @@ newTalent{
 		return ([[You fold the space between yourself and a second point within a range of %d, creating a pair of wormholes.  Any creature stepping on either wormhole will be teleported near the other (radius %d accuracy).  
 		The wormholes will last %d turns and must be placed at least two tiles apart.
 		The chance of teleporting enemies will scale with your Spellpower.]])
-		:format(range, radius, duration)
+		:tformat(range, radius, duration)
 	end,
 }
 
@@ -294,6 +294,6 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[When you teleport you fire a pulse that jolts enemies out of phase in a radius of %d around both the start and the destination point. 
 		Each target has a %d%% chance per tile you travelled to be stunned, blinded, confused, or pinned for %d turns.]]):
-		format(radius, chance, duration)
+		tformat(radius, chance, duration)
 	end,
 }

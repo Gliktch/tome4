@@ -18,11 +18,11 @@
 -- darkgod@te4.org
 
 -- race & classes
-newTalentType{ type="base/class", name = "class", hide = true, description = "The basic talents defining a class." }
-newTalentType{ type="base/race", name = "race", hide = true, description = "The various racial bonuses a character can have." }
-newTalentType{ is_nature = true, type="inscriptions/infusions", name = "infusions", hide = true, description = "Infusions are not class abilities, you must find them or learn them from other people." }
-newTalentType{ is_spell=true, no_silence=true, type="inscriptions/runes", name = "runes", hide = true, description = "Runes are not class abilities, you must find them or learn them from other people." }
-newTalentType{ is_spell=true, no_silence=true, type="inscriptions/taints", name = "taints", hide = true, description = "Taints are not class abilities, you must find them or learn them from other people." }
+newTalentType{ type="base/class", name = _t"class", hide = true, description = _t"The basic talents defining a class." }
+newTalentType{ type="base/race", name = _t"race", hide = true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ is_nature = true, type="inscriptions/infusions", name = _t"infusions", hide = true, description = _t"Infusions are not class abilities, you must find them or learn them from other people." }
+newTalentType{ is_spell=true, no_silence=true, type="inscriptions/runes", name = _t"runes", hide = true, description = _t"Runes are not class abilities, you must find them or learn them from other people." }
+newTalentType{ is_spell=true, no_silence=true, type="inscriptions/taints", name = _t"taints", hide = true, description = _t"Taints are not class abilities, you must find them or learn them from other people." }
 
 -- Load other misc things
 load("/data/talents/misc/objects.lua")
@@ -262,7 +262,7 @@ newTalent{
 	end,
 	info = function(self, t) return ([[You are hunted!.
 		There is a %d%% chance each turn that all foes in a %d radius get a glimpse of your position for 30 turns.]]):
-		format(math.min(100, 1 + self.level / 7), 10 + self.level / 5)
+		tformat(math.min(100, 1 + self.level / 7), 10 + self.level / 5)
 	end,
 }
 
@@ -371,7 +371,7 @@ newTalent{
 			local e = target.tempeffect_def[eff_id]
 			if e.status == "detrimental" and self.save_for_effects[e.type] then
 				local decrease = t.getReduction(self, t, e)
-				print(("%s: Reducing duration of %s, using %s, by %d"):format(t.name, e.desc, self.save_for_effects[e.type], decrease))
+				print(("%s: Reducing duration of %s, using %s, by %d"):tformat(t.name, e.desc, self.save_for_effects[e.type], decrease))
 				p.dur = p.dur - decrease
 				if p.dur <= 0 then todel[#todel+1] = eff_id end
 			end
@@ -385,13 +385,13 @@ newTalent{
 	info = function(self, t)
 		local eff_desc = ""
 		for e_type, fn in pairs(self.save_for_effects) do
-			eff_desc = eff_desc .. ("\n%s effect durations -%d turns"):format(e_type:capitalize(), t.getReduction(self, t, e_type))
+			eff_desc = eff_desc .. ("\n%s effect durations -%d turns"):tformat(e_type:capitalize(), t.getReduction(self, t, e_type))
 		end
 		return ([[Not the Master himself, nor all the orcs in fallen Reknor, nor even the terrifying unknown beyond Reknor's portal could slow your pursuit of the Staff of Absorption.
 		Children will hear of your relentlessness in song for years to come.
 		When activated, this ability reduces the duration of all active detrimental effects by 20%% of your associated save value or 2, whichever is greater:
 		%s]]):
-		format(eff_desc)
+		tformat(eff_desc)
 	end,
 }
 

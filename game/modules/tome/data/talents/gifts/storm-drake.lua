@@ -49,7 +49,7 @@ newTalent{
 		Any actions other than moving will stop this effect.
 		Note: since you will be moving very fast, game turns will pass very slowly.
 		Levels in Lightning Speed additionally raises your Movement Speed by %d%%, passively.
-		Each point in storm drake talents also increases your lightning resistance by 1%%.]]):format(t.getSpeed(self, t), t.getDuration(self, t), t.getPassiveSpeed(self, t)*100)
+		Each point in storm drake talents also increases your lightning resistance by 1%%.]]):tformat(t.getSpeed(self, t), t.getDuration(self, t), t.getPassiveSpeed(self, t)*100)
 	end,
 }
 
@@ -99,7 +99,7 @@ newTalent{
 			target:takeHit(dam, self)
 			self:project({type="hit", talent=t},target.x,target.y,DamageType.LIGHTNING,litdam)
 
-			game:delayedLogDamage(self, target, dam, ("#PURPLE#%d STATIC#LAST#"):format(math.ceil(dam)))
+			game:delayedLogDamage(self, target, dam, ("#PURPLE#%d STATIC#LAST#"):tformat(math.ceil(dam)))
 		end, nil, {type="lightning_explosion"})
 		game:playSoundNear(self, "talents/lightning")
 		return true
@@ -110,7 +110,7 @@ newTalent{
 		return ([[Generate an electrical field around you in a radius of %d. Any creature caught inside will lose up to %0.1f%% of its current life (%0.1f%% if the target is Elite or Rare, %0.1f%% if the target is a Unique or Boss, and %0.1f%% if they are an Elite Boss.). This life drain is irresistable, but can be saved against with physical save.
 		Additionally, it will deal %0.2f lightning damage afterwards, regardless of target rank.
 		Current life loss and lightning damage will increase with your Mindpower, and the lightning damage element can critically hit with mental critical chances.
-		Each point in storm drake talents also increases your lightning resistance by 1%%.]]):format(self:getTalentRadius(t), percent, percent/1.5, percent/2, percent/2.5, damDesc(self, DamageType.LIGHTNING, litdam))
+		Each point in storm drake talents also increases your lightning resistance by 1%%.]]):tformat(self:getTalentRadius(t), percent, percent/1.5, percent/2, percent/2.5, damDesc(self, DamageType.LIGHTNING, litdam))
 	end,
 }
 
@@ -196,7 +196,7 @@ newTalent{
 		When it reaches the target it explodes in a radius of %d, knocking back targets and dealing %0.2f lightning and %0.2f physical damage.
 		The tornado will move a maximum of 20 times.
 		Damage will increase with your Mindpower.
-		Each point in storm drake talents also increases your lightning resistance by 1%%.]]):format(damDesc(self, DamageType.LIGHTNING, t.getMoveDamage(self, t)), rad, damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		Each point in storm drake talents also increases your lightning resistance by 1%%.]]):tformat(damDesc(self, DamageType.LIGHTNING, t.getMoveDamage(self, t)), rad, damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
 	end,
 }
 
@@ -255,7 +255,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[You breathe lightning in a frontal cone of radius %d. Any target caught in the area will take %0.2f to %0.2f lightning damage (%0.2f average) and be stunned for 3 turns.
 		The damage will increase with your Strength, and the critical chance is based on your Mental crit rate, and the Stun apply power is based on your Mindpower.
-		Each point in storm drake talents also increases your lightning resistance by 1%%.]]):format(
+		Each point in storm drake talents also increases your lightning resistance by 1%%.]]):tformat(
 			self:getTalentRadius(t),
 			damDesc(self, DamageType.LIGHTNING, damage / 3),
 			damDesc(self, DamageType.LIGHTNING, damage),

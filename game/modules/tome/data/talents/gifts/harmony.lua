@@ -55,7 +55,7 @@ newTalent{
 		For %d turns, all poisons and diseases will heal you instead of damaging you.
 		When activated, it also heals you for %d life for each disease or poison you have.
 		The healing per disease/poison will increase with your Willpower.]]):
-		format(t.getdur(self,t), self:combatTalentStatDamage(t, "wil", 20, 60))
+		tformat(t.getdur(self,t), self:combatTalentStatDamage(t, "wil", 20, 60))
 	end,
 }
 
@@ -98,7 +98,7 @@ newTalent{
 		Lightning: +%d to all stats
 		Acid: +%0.2f life regen
 		Nature: +%d%% to all resists]]):
-		format(turns, turns, fire, cold, lightning, acid, nature)
+		tformat(turns, turns, fire, cold, lightning, acid, nature)
 	end,
 }
 
@@ -136,7 +136,7 @@ newTalent{
 		local turns = t.getCooldown(self, t)
 		local nb = t.getNb(self, t)
 		return ([[Commune with nature, removing the infusion saturation effect and reducing the cooldown of %d infusions by %d turns.]]):
-		format(nb, turns)
+		tformat(nb, turns)
 	end,
 }
 
@@ -176,6 +176,6 @@ newTalent{
 		On you, this effect causes each heal received to restore %d equilibrium and be %d%% effective.
 		On other creatures, all healing is intercepted and redirected to you at %d%% efficiency.
 		Only direct healing (not normal regeneration) is affected.]]):
-		format(self:getTalentRadius(t), t.getDur(self, t), t.getEquilibrium(self, t), 100 + pct, pct)
+		tformat(self:getTalentRadius(t), t.getDur(self, t), t.getEquilibrium(self, t), 100 + pct, pct)
 	end,
 }

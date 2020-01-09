@@ -80,7 +80,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Your golem rushes to the target, dealing %d%% damage and knocking it back.
 		Knockback chance will increase with talent level.
-		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):format(100 * damage)
+		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):tformat(100 * damage)
 	end,
 }
 
@@ -119,7 +119,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[The golem taunts targets in a radius of %d, forcing them to attack it.]]):format(self:getTalentRadius(t))
+		return ([[The golem taunts targets in a radius of %d, forcing them to attack it.]]):tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -182,7 +182,7 @@ newTalent{
 		return ([[Your golem rushes to the target, crushing it into the ground for %d turns and doing %d%% damage.
 		Pinning chance will increase with talent level.
 		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):
-		format(duration, 100 * damage)
+		tformat(duration, 100 * damage)
 	end,
 }
 
@@ -250,7 +250,7 @@ newTalent{
 		return ([[Your golem rushes to the target and creates a shockwave with radius 2, dazing all foes for %d turns and doing %d%% damage.
 		Daze chance increases with talent level.
 		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):
-		format(duration, 100 * damage)
+		tformat(duration, 100 * damage)
 	end,
 }
 
@@ -304,7 +304,7 @@ newTalent{
 		return ([[Your golem fires a beam from his eyes, doing %0.2f fire damage, %0.2f cold damage or %0.2f lightning damage.
 		The beam will always be the maximun range it can be and will not harm friendly creatures.
 		The damage will increase with your golem's Spellpower.]]):
-		format(damDesc(self, DamageType.FIRE, damage), damDesc(self, DamageType.COLD, damage), damDesc(self, DamageType.LIGHTNING, damage))
+		tformat(damDesc(self, DamageType.FIRE, damage), damDesc(self, DamageType.COLD, damage), damDesc(self, DamageType.LIGHTNING, damage))
 	end,
 }
 
@@ -338,7 +338,7 @@ newTalent{
 		Any damage it takes is partly reflected (%d%%) to the attacker.
 		The golem still takes full damage.
 		Damage returned will increase with your golem's Spellpower.]]):
-		format(t.getReflect(self, t))
+		tformat(t.getReflect(self, t))
 	end,
 }
 
@@ -382,7 +382,7 @@ newTalent{
 		local rad = self:getTalentRadius(t)
 		local dam = t.getDamage(self, t)
 		return ([[Your golem pulls all foes within radius %d toward itself while dealing %0.2f arcane damage.]]):
-		format(rad, dam)
+		tformat(rad, dam)
 	end,
 }
 
@@ -425,7 +425,7 @@ newTalent{
 		Burning is cumulative; the longer they stay within range, they higher the fire damage they take.
 		In addition the golem gains %d%% fire resistance.
 		Molten Skin damage will not affect friendly creatures.
-		The damage and resistance will increase with your Spellpower.]]):format(damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 12, 120)), 5 + self:getTalentLevel(t), 30 + self:combatTalentSpellDamage(t, 12, 60))
+		The damage and resistance will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 12, 120)), 5 + self:getTalentLevel(t), 30 + self:combatTalentSpellDamage(t, 12, 60))
 	end,
 }
 
@@ -455,7 +455,7 @@ newTalent{
 	info = function(self, t)
 		local rad = self:getTalentRadius(t)
 		return ([[The golem self-destructs, destroying itself and generating a blast of fire in a radius of %d, doing %0.2f fire damage.
-		This spell is only usable when the golem's master is dead.]]):format(rad, damDesc(self, DamageType.FIRE, 50 + 10 * self.level))
+		This spell is only usable when the golem's master is dead.]]):tformat(rad, damDesc(self, DamageType.FIRE, 50 + 10 * self.level))
 	end,
 }
 
@@ -476,7 +476,7 @@ newTalent{
 		local dir = self:getTalentLevelRaw(t) >= 3 and "In" or "De"
 		return ([[The golem automatically reconfigures heavy mail and massive armours designed for living creatures to protect its own vital areas.
 	%screases armour value by %d, armour hardiness by %d%%, and provides %d%% critical hit reduction when wearing heavy mail or massive armour.]]):
-		format(dir, armor, hardiness, critreduce)
+		tformat(dir, armor, hardiness, critreduce)
 	end,
 }
 
@@ -506,6 +506,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Breathe poison on your foes, doing %d damage over a few turns.
-		The damage will increase with your Magic.]]):format(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "mag", 30, 460)))
+		The damage will increase with your Magic.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "mag", 30, 460)))
 	end,
 }

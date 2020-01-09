@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 -- race & classes
-newTalentType{ type="tutorial", name = "tutorial", hide = true, description = "Tutorial-specific talents." }
+newTalentType{ type="tutorial", name = _t"tutorial", hide = true, description = _t"Tutorial-specific talents." }
 
 newTalent{
 	name = "Shove", short_name = "TUTORIAL_PHYS_KB",
@@ -70,7 +70,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local dist = self:getTalentLevel(t)
-		return ([[Conjure up a powerful magical wind, pushing the target back a distance of %d.]]):format(dist)
+		return ([[Conjure up a powerful magical wind, pushing the target back a distance of %d.]]):tformat(dist)
 	end,
 }
 

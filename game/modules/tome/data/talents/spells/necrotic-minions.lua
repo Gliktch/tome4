@@ -96,7 +96,7 @@ newTalent{
 		return ([[Emits a necrotic aura, sustaining your undead minions in a radius of %d. Minions outside the radius will lose %d%% life per turn.
 		Any creature you or your minions kill within your aura will be absorbed as a soul that can be used to raise minions.
 		Retch from your ghouls will also heal you, even if you are not undead.]]):
-		format(radius, decay)
+		tformat(radius, decay)
 	end,
 }
 
@@ -770,7 +770,7 @@ newTalent{
 		local c = getMinionChances(self)
 		local chancelist = tstring({})
 		for i, k in ipairs(minion_order) do
-			 if c[k] then chancelist:add(true,minions_list[k].name:capitalize(),(": %d%%"):format(c[k])) end
+			 if c[k] then chancelist:add(true,minions_list[k].name:capitalize(),(": %d%%"):tformat(c[k])) end
 		end
 		return chancelist:toString()
 	end,
@@ -814,7 +814,7 @@ newTalent{
 		return ([[Fires powerful undead energies through your necrotic aura. For each recent death that happened inside your aura, you will raise an undead minion (up to %d minions). These minions will be raised within a cone that extends to the edge of your necrotic aura.
 		The minions level is your level %+d.
 		Each minion has a chance to be%s:%s]]):
-		format(nb, lev, mm, t.MinionChancesDesc(self, t))
+		tformat(nb, lev, mm, t.MinionChancesDesc(self, t))
 	end,
 }
 
@@ -836,7 +836,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Your dark power radiates further as you grow stronger. Increases the radius of your necrotic aura by %d, and reduces the decay rate of your minions outside the aura by %d%%.
 		At level 3, necrotic minions inside your aura have a 25%% chance to refund their soul on death. If a minion turns into a will o' the wisp then the wisp will have that chance instead.]]):
-		format(math.floor(t.getbonusRadius(self, t)), math.min(7, self:getTalentLevelRaw(t)))
+		tformat(math.floor(t.getbonusRadius(self, t)), math.min(7, self:getTalentLevelRaw(t)))
 	end,
 }
 
@@ -872,7 +872,7 @@ newTalent{
 	info = function(self, t)
 		return ([[A surge of power radiates to all your minions, increasing their Physical Power, Spellpower and Accuracy by %d, their Armour penetration by %d and their critical hit chance by %d for 6 turns.
 		The effects will increase with your Spellpower.]]):
-		format(t.getPower(self, t), t.getAPR(self, t), t.getCrit(self, t))
+		tformat(t.getPower(self, t), t.getAPR(self, t), t.getCrit(self, t))
 	end,
 }
 
@@ -887,6 +887,6 @@ newTalent{
 		return ([[You share your powers with your minions, granting them %d%% of your resistances and saves.
 		In addition all damage done by your minions to you or your other minions is reduced by %d%%.
 		The effect will increase with your Spellpower.]]):
-		format(t.getPerc(self, t), self:getTalentLevelRaw(t) * 20)
+		tformat(t.getPerc(self, t), self:getTalentLevelRaw(t) * 20)
 	end,
 }

@@ -33,7 +33,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Improves your ghoulish body, increasing Strength and Constitution by %d.
 		Your body also becomes incredibly resilient to damage; you can never take a blow that deals more than %d%% of your maximum life.]])
-		:format(t.statBonus(self, t), t.getMaxDamage(self, t))
+		:tformat(t.statBonus(self, t), t.getMaxDamage(self, t))
 	end,
 }
 
@@ -85,7 +85,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Leap toward your target.
-		When you land your global speed is increased by %d%% for 4 turns.]]):format(t.getSpeed(self, t))
+		When you land your global speed is increased by %d%% for 4 turns.]]):tformat(t.getSpeed(self, t))
 	end,
 }
 
@@ -133,7 +133,7 @@ newTalent{
 		return ([[Vomit on the ground around you, healing any undead in the area and damaging anyone else.
 		Lasts %d turns and deals %d blight damage or heals %d life.
 		Creatures standing in the retch also have %d%% chance to remove a physical effect each turn; undeads will be stripped from a detrimental effect while others will be stripped from a beneficial effect.
-		When you stand in your own retch your racial -20%% global speed is cancelled.]]):format(t.getduration(self, t), damDesc(self, DamageType.BLIGHT, dam), dam * 1.5, t.getPurgeChance(self, t))
+		When you stand in your own retch your racial -20%% global speed is cancelled.]]):tformat(t.getduration(self, t), damDesc(self, DamageType.BLIGHT, dam), dam * 1.5, t.getPurgeChance(self, t))
 	end,
 }
 
@@ -253,6 +253,6 @@ newTalent{
 		Targets suffering from Ghoul Rot rise as friendly ghouls when slain.
 		Ghouls last for %d turns and can use Gnaw, Ghoulish Leap, Stun, and Rotting Disease.
 		The blight damage scales with your Constitution.]]):
-		format(100 * damage, duration, damDesc(self, DamageType.BLIGHT, disease_damage), ghoul_duration)
+		tformat(100 * damage, duration, damDesc(self, DamageType.BLIGHT, disease_damage), ghoul_duration)
 	end,
 }

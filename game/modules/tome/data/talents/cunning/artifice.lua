@@ -71,7 +71,7 @@ function artifice_tools_get_descs(self, t)
 		local tool, desc = self:getTalentFromId(tool_id)
 		local prepped = self.artifice_tools[t.id] == tool_id
 		if prepped then
-			desc = ("#YELLOW#%s (prepared, level %s)#LAST#:\n"):format(tool.name, self:getTalentLevelRaw(tool))
+			desc = ("#YELLOW#%s (prepared, level %s)#LAST#:\n"):tformat(tool.name, self:getTalentLevelRaw(tool))
 		else
 			desc = tool.name..":\n"
 		end
@@ -143,7 +143,7 @@ newTalent{
 
 %s
 Preparing a tool sets its talent level and puts it on cooldown.
-]]):format(self:getTalentLevelRaw(t), descs)
+]]):tformat(self:getTalentLevelRaw(t), descs)
 	end,
 }
 
@@ -176,7 +176,7 @@ newTalent{
 %s
 Preparing a tool sets its talent level and puts it on cooldown.
 Only one tool of each type can be equipped at a time.
-]]):format(self:getTalentLevelRaw(t), descs)
+]]):tformat(self:getTalentLevelRaw(t), descs)
 	end,
 }
 
@@ -209,7 +209,7 @@ newTalent{
 %s
 Preparing a tool sets its talent level and puts it on cooldown.
 Only one tool of each type can be equipped at a time.
-]]):format(self:getTalentLevelRaw(t), descs)
+]]):tformat(self:getTalentLevelRaw(t), descs)
 	end,
 }
 
@@ -271,9 +271,9 @@ newTalent{
 				local desc
 				local prepped = self.artifice_tools_mastery == tool_id
 				if prepped then
-					desc = ("#YELLOW#%s (%s)#LAST#\n"):format(tool.name, mt.name)
+					desc = ("#YELLOW#%s (%s)#LAST#\n"):tformat(tool.name, mt.name)
 				else
-					desc = ("%s (%s)\n"):format(tool.name, mt.name)
+					desc = ("%s (%s)\n"):tformat(tool.name, mt.name)
 				end
 				if mt.short_info then
 					desc = desc..mt.short_info(self, mt).."\n"
@@ -288,7 +288,7 @@ newTalent{
 
 %s
 The effects depend on this talent's level.
-Mastering a new tool places it (and its special effects, as appropriate) on cooldown.]]):format(tool, mastery_descs)
+Mastering a new tool places it (and its special effects, as appropriate) on cooldown.]]):tformat(tool, mastery_descs)
 	end,
 }
 
@@ -325,7 +325,7 @@ newTalent{
 		end	
 	end,
 	short_info = function(self, t, slot_talent)
-		return ([[Melee criticals trigger an extra unarmed attack, inflicting %d%% damage. 4 turn cooldown.]]):format(t.getDamage(self, slot_talent)*100)
+		return ([[Melee criticals trigger an extra unarmed attack, inflicting %d%% damage. 4 turn cooldown.]]):tformat(t.getDamage(self, slot_talent)*100)
 	end,
 	info = function(self, t)
 		local dam = t.getDamage(self, t)
@@ -335,7 +335,7 @@ newTalent{
 		end
 		return ([[You conceal spring loaded blades within your equipment. On scoring a critical strike, you follow up with your blades for %d%% damage (as an unarmed attack).
 This talent has a cooldown.
-#YELLOW#Prepared with: %s#LAST#]]):format(dam*100, slot)
+#YELLOW#Prepared with: %s#LAST#]]):tformat(dam*100, slot)
 	end,
 }
 
@@ -391,14 +391,14 @@ newTalent{
 		return true
 	end,
 	short_info = function(self, t)
-		return ([[You prime your Hidden Blades to cause bleeding and facilitate the Assassinate ability, which allows you to strike twice for %d%% unarmed damage, hitting automatically while ignoring armor and resistance.]]):format(t.getDamage(self, t)*100)
+		return ([[You prime your Hidden Blades to cause bleeding and facilitate the Assassinate ability, which allows you to strike twice for %d%% unarmed damage, hitting automatically while ignoring armor and resistance.]]):tformat(t.getDamage(self, t)*100)
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t) * 100
 		local bleed = t.getBleed(self,t) * 100
 		return ([[You strike your target with your Hidden Blades twice in a vital spot for %d%% unarmed (physical) damage.  You must be able to see your target to use this attack, but it always hits and ignores all armor and physical resistance.
 In addition, your hidden blades now inflict a further %d%% of all damage dealt as bleeding over 5 turns.]])
-		:format(damage, bleed)
+		:tformat(damage, bleed)
 	end,
 }
 
@@ -466,7 +466,7 @@ newTalent{
 
 	end,
 	short_info = function(self, t, slot_talent)
-		return ([[Prepare a potion that restores %d life, %d stamina, and cures %d negative physical effects. 20 turn cooldown.]]):format(t.getHeal(self, slot_talent), t.getStam(self, slot_talent), t.getCure(self, slot_talent))
+		return ([[Prepare a potion that restores %d life, %d stamina, and cures %d negative physical effects. 20 turn cooldown.]]):tformat(t.getHeal(self, slot_talent), t.getStam(self, slot_talent), t.getCure(self, slot_talent))
 	end,
 	info = function(self, t)
 	local heal = t.getHeal(self, t)
@@ -477,7 +477,7 @@ newTalent{
 		if tool_id == t.id then slot = self:getTalentFromId(slot_id).name break end
 	end
 	return ([[Imbibe a potent mixture of energizing and restorative substances, restoring %d life, %d stamina and curing %d detrimental physical effects.  The restorative effects improve with your Cunning.
-	#YELLOW#Prepared with: %s#LAST#]]):format(heal, sta, cure, slot)
+	#YELLOW#Prepared with: %s#LAST#]]):tformat(heal, sta, cure, slot)
    end,
 }
 
@@ -488,10 +488,10 @@ newTalent{
 	points = 1,
 	getDieAt = function(self, t) return self:combatTalentScale(self:getTalentFromId(self.T_MASTER_ARTIFICER), 100, 600) end,
 	short_info = function(self, t)
-		return ([[Your Rogue's Brew fortifies you for 8 turns, preventing you from dying until you reach -%d life.]]):format(t.getDieAt(self, t))
+		return ([[Your Rogue's Brew fortifies you for 8 turns, preventing you from dying until you reach -%d life.]]):tformat(t.getDieAt(self, t))
 	end,
 	info = function(self, t)
-		return ([[Adjust your Rogue's Brew formulation so that it fortifies you for 8 turns, preventing you from dying until you reach -%d life.]]):format(t.getDieAt(self,t))
+		return ([[Adjust your Rogue's Brew formulation so that it fortifies you for 8 turns, preventing you from dying until you reach -%d life.]]):tformat(t.getDieAt(self,t))
 	end,
 }
 
@@ -571,7 +571,7 @@ newTalent{
 		return true
 	end,
 	short_info = function(self, t, slot_talent)
-		return ([[Throw a smokebomb creating a radius 2 cloud of smoke, lasting %d turns, that blocks sight and reduces enemies' vision by %d. 15 turn cooldown.]]):format(t.getDuration(self, slot_talent), t.getSightLoss(self, slot_talent))
+		return ([[Throw a smokebomb creating a radius 2 cloud of smoke, lasting %d turns, that blocks sight and reduces enemies' vision by %d. 15 turn cooldown.]]):tformat(t.getDuration(self, slot_talent), t.getSightLoss(self, slot_talent))
 	end,
 	info = function(self, t)
 		local slot = "not prepared"
@@ -581,7 +581,7 @@ newTalent{
 		return ([[Throw a vial of volatile liquid that explodes in a radius %d cloud of smoke lasting %d turns.  The smoke blocks line of sight, and enemies within will have their vision range reduced by %d.
 		Use of this talent will not break stealth, and creatures affected by the smokes can never prevent you from activating stealth, even if their proximity would normally forbid it.
 		#YELLOW#Prepared with: %s#LAST#]]):
-		format(self:getTalentRadius(t), t.getDuration(self, t), t.getSightLoss(self,t), slot)
+		tformat(self:getTalentRadius(t), t.getDuration(self, t), t.getSightLoss(self,t), slot)
 	end,
 }
 
@@ -592,11 +592,11 @@ newTalent{
 	mode = "passive",
 	getDamage = function (self, t) return 30 + self:combatTalentStatDamage(self:getTalentFromId(self.T_MASTER_ARTIFICER), "cun", 10, 150) end,
 	short_info = function(self, t)
-		return ([[Your Smokescreen is infused with chokedust. Enemies in the smoke take %0.2f nature damage and may be silenced.]]):format(t.getDamage(self, t))
+		return ([[Your Smokescreen is infused with chokedust. Enemies in the smoke take %0.2f nature damage and may be silenced.]]):tformat(t.getDamage(self, t))
 	end,
 	info = function(self, t)
 		return ([[You infuse your smoke bomb with chokedust. Each turn, enemies in the smoke take %0.2f nature damage and are 50%% likely to be silenced.]]):
-		format(damDesc(self, DamageType.NATURE, t.getDamage(self,t)))
+		tformat(damDesc(self, DamageType.NATURE, t.getDamage(self,t)))
 	end,
 }
 
@@ -647,7 +647,7 @@ newTalent{
 		return true
 	end,
 	short_info = function(self, t, slot_talent)
-		return ([[Fire a poisoned dart dealing %0.2f physical damage that puts the target to sleep for 4 turns. 10 turn cooldown.]]):format(t.getDamage(self, slot_talent))
+		return ([[Fire a poisoned dart dealing %0.2f physical damage that puts the target to sleep for 4 turns. 10 turn cooldown.]]):tformat(t.getDamage(self, slot_talent))
 	end,
 	info = function(self, t)
 		local dam = t.getDamage(self,t)
@@ -659,7 +659,7 @@ newTalent{
 		return ([[Fire a poisoned dart from a silent, concealed launcher on your person that deals %0.2f physical damage and puts the target (living only) to sleep for 4 turns, rendering them unable to act. Every %d points of damage the target takes brings it closer to waking by 1 turn.
 This can be used without breaking stealth.
 #YELLOW#Prepared with: %s#LAST#]]):
-	format(damDesc(self, DamageType.PHYSICAL, dam), power, slot)
+	tformat(damDesc(self, DamageType.PHYSICAL, dam), power, slot)
 	end,
 }
 
@@ -670,11 +670,11 @@ newTalent{
 	points = 1,
 	getSlow = function(self, t) return self:combatTalentLimit(self:getTalentFromId(self.T_MASTER_ARTIFICER), 50, 15, 40)/100 end,
 	short_info = function(self, t)
-		return ([[Your darts ignore poison and sleep immunity and waking targets are slowed by %d%% for 4 turns.]]):format(t.getSlow(self, t)*100)
+		return ([[Your darts ignore poison and sleep immunity and waking targets are slowed by %d%% for 4 turns.]]):tformat(t.getSlow(self, t)*100)
 	end,
 	info = function(self, t)
 		return ([[The sleeping poison of your Dart Launcher becomes potent enough to ignore immunity, and upon waking the target is slowed by %d%% for 4 turns.]]):
-		format(t.getSlow(self, t)*100)
+		tformat(t.getSlow(self, t)*100)
 	end,
 }
 
@@ -702,7 +702,7 @@ newTalent{
 		end
 		local ok = true
 		self:project(tg, x, y, function(px, py)
-			print(("Grappling hook projection at (%s, %s) vs target (%s, %s)"):format(px, py, x, y))
+			print(("Grappling hook projection at (%s, %s) vs target (%s, %s)"):tformat(px, py, x, y))
 			local target = game.level.map(px, py, engine.Map.ACTOR)
 
 			if target then -- hook actor
@@ -789,7 +789,7 @@ newTalent{
 		return ok
 	end,
 	short_info = function(self, t, slot_talent)
-		return ([[Throw a grappling hook up to range %d that drags you towards the target or the target towards you. 8 turn cooldown.]]):format(t.range(self, slot_talent))
+		return ([[Throw a grappling hook up to range %d that drags you towards the target or the target towards you. 8 turn cooldown.]]):tformat(t.range(self, slot_talent))
 	end,
 	info = function(self, t)
 		local range = t.range(self,t)
@@ -800,7 +800,7 @@ newTalent{
 		return ([[Toss out a grappling hook to a target within range %d.  If this strikes either a wall or a creature that is immovable or larger than you, you will pull yourself towards it, otherwise, you will drag the target towards you.  Creatures struck by the hook will be pinned for 2 turns.
 		Your grapple target must be at least 2 tiles from you.
 #YELLOW#Prepared with: %s#LAST#]]):
-	format(range, slot)
+	tformat(range, slot)
 	end,
 }
 
@@ -812,11 +812,11 @@ newTalent{
 	getDamage = function (self, t) return self:combatTalentWeaponDamage(self:getTalentLevel(self.T_MASTER_ARTIFICER), 1.0, 1.9) end,
 	getSecondaryDamage = function (self, t) return 30 + self:combatTalentStatDamage(self:getTalentFromId(self.T_MASTER_ARTIFICER), "cun", 15, 200) end,
 	short_info = function(self, t)
-		return ([[Your grappling hook deals %d%% unarmed damage when it hits, plus a further %0.2f physical and %0.2f nature damage over 4 turns.]]):format(t.getDamage(self, t)*100, damDesc(self, DamageType.PHYSICAL, t.getSecondaryDamage(self,t)), damDesc(self, DamageType.NATURE, t.getSecondaryDamage(self,t)))
+		return ([[Your grappling hook deals %d%% unarmed damage when it hits, plus a further %0.2f physical and %0.2f nature damage over 4 turns.]]):tformat(t.getDamage(self, t)*100, damDesc(self, DamageType.PHYSICAL, t.getSecondaryDamage(self,t)), damDesc(self, DamageType.NATURE, t.getSecondaryDamage(self,t)))
 	end,
 	info = function(self, t)
 		return ([[Your grappling hook is tipped with vicious, venomous barbs. Creatures struck by it will be hit for %d%% unarmed damage, bleed for %0.2f physical damage and be poisoned for %0.2f nature damage over 4 turns.]]):
-		format(t.getDamage(self, t)*100, damDesc(self, DamageType.PHYSICAL, t.getSecondaryDamage(self,t)), damDesc(self, DamageType.NATURE, t.getSecondaryDamage(self,t)))
+		tformat(t.getDamage(self, t)*100, damDesc(self, DamageType.PHYSICAL, t.getSecondaryDamage(self,t)), damDesc(self, DamageType.NATURE, t.getSecondaryDamage(self,t)))
 	end,
 }
 -- idea: Flash powder tool: Set off a bright flash with smoke and "phase-door" to a nearby spot.  Mastery: triggers stealth and makes NPC's in LOS lose track.

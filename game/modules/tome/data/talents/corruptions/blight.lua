@@ -43,7 +43,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Increases your spell critical damage multiplier by %d%%.
 		The multiplier will increase with your Spellpower.]]):
-		format(self:combatTalentSpellDamage(t, 20, 50))
+		tformat(self:combatTalentSpellDamage(t, 20, 50))
 	end,
 }
 
@@ -113,7 +113,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Project a corrupted blast of power that deals %0.2f blight damage and removes up to %d magical or physical effects or any type of sustain from any creatures caught in the radius 3 ball.
 		For each effect, the creature has a chance to resist based on its spell save.
-		The damage will increase with your Spellpower.]]):format(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 28, 120)), t.getRemoveCount(self, t))
+		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 28, 120)), t.getRemoveCount(self, t))
 	end,
 }
 
@@ -146,7 +146,7 @@ newTalent{
 		return ([[Infects the target with a corrosive worm for 6 turns that reduces blight and acid resistance by %d%% and feeds off damage taken.
 		When this effect ends or the target dies the worm will explode, dealing %d acid damage in a 4 radius ball. This damage will increase by %d%% of all damage taken while infected.
 		The damage dealt by the effect will increase with spellpower.]]):
-		format(t.getResist(self,t), t.getDamage(self, t), t.getPercent(self, t))
+		tformat(t.getResist(self,t), t.getDamage(self, t), t.getPercent(self, t))
 	end,
 }
 
@@ -215,6 +215,6 @@ newTalent{
 		Each possible effect is equally likely.
 		The poison damage dealt is capable of a critical strike.
 		The damage will increase with your Spellpower.]]):
-		format(self:getTalentRadius(t), t.getDuration(self, t), dam/4, dam, heal_factor, power, fail)
+		tformat(self:getTalentRadius(t), t.getDuration(self, t), dam/4, dam, heal_factor, power, fail)
 	end,
 }

@@ -107,7 +107,7 @@ newTalent{
 		return ([[Fires a beam that turns matter into dust, inflicting %0.2f temporal damage and %0.2f physical (warp) damage.
 		Alternatively you may target yourself, creating a field of radius %d around you that will inflict the damage over three turns.
 		The damage will scale with your Spellpower.]]):
-		format(damDesc(self, DamageType.TEMPORAL, damage / 2), damDesc(self, DamageType.PHYSICAL, damage / 2), radius)
+		tformat(damDesc(self, DamageType.TEMPORAL, damage / 2), damDesc(self, DamageType.PHYSICAL, damage / 2), radius)
 	end,
 }
 
@@ -150,7 +150,7 @@ newTalent{
 		local immune = t.getImmunity(self, t) * 100
 		return ([[Weave matter into your flesh, becoming incredibly resilient to damage.  While active you gain %d armour, %d%% resistance to stunning, and %d%% resistance to cuts.
 		The bonus to armour will scale with your Magic.]]):
-		format(armor, immune, immune)
+		tformat(armor, immune, immune)
 	end,
 }
 
@@ -255,7 +255,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Create a tightly bound matter wall of up to a length of %d that lasts %d turns.
 		If any part of this wall is dug out it will explode, causing targets in a radius of %d to bleed for %0.2f physical damage over six turns.]])
-		:format(length, duration, radius, damDesc(self, DamageType.PHYSICAL, damage))
+		:tformat(length, duration, radius, damDesc(self, DamageType.PHYSICAL, damage))
 	end,
 }
 
@@ -333,6 +333,6 @@ newTalent{
 		return ([[While active your physical and temporal damage has a %d%% chance to remove one beneficial physical or magical temporary effect (respectively) from targets you hit.
 		Only one physical and one magical effect may be removed per turn from each target.
 		Additionally your Dust to Dust spell now digs up to %d tiles into walls.]]):
-		format(chance, digs)
+		tformat(chance, digs)
 	end,
 }

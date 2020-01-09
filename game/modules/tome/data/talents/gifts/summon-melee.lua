@@ -53,7 +53,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Ooze over the floor, spreading caustic jelly in a radius of 1 lasting %d turns and dealing %d nature damage per turn to hostile creatures caught within.]]):format(duration, damDesc(self, DamageType.NATURE, damage))
+		return ([[Ooze over the floor, spreading caustic jelly in a radius of 1 lasting %d turns and dealing %d nature damage per turn to hostile creatures caught within.]]):tformat(duration, damDesc(self, DamageType.NATURE, damage))
 	end,
 }
 
@@ -68,7 +68,7 @@ newTalent{
 		self:talentTemporaryValue(p, "clone_on_hit", {min_dam_pct=t.getDamage(self,t), chance=t.getChance(self,t)})
 	end,
 	info = function(self, t)
-		return ([[%d%% chance to split upon taking a single hit dealing at least %d%% of your maximum life.]]):format(t.getChance(self, t), t.getDamage(self, t))
+		return ([[%d%% chance to split upon taking a single hit dealing at least %d%% of your maximum life.]]):tformat(t.getChance(self, t), t.getDamage(self, t))
 	end,
 }
 
@@ -178,7 +178,7 @@ newTalent{
 		It will get %d Strength, %d Dexterity and %d Constitution.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		The hound's Strength and Dexterity will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.str, incStats.dex, incStats.con)
+		:tformat(t.summonTime(self, t), incStats.str, incStats.dex, incStats.con)
 	end,
 }
 
@@ -299,7 +299,7 @@ newTalent{
 		It will get %d Constitution and %d Strength.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		The jelly's Constitution will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.con, incStats.str)
+		:tformat(t.summonTime(self, t), incStats.con, incStats.str)
        end,
 }
 
@@ -414,7 +414,7 @@ newTalent{
 		It will get %d Strength, %d Constitution and %d Dexterity.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		The minotaur's Strength and Dexterity will increase with your Mindpower.]])
-		:format(t.summonTime(self,t), incStats.str, incStats.con, incStats.dex)
+		:tformat(t.summonTime(self,t), incStats.str, incStats.con, incStats.dex)
 	end,
 }
 
@@ -535,6 +535,6 @@ newTalent{
 		It will get %d Strength, %d Constitution and %d Dexterity.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		The golem's Strength and Dexterity will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.str, incStats.con, incStats.dex)
+		:tformat(t.summonTime(self, t), incStats.str, incStats.con, incStats.dex)
 	end,
 }

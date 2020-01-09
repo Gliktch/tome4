@@ -93,7 +93,7 @@ newTalent{
 		You may block multiple damage types at one time, but the base damage threshold increases by 15%% per damage type the shield is already blocking.
 		If you block all of an attack's damage, the attacker will be vulnerable to a deadly counterstrike (a normal melee or ranged attack will instead deal 200%% damage) for one turn.
 		At talent level 5, the block effect will last two turns.
-		This damage reduction scales with your Mindpower.]]):format(power, dur)
+		This damage reduction scales with your Mindpower.]]):tformat(power, dur)
 	end,
 }
 
@@ -190,7 +190,7 @@ newTalent{
 		return ([[Release the bellows of the forge upon your surroundings, inflicting %0.2f mind damage, %0.2f burning damage, and knocking back your enemies in a radius %d cone.
 		Empty terrain may be changed (50%% chance) for %d turns into forge walls, which block movement and inflict %0.2f mind and %0.2f fire damage on nearby enemies.
 		The damage and knockback chance will scale with your Mindpower.]]):
-		format(damDesc(self, DamageType.MIND, blast_damage), damDesc(self, DamageType.FIRE, blast_damage), radius, duration, damDesc(self, DamageType.MIND, forge_damage), damDesc(self, DamageType.FIRE, forge_damage))
+		tformat(damDesc(self, DamageType.MIND, blast_damage), damDesc(self, DamageType.FIRE, blast_damage), radius, duration, damDesc(self, DamageType.MIND, forge_damage), damDesc(self, DamageType.FIRE, forge_damage))
 	end,
 }
 
@@ -208,7 +208,7 @@ newTalent{
 		local defense = t.getDefense(self, t)
 		local psi = t.getPsiRegen(self, t)
 		return([[Your Forge Shield talent now increases your Armour by %d, your Defense by %d, and gives you %0.2f psi when you're hit by a melee or ranged attack.
-		The bonuses will scale with your Mindpower.]]):format(armor, defense, psi)
+		The bonuses will scale with your Mindpower.]]):tformat(armor, defense, psi)
 	end,
 }
 
@@ -281,6 +281,6 @@ newTalent{
 		At this point you'll begin breaking the dreams of enemies who hear the forge, reducing their Mental Save by %d and giving them a %d%% chance of spell failure due to the tremendous echo in their minds for %d turns.
 		Broken Dreams has a %d%% chance to brainlock your enemies.
 		The damage and dream breaking effect will scale with your Mindpower.]]):
-		format(radius, damDesc(self, DamageType.MIND, damage), damDesc(self, DamageType.FIRE, damage), power, fail, duration, chance)
+		tformat(radius, damDesc(self, DamageType.MIND, damage), damDesc(self, DamageType.FIRE, damage), power, fail, duration, chance)
 	end,
 }

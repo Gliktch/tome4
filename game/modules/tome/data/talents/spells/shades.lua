@@ -66,7 +66,7 @@ newTalent{
 		local chance = t.getChance(self, t)
 		return ([[Surround your minions in a veil of darkness. The darkness will teleport them to you, and grant them %d%% evasion for 5 turns.
 		The evasion chance will increase with your Spellpower.]]):
-		format(chance)
+		tformat(chance)
 	end,
 }
 
@@ -163,7 +163,7 @@ newTalent{
 		return ([[Reaches through the shadows into quieter places, summoning %d harmless creatures.
 		Those creatures are then cursed with a Curse of Hate, making all hostile foes try to kill them.
 		If the summoned creatures are killed by hostile foes, you have 70%% chance to gain a soul.]]):
-		format(math.ceil(self:getTalentLevel(t)))
+		tformat(math.ceil(self:getTalentLevel(t)))
 	end,
 }
 
@@ -200,7 +200,7 @@ newTalent{
 			ai_target = {actor=table.NIL_MERGE},
 			ai = "summoned", ai_real = "tactical",
 			name = "Forgery of Haze ("..self.name..")",
-			desc = ([[A dark shadowy shape whose form resembles %s.]]):format(self.name),
+			desc = ([[A dark shadowy shape whose form resembles %s.]]):tformat(self.name),
 		})
 
 		m:removeTimedEffectsOnClone()
@@ -226,7 +226,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Through the shadows, you forge a temporary copy of yourself, existing for %d turns.
 		The copy possesses your exact talents and stats, has %d%% life and deals %d%% damage.]]):
-		format(t.getDuration(self, t), t.getHealth(self, t) * 100, t.getDam(self, t) * 100)
+		tformat(t.getDuration(self, t), t.getHealth(self, t) * 100, t.getDam(self, t) * 100)
 	end,
 }
 
@@ -273,6 +273,6 @@ newTalent{
 		local affinity = t.getAffinity(self, t)
 		return ([[Surround yourself with Frostdusk, increasing all your darkness and cold damage by %0.1f%%, and ignoring %d%% of the darkness resistance of your targets.
 		In addition, all darkness damage you take heals you for %d%% of the damage.]])
-		:format(damageinc, ressistpen, affinity)
+		:tformat(damageinc, ressistpen, affinity)
 	end,
 }

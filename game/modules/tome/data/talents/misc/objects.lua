@@ -17,12 +17,12 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-newTalentType{ no_silence=true, is_spell=true, type="sher'tul/fortress", name = "fortress", description = "Yiilkgur abilities." }
-newTalentType{ no_silence=true, is_spell=true, type="spell/objects", name = "object spells", description = "Spell abilities of the various objects of the world." }
-newTalentType{ no_silence=true, type="other/objects", name = "object powers", description = "Abilities of the various objects of the world." }
-newTalentType{ type="technique/objects", name = "object techniques", description = "Techniques of the various objects of the world." }
-newTalentType{ type="wild-gift/objects", name = "object techniques", description = "Wild gifts of the various objects of the world." }
-newTalentType{ type="misc/objects", name = "object techniques", description = "Powers of the various objects of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="sher'tul/fortress", name = _t"fortress", description = _t"Yiilkgur abilities." }
+newTalentType{ no_silence=true, is_spell=true, type="spell/objects", name = _t"object spells", description = _t"Spell abilities of the various objects of the world." }
+newTalentType{ no_silence=true, type="other/objects", name = _t"object powers", description = _t"Abilities of the various objects of the world." }
+newTalentType{ type="technique/objects", name = _t"object techniques", description = _t"Techniques of the various objects of the world." }
+newTalentType{ type="wild-gift/objects", name = _t"object techniques", description = _t"Wild gifts of the various objects of the world." }
+newTalentType{ type="misc/objects", name = _t"object techniques", description = _t"Powers of the various objects of the world." }
 
 --local oldTalent = newTalent
 --local newTalent = function(t) if type(t.hide) == "nil" then t.hide = true end return oldTalent(t) end
@@ -102,7 +102,7 @@ newTalent{
 	info = function(self, t)
 		local count = t.getRemoveCount(self, t)
 		return ([[Removes up to %d detrimental magical effects and empowers you with arcane energy for ten turns, increasing spellpower and spell save by 5 plus 5 per effect removed.]]):
-		format(count)
+		tformat(count)
 	end,
 }
 
@@ -114,7 +114,7 @@ newTalent{
 	no_unlearn_last = true,
 	no_npc_use = true,
 	message = function(self, t)
-		return ("@Source@ refocuses the energies of %s mindstar."):format(self:his_her())
+		return ("@Source@ refocuses the energies of %s mindstar."):tformat(self:his_her())
 	end,
 	action = function(self, t)
 		local apply = function(o)
@@ -146,7 +146,7 @@ newTalent{
 	no_unlearn_last = true,
 	on_unlearn = function(self, t) self.ai_state._pref_staff_element = nil end,
 	message = function(self, t)
-		return ("@Source@ refocuses the energies of %s staff."):format(self:his_her())
+		return ("@Source@ refocuses the energies of %s staff."):tformat(self:his_her())
 	end,
 	tactical = {BUFF = function(self, t, aitarget)
 			if self.ai_state._pref_staff_element == false then return end
@@ -228,7 +228,7 @@ newTalent{
 			end
 		end
 		return ([[Bring a damage-type-specific ward into being. The ward will fully negate as many attacks of its element as it has charges.
-		You can activate the following wards: %s]]):format(#xs>0 and xs or "None")
+		You can activate the following wards: %s]]):tformat(#xs>0 and xs or "None")
 	end,
 }
 
@@ -325,7 +325,7 @@ newTalent{
 		local ref_text = ""
 		local br_text = ""
 		if properties.sp then
-			sp_text = (" Increases your spell save by %d for that turn."):format(t.getBlockValue(self, t))
+			sp_text = (" Increases your spell save by %d for that turn."):tformat(t.getBlockValue(self, t))
 		end
 		if properties.ref then
 			ref_text = " Reflects all blocked damage back to the source."
@@ -340,7 +340,7 @@ newTalent{
 			If the shield has damage resistance to the blocked damage type the block value is increased by 50%%.
 			
 			Current Bonuses:  %s%s%s%s]]):
-			format(t.getBlockValue(self, t), bt_string, sp_text, ref_text, br_text)
+			tformat(t.getBlockValue(self, t), bt_string, sp_text, ref_text, br_text)
 	end,
 }
 
@@ -359,7 +359,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Call upon the power of nature to regenerate your body for %d life every turn for 6 turns.
-		The life healed will increase with the Willpower stat.]]):format(7 + self:getWil() * 0.5)
+		The life healed will increase with the Willpower stat.]]):tformat(7 + self:getWil() * 0.5)
 	end,
 }
 
@@ -431,7 +431,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[The target has a %d%% chance (stacking to a maximum of %d%%) to fail to cast any spell.  At level 2 magical effects may be disrupted, at level 3 magical sustains may be disrupted, and at level 5 magical constructs and undead may be stunned.]]):format(t.getpower(self, t),t.maxpower(self,t))
+		return ([[The target has a %d%% chance (stacking to a maximum of %d%%) to fail to cast any spell.  At level 2 magical effects may be disrupted, at level 3 magical sustains may be disrupted, and at level 5 magical constructs and undead may be stunned.]]):tformat(t.getpower(self, t),t.maxpower(self,t))
 	end,
 }
 
@@ -540,7 +540,7 @@ newTalent{
 	info = function(self, t)
 		local best = t.findBest(self, t) or {digspeed=100}
 		return ([[Dig/cut a tree/...
-		Digging takes %d turns (based on your currently best digger available).]]):format(best.digspeed)
+		Digging takes %d turns (based on your currently best digger available).]]):tformat(best.digspeed)
 	end,
 }
 
@@ -570,7 +570,7 @@ newTalent{
 		return ([[You absorb latent cold around you, turning into an ice elemental - a shivgoroth - for %d turns.
 		While transformed, you do not need to breathe, gain access to the Ice Storm talent at level %d, gain %d%% resistance to cuts and stuns, gain %d%% cold resistance, and all cold damage heals you for %d%% of the damage done.
 		The power will increase with your Spellpower.]]):
-		format(dur, self:getTalentLevelRaw(t), power * 100, power * 100 / 2, 50 + power * 100)
+		tformat(dur, self:getTalentLevelRaw(t), power * 100, power * 100 / 2, 50 + power * 100)
 	end,
 }
 
@@ -670,7 +670,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Raise your dagger into blocking position for one turn, reducing the damage of all physical melee attacks against you by %d. If you block all of an attack's damage, the attacker will be vulnerable to a deadly counterstrike (a normal attack will instead deal 200%% damage) for one turn and be left disarmed for 3 turns.
-		The blocking value will increase with your Dexterity and Cunning.]]):format(t.getPower(self, t))
+		The blocking value will increase with your Dexterity and Cunning.]]):tformat(t.getPower(self, t))
 	end,
 }
 
@@ -720,7 +720,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[For the next 8 turns, powerful blasts of psionic energies will erupt from you, doing %d damage.]]):format(t.getDamage(self, t))
+		return ([[For the next 8 turns, powerful blasts of psionic energies will erupt from you, doing %d damage.]]):tformat(t.getDamage(self, t))
 	end,
 }
 

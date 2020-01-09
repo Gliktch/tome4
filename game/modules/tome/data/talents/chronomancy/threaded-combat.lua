@@ -143,7 +143,7 @@ newTalent{
 		return ([[Attack with your bow or dual-weapons for %d%% damage.  If you shoot an arrow you'll teleport near the target location.  If you use your dual-weapons you'll teleport up to your bow's range away.
 		Additionally you now go Out of Phase for five turns after any teleport, gaining %d defense and %d%% resist all.
 		The Out of Phase bonuses will scale with your Magic stat.]])
-		:format(damage, defense, resist)
+		:tformat(damage, defense, resist)
 	end
 }
 
@@ -201,7 +201,7 @@ newTalent{
 		return ([[Each time you hit with an arrow you reduce the cooldown of one Blade Threading talent on cooldown by one turn.
 		Each time you hit with a melee weapon you reduce the cooldown of one Bow Threading talent on cooldown by one turn.
 		This effect can only occur %d times per turn.]])
-		:format(count)
+		:tformat(count)
 	end
 }
 
@@ -258,7 +258,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t) * 100
 		return ([[Attack with your bow or dual-weapons for %d%% damage.  If you use your bow you'll shoot all targets in a beam.  If you use your dual-weapons you'll attack all targets within a radius of one around you.]])
-		:format(damage)
+		:tformat(damage)
 	end
 }
 
@@ -427,6 +427,6 @@ newTalent{
 		The summoned warden will attempt a melee attack if you made an arrow attack, or an arrow attack if you made a melee attack.
 		These wardens are out of phase with your reality and deal %d%% less damage, and their arrows will pass through friendly targets.
 		A warden can only be summoned this way once per turn and they return to their own timeline after attacking.]])
-		:format(t.getChance(self, t), t.getDamagePenalty(self, t))
+		:tformat(t.getChance(self, t), t.getDamagePenalty(self, t))
 	end
 }

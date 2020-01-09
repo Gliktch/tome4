@@ -189,7 +189,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Interact with your golem to check its inventory, talents, ...
 		Note: You can also do that while taking direct control of the golem.]]):
-		format()
+		tformat()
 	end,
 }
 
@@ -337,7 +337,7 @@ newTalent{
 		return ([[Take care of your golem:
 		- If it is destroyed, you will take some time to reconstruct it (this takes 15 alchemist gems and 20 turns).
 		- If it is alive but hurt, you will be able to repair it for %d (takes 2 alchemist gems). Spellpower, alchemist gem and Golem Power talent all influence the healing done.]]):
-		format(heal)
+		tformat(heal)
 	end,
 }
 
@@ -382,7 +382,7 @@ newTalent{
 		local damage = td.getPercentInc(self.alchemy_golem, td)
 		self.alchemy_golem.talents[Talents.T_WEAPON_COMBAT], self.alchemy_golem.talents[Talents.T_WEAPONS_MASTERY] = olda, oldd
 		return ([[Improves your golem's proficiency with weapons, increasing its Accuracy by %d, Physical Power by %d and damage by %d%%.]]):
-		format(attack, power, 100 * damage)
+		tformat(attack, power, 100 * damage)
 	end,
 }
 
@@ -423,7 +423,7 @@ newTalent{
 		return ([[Improves your golem's armour training, damage resistance, and healing efficiency.
 		Increases all damage resistance by %d%%; increases Armour value by %d, Armour hardiness by %d%%, reduces chance to be critically hit by %d%% when wearing heavy mail or massive plate armour, and increases healing factor by %d%%.
 		The golem can always use any kind of armour, including massive armours.]]):
-		format(res, heavyarmor, hardiness, crit, t.getHealingFactor(self, t)*100)
+		tformat(res, heavyarmor, hardiness, crit, t.getHealingFactor(self, t)*100)
 	end,
 }
 
@@ -461,7 +461,7 @@ newTalent{
 	info = function(self, t)
 		local power=t.getPower(self, t)
 		return ([[You invoke your golem to your side, granting it a temporary melee power increase of %d for 5 turns.]]):
-		format(power)
+		tformat(power)
 	end,
 }
 
@@ -505,6 +505,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Teleport to your golem, while your golem teleports to your location. Your foes will be confused, and those that were attacking you will have a %d%% chance to target your golem instead.]]):
-		format(math.min(100, self:getTalentLevelRaw(t) * 15 + 25))
+		tformat(math.min(100, self:getTalentLevelRaw(t) * 15 + 25))
 	end,
 }

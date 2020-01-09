@@ -31,7 +31,7 @@ uberTalent{
 	end,
 	info = function(self, t)
 		return ([[Your body hardens and recovers quickly. When pushed below 30%% life, you instantly restore 40%% of your total life.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -60,7 +60,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[When a single blow deals more than 15%% of your total life, a torrent of blood gushes from your body, creating a bloody tidal wave for 4 turns that deals %0.2f blight damage, heals you for 50%% of the damage done, and knocks foes back.
 		The damage increases with your Constitution.]])
-		:format(100 + self:getCon() * 3)
+		:tformat(100 + self:getCon() * 3)
 	end,
 }
 
@@ -70,7 +70,7 @@ uberTalent{
 	require = { special={desc="Know the Block talent", fct=function(self) return self:knowTalent(self.T_BLOCK) end} },
 	info = function(self, t)
 		return ([[Your Block talent now lasts for 2 game turns and you can apply Counterstrike to any number of enemies.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -91,7 +91,7 @@ uberTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[While this talent is active, you dig deep into your stamina reserves, allowing you to move without taking a turn. However, this costs 12 stamina for each tile that you cross.]]):format()
+		return ([[While this talent is active, you dig deep into your stamina reserves, allowing you to move without taking a turn. However, this costs 12 stamina for each tile that you cross.]]):tformat()
 	end,
 }
 
@@ -115,7 +115,7 @@ uberTalent{
 		Any time you deal darkness damage, you will unlight both the target tile and yours.
 		Passively increases your stealth rating by %d.
 		The armor bonus scales with your Constitution.]])
-		:format(t.ArmourBonus(self,t), t.getStealth(self, t))
+		:tformat(t.ArmourBonus(self,t), t.getStealth(self, t))
 	end,
 }
 
@@ -128,7 +128,7 @@ uberTalent{
 	end,
 	info = function(self, t)
 		return ([[Your back is as hard as stone. Each time that you are affected by a physical effect, your body hardens, making you immune to all other physical effects for 5 turns.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -168,7 +168,7 @@ uberTalent{
 		You may use this prodigy to release the power as a heal (never more than %d life) and remove up to 10 detrimental magical effects.
 		Fungal power lasts for up to 6 turns, losing the greater of 10 potency or 10%% of its power each turn.
 		The amount of fungal power produced and the maximum heal possible increase with your Constitution and maximum life.]])
-		:format(t.fungalPower(self, t), t.healmax(self,t))
+		:tformat(t.fungalPower(self, t), t.healmax(self,t))
 	end,
 }
 
@@ -195,6 +195,6 @@ uberTalent{
 		return ([[Thanks to your newfound knowledge of corruption, you've learned some tricks for toughening your body... but only if you are healthy enough to withstand the strain from the changes.
 		Improves your life by 500, your defense by %d, your armour by %d, your armour hardiness by 20%% and your saves by %d as your natural toughness and reflexes are pushed beyond their normal limits.
 		Your saves armour and defense will improve with your Constitution.]])
-		:format(self:getCon() / 3, self:getCon() / 3.5, self:getCon() / 3)
+		:tformat(self:getCon() / 3, self:getCon() / 3.5, self:getCon() / 3)
 	end,
 }

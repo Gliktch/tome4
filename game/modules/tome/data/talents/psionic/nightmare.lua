@@ -83,7 +83,7 @@ newTalent{
 		return([[Puts targets in a radius %d cone into a nightmarish sleep for %d turns, rendering them unable to act.  Every %d points of damage the target suffers will reduce the effect duration by one turn.
 		Each turn, they'll suffer %0.2f darkness damage.  This damage will not reduce the duration of the effect.
 		When Nightmare ends, the target will suffer from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it %d%% sleep immunity for each turn of the Insomnia effect.
-		The damage threshold and mind damage will scale with your Mindpower.]]):format(radius, duration, power, damDesc(self, DamageType.DARKNESS, (damage)), insomnia)
+		The damage threshold and mind damage will scale with your Mindpower.]]):tformat(radius, duration, power, damDesc(self, DamageType.DARKNESS, (damage)), insomnia)
 	end,
 }
 
@@ -185,7 +185,7 @@ newTalent{
 		return ([[Brings the target's inner demons to the surface.  Each turn, for %d turns, there's a %d%% chance that a demon will surface, requiring the target to make a Mental Save to keep it from manifesting.
 		If the target is sleeping, the chance to save will be halved, and fear immunity will be ignored.  Otherwise, if the summoning is resisted, the effect will end early.
 		The summon chance will scale with your Mindpower and the demon's life will scale with the target's rank.
-		If a demon manifests the sheer terror will remove all sleep effects from the victim, but not the Inner Demons.]]):format(duration, chance)
+		If a demon manifests the sheer terror will remove all sleep effects from the victim, but not the Inner Demons.]]):tformat(duration, chance)
 	end,
 }
 
@@ -235,7 +235,7 @@ newTalent{
 		return ([[Inflicts %0.2f darkness damage each turn for %d turns, and has a %d%% chance to randomly cause blindness, stun, or confusion (lasting 3 turns).
 		If the target is sleeping, the chance of avoiding a negative effect will be halved and fear immunity will be ignored.
 		The damage will scale with your Mindpower.]]):
-		format(damDesc(self, DamageType.DARKNESS, (damage)), duration, chance)
+		tformat(damDesc(self, DamageType.DARKNESS, (damage)), duration, chance)
 	end,
 }
 
@@ -338,6 +338,6 @@ newTalent{
 		local damage = t.getDamageBonus(self, t)
 		local summon = t.getSummonTime(self, t)
 		return ([[Increases your damage and resistance penetration on sleeping targets by %d%%.  Additionally, every time you slay a sleeping target, a Night Terror will be summoned for %d turns.
-		The Night Terror's stats will scale with your Mindpower, as will the damage bonus to sleeping targets.]]):format(damage, summon)
+		The Night Terror's stats will scale with your Mindpower, as will the damage bonus to sleeping targets.]]):tformat(damage, summon)
 	end,
 }

@@ -57,7 +57,7 @@ newTalent{
 		return ([[Conjures up mana into a powerful bolt doing %0.2f arcane damage.
 		At level 3, it becomes a beam.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.ARCANE, damage))
+		tformat(damDesc(self, DamageType.ARCANE, damage))
 	end,
 }
 
@@ -91,7 +91,7 @@ newTalent{
 	info = function(self, t)
 		local resist = self.sustain_talents[t.id] and self.sustain_talents[t.id].display_resist or t.getArcaneResist(self, t)
 		return ([[Your mastery of magic allows you to enter a state of deep concentration, increasing your Spellpower by %d and arcane resistance by %d%%.]]):
-		format(t.getSpellpowerIncrease(self, t), resist)
+		tformat(t.getSpellpowerIncrease(self, t), resist)
 	end,
 }
 
@@ -127,7 +127,7 @@ newTalent{
 		If no foes are found, the target will take 50%% more arcane damage.
 		If the target dies, the vortex explodes, releasing all remaining damage in a radius 2 ball of arcane force.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.ARCANE, dam))
+		tformat(damDesc(self, DamageType.ARCANE, dam))
 	end,
 }
 
@@ -217,12 +217,12 @@ newTalent{
 		self.disruption_shield_storage = self.disruption_shield_storage or 0
 
 		if cb.value <= self.disruption_shield_power then
-			game:delayedLogDamage(src, self, 0, ("#SLATE#(%d absorbed)#LAST#"):format(cb.value), false)
+			game:delayedLogDamage(src, self, 0, ("#SLATE#(%d absorbed)#LAST#"):tformat(cb.value), false)
 			self.disruption_shield_power = self.disruption_shield_power - cb.value
 			cb.value = 0
 			return true
 		else
-			game:delayedLogDamage(src, self, 0, ("#SLATE#(%d absorbed)#LAST#"):format(cb.value), false)
+			game:delayedLogDamage(src, self, 0, ("#SLATE#(%d absorbed)#LAST#"):tformat(cb.value), false)
 			self.disruption_shield_power = 0
 			cb.value = cb.value - self.disruption_shield_power
 		end
@@ -244,7 +244,7 @@ newTalent{
 		self:incMana(-mana_usage)
 		self.disruption_shield_storage = math.min(self.disruption_shield_storage + store, t.getMaxDamage(self, t))
 
-		game:delayedLogDamage(src, self, 0, ("#PURPLE#(%d mana)#LAST#"):format(store), false)
+		game:delayedLogDamage(src, self, 0, ("#PURPLE#(%d mana)#LAST#"):tformat(store), false)
 
 		if do_explode then	
 			-- Deactivate without losing energy
@@ -305,6 +305,6 @@ newTalent{
 
 		Current shield power: %d
 		Current stored energy: %d]]):
-		format(t.getMaxAbsorb(self, t), t.getManaRatio(self, t), t.getMaxDamage(self, t), self:getTalentRadius(t), t.getMaxDamageLimit(self, t), self.disruption_shield_power or 0, self.disruption_shield_storage or 0)
+		tformat(t.getMaxAbsorb(self, t), t.getManaRatio(self, t), t.getMaxDamage(self, t), self:getTalentRadius(t), t.getMaxDamageLimit(self, t), self.disruption_shield_power or 0, self.disruption_shield_storage or 0)
 	end,
 }

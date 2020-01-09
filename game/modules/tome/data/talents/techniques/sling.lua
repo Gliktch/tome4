@@ -36,7 +36,7 @@ newTalent{
 		local inc = t.getPercentInc(self, t)
 		local reloads = t.ammo_mastery_reload(self, t)
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using slings.
-		Also, increases your reload rate by %d.]]):format(inc * 100, reloads)
+		Also, increases your reload rate by %d.]]):tformat(inc * 100, reloads)
 	end,
 }
 
@@ -71,7 +71,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You fire a shot into your target's eyes, blinding it for %d turns and doing %d%% damage.
 		The blind chance increases with your Accuracy.]])
-		:format(t.getBlindDur(self, t),	100 * self:combatTalentWeaponDamage(t, 1, 1.5))
+		:tformat(t.getBlindDur(self, t),	100 * self:combatTalentWeaponDamage(t, 1, 1.5))
 	end,
 }
 
@@ -106,7 +106,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire a mighty shot at your target, doing %d%% damage and knocking it back.
-		The knockback chance increases with your Accuracy.]]):format(100 * self:combatTalentWeaponDamage(t, 1, 1.5))
+		The knockback chance increases with your Accuracy.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5))
 	end,
 }
 
@@ -135,6 +135,6 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fire an average of %0.1f shots at your target, doing %d%% damage with each shot.]]):format(t.getShots(self, t, true), 100 * self:combatTalentWeaponDamage(t, 0.3, 0.7))
+		return ([[You fire an average of %0.1f shots at your target, doing %d%% damage with each shot.]]):tformat(t.getShots(self, t, true), 100 * self:combatTalentWeaponDamage(t, 0.3, 0.7))
 	end,
 }

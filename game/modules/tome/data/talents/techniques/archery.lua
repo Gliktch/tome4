@@ -216,7 +216,7 @@ newTalent{
 		local chance = t.getChance(self,t)
 		return ([[Fire a steady shot, doing %d%% damage with a %d%% chance to mark the target.
 If Steady Shot is not on cooldown, this talent will automatically replace your normal attacks (and trigger the cooldown).]]):
-		format(dam, chance)
+		tformat(dam, chance)
 	end,
 }
 
@@ -269,7 +269,7 @@ newTalent{
 		return ([[You fire a shot for %d%% damage that attempts to pin your target to the ground for %d turns, as well as giving your next Steady Shot or Shoot 100%% increased chance to critically hit and mark (regardless of whether the pin succeeds).
 		This shot has a 20%% chance to mark the target.
 		The chance to pin increases with your Accuracy.]]):
-		format(dam, dur, mark, chance)
+		tformat(dam, dur, mark, chance)
 	end,
 }
 
@@ -324,7 +324,7 @@ newTalent{
 		return ([[Fires a shot that explodes into a radius %d ball of razor sharp fragments on impact, dealing %d%% weapon damage and leaving targets crippled for %d turns, reducing their attack, spell and mind speed by %d%%.
 		Each target struck has a %d%% chance to be marked.
 		The status chance increases with your Accuracy.]])
-		:format(rad, dam, dur, speed, chance)
+		:tformat(rad, dam, dur, speed, chance)
 	end,
 }
 
@@ -415,7 +415,7 @@ newTalent{
 		return ([[Fires a wave of projectiles in a radius %d cone, dealing %d%% weapon damage. All targets struck by this will be knocked back to the maximum range of the cone and stunned for %d turns.
 		Each target struck has a %d%% chance to be marked.
 		The chance to knockback and stun increases with your Accuracy.]])
-		:format(rad, dam, dur, chance)
+		:tformat(rad, dam, dur, chance)
 	end,
 }
 
@@ -490,7 +490,7 @@ newTalent{
 		local dam = t.getDamage(self,t)*100
 		return ([[Fire a precise shot dealing %d%% weapon damage, with 100 increased accuracy. This shot will bypass other enemies between you and your target.
 Only usable against marked targets, and consumes the mark on hit.]]):
-		format(dam)
+		tformat(dam)
 	end,
 }
 
@@ -583,7 +583,7 @@ newTalent{
 		local dam = t.getDamage(self,t)*100
 		return ([[You fire countless shots into the sky to rain down around your target, inflicting %d%% weapon damage to all within radius %d.
 If the primary target is marked, you consume the mark to fire a second volley of arrows for %d%% damage at no ammo cost.]])
-		:format(dam, rad, dam*0.75)
+		:tformat(dam, rad, dam*0.75)
 	end,
 }
 
@@ -666,7 +666,7 @@ newTalent{
 		return ([[You fire a disabling shot at a target's throat (or equivalent), dealing %d%% weapon damage and silencing them for %d turns.
 If the target is marked, you consume the mark to fire two secondary shots at their arms and legs (or other appendages) dealing %d%% damage, reducing their movement speed by 50%% and disarming them for the duration.
 The status chance increases with your Accuracy.]]):
-		format(dam, dur, dam*0.25)
+		tformat(dam, dur, dam*0.25)
 	end,
 }
 
@@ -712,7 +712,7 @@ newTalent{
 		local nb = t.getTalentCount(self,t)
 		local cd = t.getCooldown(self,t)
 		return ([[Each time you consume a mark, you gain %d%% increased attack speed for 2 turns and the cooldown of %d random techniques are reduced by %d turns.]]):
-		format(speed, nb, cd)
+		tformat(speed, nb, cd)
 	end,
 }
 
@@ -741,7 +741,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire a shot without putting much strength into it, doing %d%% damage.
-		That brief moment of relief allows you to regain %d stamina.]]):format(self:combatTalentWeaponDamage(t, 0.5, 1.1) * 100, 12 + self:getTalentLevel(t) * 8)
+		That brief moment of relief allows you to regain %d stamina.]]):tformat(self:combatTalentWeaponDamage(t, 0.5, 1.1) * 100, 12 + self:getTalentLevel(t) * 8)
 	end,
 }
 
@@ -770,7 +770,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire a crippling shot, doing %d%% damage and reducing your target's speed by %d%% for 7 turns.
-		The status power and status hit chance improve with your Accuracy.]]):format(self:combatTalentWeaponDamage(t, 1, 1.5) * 100, util.bound((self:combatAttack() * 0.15 * self:getTalentLevel(t)) / 100, 0.1, 0.4) * 100)
+		The status power and status hit chance improve with your Accuracy.]]):tformat(self:combatTalentWeaponDamage(t, 1, 1.5) * 100, util.bound((self:combatAttack() * 0.15 * self:getTalentLevel(t)) / 100, 0.1, 0.4) * 100)
 	end,
 }
 
@@ -805,7 +805,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You fire a pinning shot, doing %d%% damage and pinning your target to the ground for %d turns.
 		The pinning chance increases with your Dexterity.]])
-		:format(self:combatTalentWeaponDamage(t, 1, 1.4) * 100,
+		:tformat(self:combatTalentWeaponDamage(t, 1, 1.4) * 100,
 		t.getDur(self, t))
 	end,
 }

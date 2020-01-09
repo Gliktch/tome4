@@ -52,7 +52,7 @@ newTalent{
 		Each spell can only be spellbound in one way at a time.
 		
 		Current Empowered Spell: %s]]):
-		format(power, talent)
+		tformat(power, talent)
 	end,
 }
 
@@ -89,7 +89,7 @@ newTalent{
 		Each spell can only be spellbound in one way at a time.
 		
 		Current Extended Spell: %s]]):
-		format(power, talent)
+		tformat(power, talent)
 	end,
 }
 
@@ -126,7 +126,7 @@ newTalent{
 		Each spell can only be spellbound in one way at a time.
 		
 		Current Matrix Spell: %s]]):
-		format(power, talent)
+		tformat(power, talent)
 	end,
 }
 
@@ -163,6 +163,6 @@ newTalent{
 		Each spell can only be spellbound in one way at a time.
 		
 		Current Quickened Spell: %s]]):
-		format(power, talent)
+		tformat(power, talent)
 	end,
 }

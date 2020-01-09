@@ -65,7 +65,7 @@ uberTalent{
 		return ([[When moving over 800%% speed for at least 3 steps in the same direction, you become so fast you can blink through obstacles as if they were not there.
 		While moving this fast you have 50%% chances to fully ignore an attack by displacing yourself (this may only happen once per turn).
 		Changing direction will break the effect.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -78,7 +78,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[You are full of tricks and surprises; your Antimagic Shield can absorb %d%% more damage.
 		The increase scales with your Cunning.]])
-		:format(t.shieldmult(self)*100)
+		:tformat(t.shieldmult(self)*100)
 	end,
 }
 
@@ -202,7 +202,7 @@ uberTalent{
 		Each effect can only happen once per 10 player turns.  This does not count as a typical cooldown.
 		The damage and effect power increase with your Cunning, the threshold with your level, and the apply power is the highest of your mind or spell power.
 		%s]])
-		:format(t.getThreshold(self, t), t.getDamage(self, t), self:getTalentRadius(t), t.getAcid(self, t), blight_dam, blight_disease, t.getDarkness(self, t), t.getTemporal(self, t), t.getMind(self, t), str)
+		:tformat(t.getThreshold(self, t), t.getDamage(self, t), self:getTalentRadius(t), t.getAcid(self, t), blight_dam, blight_disease, t.getDarkness(self, t), t.getTemporal(self, t), t.getMind(self, t), str)
 	end,
 }
 
@@ -240,7 +240,7 @@ uberTalent{
 	end,
 	info = function(self, t)
 		return ([[You have obtained the three parts of the Staff of Telos and studied them carefully. You believe that you can merge them back into a single highly potent staff.]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -365,7 +365,7 @@ uberTalent{
 		Each effect can only happen once per 10 player turns.  This does not count as a typical cooldown.
 		The damage and some effect powers increase with your Cunning and the threshold with your level.
 		%s]])
-		:format(t.getThreshold(self, t), t.getDamage(self, t), self:getTalentRadius(t), t.getFire(self, t), cold.armor, cold.dam, t.getLightning(self, t), str)
+		:tformat(t.getThreshold(self, t), t.getDamage(self, t), self:getTalentRadius(t), t.getFire(self, t), cold.armor, cold.dam, t.getLightning(self, t), str)
 	end,
 }
 
@@ -422,7 +422,7 @@ uberTalent{
 		for _, d in pairs(eye_of_the_tiger_data) do list[#list+1] = d.desc end
 		return ([[%s		
 		This can only happen once per turn per type, and cannot affect the talent that triggers it.]])
-		:format(table.concat(list, "\n"))
+		:tformat(table.concat(list, "\n"))
 	end,
 }
 
@@ -461,7 +461,7 @@ uberTalent{
 		- Corruption / Curses
 		- Celestial / Chants
 		- Chronomancy / Chronomancy]])
-		:format()
+		:tformat()
 	end,
 }
 
@@ -472,7 +472,7 @@ uberTalent{
 	cant_steal = true,
 	info = function(self, t)
 		return ([[Your talent masteries are increased by 0.3.  Note that many talents will not benefit from this increase.]])
-		:format()
+		:tformat()
 	end,
 	passives = function(self, t, tmptable)
 		self:talentTemporaryValue(tmptable, "talents_mastery_bonus", {all = 0.3})
@@ -508,6 +508,6 @@ uberTalent{
 		return ([[You have friends in low places and have learned some underhanded tricks.
 		Gain 0.2 Category Mastery to the Cunning/Stealth Category (or unlock it, if you have the tree and it is locked), and either gain +0.1 to the Cunning/Scoundrel category or learn and unlock the category at 0.9 if you lack it.
 		Additionally, all of your damage penalties from invisibility are permanently halved.]]):
-		format()
+		tformat()
 	end,
 }

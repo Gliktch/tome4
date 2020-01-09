@@ -68,7 +68,7 @@ newTalent{
 		return ([[A finishing uppercut that deals %d%% damage, and attempts to stun your target for %d to %d turns, depending on the amount of combo points you've accumulated.
 		The stun chance will improve with your Physical Power.
 		Using this talent removes your combo points.]])
-		:format(damage, stun, stunmax)
+		:tformat(damage, stun, stunmax)
 	end,
 }
 
@@ -125,7 +125,7 @@ newTalent{
 		return ([[A powerful concussive punch that deals %d%% weapon damage to your target. If the punch hits, all targets in a radius of %d will take %0.2f to %0.2f damage, depending on the amount of combo points you've accumulated.
 		The area damage will scale with your Strength, and the radius will increase by 1 per combo point.
 		Using this talent removes your combo points.]])
-		:format(damage, radius, damDesc(self, DamageType.PHYSICAL, area), damDesc(self, DamageType.PHYSICAL, areamax))
+		:tformat(damage, radius, damDesc(self, DamageType.PHYSICAL, area), damDesc(self, DamageType.PHYSICAL, areamax))
 	end,
 }
 
@@ -193,7 +193,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You spin into a flying leap and deliver a powerful kick dealing %d%% weapon damage to all enemies in a radius of 1 as you land. The range will increase by 1 per combo point and total damage will increase by 10%% per combo point.
-		Using this talent removes your combo points and you must have at least 1 combo point to use it.]]):format(t.getDamage(self, t)*100)
+		Using this talent removes your combo points and you must have at least 1 combo point to use it.]]):tformat(t.getDamage(self, t)*100)
 	end,
 }
 
@@ -262,6 +262,6 @@ newTalent{
 		return ([[A vicious finishing strike that deals %d%% damage increased by 20%% per combo point you have up to a max of %d%%. If the target ends up with low enough life (<20%%), it might be instantly killed.
 		Killing a target with Haymaker will instantly restore %d%% to %d%% of your maximum stamina, depending on the amount of combo points you've accumulated.
 		Using this talent removes your combo points.]])
-		:format(damage, maxDamage, stamina, staminamax)
+		:tformat(damage, maxDamage, stamina, staminamax)
 	end,
 }

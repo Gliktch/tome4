@@ -112,7 +112,7 @@ newTalent{
 		return ([[Pull a bolt of temporal energy back through time.  The bolt will home in on your location, dealing %0.2f temporal damage to targets, and reducing the cooldown of one chronomancy talent on cooldown by one turn per enemy hit.
 		The bolt gains 5%% damage each time it moves and the damage will scale with your Spellpower.
 		At talent level five cooldowns are reduced by two.]]):
-		format(damDesc(self, DamageType.TEMPORAL, damage))
+		tformat(damDesc(self, DamageType.TEMPORAL, damage))
 	end,
 }
 
@@ -216,7 +216,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Inflicts %0.2f temporal damage.  If your target survives, it may be removed from time for %d turns.
-		The damage will scale with your Spellpower.]]):format(damDesc(self, DamageType.TEMPORAL, damage), duration)
+		The damage will scale with your Spellpower.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), duration)
 	end,
 }
 
@@ -302,7 +302,7 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Transport yourself to a safe place for %d turns.]]):
-		format(duration)
+		tformat(duration)
 	end,
 }
 
@@ -348,6 +348,6 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Creates a temporal echo in a radius of %d around you.  Affected targets take %0.2f temporal damage, as well as up to %d%% of the difference between their current life and max life as additional temporal damage.
 		The additional damage will be divided by the target's rank and the damage scales with your Spellpower.]]):
-		format(radius, damDesc(self, DamageType.TEMPORAL, damage), percent)
+		tformat(radius, damDesc(self, DamageType.TEMPORAL, damage), percent)
 	end,
 }

@@ -102,7 +102,7 @@ newTalent{
 		They will be pinned to the ground for %d turns by the force of this attack.
 		Any frozen creature hit by this attack will take an extra %0.2f physical damage.
 		The extra damage will scale with your Mindpower.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), t.getDur(self, t), damDesc(self, DamageType.PHYSICAL, t.getDam(self, t)))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), t.getDur(self, t), damDesc(self, DamageType.PHYSICAL, t.getDam(self, t)))
 	end,
 }
 
@@ -200,7 +200,7 @@ newTalent{
 		A burst of cold will then engulf them, doing an extra %0.1f Cold damage and also freeze them for %d turns.
 		If the attack freezes a pinned creature a burst of ice is summoned, circling the caster and the creature with a wall of ice for 3 turns.
 		The cold burst damage will scale with your Mindpower.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), damDesc(self, DamageType.COLD, t.getDam(self, t)), t.getDur(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), damDesc(self, DamageType.COLD, t.getDam(self, t)), t.getDur(self, t))
 	end,
 }
 
@@ -316,7 +316,7 @@ newTalent{
 		If the target is pinned and Charged Shield is sustained, its absorb value will be increased by %0.2f.
 		If the target is frozen, the ice will melt in a flash of vapour, knocking back all creatures around it in radius 2.
 		The discharge damage will scale with your Mindpower.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), damDesc(self, DamageType.LIGHTNING, t.getDam(self, t)), t.getDur(self, t), 1.5 * damDesc(self, DamageType.LIGHTNING, t.getDam(self, t)))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), damDesc(self, DamageType.LIGHTNING, t.getDam(self, t)), t.getDur(self, t), 1.5 * damDesc(self, DamageType.LIGHTNING, t.getDam(self, t)))
 	end,
 }
 
@@ -332,6 +332,6 @@ newTalent{
 		self:talentTemporaryValue(p, "combat_apr", t.getPsiRecover(self, t)*3)
 	end,
 	info = function(self, t)
-		return ([[Wrap a psionic energy field around your weapons, increasing their armour penentration by %d and allowing you to siphon excess energy from each weapon hit you land, gaining %0.1f psi per hit.]]):format(t.getPsiRecover(self, t)*3, t.getPsiRecover(self, t))
+		return ([[Wrap a psionic energy field around your weapons, increasing their armour penentration by %d and allowing you to siphon excess energy from each weapon hit you land, gaining %0.1f psi per hit.]]):tformat(t.getPsiRecover(self, t)*3, t.getPsiRecover(self, t))
 	end,
 }

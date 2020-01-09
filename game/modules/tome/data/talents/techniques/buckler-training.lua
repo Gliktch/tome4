@@ -65,7 +65,7 @@ newTalent {
 			When you are attacked in melee, you have a %d%% chance to deflect the attack with your shield, completely evading it.
 			In addition, as long as you are wearing armour no heavier than leather, you gain %d Armour and %d%% Armour hardiness.
 			The chance to deflect increases with your Cunning.]])
-			:format(block, armour, hardiness)
+			:tformat(block, armour, hardiness)
 	end,
 }
 
@@ -165,7 +165,7 @@ newTalent {
 		local tiles = t.getDist(self, t)
 		local slingMult = t.getSlingMult(self, t) * 100
 		return ([[Bash an enemy in melee range with your shield (twice for talent level 5 or more), doing %d%% damage and knocking them back %d squares. You may then follow with a deadly short-range sling attack, dealing %d%% damage. The shield bash will use Dexterity instead of Strength for the shield's bonus damage.]])
-		:format(shieldMult, tiles, slingMult)
+		:tformat(shieldMult, tiles, slingMult)
 	end,
 }
 
@@ -195,7 +195,7 @@ newTalent {
 			end
 		end
 		return ([[When you are hit by a projectile, physical or otherwise, you have a %d%% chance to deflect it up to %d squares away.%s]])
-			:format(chance, range, crit)
+			:tformat(chance, range, crit)
 	end,
 }
 
@@ -251,6 +251,6 @@ newTalent {
 		--local stamina = t.getStaminaPerShot(self, t)
 		return ([[Any time you block an attack with Buckler Expertise or Buckler Mastery you instantly counterattack with your sling for %d%% damage  This can only occur up to %d time(s) per turn.
 			]])
-			:format(mult, blocks)
+			:tformat(mult, blocks)
 	end,
 }

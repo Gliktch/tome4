@@ -113,7 +113,7 @@ newTalent{
 		The base power, Accuracy, Armour penetration, and critical strike chance of the weapon will scale with your Mindpower.
 		
 		Current Dream Hammer Stats:
-		%s]]):format(damage * 100, tostring(weapon_stats))
+		%s]]):tformat(damage * 100, tostring(weapon_stats))
 	end,
 }
 
@@ -177,7 +177,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local attack_bonus = t.getAttack(self, t)
 		return ([[Throw your Dream Hammer at a distant location, inflicting %d%% weapon damage on all targets between you and it.  After reaching its destination, the Dream Hammer will return, potentially hitting targets a second time.
-		Learning this talent increases the Accuracy of your Dream Hammer by %d.]]):format(damage * 100, attack_bonus)
+		Learning this talent increases the Accuracy of your Dream Hammer by %d.]]):tformat(damage * 100, attack_bonus)
 	end,
 }
 
@@ -226,7 +226,7 @@ newTalent{
 		local stun = t.getStun(self, t)
 		return ([[Crush your enemy with your Dream Hammer, inflicting %d%% weapon damage.  If the attack hits, the target is stunned for %d turns.
 		Stun chance improves with your Mindpower.  Learning this talent increases your Physical Power for Dream Hammer damage calculations by %d and all damage with Dream Hammer attacks by %d%%.
-		]]):format(damage * 100, stun, power, percent * 100)
+		]]):tformat(damage * 100, stun, power, percent * 100)
 	end,
 }
 
@@ -281,6 +281,6 @@ newTalent{
 		local project = t.getProject(self, t) /2
 		return ([[Strike an adjacent target with a mighty blow from the forge, inflicting %d%% weapon damage.  If the attack hits, the echo of the attack will lash out at all enemies in a %d radius of the impact.
 		Learning this talent adds %0.2f mind damage and %0.2f burning damage to your Dream Hammer strikes.
-		The mind and fire damage will scale with your Mindpower.]]):format(damage * 100, radius, damDesc(self, DamageType.MIND, project), damDesc(self, DamageType.FIRE, project))
+		The mind and fire damage will scale with your Mindpower.]]):tformat(damage * 100, radius, damDesc(self, DamageType.MIND, project), damDesc(self, DamageType.FIRE, project))
 	end,
 }

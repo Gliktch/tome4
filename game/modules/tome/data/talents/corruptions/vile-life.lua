@@ -48,7 +48,7 @@ newTalent{
 		return ([[Inflicting pain and death invigorates you.
 		Each time you deal a critical strike you gain %d life (this effect can only happen once per turn).
 		Each time you kill a creature you gain %d life (this effect can only happen once per turn).]]):
-		format(t.heal(self, t), t.heal(self, t))
+		tformat(t.heal(self, t), t.heal(self, t))
 	end,
 }
 
@@ -115,7 +115,7 @@ newTalent{
 		- Nature: %d%% slow for 4 turns
 		This effect can only happen once every 10 turns per damage type.
 		The damage will increase with your Spellpower.]]):
-		format(
+		tformat(
 			damDesc(self, DamageType.FIRE, t.getFire(self, t)),
 			t.getCold(self, t),
 			t.getAcid(self, t),
@@ -153,7 +153,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You manipulate the vim of your target to temporarily invert all healing done to it (but not regeneration).
 		For 5 turns all healing will instead damage them for %d%% of the healing done as blight.
-		The effect will increase with your Spellpower.]]):format(t.getPower(self,t))
+		The effect will increase with your Spellpower.]]):tformat(t.getPower(self,t))
 	end,
 }
 
@@ -202,7 +202,7 @@ newTalent{
 						self:removeEffect(eff_id)
 						local dead, val = self:takeHit(dam, self, {source_talent=t})
 						target:heal(val, self)
-						game:delayedLogMessage(self, target, "vile_transplant"..e.desc, ("#CRIMSON##Source# transfers an effect (%s) to #Target#!"):format(e.desc))
+						game:delayedLogMessage(self, target, "vile_transplant"..e.desc, ("#CRIMSON##Source# transfers an effect (%s) to #Target#!"):tformat(e.desc))
 					end
 				end
 				nb = nb - 1
@@ -217,6 +217,6 @@ newTalent{
 		return ([[You transfer up to %d physical or magical detrimental effects currently affecting you to a nearby creature by touching it.
 		The transfer takes %0.1f%% of your remaining life for each effect transferred and heals the target for the same amount.
 		The chance to transfer each effect increases with your Spellpower.]]):
-		format(t.getNb(self, t), t.getDam(self, t))
+		tformat(t.getNb(self, t), t.getDam(self, t))
 	end,
 }

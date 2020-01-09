@@ -47,7 +47,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[The line between life and death blurs for you; you can only die when you reach -%d life.]]):
-		format(t.lifeBonus(self, t))
+		tformat(t.lifeBonus(self, t))
 	end,
 }
 
@@ -82,7 +82,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Your target's doom draws near. Its healing factor is reduced by 80%%, and will take %d%% of its remaining life (or %0.2f, whichever is lower) over 10 turns as arcane damage.
 		The damage will increase with your Spellpower.]]):
-		format(t.getDamage(self, t), t.getMax(self, t))
+		tformat(t.getDamage(self, t), t.getMax(self, t))
 	end,
 }
 
@@ -153,7 +153,7 @@ newTalent{
 		local heal = t.getHeal(self, t)
 		return ([[Absorb up to %d%% of the maximum life of each of your necrotic minions (even negative life, possibly destroying them). This will heal you for the greatest amount absorbed.
 		The healing will increase with your Spellpower.]]):
-		format(heal)
+		tformat(heal)
 	end,
 }
 
@@ -292,6 +292,6 @@ newTalent{
 		The undead cannot use this talent.
 		While active, it will drain 4 mana per turn.
 		Once you die and turn into a Lich you can not invest any more in this talent.]]):
-		format()
+		tformat()
 	end,
 }

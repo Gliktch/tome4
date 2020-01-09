@@ -295,10 +295,10 @@ newTalent{
 		if ammo and ammo.archery_ammo ~= o.archery then ammo = nil end
 		if o.type == "gem" then
 			local ml = o.material_level or 1
-			base = base..([[The telekinetically-wielded gem grants you +%d stats.]]):format(ml * 3)
+			base = base..([[The telekinetically-wielded gem grants you +%d stats.]]):tformat(ml * 3)
 		elseif o.subtype == "mindstar" then
 			local ml = o.material_level or 1
-			base = base..([[The telekinetically-wielded mindstar has a %d%% chance to grab a foe up to %d range away.]]):format((ml + 1) * 5, ml + 2)
+			base = base..([[The telekinetically-wielded mindstar has a %d%% chance to grab a foe up to %d range away.]]):tformat((ml + 1) * 5, ml + 2)
 		elseif o.archery and ammo then
 			self:attr("use_psi_combat", 1)
 			range = math.max(math.min(o.combat.range or 6), self:attr("archery_range_override") or 1)
@@ -316,7 +316,7 @@ newTalent{
 			APR: %d
 			Crit: %0.1f%%
 			Speed: %0.1f%%]]):
-			format(range, atk, dam, apr, crit, speed*100)
+			tformat(range, atk, dam, apr, crit, speed*100)
 		else
 			self:attr("use_psi_combat", 1)
 			atk = self:combatAttack(o.combat)
@@ -332,7 +332,7 @@ newTalent{
 			APR: %d
 			Crit: %0.2f
 			Speed: %0.2f]]):
-			format(atk, dam, apr, crit, speed)
+			tformat(atk, dam, apr, crit, speed)
 		end
 		return base
 	end,

@@ -50,7 +50,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Target a nearby shadow, and command it to merge into a nearby enemy, reducing their damage by %d%% for 5 turns.
 		Killing your shadow releases some of your inner hatred, restoring 8 Hate to yourself.]]):
-		format(t.getReduction(self, t))
+		tformat(t.getReduction(self, t))
 	end,
 }
 
@@ -101,7 +101,7 @@ newTalent{
 		return ([[Target a nearby shadow, and force it to slam into a nearby enemy, dealing %0.1f Physical damage.
 		Your shadow will then set them as their target, and they will target your shadow.
 		Damage increases with your Mindpower.]]):
-		format(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
 	end,
 }
 
@@ -186,7 +186,7 @@ newTalent{
 		return ([[Command all Shadows within sight to tele-dash to a target location, damaging any enemies they pass through for %0.1f Physical damage.
 		For the purpose of this talent, you force your shadows through any walls in their way.
 		Damage increases with your Mindpower.]]):
-		format(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
 	end,
 }
 
@@ -251,6 +251,6 @@ newTalent{
 		return ([[Share your hatred with all shadows within sight range, gaining temporary full control. You then fire a blast of pure hatred from all affected shadows, dealing %0.1f Mind damage per blast.
 		You cannot cancel this talent once the first bolt is cast.
 		Damage increases with your Mindpower.]]):
-		format(damDesc(self, DamageType.MIND, t.getDamage(self, t)))
+		tformat(damDesc(self, DamageType.MIND, t.getDamage(self, t)))
 	end,
 }

@@ -52,7 +52,7 @@ newTalent{
 	info = function(self, t)
 		local cooldownred = t.getCooldownReduction(self, t)
 		return ([[Reduces the cooldown of all summons by %d%%.]]):
-		format(cooldownred * 100)
+		tformat(cooldownred * 100)
 	end,
 }
 
@@ -83,7 +83,7 @@ newTalent{
 		- Turtle: Heals all friendly targets in the radius %d HP
 		- Spider: Pins all foes in the radius
 		Radius for effects is %d, and the duration of each lasting effect is %d turns.
-		The effects improve with your mindpower.]]):format(t.resReduction(self, t), t.poisonDamage(self,t) / 6, t.resReduction(self, t), t.nbEscorts(self, t), t.resReduction(self, t), t.resReduction(self, t), 100*t.slowStrength(self,t), t.amtHealing(self,t), radius, t.effectDuration(self, t))
+		The effects improve with your mindpower.]]):tformat(t.resReduction(self, t), t.poisonDamage(self,t) / 6, t.resReduction(self, t), t.nbEscorts(self, t), t.resReduction(self, t), t.resReduction(self, t), 100*t.slowStrength(self,t), t.amtHealing(self,t), radius, t.effectDuration(self, t))
 	end,
 }
 
@@ -97,7 +97,7 @@ newTalent{
 	getReduction = function(self, t) return math.floor(self:combatTalentLimit(t, 5, 1, 3.1)) end, -- Limit < 5
 	info = function(self, t)
 		return ([[While Master Summoner is active, each new summon will reduce the remaining cooldown of Pheromones, Detonate and Wild Summon.
-		%d%% chance to reduce them by %d.]]):format(t.getChance(self, t), t.getReduction(self, t))
+		%d%% chance to reduce them by %d.]]):tformat(t.getChance(self, t), t.getReduction(self, t))
 	end,
 }
 
@@ -135,6 +135,6 @@ newTalent{
 		- Turtle: Can force all foes in a radius into melee range
 		- Spider: Can project an insidious poison at its foes, reducing their healing
 		This talent requires Master Summoner to be active to be used.
-		Effects scale with levels in summon talents.]]):format(t.duration(self,t))
+		Effects scale with levels in summon talents.]]):tformat(t.duration(self,t))
 	end,
 }
