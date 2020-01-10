@@ -3631,7 +3631,7 @@ newEffect{
 
 newEffect{
 	name = "DEMI_GODMODE",
-	desc = "Demigod Mode", --image = "",
+	desc = "Demigod Mode", image = "effects/darkgod.png",
 	long_desc = function(self, eff) return ("DEMI-GODMODE: Target has 10000 additional life and regenerates 2000 life per turn.  It deals +500%% damage, and has full ESP."):format() end,
 	type = "other",
 	subtype = { cheat=true },
@@ -3662,7 +3662,7 @@ newEffect{
 
 newEffect{
 	name = "GODMODE",
-	desc = "God Mode", --image = "",
+	desc = "God Mode", image = "effects/darkgod.png",
 	long_desc = function(self, eff) return ("GODMODE: Target is invulnerable to damage, immune to bad status effects, deals +10000%% damage (100%% penetration), does not need to breathe, and has full ESP."):format() end,
 	type = "other",
 	subtype = { cheat=true },
@@ -3824,7 +3824,8 @@ newEffect{
 	desc = "Feeding",
 	long_desc = function(self, eff) return ("%s is feeding from %s."):format(self.name:capitalize(), eff.target.name) end,
 	type = "other",
-	subtype = { psychic_drain=true },
+	subtype = { },
+	no_stop_enter_worlmap = true, cancel_on_level_change = true,
 	status = "beneficial",
 	parameters = { },
 	activate = function(self, eff, ed)
@@ -3924,6 +3925,7 @@ newEffect{
 	subtype = { psychic_drain=true },
 	status = "detrimental",
 	remove_on_clone = true,
+	no_stop_enter_worlmap = true, cancel_on_level_change = true,
 	no_remove = true,
 	parameters = { },
 	activate = function(self, eff)
@@ -3994,5 +3996,37 @@ newEffect{
 		if eff.success then return end
 		self.lich_no_more_regen = true
 		self:die(self, {special_death_msg="failed to complete the lich ressurection ritual"})
+	end,
+}
+
+newEffect{
+	name = "OMNIVISION", image = "talents/track.png",
+	desc = "Sensing Everything",
+	long_desc = function(self, eff) return "Improves senses, allowing the detection of everything." end,
+	type = "other",
+	subtype = { sense=true },
+	status = "beneficial",
+	parameters = { range=10,},
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "omnivision", eff.range)
+		game.level.map.changed = true
+	end,
+	deactivate = function(self, eff)
+
+	end,
+}
+
+newEffect{
+	name = "DOZING", image = "talents/sleep.png",
+	desc = "Dozing",
+	long_desc = function(self, eff) return "The target is completely asleep, unable to act." end,
+	type = "other",
+	subtype = { sleep=true },
+	status = "detrimental",
+	parameters = { },
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "dont_act", 1)
+	end,
+	deactivate = function(self, eff)
 	end,
 }

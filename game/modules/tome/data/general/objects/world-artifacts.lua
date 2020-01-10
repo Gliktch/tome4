@@ -76,7 +76,7 @@ newEntity{ base = "BASE_INFUSION",
 	inscription_kind = "protect",
 	inscription_data = {
 		cooldown = 18,
-		dur = 5,
+		dur = 4,
 		reduce = 2,
 		power = 10,
 		use_stat_mod = 0.01, -- +2 duration reduction and +10% affinity at 100 stat
@@ -292,6 +292,26 @@ newEntity{ base = "BASE_AMULET",
 		avoid_pressure_traps = 1,
 		movement_speed = 0.25, --ghoul movespeed breakpoint!--
 	},
+}
+
+newEntity{ base = "BASE_AMULET",
+	power_source = {unknown=true},
+	unique = true,
+	name = "The Far-Hand", color = colors.YELLOW, image = "object/artifact/the_far_hand.png",
+	unided_name = "a weird metallic hand",
+	desc = [[You can feel this strange metallic hand wriggling around, it feels as if space distorts around it.]],
+	level_range = {20, 40},
+	rarity = 200,
+	cost = 1000,
+	material_level = 3,
+	wielder = {
+		teleport_immune = 1,
+		inc_stats = {
+			[Stats.STAT_CON] = 10,
+		},
+	},
+	max_power = 36, power_regen = 1,
+	use_talent = { id = Talents.T_TELEPORT, level = 4, power = 36 },
 }
 
 newEntity{ base = "BASE_AMULET", define_as = "SET_GARKUL_TEETH",
