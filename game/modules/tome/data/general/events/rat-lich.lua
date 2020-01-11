@@ -54,7 +54,7 @@ local changer = function(id)
 		cost = 150,
 		encumber = 1,
 		material_level = 3,
-		desc = [[This ancient skull is all that remains of the Rat Lich. Some fragments of its power remain and a faint red light still glows within its eye sockets.]],
+		desc = _t[[This ancient skull is all that remains of the Rat Lich. Some fragments of its power remain and a faint red light still glows within its eye sockets.]],
 
 		wielder = {
 			combat_spellpower = 10,
@@ -62,7 +62,7 @@ local changer = function(id)
 			on_melee_hit = {[engine.DamageType.DARKNESS]=12},
 		},
 		max_power = 70, power_regen = 1,
-		use_power = { name = "raise one or two undead rats to fight beside you", power = 70,
+		use_power = { name = _t"raise one or two undead rats to fight beside you", power = 70,
 			tactical = {ATTACK = 2},
 			use = function(self, who)
 			if not who:canBe("summon") then game.logPlayer(who, "You cannot summon; you are suppressed!") return end

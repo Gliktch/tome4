@@ -739,7 +739,7 @@ newDamageType{
 	name = _t"cosmetic", type = "COSMETIC", text_color = "#WHITE#",
 	projector = function(src, x, y, type, dam)
 	end,
-	death_message = {"cosmeticed"},
+	death_message = {_t"cosmeticed"},
 }
 
 -- The base elemental damage types are:
@@ -761,14 +761,14 @@ newDamageType{
 
 		return realdam
 	end,
-	death_message = {"battered", "bludgeoned", "sliced", "maimed", "raked", "bled", "impaled", "dissected", "disembowelled", "decapitated", "stabbed", "pierced", "torn limb from limb", "crushed", "shattered", "smashed", "cleaved", "swiped", "struck", "mutilated", "tortured", "skewered", "squished", "mauled", "chopped into tiny pieces", "splattered", "ground", "minced", "punctured", "hacked apart", "eviscerated"},
+	death_message = {_t"battered", _t"bludgeoned", _t"sliced", _t"maimed", _t"raked", _t"bled", _t"impaled", _t"dissected", _t"disembowelled", _t"decapitated", _t"stabbed", _t"pierced", _t"torn limb from limb", _t"crushed", _t"shattered", _t"smashed", _t"cleaved", _t"swiped", _t"struck", _t"mutilated", _t"tortured", _t"skewered", _t"squished", _t"mauled", _t"chopped into tiny pieces", _t"splattered", _t"ground", _t"minced", _t"punctured", _t"hacked apart", _t"eviscerated"},
 }
 
 -- Arcane is basic (usually) unresistable damage
 newDamageType{
 	name = _t"arcane", type = "ARCANE", text_color = "#PURPLE#",
 	antimagic_resolve = true,
-	death_message = {"blasted", "energised", "mana-torn", "dweomered", "imploded"},
+	death_message = {_t"blasted", _t"energised", _t"mana-torn", _t"dweomered", _t"imploded"},
 }
 -- The elemental damages
 newDamageType{
@@ -797,7 +797,7 @@ newDamageType{
 		end
 		return realdam
 	end,
-	death_message = {"burnt", "scorched", "blazed", "roasted", "flamed", "fried", "combusted", "toasted", "slowly cooked", "boiled"},
+	death_message = {_t"burnt", _t"scorched", _t"blazed", _t"roasted", _t"flamed", _t"fried", _t"combusted", _t"toasted", _t"slowly cooked", _t"boiled"},
 }
 newDamageType{
 	name = _t"cold", type = "COLD", text_color = "#1133F3#",
@@ -816,7 +816,7 @@ newDamageType{
 		end
 		return realdam
 	end,
-	death_message = {"frozen", "chilled", "iced", "cooled", "frozen and shattered into a million little shards"},
+	death_message = {_t"frozen", _t"chilled", _t"iced", _t"cooled", _t"frozen and shattered into a million little shards"},
 }
 newDamageType{
 	name = _t"lightning", type = "LIGHTNING", text_color = "#ROYAL_BLUE#",
@@ -833,7 +833,7 @@ newDamageType{
 		end
 		return realdam
 	end,
-	death_message = {"electrocuted", "shocked", "bolted", "volted", "amped", "zapped"},
+	death_message = {_t"electrocuted", _t"shocked", _t"bolted", _t"volted", _t"amped", _t"zapped"},
 }
 
 -- Acid, few specific interactions currently aside from damage types later derived from this
@@ -851,7 +851,7 @@ newDamageType{
 		end
 		return realdam
 	end,
-	death_message = {"dissolved", "corroded", "scalded", "melted"},
+	death_message = {_t"dissolved", _t"corroded", _t"scalded", _t"melted"},
 }
 
 -- Nature & Blight: Opposing damage types
@@ -869,7 +869,7 @@ newDamageType{
 		end
 		return realdam
 	end,
-	death_message = {"slimed", "splurged", "treehugged", "naturalised"},
+	death_message = {_t"slimed", _t"splurged", _t"treehugged", _t"naturalised"},
 }
 
 newDamageType{
@@ -892,21 +892,21 @@ newDamageType{
 		end
 		return realdam
 	end,
-	death_message = {"diseased", "poxed", "infected", "plagued", "debilitated by noxious blight before falling", "fouled", "tainted"},
+	death_message = {_t"diseased", _t"poxed", _t"infected", _t"plagued", _t"debilitated by noxious blight before falling", _t"fouled", _t"tainted"},
 }
 
 -- Light damage
 newDamageType{
 	name = _t"light", type = "LIGHT", text_color = "#YELLOW#",
 	antimagic_resolve = true,
-	death_message = {"radiated", "seared", "purified", "sun baked", "jerkied", "tanned"},
+	death_message = {_t"radiated", _t"seared", _t"purified", _t"sun baked", _t"jerkied", _t"tanned"},
 }
 
 -- Darkness damage
 newDamageType{
 	name = _t"darkness", type = "DARKNESS", text_color = "#GREY#",
 	antimagic_resolve = true,
-	death_message = {"shadowed", "darkened", "swallowed by the void"},
+	death_message = {_t"shadowed", _t"darkened", _t"swallowed by the void"},
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -947,7 +947,7 @@ newDamageType{
 		end
 		return 0
 	end,
-	death_message = {"psyched", "mentally tortured", "mindraped"},
+	death_message = {_t"psyched", _t"mentally tortured", _t"mindraped"},
 }
 
 -- Cold damage+turn energy drain, used exclusively by the Wintertide weapon
@@ -989,7 +989,7 @@ newDamageType{
 
 		return realdam
 	end,
-	death_message = {"timewarped", "temporally distorted", "spaghettified across the whole of space and time", "paradoxed", "replaced by a time clone (and no one ever knew the difference)", "grandfathered", "time dilated"},
+	death_message = {_t"timewarped", _t"temporally distorted", _t"spaghettified across the whole of space and time", _t"paradoxed", _t"replaced by a time clone (and no one ever knew the difference)", _t"grandfathered", _t"time dilated"},
 }
 
 -- Temporal + Stun

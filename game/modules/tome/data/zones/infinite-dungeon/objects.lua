@@ -24,7 +24,7 @@ for id, i in ipairs{1, 10, 20, 30, 40} do
 newEntity{ base = "BASE_LORE",
 	define_as = "ID_HISTORY"..i,
 	name = "The Hunter and the Hunted", lore="infinite-dungeon-history-"..id,
-	desc = [[The infinite hunt.]],
+	desc = _t[[The infinite hunt.]],
 	image = "terrain/signpost.png",
 	rarity = false,
 	encumberance = 0,
@@ -41,7 +41,7 @@ newEntity{
 	display = '!', color=colors.VIOLET, image="object/elixir_of_stoneskin.png",
 	encumber = 0.4,
 	rarity = 150,
-	desc = [[This potent elixir can give insights into martial combat to those unlucky enough to ignore the basics.]],
+	desc = _t[[This potent elixir can give insights into martial combat to those unlucky enough to ignore the basics.]],
 	cost = 500,
 
 	use_simple = { name = "quaff the elixir", use = function(self, who)
@@ -88,7 +88,7 @@ newEntity{
 	display = '!', color=colors.VIOLET, image="object/elixir_of_avoidance.png",
 	encumber = 0.4,
 	rarity = 150,
-	desc = [[This potent elixir extracted from a powerful wyrm can grant the power to repel arcane forces.]],
+	desc = _t[[This potent elixir extracted from a powerful wyrm can grant the power to repel arcane forces.]],
 	cost = 500,
 
 	use_simple = { name = "quaff the elixir", use = function(self, who, inven, item)

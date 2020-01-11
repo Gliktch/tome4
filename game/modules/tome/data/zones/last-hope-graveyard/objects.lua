@@ -26,7 +26,7 @@ load("/data/general/objects/objects-maj-eyal.lua")
 newEntity{ base = "BASE_LORE",
 	define_as = "CELIA_NOTE",
 	name = "creased letter", lore="celia-letter",
-	desc = [[A letter.]],
+	desc = _t[[A letter.]],
 	rarity = false,
 	encumberance = 0,
 }
@@ -42,7 +42,7 @@ newEntity{ define_as = "CELIA_HEART",
 	display = "*", color=colors.RED,  image = "object/artifact/celias_heart.png",
 	encumber = 2,
 	not_in_stores = true,
-	desc = [[The living heart of the necromancer Celia, carved out of her chest and preserved with magic.]],
+	desc = _t[[The living heart of the necromancer Celia, carved out of her chest and preserved with magic.]],
 
 	max_power = 75, power_regen = 1,
 	use_sound = "talents/slime",

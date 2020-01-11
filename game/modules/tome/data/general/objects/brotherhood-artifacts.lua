@@ -35,7 +35,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase your dexterity and cunning by three", use = function(self, who)
+	use_simple = { name=_t"permanently increase your dexterity and cunning by three", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.inc_stats[who.STAT_DEX] = who.inc_stats[who.STAT_DEX] + 3
 		who:onStatChange(who.STAT_DEX, 3)
@@ -57,7 +57,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase your defense and ranged defense by six", use = function(self, who)
+	use_simple = { name=_t"permanently increase your defense and ranged defense by six", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.combat_def = who.combat_def + 6
 		game.logPlayer(who, "#00FF00#The elixir has improved your defensive instincts!")
@@ -76,7 +76,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase your physical critical strike chance by 4%", use = function(self, who)
+	use_simple = { name=_t"permanently increase your physical critical strike chance by 4%", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.combat_physcrit = who.combat_physcrit + 4
 		game.logPlayer(who, "#00FF00#The elixir has improved your eye for an enemy's weak points!")
@@ -95,7 +95,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase your magic and willpower by three", use = function(self, who)
+	use_simple = { name=_t"permanently increase your magic and willpower by three", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.inc_stats[who.STAT_MAG] = who.inc_stats[who.STAT_MAG] + 3
 		who:onStatChange(who.STAT_MAG, 3)
@@ -117,7 +117,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase all your saving throws by 4", use = function(self, who)
+	use_simple = { name=_t"permanently increase all your saving throws by 4", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.combat_physresist = who.combat_physresist + 4
 		who.combat_spellresist = who.combat_spellresist + 4
@@ -138,7 +138,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="grant you four additional stat points", use = function(self, who)
+	use_simple = { name=_t"grant you four additional stat points", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.unused_stats = who.unused_stats + 4
 		game.logPlayer(who, "#00FF00#The elixir has greatly expanded your capacity for improving your mind and body.")
@@ -158,7 +158,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase your chance to critically strike with spells by 4%", use = function(self, who)
+	use_simple = { name=_t"permanently increase your chance to critically strike with spells by 4%", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.combat_spellcrit = who.combat_spellcrit + 4
 		game.logPlayer(who, "#00FF00#The elixir has improved your eye for an enemy's magical weak points!")
@@ -177,7 +177,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase your luck by 5", use = function(self, who)
+	use_simple = { name=_t"permanently increase your luck by 5", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.inc_stats[who.STAT_LCK] = who.inc_stats[who.STAT_LCK] + 5
 		who:onStatChange(who.STAT_LCK, 5)
@@ -197,7 +197,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="grant you two additional class talent points", use = function(self, who)
+	use_simple = { name=_t"grant you two additional class talent points", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.unused_talents = who.unused_talents + 2
 		game.logPlayer(who, "#00FF00#The elixir has improved your capacity for exercising your core talents.")
@@ -216,7 +216,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase your strength and constitution by three", use = function(self, who)
+	use_simple = { name=_t"permanently increase your strength and constitution by three", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.inc_stats[who.STAT_STR] = who.inc_stats[who.STAT_STR] + 3
 		who:onStatChange(who.STAT_STR, 3)
@@ -238,7 +238,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="permanently increase your armor by four", use = function(self, who)
+	use_simple = { name=_t"permanently increase your armor by four", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.combat_armor = who.combat_armor + 4
 		game.logPlayer(who, "#00FF00#The elixir has reinforced your entire body!")
@@ -257,7 +257,7 @@ newEntity{
 	cost = 1000,
 	quest = 1,
 
-	use_simple = { name="grant you two additional generic talent points", use = function(self, who)
+	use_simple = { name=_t"grant you two additional generic talent points", use = function(self, who)
 		game.logPlayer(who, "#00FFFF#You drink the elixir and feel forever transformed!")
 		who.unused_generics = who.unused_generics + 2
 		game.logPlayer(who, "#00FF00#The elixir has improved your capacity for exercising your core talents.")
@@ -351,7 +351,7 @@ newEntity{
 	cost = 200,
 	quest = 1,
 
-	use_simple = { name="grant you complete invulnerability for five turns", use = function(self, who)
+	use_simple = { name=_t"grant you complete invulnerability for five turns", use = function(self, who)
 		who:setEffect(who.EFF_DAMAGE_SHIELD, 5, {power=1000000})
 		game.logPlayer(who, "#00FF00#You feel indestructible!")
 		return {used=true, id=true, destroy=true}

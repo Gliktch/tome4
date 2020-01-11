@@ -61,7 +61,7 @@ else
 		display = "?", color=colors.ANTIQUE_WHITE, image="object/scroll.png",
 		encumber = 0,
 		name = "Mocking Note", lore="loot-vault-empty",
-		desc = [[A small scrap of paper written in a mocking tone.]],
+		desc = _t[[A small scrap of paper written in a mocking tone.]],
 		level_range = {1, 20},
 		rarity = false,
 	}

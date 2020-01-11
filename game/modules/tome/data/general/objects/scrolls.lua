@@ -47,7 +47,7 @@ newEntity{
 	material_level_min_only = true,
 
 	power_source = {nature=true},
-	use_simple = { name="inscribe your skin with the infusion", use = function(self, who, inven, item)
+	use_simple = { name=_t"inscribe your skin with the infusion", use = function(self, who, inven, item)
 		if who:setInscription(nil, self.inscription_talent, self.inscription_data, true, true, {obj=self, inven=inven, item=item}) then
 			return {used=true, id=true, destroy=true}
 		end
@@ -69,7 +69,7 @@ newEntity{
 	material_level_min_only = true,
 
 	power_source = {arcane=true},
-	use_simple = { name="inscribe your skin with the rune", use = function(self, who, inven, item)
+	use_simple = { name=_t"inscribe your skin with the rune", use = function(self, who, inven, item)
 		if who:setInscription(nil, self.inscription_talent, self.inscription_data, true, true, {obj=self, inven=inven, item=item}) then
 			return {used=true, id=true, destroy=true}
 		end
@@ -90,7 +90,7 @@ newEntity{
 	egos = "/data/general/objects/egos/infusions.lua", egos_chance = resolvers.mbonus(30, 5),
 
 	power_source = {arcane=true},
-	use_simple = { name="inscribe your skin with the taint", use = function(self, who, inven, item)
+	use_simple = { name=_t"inscribe your skin with the taint", use = function(self, who, inven, item)
 		if who:setInscription(nil, self.inscription_talent, self.inscription_data, true, true, {obj=self, inven=inven, item=item}) then
 			return {used=true, id=true, destroy=true}
 		end
@@ -105,7 +105,7 @@ newEntity{
 	encumber = 0,
 	checkFilter = function(self) if self.lore and game.party.lore_known and game.party.lore_known[self.lore] then print('[LORE] refusing', self.lore) return false else return true end end,
 	desc = _t[[This parchment contains some lore.]],
-	use_simple = { name="read it", use = function(self, who, inven, item)
+	use_simple = { name=_t"read it", use = function(self, who, inven, item)
 		game.party:learnLore(self.lore)
 		return {used=true, id=true, destroy=true}
 	end}
@@ -119,7 +119,7 @@ newEntity{
 	encumber = 0,
 	checkFilter = function(self) if self.lore and game.party.lore_known and game.party.lore_known[self.lore] then print('[LORE] refusing', self.lore) return false else return true end end,
 	desc = _t[[This parchment contains some lore.]],
-	use_simple = { name="read it", use = function(self, who, inven, item)
+	use_simple = { name=_t"read it", use = function(self, who, inven, item)
 		game.party:learnLore(self.lore)
 		return {used=true, id=true, destroy=true}
 	end}

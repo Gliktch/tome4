@@ -48,7 +48,7 @@ newEntity{ define_as = "ATHAME_WEST2",
 	level_range = {50, 50},
 	display = "|", color=colors.VIOLET,
 	encumber = 1,
-	desc = [[An athame, covered in blood runes. It radiates power.]],
+	desc = _t[[An athame, covered in blood runes. It radiates power.]],
 
 	on_drop = function(self, who)
 		if who == game.player then
@@ -73,7 +73,7 @@ newEntity{ define_as = "ORB_MANY_WAYS2",
 	level_range = {30, 30},
 	display = "*", color=colors.VIOLET, image = "object/artifact/orb_many_ways.png",
 	encumber = 1,
-	desc = [[The orb projects images of distant places, some that seem not to be of this world, switching rapidly.
+	desc = _t[[The orb projects images of distant places, some that seem not to be of this world, switching rapidly.
 If used near a portal, it could probably activate it.]],
 
 	max_power = 30, power_regen = 1,
@@ -108,7 +108,7 @@ for i = 1, 4 do
 newEntity{ base = "BASE_LORE",
 	define_as = "NOTE"..i,
 	name = "tattered paper scrap", lore="tannen-level"..i,
-	desc = [[A paper scrap, left by Tannen.]],
+	desc = _t[[A paper scrap, left by Tannen.]],
 	rarity = false,
 	encumberance = 0,
 }

@@ -27,7 +27,7 @@ newEntity{ define_as = "ATHAME",
 	level_range = {50, 50},
 	display = "|", color=colors.VIOLET,
 	encumber = 1,
-	desc = [[An athame, covered in blood runes. It radiates power.]],
+	desc = _t[[An athame, covered in blood runes. It radiates power.]],
 
 	on_pickup = function(self, who)
 		if who == game.player then

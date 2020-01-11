@@ -26,7 +26,7 @@ local Talents = require "engine.interface.ActorTalents"
 newEntity{ base = "BASE_LORE",
 	define_as = "ARGONIEL_DIAMOND", image = "object/artifact/bloodsoaked_resonating_diamond.png",
 	name = "bloodsoaked diamond", lore="argoniel-1",
-	desc = [[A strangely wet diamond.]],
+	desc = _t[[A strangely wet diamond.]],
 	rarity = false,
 	encumberance = 0,
 }
@@ -34,7 +34,7 @@ newEntity{ base = "BASE_LORE",
 newEntity{ base = "BASE_LORE",
 	define_as = "ARGONIEL_ATHAME", image = "object/artifact/bloodsoaked_runed_athame.png",
 	name = "bloodsoaked athame", lore="argoniel-2",
-	desc = [[A strangely wet athame.]],
+	desc = _t[[A strangely wet athame.]],
 	rarity = false,
 	encumberance = 0,
 }
@@ -42,7 +42,7 @@ newEntity{ base = "BASE_LORE",
 newEntity{ base = "BASE_LORE",
 	define_as = "ELANDAR_JOURNAL1",
 	name = "journal", lore="elandar-1", image = "object/artifact/elandars_journal.png",
-	desc = [[A magically-preserved journal.]],
+	desc = _t[[A magically-preserved journal.]],
 	rarity = false,
 	encumberance = 0,
 }
@@ -50,7 +50,7 @@ newEntity{ base = "BASE_LORE",
 newEntity{ base = "BASE_LORE",
 	define_as = "ELANDAR_JOURNAL2",
 	name = "journal", lore="elandar-2", image = "object/artifact/elandars_journal.png",
-	desc = [[A magically-preserved journal.]],
+	desc = _t[[A magically-preserved journal.]],
 	rarity = false,
 	encumberance = 0,
 }
@@ -69,7 +69,7 @@ newEntity{ define_as = "STAFF_ABSORPTION_AWAKENED", base="BASE_STAFF",
 	encumber = 7,
 	material_level = 5,
 	plot=true,
-	desc = [[Carved with runes of power, this staff seems to have been made long ago, yet it bears no signs of tarnish.
+	desc = _t[[Carved with runes of power, this staff seems to have been made long ago, yet it bears no signs of tarnish.
 Light around it seems to dim and you can feel its tremendous power simply by touching it.
 The Sorcerers seem to have awakened its power.
 #{italic}#"And lo they came to Amakthel himself, and thousands were killed in the assault on his throne, and three of the Godslayers were broken beneath his feet. But Falion with his dying breath pierced the great god on his knee with the icy sword Arkil, and seeing his opportunity Caldizar, leader of the Godslayers, advanced with the Staff of Absorption and struck a terrifying blow against Amakthel. So fell the greatest of the gods by the hands of his own children, and his face was forced into the dust."#{normal}#]],
@@ -166,7 +166,7 @@ newEntity{ define_as = "PEARL_LIFE_DEATH",
 	display = "*", color=colors.WHITE, image = "object/artifact/pearl_of_life.png",
 	encumber = 2,
 	plot=true,
-	desc = [[A pearl, three times the size of a normal pearl, that glitters in infinite colours, with slight patterns ever shifting away.]],
+	desc = _t[[A pearl, three times the size of a normal pearl, that glitters in infinite colours, with slight patterns ever shifting away.]],
 
 	carrier = {
 		lite = 1,
