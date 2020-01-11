@@ -123,7 +123,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Crawl onto the target, covering it in acid.]])
+		return ([[Crawl onto the target, covering it in acid.]]):tformat()
 	end,
 }
 
@@ -418,7 +418,7 @@ newTalent{
 		return num_summon > 0
 	end,
 	info = function(self, t)
-		return ([[Summon allies.]])
+		return ([[Summon allies.]]):tformat()
 	end,
 }
 
@@ -1009,7 +1009,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Rushes toward your target with incredible speed. If the target is reached, you use your claws to pin it to the ground for 5 turns.
-		You must rush from at least 2 tiles away.]])
+		You must rush from at least 2 tiles away.]]):tformat()
 	end,
 }
 
@@ -1440,7 +1440,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Invoke a tentacle to assault your foes.  If the tentacle is killed, you will lose life equal to 2/3 of it's maximum life.]])
+		return ([[Invoke a tentacle to assault your foes.  If the tentacle is killed, you will lose life equal to 2/3 of it's maximum life.]]):tformat()
 	end,
 }
 
@@ -1767,7 +1767,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Pull all foes within radius 10 1 grid towards you.]])
+		return ([[Pull all foes within radius 10 1 grid towards you.]]):tformat()
 	end,
 }
 
@@ -1810,7 +1810,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Invoke a slimy crawler for 10 turns.]])
+		return ([[Invoke a slimy crawler for 10 turns.]]):tformat()
 	end,
 }
 
@@ -2156,7 +2156,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fade from sight, making you invulnerable until the beginning of your next turn.]])
+		return ([[You fade from sight, making you invulnerable until the beginning of your next turn.]]):tformat()
 	end,
 }
 
@@ -2175,7 +2175,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Teleports you randomly within range 10.]])
+		return ([[Teleports you randomly within range 10.]]):tformat()
 	end,
 }
 
@@ -2239,7 +2239,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[The target will not react until attacked.]])
+		return ([[The target will not react until attacked.]]):tformat()
 	end,
 }
 
@@ -3076,7 +3076,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Quickly and quietly dash your way to the target square, if it is not blocked by enemies or obstacles. This talent will not break Stealth.]])
+		return ([[Quickly and quietly dash your way to the target square, if it is not blocked by enemies or obstacles. This talent will not break Stealth.]]):tformat()
 	end,
 }
 

@@ -1061,7 +1061,7 @@ newTalent{
 	on_learn = function(self, t) self.auto_id = 100 end,
 	info = function(self, t)
 		return ([[You merge your mind with the rest of the Way for a brief moment; the sum of all yeek knowledge gathers in your mind
-		and allows you to identify any item you could not recognize yourself.]])
+		and allows you to identify any item you could not recognize yourself.]]):tformat()
 	end,
 }
 

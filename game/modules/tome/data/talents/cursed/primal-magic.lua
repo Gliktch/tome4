@@ -136,7 +136,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Instantaneously displace yourself within line of sight up to 3 squares away.]])
+		return ([[Instantaneously displace yourself within line of sight up to 3 squares away.]]):tformat()
 	end,
 }
 

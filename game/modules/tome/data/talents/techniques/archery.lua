@@ -136,7 +136,7 @@ newTalent{
 		return count > 0
 	end,
 	info = function(self, t)
-		return ([[Shoot your bow, sling or other missile launcher!]])
+		return ([[Shoot your bow, sling or other missile launcher!]]):tformat()
 	end,
 }
 

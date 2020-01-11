@@ -106,7 +106,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Leaps toward a target within range.
-		Only usable while frenzied.]])
+		Only usable while frenzied.]]):tformat()
 	end,
 }
 
@@ -668,7 +668,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Open a hole in space, summoning an animated blade for 10 turns.]])
+		return ([[Open a hole in space, summoning an animated blade for 10 turns.]]):tformat()
 	end,
 }
 

@@ -134,7 +134,7 @@ newTalent{
 		if oh then apply(oh) end
 	end,
 	info = function(self, t)
-		return ([[Alter the flow of energies of your equiped mindstars, changing their damage type between nature and mind.]])
+		return ([[Alter the flow of energies of your equiped mindstars, changing their damage type between nature and mind.]]):tformat()
 	end,
 }
 
@@ -194,7 +194,7 @@ newTalent{
 		end
 	end,
 	info = function(self, t)
-		return ([[Alter the flow of energies through a staff.]])
+		return ([[Alter the flow of energies through a staff.]]):tformat()
 	end,
 }
 
@@ -241,7 +241,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Use Yiilkgur's teleporter to teleport to the ground.]])
+		return ([[Use Yiilkgur's teleporter to teleport to the ground.]]):tformat()
 	end,
 }
 
@@ -468,7 +468,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You enter into a fighting trance, gaining 15%% resist all, losing 15 mindpower, but gaining 20 mental save. However, each turn after the fifth that this talent is active, there is a chance that you will be overcome and become confused.
-This does not take a turn to use.]])
+This does not take a turn to use.]]):tformat()
 	end,
 }
 
@@ -488,7 +488,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Remove any talent Morrigor has absorbed.]])
+		return ([[Remove any talent Morrigor has absorbed.]]):tformat()
 	end,
 }
 
@@ -604,7 +604,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Reset up to 3 wild gift, psionic or cursed talents.]])
+		return ([[Reset up to 3 wild gift, psionic or cursed talents.]]):tformat()
 	end,
 }
 
@@ -691,7 +691,7 @@ newTalent{
 		end
 	end,
 	info = function(self, t)
-		return ([[Can block up to 1 hit per 10 turns.]])
+		return ([[Can block up to 1 hit per 10 turns.]]):tformat()
 	end,
 }
 
@@ -737,6 +737,6 @@ newTalent{
 	points = 1,
 	mode = "passive",
 	info = function(self, t)
-		return ([[Intermediary for melee retaliation.]])
+		return ([[Intermediary for melee retaliation.]]):tformat()
 	end,
 }

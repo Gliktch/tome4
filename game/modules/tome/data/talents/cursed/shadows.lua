@@ -30,7 +30,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fade from sight, making you invulnerable until the beginning of your next turn.]])
+		return ([[You fade from sight, making you invulnerable until the beginning of your next turn.]]):tformat()
 	end,
 }
 
@@ -58,7 +58,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Teleports you within a small range.]])
+		return ([[Teleports you within a small range.]]):tformat()
 	end,
 }
 

@@ -585,7 +585,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Pulls innocent people into the fight.]])
+		return ([[Pulls innocent people into the fight.]]):tformat()
 	end,
 }
 

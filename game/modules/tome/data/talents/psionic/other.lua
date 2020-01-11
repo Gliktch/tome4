@@ -77,7 +77,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Telekinetically grasp a weapon or gem using mentally-directed forces, holding it aloft and bringing it to bear with the power of your mind alone.
-		Note: The normal restrictions on worn equipment do not apply to this item.]])
+		Note: The normal restrictions on worn equipment do not apply to this item.]]):tformat()
 	end,
 }
 

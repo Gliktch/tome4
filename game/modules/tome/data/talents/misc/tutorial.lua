@@ -41,7 +41,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Give the target a good old-fashioned shove, knocking it back a square.]])
+		return ([[Give the target a good old-fashioned shove, knocking it back a square.]]):tformat()
 	end,
 }
 
@@ -98,7 +98,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Knock the target backwards with a powerful telekinetic blow.]])
+		return ([[Knock the target backwards with a powerful telekinetic blow.]]):tformat()
 	end,
 }
 
@@ -126,7 +126,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Attempts to magically teleport a target slightly farther from you.]])
+		return ([[Attempts to magically teleport a target slightly farther from you.]]):tformat()
 	end,
 }
 
@@ -154,7 +154,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Attempts to briefly terrify a target into retreating.]])
+		return ([[Attempts to briefly terrify a target into retreating.]]):tformat()
 	end,
 }
 
@@ -178,7 +178,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Inflicts a 10-turn bleed effect.]])
+		return ([[Inflicts a 10-turn bleed effect.]]):tformat()
 	end,
 }
 
@@ -202,6 +202,6 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Use your mental powers to confuse the target for five turns.]])
+		return ([[Use your mental powers to confuse the target for five turns.]]):tformat()
 	end,
 }

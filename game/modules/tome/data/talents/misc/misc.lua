@@ -87,7 +87,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hack and slash, baby!]])
+		return ([[Hack and slash, baby!]]):tformat()
 	end,
 }
 

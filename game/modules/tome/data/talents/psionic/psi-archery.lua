@@ -119,7 +119,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Ready and release an arrow with a flitting thought. This attack does not use a turn, and increases in talent level reduce its cooldown.]])
+		return ([[Ready and release an arrow with a flitting thought. This attack does not use a turn, and increases in talent level reduce its cooldown.]]):tformat()
 	end,
 }
 
