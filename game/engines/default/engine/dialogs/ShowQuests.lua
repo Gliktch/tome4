@@ -29,7 +29,7 @@ module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init(actor, select_id)
 	self.actor = actor
-	Dialog.init(self, ("Quest Log for "):tformat(actor.name), game.w * 0.8, game.h * 0.8)
+	Dialog.init(self, ("Quest Log for %s"):tformat(actor.name), game.w * 0.8, game.h * 0.8)
 
 	self.c_desc = TextzoneList.new{scrollbar=true, width=math.floor(self.iw / 2 - 10), height=self.ih}
 

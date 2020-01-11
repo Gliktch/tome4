@@ -66,15 +66,15 @@ function _M:generateList()
 	local i = 0
 
 	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=_t"Display resolution."}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Resolution#WHITE##{normal}#"):toTstring(), status=function(item)
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Resolution#WHITE##{normal}#"):toTString(), status=function(item)
 		return config.settings.window.size
 	end, fct=function(item)
 		local menu = require("engine.dialogs.DisplayResolution").new(function()	self.c_list:drawItem(item) end)
 		game:registerDialog(menu)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"If you have a very high DPI screen you may want to raise this value. Requires a restart to take effect.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Screen Zoom#WHITE##{normal}#"):toTstring(), status=function(item)
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"If you have a very high DPI screen you may want to raise this value. Requires a restart to take effect.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Screen Zoom#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.screen_zoom * 100).."%"
 	end, fct=function(item)
 		game:registerDialog(GetQuantitySlider.new(_t"Enter Zoom %", _t"From 50 to 400", math.floor(config.settings.screen_zoom * 100), 50, 400, 5, function(qty)
@@ -85,8 +85,8 @@ function _M:generateList()
 		end))
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Request this display refresh rate.\nSet it lower to reduce CPU load, higher to increase interface responsiveness.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Requested FPS#WHITE##{normal}#"):toTstring(), status=function(item)
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Request this display refresh rate.\nSet it lower to reduce CPU load, higher to increase interface responsiveness.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Requested FPS#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.display_fps)
 	end, fct=function(item)
 		game:registerDialog(GetQuantitySlider.new(_t"Enter density", _t"From 5 to 60", config.settings.display_fps, 5, 60, 1, function(qty)
@@ -98,8 +98,8 @@ function _M:generateList()
 		end))
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Controls the particle effects density.\nThis option allows to change the density of the many particle effects in the game.\nIf the game is slow when displaying spell effects try to lower this setting.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Particle effects density#WHITE##{normal}#"):toTstring(), status=function(item)
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Controls the particle effects density.\nThis option allows to change the density of the many particle effects in the game.\nIf the game is slow when displaying spell effects try to lower this setting.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Particle effects density#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.particles_density).."%"
 	end, fct=function(item)
 		game:registerDialog(GetQuantitySlider.new(_t"Enter density", _t"From 0 to 100", config.settings.particles_density, 0, 100, 1, function(qty)
@@ -109,9 +109,9 @@ function _M:generateList()
 		end))
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates antialiased texts.\nTexts will look nicer but it can be slower on some computers.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Antialiased texts#WHITE##{normal}#"):toTstring(), status=function(item)
-		return tostring(core.display.getTextBlended() and "enabled" or "disabled")
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates antialiased texts.\nTexts will look nicer but it can be slower on some computers.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Antialiased texts#WHITE##{normal}#"):toTString(), status=function(item)
+		return tostring(core.display.getTextBlended() and _t"enabled" or _t"disabled")
 	end, fct=function(item)
 		local state = not core.display.getTextBlended()
 		core.display.setTextBlended(state)
@@ -119,8 +119,8 @@ function _M:generateList()
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Apply a global scaling to all fonts.\nApplies after restarting the game"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Font Scale#WHITE##{normal}#"):toTstring(), status=function(item)
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Apply a global scaling to all fonts.\nApplies after restarting the game"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Font Scale#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.font_scale).."%"
 	end, fct=function(item)
 		game:registerDialog(GetQuantity.new(_t"Font Scale %", _t"From 50 to 300", config.settings.font_scale, 300, function(qty)
@@ -131,54 +131,54 @@ function _M:generateList()
 		end, 50))
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates framebuffers.\nThis option allows for some special graphical effects.\nIf you encounter weird graphical glitches try to disable it.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Framebuffers#WHITE##{normal}#"):toTstring(), status=function(item)
-		return tostring(config.settings.fbo_active and "enabled" or "disabled")
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates framebuffers.\nThis option allows for some special graphical effects.\nIf you encounter weird graphical glitches try to disable it.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Framebuffers#WHITE##{normal}#"):toTString(), status=function(item)
+		return tostring(config.settings.fbo_active and _t"enabled" or _t"disabled")
 	end, fct=function(item)
 		config.settings.fbo_active = not config.settings.fbo_active
 		game:saveSettings("fbo_active", ("fbo_active = %s\n"):format(tostring(config.settings.fbo_active)))
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates OpenGL Shaders.\nThis option allows for some special graphical effects.\nIf you encounter weird graphical glitches try to disable it.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#OpenGL Shaders#WHITE##{normal}#"):toTstring(), status=function(item)
-		return tostring(config.settings.shaders_active and "enabled" or "disabled")
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates OpenGL Shaders.\nThis option allows for some special graphical effects.\nIf you encounter weird graphical glitches try to disable it.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#OpenGL Shaders#WHITE##{normal}#"):toTString(), status=function(item)
+		return tostring(config.settings.shaders_active and _t"enabled" or _t"disabled")
 	end, fct=function(item)
 		config.settings.shaders_active = not config.settings.shaders_active
 		game:saveSettings("shaders_active", ("shaders_active = %s\n"):format(tostring(config.settings.shaders_active)))
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates advanced shaders.\nThis option allows for advanced effects (like water surfaces, ...). Disabling it can improve performance.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#OpenGL Shaders: Advanced#WHITE##{normal}#"):toTstring(), status=function(item)
-		return tostring(config.settings.shaders_kind_adv and "enabled" or "disabled")
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates advanced shaders.\nThis option allows for advanced effects (like water surfaces, ...). Disabling it can improve performance.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#OpenGL Shaders: Advanced#WHITE##{normal}#"):toTString(), status=function(item)
+		return tostring(config.settings.shaders_kind_adv and _t"enabled" or _t"disabled")
 	end, fct=function(item)
 		config.settings.shaders_kind_adv = not config.settings.shaders_kind_adv
 		game:saveSettings("shaders_kind_adv", ("shaders_kind_adv = %s\n"):format(tostring(config.settings.shaders_kind_adv)))
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates distorting shaders.\nThis option allows for distortion effects (like spell effects doing a visual distortion, ...). Disabling it can improve performance.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#OpenGL Shaders: Distortions#WHITE##{normal}#"):toTstring(), status=function(item)
-		return tostring(config.settings.shaders_kind_distort and "enabled" or "disabled")
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates distorting shaders.\nThis option allows for distortion effects (like spell effects doing a visual distortion, ...). Disabling it can improve performance.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#OpenGL Shaders: Distortions#WHITE##{normal}#"):toTString(), status=function(item)
+		return tostring(config.settings.shaders_kind_distort and _t"enabled" or _t"disabled")
 	end, fct=function(item)
 		config.settings.shaders_kind_distort = not config.settings.shaders_kind_distort
 		game:saveSettings("shaders_kind_distort", ("shaders_kind_distort = %s\n"):format(tostring(config.settings.shaders_kind_distort)))
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates volumetric shaders.\nThis option allows for volumetricion effects (like deep starfields). Enabling it will severely reduce performance when shaders are displayed.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#OpenGL Shaders: Volumetric#WHITE##{normal}#"):toTstring(), status=function(item)
-		return tostring(config.settings.shaders_kind_volumetric and "enabled" or "disabled")
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Activates volumetric shaders.\nThis option allows for volumetricion effects (like deep starfields). Enabling it will severely reduce performance when shaders are displayed.\n\n#LIGHT_RED#You must restart the game for it to take effect.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#OpenGL Shaders: Volumetric#WHITE##{normal}#"):toTString(), status=function(item)
+		return tostring(config.settings.shaders_kind_volumetric and _t"enabled" or _t"disabled")
 	end, fct=function(item)
 		config.settings.shaders_kind_volumetric = not config.settings.shaders_kind_volumetric
 		game:saveSettings("shaders_kind_volumetric", ("shaders_kind_volumetric = %s\n"):format(tostring(config.settings.shaders_kind_volumetric)))
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Use the custom cursor.\nDisabling it will use your normal operating system cursor.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Mouse cursor#WHITE##{normal}#"):toTstring(), status=function(item)
-		return tostring(config.settings.mouse_cursor and "enabled" or "disabled")
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Use the custom cursor.\nDisabling it will use your normal operating system cursor.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Mouse cursor#WHITE##{normal}#"):toTString(), status=function(item)
+		return tostring(config.settings.mouse_cursor and _t"enabled" or _t"disabled")
 	end, fct=function(item)
 		config.settings.mouse_cursor = not config.settings.mouse_cursor
 		game:updateMouseCursor()
@@ -186,8 +186,8 @@ function _M:generateList()
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Gamma correction setting.\nIncrease this to get a brighter display.#WHITE#"):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Gamma correction#WHITE##{normal}#"):toTstring(), status=function(item)
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Gamma correction setting.\nIncrease this to get a brighter display.#WHITE#"):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Gamma correction#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.gamma_correction)
 	end, fct=function(item)
 		game:registerDialog(GetQuantitySlider.new(_t"Gamma correction", _t"From 50 to 300", config.settings.gamma_correction, 50, 300, 5, function(qty)
@@ -199,9 +199,9 @@ function _M:generateList()
 		end))
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Enable/disable usage of tilesets.\nIn some rare cases on very slow machines with bad GPUs/drivers it can be detrimental."):toTstring()}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Use tilesets#WHITE##{normal}#"):toTstring(), status=function(item)
-		return tostring(config.settings.disable_tilesets and "disabled" or "enabled")
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Enable/disable usage of tilesets.\nIn some rare cases on very slow machines with bad GPUs/drivers it can be detrimental."):toTString()}
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Use tilesets#WHITE##{normal}#"):toTString(), status=function(item)
+		return tostring(config.settings.disable_tilesets and _t"disabled" or _t"enabled")
 	end, fct=function(item)
 		config.settings.disable_tilesets = not config.settings.disable_tilesets
 		game:saveSettings("disable_tilesets", ("disable_tilesets = %s\n"):format(tostring(config.settings.disable_tilesets)))
@@ -212,7 +212,7 @@ function _M:generateList()
 	--  SDL tends to lie about where windows are positioned in fullscreen mode,
 	-- so always store the position requests, not the actual positions. 
 	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=_t"Request a specific origin point for the game window.\nThis point corresponds to where the upper left corner of the window will be located.\nUseful when dealing with multiple monitors and borderless windows.\n\nThe default origin is (0,0).\n\nNote: This value will automatically revert after ten seconds if not confirmed by the user.#WHITE#"}
-	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Requested Window Position#WHITE##{normal}#"):toTstring(), status=function(item)
+	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Requested Window Position#WHITE##{normal}#"):toTString(), status=function(item)
 		config.settings.window.pos = config.settings.window.pos or {x=0, y=0}
 		local curX, curY = config.settings.window.pos.x, config.settings.window.pos.y
 		return table.concat({"(", curX, ",", curY, ")"})
@@ -249,7 +249,7 @@ function _M:generateList()
 									revertMove()
 								end
 							end
-							,  "Accept", "Revert")
+							,  _"Accept", _"Revert")
 						game:registerTimer(10
 							, function()
 								-- Blast out changes if no response

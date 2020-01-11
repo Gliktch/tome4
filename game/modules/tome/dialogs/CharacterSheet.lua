@@ -57,8 +57,8 @@ function _M:init(actor, start_tab)
 	self.c_talents = Tab.new{title=_t"[T]alents", default=start_tab == "talents", fct=function() end, on_change=function(s) if s then self:switchTo("talents") end end }
 
 	-- Select equipment/switch sets
-	self.equip_set = self.actor.off_weapon_slots and "off" or "main"
-	self.c_equipment = Tab.new{title=_t"[E]quipment: "..self.equip_set.." set", default=start_tab == "equipment",
+	self.equip_set = self.actor.off_weapon_slots and _t"off" or _t"main"
+	self.c_equipment = Tab.new{title=("[E]quipment: %s set"):tformat(self.equip_set), default=start_tab == "equipment",
 		fct=function()
 		end,
 		on_change=function(s)

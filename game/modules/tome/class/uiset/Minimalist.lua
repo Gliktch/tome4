@@ -2063,7 +2063,7 @@ function _M:setupMouse(mouse)
 			end
 		end end
 		if item.url then
-			table.append(tooltips, (_t"Clicking will open#LIGHT_BLUE##{italic}#%s#WHITE##{normal}# in your browser"):toTstring() )
+			table.append(tooltips, (_t"Clicking will open#LIGHT_BLUE##{italic}#%s#WHITE##{normal}# in your browser"):toTString() )
 		end
 
 		local extra = {}
