@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 newEntity{ define_as = "TRAP_TEMPORAL",
-	type = "temporal", subtype="water", id_by_type=true, unided_name = "trap",
+	type = "temporal", subtype="water", id_by_type=true, unided_name = _t"trap",
 	display = '^',
 	triggered = function(self, x, y, who)
 		return true, self.auto_disarm
@@ -32,7 +32,7 @@ newEntity{ base = "TRAP_TEMPORAL",
 	rarity = 3, level_range = {1, 50},
 	color=colors.VIOLET,
 	message = "@Target@ is caught in a distorted pocket of time!",
-	unided_name = "faint distortion",
+	unided_name = _t"faint distortion",
 	desc = [[Creates a temporal anomaly when triggered.]],
 	triggered = function(self, x, y, who)
 		who:paradoxDoAnomaly(100, 0, {anomaly_type="no-major"})
@@ -47,7 +47,7 @@ newEntity{ base = "TRAP_TEMPORAL",
 	rarity = 6, level_range = {10, nil},
 	color=colors.PURPLE,
 	message = "@Target@ is caught in an extremely distorted pocket of time!",
-	unided_name = "distortion",
+	unided_name = _t"distortion",
 	desc = [[Creates a major temporal anomaly when triggered.]],
 	triggered = function(self, x, y, who)
 		who:paradoxDoAnomaly(100, 0, {anomaly_type="major"})

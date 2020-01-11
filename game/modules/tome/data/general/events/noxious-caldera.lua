@@ -28,7 +28,7 @@ level.data.on_enter_list.noxious_caldera = function()
 
 	game.level.data.noxious_caldera_added = true
 	local g = game.level.map(spot.x, spot.y, engine.Map.TERRAIN):cloneFull()
-	g.name = "Way into a volcanic caldera"
+	g.name = _t"Way into a volcanic caldera"
 	g.display='>' g.color_r=255 g.color_g=0 g.color_b=0 g.notice = true
 	g.change_level=1 g.change_zone="noxious-caldera" g.glow=true
 	g.add_displays = g.add_displays or {}

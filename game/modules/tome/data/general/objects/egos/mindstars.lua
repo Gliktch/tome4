@@ -530,7 +530,7 @@ newEntity{
 		},
 		special_on_hit = {
 			desc=function(self, who, special)
-				return ("Cause the target to have a 10%% chance to fail spellcasting and 10%% chance to lose a magical sustain each turn, stacking up to 50%%"):format()
+				return ("Cause the target to have a 10%% chance to fail spellcasting and 10%% chance to lose a magical sustain each turn, stacking up to 50%%"):tformat()
 			end,
 			fct=function(combat, who, target, dam, special)
 				local check = math.max(who:combatSpellpower(), who:combatMindpower(), who:combatAttack())
@@ -733,7 +733,7 @@ newEntity{
 	charm_power = resolvers.mbonus_material(80, 20),
 	charm_power_def = {add=5, max=10, floor=true},
 	resolvers.charm(function(self, who) 
-		return ("inflict %0.2f mind damage (range 10), gaining psi and hate equal to 10%%%% of the damage done"):format(who:damDesc(engine.DamageType.MIND, self.use_power.damage(self, who)))
+		return ("inflict %0.2f mind damage (range 10), gaining psi and hate equal to 10%%%% of the damage done"):tformat(who:damDesc(engine.DamageType.MIND, self.use_power.damage(self, who)))
 		end,
 		20,
 		function(self, who)

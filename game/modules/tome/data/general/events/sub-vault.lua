@@ -112,7 +112,7 @@ local changer = function(id)
 end
 
 local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-g.name = "hidden vault"
+g.name = _t"hidden vault"
 g.always_remember = true
 g.desc = [[Crumbling stairs lead down to something.]]
 g.show_tooltip = true

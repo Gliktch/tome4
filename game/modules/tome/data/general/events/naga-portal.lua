@@ -32,8 +32,8 @@ local changer = function(id)
 	terrains.PORTAL_BACK = mod.class.Grid.new{
 		type = "floor", subtype = "underwater",
 		display = "&", color = colors.BLUE,
-		name = "coral invasion portal",
-		name = "portal back to "..game.zone.name,
+		name = "coral invasion portal", -- TODO: this line is duplicated
+		name = ("portal back to %s"):tformat(game.zone.name),
 		image = "terrain/underwater/subsea_floor_02.png",
 		add_displays = {mod.class.Grid.new{z=18, image="terrain/naga_portal.png", display_h=2, display_y=-1, embed_particles = {
 			{name="naga_portal_smoke", rad=2, args={smoke="particles_images/smoke_whispery_bright"}},
@@ -46,7 +46,7 @@ local changer = function(id)
 		change_zone_auto_stairs = true,
 	}
 	local zone = mod.class.Zone.new(id, {
-		name = "water cavern",
+		name = _t"water cavern",
 		level_range = game.zone.actor_adjust_level and {math.floor(game.zone:actor_adjust_level(game.level, game.player)*1.05),
 			math.ceil(game.zone:actor_adjust_level(game.level, game.player)*1.15)} or {game.zone.base_level, game.zone.base_level}, -- 5-15% higher levels
 		__applied_difficulty = true, -- Difficulty already applied to parent zone
@@ -103,7 +103,7 @@ local changer = function(id)
 end
 
 local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-g.name = "naga invasion coral portal"
+g.name = _t"naga invasion coral portal"
 g.always_remember = true
 g.display='&' g.color_r=0 g.color_g=0 g.color_b=255 g.notice = true
 g.special_minimap = colors.VIOLET
@@ -125,7 +125,7 @@ g.real_change = changer
 g.break_portal = function(self)
 	game.log("#VIOLET#The portal is broken!")
 	self.broken = true
-	self.name = "broken naga invasion coral portal"
+	self.name = _t"broken naga invasion coral portal"
 	self.change_level = nil
 	self.autoexplore_ignore = true
 	self.show_tooltip = false

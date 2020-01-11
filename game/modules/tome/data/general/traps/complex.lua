@@ -21,7 +21,7 @@ local DamageType = require "engine.DamageType"
 local Talents = require"engine.interface.ActorTalents"
 
 newEntity{ define_as = "TRAP_COMPLEX",
-	type = "complex", id_by_type=true, unided_name = "trap",
+	type = "complex", id_by_type=true, unided_name = _t"trap",
 	display = '^',
 	triggered = function(self, x, y, who)
 		return true
@@ -36,11 +36,11 @@ newEntity{ base = "TRAP_COMPLEX",
 	rarity = 3, level_range = {1, nil},
 	color = colors.UMBER,
 	message = "@Target@ walks on a trap, and there is a loud noise.",
-	unided_name = "large pressure plate",
+	unided_name = _t"large pressure plate",
 	desc = function(self)
 		local dir = game.level.map:compassDirection(self.spawn_x - self.x, self.spawn_y - self.y)
-		dir = dir and (" (from %s)"):format(dir) or ""
-		return ("Releases a large boulder%s that smashes into the target for %d physical damage and knocks it back."):format(dir,self.dam)
+		dir = dir and (" (from %s)"):tformat(dir) or ""
+		return ("Releases a large boulder%s that smashes into the target for %d physical damage and knocks it back."):tformat(dir,self.dam)
 	end,
 	pressure_trap = true,
 	on_added = function(self, level, x, y)
@@ -86,10 +86,10 @@ newEntity{ base = "TRAP_COMPLEX",
 	rarity = 3, level_range = {1, nil},
 	color=colors.PURPLE,
 	message = "@Target@ activates a trap, and its magical energies change.",
-	unided_name = "magical emitter",
+	unided_name = _t"magical emitter",
 	desc = function(self)
 		local dtype = engine.DamageType[self.dammode] and engine.DamageType:get(self.dammode)
-		return dtype and ("Projects a rapidly spinning beam of magical energies (range %d), dealing %d damage (%s%s#WHITE#) to those struck."):format(self.rad, self.dam, dtype.text_color or "#WHITE#", dtype.name)
+		return dtype and ("Projects a rapidly spinning beam of magical energies (range %d), dealing %d damage (%s%s#WHITE#) to those struck."):tformat(self.rad, self.dam, dtype.text_color or "#WHITE#", dtype.name)
 	end,
 	on_added = function(self, level, x, y)
 		self.x, self.y = x, y
@@ -158,9 +158,9 @@ newEntity{ base = "TRAP_COMPLEX",
 	rarity = 3, level_range = {1, nil},
 	color=colors.GREEN,
 	message = "@Target@ walks on a poison spore.",
-	unided_name = "spore colony",
+	unided_name = _t"spore colony",
 	desc = function(self)
-		return ("Releases a cloud of poison spores (radius %d), poisoning for #LIGHT_GREEN#%d#LAST# damage over 5 turns."):format(self.rad, self.dam)
+		return ("Releases a cloud of poison spores (radius %d), poisoning for #LIGHT_GREEN#%d#LAST# damage over 5 turns."):tformat(self.rad, self.dam)
 	end,
 	on_added = function(self, level, x, y)
 		self.x, self.y = x, y
@@ -222,9 +222,9 @@ newEntity{ base = "TRAP_COMPLEX",
 	color=colors.RED,
 	pressure_trap = true,
 	message = "Flames start to appear around @target@.",
-	unided_name = "hot spot",
+	unided_name = _t"hot spot",
 	desc = function(self)
-		return ("Releases up to 4 delayed fuse fireballs within range %d that each explode for #LIGHT_RED#%d#LAST# fire damage after %d turns."):format(self.rad, self.dam, 5)
+		return ("Releases up to 4 delayed fuse fireballs within range %d that each explode for #LIGHT_RED#%d#LAST# fire damage after %d turns."):tformat(self.rad, self.dam, 5)
 	end,
 	rad = 3,
 	dam = resolvers.clscale(200, 50, 50, 0.75, 0),
@@ -274,7 +274,7 @@ newEntity{ base = "TRAP_COMPLEX",
 	color=colors.BLUE,
 	pressure_trap = true,
 	message = "Cold flames start to appear around @target@.",
-	unided_name = "cold spot",
+	unided_name = _t"cold spot",
 	desc = function(self)
 		local actor = self.actor
 		if actor then
@@ -282,7 +282,7 @@ newEntity{ base = "TRAP_COMPLEX",
 			local pts = t.getDarkCount(actor, t)
 			local rad = actor:getTalentRadius(t)
 			local dam = t.getDamage(actor, t)
-			return ("Cold flames slowly spread from %d spots within radius %d, The flames deal %d cold damage with a chance to freeze."):format(pts, rad, dam)
+			return ("Cold flames slowly spread from %d spots within radius %d, The flames deal %d cold damage with a chance to freeze."):tformat(pts, rad, dam)
 		end
 	end,
 	mag = resolvers.mbonus(200, 30),

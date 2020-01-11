@@ -19,7 +19,7 @@
 
 newEntity{ base = "BASE_LORE_RANDOM",
 	name = "trollish poem", lore="troll-poem", unique=true,
-	desc = [[A poem written by a... troll?]],
+	desc = _t[[A poem written by a... troll?]],
 	level_range = {1, 50},
 	rarity = 40,
 	encumber = 0,
@@ -27,7 +27,7 @@ newEntity{ base = "BASE_LORE_RANDOM",
 
 newEntity{ base = "BASE_LORE_RANDOM",
 	name = "necromancer poem", lore="necromancer-poem", unique=true,
-	desc = [[A poem written by a... Necromancer?]],
+	desc = _t[[A poem written by a... Necromancer?]],
 	level_range = {15, 50},
 	rarity = 40,
 	encumber = 0,
@@ -35,7 +35,7 @@ newEntity{ base = "BASE_LORE_RANDOM",
 
 newEntity{ base = "BASE_LORE_RANDOM",
 	name = "rogues do it from behind", lore="rogue-poem", unique=true,
-	desc = [[A poem written for a rogue?]],
+	desc = _t[[A poem written for a rogue?]],
 	level_range = {15, 50},
 	rarity = 40,
 	encumber = 0,
@@ -44,7 +44,7 @@ newEntity{ base = "BASE_LORE_RANDOM",
 for i = 1, 4 do
 newEntity{ base = "BASE_LORE_RANDOM",
 	name = "how to become a necromancer, part "..i, lore="necromancer-primer-"..i, unique=true,
-	desc = [[How to become a powerful Necromancer!]],
+	desc = _t[[How to become a powerful Necromancer!]],
 	level_range = {15, 50},
 	rarity = 40,
 }
@@ -52,7 +52,7 @@ end
 
 newEntity{ base = "BASE_LORE_RANDOM",
 	name = [["Dust to Dust", an undead hunter's guide, by Aslabor Borys]], lore="dust-to-dust", unique=true,
-	desc = [[An undead hunter's guide, by Aslabor Borys.]],
+	desc = _t[[An undead hunter's guide, by Aslabor Borys.]],
 	level_range = {15, 50},
 	rarity = 60,
 }
@@ -67,7 +67,7 @@ elseif i == 5 then who = "Weisman" nb = 3
 end
 newEntity{ base = "BASE_LORE_RANDOM",
 	name = "letter to "..who.."("..nb..")", lore="adventurer-letter-"..i, unique=true,
-	desc = [[A part of the correspondence between two adventurers.]],
+	desc = _t[[A part of the correspondence between two adventurers.]],
 	level_range = {1, 20},
 	rarity = 20,
 	bloodstains = (i == 5) and 2 or nil,
@@ -76,7 +76,7 @@ end
 
 newEntity{ base = "BASE_LORE_RANDOM",
 	name = "of halfling feet", lore="halfling-feet", unique=true,
-	desc = [[Notes about... Halfling feet??]],
+	desc = _t[[Notes about... Halfling feet??]],
 	level_range = {10, 30},
 	rarity = 40,
 	encumber = 0,

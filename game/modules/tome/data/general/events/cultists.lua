@@ -45,7 +45,7 @@ game.level.event_cultists = {sacrifice = 0, kill = 0}
 
 for i, p in ipairs(list) do
 	local g = game.level.map(p.x, p.y, engine.Map.TERRAIN):cloneFull()
-	g.name = "monolith"
+	g.name = _t"monolith"
 	g.display='&' g.color_r=0 g.color_g=255 g.color_b=255 g.notice = true
 	g.always_remember = true g.special_minimap = colors.OLIVE_DRAB
 	g.add_displays = g.add_displays or {}
@@ -61,7 +61,7 @@ for i, p in ipairs(list) do
 	local m = mod.class.NPC.new{
 		type = "humanoid", subtype = "shalore", image = "npc/humanoid_shalore_elven_corruptor.png",
 		name = "Cultist",
-		desc = [[An elven cultist. He doesn't seem to mind you.]],
+		desc = _t[[An elven cultist. He doesn't seem to mind you.]],
 		display = "p", color=colors.ORCHID,
 		faction = "unaligned",
 		combat = { dam=resolvers.rngavg(5,12), atk=2, apr=6, physspeed=2 },
@@ -102,14 +102,14 @@ for i, p in ipairs(list) do
 			local g = game.level.map(self.monolith_x, self.monolith_y, engine.Map.TERRAIN)
 			if not g or not g.is_monolith then return end
 			if self.self_sacrifice then
-				self:doEmote(rng.table{"My soul for her!", "The Dark Queen shall reign!", "Take me! Take me!", "From death comes life!"}, 60)
+				self:doEmote(rng.table{_t"My soul for her!", _t"The Dark Queen shall reign!", _t"Take me! Take me!", _t"From death comes life!"}, 60)
 				g.add_displays[#g.add_displays].image = g.add_displays[#g.add_displays].image:gsub("/moonstone_0", "/darkgreen_moonstone_0")
-				g.name = "corrupted monolith"
+				g.name = _t"corrupted monolith"
 				game.level.event_cultists.sacrifice = game.level.event_cultists.sacrifice + 1
 			else
-				self:doEmote(rng.table{"This is too soon!", "No the ritual will weaken!"}, 60)
+				self:doEmote(rng.table{_t"This is too soon!", _t"No the ritual will weaken!"}, 60)
 				g.add_displays[#g.add_displays].image = g.add_displays[#g.add_displays].image:gsub("/moonstone_0", "/bluish_moonstone_0")
-				g.name = "disrupted monolith"
+				g.name = _t"disrupted monolith"
 				game.level.event_cultists.kill = game.level.event_cultists.kill + 1
 			end
 			g:removeAllMOs()
@@ -119,7 +119,7 @@ for i, p in ipairs(list) do
 				game.level.event_cultists.queen_y = self.monolith_y
 				game.level.turn_counter = 10 * 210
 				game.level.max_turn_counter = 10 * 210
-				game.level.turn_counter_desc = "Something the cultists are doing is coming. Beware."
+				game.level.turn_counter_desc = _t"Something the cultists are doing is coming. Beware."
 				require("engine.ui.Dialog"):simplePopup(_t"Cultist", _t"The cultist's soul seems to be absorbed by the strange stone he was guarding. You feel like something is about to happen...")
 			end
 		end,
@@ -150,7 +150,7 @@ if not game.zone.cultist_event_on_turn then
 					display = 'U',
 					name = "Shasshhiy'Kaish", color=colors.VIOLET, unique = true,
 					resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/demon_major_shasshhiy_kaish.png", display_h=2, display_y=-1}}},
-					desc = [[This demon would be very attractive if not for the hovering crown of flames, the three tails and sharp claws. As you watch her you can almost feel pain digging in your flesh. She wants you to suffer.]],
+					desc = _t[[This demon would be very attractive if not for the hovering crown of flames, the three tails and sharp claws. As you watch her you can almost feel pain digging in your flesh. She wants you to suffer.]],
 					killer_message = "and used for her perverted desires",
 					level_range = {25, nil}, exp_worth = 2,
 					female = 1,
@@ -203,8 +203,8 @@ if not game.zone.cultist_event_on_turn then
 					slot = "HEAD",
 					type = "armor", subtype="head",
 					name = "Crown of Burning Pain", image = "object/artifact/crown_of_burning_pain.png",
-					unided_name = "burning crown",
-					desc = [[This crown of pure flames possesses a myriad of small molten rocks floating wildly above it. Each can be removed to throw as a true meteor.]],
+					unided_name = _t"burning crown",
+					desc = _t[[This crown of pure flames possesses a myriad of small molten rocks floating wildly above it. Each can be removed to throw as a true meteor.]],
 					add_name = " (#ARMOR#)",
 					power_source = {arcane=true},
 					display = "]", color=colors.SLATE,

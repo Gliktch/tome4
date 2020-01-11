@@ -25,7 +25,7 @@ newEntity{
 
 	charm_power_def = {add=8, max=10, floor=true},
 	resolvers.charm(function(self, who)
-		return ("reveal the area around you, dispelling darkness (radius %d, power %d based on Magic), and detect the presence of nearby creatures for 10 turns"):format(self.use_power.radius(self, who), self.use_power.litepower(self, who))
+		return ("reveal the area around you, dispelling darkness (radius %d, power %d based on Magic), and detect the presence of nearby creatures for 10 turns"):tformat(self.use_power.radius(self, who), self.use_power.litepower(self, who))
 	end,
 	15,
 	function(self, who)
@@ -107,7 +107,7 @@ newEntity{
 			local dt = engine.DamageType[self.elem[3]:capitalize()]
 			local dam = who:damDesc(dt, self.use_power.damage(self, who))
 
-			return ("fire a magical bolt dealing %d %s damage"):format(dam, self.elem[3] )
+			return ("fire a magical bolt dealing %d %s damage"):tformat(dam, self.elem[3] )
 		end,
 		15,
 		function(self, who)

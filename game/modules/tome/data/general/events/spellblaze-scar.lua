@@ -29,7 +29,7 @@ game.nicer_tiles:updateAround(level, x, y)
 g = level.map(x, y, engine.Map.TERRAIN)
 g.on_stand = on_stand
 g.always_remember = true g.special_minimap = colors.DARK_RED
-g.name = "spellblaze scar"
+g.name = _t"spellblaze scar"
 g:altered()
 
 if core.shader.active(4) then

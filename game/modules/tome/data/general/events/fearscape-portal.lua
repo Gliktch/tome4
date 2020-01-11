@@ -34,7 +34,7 @@ local changer = function(id)
 	terrains.PORTAL_BACK = mod.class.Grid.new{
 		type = "floor", subtype = "floor",
 		display = "&", color = colors.BLUE,
-		name = "portal back to "..game.zone.name,
+		name = ("portal back to %s"):tformat(game.zone.name),
 		image = "terrain/red_floating_rocks05_01.png",
 		add_displays = { mod.class.Grid.new{image="terrain/demon_portal3.png"} },
 		change_level = 1,
@@ -149,7 +149,7 @@ local changer = function(id)
 end
 
 local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-g.name = "fearscape invasion portal"
+g.name = _t"fearscape invasion portal"
 g.always_remember = true
 g.show_tooltip = true
 g.display='&' g.color_r=0 g.color_g=0 g.color_b=255 g.notice = true
@@ -169,7 +169,7 @@ g.real_change = changer
 g.break_portal = function(self)
 	self.broken = true
 	game.log("#VIOLET#The portal is broken!")
-	self.name = "broken fearscape invasion portal"
+	self.name = _t"broken fearscape invasion portal"
 	self.change_level = nil
 	self.autoexplore_ignore = true
 	self.show_tooltip = false

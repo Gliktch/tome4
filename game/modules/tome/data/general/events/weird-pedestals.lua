@@ -42,7 +42,7 @@ for i = 1, 3 do
 	local i, j = gr.x, gr.y
 
 	local g = game.level.map(i, j, engine.Map.TERRAIN):cloneFull()
-	g.name = "weird pedestal"
+	g.name = _t"weird pedestal"
 	g.display='&' g.color_r=255 g.color_g=255 g.color_b=255 g.notice = true
 	g.always_remember = true g.special_minimap = colors.OLIVE_DRAB
 	g:removeAllMOs()
@@ -57,7 +57,7 @@ for i = 1, 3 do
 	g.special = true
 	g.block_move = function(self, x, y, who, act, couldpass)
 		if not who or not who.player or not act then return false end
-		who:runStop("weird pedestal")
+		who:runStop(_t"weird pedestal")
 		if self.pedestal_activated then return false end
 		require("engine.ui.Dialog"):yesnoPopup(_t"Weird Pedestal", _t"Do you wish to inspect the pedestal?", function(ret) if ret then
 			who:restInit(20, "inspecting", "inspected", function(cnt, max)
@@ -93,7 +93,7 @@ for i = 1, 3 do
 								local ov = g.add_displays[#g.add_displays]
 								ov.image = "terrain/pedestal_orb_0"..rng.range(1, 5)..".png"
 							end
-							g.name = "weird pedestal (glowing)"
+							g.name = _t"weird pedestal (glowing)"
 							game.level.map:updateMap(self.pedestal_x, self.pedestal_y)
 							game.level.pedestal_events = (game.level.pedestal_events or 0) + 1
 							game.logSeen(self, "%s's soul is absorbed by the pedestal. A glowing orb appears.", self.name:capitalize())

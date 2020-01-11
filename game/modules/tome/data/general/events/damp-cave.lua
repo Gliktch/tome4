@@ -83,7 +83,7 @@ local changer = function(id)
 end
 
 local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-g.name = "damp cave"
+g.name = _t"damp cave"
 g.always_remember = true
 g.display='>' g.color_r=0 g.color_g=0 g.color_b=255 g.notice = true
 g.change_level=1 g.change_zone=id g.glow=true

@@ -127,7 +127,7 @@ if tries < 100 then
 		local p = rng.tableRemove(grids)
 
 		local g = game.level.map(p.x, p.y, engine.Map.TERRAIN):cloneFull()
-		g.name = "grave" g.x, g.y = p.x, p.y
+		g.name = _t"grave" g.x, g.y = p.x, p.y
 		g.display='&' g.color_r=255 g.color_g=255 g.color_b=255 g.notice = true
 		g.always_remember = true g.special_minimap = colors.OLIVE_DRAB
 		g:removeAllMOs()
@@ -142,7 +142,7 @@ if tries < 100 then
 		g.block_move = function(self, x, y, who, act, couldpass)
 			if not who or not who.player or not act then return false end
 			if game.level.event_battlefield_entered then return false end
-			who:runStop("grave")
+			who:runStop(_t"grave")
 			require("engine.ui.Dialog"):yesnoPopup(_t"Grave", _t"Do you wish to disturb the grave?", function(ret) if ret then
 				self:change_level_check()
 			end end)

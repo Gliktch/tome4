@@ -337,7 +337,7 @@ newEntity{
 	on_block = {
 		desc=function(self, who, special)
 			local dam = special.shield_wintry(who)
-			return ("Deals #YELLOW#%d#LAST# cold damage and freezes enemies in radius 4 to the ground for 3 turns (1/turn)"):format(dam)
+			return ("Deals #YELLOW#%d#LAST# cold damage and freezes enemies in radius 4 to the ground for 3 turns (1/turn)"):tformat(dam)
 		end,
 		shield_wintry=function(who)
 			local dam = math.max(15, math.floor(who:combatStatScale(who:combatMindpower(), 1, 300)))
@@ -525,7 +525,7 @@ newEntity{
 	on_block = {
 		desc=function(self, who, special)
 			local dam = special.shield_wrathful(who)
-			return ("Deals #VIOLET#%d#LAST# light and fire damage to each enemy blocked"):format(dam)
+			return ("Deals #VIOLET#%d#LAST# light and fire damage to each enemy blocked"):tformat(dam)
 		end,
 		shield_wrathful=function(who)
 			local dam = math.max(15, math.floor(who:combatStatScale(who:combatSpellpower(), 1, 450) / 2))
@@ -694,7 +694,7 @@ newEntity{
 	on_block = {
 		desc=function(self, who, special)
 			local dam = special.shield_shrapnel(who)
-			return ("Cause enemies within radius 6 to bleed for #RED#%d#LAST# physical damage over 5 turns (1/turn)"):format(dam)
+			return ("Cause enemies within radius 6 to bleed for #RED#%d#LAST# physical damage over 5 turns (1/turn)"):tformat(dam)
 		end,
 		shield_shrapnel=function(who)
 			local dam = math.max(15, math.floor(who:combatStatScale(who:combatPhysicalpower(), 1, 350)))
@@ -725,7 +725,7 @@ newEntity{
 		special_on_hit = {
 		desc=function(self, who, special)
 			local dam = who:combatArmor()
-			return ("Deal physical damage equal to your armor (%d)"):format(dam)
+			return ("Deal physical damage equal to your armor (%d)"):tformat(dam)
 		end,
 		fct=function(combat, who, target)
 			local tg = {type="hit", range=1}

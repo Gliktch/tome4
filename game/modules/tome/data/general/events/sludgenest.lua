@@ -28,7 +28,7 @@ level.data.on_enter_list.sludgenest = function()
 
 	game.level.data.sludgenest_added = true
 	local g = game.level.map(spot.x, spot.y, engine.Map.TERRAIN):cloneFull()
-	g.name = "Way into a strange lush forest"
+	g.name = _t"Way into a strange lush forest"
 	g.display='>' g.color_r=100 g.color_g=255 g.color_b=0 g.notice = true
 	g.change_level=1 g.change_zone="sludgenest" g.glow=true
 	g.add_displays = g.add_displays or {}

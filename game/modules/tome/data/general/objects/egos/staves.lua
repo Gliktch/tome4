@@ -322,7 +322,7 @@ newEntity{
 			local radius = self.use_power.radius(self)
 			local dam = who:damDesc(damtype, self.use_power.damage(self, who))
 			local damrange = self.use_power.damrange(self, who)
-			return ("conjure elemental energy in a radius %d cone, dealing %0.2f to %0.2f %s damage"):format( radius, dam, dam*damrange, damtype.name)
+			return ("conjure elemental energy in a radius %d cone, dealing %0.2f to %0.2f %s damage"):tformat( radius, dam, dam*damrange, damtype.name)
 		end,
 		8,
 		function(self, who)

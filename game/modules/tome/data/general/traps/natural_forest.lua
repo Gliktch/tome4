@@ -20,7 +20,7 @@
 local Talents = require"engine.interface.ActorTalents"
 
 newEntity{ define_as = "TRAP_NATURAL_FOREST",
-	type = "natural", subtype="forest", id_by_type=true, unided_name = "trap",
+	type = "natural", subtype="forest", id_by_type=true, unided_name = _t"trap",
 	display = '^',
 	triggered = function(self, x, y, who)
 		self:project({type="hit",x=x,y=y}, x, y, self.damtype, self.dam or 10, self.particles and {type=self.particles})
@@ -36,7 +36,7 @@ newEntity{ base = "TRAP_NATURAL_FOREST",
 	color=colors.UMBER,
 	pressure_trap = true,
 	message = "@Target@ slides on a rock!",
-	unided_name = "slippery rock",
+	unided_name = _t"slippery rock",
 	desc = "Stuns for 4 turns.",
 	triggered = function(self, x, y, who)
 		if who:canBe("stun") then
@@ -55,10 +55,10 @@ newEntity{ base = "TRAP_NATURAL_FOREST",
 	rarity = 3, level_range = {1, 50},
 	color=colors.GREEN,
 	message = "A poisonous vine strikes at @Target@!",
-	unided_name = "venomous vine",
+	unided_name = _t"venomous vine",
 	desc = function(self)
 		local dtype = engine.DamageType[self.damtype] and engine.DamageType:get(self.damtype)
-		return dtype and ("A motile vine that strikes out for %s%d#LAST# %s damage."):format(dtype.text_color or "#WHITE#", self.dam, dtype.name)
+		return dtype and ("A motile vine that strikes out for %s%d#LAST# %s damage."):tformat(dtype.text_color or "#WHITE#", self.dam, dtype.name)
 	end,
 	dam = resolvers.clscale(100, 15, 25, 0.75, 0),
 	damtype = DamageType.POISON,

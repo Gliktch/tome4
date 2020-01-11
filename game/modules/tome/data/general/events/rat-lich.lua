@@ -47,7 +47,7 @@ local changer = function(id)
 		unique = true,
 		slot = "TOOL",
 		type = "tool", subtype="skull", image = "object/artifact/skull_of_the_rat_lich.png",
-		unided_name = "dusty rat skull",
+		unided_name = _t"dusty rat skull",
 		name = "Skull of the Rat Lich",
 		display = "*", color=colors.BLACK,
 		level_range = {10, 25},
@@ -149,7 +149,7 @@ local changer = function(id)
 end
 
 local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-g.name = "stairway leading downwards"
+g.name = _t"stairway leading downwards"
 g.always_remember = true
 g.desc = [[Stairs seem to lead into some kind of crypt.]]
 g.show_tooltip = true

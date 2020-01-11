@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 newEntity{ define_as = "TRAP_TELEPORT",
-	type = "annoy", subtype="teleport", id_by_type=true, unided_name = "trap",
+	type = "annoy", subtype="teleport", id_by_type=true, unided_name = _t"trap",
 	display = '^',
 	triggered = function() end,
 }
@@ -31,7 +31,7 @@ newEntity{ base = "TRAP_TELEPORT",
 	color=colors.UMBER,
 	pressure_trap = true,
 	message = "@Target@ shimmers briefly.",
-	unided_name = "shimmering floor switch",
+	unided_name = _t"shimmering floor switch",
 	triggered = function(self, x, y, who)
 		if who:canBe("teleport") then
 			game:onTickEnd(function()
