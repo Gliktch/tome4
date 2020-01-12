@@ -18,7 +18,7 @@ function table.print(src, offset, ret)
 		-- Deep copy subtables, but not objects!
 		if type(e) == "table" and not e.__ATOMIC and not e.__CLASSNAME then
 			print(("%s[%s] = {"):format(offset, tostring(k)))
-			table.print(e, offset.."  ")
+			table.print(e, offset.."\t")
 			print(("%s}"):format(offset))
 		else
 			print(("%s[%s] = %s"):format(offset, tostring(k), tostring(e)))
@@ -27,15 +27,7 @@ function table.print(src, offset, ret)
 end
 
 local function explore(file, ast)
-	--[[
-	print("========================================")
-	print("========================================")
-	print("========================================", file)
-	print("========================================")
-	print("========================================")
-	table.print(ast)
-	print("========================================")
-	--]]
+	--table.print(ast)
 	for i, e in ipairs(ast) do
 		if type(e) == "table" then
 			if e.tag == "Id" and e[1] == "_t" then
@@ -73,6 +65,26 @@ local function explore(file, ast)
 						locales[file][p[2][1]] = {line=p[2].nline, type="entity name"}
 					end
 				end end
+			elseif e.tag == "Id" and e[1] == "newAchievement" then
+				local en = ast[i+1]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "name" then
+						print(colors("%{bright red}newAchievement"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="achievement name"}
+					end
+				end end
+			elseif e.tag == "Invoke" and
+			    e[1] and e[1].tag == "Index" and e[1][1] and e[1][1][1] == "engine" and e[1][1].tag == "Id" and e[1][2][1] == "Faction" and e[1][2].tag == "String" and
+			    e[2] and e[2].tag == "String" and e[2][1] == "add" then
+				local en = e[3]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "name" then
+						print(colors("%{blue}newFaction"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="faction name"}
+					end
+				end end
 			end
 			explore(file, e)
 		end
@@ -80,15 +92,24 @@ local function explore(file, ast)
 end
 
 local function dofolder(dir)
+	local function handle_file(file)
+		print(colors("%{bright}-------------------------------------"))
+		print(colors("%{bright}-- "..file))
+		print(colors("%{bright}-------------------------------------"))
+		explore(file:gsub("%.%./", ""), p:parse{file})
+	end
+
+	if lfs.attributes(dir, "mode") == "file" then
+		handle_file(dir)
+		return
+	end
+
 	for sfile in lfs.dir(dir) do
 		local file = dir.."/"..sfile
 		if lfs.attributes(file, "mode") == "directory" and sfile ~= ".." and sfile ~= "." then
 			dofolder(file)
 		elseif sfile:find("%.lua$") then
-			print(colors("%{bright}-------------------------------------"))
-			print(colors("%{bright}-- "..file))
-			print(colors("%{bright}-------------------------------------"))
-			explore(file:gsub("%.%./", ""), p:parse{file})
+			handle_file(file)
 		end
 	end
 end
