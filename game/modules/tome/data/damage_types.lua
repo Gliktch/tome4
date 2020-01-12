@@ -124,11 +124,12 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 		print("[PROJECTOR] starting dam", type, dam)
 
 		local ignore_direct_crits = target:attr 'ignore_direct_crits'
-		if crit_power > 1 and ignore_direct_crits and rng.percent(ignore_direct_crits) then -- reverse crit damage
+		if crit_power > 1 and ignore_direct_crits then -- Reduce the post crit damage, we have to do this here since most crits are calculated before knowing their target
 			dam = dam / crit_power
-			crit_power = 1
+			local reduce = (crit_power - 1) * (util.bound(ignore_direct_crits, 0, 100) / 100)
+			crit_power = math.max(1, crit_power - reduce)
+			dam = dam * crit_power
 			print("[PROJECTOR] crit power reduce dam", dam)
-			game.logSeen(target, "%s shrugs off the critical damage!", target.name:capitalize())
 		end
 		if crit_power > 1 then
 			-- Add crit bonus power for being unseen (direct damage only, diminished with range)
@@ -536,7 +537,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 		print("[PROJECTOR] final dam after hooks and callbacks", dam)
 
 		local dead
-		dead, dam = target:takeHit(dam, src, {damtype=type, source_talent=source_talent, initial_dam=initial_dam})
+		dead, dam = target:takeHit(dam, src, {damtype=type, damstate=state, source_talent=source_talent, initial_dam=initial_dam})
 
 		-- Log damage for later
 		if not DamageType:get(type).hideMessage then
@@ -4266,5 +4267,18 @@ newDamageType{
 		useImplicitCrit(src, state)
 		DamageType:get(DamageType.DARKNESS).projector(src, x, y, DamageType.DARKNESS, dam / 2, state)
 		DamageType:get(DamageType.LIGHT).projector(src, x, y, DamageType.LIGHT, dam / 2, state)
+	end,
+}
+
+-- Fire + Physical
+newDamageType{
+	name = "meteor", type = "METEOR", text_color = "#CRIMSON#",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		state.is_meteor = true
+		local realdam1 = DamageType:get(DamageType.PHYSICAL).projector(src, x, y, DamageType.PHYSICAL, dam / 2, state)
+		local realdam2 = DamageType:get(DamageType.FIRE).projector(src, x, y, DamageType.FIRE, dam / 2, state)
+		return (realdam1 or 0) + (realdam2 or 0)
 	end,
 }
