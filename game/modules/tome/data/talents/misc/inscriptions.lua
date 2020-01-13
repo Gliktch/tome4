@@ -1171,12 +1171,12 @@ newInscription{
 		local apply = self:rescaleCombatStats((data.power + data.inc_stat))
 		return ([[Activate the infusion to brighten the area in a radius of %d and illuminate stealthy creatures, possibly revealing them (reduces stealth power by %d).%s
 		It will also blind any creatures caught inside (power %d) for %d turns.]]):
-		tformat(data.range, apply/2, apply >= 19 and "\nThe light is so powerful it will also banish magical darkness" or "", apply, data.turns)
+		tformat(data.range, apply/2, apply >= 19 and _t"\nThe light is so powerful it will also banish magical darkness" or "", apply, data.turns)
 	end,
 	short_info = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
 		local apply = self:rescaleCombatStats((data.power + data.inc_stat))
-		return ([[rad %d; power %d; turns %d%s]]):tformat(data.range, apply, data.turns, apply >= 19 and "; dispels darkness" or "")
+		return ([[rad %d; power %d; turns %d%s]]):tformat(data.range, apply, data.turns, apply >= 19 and _t"; dispels darkness" or "")
 	end,
 }
 
