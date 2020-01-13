@@ -289,7 +289,7 @@ newTalent{
 		local vim = t.getVim(self, t)
 		return ([[You disperse into a mass of carrion worms, reforming near the target location (%d teleport accuracy).
 If used on a worm mass, you merge with it, moving to it's location, healing you for %d, restoring %d vim, and destroying the mass.]]):
-format (radius, heal, vim)
+tformat (radius, heal, vim)
 	end,
 }
 

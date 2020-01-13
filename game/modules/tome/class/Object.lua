@@ -1082,10 +1082,10 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 		else return ("%d%%"):format(-orig) end
 	end
 	compare_fields(combat, compare_with, field, "attack_recurse", "%+d", _t"Multiple attacks: ", 1, false, false, add_table)
-	compare_fields(combat, compare_with, field, "attack_recurse_procs_reduce", attack_recurse_procs_reduce_compare, "Multiple attacks procs power reduction: ", 1, true, false, add_table)
+	compare_fields(combat, compare_with, field, "attack_recurse_procs_reduce", attack_recurse_procs_reduce_compare, _t"Multiple attacks procs power reduction: ", 1, true, false, add_table)
 
 	if combat.tg_type and combat.tg_type == "beam" then
-		desc:add({"color","YELLOW"}, ("Shots beam through all targets."), {"color","LAST"}, true)
+		desc:add({"color","YELLOW"}, (_t"Shots beam through all targets."), {"color","LAST"}, true)
 	end
 
 	compare_table_fields(

@@ -45,7 +45,7 @@ generate = function(self, player, x, y)
 		life=plr.max_life*2, max_life=plr.max_life*2, max_level=table.NIL_MERGE,
 		name = plr.name.." the Paradox Mage",
 		desc = ([[A later (less fortunate?) version of %s, possibly going mad.]]):format(plr.name),
-		killer_message = "but nobody knew why #sex# suddenly became evil",
+		killer_message = _t"but nobody knew why #sex# suddenly became evil",
 		color_r=250, color_g=50, color_b=250,
 		ai = "tactical", ai_state = {talent_in=1},
 		}))

@@ -151,7 +151,7 @@ if not game.zone.cultist_event_on_turn then
 					name = "Shasshhiy'Kaish", color=colors.VIOLET, unique = true,
 					resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/demon_major_shasshhiy_kaish.png", display_h=2, display_y=-1}}},
 					desc = _t[[This demon would be very attractive if not for the hovering crown of flames, the three tails and sharp claws. As you watch her you can almost feel pain digging in your flesh. She wants you to suffer.]],
-					killer_message = "and used for her perverted desires",
+					killer_message = _t"and used for her perverted desires",
 					level_range = {25, nil}, exp_worth = 2,
 					female = 1,
 					faction = "fearscape",

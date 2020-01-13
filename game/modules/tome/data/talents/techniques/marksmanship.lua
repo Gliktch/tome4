@@ -49,7 +49,7 @@ newTalent{
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using bows or slings, as well as your reload rate by %d.
 		In addition, your Shoot has a %d%% chance to mark targets on hit.
 The mark lasts for 5 turns, grants you visibility of the target (even through walls and other concealment), and causes them to become vulnerable to Headshot, Volley and Called Shots.]]):
-format(inc * 100, reload, chance)
+tformat(inc * 100, reload, chance)
 	end,
 }
 

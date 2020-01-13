@@ -137,7 +137,7 @@ newEntity{ base="BASE_NPC_ORC", define_as = "GREATMOTHER",
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_orc_orc_greatmother.png", display_h=2, display_y=-1}}},
 	desc = _t[[This giant, bloated form towers above you. Mucus and slime ooze from every orifice, dripping onto the cavern floor. Orc children fight over the right to feed from her distended teats whilst small babies are regularly emerge from folds of flesh. The sight and the smell make you retch.
 Here stands a tremendous form almost the size of a dragon. Bloated skin rises in thick folds, seeping viscous slime from its wide pores. Hundreds of hanging teats feed a small army of squabbling, fighting young orcs - only the toughest of them are able to gain the precious nutrients to grow stronger, the weaker ones left to wither on the mouldy floor. At the top of this towering hulk is a shrivelled head coated in long tangled hair. Dazed eyes peer out with a mixture of sadness and pain, but as they fix on you they turn to anger, the creature's face contorted with the fierce desire to protect its young.]],
-	killer_message = "and given to the children as a plaything",
+	killer_message = _t"and given to the children as a plaything",
 	level_range = {40, nil}, exp_worth = 1,
 	female = true,
 	rank = 5,

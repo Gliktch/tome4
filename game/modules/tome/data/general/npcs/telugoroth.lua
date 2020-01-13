@@ -64,7 +64,7 @@ end
 newEntity{
 	define_as = "BASE_NPC_TELUGOROTH", -- telu goroth = time terror
 	type = "elemental", subtype = "temporal",
-	killer_message = "and lost outside time",
+	killer_message = _t"and lost outside time",
 	blood_color = colors.PURPLE,
 	display = "E", color=colors.YELLOW,
 
