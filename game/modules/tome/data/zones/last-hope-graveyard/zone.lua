@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Last Hope Graveyard",
+	name = _t"Last Hope Graveyard",
 	display_name = function(x, y)
 		if game.level.level == 1 then return "Last Hope Graveyard"
 		elseif game.level.level == 2 then return "Mausoleum"

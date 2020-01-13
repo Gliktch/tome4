@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"FLOODED", 2})
 local is_flooded = layout == "FLOODED"
 
 return {
-	name = "Lake of Nur",
+	name = _t"Lake of Nur",
 	level_range = {15, 25},
 	level_scheme = "player",
 	max_level = 3,

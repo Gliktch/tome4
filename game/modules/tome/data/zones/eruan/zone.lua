@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Erúan",
+	name = _t"Erúan",
 	level_range = {30, 45},
 	level_scheme = "player",
 	max_level = 4,

@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Tannen's Tower",
+	name = _t"Tannen's Tower",
 	level_range = {35, 45},
 	level_scheme = "player",
 	max_level = 4, reverse_level_display=true,

@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Noxious Caldera",
+	name = _t"Noxious Caldera",
 	display_name = function(x, y) return "Dogroth Caldera" end,
 	variable_zone_name = true,
 	level_range = {25, 35},

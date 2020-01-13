@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Void between worlds",
+	name = _t"Void between worlds",
 	display_name = function(x, y)
 		return "Void between worlds"
 	end,

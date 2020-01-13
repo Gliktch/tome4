@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Southern Beach",
+	name = _t"Southern Beach",
 	level_range = {24, 35},
 	level_scheme = "player",
 	max_level = 1,

@@ -20,7 +20,7 @@
 local layout = game.state:alternateZoneTier1(short_name, {"ALT1", 1})
 
 return {
-	name = "Ruined Dungeon",
+	name = _t"Ruined Dungeon",
 	level_range = {10, 30},
 	level_scheme = "player",
 	max_level = 1,

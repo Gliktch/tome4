@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"INVASION", 2})
 local is_invaded = layout == "INVASION"
 
 return {
-	name = "Murgol Lair",
+	name = _t"Murgol Lair",
 	level_range = {1, 5},
 	level_scheme = "player",
 	max_level = 3,

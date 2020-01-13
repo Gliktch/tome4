@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Dreams",
+	name = _t"Dreams",
 	display_name = function(x, y)
 		if game.level.level == 1 then return "Dream of vulnerability" end
 		if game.level.level == 2 then return "Dream of loss" end
@@ -196,7 +196,7 @@ return {
 		-- Dream of vulnerability
 		if lev == 1 then
 			game.level.data.enter_dreams{
-				name = "frail mouse", image = "npc/vermin_rodent_giant_white_mouse.png",
+				name = _t"frail mouse", image = "npc/vermin_rodent_giant_white_mouse.png",
 				type = "vermin", subtype = "rodent",
 				display = "r", color=colors.WHITE,
 				infravision = 10,
@@ -241,7 +241,7 @@ You feel good!]],
 		-- Dream of loss
 		if lev == 2 then
 			game.level.data.enter_dreams{
-				name = "lost man", image = "npc/humanoid_human_townsfolk_meanlooking_mercenary01_64.png",
+				name = _t"lost man", image = "npc/humanoid_human_townsfolk_meanlooking_mercenary01_64.png",
 				type = "humanoid", subtype = "human",
 				display = "h", color=colors.VIOLET,
 				infravision = 10,

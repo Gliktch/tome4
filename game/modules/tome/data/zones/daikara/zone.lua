@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"VOLCANO", 2})
 local is_volcano = layout == "VOLCANO"
 
 return {
-	name = "Daikara",
+	name = _t"Daikara",
 	level_range = {7, 16},
 	level_scheme = "player",
 	max_level = 4,

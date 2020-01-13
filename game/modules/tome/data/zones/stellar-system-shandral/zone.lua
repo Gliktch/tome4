@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Stellar System: Shandral",
+	name = _t"Stellar System: Shandral",
 	display_name = function(x, y)
 		return "Stellar System: Shandral"
 	end,

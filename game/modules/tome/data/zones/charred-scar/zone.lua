@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Charred Scar",
+	name = _t"Charred Scar",
 	level_range = {30, 50},
 	level_scheme = "player",
 	max_level = 1,

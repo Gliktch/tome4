@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Paradox Plane",
+	name = _t"Paradox Plane",
 	display_name = function(x, y) return "Paradox Plane" end,
 	variable_zone_name = true,
 	level_range = {7, 16},

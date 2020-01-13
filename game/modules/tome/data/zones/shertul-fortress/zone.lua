@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Yiilkgur, the Sher'Tul Fortress",
+	name = _t"Yiilkgur, the Sher'Tul Fortress",
 	display_name = function(x, y)
 		local zn = game.level.map.attrs(x or game.player.x, y or game.player.y, "zonename")
 		if zn then return zn.." (Yiilkgur, the Sher'Tul Fortress)"

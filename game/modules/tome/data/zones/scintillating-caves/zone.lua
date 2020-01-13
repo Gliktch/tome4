@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"TWISTED", 2})
 if layout == "TWISTED" then
 
 return {
-	name = "Scintillating Caves",
+	name = _t"Scintillating Caves",
 	level_range = {1, 7},
 	level_scheme = "player",
 	max_level = 5,
@@ -104,7 +104,7 @@ return {
 else
 
 return {
-	name = "Scintillating Caves",
+	name = _t"Scintillating Caves",
 	level_range = {1, 5},
 	level_scheme = "player",
 	max_level = 3,

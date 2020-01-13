@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"CRYSTALINE", 2})
 local is_crystaline = layout == "CRYSTALINE"
 
 return {
-	name = "Old Forest",
+	name = _t"Old Forest",
 	level_range = {7, 16},
 	level_scheme = "player",
 	max_level = 4,

@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Temporal Rift",
+	name = _t"Temporal Rift",
 	display_name = function(x, y)
 		if game.level.level == 2 then return "Temporal Rift: Lumberjack village"
 		elseif game.level.level == 3 then return "Temporal Rift: Daikara"

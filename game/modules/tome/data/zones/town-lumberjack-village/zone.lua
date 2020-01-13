@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Small lumberjack village",
+	name = _t"Small lumberjack village",
 	level_range = {8, 14},
 	max_level = 1,
 	width = 25, height = 25,

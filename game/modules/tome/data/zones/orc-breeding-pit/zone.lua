@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Orc breeding pits",
+	name = _t"Orc breeding pits",
 	level_range = {30, 60},
 	level_scheme = "player",
 	max_level = 3,

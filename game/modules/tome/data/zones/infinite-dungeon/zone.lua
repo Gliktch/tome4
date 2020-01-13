@@ -21,7 +21,7 @@ local rooms = {"random_room", {"pit",3}, {"greater_vault",7}}
 if game:isAddonActive("items-vault") then table.insert(rooms, {"!items-vault",5}) end
 
 return {
-	name = "Infinite Dungeon",
+	name = _t"Infinite Dungeon",
 	level_range = {1, 1},
 	level_scheme = "player",
 	max_level = 1000000000,
