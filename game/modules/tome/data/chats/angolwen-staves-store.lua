@@ -46,7 +46,7 @@ newChat{ id="training",
 			if player:knowTalentType("spell/staff-combat") or player:knowTalentType("spell/staff-combat") == false then return end
 			return true
 		end},
-		{("Please teach me what I need to know (unlocks talent category) - %d gold."):format(500),
+		{("Please teach me what I need to know (unlocks talent category) - %d gold."):tformat(500),
 		action=function(npc, player) --Normal intensive training
 			game.logPlayer(player, "The staff carver spends a substantial amount of time teaching you all of the techniques of staff combat.")
 			player:incMoney(-500)

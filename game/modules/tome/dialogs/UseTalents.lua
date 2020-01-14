@@ -34,7 +34,7 @@ local autoMark = require("engine.Entity").new({image = "ui/hotkeys/mainmenu.png"
 local function TalentStatus(who,t) 
 	local status = tstring{{"color", "LIGHT_GREEN"}, _t"Active"} 
 	if who:isTalentCoolingDown(t) then
-		status = tstring{{"color", "LIGHT_RED"}, ("%s %turns"):tformat(who:isTalentCoolingDown(t))}
+		status = tstring{{"color", "LIGHT_RED"}, ("%s turns"):tformat(who:isTalentCoolingDown(t))}
 	elseif not who:preUseTalent(t, true, true) then
 		status = tstring{{"color", "GREY"}, _t"Unavailable"}
 	elseif t.is_object_use then

@@ -22,9 +22,9 @@ desc = function(self, player, who)
 	local desc = {}
 
 	if self:isStatus(self.DONE) and self.player_won == true then
-		desc[#desc+1] = _t"#LIGHT_GREEN#Thanks to your timely aid, "..self.winner.." is the newest member of the Brotherhood of Alchemists.#WHITE#"
+		desc[#desc+1] = ("#LIGHT_GREEN#Thanks to your timely aid, %s is the newest member of the Brotherhood of Alchemists.#WHITE#"):tformat(self.winner)
 	elseif self:isStatus(self.DONE) and self.player_won == false then
-		desc[#desc+1] = _t"#RED#You aided various denizens of Maj'Eyal in their attempts to join the Brotherhood of Alchemists, though you did not prove the deciding factor for any. This year's new member is "..self.winner..".#WHITE#"
+		desc[#desc+1] = ("#RED#You aided various denizens of Maj'Eyal in their attempts to join the Brotherhood of Alchemists, though you did not prove the deciding factor for any. This year's new member is %s.#WHITE#"):tformat(self.winner)
 	else
 		desc[#desc+1] = _t"#LIGHT_BLUE#Various alchemists around Maj'Eyal are competing to gain entry into the great Brotherhood of Alchemists, and one or more have enlisted your aid.#WHITE#"
 	end
@@ -206,7 +206,7 @@ recipes = function(self)
 	local e = {
 		{
 			{
-			short_name = _t"fox",
+			short_name = "fox",
 			name = _t"elixir of the fox",
 			id = "ELIXIR_FOX",
 			start = "fox_start",
@@ -223,7 +223,7 @@ recipes = function(self)
 				},
 			},
 			{
-			short_name = _t"avoidance",
+			short_name = "avoidance",
 			name = _t"elixir of avoidance",
 			id = "ELIXIR_AVOIDANCE",
 			start = "avoidance_start",
@@ -240,7 +240,7 @@ recipes = function(self)
 				},
 			},
 			{
-			short_name = _t"precision",
+			short_name = "precision",
 			name = _t"elixir of precision",
 			id = "ELIXIR_PRECISION",
 			start = "precision_start",
@@ -259,7 +259,7 @@ recipes = function(self)
 		},
 		{
 			{
-			short_name = _t"mysticism",
+			short_name = "mysticism",
 			name = _t"elixir of mysticism",
 			id = "ELIXIR_MYSTICISM",
 			start = "mysticism_start",
@@ -276,7 +276,7 @@ recipes = function(self)
 				},
 			},
 			{
-			short_name = _t"savior",
+			short_name = "savior",
 			name = _t"elixir of the savior",
 			id = "ELIXIR_SAVIOR",
 			start = "savior_start",
@@ -293,7 +293,7 @@ recipes = function(self)
 				},
 			},
 			{
-			short_name = _t"mastery",
+			short_name = "mastery",
 			name = _t"elixir of mastery",
 			id = "ELIXIR_MASTERY",
 			start = "mastery_start",
@@ -312,7 +312,7 @@ recipes = function(self)
 		},
 		{
 			{
-			short_name = _t"force",
+			short_name = "force",
 			name = _t"elixir of explosive force",
 			id = "ELIXIR_FORCE",
 			start = "force_start",
@@ -329,7 +329,7 @@ recipes = function(self)
 				},
 			},
 			{
-			short_name = _t"serendipity",
+			short_name = "serendipity",
 			name = _t"elixir of serendipity",
 			id = "ELIXIR_SERENDIPITY",
 			start = "serendipity_start",
@@ -346,7 +346,7 @@ recipes = function(self)
 				},
 			},
 			{
-			short_name = _t"focus",
+			short_name = "focus",
 			name = _t"elixir of focus",
 			id = "ELIXIR_FOCUS",
 			start = "focus_start",
@@ -365,7 +365,7 @@ recipes = function(self)
 		},
 		{
 			{
-			short_name = _t"brawn",
+			short_name = "brawn",
 			name = _t"elixir of brawn",
 			id = "ELIXIR_BRAWN",
 			start = "brawn_start",
@@ -382,7 +382,7 @@ recipes = function(self)
 				},
 			},
 			{
-			short_name = _t"stoneskin",
+			short_name = "stoneskin",
 			name = _t"elixir of stoneskin",
 			id = "ELIXIR_STONESKIN",
 			start = "stoneskin_start",
@@ -399,7 +399,7 @@ recipes = function(self)
 				},
 			},
 			{
-			short_name = _t"foundations",
+			short_name = "foundations",
 			name = _t"elixir of foundations",
 			id = "ELIXIR_FOUNDATIONS",
 			start = "foundations_start",

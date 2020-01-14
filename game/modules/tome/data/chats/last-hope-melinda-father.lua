@@ -91,7 +91,7 @@ newChat{ id="scars",
 	text = _t[[Yes it has mostly healed, though I still do have nightmares. I feel like something is still lurking.
 Ah well, the bad dreams are still better than the fate you saved me from!]],
 	answers = {
-		{_t"Should I come across a way to help you during my travels, I will try to help.", quick_reply="Thank you, you are most welcome."},
+		{_t"Should I come across a way to help you during my travels, I will try to help.", quick_reply=_t"Thank you, you are most welcome."},
 		{_t"Most certainly, so what are your plans now?", jump="plans"},
 	}
 }
@@ -125,18 +125,18 @@ or (is_mage and
 I've learnt about a secret place, Angolwen, where I could learn it.]]
 or [[]])),
 	answers = (not is_am and not is_mage) and {
-		{_t"Derth has its up and downs but I think they could do with a smart girl yes.", action=function() ql.wants_to = "derth" end, quick_reply="Thanks!"},
+		{_t"Derth has its up and downs but I think they could do with a smart girl yes.", action=function() ql.wants_to = "derth" end, quick_reply=_t"Thanks!"},
 	} or {
-		{_t"Derth has its up and downs but I think they could do with a smart girl yes.", action=function() ql.wants_to = "derth" end, quick_reply="Thanks!"},
-		{_t"You wish to join our noble crusade against magic? Wonderful! I will talk to them for you.", action=function() ql.wants_to = "antimagic" end, cond=function() return is_am end, quick_reply="That would be very nice!"},
-		{_t"I happen to be welcome among the people of Angolwen, I could say a word for you.", action=function() ql.wants_to = "magic" end, cond=function() return is_mage end, quick_reply="That would be very nice!"},
+		{_t"Derth has its up and downs but I think they could do with a smart girl yes.", action=function() ql.wants_to = "derth" end, quick_reply=_t"Thanks!"},
+		{_t"You wish to join our noble crusade against magic? Wonderful! I will talk to them for you.", action=function() ql.wants_to = "antimagic" end, cond=function() return is_am end, quick_reply=_t"That would be very nice!"},
+		{_t"I happen to be welcome among the people of Angolwen, I could say a word for you.", action=function() ql.wants_to = "magic" end, cond=function() return is_mage end, quick_reply=_t"That would be very nice!"},
 	}
 }
 
 newChat{ id="hiton",
 	text = _t[[What?!? Just because you rescued me from a moderately-to-extremely gruesome death, you think that entitles you to take liberties?!]],
 	answers = {
-		{("WHY AREN'T WOMEN ATTRACTED TO ME I'M A NICE %s."):tformat((p.female and "GIRL" or "GUY")), quick_reply="Uhh, sorry I hear my father calling, see you.", action=function() ql.nolove = true end},
+		{("WHY AREN'T WOMEN ATTRACTED TO ME I'M A NICE %s."):tformat((p.female and "GIRL" or "GUY")), quick_reply=_t"Uhh, sorry I hear my father calling, see you.", action=function() ql.nolove = true end},
 		{_t"Just a minute, I was just...", jump="reassurance"},
 	}
 }
@@ -146,7 +146,7 @@ newChat{ id="reassurance",
 Just kidding. I would love that!]],
 	answers = {
 		{_t"#LIGHT_GREEN#[walk away with her]#WHITE#What about a little trip to the south, from the coastline we can see the Charred Scar Volcano, it is a wonderous sight.", action=function() ql.inlove = true ql:toBeach() end},
-		{_t"Joke's on you really, goodbye!", quick_reply="But... ok goodbye.", action=function() ql.nolove = true end},
+		{_t"Joke's on you really, goodbye!", quick_reply=_t"But... ok goodbye.", action=function() ql.nolove = true end},
 	}
 }
 
@@ -156,7 +156,7 @@ I feel safe in your arms. Please, I know you must leave, but promise to come bac
 	answers = {
 		{_t"I think I would enjoy that very much. #LIGHT_GREEN#[kiss her]#WHITE#", action=function(npc, player)  end},
 		{_t"That thought will carry me in the dark places I shall walk. #LIGHT_GREEN#[kiss her]#WHITE#", action=function(npc, player) player:grantQuest("love-melinda") end},
-		{_t"Oh, I am sorry. I think you are mistaken. I was only trying to comfort you.", quick_reply="Oh, sorry, I was not myself. Goodbye, then. Farewell."},
+		{_t"Oh, I am sorry. I think you are mistaken. I was only trying to comfort you.", quick_reply=_t"Oh, sorry, I was not myself. Goodbye, then. Farewell."},
 	}
 }
 

@@ -72,7 +72,7 @@ uberTalent{
 uberTalent{
 	name = "Tricky Defenses",
 	mode = "passive",
-	require = { special={desc="Antimagic", fct=function(self) return self:knowTalentType("wild-gift/antimagic") end} },
+	require = { special={desc=_t"Antimagic", fct=function(self) return self:knowTalentType("wild-gift/antimagic") end} },
 	-- called by getMax function in Antimagic shield talent definition mod.data.talents.gifts.antimagic.lua
 	shieldmult = function(self) return self:combatStatScale("cun", 0.1, 0.5) end,
 	info = function(self, t)
@@ -85,7 +85,7 @@ uberTalent{
 uberTalent{
 	name = "Endless Woes",
 	mode = "passive",
-	require = { special={desc="Have dealt over 10000 acid, blight, darkness, mind or temporal damage", fct=function(self) return 
+	require = { special={desc=_t"Have dealt over 10000 acid, blight, darkness, mind or temporal damage", fct=function(self) return 
 		self.damage_log and (
 			(self.damage_log[DamageType.ACID] and self.damage_log[DamageType.ACID] >= 10000) or
 			(self.damage_log[DamageType.BLIGHT] and self.damage_log[DamageType.BLIGHT] >= 10000) or
@@ -210,7 +210,7 @@ uberTalent{
 uberTalent{
 	name = "Secrets of Telos",
 	mode = "passive",
-	require = { special={desc="Possess Telos Top Half, Telos Bottom Half, and Telos Staff Crystal", fct=function(self)
+	require = { special={desc=_t"Possess Telos Top Half, Telos Bottom Half, and Telos Staff Crystal", fct=function(self)
 		local o1 = self:findInAllInventoriesBy("define_as", "GEM_TELOS")
 		local o2 = self:findInAllInventoriesBy("define_as", "TELOS_TOP_HALF")
 		local o3 = self:findInAllInventoriesBy("define_as", "TELOS_BOTTOM_HALF")
@@ -247,7 +247,7 @@ uberTalent{
 uberTalent{
 	name = "Elemental Surge",
 	mode = "passive",
-	require = { special={desc="Have dealt over 10000 arcane, fire, cold, lightning, light or nature damage", fct=function(self) return 
+	require = { special={desc=_t"Have dealt over 10000 arcane, fire, cold, lightning, light or nature damage", fct=function(self) return 
 		self.damage_log and (
 			(self.damage_log[DamageType.ARCANE] and self.damage_log[DamageType.ARCANE] >= 10000) or
 			(self.damage_log[DamageType.FIRE] and self.damage_log[DamageType.FIRE] >= 10000) or
@@ -489,7 +489,7 @@ uberTalent{
 	name = "Tricks of the Trade",
 	mode = "passive",
 	cant_steal = true,
-	require = { special={desc="Have sided with the Assassin Lord", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:isQuestStatus("lost-merchant", engine.Quest.COMPLETED, "evil")) end} },
+	require = { special={desc=_t"Have sided with the Assassin Lord", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:isQuestStatus("lost-merchant", engine.Quest.COMPLETED, "evil")) end} },
 	on_learn = function(self, t) 
 		if self:knowTalentType("cunning/stealth") then
 			self:setTalentTypeMastery("cunning/stealth", self:getTalentTypeMastery("cunning/stealth") + 0.2)

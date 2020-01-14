@@ -270,7 +270,7 @@ newBirthDescriptor{
 		["spell/ice"]={false, 0.2, "mage_cryomancer"},
 	},
 	birth_example_particles = {
-		_t"necrotic-aura",
+		"necrotic-aura",
 		function(actor)
 			if core.shader.active(4) then local x, y = actor:attachementSpot("back", true) actor:addParticles(Particles.new("shader_wings", 1, {x=x, y=y, infinite=1, img="darkwings"}))
 			end

@@ -26,7 +26,7 @@ newBirthDescriptor{
 	locked = function() return profile.mod.allow_build.race_giant end,
 	locked_desc = _t"Powerful beings that tower over all, but the bigger they are, the harder they fall...",
 	desc = {
-		[[#{italic}#"Giant"#{normal}# is a catch-all term for humanoids which are typically over eight feet in height.  Their origins, cultures, and relationships to other races differ wildly, but they tend to live as refugees and outcasts, shunned by smaller sentient races who usually see them as a threat.]],
+		_t[[#{italic}#"Giant"#{normal}# is a catch-all term for humanoids which are typically over eight feet in height.  Their origins, cultures, and relationships to other races differ wildly, but they tend to live as refugees and outcasts, shunned by smaller sentient races who usually see them as a threat.]],
 	},
 	descriptor_choices =
 	{
@@ -49,7 +49,7 @@ newBirthDescriptor
 	type = "subrace",
 	name = "Ogre",
 	locked = function() return profile.mod.allow_build.race_ogre end,
-	locked_desc = [[Forged in the hatred of ages long passed,
+	locked_desc = _t[[Forged in the hatred of ages long passed,
 made for a war that they've come to outlast.
 Their forgotten birthplace lies deep underground,
 its tunnels ruined so it wouldn't be found.

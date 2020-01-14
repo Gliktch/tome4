@@ -21,7 +21,7 @@ uberTalent{
 	name = "Spectral Shield",
 	not_listed = true,  -- Functionality was baselined on shields
 	mode = "passive",
-	require = { special={desc="Know the Block talent, have cast 100 spells, and have a block value over 200", fct=function(self)
+	require = { special={desc=_t"Know the Block talent, have cast 100 spells, and have a block value over 200", fct=function(self)
 		return self:knowTalent(self.T_BLOCK) and self:getTalentFromId(self.T_BLOCK).getBlockValue(self) >= 200 and self.talent_kind_log and self.talent_kind_log.spell and self.talent_kind_log.spell >= 100
 	end} },
 	on_learn = function(self, t)
@@ -40,7 +40,7 @@ uberTalent{
 uberTalent{
 	name = "Ethereal Form", image = "talents/displace_damage.png",
 	mode = "passive",
-	require = { special={desc="Have an effective defense of at least 40", fct=function(self)
+	require = { special={desc=_t"Have an effective defense of at least 40", fct=function(self)
 		if self:combatDefense() >= 40 then return true end
 	end} },
 	passives = function(self, t, tmptable)
@@ -69,7 +69,7 @@ uberTalent{
 uberTalent{
 	name = "Aether Permeation",
 	mode = "passive",
-	require = { special={desc="Have at least 25% arcane damage reduction and have been exposed to the void of space", fct=function(self)
+	require = { special={desc=_t"Have at least 25% arcane damage reduction and have been exposed to the void of space", fct=function(self)
 		return (game.state.birth.ignore_prodigies_special_reqs or self:attr("planetary_orbit")) and self:combatGetResist(DamageType.ARCANE) >= 25
 	end} },
 	cant_steal = true,
@@ -93,7 +93,7 @@ uberTalent{
 uberTalent{
 	name = "Mystical Cunning", image = "talents/vulnerability_poison.png",
 	mode = "passive",
-	require = { special={desc="Know how to either prepare traps or apply poisons", fct=function(self)
+	require = { special={desc=_t"Know how to either prepare traps or apply poisons", fct=function(self)
 		return self:knowTalent(self.T_APPLY_POISON) or self:knowTalent(self.T_TRAP_MASTERY)
 	end} },
 	autolearn_talent = {Talents.T_VULNERABILITY_POISON, Talents.T_GRAVITIC_TRAP}, -- requires uber.lua loaded last
@@ -139,7 +139,7 @@ uberTalent{
 uberTalent{
 	name = "Temporal Form",
 	cooldown = 30,
-	require = { special={desc="Have cast over 1000 spells and visited a zone outside of time", fct=function(self) return
+	require = { special={desc=_t"Have cast over 1000 spells and visited a zone outside of time", fct=function(self) return
 		self.talent_kind_log and self.talent_kind_log.spell and self.talent_kind_log.spell >= 1000 and (game.state.birth.ignore_prodigies_special_reqs or self:attr("temporal_touched"))
 	end} },
 	no_energy = true,
@@ -162,7 +162,7 @@ uberTalent{
 uberTalent{
 	name = "Blighted Summoning",
 	mode = "passive",
-	require = { special={desc="Have summoned at least 100 creatures. More permanent summons may count as more than 1.", fct=function(self)
+	require = { special={desc=_t"Have summoned at least 100 creatures. More permanent summons may count as more than 1.", fct=function(self)
 		return self:attr("summoned_times") and self:attr("summoned_times") >= 100
 	end} },
 	cant_steal = true,
@@ -270,7 +270,7 @@ uberTalent{
 	no_energy = true,
 	is_spell = true,
 	no_npc_use = true,
-	require = { special={desc="Have time-travelled at least once", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("time_travel_times") and self:attr("time_travel_times") >= 1) end} },
+	require = { special={desc=_t"Have time-travelled at least once", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("time_travel_times") and self:attr("time_travel_times") >= 1) end} },
 	action = function(self, t)
 		if game._chronoworlds and game._chronoworlds.revisionist_history then
 			self:hasEffect(self.EFF_REVISIONIST_HISTORY).back_in_time = true
@@ -318,7 +318,7 @@ uberTalent{
 	name = "Cauterize",
 	mode = "passive",
 	cooldown = 12,
-	require = { special={desc="Have received at least 7500 fire damage and have cast at least 1000 spells", fct=function(self) return
+	require = { special={desc=_t"Have received at least 7500 fire damage and have cast at least 1000 spells", fct=function(self) return
 		self.talent_kind_log and self.talent_kind_log.spell and self.talent_kind_log.spell >= 1000 and self.damage_intake_log and self.damage_intake_log[DamageType.FIRE] and self.damage_intake_log[DamageType.FIRE] >= 7500
 	end} },
 	trigger = function(self, t, value)

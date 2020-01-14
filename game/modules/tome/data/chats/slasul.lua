@@ -30,7 +30,7 @@ newChat{ id="welcome",
 	text = _t[[What is this? Why have you entered my temple and slain my followers?
 Speak or die, for I am Slasul and you shall not disrupt my plans.]],
 	answers = {
-		{_t"[attack]", action=attack("So be it... Die now!")},
+		{_t"[attack]", action=attack(_t"So be it... Die now!")},
 		{_t"I was sent by Ukllmswwik to stop your mad schemes to control all underwater life!", jump="quest"},
 	}
 }
@@ -40,7 +40,7 @@ newChat{ id="quest",
 But which of us is truly evil? Myself, working to better my people, doing no harm to anyone, or you, who comes here to kill me, destroying my friends and planning to do the same to me?
 Who is the insane one?]],
 	answers = {
-		{_t"Your feeble attempt to sway me from the side of good will not work. Pay for you sins!", action=attack("If you refuse to see reason, you leave me no choice!")},
+		{_t"Your feeble attempt to sway me from the side of good will not work. Pay for you sins!", action=attack(_t"If you refuse to see reason, you leave me no choice!")},
 		{_t"Your words are... disturbing. Why should I spare you?", jump="givequest"},
 	}
 }
@@ -54,7 +54,7 @@ If you do not believe anything else of what I say, please believe at least this:
 Recently, that water dragon that sent you here started sending "agents" to secure the temple. I can only imagine his goals, but they are clearly not peaceful.]],
 	answers = {
 		{_t"You do not sound mad to me... could Ukllmswwik have lied?", jump="portal_back", action=function(npc, player) player:setQuestStatus("temple-of-creation", engine.Quest.COMPLETED, "slasul-story") end},
-		{_t"I will not be deceived by your lies! I will make your pay for your victims!", action=attack("As you wish. It did not have to come to this...")},
+		{_t"I will not be deceived by your lies! I will make your pay for your victims!", action=attack(_t"As you wish. It did not have to come to this...")},
 	}
 }
 
@@ -79,7 +79,7 @@ newChat{ id="welcome",
 	answers = {
 		{_t"The dragon was lying, I can feel it. I have decided to embrace your cause.", jump="cause", cond=function(npc, player) return player:knowTalent(player.T_LEGACY_OF_THE_NALOREN) and not player:isQuestStatus("temple-of-creation", engine.Quest.COMPLETED, "legacy-naloren") end},
 		{_t"Farewell, Slasul."},
-		{_t"[attack]", action=attack("So be it... Die now!")},
+		{_t"[attack]", action=attack(_t"So be it... Die now!")},
 	}
 }
 

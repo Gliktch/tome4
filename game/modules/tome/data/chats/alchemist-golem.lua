@@ -68,7 +68,7 @@ local ans = {
 	{_t"I want to change your talents.", action=change_talents},
 	{_t"I want to change your tactics.", action=change_tactics},
 	{_t"I want to take direct control.", action=change_control},
-	{_t"I want to change your name.", cond = function() return golem.sentient_telos == 1 end, jump="name", action=function(npc, player) npc.name = "Telos the Great and Powerful (reluctant follower of "..npc.summoner.name..")" game.log("#ROYAL_BLUE#The golem decides to change it's name to #{bold}#%s#{normal}#.", npc.name) end},
+	{_t"I want to change your name.", cond = function() return golem.sentient_telos == 1 end, jump="name", action=function(npc, player) npc.name = ("Telos the Great and Powerful (reluctant follower of %s)"):tformat(npc.summoner.name) game.log("#ROYAL_BLUE#The golem decides to change it's name to #{bold}#%s#{normal}#.", npc.name) end},
 	{_t"I want to change your name.", cond = function() return not golem.sentient_telos end, action=change_name},
 	{_t"How is it that you speak?", cond = function() return golem.sentient_telos == 1 end, jump="how_speak"},
 	{_t"I want to change your appearance (one-time only).", cond = function(npc, player) return profile:isDonator() and not npc.golem_appearance_set end, action=change_appearance},

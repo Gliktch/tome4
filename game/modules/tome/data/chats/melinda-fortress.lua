@@ -34,16 +34,16 @@ newChat{ id="welcome",
 
 ql.wants_to = ql.wants_to or "derth"
 local dest = {
-	derth = [[I want to open my own little shop in Derth?]],
-	magic = [[I want to study magic at Angolwen?]],
-	antimagic = [[I want to train at Zigur?]],
+	derth = _t[[I want to open my own little shop in Derth?]],
+	magic = _t[[I want to study magic at Angolwen?]],
+	antimagic = _t[[I want to train at Zigur?]],
 }
 
 newChat{ id="settle",
-	text = _t[[Well let me say that tank is #{bold}#dreadful#{normal}#, but that weird butler says it is the only way.
+	text = ([[Well let me say that tank is #{bold}#dreadful#{normal}#, but that weird butler says it is the only way.
 I do start to feel better too.
 However I must say I get bored around here a little.
-Do you remember, I once told you ]]..dest[ql.wants_to]..[[ Maybe we could find a way to get me there during the day and return for my treatment during the night?]],
+Do you remember, I once told you %s Maybe we could find a way to get me there during the day and return for my treatment during the night?]]):tformat(dest[ql.wants_to]),
 	answers = {
 		{_t"Oh yes, I think we could arrange that. Shadow, would it be possible to create a portal for her?", jump="portal", switch_npc=butler},
 	}

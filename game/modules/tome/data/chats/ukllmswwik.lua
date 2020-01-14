@@ -30,7 +30,7 @@ newChat{ id="welcome",
 	text = _t[[#LIGHT_GREEN#*@npcname@'s deep voice booms through the caverns.*#WHITE#
 This is my domain, and I do not take kindly to intruders. What is your purpose here?]],
 	answers = {
-		{_t"I am here to kill you and take your treasures! Die, damned fish!", action=attack("DIE!")},
+		{_t"I am here to kill you and take your treasures! Die, damned fish!", action=attack(_t"DIE!")},
 		{_t"I did not mean to intrude. I shall leave now.", jump="quest"},
 	}
 }
@@ -46,7 +46,7 @@ But he has become mad and now looks upon all other intelligent water life as a t
 I cannot leave this sanctuary, but perhaps you could help me?
 After all, it would be an act of mercy to end his madness.]],
 	answers = {
-		{_t"I would still rather kill you and take your treasure!", action=attack("DIE!")},
+		{_t"I would still rather kill you and take your treasure!", action=attack(_t"DIE!")},
 		{_t"I shall do as you say, but how do I find him?", jump="givequest"},
 		{_t"That seems... unwise. My apologies, but I must refuse.", action=function(npc, player) player:grantQuest("temple-of-creation") player:setQuestStatus("temple-of-creation", engine.Quest.COMPLETED, "drake-story") player:setQuestStatus("temple-of-creation", engine.Quest.FAILED) end},
 	}
@@ -68,8 +68,8 @@ else
 newChat{ id="welcome",
 	text = _t[[Yes?]],
 	answers = {
-		{_t"[attack]", action=attack("TREACHERY!")},
-		{_t"I want your treasures, water beast!", action=attack("Oh, is that so? Well, COME GET THEM!")},
+		{_t"[attack]", action=attack(_t"TREACHERY!")},
+		{_t"I want your treasures, water beast!", action=attack(_t"Oh, is that so? Well, COME GET THEM!")},
 		{_t"I spoke with Slasul, and he did not seem hostile, or mad.", jump="slasul_friend", cond=function(npc, player) return player:isQuestStatus("temple-of-creation", engine.Quest.COMPLETED, "slasul-story") and not player:isQuestStatus("temple-of-creation", engine.Quest.COMPLETED, "kill-slasul") end},
 		{_t"Farewell, dragon."},
 	}
@@ -79,7 +79,7 @@ newChat{ id="slasul_friend",
 	text = _t[[#LIGHT_GREEN#*@npcname@ roars!*#WHITE# You listen to the lies of this mad naga!
 You are corrupted! TAINTED!]],
 	answers = {
-		{_t"[attack]", action=attack("DO NOT MEDDLE IN THE AFFAIRS OF DRAGONS!")},
+		{_t"[attack]", action=attack(_t"DO NOT MEDDLE IN THE AFFAIRS OF DRAGONS!")},
 		{_t"#LIGHT_GREEN#*Shake your head.*#LAST#He swayed my mind! Please, I am not your enemy.", jump="last_chance", cond=function(npc, player) return rng.percent(30 + player:getLck()) end},
 	}
 }

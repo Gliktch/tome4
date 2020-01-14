@@ -21,7 +21,7 @@ uberTalent{
 	name = "Draconic Body",
 	mode = "passive",
 	cooldown = 15,
-	require = { special={desc="Be close to the draconic world", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("drake_touched") and self:attr("drake_touched") >= 2) end} },
+	require = { special={desc=_t"Be close to the draconic world", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("drake_touched") and self:attr("drake_touched") >= 2) end} },
 	trigger = function(self, t, value)
 		if self.life - value < self.max_life * 0.3 and not self:isTalentCoolingDown(t) then
 			self:heal(self.max_life * 0.4, t)
@@ -39,7 +39,7 @@ uberTalent{
 	name = "Bloodspring",
 	mode = "passive",
 	cooldown = 12,
-	require = { special={desc="Have let Melinda be sacrificed", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:hasQuest("kryl-feijan-escape") and self:hasQuest("kryl-feijan-escape"):isStatus(engine.Quest.FAILED)) end} },
+	require = { special={desc=_t"Have let Melinda be sacrificed", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:hasQuest("kryl-feijan-escape") and self:hasQuest("kryl-feijan-escape"):isStatus(engine.Quest.FAILED)) end} },
 	trigger = function(self, t)
 		-- Add a lasting map effect
 		game.level.map:addEffect(self,
@@ -67,7 +67,7 @@ uberTalent{
 uberTalent{
 	name = "Eternal Guard",
 	mode = "passive",
-	require = { special={desc="Know the Block talent", fct=function(self) return self:knowTalent(self.T_BLOCK) end} },
+	require = { special={desc=_t"Know the Block talent", fct=function(self) return self:knowTalent(self.T_BLOCK) end} },
 	info = function(self, t)
 		return ([[Your Block talent now lasts for 2 game turns and you can apply Counterstrike to any number of enemies.]])
 		:tformat()
@@ -81,7 +81,7 @@ uberTalent{
 	sustain_stamina = 10,
 	tactical = { CLOSEIN = 0.5, ESCAPE = 0.5, STAMINA = -0.5, SPECIAL = -0.5}, -- values small for instant use
 	no_energy = true,
-	require = { special={desc="Know at least 20 levels of stamina-using talents", fct=function(self) return knowRessource(self, "stamina", 20) end} },
+	require = { special={desc=_t"Know at least 20 levels of stamina-using talents", fct=function(self) return knowRessource(self, "stamina", 20) end} },
 	activate = function(self, t)
 		local ret = {}
 		self:talentTemporaryValue(ret, "move_stamina_instead_of_energy", 12)
@@ -98,7 +98,7 @@ uberTalent{
 uberTalent{
 	name = "Armour of Shadows",
 	mode = "passive",
-	require = { special={desc="Have dealt over 50000 darkness damage", fct=function(self) return
+	require = { special={desc=_t"Have dealt over 50000 darkness damage", fct=function(self) return
 		self.damage_log and (
 			(self.damage_log[DamageType.DARKNESS] and self.damage_log[DamageType.DARKNESS] >= 50000)
 		)
@@ -134,7 +134,7 @@ uberTalent{
 
 uberTalent{
 	name = "Fungal Blood",
-	require = { special={desc="Be able to use infusions", fct=function(self)
+	require = { special={desc=_t"Be able to use infusions", fct=function(self)
 		return 
 			(not self.inscription_restrictions or self.inscription_restrictions['inscriptions/infusions']) and
 			(not self.inscription_forbids or not self.inscription_forbids['inscriptions/infusions'])
@@ -175,7 +175,7 @@ uberTalent{
 uberTalent{
 	name = "Corrupted Shell",
 	mode = "passive",
-	require = { special={desc="Have received at least 7500 blight damage and destroyed Zigur with the Grand Corruptor.", fct=function(self) return
+	require = { special={desc=_t"Have received at least 7500 blight damage and destroyed Zigur with the Grand Corruptor.", fct=function(self) return
 		(self.damage_intake_log and self.damage_intake_log[DamageType.BLIGHT] and self.damage_intake_log[DamageType.BLIGHT] >= 7500) and
 		(game.state.birth.ignore_prodigies_special_reqs or (
 			self:hasQuest("anti-antimagic") and 

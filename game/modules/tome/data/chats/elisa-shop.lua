@@ -40,10 +40,10 @@ local function auto_id(npc, player)
 
 	-- Create the chat
 	newChat{ id="id_list",
-		text = _t[[Let's see what have you got here...
-]]..table.concat(list, "\n")..[[
+		text = ([[Let's see what have you got here...
+%s
 
-That is very nice, @playername@!]],
+That is very nice, @playername@!]]):tformat(table.concat(list, "\n")),
 		answers = {
 			{_t"Thank you, Elisa!", jump=do_quest and "quest" or nil},
 		}

@@ -20,7 +20,7 @@
 uberTalent{
 	name = "Giant Leap",
 	mode = "activated",
-	require = { special={desc="Have dealt over 50000 damage with any weapon or unarmed", fct=function(self) return
+	require = { special={desc=_t"Have dealt over 50000 damage with any weapon or unarmed", fct=function(self) return
 		self.damage_log and (
 			(self.damage_log.weapon.twohanded and self.damage_log.weapon.twohanded >= 50000) or
 			(self.damage_log.weapon.shield and self.damage_log.weapon.shield >= 50000) or
@@ -82,7 +82,7 @@ uberTalent{
 uberTalent{
 	name = "You Shall Be My Weapon!", short_name="TITAN_S_SMASH", image = "talents/titan_s_smash.png",
 	mode = "activated",
-	require = { special={desc="Be of size category 'big' or larger. This is also required to use it.", fct=function(self) return self.size_category and self.size_category >= 4 end} },
+	require = { special={desc=_t"Be of size category 'big' or larger. This is also required to use it.", fct=function(self) return self.size_category and self.size_category >= 4 end} },
 	requires_target = true,
 	tactical = { ATTACK = 3, DISABLE = {stun = 1}, ESCAPE = {knockback = 1} },
 	on_pre_use = function(self, t) return self.size_category and self.size_category >= 4 end,
@@ -126,7 +126,7 @@ uberTalent{
 uberTalent{
 	name = "Massive Blow",
 	mode = "activated",
-	require = { special={desc="Have dug at least 30 walls/trees/etc. and have dealt over 50000 damage with two-handed weapons", fct=function(self) return
+	require = { special={desc=_t"Have dug at least 30 walls/trees/etc. and have dealt over 50000 damage with two-handed weapons", fct=function(self) return
 		self.dug_times and self.dug_times >= 30 and
 		self.damage_log and self.damage_log.weapon.twohanded and self.damage_log.weapon.twohanded >= 50000
 	end} },
@@ -164,7 +164,7 @@ uberTalent{
 uberTalent{
 	name = "Steamroller",
 	mode = "passive",
-	require = { special={desc="Know the Rush talent", fct=function(self) return self:knowTalent(self.T_RUSH) end} },
+	require = { special={desc=_t"Know the Rush talent", fct=function(self) return self:knowTalent(self.T_RUSH) end} },
 	info = function(self, t)
 		return ([[When you rush, the creature you rush to is marked. If you kill it in the next two turns then your rush cooldown is reset.
 		Each time that this effect triggers you gain a stacking +20%% damage buff, up to 100%%.
@@ -180,7 +180,7 @@ uberTalent{
 	range = 5,
 	tactical = { ATTACKAREA = {LIGHT = 2, FIRE = 2, PHYSICAL = 2}, CLOSEIN = 2 },
 	target = {type="ball", range=0, friendlyfire=false, radius=5},
-	require = { special={desc="Have dealt over 50000 light or fire damage", fct=function(self) return
+	require = { special={desc=_t"Have dealt over 50000 light or fire damage", fct=function(self) return
 		self.damage_log and (
 			(self.damage_log[DamageType.FIRE] and self.damage_log[DamageType.FIRE] >= 50000) or
 			(self.damage_log[DamageType.LIGHT] and self.damage_log[DamageType.LIGHT] >= 50000)
@@ -202,7 +202,7 @@ uberTalent{
 uberTalent{
 	name = "I Can Carry The World!", short_name = "NO_FATIGUE",
 	mode = "passive",
-	require = { special={desc="Be able to use massive armours", fct=function(self) return self:getTalentLevelRaw(self.T_ARMOUR_TRAINING) >= 3 end} },
+	require = { special={desc=_t"Be able to use massive armours", fct=function(self) return self:getTalentLevelRaw(self.T_ARMOUR_TRAINING) >= 3 end} },
 	on_learn = function(self, t)
 		self:attr("size_category", 1)
 		self:attr("max_encumber", 500)
@@ -223,7 +223,7 @@ uberTalent{
 uberTalent{
 	name = "Legacy of the Naloren",
 	mode = "passive",
-	require = { special={desc="Have sided with Slasul and killed Ukllmswwik", fct=function(self)
+	require = { special={desc=_t"Have sided with Slasul and killed Ukllmswwik", fct=function(self)
 		if game.state.birth.ignore_prodigies_special_reqs then return true end
 		local q = self:hasQuest("temple-of-creation")
 		return q and not q:isCompleted("kill-slasul") and q:isCompleted("kill-drake")

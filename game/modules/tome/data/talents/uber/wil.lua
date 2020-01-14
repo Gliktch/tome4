@@ -28,7 +28,7 @@ uberTalent{
 		self:setEffect(self.EFF_DRACONIC_WILL, 5, {})
 		return true
 	end,
-	require = { special={desc="Be close to the draconic world", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("drake_touched") and self:attr("drake_touched") >= 2) end} },
+	require = { special={desc=_t"Be close to the draconic world", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("drake_touched") and self:attr("drake_touched") >= 2) end} },
 	info = function(self, t)
 		return ([[Your body is like that of a drake, easily resisting detrimental effects.
 		For 5 turns, no detrimental effects may target you.]])
@@ -42,7 +42,7 @@ uberTalent{
 	cooldown = 15,
 	getDamage = function(self, t) return math.max(50 + self:combatSpellpower() * 5, 50 + self:combatMindpower() * 5) end,
 	getLava = function(self, t) return math.max(self:combatSpellpower() + 30, self:combatMindpower() + 30) end,
-	require = { special={desc="Have witnessed a meteoric crash", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or self:attr("meteoric_crash") end} },
+	require = { special={desc=_t"Have witnessed a meteoric crash", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or self:attr("meteoric_crash") end} },
 	passives = function(self, t, tmptable)
 		self:talentTemporaryValue(tmptable, "auto_highest_inc_damage", {[DamageType.FIRE] = 1})
 		self:talentTemporaryValue(tmptable, "auto_highest_resists_pen", {[DamageType.FIRE] = 1})
@@ -158,7 +158,7 @@ uberTalent{
 		self.inc_damage_actor_type.humanoid = (self.inc_damage_actor_type.humanoid or 0) - 20
 		self.inc_damage_actor_type.humanoid = (self.inc_damage_actor_type.giant or 0) - 20
 	end,
-	require = { special={desc="Possess and wear two of Garkul's artifacts and know all about Garkul's life", fct=function(self)
+	require = { special={desc=_t"Possess and wear two of Garkul's artifacts and know all about Garkul's life", fct=function(self)
 		local o1 = self:findInAllInventoriesBy("define_as", "SET_GARKUL_TEETH")
 		local o2 = self:findInAllInventoriesBy("define_as", "HELM_OF_GARKUL")
 		return o1 and o2 and o1.wielded and o2.wielded and (game.state.birth.ignore_prodigies_special_reqs or (
@@ -191,7 +191,7 @@ uberTalent{
 		self:setEffect(self.EFF_HIDDEN_RESOURCES, 5, {})
 		return true
 	end,
-	require = { special={desc="Have been close to death(killed a foe while below 1 HP)", fct=function(self) return self:attr("barely_survived") end} },
+	require = { special={desc=_t"Have been close to death(killed a foe while below 1 HP)", fct=function(self) return self:attr("barely_survived") end} },
 	info = function(self, t)
 		return ([[You focus your mind on the task at hand, regardless of how dire the situation is.
 		For 5 turns, none of your talents use any resources.]])
@@ -202,7 +202,7 @@ uberTalent{
 uberTalent{
 	name = "Lucky Day",
 	mode = "passive",
-	require = { special={desc="Be lucky already (at least +5 luck)", fct=function(self) return self:getLck() >= 55 end} },
+	require = { special={desc=_t"Be lucky already (at least +5 luck)", fct=function(self) return self:getLck() >= 55 end} },
 	on_learn = function(self, t)
 		self.inc_stats[self.STAT_LCK] = (self.inc_stats[self.STAT_LCK] or 0) + 40
 		self:onStatChange(self.STAT_LCK, 40)
@@ -239,7 +239,7 @@ uberTalent{
 	name = "Spell Feedback",
 	mode = "passive",
 	cooldown = 9,
-	require = { special={desc="Antimagic", fct=function(self) return self:knowTalentType("wild-gift/antimagic") end} },
+	require = { special={desc=_t"Antimagic", fct=function(self) return self:knowTalentType("wild-gift/antimagic") end} },
 	trigger = function(self, t, target, source_t)
 		self:startTalentCooldown(t)
 		self:logCombat(target, "#LIGHT_BLUE##Source# punishes #Target# for casting a spell!", self.name:capitalize(), target.name)
@@ -266,7 +266,7 @@ uberTalent{
 	require = { },
 	cooldown = 20,
 	tactical = { BUFF = 3 },
-	require = { special={desc="Have dealt over 50000 mind damage", fct=function(self) return 
+	require = { special={desc=_t"Have dealt over 50000 mind damage", fct=function(self) return 
 		self.damage_log and (
 			(self.damage_log[DamageType.MIND] and self.damage_log[DamageType.MIND] >= 50000)
 		)

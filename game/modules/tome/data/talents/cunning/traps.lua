@@ -136,7 +136,7 @@ local function trap_ai_coords(self, t, tx, ty, tg, defense)
 	end
 	local range = tg.range or self:getTalentRange(t)
 	local tgt_dist = core.fov.distance(self.x, self.y, tx, ty)
-	print(("%s advanced trap placement targeting grid (%s, %s) range/dist:%d/%d (defense:%s)"):tformat(self.name, tx, ty, range, tgt_dist, defense))
+	print(("%s advanced trap placement targeting grid (%s, %s) range/dist:%d/%d (defense:%s)"):format(self.name, tx, ty, range, tgt_dist, defense))
 	-- heuristic: abort if target too far away
 	if tgt_dist > range and (not defense or rng.percent((tgt_dist-range-1)*30)) then
 		print("npc trap_ai_coords: target too far to place trap, aborting", t.id, tx, ty)
@@ -170,7 +170,7 @@ local function trap_ai_coords(self, t, tx, ty, tg, defense)
 	local best_val, best_x, best_y = tgt_dist -- if projection is blocked, closest grids to target
 	for i, grid in ipairs(grid_list) do
 		local ok, x0, y0, px, py = self:canProject(tg, grid[1], grid[2])
-		print(("# trap_ai_coords checking projection to (%d, %d): (%d, %d) ok: %s"):tformat(grid[1], grid[2], px, py, ok))
+		print(("# trap_ai_coords checking projection to (%d, %d): (%d, %d) ok: %s"):format(grid[1], grid[2], px, py, ok))
 		if ok then return px, py
 		elseif defense then -- closer grids may still be OK
 			local d = core.fov.distance(grid[1], grid[2], px, py)
@@ -597,8 +597,8 @@ newTalent{
 	end,
 	action = function(self, t)
 		local nb = t.getNbTraps(self,t)
-		local txt = ("Prepare which traps? (maximum: %d, up to tier %d)%s"):tformat(nb, math.min(5, self:getTalentLevelRaw(t)), self.turn_procs.free_trap_mastery and "\nGame Start: Newly prepared traps will NOT start on cooldown." or "\n#YELLOW#Newly prepared traps are put on cooldown.#LAST#")
-		local traps_dialog = require("mod.dialogs.TrapsSelect").new("Select Prepared Traps", self,
+		local txt = ("Prepare which traps? (maximum: %d, up to tier %d)%s"):tformat(nb, math.min(5, self:getTalentLevelRaw(t)), self.turn_procs.free_trap_mastery and _t"\nGame Start: Newly prepared traps will NOT start on cooldown." or _t"\n#YELLOW#Newly prepared traps are put on cooldown.#LAST#")
+		local traps_dialog = require("mod.dialogs.TrapsSelect").new(_t"Select Prepared Traps", self,
 		txt, t, nb, trap_mastery_tids)
 		local traps_sel, traps_prev = self:talentDialog(traps_dialog)
 
@@ -613,7 +613,7 @@ newTalent{
 			end
 			for tid, sel in pairs(traps_sel) do
 				if sel and not traps_prev[tid] then
-					game.log("#LIGHT_GREEN#Preparing %s%s", self:getTalentFromId(tid).name, self.trap_primed == tid and " (normal trigger)" or "")
+					game.log("#LIGHT_GREEN#Preparing %s%s", self:getTalentFromId(tid).name, self.trap_primed == tid and _t" (normal trigger)" or "")
 					self:learnTalent(tid, true, 1, {no_unlearn=true})
 					if self.trap_primed == tid then 
 						self.trap_primed = nil
@@ -645,7 +645,7 @@ newTalent{
 				local tr = self:getTalentFromId(tid)
 				show_traps[#show_traps+1] = {tier=tr.trap_mastery_level, name=tr.name,
 				known = self.trap_primed ~= tid and known, 
-				info = tr.short_info and tr.short_info(self, tr) or "#GREY#(see trap description)#LAST#"}
+				info = tr.short_info and tr.short_info(self, tr) or _t"#GREY#(see trap description)#LAST#"}
 			end
 		end
 		table.sort(show_traps, function(a, b) return a.tier < b.tier end)

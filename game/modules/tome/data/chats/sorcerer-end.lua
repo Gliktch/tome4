@@ -36,19 +36,19 @@ end
 --------------------------------------------------------
 if p.descriptor.race == "Yeek" then
 newChat{ id="welcome",
-	text = _t[[#LIGHT_GREEN#*The two Sorcerers lie dead before you.*#WHITE#
+	text = ([[#LIGHT_GREEN#*The two Sorcerers lie dead before you.*#WHITE#
 #LIGHT_GREEN#*Their bodies vanish in a small cloud of mist, quickly fading away.*#WHITE#
 #LIGHT_GREEN#*You feel the Way reaching out to you, the whole yeek race speaks to you.*#WHITE#
-You have done something incredible ]]..(p.female and "sister" or "brother")..[[! You also have created a unique opportunity for the yeek race!
+You have done something incredible %s! You also have created a unique opportunity for the yeek race!
 The energies of those farportals are incredible, using them we could make the Way radiate all over Eyal, forcing it down on the other races, bringing them the same peace and happiness we feel in the Way.
 You must go through the farportal and willingly sacrifice yourself inside. Your mind will embed itself into the farportal network, spreading the Way far and wide!
 Even though you will die you will bring the world, and the yeeks, ultimate peace.
 The Way will never forget you. Now go and make history!
-]],
+]]):tformat(p.female and _t"sister" or _t"brother"),
 	answers = {
 		{_t"#LIGHT_GREEN#[sacrifice yourself to bring the Way to every sentient creature.]", action=function(npc, player)
 			player.no_resurrect = true
-			player:die(player, {special_death_msg="sacrificing "..string.his_her_self(player).." to bring the Way to all"})
+			player:die(player, {special_death_msg=("sacrificing %s to bring the Way to all"):tformat(string.his_her_self(player))})
 			player:setQuestStatus("high-peak", engine.Quest.COMPLETED, "yeek")
 			player:hasQuest("high-peak"):win("yeek-sacrifice")
 		end},
@@ -63,7 +63,7 @@ You will do as asked, for the good of all Yeeks! The Way is always right.
 	answers = {
 		{_t"#LIGHT_GREEN#[sacrifice yourself to bring the Way to every sentient creature.]", action=function(npc, player)
 			player.no_resurrect = true
-			player:die(player, {special_death_msg="sacrificing "..string.his_her_self(player).." to bring the Way to all"})
+			player:die(player, {special_death_msg=("sacrificing %s to bring the Way to all"):tformat(string.his_her_self(player))})
 			player:setQuestStatus("high-peak", engine.Quest.COMPLETED, "yeek")
 			player:hasQuest("high-peak"):win("yeek-sacrifice")
 		end},
@@ -81,7 +81,7 @@ You were a precious ally and a friend. The world will remember your last act of 
 	answers = {
 		{_t"#LIGHT_GREEN#[slip peacefully into death.]", action=function(npc, player)
 			player.no_resurrect = true
-			player:die(player, {special_death_msg="sacrificing "..string.his_her_self(player).." to stop the Way"})
+			player:die(player, {special_death_msg=("sacrificing %s to stop the Way"):tformat(string.his_her_self(player))})
 			player:setQuestStatus("high-peak", engine.Quest.COMPLETED, "yeek-stab")
 			player:hasQuest("high-peak"):win("yeek-selfless")
 		end},
@@ -106,7 +106,7 @@ After searching the remains of the Sorcerers you find a note explaining that the
 		{_t"Aeryn, I am sorry but one of us needs to be sacrificed for the world to go on. #LIGHT_GREEN#[sacrifice Aeryn for the sake of the world]", jump="aeryn-sacrifice", cond=aeryn_alive},
 		{_t"I will close it. #LIGHT_GREEN#[sacrifice yourself for the sake of the world]", action=function(npc, player)
 			player.no_resurrect = true
-			player:die(player, {special_death_msg="sacrificing "..string.his_her_self(player).." for the sake of the world"})
+			player:die(player, {special_death_msg=("sacrificing %s for the sake of the world"):tformat(string.his_her_self(player))})
 			player:hasQuest("high-peak"):win("self-sacrifice")
 		end},
 	}

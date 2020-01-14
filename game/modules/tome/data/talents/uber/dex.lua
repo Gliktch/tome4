@@ -36,7 +36,7 @@ uberTalent{
 
 uberTalent{
 	name = "Through The Crowd",
-	require = { special={desc="Have had at least 6 party members at the same time", fct=function(self)
+	require = { special={desc=_t"Have had at least 6 party members at the same time", fct=function(self)
 		return self:attr("huge_party")
 	end} },
 	mode = "sustained",
@@ -112,7 +112,7 @@ uberTalent{
 uberTalent{
 	name = "Windblade",
 	mode = "activated",
-	require = { special={desc="Have dealt over 50000 damage with dual wielded weapons", fct=function(self) return self.damage_log and self.damage_log.weapon.dualwield and self.damage_log.weapon.dualwield >= 50000 end} },
+	require = { special={desc=_t"Have dealt over 50000 damage with dual wielded weapons", fct=function(self) return self.damage_log and self.damage_log.weapon.dualwield and self.damage_log.weapon.dualwield >= 50000 end} },
 	cooldown = 12,
 	radius = 4,
 	range = 0,
@@ -146,7 +146,7 @@ uberTalent{
 uberTalent{
 	name = "Windtouched Speed",
 	mode = "passive",
-	require = { special={desc="Know at least 10 talent levels of equilibrium-using talents", fct=function(self) return knowRessource(self, "equilibrium", 10) end} },
+	require = { special={desc=_t"Know at least 10 talent levels of equilibrium-using talents", fct=function(self) return knowRessource(self, "equilibrium", 10) end} },
 	on_learn = function(self, t)
 		self:attr("global_speed_add", 0.2)
 		self:attr("avoid_pressure_traps", 1)
@@ -171,7 +171,7 @@ uberTalent{
 	mode = "passive",
 	no_npc_use = true,
 	cant_steal = true,
-	require = { special={desc="Know Imbue Item to level 5", fct=function(self)
+	require = { special={desc=_t"Know Imbue Item to level 5", fct=function(self)
 		return self:getTalentLevelRaw(self.T_IMBUE_ITEM) >= 5
 	end} },
 	info = function(self, t)
@@ -189,7 +189,7 @@ uberTalent{
 		else return {ESCAPE = 2, DEFEND = 2}
 		end
 	end,
-	require = { special={desc="Have been knocked around at least 50 times", fct=function(self) return self:attr("knockback_times") and self:attr("knockback_times") >= 50 end} },
+	require = { special={desc=_t"Have been knocked around at least 50 times", fct=function(self) return self:attr("knockback_times") and self:attr("knockback_times") >= 50 end} },
 	-- Called by default projector in mod.data.damage_types.lua
 	getMult = function(self, t) return self:combatLimit(self:getDex(), 0.7, 0.9, 50, 0.85, 100) end, -- Limit > 70% damage taken
 	activate = function(self, t)
@@ -215,7 +215,7 @@ uberTalent{
 	no_energy = "fake",
 	cooldown = 10,
 	range = archery_range,
-	require = { special={desc="Have dealt over 50000 damage with ranged weapons", fct=function(self) return self.damage_log and self.damage_log.weapon.archery and self.damage_log.weapon.archery >= 50000 end} },
+	require = { special={desc=_t"Have dealt over 50000 damage with ranged weapons", fct=function(self) return self.damage_log and self.damage_log.weapon.archery and self.damage_log.weapon.archery >= 50000 end} },
 	tactical = { ATTACK = { weapon = 3 }, DISABLE = {2, stun = 2}},
 	requires_target = true,
 	on_pre_use = function(self, t, silent) return archerPreUse(self, t, silent) end,

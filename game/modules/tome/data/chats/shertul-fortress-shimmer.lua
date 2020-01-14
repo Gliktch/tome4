@@ -61,7 +61,7 @@ for slot, inven in pairs(player.inven) do
 	if player.inven_def[slot].infos and player.inven_def[slot].infos.shimmerable and inven[1] then
 		local o = inven[1]
 		if o.slot then
-			answers[#answers+1] = {_t"[Alter the appearance of "..o:getName{do_color=true, no_add_name=true}.."]", action=shimmer(player, slot), jump="welcome"}
+			answers[#answers+1] = {("[Alter the appearance of %s]"):tformat(o:getName{do_color=true, no_add_name=true}), action=shimmer(player, slot), jump="welcome"}
 		end
 	end
 end

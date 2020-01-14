@@ -39,7 +39,7 @@ local function select(id)
 end
 
 newChat{ id="welcome",
-	text = _t[[You have lived ]]..turns..[[ turns in three different timelines. Which do you choose to be the real timeline?]],
+	text = ([[You have lived %d turns in three different timelines. Which do you choose to be the real timeline?]]):tformat(turns),
 	answers = {
 		{_t"The first.", action=function(npc, player) select(1) end},
 		{_t"The second.", action=function(npc, player) select(2) end},

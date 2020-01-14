@@ -23,7 +23,7 @@ I see you are a worthy opponent, powerful indeed. I can see, and feel, your mast
 We are the same.]],
 	answers = {
 		{_t"What do you mean 'the same'?", jump="quest"},
-		{_t"I am nothing like you. Die!", quick_reply="So be it. Die, and give me your power!"},
+		{_t"I am nothing like you. Die!", quick_reply=_t"So be it. Die, and give me your power!"},
 	}
 }
 
@@ -32,7 +32,7 @@ newChat{ id="quest",
 This place is special. The veil of reality is thin here, forever shattered by the Spellblaze. We are taking advantage of this; we can draw on the power,
 leeching from this place, to better ourselves, to bring forth the dominion of magic!]],
 	answers = {
-		{_t"The world suffered from the Spellblaze enough. Magic must serve people, not enslave them. I will not listen to you!", quick_reply="So be it. Die, and give me your power!"},
+		{_t"The world suffered from the Spellblaze enough. Magic must serve people, not enslave them. I will not listen to you!", quick_reply=_t"So be it. Die, and give me your power!"},
 		{_t"What do you propose, then?", jump="quest2"},
 	}
 }
@@ -47,7 +47,7 @@ Let us join forces and crush the fools!]],
 			if player:isTalentActive(player.T_DEMON_PLANE) then player:forceUseTalent(player.T_DEMON_PLANE, {ignore_energy=true}) end
 			if player:hasEffect(player.EFF_DREAMSCAPE) then player:removeEffect(player.EFF_DREAMSCAPE, true) end
 		end},
-		{_t"Magic has a purpose. Those men are wrong, but you seem much worse.", quick_reply="Then you must leave... THIS WORLD! DIE!"},
+		{_t"Magic has a purpose. Those men are wrong, but you seem much worse.", quick_reply=_t"Then you must leave... THIS WORLD! DIE!"},
 	}
 }
 

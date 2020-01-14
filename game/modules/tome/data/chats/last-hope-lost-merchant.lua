@@ -29,7 +29,7 @@ newChat{ id="welcome",
 Thanks to you I made it safely to this great city! I am planning to open my most excellent boutique soon, but since I am in your debt, perhaps I could open early for you if you are in need of rare goods.]]
 ..((trap or poison) and (_t"\nBy the way, "..((trap and _t"during our escape I found the plans for an #YELLOW#Ambush Trap#LAST#" or "")
 ..(poison and (trap and _t" and while" or _t"while").. _t" organizing my inventory, I came across some #YELLOW#Smelly Toxin#LAST# that a colleague claimed could actually turn creatures to stone.  Truly exotic!" or _t".")).._t"\nYou would not happen to be interested, by any chance?") or "")
-..((game.state:isAdvanced() and _t"\nOh my friend, good news! As I told you I can now request a truly #{italic}#unique#{normal}# object to be crafted just for you. For a truly unique price..." or "\nI eventually plan to arrange a truly unique service for the most discerning of customers. If you come back later when I'm fully set up I shall be able to order for you something quite marvellous. For a perfectly #{italic}#suitable#{normal}# price, of course.")),
+..((game.state:isAdvanced() and _t"\nOh my friend, good news! As I told you I can now request a truly #{italic}#unique#{normal}# object to be crafted just for you. For a truly unique price..." or _t"\nI eventually plan to arrange a truly unique service for the most discerning of customers. If you come back later when I'm fully set up I shall be able to order for you something quite marvellous. For a perfectly #{italic}#suitable#{normal}# price, of course.")),
 	answers = {
 		{_t"Yes please, let me see your wares.", action=function(npc, player)
 			npc.store:loadup(game.level, game.zone)
