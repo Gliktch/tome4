@@ -74,6 +74,26 @@ local function explore(file, ast)
 						locales[file][p[2][1]] = {line=p[2].nline, type="achievement name"}
 					end
 				end end
+			elseif e.tag == "Id" and e[1] == "newBirthDescriptor" then
+				local en = ast[i+1]
+				local dname, name = nil, nil
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "name" then
+						name = p[2]
+					end
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "display_name" then
+						dname = p[2]
+					end
+				end end
+				if dname then
+					print(colors("%{bright cyan}newBirthDescriptor"), dname[1])
+					locales[file] = locales[file] or {}
+					locales[file][dname[1]] = {line=dname.nline, type="birth descriptor name"}
+				elseif name then
+					print(colors("%{bright cyan}newBirthDescriptor"), name[1])
+					locales[file] = locales[file] or {}
+					locales[file][name[1]] = {line=name.nline, type="birth descriptor name"}
+				end
 			elseif e.tag == "Invoke" and
 			    e[1] and e[1].tag == "Index" and e[1][1] and e[1][1][1] == "engine" and e[1][1].tag == "Id" and e[1][2][1] == "Faction" and e[1][2].tag == "String" and
 			    e[2] and e[2].tag == "String" and e[2][1] == "add" then
