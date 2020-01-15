@@ -260,7 +260,7 @@ newTalent{
 					local proj = throw(self, self:getTalentRadius(t), t.getDamage(self,t), tgt.act.x, tgt.act.y, nil, nil, 1)
 					proj.name = "Fan of Knives"
 					tgt.cnt = tgt.cnt + 1
-					print(("Fan of Knives #%d: target:%s (%s, %s) = %d"):tformat(count, tgt.act.name, tgt.act.x, tgt.act.y, tgt.cnt))
+					print(("Fan of Knives #%d: target:%s (%s, %s) = %d"):format(count, tgt.act.name, tgt.act.x, tgt.act.y, tgt.cnt))
 					count = count - 1
 					if tgt.cnt >= tgt_max then table.remove(tgts, id) end
 				end

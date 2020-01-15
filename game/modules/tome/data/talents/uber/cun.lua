@@ -187,7 +187,7 @@ uberTalent{
 				local proc = self:hasProc("endless_woes_"..dt:lower())
 				if proc then cooldowns[#cooldowns+1] = (dt:lower()):capitalize()..": "..proc.turns end
 			end
-			str = "(Cooldowns)".."\n"..table.concat(cooldowns, "\n")
+			str = _t"(Cooldowns)".."\n"..table.concat(cooldowns, "\n")
 		end
 		return ([[Surround yourself with a malevolent aura that stores damage you deal.
 		Whenever you have stored %d damage of one type you unleash a powerful blast at a random enemy dealing %d damage of that type in radius %d and applying one of the following effects:
@@ -349,7 +349,7 @@ uberTalent{
 				local proc = self:hasProc("elemental_surge_"..dt:lower())
 				if proc then cooldowns[#cooldowns+1] = (dt:lower()):capitalize()..": "..proc.turns end
 			end
-		str = "(Cooldowns)".."\n"..table.concat(cooldowns, "\n")
+		str = _t"(Cooldowns)".."\n"..table.concat(cooldowns, "\n")
 		end
 		return ([[Surround yourself with an elemental aura that stores damage you deal.
 		Whenever you have stored %d damage of one type you unleash a powerful blast at a random enemy dealing %d damage of that type in radius %d and granting you one of the following effects:
@@ -371,17 +371,17 @@ uberTalent{
 
 eye_of_the_tiger_data = {
 	physical = {
-		desc = "All physical criticals reduce the remaining cooldown of a random technique or cunning talent by 2.",
+		desc = _t"All physical criticals reduce the remaining cooldown of a random technique or cunning talent by 2.",
 		types = { "^technique/", "^cunning/" },
 		reduce = 2,
 	},
 	spell = {
-		desc = "All spell criticals reduce the remaining cooldown of a random spell/corruption/celestial/chronomancy talent by 2.",
+		desc = _t"All spell criticals reduce the remaining cooldown of a random spell/corruption/celestial/chronomancy talent by 2.",
 		types = { "^spell/", "^corruption/", "^celestial/", "^chronomancy/" },
 		reduce = 2,
 	},
 	mind = {
-		desc = "All mind criticals reduce the remaining cooldown of a random wild gift/psionic/afflicted talent by 2.",
+		desc = _t"All mind criticals reduce the remaining cooldown of a random wild gift/psionic/afflicted talent by 2.",
 		types = { "^wild%-gift/", "^cursed/", "^psionic/" },
 		reduce = 2,
 	},

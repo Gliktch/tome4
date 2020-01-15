@@ -31,9 +31,9 @@ makeWarpMine = function(self, t, x, y, type, dam)
 	
 	-- Our Mines
 	local mine = Trap.new{
-		name = ("warp mine: %s"):tformat(type),
+		name = ("warp mine: %s"):tformat(type == "toward" and _t"toward" or _t"away"),
 		type = "temporal", id_by_type=true, unided_name = "trap",
-		display = '^', color=colors.BLUE, image = ("trap/chronomine_%s_0%d.png"):tformat(type == "toward" and "blue" or "red", rng.avg(1, 4, 3)),
+		display = '^', color=colors.BLUE, image = ("trap/chronomine_%s_0%d.png"):format(type == "toward" and "blue" or "red", rng.avg(1, 4, 3)),
 		shader = "shadow_simulacrum", shader_args = { color = {0.2, 0.2, 0.2}, base = 0.8, time_factor = 1500 },
 		temporary = duration,
 		x = x, y = y, type = type,
@@ -284,7 +284,7 @@ newTalent{
 		-- Make our tether
 		local tether = mod.class.Object.new{
 			old_feat = oe, type = "temporal", subtype = "tether",
-			name = self.name:capitalize() .. "'s spatial tether", add_mos = {{image="object/temporal_instability.png"}},
+			name = ("%s's spatial tether"):tformat(self.name:capitalize()), add_mos = {{image="object/temporal_instability.png"}},
 			display = '&', color=colors.LIGHT_BLUE,
 			temporary = t.getDuration(self, t), 
 			power = power, dest_power = dest_power, chance = chance,

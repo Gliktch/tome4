@@ -702,7 +702,7 @@ newTalent{
 		end
 		local ok = true
 		self:project(tg, x, y, function(px, py)
-			print(("Grappling hook projection at (%s, %s) vs target (%s, %s)"):tformat(px, py, x, y))
+			print(("Grappling hook projection at (%s, %s) vs target (%s, %s)"):format(px, py, x, y))
 			local target = game.level.map(px, py, engine.Map.ACTOR)
 
 			if target then -- hook actor

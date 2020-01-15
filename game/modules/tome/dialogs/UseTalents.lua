@@ -192,7 +192,7 @@ function _M:use(item, button)
 				self:simplePopup(_t"Middle mouse click assigned", ("%s assigned to middle mouse click on an hostile target."):tformat(self.actor:getTalentFromId(item.talent).name:capitalize()))
 			elseif b.what == "left" then
 				self.actor.auto_shoot_talent = item.talent
-				self:simplePopup(_t"Left mouse click assigned", (" assigned to left mouse click on an hostile target."):tformat(self.actor:getTalentFromId(item.talent).name:capitalize()))
+				self:simplePopup(_t"Left mouse click assigned", ("%s assigned to left mouse click on an hostile target."):tformat(self.actor:getTalentFromId(item.talent).name:capitalize()))
 			elseif b.what == "unbind" then
 				if self.actor.auto_shoot_talent == item.talent then self.actor.auto_shoot_talent = nil end
 				if self.actor.auto_shoot_midclick_talent == item.talent then self.actor.auto_shoot_midclick_talent = nil end

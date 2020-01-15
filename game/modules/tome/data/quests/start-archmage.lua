@@ -28,7 +28,7 @@ desc = function(self, who)
 	if self:isCompleted("abashed") then
 		desc[#desc+1] = _t"#LIGHT_GREEN#* You have explored the expanse and closed all three wormholes.#WHITE#"
 	else
-		desc[#desc+1] = _t"#SLATE#* You have closed "..self.stables.." wormhole(s).#WHITE#"
+		desc[#desc+1] = ("#SLATE#* You have closed %s wormhole(s).#WHITE#"):tformat(self.stables)
 	end
 	return table.concat(desc, "\n")
 end

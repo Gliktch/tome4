@@ -179,12 +179,12 @@ ActorTemporaryEffects:loadDefinition("/data/timed_effects.lua")
 dofile("/data/resources.lua")
 
 -- Actor stats
-ActorStats:defineStat(_t"Strength",	"str", 10, 1, 100, _t"Strength defines your character's ability to apply physical force. It increases your melee damage, damage done with heavy weapons, your chance to resist physical effects, and carrying capacity.")
-ActorStats:defineStat(_t"Dexterity",	"dex", 10, 1, 100, _t"Dexterity defines your character's ability to be agile and alert. It increases your chance to hit, your ability to avoid attacks, and your damage with light or ranged weapons.")
-ActorStats:defineStat(_t"Magic",		"mag", 10, 1, 100, _t"Magic defines your character's ability to manipulate the magical energy of the world. It increases your spell power, and the effect of spells and other magic items.")
-ActorStats:defineStat(_t"Willpower",	"wil", 10, 1, 100, _t"Willpower defines your character's ability to concentrate. It increases your mana, stamina and PSI capacity, and your chance to resist mental attacks.")
-ActorStats:defineStat(_t"Cunning",	"cun", 10, 1, 100, _t"Cunning defines your character's ability to learn, think, and react. It allows you to learn many worldly abilities, and increases your mental capabilities and chance of critical hits.")
-ActorStats:defineStat(_t"Constitution",	"con", 10, 1, 100, _t"Constitution defines your character's ability to withstand and resist damage. It increases your maximum life and physical resistance.")
+ActorStats:defineStat("Strength",	"str", 10, 1, 100, _t"Strength defines your character's ability to apply physical force. It increases your melee damage, damage done with heavy weapons, your chance to resist physical effects, and carrying capacity.")
+ActorStats:defineStat("Dexterity",	"dex", 10, 1, 100, _t"Dexterity defines your character's ability to be agile and alert. It increases your chance to hit, your ability to avoid attacks, and your damage with light or ranged weapons.")
+ActorStats:defineStat("Magic",		"mag", 10, 1, 100, _t"Magic defines your character's ability to manipulate the magical energy of the world. It increases your spell power, and the effect of spells and other magic items.")
+ActorStats:defineStat("Willpower",	"wil", 10, 1, 100, _t"Willpower defines your character's ability to concentrate. It increases your mana, stamina and PSI capacity, and your chance to resist mental attacks.")
+ActorStats:defineStat("Cunning",	"cun", 10, 1, 100, _t"Cunning defines your character's ability to learn, think, and react. It allows you to learn many worldly abilities, and increases your mental capabilities and chance of critical hits.")
+ActorStats:defineStat("Constitution",	"con", 10, 1, 100, _t"Constitution defines your character's ability to withstand and resist damage. It increases your maximum life and physical resistance.")
 -- Luck is hidden and starts at half max value (50) which is considered the standard
 ActorStats:defineStat(_t"Luck",		"lck", 50, 1, 100, _t"Luck defines your character's fortune when dealing with unknown events. It increases your critical strike chance, your chance of random encounters, ...")
 
