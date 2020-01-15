@@ -112,7 +112,7 @@ newTalent{
 	random_ego = "attack",
 	equilibrium = 12,
 	cooldown = 12,
-	message = "@Source@ breathes venom!",
+	message = _t"@Source@ breathes venom!",
 	tactical = { ATTACKAREA = { poison = 2 } },
 	range = 0,
 	radius = function(self, t) return math.min(13, math.floor(self:combatTalentScale(t, 5, 9))) end,

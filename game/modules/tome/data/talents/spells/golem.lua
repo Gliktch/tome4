@@ -487,7 +487,7 @@ newTalent{
 	points = 5,
 	mana = 25,
 	cooldown = 8,
-	message = "@Source@ breathes poison!",
+	message = _t"@Source@ breathes poison!",
 	tactical = { ATTACKAREA = { NATURE = {1, poison = 1 } }},
 	range = 0,
 	radius = 5,

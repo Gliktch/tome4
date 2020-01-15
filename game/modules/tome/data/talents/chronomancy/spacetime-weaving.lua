@@ -167,7 +167,7 @@ newTalent{
 				type = "annoy", subtype="teleport", id_by_type=true, unided_name = "trap",
 				image = "terrain/wormhole.png",
 				display = '&', color_r=255, color_g=255, color_b=255, back_color=colors.STEEL_BLUE,
-				message = "@Target@ moves onto the wormhole.",
+				message = _t"@Target@ moves onto the wormhole.",
 				temporary = t.getDuration(self, t),
 				x = x, y = y, dest_x = dest_x, dest_y = dest_y,
 				radius = self:getTalentRadius(t),

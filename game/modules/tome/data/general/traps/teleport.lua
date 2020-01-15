@@ -30,7 +30,7 @@ newEntity{ base = "TRAP_TELEPORT",
 	rarity = 5, level_range = {5, nil},
 	color=colors.UMBER,
 	pressure_trap = true,
-	message = "@Target@ shimmers briefly.",
+	message = _t"@Target@ shimmers briefly.",
 	unided_name = _t"shimmering floor switch",
 	triggered = function(self, x, y, who)
 		if who:canBe("teleport") then

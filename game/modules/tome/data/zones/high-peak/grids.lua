@@ -39,7 +39,7 @@ This one seems to go to the Far East.]],
 		change_wilderness = {
 			spot = {type="farportal-end", subtype="fareast"},
 		},
-		message = "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the Far East, with no trace of the portal...",
+		message = _t"#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the Far East, with no trace of the portal...",
 		on_use = function(self, who)
 		end,
 	},
@@ -71,7 +71,7 @@ This one seems to go to the Iron Throne in the West.]],
 		change_wilderness = {
 			spot = {type="farportal-end", subtype="iron-throne"},
 		},
-		message = "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the slopes of the Iron Throne, with no trace of the portal...",
+		message = _t"#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the slopes of the Iron Throne, with no trace of the portal...",
 		on_use = function(self, who)
 		end,
 	},
@@ -193,7 +193,7 @@ newEntity{
 	change_level = 1,
 	orb_portal = {
 		nothing = true,
-		message = "#VIOLET#You enter the swirling portal and appear in a large room with other portals and the two wizards.",
+		message = _t"#VIOLET#You enter the swirling portal and appear in a large room with other portals and the two wizards.",
 		on_use = function()
 			game:changeLevel(11, nil, {direct_switch=true}) -- Special level, can not get to it any other way
 			if game.player:hasQuest("high-peak"):isCompleted("sanctum-chat") then return end

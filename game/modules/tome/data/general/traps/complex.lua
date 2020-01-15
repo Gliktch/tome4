@@ -35,7 +35,7 @@ newEntity{ base = "TRAP_COMPLEX",
 	disarm_power = resolvers.clscale(35, 25, 8, 0.5),
 	rarity = 3, level_range = {1, nil},
 	color = colors.UMBER,
-	message = "@Target@ walks on a trap, and there is a loud noise.",
+	message = _t"@Target@ walks on a trap, and there is a loud noise.",
 	unided_name = _t"large pressure plate",
 	desc = function(self)
 		local dir = game.level.map:compassDirection(self.spawn_x - self.x, self.spawn_y - self.y)
@@ -85,7 +85,7 @@ newEntity{ base = "TRAP_COMPLEX",
 	disarm_power = resolvers.clscale(40, 35, 8, 0.5),
 	rarity = 3, level_range = {1, nil},
 	color=colors.PURPLE,
-	message = "@Target@ activates a trap, and its magical energies change.",
+	message = _t"@Target@ activates a trap, and its magical energies change.",
 	unided_name = _t"magical emitter",
 	desc = function(self)
 		local dtype = engine.DamageType[self.dammode] and engine.DamageType:get(self.dammode)
@@ -157,7 +157,7 @@ newEntity{ base = "TRAP_COMPLEX",
 	disarm_power = resolvers.clscale(35, 25, 8, 0.5),
 	rarity = 3, level_range = {1, nil},
 	color=colors.GREEN,
-	message = "@Target@ walks on a poison spore.",
+	message = _t"@Target@ walks on a poison spore.",
 	unided_name = _t"spore colony",
 	desc = function(self)
 		return ("Releases a cloud of poison spores (radius %d), poisoning for #LIGHT_GREEN#%d#LAST# damage over 5 turns."):tformat(self.rad, self.dam)
@@ -221,7 +221,7 @@ newEntity{ base = "TRAP_COMPLEX",
 	rarity = 3, level_range = {1, nil},
 	color=colors.RED,
 	pressure_trap = true,
-	message = "Flames start to appear around @target@.",
+	message = _t"Flames start to appear around @target@.",
 	unided_name = _t"hot spot",
 	desc = function(self)
 		return ("Releases up to 4 delayed fuse fireballs within range %d that each explode for #LIGHT_RED#%d#LAST# fire damage after %d turns."):tformat(self.rad, self.dam, 5)
@@ -273,7 +273,7 @@ newEntity{ base = "TRAP_COMPLEX",
 	rarity = 3, level_range = {1, nil},
 	color=colors.BLUE,
 	pressure_trap = true,
-	message = "Cold flames start to appear around @target@.",
+	message = _t"Cold flames start to appear around @target@.",
 	unided_name = _t"cold spot",
 	desc = function(self)
 		local actor = self.actor

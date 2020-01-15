@@ -3627,7 +3627,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as="MORRIGOR",
 				o.use_talent.power = (target:getTalentCooldown(t, true) or 5)
 				target.talents[t.id] = get_talent
 				o.use_talent.name = ((t.display_entity and t.display_entity:getDisplayString() or "")..t.name):toString()
-				o.use_talent.message = "@Source@ taps the #SALMON#trapped soul#LAST# of "..target.name..", xmanifesting "..o.use_talent.name.."!"
+				o.use_talent.message = _t"@Source@ taps the #SALMON#trapped soul#LAST# of "..target.name..", xmanifesting "..o.use_talent.name.."!"
 				o.power = 1
 				o.max_power = o.use_talent.power
 				o.power_regen = 1

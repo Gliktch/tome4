@@ -39,7 +39,7 @@ This one seems to go to the Far East, a continent of which only rumours are know
 		after_zone_teleport = {
 			x = 98, y = 25,
 		},
-		message = "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on an unfamiliar cave, with no trace of the portal...",
+		message = _t"#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on an unfamiliar cave, with no trace of the portal...",
 		on_use = function(self, who)
 			game.state:goneEast()
 			who:setQuestStatus("wild-wild-east", engine.Quest.DONE)

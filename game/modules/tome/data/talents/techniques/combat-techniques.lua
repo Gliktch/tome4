@@ -23,7 +23,7 @@
 newTalent{
 	name = "Rush",
 	type = {"technique/combat-techniques-active", 1},
-	message = "@Source@ rushes out!",
+	message = _t"@Source@ rushes out!",
 	require = techs_strdex_req1,
 	points = 5,
 	random_ego = "attack",

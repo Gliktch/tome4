@@ -2711,13 +2711,13 @@ function _M:onTakeHit(value, src, death_note)
 		if value / self.max_life >= 0.15 then
 			-- you take a big hit..adds 2 + 2 for each 5% over 15%
 			hateGain = hateGain + 2 + (((value / self.max_life) - 0.15) * 100 * 0.5)
-			hateMessage = "#F53CBE#You fight through the pain!"
+			hatemessage = _t"#F53CBE#You fight through the pain!"
 		end
 
 		if value / self.max_life >= 0.05 and (self.life - value) / self.max_life < 0.25 then
 			-- you take a hit with low health
 			hateGain = hateGain + 4
-			hateMessage = "#F53CBE#Your hatred grows even as your life fades!"
+			hatemessage = _t"#F53CBE#Your hatred grows even as your life fades!"
 		end
 
 		if hateGain >= 1 then
@@ -2735,7 +2735,7 @@ function _M:onTakeHit(value, src, death_note)
 		if value / src.max_life > 0.33 then
 			-- you deliver a big hit
 			hateGain = hateGain + src.hate_per_powerful_hit
-			hateMessage = "#F53CBE#Your powerful attack feeds your madness!"
+			hatemessage = _t"#F53CBE#Your powerful attack feeds your madness!"
 		end
 
 		if hateGain >= 0.1 then

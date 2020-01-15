@@ -32,7 +32,7 @@ newEntity{ base = "TRAP_WATER",
 	disarm_power = resolvers.clscale(16,10,8,0.5),
 	rarity = 3, level_range = {1, 50},
 	color=colors.LIGHT_BLUE,
-	message = "@Target@ triggers a water jet!",
+	message = _t"@Target@ triggers a water jet!",
 	unided_name = _t"a nozzle",
 	desc = function(self)
 		local dtype = engine.DamageType[self.damtype] and engine.DamageType:get(self.damtype)
@@ -49,7 +49,7 @@ newEntity{ base = "TRAP_WATER",
 	disarm_power = resolvers.clscale(4,10,3,0.5),
 	rarity = 3, level_range = {1, 50},
 	color=colors.BLUE,
-	message = "@Target@ is caught by a water siphon!",
+	message = _t"@Target@ is caught by a water siphon!",
 	unided_name = _t"a drain",
 	desc = function(self)
 		local dtype = engine.DamageType[self.damtype] and engine.DamageType:get(self.damtype)

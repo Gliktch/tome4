@@ -920,7 +920,7 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	core.game.resetLocale()
 
 	-- Reset white space breaking
-	core.display.breakTextAllCharacter(false)
+	core.display.breakTextAllCharacter(true)
 
 	-- Turn based by default
 	core.game.setRealtime(0)
@@ -944,6 +944,10 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 		I18N:setLocale(locale)
 		I18N:loadLocale("/data/i18n/"..locale..".lua")
 	end
+	
+	I18N:loadLocale("/data/locales/zh_CN.lua")
+	I18N:setLocale("zh_CN")
+	config.settings.tome.fonts = {type="chinese", size="normal"} 
 
 	-- Load font packages
 	FontPackage:loadDefinition("/data/font/packages/default.lua")

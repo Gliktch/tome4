@@ -1626,7 +1626,8 @@ end
 -- #source#|#Source# -> <displayString>..self.name|self.name:capitalize()
 -- #target#|#Target# -> target.name|target.name:capitalize()
 function _M:logMessage(source, srcSeen, target, tgtSeen, style, ...)
-	style = style:format(...)
+	-- I18N
+	style = style:tformat(...)
 	local srcname = "something"
 	local Dstring
 		if source.player then

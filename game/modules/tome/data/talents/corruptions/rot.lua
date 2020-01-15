@@ -21,7 +21,7 @@ newTalent{
 	name = "Infectious Bite",
 	type = {"technique/other", 1},
 	points = 5,
-	message = "@Source@ bites blight poison into @target@.",
+	message = _t"@Source@ bites blight poison into @target@.",
 	cooldown = 3,
 	tactical = { ATTACK = {BLIGHT = 2}, },
 	requires_target = true,

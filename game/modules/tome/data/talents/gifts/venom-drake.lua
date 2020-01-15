@@ -23,7 +23,7 @@ newTalent{
 	require = gifts_req1,
 	points = 5,
 	random_ego = "attack",
-	message = "@Source@ spits acid!",
+	message = _t"@Source@ spits acid!",
 	equilibrium = 3,
 	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 3, 6.9, 5.5)) end, -- Limit >=3
 	tactical = { ATTACK = { ACID = 2 } },
@@ -192,7 +192,7 @@ newTalent{
 	random_ego = "attack",
 	equilibrium = 20,
 	cooldown = 20,
-	message = "@Source@ breathes acid!",
+	message = _t"@Source@ breathes acid!",
 	tactical = { ATTACKAREA = { ACID = 2 }, DISABLE = {disarm = 1} },
 	range = 0,
 	radius = function(self, t) return math.min(13, math.floor(self:combatTalentScale(t, 5, 9))) end,

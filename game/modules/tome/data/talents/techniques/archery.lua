@@ -41,7 +41,7 @@ newTalent{
 		return b.shot_stamina(self, b)
 	end,
 	range = archery_range,
-	message = "@Source@ shoots!",
+	message = _t"@Source@ shoots!",
 	requires_target = true,
 	tactical = { ATTACK = { weapon = 1 } },
 	on_pre_use = function(self, t, silent) return wardenPreUse(self, t, silent) end,

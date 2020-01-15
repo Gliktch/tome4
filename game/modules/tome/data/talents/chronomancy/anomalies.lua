@@ -121,7 +121,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ causes a spacetime hiccup.",
+	message = _t"@Source@ causes a spacetime hiccup.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -167,7 +167,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=10, radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ shifts reality.",
+	message = _t"@Source@ shifts reality.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -213,7 +213,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ swaps places with a nearby target.",
+	message = _t"@Source@ swaps places with a nearby target.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -269,7 +269,7 @@ newTalent{
 	target = function(self, t)
 		return {type="hit", range=self:getTalentRange(t), nowarning=true}
 	end,
-	message = "@Source@ transfers damage to a nearby target.",
+	message = _t"@Source@ transfers damage to a nearby target.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -314,7 +314,7 @@ newTalent{
 	target = function(self, t)
 		return {type="bolt", nowarning=true, range=10, nolock=true, simple_dir_request=true, talent=t}
 	end,
-	message = "@Source@ folds the space between two points.",
+	message = _t"@Source@ folds the space between two points.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -332,7 +332,7 @@ newTalent{
 			type = "annoy", subtype="teleport", id_by_type=true, unided_name = "trap",
 			image = "terrain/wormhole.png",
 			display = '&', color_r=255, color_g=255, color_b=255, back_color=colors.STEEL_BLUE,
-			message = "@Target@ moves onto the wormhole.",
+			message = _t"@Target@ moves onto the wormhole.",
 			temporary = getAnomalyDuration(self, t),
 			x = start_x, y = start_y,
 			canAct = false,
@@ -408,7 +408,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), nowarning=true}
 	end,
-	message = "@Source@ places several targets out of phase.",
+	message = _t"@Source@ places several targets out of phase.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -452,7 +452,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ makes several targets blink uncontrollably.",
+	message = _t"@Source@ makes several targets blink uncontrollably.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -497,7 +497,7 @@ newTalent{
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
 	getSummonTime = function(self, t) return math.ceil(getAnomalyDuration(self, t)*2) end,
-	message = "Some innocent bystanders have been teleported into the fight.",
+	message = _t"Some innocent bystanders have been teleported into the fight.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -607,7 +607,7 @@ newTalent{
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
 	getSlow = function(self, t) return 1 - 1 / (1 + (getAnomalyEffectPower(self, t)) / 100) end,
-	message = "@Source@ creates a bubble of slow time.",
+	message = _t"@Source@ creates a bubble of slow time.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -652,7 +652,7 @@ newTalent{
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), nowarning=true}
 	end,
 	getHaste = function(self, t) return 1 - 1 / (1 + (getAnomalyEffectPower(self, t)) / 100) end,
-	message = "@Source@ creates a bubble of fast time.",
+	message = _t"@Source@ creates a bubble of fast time.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -695,7 +695,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ creates a bubble of nul time.",
+	message = _t"@Source@ creates a bubble of nul time.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -740,7 +740,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ removes several targets from time.",
+	message = _t"@Source@ removes several targets from time.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -785,7 +785,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), nowarning=true}
 	end,
-	message = "@Source@ creates a temporal shield around several targets.",
+	message = _t"@Source@ creates a temporal shield around several targets.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -828,7 +828,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), nowarning=true}
 	end,
-	message = "@Source@ energizes several targets.",
+	message = _t"@Source@ energizes several targets.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -871,7 +871,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), nowarning=true}
 	end,
-	message = "@Source@ clones a nearby creature.",
+	message = _t"@Source@ clones a nearby creature.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -918,7 +918,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ creates a temporal storm.",
+	message = _t"@Source@ creates a temporal storm.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -961,7 +961,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ increases local gravity.",
+	message = _t"@Source@ increases local gravity.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1006,7 +1006,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ turns matter to dust.",
+	message = _t"@Source@ turns matter to dust.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1039,7 +1039,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), nowarning=true}
 	end,
-	message = "@Source@ creates a stone wall.",
+	message = _t"@Source@ creates a stone wall.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1116,7 +1116,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ increases local entropy.",
+	message = _t"@Source@ increases local entropy.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1177,7 +1177,7 @@ requires_target = true,
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ increases local gravity.",
+	message = _t"@Source@ increases local gravity.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1222,7 +1222,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ causes an earthquake.",
+	message = _t"@Source@ causes an earthquake.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1259,7 +1259,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ crumbles the resistances of several targets.",
+	message = _t"@Source@ crumbles the resistances of several targets.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1301,7 +1301,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ causes a dust storm.",
+	message = _t"@Source@ causes a dust storm.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1365,7 +1365,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ causes a fire.",
+	message = _t"@Source@ causes a fire.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local tgts = getAnomalyTargets(self, t, self.x, self.y, "ACTOR", self:getTalentRange(t))
@@ -1422,7 +1422,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ calcifies several targets.",
+	message = _t"@Source@ calcifies several targets.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -1464,7 +1464,7 @@ newTalent{
 	target = function(self, t)
 		return {type="hit", range=self:getTalentRange(t), talent=t}
 	end,
-	message = "@Source@ teleports several targets to @Source@'s location.",
+	message = _t"@Source@ teleports several targets to @Source@'s location.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local tgts = getAnomalyTargets(self, t, self.x, self.y, "ACTOR", self:getTalentRange(t), true)
@@ -1507,7 +1507,7 @@ newTalent{
 		return {type="hit", range=self:getTalentRange(t), talent=t}
 	end,
 	getHaste = function(self, t) return 1 - 1 / (1 + (getAnomalyEffectPower(self, t)) / 100) end,
-	message = "The odds have tilted.",
+	message = _t"The odds have tilted.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local tgts = getAnomalyTargets(self, t, self.x, self.y, "ACTOR", self:getTalentRange(t))
@@ -1546,7 +1546,7 @@ newTalent{
 	target = function(self, t)
 		return {type="hit", range=self:getTalentRange(t), talent=t}
 	end,
-	message = "@Source@'s evil twin has come from another timeline.",
+	message = _t"@Source@'s evil twin has come from another timeline.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 
@@ -1586,7 +1586,7 @@ newTalent{
 	target = function(self, t)
 		return {type="hit", range=self:getTalentRange(t), talent=t}
 	end,
-	message = "@Source@ has caused two threads to merge.",
+	message = _t"@Source@ has caused two threads to merge.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local tgts = getAnomalyTargets(self, t, self.x, self.y, "ACTOR", self:getTalentRange(t))
@@ -1633,7 +1633,7 @@ requires_target = true,
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ digs out a huge area.",
+	message = _t"@Source@ digs out a huge area.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		for i = 1, rng.avg(3, 6, 3) do
@@ -1666,7 +1666,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ creates a sphere of destruction.",
+	message = _t"@Source@ creates a sphere of destruction.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local tgts = getAnomalyTargets(self, t, self.x, self.y, "ACTOR", self:getTalentRange(t))
@@ -1723,7 +1723,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ causes a tornado storm.",
+	message = _t"@Source@ causes a tornado storm.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local tgts = getAnomalyTargets(self, t, self.x, self.y, "ACTOR", self:getTalentRange(t))
@@ -1799,7 +1799,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ causes a meteor to fall from the sky.",
+	message = _t"@Source@ causes a meteor to fall from the sky.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = getAnomalyPosition(self, self:getTalentRange(t))
@@ -1893,7 +1893,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "@Source@ tears a hole in the fabric of spacetime.",
+	message = _t"@Source@ tears a hole in the fabric of spacetime.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local tx, ty = getAnomalyPosition(self, self:getTalentRange(t))
@@ -1974,7 +1974,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	message = "Some Time Elementals have been attracted by @Source@'s meddling.",
+	message = _t"Some Time Elementals have been attracted by @Source@'s meddling.",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local tgts = getAnomalyTargets(self, t, self.x, self.y, "ACTOR", self:getTalentRadius(t))

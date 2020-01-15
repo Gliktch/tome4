@@ -35,7 +35,7 @@ newEntity{ base = "TRAP_NATURAL_FOREST",
 	rarity = 3, level_range = {1, 50},
 	color=colors.UMBER,
 	pressure_trap = true,
-	message = "@Target@ slides on a rock!",
+	message = _t"@Target@ slides on a rock!",
 	unided_name = _t"slippery rock",
 	desc = "Stuns for 4 turns.",
 	triggered = function(self, x, y, who)
@@ -54,7 +54,7 @@ newEntity{ base = "TRAP_NATURAL_FOREST",
 	disarm_power = resolvers.clscale(12,10,8,0.5),
 	rarity = 3, level_range = {1, 50},
 	color=colors.GREEN,
-	message = "A poisonous vine strikes at @Target@!",
+	message = _t"A poisonous vine strikes at @Target@!",
 	unided_name = _t"venomous vine",
 	desc = function(self)
 		local dtype = engine.DamageType[self.damtype] and engine.DamageType:get(self.damtype)

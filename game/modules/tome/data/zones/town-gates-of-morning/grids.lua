@@ -48,7 +48,7 @@ This one seems to go near the town of Last Hope in Maj'Eyal.]],
 		change_wilderness = {
 			spot = {type="farportal-end", subtype="last-hope"},
 		},
-		message = "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the outskirts of Last Hope, with no trace of the portal...",
+		message = _t"#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the outskirts of Last Hope, with no trace of the portal...",
 		on_use = function(self, who)
 		end,
 	},

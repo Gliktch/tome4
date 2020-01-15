@@ -126,7 +126,7 @@ newTalent{
 	range = function(self, t)
 		return math.floor(math.max(1, self:combatTalentLimit(t, 10, 2, 7.5))) -- Limit < 10
 	end,
-	message = "@Source@ performs a telekinetically enhanced leap!",
+	message = _t"@Source@ performs a telekinetically enhanced leap!",
 	target = function(self, t)
 		local range=self:getTalentRange(t)
 		local tg = {talent=t, type="hit", nolock=true, pass_terrain=false, nowarning=true, range=range}

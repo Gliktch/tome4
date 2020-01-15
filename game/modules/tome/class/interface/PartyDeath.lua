@@ -133,7 +133,7 @@ function _M:onPartyDeath(src, death_note)
 		end
 
 		game:playSound("actions/death")
-		game.delayed_death_message = "#{bold}#"..msg.."#{normal}#"
+		game.delayed_death_message = _t"#{bold}#"..msg.."#{normal}#"
 		if (not game.player.easy_mode_lifes or game.player.easy_mode_lifes <= 0) and not game.player.infinite_lifes then
 			profile.chat.uc_ext:sendKillerLink(msg, short_msg, src)
 		end

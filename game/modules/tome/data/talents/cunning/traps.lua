@@ -303,7 +303,7 @@ traps_initialize = function()
 				trap_mastery_tids[t.id] = t.trap_mastery_level
 			end
 			if t.message == nil then -- default, vague talent message
-				t.message = "@Source@ activates a prepared device."
+				t.message = _t"@Source@ activates a prepared device."
 			end
 			if t.on_pre_use_ai == nil then t.on_pre_use_ai = traps_on_pre_use_ai end
 		end
@@ -1663,7 +1663,7 @@ newTalent{
 	range = trap_range,
 	speed = trap_speed,
 	no_break_stealth = trap_stealth,
-	message = "@Source@ deploys a warped device.",
+	message = _t"@Source@ deploys a warped device.",
 	getDamage = function(self, t) return 10 + trap_effectiveness(self, t, "mag")*10 end,
 	getDuration = function(self, t) return math.floor(self:combatTalentLimit(self:getTalentLevel(self.T_TRAP_MASTERY), 20/2, 3, 5)) end,
 	target = function(self, t) return {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=5} end, -- for AI
