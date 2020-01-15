@@ -121,7 +121,8 @@ local urlmatch = lpeg.anywhere(lpeg.C(urlfind))
 -- log("foo %s", s)
 function _M:call(str, ...)
 	str = str or ""
-	str = str:format(...)
+	-- I18N
+	str = str:tformat(...)
 	print("[LOG]", str)
 	local tstr = str:toString()
 	if self.out_f then self.out_f:write(tstr:removeColorCodes()) self.out_f:write("\n") end

@@ -26,6 +26,14 @@ function table.print(src, offset, ret)
 	end
 end
 
+local log_alias = {
+	log = 1,
+	logSeen = 2,
+	logCombat = 2,
+	logPlayer = 2,
+	logMessage = 5,
+	delayedLogMessage = 4,
+}
 local function explore(file, ast)
 	--table.print(ast)
 	for i, e in ipairs(ast) do
@@ -94,6 +102,24 @@ local function explore(file, ast)
 					locales[file] = locales[file] or {}
 					locales[file][name[1]] = {line=name.nline, type="birth descriptor name"}
 				end
+			elseif e.tag == "Invoke" and log_alias[e[2][1] ] then
+				local en = e[3]
+				local log_type = e[2][1]
+				local order = log_alias[log_type]
+				if en and type(en) == "table" and en.tag == "ExpList" and type(en[order]) == "table" and en[order].tag == "String" then
+					print(colors("%{bright blue}"..log_type), en[order][1])
+					locales[file] = locales[file] or {}
+					locales[file][en[order][1]] = {line=en[order].nline, type=log_type}
+				end
+			elseif e.tag == "Call" and e[1][2] and log_alias[e[1][2][1] ] then
+				local en = e[2]
+				local log_type = e[1][2][1]
+				local order = log_alias[log_type]
+				if en and type(en) == "table" and en.tag == "ExpList" and type(en[order]) == "table" and en[order].tag == "String" then
+					print(colors("%{bright blue}"..log_type), en[order][1])
+					locales[file] = locales[file] or {}
+					locales[file][en[order][1]] = {line=en[order].nline, type=log_type}
+				end
 			elseif e.tag == "Invoke" and
 			    e[1] and e[1].tag == "Index" and e[1][1] and e[1][1][1] == "engine" and e[1][1].tag == "Id" and e[1][2][1] == "Faction" and e[1][2].tag == "String" and
 			    e[2] and e[2].tag == "String" and e[2][1] == "add" then
@@ -155,7 +181,9 @@ for _, section in ipairs(slist) do
 	-- table.sort(list)
 
 	for _, s in ipairs(list) do
-		f:write(('tDef(%s, %q) -- %s\n'):format(s.line, s.text, s.type))
+		if type(s.text) == "string" then
+			f:write(('tDef(%s, %q) -- %s\n'):format(s.line, s.text, s.type))
+		end
 	end
 	f:write('\n\n')
 end

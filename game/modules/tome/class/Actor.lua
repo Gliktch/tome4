@@ -2723,7 +2723,7 @@ function _M:onTakeHit(value, src, death_note)
 		if hateGain >= 1 then
 			self:incHate(hateGain)
 			if hateMessage then
-				game.logPlayer(self, hateMessage.." (+%d hate)", hateGain)
+				game.logPlayer(self, ("%s (+%d hate)"):tformat(hateMessage), hateGain)
 			end
 		end
 	end
@@ -2741,7 +2741,7 @@ function _M:onTakeHit(value, src, death_note)
 		if hateGain >= 0.1 then
 			src.hate = math.min(src.max_hate, src.hate + hateGain)
 			if hateMessage then
-				game.logPlayer(src, hateMessage.." (+%d hate)", hateGain)
+				game.logPlayer(src, ("%s (+%d hate)"):tformat(hateMessage), hateGain)
 			end
 		end
 	end
