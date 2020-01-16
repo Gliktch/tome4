@@ -163,7 +163,7 @@ newTalent{
 	type = {"corruption/vile-life", 4},
 	require = corrs_req4,
 	points = 5,
-	cooldown = 10,
+	cooldown = 15,
 	vim = 18,
 	direct_hit = true,
 	requires_target = true,
