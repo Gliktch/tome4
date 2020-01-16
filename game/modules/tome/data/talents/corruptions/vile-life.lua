@@ -171,6 +171,7 @@ newTalent{
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t), talent=t} end,
 	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 2, 4, "log")) end,
 	getDam = function(self, t) return self:combatTalentLimit(t, 2, 10, 5) end, --Limit < 10% life/effect
+	getVim = function(self, t) return 18 end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -188,26 +189,17 @@ newTalent{
 				end
 			end
 
-			local dam = t.getDam(self, t) * self.life / 100
 			while #list > 0 and nb > 0 do
-				if self:checkHit(self:combatSpellpower(), target:combatSpellResist(), 0, 95, 5) then
-					local eff_id = rng.tableRemove(list)
-					local p = self.tmp[eff_id]
-					local e = self.tempeffect_def[eff_id]
-					local effectParam = self:copyEffect(eff_id)
-					effectParam.__tmpparticles = nil
-					if effectParam then
-						effectParam.src = self
-
-						target:setEffect(eff_id, p.dur, effectParam)
-						self:removeEffect(eff_id)
-						local dead, val = self:takeHit(dam, self, {source_talent=t})
-						target:heal(val, self)
-						game:delayedLogMessage(self, target, "vile_transplant"..e.desc, ("#CRIMSON##Source# transfers an effect (%s) to #Target#!"):format(e.desc))
-					end
+				local eff_id = rng.tableRemove(list)
+				local e = self.tempeffect_def[eff_id]
+				self:cloneEffect(eff_id, target, {apply_power = self:combatSpellpower()})
+				if target:hasEffect(eff_id) then
+					self:removeEffect(eff_id)
+					game:delayedLogMessage(self, target, "vile_transplant"..e.desc, ("#CRIMSON##Source# transfers an effect (%s) to #Target#!"):format(e.desc))
+					self:incVim(-t.getVim(self, t))  -- Vim costs life if there isn't enough so no need to check total
 				end
-				nb = nb - 1
 			end
+			nb = nb - 1
 		end)
 		local _ _, _, _, x, y = self:canProject(tg, x, y)
 		game.level.map:particleEmitter(x, y, tg.radius, "circle", {oversize=0.7, g=100, r=100, a=90, limit_life=8, appear=8, speed=2, img="blight_circle", radius=self:getTalentRadius(t)})
@@ -215,9 +207,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You transfer up to %d physical or magical detrimental effects currently affecting you to a nearby creature by touching it.
-		The transfer takes %0.1f%% of your remaining life for each effect transferred and heals the target for the same amount.
+		return ([[You transfer up to %d physical or magical detrimental effects currently affecting you to a nearby creature at a cost of %d vim per effect.
+		Specific effect immunities will not prevent the transfer.
 		The chance to transfer each effect increases with your Spellpower.]]):
-		format(t.getNb(self, t), t.getDam(self, t))
+		format(t.getNb(self, t), t.getVim(self, t))
 	end,
 }
