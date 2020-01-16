@@ -130,13 +130,14 @@ newTalent{
 	type = {"corruption/vile-life", 3},
 	require = corrs_req3,
 	points = 5,
-	cooldown = 15,
+	cooldown = 10,
 	vim = 16,
-	range = 10,
+	range = 8,
+	radius = 4,
 	tactical = { DISABLE = 2 },
 	direct_hit = true,
 	requires_target = true,
-	target = function(self, t) return {type="hit", range=self:getTalentRange(t), talent=t} end,
+	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), friendlyfire=false, talent=t} end,
 	getPower = function(self,t) return self:combatLimit(self:combatTalentSpellDamage(t, 4, 100), 100, 0, 0, 18.1, 18.1) end, -- Limit to <100%
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -151,9 +152,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You manipulate the vim of your target to temporarily invert all healing done to it (but not regeneration).
+		return ([[You manipulate the vim of enemies in radius %d to temporarily invert all healing done to them (but not natural regeneration).
 		For 5 turns all healing will instead damage them for %d%% of the healing done as blight.
-		The effect will increase with your Spellpower.]]):format(t.getPower(self,t))
+		The effect will increase with your Spellpower.]]):format(self:getTalentRadius(t), t.getPower(self,t))
 	end,
 }
 
