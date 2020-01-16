@@ -67,7 +67,7 @@ newBirthDescriptor{
 		["corruption/sanguisuge"]={true, 0.0},
 		["corruption/reaving-combat"]={true, 0.3},
 		["corruption/scourge"]={true, 0.3},
-		["corruption/plague"]={true, 0.0},
+		["corruption/plague"]={true, 0.3},
 		["corruption/hexes"]={false, 0.3},
 		["corruption/curses"]={false, 0.3},
 		["corruption/bone"]={true, 0.3},
