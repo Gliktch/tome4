@@ -168,6 +168,7 @@ newTalent{
 	direct_hit = true,
 	requires_target = true,
 	range = 4,
+	no_npc_use = true,  -- Bypasses all forms of immunity and such
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t), talent=t} end,
 	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 2, 4, "log")) end,
 	getDam = function(self, t) return self:combatTalentLimit(t, 2, 10, 5) end, --Limit < 10% life/effect
