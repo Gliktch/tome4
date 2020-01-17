@@ -5691,7 +5691,7 @@ function _M:preUseTalent(ab, silent, fake)
 					cost = self:alterTalentCost(ab, res_def.sustain_prop, cost)
 					rmin, rmax = self[res_def.getMinFunction](self), self[res_def.getMaxFunction](self)
 					if cost ~= 0 and self[res_def.minname] and self[res_def.maxname] and self[res_def.minname] + cost > self[res_def.maxname] then
-						if not silent then game.logPlayer(self, "You %s %s to activate %s.", res_def.invert_values and "have too much committed" or "do not have enough uncommitted", res_def.name, ab.name) end
+						if not silent then game.logPlayer(self, "You %s %s to activate %s.", res_def.invert_values and _t"have too much committed" or _t"do not have enough uncommitted", res_def.name, ab.name) end
 						return false
 					end
 				end

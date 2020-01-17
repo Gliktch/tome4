@@ -651,7 +651,7 @@ function _M:generateListOnline()
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, scrollbar=true, text=string.toTString[[Disables all connectivity to the network.
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, scrollbar=true, text=(_t[[Disables all connectivity to the network.
 This includes, but is not limited to:
 - Player profiles: You will not be able to login, register
 - Characters vault: You will not be able to upload any character to the online vault to show your glory
@@ -667,7 +667,7 @@ Note that this setting only affects the game itself. If you use the game launche
 If you do not want that, simply run the game directly: the #{bold}#only#{normal}# use of the launcher is to update the game.
 
 #{bold}##CRIMSON#This is an extremely restrictive setting. It is recommended you only activate it if you have no other choice as it will remove many fun and acclaimed features.
-A full exit and restart of the game is neccessary to apply this setting.#{normal}#]]}
+A full exit and restart of the game is neccessary to apply this setting.#{normal}#]]):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Disable all connectivity#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.disable_all_connectivity and _t"yes" or _t"no")
 	end, fct=function(item)

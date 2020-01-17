@@ -391,8 +391,8 @@ function _M:tooltip(x, y, use_actor)
 --	local str = self:getDesc({do_color=true}, game.player:getInven(self:wornInven()), nil, use_actor)
 	if config.settings.cheat then str:add(true, "UID: "..self.uid, true, self.image) end
 	local nb = game.level.map:getObjectTotal(x, y)
-	if nb == 2 then str:add(true, "---", true, "You see one more object.")
-	elseif nb > 2 then str:add(true, "---", true, "You see "..(nb-1).." more objects.")
+	if nb == 2 then str:add(true, "---", true, _t"You see one more object.")
+	elseif nb > 2 then str:add(true, "---", true, ("You see %d more objects."):tformat(nb-1))
 	end
 	return str
 end
@@ -401,9 +401,9 @@ end
 function _M:descAttribute(attr)
 	local power = function(c)
 		if config.settings.tome.advanced_weapon_stats then
-			return math.floor(game.player:combatDamagePower(self.combat)*100).."% power"
+			return ("%d%% power"):tformat(math.floor(game.player:combatDamagePower(self.combat)*100))
 		else
-			return c.dam.."-"..(c.dam*(c.damrange or 1.1)).." power"
+			return ("%s-%s power"):tformat(c.dam, (c.dam*(c.damrange or 1.1)))
 		end
 	end
 	if attr == "MASTERY" then
@@ -426,46 +426,46 @@ function _M:descAttribute(attr)
 		return (i and i > 0 and "+"..i or tostring(i)).."%"
 	elseif attr == "REGEN" then
 		local i = self.wielder.mana_regen or self.wielder.stamina_regen or self.wielder.life_regen or self.wielder.hate_regen or self.wielder.positive_regen or self.wielder.negative_regen
-		return ("%s%0.2f/turn"):format(i > 0 and "+" or "-", math.abs(i))
+		return ("%s%0.2f/turn"):tformat(i > 0 and "+" or "-", math.abs(i))
 	elseif attr == "COMBAT" then
 		local c = self.combat
-		return power(c)..", "..(c.apr or 0).." apr"
+		return ("%s, %s apr"):tformat(power(c), (c.apr or 0))
 	elseif attr == "COMBAT_AMMO" then
 		local c = self.combat
-		return c.shots_left.."/"..math.floor(c.capacity)..", "..power(c)..", "..(c.apr or 0).." apr"
+		return ("%d/%d, %s, %s apr"):tformat(c.shots_left, math.floor(c.capacity), power(c), (c.apr or 0), " apr")
 	elseif attr == "COMBAT_DAMTYPE" then
 		local c = self.combat
-		return power(c)..", "..("%d"):format((c.apr or 0)).." apr, "..DamageType:get(c.damtype).name.." damage"
+		return ("%s, %d apr, %s damage"):tformat(power(c), (c.apr or 0), DamageType:get(c.damtype).name)
 	elseif attr == "COMBAT_ELEMENT" then
 		local c = self.combat
-		return power(c)..", "..("%d"):format((c.apr or 0)).." apr, "..DamageType:get(c.element or DamageType.PHYSICAL).name.." element"
+		return ("%s, %d apr, %s element"):tformat(power(c), (c.apr or 0), DamageType:get(c.element or DamageType.PHYSICAL).name)
 	elseif attr == "SHIELD" then
 		local c = self.special_combat
 		if c and (game.player:knowTalentType("technique/shield-offense") or game.player:knowTalentType("technique/shield-defense") or game.player:attr("show_shield_combat") or config.settings.tome.display_shield_stats) then
-			return power(c)..", "..c.block.." block"
+			return ("%s, %s block"):tformat(power(c), c.block)
 		else
-			return c.block.." block"
+			return ("%s block"):tformat(c.block)
 		end
 	elseif attr == "ARMOR" then
-		return (self.wielder and self.wielder.combat_def and math.round(self.wielder.combat_def) or 0).." def, "..(self.wielder and self.wielder.combat_armor and math.round(self.wielder.combat_armor) or 0).." armour"
+		return ("%s def, %s armour"):tformat(self.wielder and self.wielder.combat_def and math.round(self.wielder.combat_def) or 0, self.wielder and self.wielder.combat_armor and math.round(self.wielder.combat_armor) or 0)
 	elseif attr == "ATTACK" then
-		return (self.wielder and self.wielder.combat_atk or 0).." accuracy, "..(self.wielder and self.wielder.combat_apr or 0).." apr, "..(self.wielder and self.wielder.combat_dam or 0).." power"
+		return ("%s accuracy, %s apr, %s power"):tformat(self.wielder and self.wielder.combat_atk or 0, self.wielder and self.wielder.combat_apr or 0, self.wielder and self.wielder.combat_dam or 0)
 	elseif attr == "MONEY" then
-		return ("worth %0.2f"):format(self.money_value / 10)
+		return ("worth %0.2f"):tformat(self.money_value / 10)
 	elseif attr == "USE_TALENT" then
 		return self:getTalentFromId(self.use_talent.id).name:lower()
 	elseif attr == "DIGSPEED" then
-		return ("dig speed %d turns"):format(self.digspeed)
+		return ("dig speed %d turns"):tformat(self.digspeed)
 	elseif attr == "CHARM" then
-		return (" [power %d]"):format(self:getCharmPower(game.player))
+		return (" [power %d]"):tformat(self:getCharmPower(game.player))
 	elseif attr == "CHARGES" then
 		local reduce = 100 - util.bound(game.player:attr("use_object_cooldown_reduce") or 0, 0, 100)
 		if self.talent_cooldown and (self.use_power or self.use_talent) then
 			local cd = game.player.talents_cd[self.talent_cooldown]
 			if cd and cd > 0 then
-				return " ("..cd.."/"..(math.ceil((self.use_power or self.use_talent).power * reduce / 100)).." cooldown)"
+				return (" (%d/%d cooldown)"):tformat(cd, math.ceil((self.use_power or self.use_talent).power * reduce / 100))
 			else
-				return " ("..(math.ceil((self.use_power or self.use_talent).power * reduce / 100)).." cooldown)"
+				return (" (%d cooldown)"):tformat(math.ceil((self.use_power or self.use_talent).power * reduce / 100))
 			end
 		elseif self.use_power or self.use_talent then
 			return (" (%d/%d)"):format(math.floor(self.power / (math.ceil((self.use_power or self.use_talent).power * reduce / 100))), math.floor(self.max_power / (math.ceil((self.use_power or self.use_talent).power * reduce / 100))))
@@ -593,14 +593,14 @@ function _M:getShortName(t)
 
 	local qty = self:getNumber()
 	local identified = t.force_id or self:isIdentified()
-	local name = self.short_name or "object"
+	local name = self.short_name or _t"object"
 
 	if not identified then
 		local _, c = self:getDisplayColor(true)
 		if self.unique then
-			name = self:getUnidentifiedName()..", "..c.."special#LAST#"
+			name = ("%s, %sspecial#LAST#"):tformat(self:getUnidentifiedName(), c)
 		elseif self.egoed then
-			name = name..", "..c.."ego#LAST#"
+			name = ("%s, %sego#LAST#"):tformat(name, c)
 		end
 	elseif self.keywords and next(self.keywords) then
 		local k = table.keys(self.keywords)
@@ -632,15 +632,15 @@ function _M:descAccuracyBonus(desc, weapon, use_actor)
 
 	local m = weapon.accuracy_effect_scale or 1
 	if kind == "sword" then
-		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.4, m), {"color","LAST"}, " crit mult (max 40%)", true)
+		desc:add(_t"Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.4, m), {"color","LAST"}, _t" crit mult (max 40%)", true)
 	elseif kind == "axe" then
-		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.25, m), {"color","LAST"}, " crit chance (max 25%)", true)
+		desc:add(_t"Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.25, m), {"color","LAST"}, _t" crit chance (max 25%)", true)
 	elseif kind == "mace" then
-		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.2, m), {"color","LAST"}, " base dam (max 20%)", true)
+		desc:add(_t"Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.2, m), {"color","LAST"}, _t" base dam (max 20%)", true)
 	elseif kind == "staff" then
-		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(2.5, m), {"color","LAST"}, " proc dam (max 200%)", true)
+		desc:add(_t"Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(2.5, m), {"color","LAST"}, _t" proc dam (max 200%)", true)
 	elseif kind == "knife" then
-		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.5, m), {"color","LAST"}, " APR (max 50%)", true)
+		desc:add(_t"Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.5, m), {"color","LAST"}, _t" APR (max 50%)", true)
 	end
 end
 
@@ -1161,11 +1161,11 @@ function _M:getTextualDesc(compare_with, use_actor)
 		end
 	end
 
-	desc:add(("Type: %s / %s"):format(tostring(rawget(self, 'type') or "unknown"), tostring(rawget(self, 'subtype') or "unknown")))
-	if self.material_level then desc:add(" ; tier ", tostring(self.material_level)) end
+	desc:add(("Type: %s / %s"):tformat(tostring(rawget(self, 'type') or _t"unknown"), tostring(rawget(self, 'subtype') or _t"unknown")))
+	if self.material_level then desc:add(_t" ; tier ", tostring(self.material_level)) end
 	desc:add(true)
-	if self.slot_forbid == "OFFHAND" then desc:add("It must be held with both hands.", true) end
-	if self.double_weapon then desc:add("It can be used as a weapon and offhand.", true) end
+	if self.slot_forbid == "OFFHAND" then desc:add(_t"It must be held with both hands.", true) end
+	if self.double_weapon then desc:add(_t"It can be used as a weapon and offhand.", true) end
 	desc:add(true)
 
 	if not self:isIdentified() then -- give limited information if the item is unidentified
@@ -1184,55 +1184,55 @@ function _M:getTextualDesc(compare_with, use_actor)
 			local special = 0
 			if combat.talented then
 				local t = use_actor:combatGetTraining(combat)
-				if t and t.name then desc:add("Mastery: ", {"color","GOLD"}, t.name, {"color","LAST"}, true) end
+				if t and t.name then desc:add(_t"Mastery: ", {"color","GOLD"}, t.name, {"color","LAST"}, true) end
 			end
 			self:descAccuracyBonus(desc, combat or {}, use_actor)
 			if combat.wil_attack then
-				desc:add("Accuracy is based on willpower for this weapon.", true)
+				desc:add(_t"Accuracy is based on willpower for this weapon.", true)
 			end
 			local dt = DamageType:get(combat.damtype or DamageType.PHYSICAL)
-			desc:add("Weapon Damage: ", dt.text_color or "#WHITE#", dt.name:upper(),{"color","LAST"})
+			desc:add(_t"Weapon Damage: ", dt.text_color or "#WHITE#", dt.name:upper(),{"color","LAST"})
 			for dtyp, val in pairs(combat.melee_project or combat.ranged_project or {}) do
 				dt = DamageType:get(dtyp)
 				if dt then
 					if dt.tdesc then
 						special = special + 1
 					else
-						desc:add(", ", dt.text_color or "#WHITE#", dt.name, {"color", "LAST"})
+						desc:add(_t", ", dt.text_color or "#WHITE#", dt.name, {"color", "LAST"})
 					end
 				end
 			end
 			desc:add(true)
 			--special_on_hit count # for both melee and ranged
 			if special>0 or combat.special_on_hit or combat.special_on_crit or combat.special_on_kill or combat.burst_on_crit or combat.burst_on_hit or combat.talent_on_hit or combat.talent_on_crit then
-				desc:add("#YELLOW#It can cause special effects when it strikes in combat.#LAST#", true)
+				desc:add(_t"#YELLOW#It can cause special effects when it strikes in combat.#LAST#", true)
 			end
 			if self.on_block then
-				desc:add("#ORCHID#It can cause special effects when a melee attack is blocked.#LAST#", true)
+				desc:add(_t"#ORCHID#It can cause special effects when a melee attack is blocked.#LAST#", true)
 			end
 		end
 		if self.wielder then
 			if self.wielder.lite then
-				desc:add(("It %s ambient light (%+d radius)."):format(self.wielder.lite >= 0 and "provides" or "dims", self.wielder.lite), true)
+				desc:add(("It %s ambient light (%+d radius)."):tformat(self.wielder.lite >= 0 and _t"provides" or _t"dims", self.wielder.lite), true)
 			end
 		end
 		if self.wielded then
 			if self.use_power or self.use_simple or self.use_talent then
-				desc:add("#ORANGE#It has an activatable power.#LAST#", true)
+				desc:add(_t"#ORANGE#It has an activatable power.#LAST#", true)
 			end
 		end
---desc:add("----END UNIDED DESC----", true)
+--desc:add(_t"----END UNIDED DESC----", true)
 		return desc
 	end
 
 	if self.set_list then
-		desc:add({"color","GREEN"}, "It is part of a set of items.", {"color","LAST"}, true)
+		desc:add({"color","GREEN"}, _t"It is part of a set of items.", {"color","LAST"}, true)
 		if self.set_desc then
 			for set_id, text in pairs(self.set_desc) do
 				desc:add({"color","GREEN"}, text, {"color","LAST"}, true)
 			end
 		end
-		if self.set_complete then desc:add({"color","LIGHT_GREEN"}, "The set is complete.", {"color","LAST"}, true) end
+		if self.set_complete then desc:add({"color","LIGHT_GREEN"}, _t"The set is complete.", {"color","LAST"}, true) end
 	end
 
 	local compare_fields = function(item1, items, infield, field, outformat, text, mod, isinversed, isdiffinversed, add_table)
@@ -1455,8 +1455,8 @@ function _M:getTextualDesc(compare_with, use_actor)
 		)
 
 		compare_table_fields(w, compare_with, field, "inc_stats", "%+d", _t"Changes stats: ", function(item)
-				return (" %s"):format(Stats.stats_def[item].short_name:capitalize())
-			end)
+			return (" %s"):format(Stats.stats_def[item].short_name:capitalize())
+		end)
 		compare_table_fields(w, compare_with, field, "resists", "%+d%%", _t"Changes resistances: ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
 				return col[2], (" %s"):format(item == "all" and "all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
@@ -2238,7 +2238,7 @@ function _M:getDesc(name_param, compare_with, never_compare, use_actor)
 		local oname = (self.shimmer_moddable.name or "???"):toTString()
 		desc:add(true, {"color", "OLIVE_DRAB"}, ("This object's appearance was changed to %s"):tformat(oname:toString()):toTString())
 		-- desc:merge(oname)
-		desc:add(".", {"color","LAST"}, true)
+		desc:add(_t".", {"color","LAST"}, true)
 	end
 
 	if could_compare and not never_compare then desc:add(true, {"font","italic"}, {"color","GOLD"}, _t"Press <control> to compare", {"color","LAST"}, {"font","normal"}) end
