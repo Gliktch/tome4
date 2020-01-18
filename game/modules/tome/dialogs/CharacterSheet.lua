@@ -429,7 +429,7 @@ end
 function _M:showInventory()
 	if not config.settings.cheat and (self.actor.no_inventory_access or not self.actor.player) then return end
 	local d
-	local titleupdator = self.actor:getEncumberTitleUpdator("Inventory")
+	local titleupdator = self.actor:getEncumberTitleUpdator(_t"Inventory")
 	local offset = self.actor.off_weapon_slots
 	d = require("mod.dialogs.ShowEquipInven").new(titleupdator(), self.actor, nil,
 		function(o, inven, item, button, event)
@@ -601,17 +601,17 @@ function _M:drawDialog(kind, actor_to_compare)
 		local cur_exp, max_exp = player.exp, player:getExpChart(player.level+1)
 		h = 0
 		w = 0
-		s:drawStringBlended(self.font, _t"Sex  : "..((player.descriptor and player.descriptor.sex) or (player.female and _t"Female" or _t"Male")), w, h, 0, 200, 255, true) h = h + self.font_h
-		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptor and player.descriptor.subrace) or player.type:capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
+		s:drawStringBlended(self.font, _t"Sex  : "..((player.descriptor and _t(player.descriptor.sex)) or (player.female and _t"Female" or _t"Male")), w, h, 0, 200, 255, true) h = h + self.font_h
+		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptor and _t(player.descriptor.subrace)) or _t(player.type):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		local class_evo = ""
 		if player.descriptor and player.descriptor.class_evolution then class_evo = " ("..player.descriptor.class_evolution..")" end
-		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptor and player.descriptor.subclass) or player.subtype:capitalize())..class_evo, w, h, 0, 200, 255, true)
+		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptor and _t(player.descriptor.subclass)) or _t(player.subtype):capitalize())..class_evo, w, h, 0, 200, 255, true)
 		if player:attr("forbid_arcane") then
 			local follow = (player.faction == "zigur" or player:attr("zigur_follower")) and _t"Zigur follower" or _t"Antimagic adherent"
 			self:mouseTooltip(self.TOOLTIP_ANTIMAGIC_USER, s:drawColorStringBlended(self.font, "#ORCHID#"..follow, w+200, h, 255, 255, 255, true))
 		end
 		h = h + self.font_h
-		s:drawStringBlended(self.font, "Size : "..(player:TextSizeCategory():capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
+		s:drawStringBlended(self.font, _t"Size : "..(player:TextSizeCategory():capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		h = h + self.font_h
 		self:mouseTooltip(self.TOOLTIP_LEVEL, s:drawColorStringBlended(self.font,  ("Level: #00ff00#%d"):tformat(player.level), w, h, 255, 255, 255, true)) h = h + self.font_h
 		self:mouseTooltip(self.TOOLTIP_LEVEL, s:drawColorStringBlended(self.font, ("Exp  : #00ff00#%2d%%"):tformat(100 * cur_exp / max_exp), w, h, 255, 255, 255, true)) h = h + self.font_h
@@ -649,7 +649,7 @@ function _M:drawDialog(kind, actor_to_compare)
 					reg_text = compare_fields(player, actor_to_compare, function(act) return act[res_def.regen_prop] or 0 end, reg_fmt, reg_fmt, nil, res_def.invert_values)
 					reg_text = ((player[res_def.regen_prop] or 0)*(res_def.invert_values and -1 or 1) >= 0 and "#LIGHT_GREEN#" or "#LIGHT_RED#")..reg_text.."#LAST#"
 				end
-				self:mouseTooltip(tt, s:drawColorStringBlended(self.font, ("%s%-8.8s: #00ff00#%s "):format(res_def.color or "#WHITE#", res_def.name, val_text), w, h, 255, 255, 255, true))
+				self:mouseTooltip(tt, s:drawColorStringBlended(self.font, ("%s%-8.8s: #00ff00#%s "):tformat(res_def.color or "#WHITE#", res_def.name, val_text), w, h, 255, 255, 255, true))
 				if reg_text then
 					tt = ([[#GOLD#%s Recovery/Depletion#LAST#
 The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name, res_def.name:lower())
@@ -676,7 +676,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 
 		h = 0
 		w = self.w * 0.25
-		s:drawColorStringBlended(self.font, "#LIGHT_BLUE#Speeds:", w, h, 255, 255, 255, true) h = h + self.font_h
+		s:drawColorStringBlended(self.font, _t"#LIGHT_BLUE#Speeds:", w, h, 255, 255, 255, true) h = h + self.font_h
 		local color = player.global_speed
 		color = color >= 1 and "#LIGHT_GREEN#" or "#LIGHT_RED#"
 		text = compare_fields(player, actor_to_compare, "global_speed", color.."%.1f%%", "%+.1f%%",100)

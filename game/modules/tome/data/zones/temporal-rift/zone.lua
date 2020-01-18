@@ -20,11 +20,11 @@
 return {
 	name = _t"Temporal Rift",
 	display_name = function(x, y)
-		if game.level.level == 2 then return "Temporal Rift: Lumberjack village"
-		elseif game.level.level == 3 then return "Temporal Rift: Daikara"
-		elseif game.level.level == 4 then return "Temporal Rift: Lake of Nur"
+		if game.level.level == 2 then return _t"Temporal Rift: Lumberjack village"
+		elseif game.level.level == 3 then return _t"Temporal Rift: Daikara"
+		elseif game.level.level == 4 then return _t"Temporal Rift: Lake of Nur"
 		end
-		return "Temporal Rift"
+		return _t"Temporal Rift"
 	end,
 	variable_zone_name = true,
 	level_range = {16, 30},

@@ -515,6 +515,8 @@ function _M:generateRandart(data)
 	o.define_as = name:format(o.name):upper():gsub("[^A-Z]", "_")
 	o.unique = name:format(o.name)
 	o.name = name:format(o.name)
+	-- I18N display_name
+	o.display_name = name:format(o.display_name)
 	o.randart = true
 	o.no_unique_lore = true
 	o.rarity = rng.range(200, 290)

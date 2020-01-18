@@ -29,6 +29,7 @@ local cur_locale_name = "en_US"
 local cur_locale = {}
 local cur_locale_args = {}
 local cur_unlocalized = {}
+local flags = {}
 
 _G._t = function(s, debugadd)
 	if config.settings.cheat and not cur_locale[s] then
@@ -105,6 +106,16 @@ function _M:dumpUnknowns()
 		f:write('\n\n')
 	end
 	f:close()
+end
+
+function _M.setFlag(flag, data)
+	if flag and data then
+		flags[flag] = data
+	end
+end
+
+_G._getFlagI18N = function (flag)
+	return flags[flag] or nil
 end
 
 function _M:test()

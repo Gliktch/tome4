@@ -335,7 +335,7 @@ function _M:display()
 				r, g, b = r*255, g*255, b*255
 			end
 				local status_text = res_def.status_text and res_def.status_text(player)
-				self:mouseTooltip(tooltip, self:makeTextureBar((res_def.color or "#WHITE#")..("%-8.8s:"):format(res_def.name), status_text, player[res_def.getFunction](player), player[res_def.getMaxFunction](player) or 100, not status_text and player[res_def.regen_prop] or 0, x, h, 
+				self:mouseTooltip(tooltip, self:makeTextureBar((res_def.color or "#WHITE#")..("%-8.8s:"):tformat(res_def.name), status_text, player[res_def.getFunction](player), player[res_def.getMaxFunction](player) or 100, not status_text and player[res_def.regen_prop] or 0, x, h, 
 				255, 255, 255,
 					{r=r/2, g=g/2, b=b/2},
 					{r=r/5, g=g/5, b=b/5}

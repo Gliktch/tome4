@@ -1337,7 +1337,7 @@ end
 function _M:playerPickup()
 	-- If 2 or more objects, display a pickup dialog, otherwise just picks up
 	if game.level.map:getObject(self.x, self.y, 2) then
-		local titleupdator = self:getEncumberTitleUpdator("Pickup")
+		local titleupdator = self:getEncumberTitleUpdator(_t"Pickup")
 		local d d = self:showPickupFloor(titleupdator(), nil, function(o, item)
 			if self:attr("sleep") and not self:attr("lucid_dreamer") then
 				game:delayedLogMessage(self, nil, "sleep pickup", "You cannot pick up items from the floor while asleep!")
@@ -1365,7 +1365,7 @@ end
 function _M:playerDrop()
 	if self.no_inventory_access then return end
 	local inven = self:getInven(self.INVEN_INVEN)
-	local titleupdator = self:getEncumberTitleUpdator("Drop object")
+	local titleupdator = self:getEncumberTitleUpdator(_t"Drop object")
 	local d d = self:showInventory(titleupdator(), inven, nil, function(o, item)
 		self:doDrop(inven, item, function() d:updateList() end)
 		d:updateTitle(titleupdator())
@@ -1376,7 +1376,7 @@ end
 function _M:playerWear()
 	if self.no_inventory_access then return end
 	local inven = self:getInven(self.INVEN_INVEN)
-	local titleupdator = self:getEncumberTitleUpdator("Wield/wear object")
+	local titleupdator = self:getEncumberTitleUpdator(_t"Wield/wear object")
 	local d d = self:showInventory(titleupdator(), inven, function(o)
 		return o:wornInven() and self:getInven(o:wornInven()) and true or false
 	end, function(o, item)
@@ -1388,7 +1388,7 @@ end
 
 function _M:playerTakeoff()
 	if self.no_inventory_access then return end
-	local titleupdator = self:getEncumberTitleUpdator("Take off object")
+	local titleupdator = self:getEncumberTitleUpdator(_t"Take off object")
 	local d d = self:showEquipment(titleupdator(), nil, function(o, inven, item)
 		self:doTakeoff(inven, item, o)
 		d:updateTitle(titleupdator())
@@ -1439,7 +1439,7 @@ function _M:playerUseItem(object, item, inven)
 
 	if object and item then return use_fct(object, inven, item) end
 
-	local titleupdator = self:getEncumberTitleUpdator("Use object")
+	local titleupdator = self:getEncumberTitleUpdator(_t"Use object")
 	self:showEquipInven(titleupdator(),
 		function(o)
 			return o:canUseObject()

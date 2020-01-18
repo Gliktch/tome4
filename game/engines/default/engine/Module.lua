@@ -947,6 +947,7 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	
 	I18N:loadLocale("/data/locales/zh_CN.lua")
 	I18N:setLocale("zh_CN")
+	I18N.setFlag("ego_always_prefix", true)
 	config.settings.tome.fonts = {type="chinese", size="normal"} 
 
 	-- Load font packages

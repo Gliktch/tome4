@@ -543,7 +543,7 @@ end
 function _M:getName(t)
 	t = t or {}
 	local qty = self:getNumber()
-	local name = self.name
+	local name = self.display_name or self.name
 
 	if not t.no_add_name and (self.been_reshaped or self.been_imbued) then
 		name = (type(self.been_reshaped) == "string" and self.been_reshaped or "") .. name .. (type(self.been_imbued) == "string" and self.been_imbued or "")
@@ -593,7 +593,7 @@ function _M:getShortName(t)
 
 	local qty = self:getNumber()
 	local identified = t.force_id or self:isIdentified()
-	local name = self.short_name or _t"object"
+	local name = _t(self.short_name) or _t"object"
 
 	if not identified then
 		local _, c = self:getDisplayColor(true)
@@ -603,7 +603,12 @@ function _M:getShortName(t)
 			name = ("%s, %sego#LAST#"):tformat(name, c)
 		end
 	elseif self.keywords and next(self.keywords) then
-		local k = table.keys(self.keywords)
+		-- I18N translate keywords.
+		local ks = table.keys(self.keywords)
+		local k = {}
+		for i, key in ipairs(ks) do
+			k[i] = _t(key)
+		end
 		table.sort(k)
 		name = name..", "..table.concat(k, ', ')
 	end
@@ -791,14 +796,8 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	combat.dammod = table.mergeAdd(table.clone(combat.dammod or {}), add_table.dammod)
 	local dammod = use_actor:getDammod(combat)
 	for stat, i in pairs(dammod) do
-		local name = Stats.stats_def[stat].short_name:capitalize()
-		-- I18N-TODO: It may need some fix, and what's more, those lines may not be needed at all.
-		if use_actor:knowTalent(use_actor.T_STRENGTH_OF_PURPOSE) then
-			if name == "Str" then name = "Mag" end
-		end
-		if self.subtype == "dagger" and use_actor:knowTalent(use_actor.T_LETHALITY) then
-			if name == "Str" then name = "Cun" end
-		end
+		-- I18N Stats using display_short_name
+		local name = Stats.stats_def[stat].display_short_name:capitalize()
 		dm[#dm+1] = ("%d%% %s"):format(i * 100, name)
 	end
 	if #dm > 0 or combat.dam then
@@ -874,7 +873,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 		if compare_with then return ("%+.0f%%"):format(orig - 100 / compare_with)
 		else return ("%2.0f%%"):format(orig) end
 	end
-	compare_fields(combat, compare_with, field, "physspeed", physspeed_compare, "Attack speed: ", 1, false, true, add_table)
+	compare_fields(combat, compare_with, field, "physspeed", physspeed_compare, _t"Attack speed: ", 1, false, true, add_table)
 
 	compare_fields(combat, compare_with, field, "block", "%+d", _t"Block value: ", 1, false, false, add_table)
 
@@ -1151,17 +1150,17 @@ function _M:getTextualDesc(compare_with, use_actor)
 	compare_with = compare_with or {}
 	local desc = tstring{}
 
-	if self.quest then desc:add({"color", "VIOLET"},"[Plot Item]", {"color", "LAST"}, true)
-	elseif self.cosmetic then desc:add({"color", "C578C6"},"[Cosmetic Item]", {"color", "LAST"}, true)
+	if self.quest then desc:add({"color", "VIOLET"},_t"[Plot Item]", {"color", "LAST"}, true)
+	elseif self.cosmetic then desc:add({"color", "C578C6"},_t"[Cosmetic Item]", {"color", "LAST"}, true)
 	elseif self.unique then
-		if self.legendary then desc:add({"color", "FF4000"},"[Legendary]", {"color", "LAST"}, true)
-		elseif self.godslayer then desc:add({"color", "AAD500"},"[Godslayer]", {"color", "LAST"}, true)
-		elseif self.randart then desc:add({"color", "FF7700"},"[Random Unique]", {"color", "LAST"}, true)
-		else desc:add({"color", "FFD700"},"[Unique]", {"color", "LAST"}, true)
+		if self.legendary then desc:add({"color", "FF4000"},_t"[Legendary]", {"color", "LAST"}, true)
+		elseif self.godslayer then desc:add({"color", "AAD500"},_t"[Godslayer]", {"color", "LAST"}, true)
+		elseif self.randart then desc:add({"color", "FF7700"},_t"[Random Unique]", {"color", "LAST"}, true)
+		else desc:add({"color", "FFD700"},_t"[Unique]", {"color", "LAST"}, true)
 		end
 	end
 
-	desc:add(("Type: %s / %s"):tformat(tostring(rawget(self, 'type') or _t"unknown"), tostring(rawget(self, 'subtype') or _t"unknown")))
+	desc:add(("Type: %s / %s"):tformat(_t(tostring(rawget(self, 'type')) or _t"unknown"), _t(tostring(rawget(self, 'subtype')) or _t"unknown")))
 	if self.material_level then desc:add(_t" ; tier ", tostring(self.material_level)) end
 	desc:add(true)
 	if self.slot_forbid == "OFFHAND" then desc:add(_t"It must be held with both hands.", true) end
@@ -1274,7 +1273,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 		compare_fields(w, compare_with, field, "combat_physcrit", "%+.1f%%", _t"Physical crit. chance: ")
 		compare_scaled(w, compare_with, field, "combat_dam", {"combatPhysicalpower"}, _t"%+d #LAST#(%+d eff.)", _t"Physical power: ")
 
-		compare_fields(w, compare_with, field, "combat_armor", _t"%+d", "Armour: ")
+		compare_fields(w, compare_with, field, "combat_armor", "%+d", _t"Armour: ")
 		compare_fields(w, compare_with, field, "combat_armor_hardiness", "%+d%%", _t"Armour Hardiness: ")
 		compare_scaled(w, compare_with, field, "combat_def", {"combatDefense", true}, _t"%+d #LAST#(%+d eff.)", _t"Defense: ")
 		compare_scaled(w, compare_with, field, "combat_def_ranged", {"combatDefenseRanged", true}, _t"%+d #LAST#(%+d eff.)", _t"Ranged Defense: ")
@@ -1455,7 +1454,8 @@ function _M:getTextualDesc(compare_with, use_actor)
 		)
 
 		compare_table_fields(w, compare_with, field, "inc_stats", "%+d", _t"Changes stats: ", function(item)
-			return (" %s"):format(Stats.stats_def[item].short_name:capitalize())
+			-- I18N Stats using display_short_name
+			return (" %s"):format(Stats.stats_def[item].display_short_name:capitalize())
 		end)
 		compare_table_fields(w, compare_with, field, "resists", "%+d%%", _t"Changes resistances: ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()

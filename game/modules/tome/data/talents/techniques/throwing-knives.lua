@@ -178,14 +178,10 @@ newTalent{
 		if self:knowTalent(self.T_PRECISE_AIM) then crit_mult = crit_mult + self:callTalent(self.T_PRECISE_AIM, "getCritPower") end
 		
 		local stat_desc = {}
-		for stat, i in pairs(combat.dammod or {}) do
-			local name = engine.interface.ActorStats.stats_def[stat].short_name:capitalize()
-			if self:knowTalent(self.T_STRENGTH_OF_PURPOSE) then
-				if name == "Str" then name = "Mag" end
-			end
-			if talented == "knife" and self:knowTalent(self.T_LETHALITY) then
-				if name == "Str" then name = "Cun" end
-			end
+		-- I18N Stats using display_short_name
+		local dammod = self:getDammod(combat.dammod or {})
+		for stat, i in pairs(dammod) do
+			local name = engine.interface.ActorStats.stats_def[stat].display_short_name:capitalize()
 			stat_desc[#stat_desc+1] = ("%d%% %s"):tformat(i * 100, name)
 		end
 		stat_desc = table.concat(stat_desc, ", ")

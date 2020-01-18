@@ -186,7 +186,7 @@ ActorStats:defineStat("Willpower",	"wil", 10, 1, 100, _t"Willpower defines your 
 ActorStats:defineStat("Cunning",	"cun", 10, 1, 100, _t"Cunning defines your character's ability to learn, think, and react. It allows you to learn many worldly abilities, and increases your mental capabilities and chance of critical hits.")
 ActorStats:defineStat("Constitution",	"con", 10, 1, 100, _t"Constitution defines your character's ability to withstand and resist damage. It increases your maximum life and physical resistance.")
 -- Luck is hidden and starts at half max value (50) which is considered the standard
-ActorStats:defineStat(_t"Luck",		"lck", 50, 1, 100, _t"Luck defines your character's fortune when dealing with unknown events. It increases your critical strike chance, your chance of random encounters, ...")
+ActorStats:defineStat("Luck",		"lck", 50, 1, 100, _t"Luck defines your character's fortune when dealing with unknown events. It increases your critical strike chance, your chance of random encounters, ...")
 
 -- Actor leveling, player is restricted to 50 but npcs can go higher
 ActorLevel:defineMaxLevel(nil)

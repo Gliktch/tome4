@@ -92,11 +92,11 @@ g.change_level_check = function(self) -- limit stair scumming
 	if self._use_count < 1 then
 		self.change_level_check = nil
 		self.change_level = nil
-		self.name = "collapsed hidden vault"
-		self.desc = [[It is fully collapsed, no way down.]]
+		self.name = _t"collapsed hidden vault"
+		self.desc = _t[[It is fully collapsed, no way down.]]
 		game.log("#VIOLET# The stairway is about to collapses completely, you may still go back but it will be the last time!")
 	elseif self._use_count < 2 then
-		self.name = "nearly collapsed hidden vault"
+		self.name = _t"nearly collapsed hidden vault"
 		game.log("#VIOLET# The decrepit stairs crumble some more as you climb them.")
 	end
 	game:changeLevel(1, self:real_change(), {temporary_zone_shift=true, direct_switch=true})

@@ -175,7 +175,7 @@ function _M:runReal()
 end
 
 function _M:rebuildCalendar()
-	self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", (self.player.calendar_start_year or 122), (self.player.calendar_start_day or 167), (self.player.calendar_start_hour or 11))
+	self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", _t"Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", (self.player.calendar_start_year or 122), (self.player.calendar_start_day or 167), (self.player.calendar_start_hour or 11))
 end
 
 --- Resize the hotkeys
@@ -268,7 +268,7 @@ function _M:newGame()
 	self:triggerHook{"ToME:extraBirthOptions", options = self.extra_birth_option_defs}
 	local birth; birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, function(loaded)
 		if not loaded then
-			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
+			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", _t"Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
 			self.player:check("make_tile")
 			self.player.make_tile = nil
 			self.player:check("before_starting_zone")
@@ -333,7 +333,7 @@ function _M:newGame()
 			else self.player:playerLevelup(birthend, true) end
 		-- Player was loaded from a premade
 		else
-			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
+			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", _t"Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
 			Map:setViewerFaction(self.player.faction)
 			if self.player.__game_difficulty then self:setupDifficulty(self.player.__game_difficulty) end
 			self:setupPermadeath(self.player)
@@ -2225,7 +2225,7 @@ do return end
 		SHOW_INVENTORY = function()
 			if self.player.no_inventory_access then return end
 			local d
-			local titleupdator = self.player:getEncumberTitleUpdator("Inventory")
+			local titleupdator = self.player:getEncumberTitleUpdator(_t"Inventory")
 			d = self.player:showEquipInven(titleupdator(), nil, function(o, inven, item, button, event)
 				if not o then return end
 				local ud = require("mod.dialogs.UseItemDialog").new(event == "button", self.player, o, item, inven, function(_, _, _, stop)
@@ -2354,14 +2354,14 @@ do return end
 			local menu
 			local l = {
 				"resume",
-				{ "Show Achievements", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowAchievements").new("Tales of Maj'Eyal Achievements", self.player)) end },
-				{ "Show known Lore", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowLore").new("Tales of Maj'Eyal Lore", self.party)) end },
-				{ "Show ingredients", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowIngredients").new(self.party)) end },
+				{ _t"Show Achievements", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowAchievements").new("Tales of Maj'Eyal Achievements", self.player)) end },
+				{ _t"Show known Lore", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowLore").new("Tales of Maj'Eyal Lore", self.party)) end },
+				{ _t"Show ingredients", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowIngredients").new(self.party)) end },
 				"highscores",
-				{ "Inventory", function() self:unregisterDialog(menu) self.key:triggerVirtual("SHOW_INVENTORY") end },
-				{ "Character Sheet", function() self:unregisterDialog(menu) self.key:triggerVirtual("SHOW_CHARACTER_SHEET") end },
+				{ _t"Inventory", function() self:unregisterDialog(menu) self.key:triggerVirtual("SHOW_INVENTORY") end },
+				{ _t"Character Sheet", function() self:unregisterDialog(menu) self.key:triggerVirtual("SHOW_CHARACTER_SHEET") end },
 				"keybinds",
-				{"Game Options", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.GameOptions").new()) end},
+				{_t"Game Options", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.GameOptions").new()) end},
 				"video",
 				"sound",
 				"save",

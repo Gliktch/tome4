@@ -125,8 +125,10 @@ if core.display.safeMode() then
 	config.settings.window = {size='800x600 Windowed'}
 end
 
--- I18N:loadLocale("/data/locales/fr_FR.lua")
--- I18N:setLocale("fr_FR")
+I18N:loadLocale("/data/locales/zh_CN.lua")
+I18N:setLocale("zh_CN")
+config.settings.tome.fonts = {type="chinese", size="normal"} 
+
 
 -- Default resolution as big as possible
 if not config.settings.window or not config.settings.window.size then

@@ -59,7 +59,7 @@ return {
 			core.fov.set_actor_vision_size(0)
 			if not game.level.data.seen_tannen then
 				game.level.data.seen_tannen = true
-				require("engine.ui.Dialog"):simpleLongPopup("Tannen's Tower", [[As you climb up the steps, you see Tannen standing with his drolem, reading a scrap of parchment.  As he reads, his eyes grow wider, and he starts sweating and pacing back and forth.  When he reaches to stuff it in his pocket, he sees you and jumps back like a startled cat.  "No!  Not now!  You have no idea what's at stake!"  He retrieves a fistful of brightly-colored flasks from his robes, and his drolem's eyes glow as it springs to life, metal screeching in an impressive imitation of a roar.]], 500)
+				require("engine.ui.Dialog"):simpleLongPopup(_t"Tannen's Tower", _t[[As you climb up the steps, you see Tannen standing with his drolem, reading a scrap of parchment.  As he reads, his eyes grow wider, and he starts sweating and pacing back and forth.  When he reaches to stuff it in his pocket, he sees you and jumps back like a startled cat.  "No!  Not now!  You have no idea what's at stake!"  He retrieves a fistful of brightly-colored flasks from his robes, and his drolem's eyes glow as it springs to life, metal screeching in an impressive imitation of a roar.]], 500)
 			end
 		end
 	end,

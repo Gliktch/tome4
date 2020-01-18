@@ -1859,27 +1859,27 @@ function _M:allowedRanks()
 end
 
 function _M:TextRank()
-	local rank, color = "normal", "#ANTIQUE_WHITE#"
-	if self.rank == 1 then rank, color = "critter", "#C0C0C0#"
-	elseif self.rank == 2 then rank, color = "normal", "#ANTIQUE_WHITE#"
-	elseif self.rank == 3 then rank, color = "elite", "#YELLOW#"
-	elseif self.rank == 3.2 then rank, color = "rare", "#SALMON#"
-	elseif self.rank == 3.5 then rank, color = "unique", "#SANDY_BROWN#"
-	elseif self.rank == 4 then rank, color = "boss", "#ORANGE#"
-	elseif self.rank == 5 then rank, color = "elite boss", "#GOLD#"
-	elseif self.rank >= 10 then rank, color = "god", "#FF4000#"
+	local rank, color = _t"normal", "#ANTIQUE_WHITE#"
+	if self.rank == 1 then rank, color = _t"critter", "#C0C0C0#"
+	elseif self.rank == 2 then rank, color = _t"normal", "#ANTIQUE_WHITE#"
+	elseif self.rank == 3 then rank, color = _t"elite", "#YELLOW#"
+	elseif self.rank == 3.2 then rank, color = _t"rare", "#SALMON#"
+	elseif self.rank == 3.5 then rank, color = _t"unique", "#SANDY_BROWN#"
+	elseif self.rank == 4 then rank, color = _t"boss", "#ORANGE#"
+	elseif self.rank == 5 then rank, color = _t"elite boss", "#GOLD#"
+	elseif self.rank >= 10 then rank, color = _t"god", "#FF4000#"
 	end
 	return rank, color
 end
 
 function _M:TextSizeCategory()
-	local sizecat = "medium"
-	if self.size_category <= 1 then sizecat = "tiny"
-	elseif self.size_category == 2 then sizecat = "small"
-	elseif self.size_category == 3 then sizecat = "medium"
-	elseif self.size_category == 4 then sizecat = "big"
-	elseif self.size_category == 5 then sizecat = "huge"
-	elseif self.size_category >= 6 then sizecat = "gargantuan"
+	local sizecat = _t"medium"
+	if self.size_category <= 1 then sizecat = _t"tiny"
+	elseif self.size_category == 2 then sizecat = _t"small"
+	elseif self.size_category == 3 then sizecat = _t"medium"
+	elseif self.size_category == 4 then sizecat = _t"big"
+	elseif self.size_category == 5 then sizecat = _t"huge"
+	elseif self.size_category >= 6 then sizecat = _t"gargantuan"
 	end
 	return sizecat
 end
@@ -1964,9 +1964,9 @@ end
 
 function _M:tooltip(x, y, seen_by)
 	if seen_by and not seen_by:canSee(self) then return end
-	local factcolor, factstate, factlevel = "#ANTIQUE_WHITE#", "neutral", Faction:factionReaction(self.faction, game.player.faction)
-	if factlevel < 0 then factcolor, factstate = "#LIGHT_RED#", "hostile"
-	elseif factlevel > 0 then factcolor, factstate = "#LIGHT_GREEN#", "friendly"
+	local factcolor, factstate, factlevel = "#ANTIQUE_WHITE#", _t"neutral", Faction:factionReaction(self.faction, game.player.faction)
+	if factlevel < 0 then factcolor, factstate = "#LIGHT_RED#", _t"hostile"
+	elseif factlevel > 0 then factcolor, factstate = "#LIGHT_GREEN#", _t"friendly"
 	end
 
 	-- Debug feature, mousing over with ctrl pressed will give detailed FOV info
@@ -1981,9 +1981,9 @@ function _M:tooltip(x, y, seen_by)
 		print("==============================================")
 	end
 
-	local pfactcolor, pfactstate, pfactlevel = "#ANTIQUE_WHITE#", "neutral", self:reactionToward(game.player)
-	if pfactlevel < 0 then pfactcolor, pfactstate = "#LIGHT_RED#", "hostile"
-	elseif pfactlevel > 0 then pfactcolor, pfactstate = "#LIGHT_GREEN#", "friendly"
+	local pfactcolor, pfactstate, pfactlevel = "#ANTIQUE_WHITE#", _t"neutral", self:reactionToward(game.player)
+	if pfactlevel < 0 then pfactcolor, pfactstate = "#LIGHT_RED#", _t"hostile"
+	elseif pfactlevel > 0 then pfactcolor, pfactstate = "#LIGHT_GREEN#", _t"friendly"
 	end
 
 	local rank, rank_color = self:TextRank()
@@ -1991,11 +1991,11 @@ function _M:tooltip(x, y, seen_by)
 	local ts = tstring{}
 	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self.name, {"color", "WHITE"})
 	if self.type == "humanoid" or self.type == "giant" then ts:add({"font","italic"}, "(", self.female and "female" or "male", ")", {"font","normal"}, true) else ts:add(true) end
-	ts:add(self.type:capitalize(), " / ", self.subtype:capitalize(), true)
+	ts:add(_t(self.type):capitalize(), " / ", _t(self.subtype):capitalize(), true)
 	ts:add(_t"Rank: ") ts:merge(rank_color:toTString()) ts:add(rank, {"color", "WHITE"}, true)
-	if self.hide_level_tooltip then ts:add({"color", 0, 255, 255}, "Level: unknown", {"color", "WHITE"}, true)
+	if self.hide_level_tooltip then ts:add({"color", 0, 255, 255}, _t"Level: unknown", {"color", "WHITE"}, true)
 	else ts:add({"color", 0, 255, 255}, ("Level: %d"):tformat(self.level), {"color", "WHITE"}, true) end
-	if self:attr("invulnerable") then ts:add({"color", "PURPLE"}, "INVULNERABLE!", true) end
+	if self:attr("invulnerable") then ts:add({"color", "PURPLE"}, _t"INVULNERABLE!", true) end
 	ts:add({"color", 255, 0, 0}, ("HP: %d (%d%%) #GREEN#+%0.2f#LAST#"):tformat(self.life, self.life * 100 / self.max_life, self.life_regen * util.bound(self.healing_factor or 1)), {"color", "WHITE"})
 
 	-- Avoid cluttering tooltip if resources aren't relevant (add menu option?)
@@ -6607,7 +6607,7 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 		end
 		local speed = self:getTalentProjectileSpeed(t)
 		if speed then d:add({"color",0x6f,0xff,0x83}, _t"Travel Speed: ", {"color",0xFF,0xFF,0xFF}, ("%d%% of base"):tformat(speed * 100), true)
-		else d:add({"color",0x6f,0xff,0x83}, _t"Travel Speed: ", {"color",0xFF,0xFF,0xFF}, "instantaneous", true)
+		else d:add({"color",0x6f,0xff,0x83}, _t"Travel Speed: ", {"color",0xFF,0xFF,0xFF}, _t"instantaneous", true)
 		end
 		if not config.ignore_use_time then
 			local uspeed = _t"Full Turn"
@@ -7818,11 +7818,11 @@ function _M:transmoHelpPopup()
 end
 
 function _M:transmoGetName()
-	return "Transmogrification Chest"
+	return _t"Transmogrification Chest"
 end
 
 function _M:transmoGetWord()
-	return "transmogrify"
+	return _t"transmogrify"
 end
 
 function _M:canUseTinker(tinker)

@@ -34,6 +34,11 @@ local log_alias = {
 	logMessage = 5,
 	delayedLogMessage = 4,
 }
+local newTalent_alias = {
+	newTalent = true,
+	newInscription = true,
+	uberTalent = true,
+}
 local function explore(file, ast)
 	--table.print(ast)
 	for i, e in ipairs(ast) do
@@ -55,11 +60,11 @@ local function explore(file, ast)
 						locales[file][sn[1]] = {line=sn.nline, type="tformat"}
 					end
 				end
-			elseif e.tag == "Id" and e[1] == "newTalent" then
+			elseif e.tag == "Id" and newTalent_alias[e[1]] then
 				local en = ast[i+1]
 				if en then for j, p in ipairs(en[1]) do
 					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "name" then
-						print(colors("%{bright green}newTalent"), p[2][1])
+						print(colors("%{bright green}".. e[1]), p[2][1])
 						locales[file] = locales[file] or {}
 						locales[file][p[2][1]] = {line=p[2].nline, type="talent name"}
 					end
@@ -71,6 +76,26 @@ local function explore(file, ast)
 						print(colors("%{green}newEntity"), p[2][1])
 						locales[file] = locales[file] or {}
 						locales[file][p[2][1]] = {line=p[2].nline, type="entity name"}
+					elseif p[1] and p[2] and p.tag == "Field" and p[1][1] == "short_name" then
+						print(colors("%{green}newEntity"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="entity short_name"}
+					elseif p[1] and p[2] and p.tag == "Field" and p[1][1] == "type" then
+						print(colors("%{green}newEntity"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="entity type"}
+					elseif p[1] and p[2] and p.tag == "Field" and p[1][1] == "subtype" then
+						print(colors("%{green}newEntity"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="entity subtype"}
+					elseif p[1] and p[2] and p.tag == "Field" and p[1][1] == "keywords" then
+						for _, q in ipairs(p[2]) do
+							if q[1].tag == "String" then
+								print(colors("%{green}newEntity"), q[1][1])
+								locales[file] = locales[file] or {}
+								locales[file][q[1][1]] = {line=p[2].nline, type="entity keyword"}
+							end
+						end
 					end
 				end end
 			elseif e.tag == "Id" and e[1] == "newAchievement" then
@@ -101,6 +126,16 @@ local function explore(file, ast)
 					print(colors("%{bright cyan}newBirthDescriptor"), name[1])
 					locales[file] = locales[file] or {}
 					locales[file][name[1]] = {line=name.nline, type="birth descriptor name"}
+				end
+			elseif e.tag == "Invoke" and e[1].tag == "Id" and e[1][1] == "ActorStats" and e[2].tag == "String" and e[2][1] == "defineStat" then
+				local en = e[3]
+				if en and type(en) == "table" and en.tag == "ExpList" and en[1].tag == "String" and en[2].tag == "String" then
+					print(colors("%{blue}defineStat"), en[1][1])
+					locales[file] = locales[file] or {}
+					locales[file][en[1][1]] = {line=e.nline, type="stat name"}
+					print(colors("%{blue}defineStat"), en[2][1])
+					locales[file] = locales[file] or {}
+					locales[file][en[2][1]] = {line=e.nline, type="stat short_name"}
 				end
 			elseif e.tag == "Invoke" and log_alias[e[2][1] ] then
 				local en = e[3]

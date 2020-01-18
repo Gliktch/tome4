@@ -716,7 +716,7 @@ end
 --- show the inventory screen for the working actor
 function _M:showInventory()
 	local d
-	local titleupdator = _M.actor:getEncumberTitleUpdator("Inventory")
+	local titleupdator = _M.actor:getEncumberTitleUpdator(_t"Inventory")
 	d = require("mod.dialogs.ShowEquipInven").new(titleupdator(), _M.actor, nil,
 		function(o, inven, item, button, event)
 			if not o then return end

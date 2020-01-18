@@ -37,9 +37,9 @@ function _M:init(party)
 
 	local vsep = Separator.new{dir="horizontal", size=self.ih - 10}
 	self.c_list = ListColumns.new{width=math.floor(self.iw / 2 - vsep.w / 2), height=self.ih - 10, scrollbar=true, sortable=true, columns={
-		{name="Ingredient", width=50, display_prop="name", sort="name"},
-		{name="Category", width=30, display_prop="cat", sort="cat"},
-		{name="Quantity", width=20, display_prop="nb", sort="nb"},
+		{name=_t"Ingredient", width=50, display_prop="name", sort="name"},
+		{name=_t"Category", width=30, display_prop="cat", sort="cat"},
+		{name=_t"Quantity", width=20, display_prop="nb", sort="nb"},
 	}, list=self.list, fct=function(item) end, select=function(item, sel) self:select(item) end}
 
 	self:loadUI{

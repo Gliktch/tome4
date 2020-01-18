@@ -540,6 +540,13 @@ function _M:applyEgo(e, ego, type, no_name_change)
 		if ego.prefix or ego.display_prefix then newname = display .. e.name
 		else newname = e.name .. display end
 	end
+	-- I18N display_name
+	local newdisplayname = e.display_name
+	if not no_name_change then
+		local display = ego.display_string or _t(ego.name)
+		if _getFlagI18N("ego_always_prefix") or ego.prefix or ego.display_prefix then newdisplayname = display .. (e.display_name or e.display_name)
+		else newname = (e.display_name or e.display_name) .. newdisplayname end
+	end
 	print("applying ego", ego.name, "to ", e.name, "::", newname, "///", e.unided_name, ego.unided_name)
 	-- The ego requested instant resolving before merge ?
 	if ego.instant_resolve then ego:resolve(nil, nil, e) end
@@ -557,6 +564,7 @@ function _M:applyEgo(e, ego, type, no_name_change)
 	table.ruleMergeAppendAdd(e, ego, self.ego_rules[type] or {})
 
 	e.name = newname
+	e.display_name = newdisplayname
 	if not ego.fake_ego then
 		e.egoed = true
 		e.egos_number = (e.egos_number or 0) + 1
