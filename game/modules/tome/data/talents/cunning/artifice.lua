@@ -100,7 +100,7 @@ function artifice_tools_npc_select(self, t, silent, fake)
 					self:startTalentCooldown(t); self:startTalentCooldown(tid)
 					self:useEnergy()
 				end
-				game.logSeen(self, "#GREY#You notice %s has prepared: %s.", self.name:capitalize(), self:getTalentFromId(tid).name)
+				game.logSeen(self, "#GREY#You notice %s has prepared: %s.", self:getName():capitalize(), self:getTalentFromId(tid).name)
 				break
 			end
 			tid = rng.tableRemove(tool_ids)
@@ -452,7 +452,7 @@ newTalent{
 			end
 		end
 		if known then
-			game.logSeen(self, "%s is cured!", self.name:capitalize())
+			game.logSeen(self, "%s is cured!", self:getName():capitalize())
 		end
 		
 		self:incStamina(sta)
@@ -639,7 +639,7 @@ newTalent{
 				target:setEffect(target.EFF_SEDATED, 4, {src=self, power=t.getSleepPower(self,t), slow=slow, insomnia=20, no_ct_effect=true, apply_power=self:combatAttack()})
 				game.level.map:particleEmitter(target.x, target.y, 1, "generic_charge", {rm=180, rM=200, gm=100, gM=120, bm=30, bM=50, am=70, aM=180})
 			else
-				game.logSeen(self, "%s resists the sedation!", target.name:capitalize())
+				game.logSeen(self, "%s resists the sedation!", target:getName():capitalize())
 			end
 
 		end)
@@ -750,7 +750,7 @@ newTalent{
 				if target:canBe("pin") then
 					target:setEffect(target.EFF_PINNED, 2, {apply_power=self:combatAttack()})
 				else
-					game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+					game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 				end
 				if dam > 0 then
 					if target:canBe("cut") then target:setEffect(target.EFF_CUT, 4, {power=dam2/4, src=self, no_ct_effect=true}) end
@@ -772,7 +772,7 @@ newTalent{
 						ok = false return
 					end
 			
-					game.logSeen(self, "%s uses a grappling hook to pull %s %s!", self.name:capitalize(), self:his_her_self(), game.level.map:compassDirection(tx - self.x, ty - self.y))
+					game.logSeen(self, "%s uses a grappling hook to pull %s %s!", self:getName():capitalize(), self:his_her_self(), game.level.map:compassDirection(tx - self.x, ty - self.y))
 					local ox, oy = self.x, self.y
 					self:move(tx, ty, true)
 					if config.settings.tome.smooth_move > 0 then

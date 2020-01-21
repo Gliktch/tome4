@@ -100,7 +100,7 @@ function _M:use(item)
 	elseif act == "debug-inventory" then
 		local d
 		local actor = item.actor
-		d = item.actor:showEquipInven(item.actor.name..": Inventory", nil, function(o, inven, item, button, event)
+		d = item.actor:showEquipInven(("%s: Inventory"):tformat(item.actor:getName()), nil, function(o, inven, item, button, event)
 			if not o then return end
 			local ud = require("mod.dialogs.UseItemDialog").new(event == "button", actor, o, item, inven, function(_, _, _, stop)
 				d:generate()

@@ -378,8 +378,8 @@ newTalent{
 
 		local m = makeParadoxClone(self, self, t.getDuration(self, t))
 		-- Change some values
-		m.name = self.name.."'s Paradox Clone"
-		m.desc = ([[The real %s... or so %s says.]]):tformat(self.name, self:he_she())
+		m.name = ("%s's Paradox Clone"):tformat(self:getName())
+		m.desc = ([[The real %s... or so %s says.]]):tformat(self:getName(), self:he_she())
 		m.life = util.bound(m.life, m.die_at, m.max_life)
 		m.forceLevelup = function() end
 		m.summoner = self
@@ -705,7 +705,7 @@ newTalent{
 				game.logSeen(self, "The spell fizzles!")
 			end
 		else
-			game.logSeen(target, "%s resists the swap!", target.name:capitalize())
+			game.logSeen(target, "%s resists the swap!", target:getName():capitalize())
 		end
 
 		game:playSoundNear(self, "talents/teleport")
@@ -769,7 +769,7 @@ newTalent{
 					if target:canBe("stun") then
 						target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {apply_power=getParadoxSpellpower(self, t)})
 					else
-						game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+						game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 					end
 				end
 			end)
@@ -910,10 +910,10 @@ newTalent{
 		if target then
 			if target:checkHit(self:combatSpellpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("instakill") and target.life > 0 and target.life < target.max_life * 0.2 then
 				-- KILL IT !
-				game.logSeen(target, "%s has been pulled apart at a molecular level!", target.name:capitalize())
+				game.logSeen(target, "%s has been pulled apart at a molecular level!", target:getName():capitalize())
 				target:die(self)
 			elseif target.life > 0 and target.life < target.max_life * 0.2 then
-				game.logSeen(target, "%s resists the quantum spike!", target.name:capitalize())
+				game.logSeen(target, "%s resists the quantum spike!", target:getName():capitalize())
 			end
 		end
 		

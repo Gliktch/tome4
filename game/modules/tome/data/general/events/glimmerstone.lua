@@ -47,7 +47,7 @@ g.act = function(self)
 			local target = game.level.map(x, y, engine.Map.ACTOR)
 			if target then
 				target:setEffect(target.EFF_DAZING_DAMAGE, 1, {})
-				game.logSeen(target, "%s is affected by the glimmerstone!", target.name:capitalize())
+				game.logSeen(target, "%s is affected by the glimmerstone!", target:getName():capitalize())
 			end
 		end
 	end end

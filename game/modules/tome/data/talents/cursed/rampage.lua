@@ -188,12 +188,12 @@ newTalent{
 			local y = self.y + math.floor((i % 9) / 3) - 1
 			local target = game.level.map(x, y, Map.ACTOR)
 			if target and not target.dead and self:reactionToward(target) < 0 then
-				game.logSeen(self, "#F53CBE#%s slams %s!", self.name:capitalize(), target.name)
+				game.logSeen(self, "#F53CBE#%s slams %s!", self:getName():capitalize(), target:getName())
 				DamageType:get(DamageType.PHYSICAL).projector(self, target.x, target.y, DamageType.PHYSICAL, damage)
 				if target:canBe("stun") then
 					target:setEffect(target.EFF_STUNNED, stunDuration, {apply_power=self:combatPhysicalpower()})
 				else
-					game.logSeen(target, "#F53CBE#%s resists the stunning blow!", target.name:capitalize())
+					game.logSeen(target, "#F53CBE#%s resists the stunning blow!", target:getName():capitalize())
 				end
 			
 				hitCount = hitCount - 1

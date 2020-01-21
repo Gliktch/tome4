@@ -260,7 +260,7 @@ trapping_CreateTrap = function(self, t, dur, add)
 					game.level.map:remove(self.x, self.y, engine.Map.TRAP)
 					if self.summoner and self.stamina and self.stamina > 0 then -- Refund
 						self.summoner:incStamina(self.stamina * 0.8)
-						game.logPlayer(self.summoner, "#CADET_BLUE#Your %s has expired.", self.name)
+						game.logPlayer(self.summoner, "#CADET_BLUE#Your %s has expired.", self:getName())
 					end
 				end
 				if self.particles then game.level.map:removeParticleEmitter(self.particles) end
@@ -701,8 +701,8 @@ newTalent{
 		local m = NPC.new{
 			type = "construct", subtype = "lure",
 			display = "*", color=colors.UMBER,
-			name = "lure", faction = self.faction, image = "npc/lure.png",
-			desc = [[A noisy lure.]],
+			name = _t"lure", faction = self.faction, image = "npc/lure.png",
+			desc = _t[[A noisy lure.]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "dumb_talented", ai_state = { talent_in=1, },
 			level_range = {1, nil}, exp_worth = 0,
@@ -882,7 +882,7 @@ newTalent{
 		local dam = self:physicalCrit(t.getDamage(self, t))
 		local power = t.getPower(self,t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "physical", name = "springrazor trap", color=colors.LIGHT_RED, image = "trap/trap_springrazor.png",
+			type = "physical", name = _t"springrazor trap", color=colors.LIGHT_RED, image = "trap/trap_springrazor.png",
 			dam = dam,
 			power = power,
 			tg = tg,
@@ -956,7 +956,7 @@ newTalent{
 		
 		local dam = self:physicalCrit(t.getDamage(self, t))
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "physical", name = "bear trap", color=colors.UMBER, image = "trap/beartrap01.png",
+			type = "physical", name = _t"bear trap", color=colors.UMBER, image = "trap/beartrap01.png",
 			dam = dam,
 			stamina = t.stamina,
 			check_hit = self:combatAttack(),
@@ -1018,7 +1018,7 @@ newTalent{
 
 		local dam = t.getDamage(self, t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "physical", name = "disarming trap", color=colors.DARK_GREY, image = "trap/trap_magical_disarm_01_64.png",
+			type = "physical", name = _t"disarming trap", color=colors.DARK_GREY, image = "trap/trap_magical_disarm_01_64.png",
 			dur = t.getDuration(self, t),
 			check_hit = self:combatAttack(),
 			dam = dam,
@@ -1029,7 +1029,7 @@ newTalent{
 				if who:canBe("disarm") then
 					who:setEffect(who.EFF_DISARMED, self.dur, {apply_power=self.check_hit})
 				else
-					game.logSeen(who, "%s resists!", who.name:capitalize())
+					game.logSeen(who, "%s resists!", who:getName():capitalize())
 				end
 				return true, true
 			end,
@@ -1074,7 +1074,7 @@ newTalent{
 		
 		local dam = self:physicalCrit(t.getDamage(self, t))
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "physical", name = "pitfall trap", color=colors.UMBER, image = "trap/trap_pitfall_setup.png",
+			type = "physical", name = _t"pitfall trap", color=colors.UMBER, image = "trap/trap_pitfall_setup.png",
 			dam = dam,
 			stamina = t.stamina,
 			check_hit = self:combatAttack(),
@@ -1087,15 +1087,15 @@ newTalent{
 				-- Check hit
 				local hit = self:checkHit(self.check_hit, who:combatPhysicalResist())
 				if hit and not who.player then 
-					game.logSeen(who, "%s disappears into a collapsing pit!", who.name:capitalize())
+					game.logSeen(who, "%s disappears into a collapsing pit!", who:getName():capitalize())
 				else -- try to pin if they avoided the pit
 					if rng.percent(50) or who:canBe("pin") then
-						game.logSeen(who, "%s is partially buried in a collapsing pit!", who.name:capitalize())
+						game.logSeen(who, "%s is partially buried in a collapsing pit!", who:getName():capitalize())
 						if (table.get(who, "can_pass", "pass_wall") or 0) <= 0 then
 							who:setEffect(who.EFF_PINNED, 5, {})
 						end
 					else
-						game.logSeen(who, "%s avoids a collapsing pit!", who.name:capitalize())
+						game.logSeen(who, "%s avoids a collapsing pit!", who:getName():capitalize())
 					end
 					return true, true
 				end
@@ -1104,7 +1104,7 @@ newTalent{
 				if (oe and oe:attr("temporary")) or game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") then game.logPlayer(self, "Something has prevented the pit.") return true end
 				local e = mod.class.Object.new{
 					old_feat = oe, type = "pit", subtype = "pit",
-					name = "pit", image = "trap/trap_pitfall_pit.png",
+					name = _t"pit", image = "trap/trap_pitfall_pit.png",
 					display = '&', color=colors.BROWN,
 					temporary = 5,
 					canAct = false,
@@ -1128,7 +1128,7 @@ newTalent{
 							self.target.forceLevelup = function() end
 							self.target.check = function() end
 							game.zone:addEntity(game.level, self.target, "actor", mx, my)
-							game.logSeen(self.target, "%s emerges from a collapsed pit.", self.target.name:capitalize())
+							game.logSeen(self.target, "%s emerges from a collapsed pit.", self.target:getName():capitalize())
 							self.target.forceLevelup = old_levelup
 							self.target.check = old_check
 						end
@@ -1199,7 +1199,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local dam = self:physicalCrit(t.getDamage(self, t))
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "elemental", name = "flash bang trap", color=colors.YELLOW, image = "trap/trap_flashbang.png",
+			type = "elemental", name = _t"flash bang trap", color=colors.YELLOW, image = "trap/trap_flashbang.png",
 			dur = t.getDuration(self, t),
 			check_hit = self:combatAttack(),
 			lure_trigger = true,
@@ -1274,7 +1274,7 @@ newTalent{
 
 		local dur = t.getDuration(self,t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "physical", name = "bladestorm trap", color=colors.BLACK, image = "trap/trap_bladestorm_01.png",
+			type = "physical", name = _t"bladestorm trap", color=colors.BLACK, image = "trap/trap_bladestorm_01.png",
 			dur = dur,
 			stamina = t.stamina,
 			triggered = function(self, x, y, who)
@@ -1331,7 +1331,7 @@ newTalent{
 		local dam = self:physicalCrit(t.getDamage(self, t))
 
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "physical", name = "beam trap", color=colors.BLUE, image = "trap/trap_beam.png",
+			type = "physical", name = _t"beam trap", color=colors.BLUE, image = "trap/trap_beam.png",
 			dam = dam,
 			proj_speed = 2,
 			triggered = function(self, x, y, who) return true, false end,
@@ -1415,7 +1415,7 @@ newTalent{
 		local power = t.getPower(self,t)
 
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "nature", name = "poison gas trap", color=colors.LIGHT_RED, image = "trap/trap_poison_gas.png",
+			type = "nature", name = _t"poison gas trap", color=colors.LIGHT_RED, image = "trap/trap_poison_gas.png",
 			dam = dam,
 			power = power,
 			check_hit = self:combatAttack(),
@@ -1492,7 +1492,7 @@ newTalent{
 		local dam = self:physicalCrit(t.getDamage(self, t))
 		local tg = self:getTalentTarget(t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "cold", name = "freezing trap", color=colors.BLUE, image = "trap/trap_freezing.png",
+			type = "cold", name = _t"freezing trap", color=colors.BLUE, image = "trap/trap_freezing.png",
 			dam = dam,
 			tg = tg,
 			power = power,
@@ -1582,7 +1582,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local dam = self:physicalCrit(t.getDamage(self, t))
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "fire", name = "dragonsfire trap", color=colors.RED, image = "trap/trap_dragonsfire.png",
+			type = "fire", name = _t"dragonsfire trap", color=colors.RED, image = "trap/trap_dragonsfire.png",
 			dam = dam,
 			tg = tg,
 			power = power,
@@ -1676,7 +1676,7 @@ newTalent{
 		local dam = t.getDamage(self, t)
 		local dur = t.getDuration(self, t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			subtype = "arcane", name = "gravitic trap", color=colors.LIGHT_RED, image = "invis.png",
+			subtype = "arcane", name = _t"gravitic trap", color=colors.LIGHT_RED, image = "invis.png",
 			embed_particles = {{name="wormhole", rad=5, args={image="shockbolt/trap/trap_gravitic", speed=1}}},
 			dam = dam,
 			check_hit = math.max(self:combatAttack(), self:combatSpellpower()),
@@ -1792,7 +1792,7 @@ newTalent{
 
 		local dur = t.getDuration(self,t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "annoy", subtype = "alarm", name = "ambush trap", color=colors.BLACK, image = "trap/trap_ambush.png",
+			type = "annoy", subtype = "alarm", name = _t"ambush trap", color=colors.BLACK, image = "trap/trap_ambush.png",
 			dur = dur,
 			unlock_talent_on_disarm = {tid=t.id, chance=20},
 			triggered = function(self, x, y, who)
@@ -1868,7 +1868,7 @@ newTalent{
 		local dur = t.getDuration(self,t)
 		local nb = t.getNb(self,t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "nature", name = "purging trap", color=colors.YELLOW, image = "trap/trap_purging.png",
+			type = "nature", name = _t"purging trap", color=colors.YELLOW, image = "trap/trap_purging.png",
 			check_hit = self:combatAttack(),
 			lure_trigger = true,
 			stamina = t.stamina,
@@ -1990,7 +1990,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local dam = t.getDamage(self, t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "elemental", name = "explosion trap", color=colors.LIGHT_RED, image = "trap/blast_fire01.png",
+			type = "elemental", name = _t"explosion trap", color=colors.LIGHT_RED, image = "trap/blast_fire01.png",
 			dam = dam,
 			stamina = t.stamina,
 			lure_trigger = true,
@@ -2065,7 +2065,7 @@ newTalent{
 		if not (x and y) then return nil end
 
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "physical", name = "catapult trap", color=colors.LIGHT_UMBER, image = "trap/trap_catapult_01_64.png",
+			type = "physical", name = _t"catapult trap", color=colors.LIGHT_UMBER, image = "trap/trap_catapult_01_64.png",
 			dist = t.getDistance(self, t),
 			unlock_talent_on_disarm = {tid=t.id, chance=50},
 			check_hit = self:combatAttack(),
@@ -2083,7 +2083,7 @@ newTalent{
 				return ([[Target knocked back up to %d grids%s and dazed.]]):tformat(self.dist, dir)
 			end,
 			disarm = function(self, x, y, who) -- summoner won't disarm
---game.log("custom disarm for %s at (%s, %s) by %s", self.name, x, y, who.name)
+--game.log("custom disarm for %s at (%s, %s) by %s", self.name, x, y, who:getName())
 				if who == self.summoner then return false end
 --game.log("non summoner disarm")
 				return mod.class.Trap.disarm(self, x, y, who)
@@ -2101,11 +2101,11 @@ newTalent{
 				end
 
 				if kb_test(who) then
-					game.logSeen(who, "%s knocks %s back!", self:getName():capitalize(), who.name:capitalize())
+					game.logSeen(who, "%s knocks %s back!", self:getName():capitalize(), who:getName():capitalize())
 					who:pull(self.target_x, self.target_y, self.dist, kb_test)
 					if who:canBe("stun") then who:setEffect(who.EFF_DAZED, 5, {}) end
 				else
-					game.logSeen(who, "%s fails to knock %s back!", self:getName():capitalize(), who.name:capitalize())
+					game.logSeen(who, "%s fails to knock %s back!", self:getName():capitalize(), who:getName():capitalize())
 				end
 				return true, not rng.percent(self.resetChance)
 			end,
@@ -2179,7 +2179,7 @@ newTalent{
 
 		local dam = t.getDamage(self, t)
 		local trap = trapping_CreateTrap(self, t, nil, {
-			type = "nature", name = "nightshade trap", color=colors.LIGHT_BLUE, image = "trap/poison_vines01.png",
+			type = "nature", name = _t"nightshade trap", color=colors.LIGHT_BLUE, image = "trap/poison_vines01.png",
 			dam = dam,
 			stamina = t.stamina,
 			check_hit = self:combatAttack(),

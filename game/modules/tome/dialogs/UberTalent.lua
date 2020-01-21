@@ -41,7 +41,7 @@ function _M:init(actor, levelup_end_prodigies)
 	self.actor_dup = actor:clone()
 	self.actor_dup.uid = actor.uid -- Yes ...
 
-	Dialog.init(self, ("Prodigies: %s"):tformat(actor.name), 800, game.h * 0.9)
+	Dialog.init(self, ("Prodigies: %s"):tformat(actor:getName()), 800, game.h * 0.9)
 
 	self:generateList()
 

@@ -47,7 +47,7 @@ newTalent{
 				if target:canBe("stun") then
 					target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 				else
-					game.logSeen(target, "%s resists the stunning blow!", target.name:capitalize())
+					game.logSeen(target, "%s resists the stunning blow!", target:getName():capitalize())
 				end
 			end
 		end

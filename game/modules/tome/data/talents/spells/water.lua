@@ -63,7 +63,7 @@ newTalent{
 		If the target is wet the damage increases by 30%% and the ice freeze chance increases to 50%%.
 		This spell will never hit the caster.
 		The damage will increase with your Spellpower.]]):
-		tformat(necroEssenceDead(self, true) and "affects all foes on its path" or "travels slowly", damDesc(self, DamageType.COLD, damage))
+		tformat(necroEssenceDead(self, true) and _t"affects all foes on its path" or _t"travels slowly", damDesc(self, DamageType.COLD, damage))
 	end,
 }
 

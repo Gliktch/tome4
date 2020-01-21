@@ -208,12 +208,12 @@ newTalent{
 
 				local e = Object.new{
 					old_feat = oe,
-					name = "stone wall",
+					name = _t"stone wall",
 					image = oe.image,
 					add_mos = table.clone(oe.add_mos or {}, true),
 					add_displays = table.clone(oe.add_displays or {}),
 					display = '#', color_r=255, color_g=255, color_b=255, back_color=colors.GREY,
-					desc = "a summoned wall of stone",
+					desc = _t"a summoned wall of stone",
 					type = "wall", --subtype = "floor",
 					always_remember = true,
 					can_pass = {pass_wall=1},

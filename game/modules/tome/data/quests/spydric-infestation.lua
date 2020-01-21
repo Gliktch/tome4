@@ -48,7 +48,7 @@ portal_back = function(self, who)
 	-- Reveal entrance
 	local g = mod.class.Grid.new{
 		show_tooltip=true, always_remember = true,
-		name="Portal back to the Gates of Morning",
+		name=_t"Portal back to the Gates of Morning",
 		display='>', color=colors.GOLD,
 		notice = true,
 		change_level=1, change_zone="town-gates-of-morning",

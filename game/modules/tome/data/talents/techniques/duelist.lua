@@ -153,7 +153,7 @@ newTalent{
 		if not self.dead and tx == target.x and ty == target.y then
 		
 			if target:attr("never_move") then
-				game.logPlayer(self, "%s cannot move!", target.name:capitalize())
+				game.logPlayer(self, "%s cannot move!", target:getName():capitalize())
 				return false
 			elseif not self:canMove(tx,ty,true) or not target:canMove(sx,sy,true) then
 				self:logCombat(target, "Terrain prevents #Source# from switching places with #Target#.")
@@ -222,7 +222,7 @@ newTalent{
 		if hitted and target:canBe("disarm") then
 			target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the blow!", target.name:capitalize())
+			game.logSeen(target, "%s resists the blow!", target:getName():capitalize())
 		end
 		return true
 	end,

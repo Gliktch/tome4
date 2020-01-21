@@ -72,7 +72,7 @@ newEntity{ define_as = "ARENA_BOOTS_PHAS", name = "a pair of leather boots of ph
 	},
 	max_power = 25, power_regen = 1,
 	use_power = {
-		name = function(self, who) return ("blink to a nearby random location within range %d (based on Magic)"):format(self.use_power.range(self, who)) end,
+		name = function(self, who) return ("blink to a nearby random location within range %d (based on Magic)"):tformat(self.use_power.range(self, who)) end,
 		power = 15,
 		range = function(self, who) return 10 + who:getMag(5) end,
 		use = function(self, who)
@@ -80,7 +80,7 @@ newEntity{ define_as = "ARENA_BOOTS_PHAS", name = "a pair of leather boots of ph
 			who:teleportRandom(who.x, who.y, self.use_power.range(self, who))
 			game.level.map:particleEmitter(who.x, who.y, 1, "teleport")
 			game:playSoundNear(who, "talents/teleport")
-			game.logSeen(who, "%s uses %s!", who.name:capitalize(), self:getName{no_count=true, no_add_name=true})
+			game.logSeen(who, "%s uses %s!", who:getName():capitalize(), self:getName{no_count=true, no_add_name=true})
 			return {id=true, used=true}
 	end}
 }

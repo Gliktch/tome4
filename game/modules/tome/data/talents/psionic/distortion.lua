@@ -192,7 +192,7 @@ newTalent{
 		local e = Object.new{
 			old_feat = oe,
 			type = "psionic", subtype = "maelstrom",
-			name = self.name:capitalize().. "'s maelstrom",
+			name = ("%s's maelstrom"):tformat(self:getName():capitalize()),
 			display = ' ',
 			tooltip = mod.class.Grid.tooltip,
 			always_remember = true,

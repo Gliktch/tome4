@@ -132,7 +132,7 @@ newTalent{
 			   target:removeEffect(target.EFF_DISMAYED)
 			end
 		else
-			game.logSeen(self, "%s resists the Gesture of Pain.", target.name:capitalize())
+			game.logSeen(self, "%s resists the Gesture of Pain.", target:getName():capitalize())
 			game:playSoundNear(self, "actions/melee_miss")
 		end
 

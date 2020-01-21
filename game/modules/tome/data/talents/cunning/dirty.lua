@@ -180,7 +180,7 @@ newTalent{
 			if e.status == "detrimental" and e.type ~= "other" and e.decrease ~= 0 then
 				p.dur = p.dur + dur
 				nb = nb + 1
-				game.logSeen(target, "#CRIMSON#%s's %s was extended!#LAST#", target.name:capitalize(), util.getval(p.getName, p) or e.desc)
+				game.logSeen(target, "#CRIMSON#%s's %s was extended!#LAST#", target:getName():capitalize(), util.getval(p.getName, p) or e.desc)
 				if nb >= max_nb then break end
 			end
 		end
@@ -202,9 +202,9 @@ newTalent{
 					p.dur = p.dur - dur
 					if p.dur <= 0 then
 						target:removeEffect(eff[1])
-						game.logSeen(target, "#CRIMSON#%s's %s was stripped!#LAST#", target.name:capitalize(), util.getval(p.getName, p) or eff[2].desc)
+						game.logSeen(target, "#CRIMSON#%s's %s was stripped!#LAST#", target:getName():capitalize(), util.getval(p.getName, p) or eff[2].desc)
 					else
-						game.logSeen(target, "#CRIMSON#%s's %s was disrupted!#LAST#", target.name:capitalize(), util.getval(p.getName, p) or eff[2].desc)
+						game.logSeen(target, "#CRIMSON#%s's %s was disrupted!#LAST#", target:getName():capitalize(), util.getval(p.getName, p) or eff[2].desc)
 					end
 				else break
 				end

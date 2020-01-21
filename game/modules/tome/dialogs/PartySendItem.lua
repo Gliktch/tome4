@@ -51,11 +51,11 @@ end
 
 function _M:use(item)
 	if not item or not item.actor:canAddToInven(item.actor.INVEN_INVEN) or (item.actor:attr("sleep") and not item.actor:attr("lucid_dreamer")) then
-		game.log("%s cannot receive items while asleep!", item.actor.name:capitalize())
+		game.log("%s cannot receive items while asleep!", item.actor:getName():capitalize())
 		return
 	end
 	if self.source:attr("sleep") and not self.source:attr("lucid_dreamer") then
-		game.log("%s cannot transfer items while asleep!", self.source.name:capitalize())
+		game.log("%s cannot transfer items while asleep!", self.source:getName():capitalize())
 		return 
 	end
 	game:unregisterDialog(self)
@@ -63,7 +63,7 @@ function _M:use(item)
 	self.source:sortInven(self.inven)
 	self.o.__transmo = nil
 	item.actor:addObject(item.actor.INVEN_INVEN, self.o, true) -- force full stack transfer
-	game.log("You give %s to %s.", self.o:getName{do_color=true}, item.actor.name)
+	game.log("You give %s to %s.", self.o:getName{do_color=true}, item.actor:getName())
 	item.actor:sortInven(item.actor.INVEN_INVEN)
 	self.on_end()
 end

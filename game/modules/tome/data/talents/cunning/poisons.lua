@@ -160,7 +160,7 @@ newTalent{
 				end
 			end
 		else
-			game.logSeen(target, "%s resists the vile poison!", target.name:capitalize())
+			game.logSeen(target, "%s resists the vile poison!", target:getName():capitalize())
 		end
 	end,
 	callbackOnMeleeAttack = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
@@ -212,7 +212,7 @@ newTalent{
 		if to_spread > 0 then
 			local tg = {type="ball", range = 10, radius=t.getRadius(self, t), selffire = false, friendlyfire = false, talent=t}
 			target.dead = false -- for combat log purposes
-			game.logSeen(target, "#GREEN#Poison bursts out of %s's corpse!", target.name:capitalize())
+			game.logSeen(target, "#GREEN#Poison bursts out of %s's corpse!", target:getName():capitalize())
 			game.level.map:particleEmitter(target.x, target.y, tg.radius, "slime")
 			self:project(tg, target.x, target.y, function(tx, ty)
 				local target2 = game.level.map(tx, ty, Map.ACTOR)
@@ -336,7 +336,7 @@ newTalent{
 				local t = rng.tableRemove(tids)
 				if not t then break end
 				target.talents_cd[t.id] = cdr
-				game.logSeen(target, "#GREEN#%s's %s is disrupted by crippling poison!", target.name:capitalize(), t.name)
+				game.logSeen(target, "#GREEN#%s's %s is disrupted by crippling poison!", target:getName():capitalize(), t.name)
 				count = count + 1
 			end		
 		end

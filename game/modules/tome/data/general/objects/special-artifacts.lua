@@ -96,7 +96,7 @@ newEntity{ base = "BASE_STAFF", define_as = "TELOS_SPIRE",
 			end},
 		on_pre_use_ai = function(self, who) return not who:hasEffect(who.EFF_CORRUPT_LOSGOROTH_FORM) end,
 		use = function(self, who)
-			game.logSeen(who, "%s brandishes %s %s, turning into a corrupted losgoroth!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name =true}))
+			game.logSeen(who, "%s brandishes %s %s, turning into a corrupted losgoroth!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name =true}))
 			who:setEffect(who.EFF_CORRUPT_LOSGOROTH_FORM, 10, {})
 			return {id=true, used=true}
 		end

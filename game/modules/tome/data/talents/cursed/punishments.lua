@@ -376,7 +376,7 @@ newTalent{
 							target:setEffect(target.EFF_DAZED, duration, {src=self})
 							game.level.map:particleEmitter(x, y, 1, "cursed_ground", {})
 						else
-							game.logSeen(self, "%s holds on to its sanity.", self.name:capitalize())
+							game.logSeen(self, "%s holds on to its sanity.", self:getName():capitalize())
 						end
 					end
 				end

@@ -115,7 +115,7 @@ uberTalent{
 						if target:canBe("stun") then
 							target:setEffect(target.EFF_STUNNED, 3, {apply_power=math.max(src:combatSpellpower(), src:combatMindpower())})
 						else
-							game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+							game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 						end
 					end
 				end)
@@ -225,7 +225,7 @@ uberTalent{
 	cooldown = 5,
 	trigger = function(self, t)
 		self:startTalentCooldown(t)
-		game.logSeen(self, "#LIGHT_BLUE#%s's unbreakable will shrugs off the effect!", self.name:capitalize())
+		game.logSeen(self, "#LIGHT_BLUE#%s's unbreakable will shrugs off the effect!", self:getName():capitalize())
 		return true
 	end,
 	info = function(self, t)
@@ -242,7 +242,7 @@ uberTalent{
 	require = { special={desc=_t"Antimagic", fct=function(self) return self:knowTalentType("wild-gift/antimagic") end} },
 	trigger = function(self, t, target, source_t)
 		self:startTalentCooldown(t)
-		self:logCombat(target, "#LIGHT_BLUE##Source# punishes #Target# for casting a spell!", self.name:capitalize(), target.name)
+		self:logCombat(target, "#LIGHT_BLUE##Source# punishes #Target# for casting a spell!", self:getName():capitalize(), target:getName())
 		DamageType:get(DamageType.MIND).projector(self, target.x, target.y, DamageType.MIND, 20 + self:getWil() * 2)
 
 		local dur = target:getTalentCooldown(source_t)

@@ -73,9 +73,9 @@ newTalent{
 		else
 			game.level.map:particleEmitter(self.x, self.y, 1, "temporal_teleport")
 			if not self:teleportRandom(x, y, 0) then
-				game.logSeen(self, "%s's space-time folding fizzles!", self.name:capitalize())
+				game.logSeen(self, "%s's space-time folding fizzles!", self:getName():capitalize())
 			else
-				game.logSeen(self, "%s emerges from a space-time rift!", self.name:capitalize())
+				game.logSeen(self, "%s emerges from a space-time rift!", self:getName():capitalize())
 				game.level.map:particleEmitter(self.x, self.y, 1, "temporal_teleport")
 			end
 		end
@@ -163,7 +163,7 @@ newTalent{
 		-- Our base wormhole
 		local function makeWormhole(x, y, dest_x, dest_y)
 			local wormhole = mod.class.Trap.new{
-				name = "wormhole",
+				name = _t"wormhole",
 				type = "annoy", subtype="teleport", id_by_type=true, unided_name = "trap",
 				image = "terrain/wormhole.png",
 				display = '&', color_r=255, color_g=255, color_b=255, back_color=colors.STEEL_BLUE,
@@ -181,14 +181,14 @@ newTalent{
 					if hit or (who.reactionToward and who:reactionToward(self) >= 0) then
 						game.level.map:particleEmitter(who.x, who.y, 1, "temporal_teleport")
 						if not who:teleportRandom(self.dest_x, self.dest_y, self.radius, 1) then
-							game.logSeen(who, "%s tries to enter the wormhole but a violent force pushes it back.", who.name:capitalize())
+							game.logSeen(who, "%s tries to enter the wormhole but a violent force pushes it back.", who:getName():capitalize())
 						else
 							if who ~= self.summoner then who:setEffect(who.EFF_CONTINUUM_DESTABILIZATION, 100, {power=self.dest_power}) end
 							game.level.map:particleEmitter(who.x, who.y, 1, "temporal_teleport")
 							game:playSoundNear(self, "talents/teleport")
 						end
 					else
-						game.logSeen(who, "%s ignores the wormhole.", who.name:capitalize())
+						game.logSeen(who, "%s ignores the wormhole.", who:getName():capitalize())
 					end
 					return true
 				end,
@@ -227,7 +227,7 @@ newTalent{
 		entrance.dest = exit
 		exit.dest = entrance
 
-		game.logSeen(self, "%s folds the space between two points.", self.name)
+		game.logSeen(self, "%s folds the space between two points.", self:getName())
 		return true
 	end,
 	info = function(self, t)

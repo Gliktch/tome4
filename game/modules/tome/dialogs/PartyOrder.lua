@@ -26,7 +26,7 @@ module(..., package.seeall, class.inherit(engine.ui.Dialog))
 local orders = {
 	escort_rest = {-100, function(actor) return _t"Wait a few turns" end},
 	escort_portal = {-99, function(actor) return _t"Where is the portal?" end},
-	target = {1, function(actor) return ("Set the target [current: %s]"):tformat(actor.ai_target.actor and actor.ai_target.actor.name or "none") end},
+	target = {1, function(actor) return ("Set the target [current: %s]"):tformat(actor.ai_target.actor and actor.ai_target.actor:getName() or _t"none") end},
 	behavior = {2, function(actor) return ("Set behavior [current: %s]"):tformat(actor.ai_tactic.type or "default") end},
 	anchor = {3, function(actor) return ("Set the leash anchor [current: %s]"):tformat(actor.ai_state.tactic_leash_anchor and actor.ai_state.tactic_leash_anchor.name or "none") end},
 	leash = {4, function(actor) return ("Set the leash distance [current: %d]"):tformat(actor.ai_state.tactic_leash) end},
@@ -38,7 +38,7 @@ function _M:init(actor, def)
 	self.actor = actor
 	self.def = def
 	self:generateList()
-	engine.ui.Dialog.init(self, ("Order: %s"):tformat(actor.name), 1, 1)
+	engine.ui.Dialog.init(self, ("Order: %s"):tformat(actor:getName()), 1, 1)
 
 	local list = List.new{width=400, nb_items=#self.list, list=self.list, fct=function(item) self:use(item) end}
 

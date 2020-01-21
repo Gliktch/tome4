@@ -534,18 +534,12 @@ function _M:applyEgo(e, ego, type, no_name_change)
 	if not e.__original then e.__original = e:clone() end
 	print("ego", ego.__CLASSNAME, ego.name, getmetatable(ego))
 	ego = ego:clone()
-	local newname = e.name
-	if not no_name_change then
-		local display = ego.display_string or ego.name
-		if ego.prefix or ego.display_prefix then newname = display .. e.name
-		else newname = e.name .. display end
-	end
-	-- I18N display_name
-	local newdisplayname = e.display_name
+	-- I18N Change name
+	local newname = _t(e.name)
 	if not no_name_change then
 		local display = ego.display_string or _t(ego.name)
-		if _getFlagI18N("ego_always_prefix") or ego.prefix or ego.display_prefix then newdisplayname = display .. (e.display_name or e.display_name)
-		else newname = (e.display_name or e.display_name) .. newdisplayname end
+		if _getFlagI18N("ego_always_prefix") or ego.prefix or ego.display_prefix then newname = display .. _t(e.name)
+		else newname = _t(e.name) .. display end
 	end
 	print("applying ego", ego.name, "to ", e.name, "::", newname, "///", e.unided_name, ego.unided_name)
 	-- The ego requested instant resolving before merge ?

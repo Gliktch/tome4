@@ -149,7 +149,7 @@ for _, flavor in ipairs(flavor_list) do
 	answers[#answers + 1] = {_t"Never mind."}
 	newChat{id="element_"..flavor, text = _t"Call forth which element?", answers = answers}
 
-	local flavor_name = flavor:gsub("staff", ""):capitalize()
+	local flavor_name = _t(flavor):gsub(_t"staff", ""):capitalize()
 	aspect_answers[#aspect_answers + 1] = {("[%s]"):format(flavor_name), jump = "element_"..flavor}
 end
 

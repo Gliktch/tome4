@@ -682,7 +682,7 @@ newEntity{
 				local t = rng.tableRemove(tids)
 				if not t then return end
 				target.talents_cd[t.id] = turns
-				game.logSeen(target, "#YELLOW#%s has their %s spell disrupted for for %d turns!", target.name:capitalize(), t.name, turns)
+				game.logSeen(target, "#YELLOW#%s has their %s spell disrupted for for %d turns!", target:getName():capitalize(), t.name, turns)
 			end
 		},
 	},
@@ -840,7 +840,7 @@ newEntity{
 					local t = rng.tableRemove(tids)
 					if not t then break end
 					target.talents_cd[t.id] = turns
-					game.logSeen(target, "#YELLOW#%s has temporarily forgotten %s for %d turns!", target.name:capitalize(), t.name, turns)
+					game.logSeen(target, "#YELLOW#%s has temporarily forgotten %s for %d turns!", target:getName():capitalize(), t.name, turns)
 				end
 			end
 		},

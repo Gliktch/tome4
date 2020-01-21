@@ -55,7 +55,7 @@ local function doTeluvortaSwap(self)
 				game.logSeen(self, "The spell fizzles!")
 			end
 		else
-			game.logSeen(target, "%s resists the swap!", target.name:capitalize())
+			game.logSeen(target, "%s resists the swap!", target:getName():capitalize())
 		end
 		game:playSoundNear(self, "talents/teleport")
 	end

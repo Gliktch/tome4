@@ -136,11 +136,11 @@ function _M:generateListUi()
 
 	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Select the interface look. Metal is the default one. Simple is basic but takes less screen space.\nYou must restart the game for the change to take effect."):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Interface Style#WHITE##{normal}#"):toTString(), status=function(item)
-		return tostring(config.settings.tome.ui_theme3):capitalize()
+		return _t(tostring(config.settings.tome.ui_theme3):capitalize())
 	end, fct=function(item)
 		local uis = {{name=_t"Dark", ui="dark"}, {name=_t"Metal", ui="metal"}, {name=_t"Stone", ui="stone"}, {name=_t"Simple", ui="simple"}}
 		self:triggerHook{"GameOptions:UIs", uis=uis}
-		Dialog:listPopup("Interface style", "Select style", uis, 300, 200, function(sel)
+		Dialog:listPopup(_t"Interface style", _t"Select style", uis, 300, 200, function(sel)
 			if not sel or not sel.ui then return end
 			game:saveSettings("tome.ui_theme3", ("tome.ui_theme3 = %q\n"):format(sel.ui))
 			config.settings.tome.ui_theme3 = sel.ui
@@ -150,11 +150,11 @@ function _M:generateListUi()
 
 	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Select the HUD look. 'Minimalist' is the default one.\n#LIGHT_RED#This will take effect on next restart."):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#HUD Style#WHITE##{normal}#"):toTString(), status=function(item)
-		return tostring(config.settings.tome.uiset_mode):capitalize()
+		return _t(tostring(config.settings.tome.uiset_mode):capitalize())
 	end, fct=function(item)
 		local huds = {{name=_t"Minimalist", ui="Minimalist"}, {name=_t"Classic", ui="Classic"}}
 		self:triggerHook{"GameOptions:HUDs", huds=huds}
-		Dialog:listPopup("HUD style", "Select style", huds, 300, 200, function(sel)
+		Dialog:listPopup(_t"HUD style", _t"Select style", huds, 300, 200, function(sel)
 			if not sel or not sel.ui then return end
 			game:saveSettings("tome.uiset_mode", ("tome.uiset_mode = %q\n"):format(sel.ui))
 			config.settings.tome.uiset_mode = sel.ui
@@ -191,10 +191,10 @@ function _M:generateListUi()
 
 	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Select the fonts look. Fantasy is the default one. Basic is simplified and smaller.\nYou must restart the game for the change to take effect."):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Font Style#WHITE##{normal}#"):toTString(), status=function(item)
-		return tostring(config.settings.tome.fonts.type):capitalize()
+		return _t(tostring(config.settings.tome.fonts.type):capitalize())
 	end, fct=function(item)
 		local list = FontPackage:list()
-		Dialog:listPopup("Font style", "Select font", list, 300, 200, function(sel)
+		Dialog:listPopup(_t"Font style", _t"Select font", list, 300, 200, function(sel)
 			if not sel or not sel.id then return end
 			game:saveSettings("tome.fonts", ("tome.fonts = { type = %q, size = %q }\n"):format(sel.id, config.settings.tome.fonts.size))
 			config.settings.tome.fonts.type = sel.id
@@ -204,7 +204,7 @@ function _M:generateListUi()
 
 	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Select the fonts size.\nYou must restart the game for the change to take effect."):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Font Size#WHITE##{normal}#"):toTString(), status=function(item)
-		return tostring(config.settings.tome.fonts.size):capitalize()
+		return _t(tostring(config.settings.tome.fonts.size):capitalize())
 	end, fct=function(item)
 		Dialog:listPopup(_t"Font size", _t"Select font", {{name=_t"Normal", size="normal"},{name=_t"Small", size="small"},{name=_t"Big", size="big"},}, 300, 200, function(sel)
 			if not sel or not sel.size then return end
@@ -333,13 +333,13 @@ function _M:generateListUi()
 	end,}
 
 	if self:isTome() then
-		local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=string.toTString[[Toggles between various tactical information display:
+		local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t[[Toggles between various tactical information display:
 - Combined healthbar and small tactical frame
 - Combined healthbar and big tactical frame
 - Only healthbar
 - No tactical information at all
 
-#{italic}#You can also change this directly ingame by pressing shift+T.#{normal}##WHITE#]]}
+#{italic}#You can also change this directly ingame by pressing shift+T.#{normal}##WHITE#]]):toString()}
 		list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Tactical overlay#WHITE##{normal}#"):toTString(), status=function(item)
 			local vs = _t"Combined Small"
 			if game.always_target == "old" then
@@ -484,7 +484,7 @@ function _M:generateListGameplay()
 
 	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"If you loose more than this percentage of life in a turn, a warning will display and all key/mouse input will be ignored for 2 seconds to prevent mistakes.#WHITE#"):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Life Lost Warning#WHITE##{normal}#"):toTString(), status=function(item)
-		return (not config.settings.tome.life_lost_warning or config.settings.tome.life_lost_warning == 100) and "disabled" or tostring(config.settings.tome.life_lost_warning).."%"
+		return (not config.settings.tome.life_lost_warning or config.settings.tome.life_lost_warning == 100) and _t"disabled" or tostring(config.settings.tome.life_lost_warning).."%"
 	end, fct=function(item)
 		game:registerDialog(GetQuantity.new(_t"Life lost percentage (out of max life)", _t"From 1 to 99 (100 to disable)", config.settings.tome.life_lost_warning or 100, 100, function(qty)
 			qty = util.bound(qty, 1, 100)

@@ -113,7 +113,7 @@ newEntity{ define_as = "THE_MASTER",
 	resolvers.inscriptions(1, {"manasurge rune"}),
 
 	on_die = function(self, who)
-		game.state:activateBackupGuardian("PALE_DRAKE", 1, 40, "It has been months since the hero cleansed the Dreadfell, yet rumours are growing: evil is back.")
+		game.state:activateBackupGuardian("PALE_DRAKE", 1, 40, _t"It has been months since the hero cleansed the Dreadfell, yet rumours are growing: evil is back.")
 
 		world:gainAchievement("VAMPIRE_CRUSHER", game.player:resolveSource())
 		game.player:resolveSource():grantQuest("dreadfell")

@@ -79,7 +79,7 @@ The #LIGHT_BLUE#Base Filter#LAST# is used to filter the actor randomly generated
 		local txt
 		if _M._base_actor then
 			local r, rc = _M._base_actor:TextRank()
-			txt = (rc or "#WHITE#").._M._base_actor.name.."#LAST#"
+			txt = (rc or "#WHITE#").._M._base_actor:getName().."#LAST#"
 		else
 			txt = _t"#GREY#None#LAST#"
 		end
@@ -97,7 +97,7 @@ The #LIGHT_BLUE#Base Filter#LAST# is used to filter the actor randomly generated
 	local base_refresh = self.newButton{text=_t"Generate", _actor_field="_base_actor",
 		fct=function()
 			self:generateBase()
-			game.log("#LIGHT_BLUE# Current base actor: %s", _M._base_actor and _M._base_actor.name or "none")
+			game.log("#LIGHT_BLUE# Current base actor: %s", _M._base_actor and _M._base_actor:getName() or "none")
 			self.base_txt:refresh(_M._base_actor)
 			self.base_refresh.on_select()
 		end,
@@ -126,7 +126,7 @@ The #LIGHT_BLUE#Base Filter#LAST# is used to filter the actor randomly generated
 	
 	local base_clear = self.newButton{text=_t"Clear", _actor_field="_base_actor",
 		fct=function()
-			game.log("#LIGHT_BLUE# Clear base actor: %s", _M._base_actor and _M._base_actor.name or "none")
+			game.log("#LIGHT_BLUE# Clear base actor: %s", _M._base_actor and _M._base_actor:getName() or "none")
 			if _M._base_actor then
 				_M._base_actor:removed()
 				_M._base_actor = nil
@@ -162,7 +162,7 @@ The #LIGHT_BLUE#Base Filter#LAST# is used to filter the actor randomly generated
 		local txt
 		if _M._boss_actor then
 			local r, rc = _M._boss_actor:TextRank()
-			txt = (rc or "#ORANGE#").._M._boss_actor.name.."#LAST#"
+			txt = (rc or "#ORANGE#").._M._boss_actor:getName().."#LAST#"
 		else
 			txt = _t"#GREY#None#LAST#"
 		end

@@ -47,7 +47,7 @@ newEntity{
 	ai = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=3, },
 	stats = { str=20, dex=8, mag=6, con=16 },
 	
-	emote_random = {chance=10, "To arms!", "Monster!", "Die!", "You will not kill us!", "We will end this!"},
+	emote_random = {chance=10, _t"To arms!", _t"Monster!", _t"Die!", _t"You will not kill us!", _t"We will end this!"},
 	
 	on_die = function(self, who)
 		-- wait for all caravanners to die

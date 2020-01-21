@@ -35,12 +35,12 @@ newEntity{ base = "TRAP_TELEPORT",
 	triggered = function(self, x, y, who)
 		if who:canBe("teleport") then
 			game:onTickEnd(function()
-					game.logSeen(who, "%s is teleported away!", who.name:capitalize())
+					game.logSeen(who, "%s is teleported away!", who:getName():capitalize())
 					who:teleportRandom(x, y, 100) 
 				end)
 			return true
 		else
-			game.logSeen(who, "%s resists being teleported!", who.name:capitalize())
+			game.logSeen(who, "%s resists being teleported!", who:getName():capitalize())
 		end
 	end
 }

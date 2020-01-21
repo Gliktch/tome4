@@ -149,7 +149,7 @@ newTalent{
 			local t = rng.tableRemove(tids)
 			if not t then break end
 			target.talents_cd[t.id] = cdr
-			game.logSeen(target, "%s's %s is disrupted by the shot!", target.name:capitalize(), t.name)
+			game.logSeen(target, "%s's %s is disrupted by the shot!", target:getName():capitalize(), t.name)
 		end
 	end,
 	doShoot = function(self, t, eff)

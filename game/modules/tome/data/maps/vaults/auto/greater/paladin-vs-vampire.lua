@@ -45,7 +45,7 @@ defineTile('~', mod.class.Grid.new{
 			--add undead
 			local m = game.zone:makeEntityByName(game.level, "actor", "RISEN_CORPSE")
 			game.zone:addEntity(game.level, m, "actor", x, y)
-			game.logSeen(m, "The corrupted lava reanimates %s's corpse!", who.name:capitalize())
+			game.logSeen(m, "The corrupted lava reanimates %s's corpse!", who:getName():capitalize())
 		end
 	end,
 })

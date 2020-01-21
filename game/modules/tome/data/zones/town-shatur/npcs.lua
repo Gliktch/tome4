@@ -24,7 +24,7 @@ newEntity{
 	type = "humanoid", subtype = "thalore",
 	display = "p", color=colors.WHITE,
 	faction = "thalore",
-	anger_emote = "Catch @himher@!",
+	anger_emote = _t"Catch @himher@!",
 	exp_worth = 0,
 	combat = { dam=resolvers.rngavg(1,2), atk=2, apr=0, dammod={str=0.4} },
 

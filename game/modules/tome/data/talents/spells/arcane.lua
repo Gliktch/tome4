@@ -157,7 +157,7 @@ newTalent{
 		return max_dam * 2 -- Maximum damage is 2x total mana pool
 	end,
 	explode = function(self, t, dam)
-		game.logSeen(self, "#VIOLET#%s's disruption shield collapses and then explodes in a powerful manastorm!", self.name:capitalize())
+		game.logSeen(self, "#VIOLET#%s's disruption shield collapses and then explodes in a powerful manastorm!", self:getName():capitalize())
 		dam = math.min(dam, t.getMaxDamage(self, t)) -- Damage cap
 		-- Add a lasting map effect
 		local radius = self:getTalentRadius(t)
@@ -260,10 +260,10 @@ newTalent{
 		if eneed < energy then
 			self.disruption_shield_power = max
 			self:incMana((energy - eneed) * val / 100)
-			game.logSeen(self, "%s restores Disruption Shield (+%d) and gains %d mana with Aegis!", self.name, eneed/2, (energy - eneed) * val / 100)
+			game.logSeen(self, "%s restores Disruption Shield (+%d) and gains %d mana with Aegis!", self:getName(), eneed/2, (energy - eneed) * val / 100)
 		else
 			self.disruption_shield_power = self.disruption_shield_power + energy / 2
-			game.logSeen(self, "%s restores Disruption Shield (+%d) with Aegis!", self.name, energy / 2)
+			game.logSeen(self, "%s restores Disruption Shield (+%d) with Aegis!", self:getName(), energy / 2)
 		end
 		self.disruption_shield_storage = 0
 	end,

@@ -193,7 +193,7 @@ newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 			if t.type[1] == "chronomancy/anomalies" then ts[#ts+1] = id end
 		end
 		self:forceUseTalent(rng.table(ts), {ignore_energy=true})
-		game.logSeen(self, "%s has collapsed in upon itself.", self.name:capitalize())
+		game.logSeen(self, "%s has collapsed in upon itself.", self:getName():capitalize())
 	end,
 
 	resolvers.sustains_at_birth(),

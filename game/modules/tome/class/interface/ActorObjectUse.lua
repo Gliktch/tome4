@@ -211,7 +211,7 @@ _M.useObjectBaseTalent ={
 		local ret
 		local co = coroutine.create(function()
 			if data.tid then -- replace normal talent use message
-				game.logSeen(self, "%s activates %s %s!", self.name:capitalize(), self:his_her(), data.obj:getName({no_add_name=true, do_color = true}))
+				game.logSeen(self, "%s activates %s %s!", self:getName():capitalize(), self:his_her(), data.obj:getName({no_add_name=true, do_color = true}))
 				t.message = self:callObjectTalent(t.id, "message")
 				local msg = self:useTalentMessage(t)
 				t.message = nil

@@ -106,7 +106,7 @@ Each swing drips pustulant fluid before it, and each droplet writhes and wriggle
 		if value >= (self.max_life * 0.1) then
 			local t = self:getTalentFromId(self.T_WORM_ROT)
 			t.spawn_carrion_worm(self, self, t)
-			game.logSeen(self, "#LIGHT_RED#A carrion worm mass has spawned from %s' wounds!", self.name)
+			game.logSeen(self, "#LIGHT_RED#A carrion worm mass has spawned from %s' wounds!", self:getName())
 		end
 		return value
 	end,
@@ -253,7 +253,7 @@ newEntity{ base = "BASE_NPC_HORROR",
 			if not eye.dead then eye:die(src) nb = nb + 1 end
 		end
 		if nb > 0 then
-			game.logSeen(self, "#AQUAMARINE#As %s falls all its eyes fall to the ground!", self.name)
+			game.logSeen(self, "#AQUAMARINE#As %s falls all its eyes fall to the ground!", self:getName())
 		end
 	end,
 }
@@ -288,7 +288,7 @@ newEntity{ base = "BASE_NPC_HORROR", define_as = "BASE_NPC_ELDRICTH_EYE",
 			local sx, sy = game.level.map:getTileToScreen(self.summoner.x, self.summoner.y, true)
 			game.flyers:add(sx, sy, 20, (rng.range(0,2)-1) * 0.5, -3, "+Blind", {255,100,80})
 			self.summoner.blind = 1
-			game.logSeen(self.summoner, "%s is blinded by the loss of all its eyes.", self.summoner.name:capitalize())
+			game.logSeen(self.summoner, "%s is blinded by the loss of all its eyes.", self.summoner:getName():capitalize())
 		end
 	end,
 }
@@ -761,7 +761,7 @@ With each slow breath it takes reality distorts around it.  Blue twirls into red
 				game.zone:addEntity(game.level, m, "actor", x, y)
 				
 				game.level.map:particleEmitter(x, y, 1, "generic_teleport", {rm=225, rM=255, gm=225, gM=255, bm=225, bM=255, am=35, aM=90})
-				game.logSeen(self, "#LIGHT_BLUE#A dream seed escapes %s's sleeping mind.", self.name:capitalize())
+				game.logSeen(self, "#LIGHT_BLUE#A dream seed escapes %s's sleeping mind.", self:getName():capitalize())
 			end
 		-- Script the AI to encourage opening with dream scape
 		--[[  Disabled temporarily due to unknown bugs with Dreamscape
@@ -918,7 +918,7 @@ newEntity{ base = "BASE_NPC_HORROR",
 					game.zone:addEntity(game.level, m, "actor", x, y)
 				end
 			end
-			game.logSeen(self, "%s's severed flesh starts crawling!", self.name:capitalize())
+			game.logSeen(self, "%s's severed flesh starts crawling!", self:getName():capitalize())
 		end
 		return value
 	end,
@@ -1183,7 +1183,7 @@ newEntity{ base="BASE_NPC_HORROR", define_as = "ANIMATED_BLADE",
 
 	on_act = function(self)
 		if self.summoner and self.summoner:attr("dead") then
-			game.logSeen(self, "#AQUAMARINE#The %s no longer seems to be controlled and clatters to the ground before vanishing into a rift.", self.name:capitalize())
+			game.logSeen(self, "#AQUAMARINE#The %s no longer seems to be controlled and clatters to the ground before vanishing into a rift.", self:getName():capitalize())
 			self:die()
 		end
 	end,
@@ -1246,7 +1246,7 @@ newEntity{ base="BASE_NPC_HORROR", define_as = "DISTORTED_BLADE",
 	on_act = function(self)
 		self.paradox = self.paradox + 20
 		if self.summoner and self.summoner:attr("dead") then
-			game.logSeen(self, "#AQUAMARINE#The %s no longer seems to be controlled and clatters to the ground before vanishing into a rift.", self.name:capitalize())
+			game.logSeen(self, "#AQUAMARINE#The %s no longer seems to be controlled and clatters to the ground before vanishing into a rift.", self:getName():capitalize())
 			self:die()
 		end
 	end,

@@ -29,12 +29,12 @@ newEntity{
 		function(self, who) 
 			local heal = self.use_power.heal(self, who)
 			return ("heal yourself and all friendly characters within 10 spaces for %d"):
-				format(heal) end,
+				tformat(heal) end,
 		15,
 		function(self, who)
 			local tg = self.use_power.target(self, who)
 			local heal = self.use_power.heal(self, who)
-			game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName{no_add_name = true, do_color = true})
+			game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName{no_add_name = true, do_color = true})
 			who:project(tg, who.x, who.y, function(px, py)
 				local target = game.level.map(px, py, engine.Map.ACTOR)
 				if not target then return end
@@ -72,7 +72,7 @@ newEntity{
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
 			local dam = {dam = self.use_power.damage(self, who), heal_factor = 50, dur = 7}
-			game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 			who:project(tg, x, y, engine.DamageType.INSIDIOUS_POISON, dam, {type="slime"})
 			return {id=true, used=true}
 		end,
@@ -93,7 +93,7 @@ newEntity{
 
 	charm_power_def = {add=5, max=100, floor=true},
 	resolvers.charm(function(self) return ("harden the skin for 7 turns increasing armour by %d and armour hardiness by %d%%%%"):tformat(self:getCharmPower(who), 20 + self.material_level * 10) end, 20, function(self, who)
-		game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName{no_add_name = true, do_color = true})
+		game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName{no_add_name = true, do_color = true})
 		who:setEffect(who.EFF_THORNY_SKIN, 7, {ac=self:getCharmPower(who), hard=20 + self.material_level * 10})
 		game:playSoundNear(who, "talents/heal")
 		return {id=true, used=true}
@@ -116,7 +116,7 @@ newEntity{
 		local stats = self.use_power.tentacleStats(self, who)
 		local str = ("(Tentacle Stats)\nLife:  %d\nBase Damage:  %d\nArmor:  %d\nAll Resist:  %d"):tformat(stats.max_life, stats.combat.dam, stats.combat_armor, stats.resists.all)
 		return	("summon a resilient tentacle up to %d spaces away for %d turns.  Each turn the tentacle will strike a random enemy in range 3 dealing physical damage and attempting to pin them.\n\n%s"):
-			format(5, stats.summon_time, str) 
+			tformat(5, stats.summon_time, str) 
 		end,
 		 20, 
 		 function(self, who)
@@ -197,7 +197,7 @@ newEntity{
 			table.mergeAdd(m, stats, true)
 			m.life = m.max_life
 
-		game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName{no_add_name = true, do_color = true})
+		game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName{no_add_name = true, do_color = true})
 		return {id=true, used=true}
 	end,
 	"T_GLOBAL_CD",

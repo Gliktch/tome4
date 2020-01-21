@@ -204,9 +204,9 @@ newTalent{
 		local m = mod.class.NPC.new{
 			type = "vermin", subtype = "oozes",
 			display = "j", color=colors.GREEN, image = "npc/vermin_oozes_green_ooze.png",
-			name = self.name:bookCapitalize().."'s mucus ooze",
+			name = ("%s's mucus ooze"):tformat(self.name:bookCapitalize()),
 			faction = self.faction,
-			desc = "It's made from mucus and it's oozing.",
+			desc = _t"It's made from mucus and it's oozing.",
 			sound_moam = {"creatures/jelly/jelly_%d", 1, 3},
 			sound_die = {"creatures/jelly/jelly_die_%d", 1, 2},
 			sound_random = {"creatures/jelly/jelly_%d", 1, 3},

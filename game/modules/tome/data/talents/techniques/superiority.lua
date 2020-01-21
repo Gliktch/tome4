@@ -96,7 +96,7 @@ newTalent{
 			local tx, ty = util.findFreeGrid(self.x, self.y, 5, true, {[Map.ACTOR]=true})
 			if tx and ty and target:canBe("teleport") then
 				target:move(tx, ty, true)
-				game.logSeen(target, "%s is called to battle!", target.name:capitalize())
+				game.logSeen(target, "%s is called to battle!", target:getName():capitalize())
 			end
 		end)
 		return true

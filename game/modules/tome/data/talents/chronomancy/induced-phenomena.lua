@@ -302,19 +302,19 @@ newTalent{
 					if target:canBe("blind") then
 						target:setEffect(target.EFF_BLINDED, 3, {apply_power=getParadoxSpellpower(self, t), no_ct_effect=true})
 					else
-						game.logSeen(target, "%s resists the blindness!", target.name:capitalize())
+						game.logSeen(target, "%s resists the blindness!", target:getName():capitalize())
 					end
 				elseif effect == 2 then
 					if target:canBe("pin") then
 						target:setEffect(target.EFF_PINNED, 3, {apply_power=getParadoxSpellpower(self, t), no_ct_effect=true})
 					else
-						game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+						game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 					end
 				elseif effect == 3 then
 					if target:canBe("confusion") then
 						target:setEffect(target.EFF_CONFUSED, 3, {power=50, apply_power=getParadoxSpellpower(self, t), no_ct_effect=true})
 					else
-						game.logSeen(target, "%s resists the confusion!", target.name:capitalize())
+						game.logSeen(target, "%s resists the confusion!", target:getName():capitalize())
 					end
 				end
 			end

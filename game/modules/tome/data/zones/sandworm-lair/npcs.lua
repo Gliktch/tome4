@@ -157,7 +157,7 @@ newEntity{ define_as = "SANDWORM_QUEEN",
 	end,
 
 	on_die = function(self, who)
-		game.state:activateBackupGuardian("CORRUPTED_SAND_WYRM", 1, 45, "Did you hear? Something seems to have devoured all the last sandworms!", function(gen)
+		game.state:activateBackupGuardian("CORRUPTED_SAND_WYRM", 1, 45, _t"Did you hear? Something seems to have devoured all the last sandworms!", function(gen)
 			if gen then return end
 			for i = #game.level.e_array, 1, -1 do
 				local e = game.level.e_array[i]

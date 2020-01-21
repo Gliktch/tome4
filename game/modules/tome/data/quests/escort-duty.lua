@@ -276,18 +276,18 @@ name = _t""
 desc = function(self, who)
 	local desc = {}
 	if self:isStatus(engine.Quest.DONE) then
-		desc[#desc+1] = _t"You successfully escorted the "..self.kind.name.." to the recall portal on level "..self.level_name.."."
+		desc[#desc+1] = ("You successfully escorted the %s to the recall portal on level %s."):tformat(_t(self.kind.name), self.level_name)
 		if self.reward_message then
-			desc[#desc+1] = ("As a reward you %s."):format(self.reward_message)
+			desc[#desc+1] = ("As a reward you %s."):tformat(self.reward_message)
 		end
 	elseif self:isStatus(engine.Quest.FAILED) then
 		if self.abandoned then
-			desc[#desc+1] = _t"You abandoned "..self.kind.name.." to death."
+			desc[#desc+1] = ("You abandoned %s, to death."):tformat(_t(self.kind.name))
 		else
-			desc[#desc+1] = _t"You failed to protect the "..self.kind.name.." from death by "..(self.killing_npc or "???").."."
+			desc[#desc+1] = ("You failed to protect the %s from death by %s."):tformat(_t(self.kind.name), self.killing_npc or "???")
 		end
 	else
-		desc[#desc+1] = _t"Escort the "..self.kind.name.." to the recall portal on level "..self.level_name.."."
+		desc[#desc+1] = ("Escort the %s to the recall portal on level %s."):tformat(_t(self.kind.name), self.level_name)
 	end
 	return table.concat(desc, "\n")
 end
@@ -373,9 +373,9 @@ on_grant = function(self, who)
 	self.kind.actor.remove_from_party_on_death = true
 	self.kind.actor.on_die = function(self, who)
 		if self.sunwall_query then game.state.found_sunwall_west_died = true end
-		game.logPlayer(game.player, "#LIGHT_RED#%s is dead, quest failed!", self.name:capitalize())
+		game.logPlayer(game.player, "#LIGHT_RED#%s is dead, quest failed!", self:getName():capitalize())
 		game.player:setQuestStatus(self.quest_id, engine.Quest.FAILED)
-		game.player:hasQuest(self.quest_id).killing_npc = who and who.name or "something"
+		game.player:hasQuest(self.quest_id).killing_npc = who and who.name or _t"something"
 		if who.resolveSource and who:resolveSource().player then
 			world:gainAchievement("ESCORT_KILL", game.player)
 			game.player:registerEscorts("betrayed")
@@ -430,8 +430,8 @@ on_grant = function(self, who)
 	game.zone:addEntity(game.level, npc, "actor", x, y)
 
 	-- Setup quest
-	self.level_name = game.level.level.." of "..game.zone.name
-	self.name = _t"Escort: "..self.kind.name.." (level "..self.level_name..")"
+	self.level_name = ("%s of %s"):tformat(game.level.level, game.zone.name)
+	self.name = ("Escort: %s (level %s)"):tformat(_t(self.kind.name), self.level_name)
 
 	local Chat = require "engine.Chat"
 	Chat.new("escort-quest-start", npc, game.player, {text=self.kind.text, npc=npc}):invoke()

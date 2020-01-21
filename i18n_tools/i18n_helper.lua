@@ -13,6 +13,13 @@ local function runfile(file, env)
     prev()
     return
 end
+local function count_string(str, pattern)
+    count = 0
+    for i in string.gfind(str, pattern) do
+        count = count + 1
+    end
+    return count
+end
 
 local function suitable_string(string)
     if string:find("\n") and string:sub(1, 1) ~= "\n" then
@@ -80,6 +87,11 @@ local function merge_file_t(src, dst, args_order)
     if not dst or dst == "" or src == dst then 
         return
     end
+    if false and count_string(src, "%%") ~= count_string(dst, "%%") then
+        print("% MISMATCH:")
+        print(src)
+        print(dst)
+    end
     if locales_trans[src] and locales_trans[src] ~= dst then
         print("CONFLICT: ", src)
         print("OLD: ", locales_trans[src])
@@ -117,17 +129,28 @@ local merged_src = {}
 local translated = 0
 local all_entry = 0
 local not_merged = 0
-local function write_section(f, f2, section)
+local function write_section(f, f2, f3, section)
     t = locales_sections[section]
     f:write("------------------------------------------------\n")
-    f2:write("------------------------------------------------\n")
     f:write(('section "%s"\n\n'):format(section))
-    f2:write(('section "%s"\n\n'):format(section))
+    f3:write("------------------------------------------------\n")
+    f3:write(('section "%s"\n\n'):format(section))
+    local f2_text = ""
     local list = {}
     for _, e in pairs(t) do
         list[#list+1] = e
     end
-    table.sort(list, function(a, b) return a.line < b.line end)
+    if section ~= "not_merged" then
+        table.sort(list, function(a, b) 
+            if a.line ~= b.line then
+                return a.line < b.line
+            else
+                return a.src < b.src
+            end
+        end)
+    else
+        table.sort(list, function(a, b) return a.src < b.src end)
+    end
     for _, e in ipairs(list) do
         local src = e.src
 
@@ -137,7 +160,7 @@ local function write_section(f, f2, section)
 
         local print_str = ""
         if locales_trans[src] then
-            if e.bogus then
+            if section ~= "always_merge" and e.bogus then
                 print_str = "t_old"
             else
                 print_str = "t"
@@ -148,9 +171,13 @@ local function write_section(f, f2, section)
             else
                 print_str = print_str .. ")"
             end
+            if not (section ~= "always_merge" and e.bogus) then
+                f3:write(print_str .. "\n")
+            end
         else
             print_str = "t(" .. suitable_string(src) .. ", " .. suitable_string(src) .. ")"
-            f2:write(print_str .. "\n")
+            -- f2:write(print_str .. "\n")
+            f2_text = f2_text .. print_str .. "\n"
         end
         if section ~= "not_merged" or not merged_src[src] then
             f:write(print_str .. '\n')
@@ -163,24 +190,33 @@ local function write_section(f, f2, section)
         end
     end
     f:write("\n\n")
-    f2:write("\n\n")
+    f3:write("\n\n")
+    if f2_text ~= "" then
+        f2:write("------------------------------------------------\n")
+        f2:write(('section "%s"\n\n'):format(section))
+        f2:write(f2_text)
+        f2:write("\n\n")
+    end
 end
-local function print_file(file_out, file_out_2)
+local function print_file(file_out, file_out_2, file_out_3)
     local f = io.open(file_out, "w")
     local f2 = io.open(file_out_2, "w")
+    local f3 = io.open(file_out_3, "w")
+    f3:write("locale \"zh_CN\"\n")
     table.sort(sections)
     for _, section in ipairs(sections) do
-        write_section(f, f2, section)
+        write_section(f, f2, f3, section)
     end
     print(("%d / %d entries translated"):format(translated, all_entry))
 end
-local function extract(file_in, file_merge, file_out, file_out_2)
+local function extract(file_in, file_merge, file_out, file_out_2, file_out_3)
     local file_in = file_in or "i18n_list.lua"
     local file_merge = file_merge or "merge_translation.lua"
     local file_out = file_out or "output_translation.lua"
     local file_out_2 = file_out_2 or "untranslated.lua"
+    local file_out_3 = file_out_3 or "../game/engines/default/data/locales/zh_CN.lua"
     introduce_file(file_in)
     merge_file(file_merge)
-    print_file(file_out, file_out_2)
+    print_file(file_out, file_out_2, file_out_3)
 end
 extract(...)

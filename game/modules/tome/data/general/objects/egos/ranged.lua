@@ -288,9 +288,9 @@ newEntity{
 	},
 	charm_power = resolvers.mbonus_material(100, 5),
 	charm_power_def = {add=50, max=200, floor=true},
-	resolvers.charm("regenerate %d life over 5 turns", 20,
+	resolvers.charm(_t"regenerate %d life over 5 turns", 20,
 		function(self, who)
-			game.logSeen(who, "%s uses %s %s!", who.name:capitalize(), who:his_her(), self:getName{no_add_name=true, do_color=true})
+			game.logSeen(who, "%s uses %s %s!", who:getName():capitalize(), who:his_her(), self:getName{no_add_name=true, do_color=true})
 			who:setEffect(who.EFF_REGENERATION, 5, {power=self:getCharmPower(who)/5})
 			return {id=true, used=true}
 		end,

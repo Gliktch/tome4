@@ -254,7 +254,7 @@ function _M:acceptObject(obj, actor)
 		actor = actor or self.actor or game.player
 		-- choose where to put object (default is current actor's inventory)
 		local d = Dialog:multiButtonPopup(_t"Place Object", _t"Place the object where?",
-			{{name=("Inventory of %s%s"):tformat( actor.name, actor.player and _t" #LIGHT_GREEN#(player)#LAST#" or ""), choice="player", fct=function(sel)
+			{{name=("Inventory of %s%s"):tformat( actor:getName(), actor.player and _t" #LIGHT_GREEN#(player)#LAST#" or ""), choice="player", fct=function(sel)
 				-- if not obj.quest and not obj.plot then obj.__transmo = true end
 				actor:addObject(actor.INVEN_INVEN, obj)
 				game.zone:addEntity(game.level, obj, "object")
@@ -283,7 +283,7 @@ end
 function _M:findObject(obj, actor)
 	if not (obj and actor) then return end
 	local inv, slot, attached = actor:searchAllInventories(obj, function(o, who, inven, slot, attached)
-		game.log("#LIGHT_BLUE#OBJECT:#LAST# %s%s: #LIGHT_BLUE#[%s] %s {%s, slot %s} at (%s, %s)#LAST#", o:getName({do_color=true, no_add_name=true}), attached and (" (attached to: %s)"):format(attached:getName({do_color=true, no_add_name=true})) or "", who.uid, who.name, inven.name, slot, who.x, who.y)
+		game.log("#LIGHT_BLUE#OBJECT:#LAST# %s%s: #LIGHT_BLUE#[%s] %s {%s, slot %s} at (%s, %s)#LAST#", o:getName({do_color=true, no_add_name=true}), attached and (" (attached to: %s)"):format(attached:getName({do_color=true, no_add_name=true})) or "", who.uid, who:getName(), inven.name, slot, who.x, who.y)
 	end)
 	return inv, slot, attached
 end

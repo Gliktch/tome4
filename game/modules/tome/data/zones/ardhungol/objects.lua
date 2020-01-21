@@ -61,7 +61,7 @@ newEntity{ base = "BASE_ROD",
 			local tg = self.use_power.target(self, who)
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
-			game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 			who:project(tg, x, y, engine.DamageType.SPYDRIC_POISON, {dam=self.use_power.damage(self, who), dur=self.use_power.duration}, {type="slime"})
 			return {id=true, used=true}
 		end

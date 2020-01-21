@@ -89,7 +89,7 @@ It is said the Conclave created this weapon for their warmaster during the dark 
 
 				-- If the map has no Winter Storm then create one
 				if not self.winterStorm then
-					game.logSeen(target, "#LIGHT_BLUE#A Winter Storm forms around %s.", target.name:capitalize())
+					game.logSeen(target, "#LIGHT_BLUE#A Winter Storm forms around %s.", target:getName():capitalize())
 					local stormDam = special:damage(self, who)
 					self.winterStorm = game.level.map:addEffect(who,
 						target.x, target.y, special.duration,
@@ -150,7 +150,7 @@ It is said the Conclave created this weapon for their warmaster during the dark 
 			end
 
 			local grids = core.fov.circle_grids(self.winterStorm.x, self.winterStorm.y, self.winterStorm.radius, true)
-			game.logSeen(who, "#LIGHT_BLUE#%s brandishes %s %s, releasing a wave of Winter cold!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "#LIGHT_BLUE#%s brandishes %s %s, releasing a wave of Winter cold!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 			self.use_power.last_use = {turn = game.turn, x = self.winterStorm.x, y = self.winterStorm.y, radius = self.winterStorm.radius} -- for ai purposes
 
 			local msg = false
@@ -297,7 +297,7 @@ newEntity{ base = "BASE_LITE", define_as = "WINTERTIDE_PHIAL",
 			local effs = {}
 			local known = false
 
-			game.logSeen(who, "%s uses %s %s to cleanse %s mind!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color=true}), who:his_her())
+			game.logSeen(who, "%s uses %s %s to cleanse %s mind!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color=true}), who:his_her())
 			-- Go through all mental effects
 			for eff_id, p in pairs(target.tmp) do
 				local e = target.tempeffect_def[eff_id]
@@ -683,7 +683,7 @@ newEntity{ base = "BASE_STAFF",
 
 		local NPC = require "mod.class.NPC"
 		local list = NPC:loadList("/data/general/npcs/crystal.lua")
-		game.logSeen(who, "Crystals splinter off of %s's %s and animate!", who.name:capitalize(), self:getName({no_add_name = true, do_color=true}))
+		game.logSeen(who, "Crystals splinter off of %s's %s and animate!", who:getName():capitalize(), self:getName({no_add_name = true, do_color=true}))
 		for i = 1, 2 do
 			-- Find space
 			local x, y = util.findFreeGrid(who.x, who.y, 5, true, {[engine.Map.ACTOR]=true})
@@ -887,7 +887,7 @@ newEntity{ base = "BASE_AMULET",
 			return
 		end
 		print("Invoking guardian on", x, y)
-		game.logSeen(who, "%s taps %s %s, summoning a vampire thrall!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color=true}))
+		game.logSeen(who, "%s taps %s %s, summoning a vampire thrall!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color=true}))
 
 		-- No gear melee that forces things to attack it, we have to do some work to make this useful..
 		-- Worse, we need to be able to beat accuracy and ppower checks to land our talents, but scaling off our source on an item is bad for those
@@ -1374,7 +1374,7 @@ newEntity{ base = "BASE_ROD", define_as = "ROD_OF_ANNULMENT",
 					local t = rng.tableRemove(tids)
 					if not t then break end
 					target.talents_cd[t.id] = rng.range(3, 5)
-					game.logSeen(target, "%s's %s is disrupted!", target.name:capitalize(), t.name)
+					game.logSeen(target, "%s's %s is disrupted!", target:getName():capitalize(), t.name)
 				end
 				target.changed = true
 			end, nil, {type="flame"})
@@ -1624,7 +1624,7 @@ It has been kept somewhat intact with layers of salt and clay, but in spite of t
 			end end
 			-- only one twitch per action
 			if is_trap then
-				game.logSeen(actor, "#CRIMSON#%s twitches, alerting %s that a hidden trap is nearby.", self:getName(), actor.name:capitalize())
+				game.logSeen(actor, "#CRIMSON#%s twitches, alerting %s that a hidden trap is nearby.", self:getName(), actor:getName():capitalize())
 				if actor == game.player then
 					game.player:runStop()
 				end
@@ -1652,7 +1652,7 @@ It has been kept somewhat intact with layers of salt and clay, but in spite of t
 				end
 			end
 			if num == 1 then
-				game.logSeen(who, "%s shrugs off some effects!", who.name:capitalize())
+				game.logSeen(who, "%s shrugs off some effects!", who:getName():capitalize())
 				self.power = 0
 			end
 			for i = 1, 3 do
@@ -1726,7 +1726,7 @@ newEntity{ base = "BASE_MINDSTAR", define_as = "PSIONIC_FURY",
 			local radius = self.use_power.radius
 			local dam = self.use_power.damage(self, who)
 			local blast = self.use_power.target(self, who)
-			game.logSeen(who, "%s's %s sends out a blast of psionic energy!", who.name:capitalize(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s's %s sends out a blast of psionic energy!", who:getName():capitalize(), self:getName({no_add_name = true, do_color = true}))
 			who:project(blast, who.x, who.y, engine.DamageType.MIND, dam)
 			game.level.map:particleEmitter(who.x, who.y, blast.radius, "force_blast", {radius=blast.radius})
 			return {id=true, used=true}

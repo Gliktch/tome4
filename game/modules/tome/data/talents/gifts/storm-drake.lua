@@ -82,11 +82,11 @@ newTalent{
 			local target = game.level.map(px, py, Map.ACTOR)
 			if not target then return end
 			if not target:checkHit(self:combatMindpower(), target:combatPhysicalResist(), 10) then
-				game.logSeen(target, "%s resists the static field!", target.name:capitalize())
+				game.logSeen(target, "%s resists the static field!", target:getName():capitalize())
 				return
 			end
 			target:crossTierEffect(target.EFF_OFFBALANCE, self:combatMindpower())
-			game.logSeen(target, "%s is caught in the static field!", target.name:capitalize())
+			game.logSeen(target, "%s is caught in the static field!", target:getName():capitalize())
 
 			local perc = t.getPercent(self, t)
 			if target.rank >= 5 then perc = perc / 2.5
@@ -157,9 +157,9 @@ newTalent{
 					if not target or target == self then return end
 					if target:canBe("knockback") then
 						target:knockback(src.x, src.y, 2)
-						game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+						game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 					else
-						game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+						game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 					end
 				end
 				src:project({type="ball", radius=2, selffire=false, x=self.x, y=self.y, friendlyfire=false}, self.x, self.y, DT.LIGHTNING, self.def.movedam)
@@ -236,7 +236,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, 3, {apply_power = self:combatMindpower()})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 		end)
 

@@ -129,7 +129,7 @@ Good luck in your adventures, and come visit us when you are done!
 			local g = game.zone:makeEntityByName(game.level, "terrain", "SAND_UP_WILDERNESS")
 			g.change_level = 1
 			g.change_zone = "town-derth"
-			g.name = "exit to Derth"
+			g.name = _t"exit to Derth"
 			game.zone:addEntity(game.level, g, "terrain", player.x, player.y)
 
 			game.party:reward("Select the party member to receive the +2 generic talent points:", function(player)

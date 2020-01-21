@@ -60,7 +60,7 @@ newTalent{
 			if target:canBe("confusion") then
 				target:setEffect(target.EFF_CONFUSED, t.getDuration(self, t), {power=t.getConfusion(self, t), apply_power=self:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the headblow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the headblow!", target:getName():capitalize())
 			end
 			if target:attr("dead") then
 				world:gainAchievement("HEADBANG", self, target)

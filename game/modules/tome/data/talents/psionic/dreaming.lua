@@ -79,7 +79,7 @@ newTalent{
 					target:setEffect(target.EFF_SLEEP, t.getDuration(self, t), {src=self, power=power,  contagious=is_contagious, waking=is_waking, insomnia=t.getInsomniaPower(self, t), no_ct_effect=true, apply_power=self:combatMindpower()})
 					game.level.map:particleEmitter(target.x, target.y, 1, "generic_charge", {rm=0, rM=0, gm=180, gM=255, bm=180, bM=255, am=35, aM=90})
 				else
-					game.logSeen(self, "%s resists the sleep!", target.name:capitalize())
+					game.logSeen(self, "%s resists the sleep!", target:getName():capitalize())
 				end
 			end
 		end)

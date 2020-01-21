@@ -348,10 +348,10 @@ function _M:useTalentMessage(ab)
 	if not ab.message then return nil end
 	local str = util.getval(ab.message, self, ab)
 	local _, _, target = self:getTarget()
-	local tname = "unknown"
-	if target then tname = target.name end
-	str = str:gsub("@Source@", self.name:capitalize())
-	str = str:gsub("@source@", self.name)
+	local tname = _t"unknown"
+	if target then tname = target:getName() end
+	str = str:gsub("@Source@", self:getName():capitalize())
+	str = str:gsub("@source@", self:getName())
 	str = str:gsub("@target@", tname)
 	str = str:gsub("@Target@", tname:capitalize())
 	str = str:gsub("@hisher@", string.his_her(self))
@@ -368,9 +368,9 @@ function _M:logTalentMessage(ab)
 	elseif ab.message then
 		game.logSeen(self, "%s", self:useTalentMessage(ab))
 	elseif ab.mode == "sustained" then
-		game.logSeen(self, "%s %s %s.", self.name:capitalize(), self:isTalentActive(ab.id) and _t"deactivates" or _t"activates", ab.name)
+		game.logSeen(self, "%s %s %s.", self:getName():capitalize(), self:isTalentActive(ab.id) and _t"deactivates" or _t"activates", ab.name)
 	else
-		game.logSeen(self, "%s uses %s.", self.name:capitalize(), ab.name)
+		game.logSeen(self, "%s uses %s.", self:getName():capitalize(), ab.name)
 	end
 end
 

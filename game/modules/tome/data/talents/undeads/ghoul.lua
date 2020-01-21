@@ -124,7 +124,7 @@ newTalent{
 			MapEffect.new{color_br=30, color_bg=180, color_bb=60, effect_shader="shader_images/retch_effect.png"},
 			nil
 		)
-		game.logSeen(self, "%s #YELLOW_GREEN#VOMITS#LAST# on the ground!", self.name:capitalize())
+		game.logSeen(self, "%s #YELLOW_GREEN#VOMITS#LAST# on the ground!", self:getName():capitalize())
 		game:playSoundNear(self, "talents/cloud")
 		return true
 	end,
@@ -159,9 +159,9 @@ newTalent{
 		local ghoul = NPC.new{
 			type = "undead", subtype = "ghoul",
 			display = "z",
-			name = "Risen Ghoul", color=colors.TAN,
+			name = _t"Risen Ghoul", color=colors.TAN,
 			image="npc/undead_ghoul_ghoul.png",
-			desc = [[Flesh is falling off in chunks from this decaying abomination.]],
+			desc = _t[[Flesh is falling off in chunks from this decaying abomination.]],
 			faction = self.faction,
 			level_range = {1, nil}, exp_worth = 0,
 			life_rating = 10,
@@ -237,7 +237,7 @@ newTalent{
 					target:setEffect(target.EFF_GHOUL_ROT, t.getDuration(self,t), {src=self, apply_power=self:combatPhysicalpower(), dam=t.getDiseaseDamage(self, t),  make_ghoul=1})
 				end
 			else
-				game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 			end
 		end
 

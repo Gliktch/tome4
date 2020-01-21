@@ -96,7 +96,7 @@ newTalent {
 		if target:canBe("pin") then
 			target:setEffect(target.EFF_PINNED, t.pin_duration(self, t), {apply_power = self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists being knocked down.", target.name:capitalize())
+			game.logSeen(target, "%s resists being knocked down.", target:getName():capitalize())
 		end
 		pen_off(self, t, target, x, y)
 	end,
@@ -207,7 +207,7 @@ newTalent {
 		if target:canBe("stun") then
 			target:setEffect(target.EFF_SKIRMISHER_STUN_INCREASE, 1, {apply_power = self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the stunning shot!", target.name:capitalize())
+			game.logSeen(target, "%s resists the stunning shot!", target:getName():capitalize())
 		end
 		pen_off(self, t, target, x, y)
 	end,

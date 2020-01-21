@@ -154,7 +154,7 @@ return {
 	max_dreams = 2,
 	run_dream = function(dangerous, dream)
 		game.party:setPlayer(game:getPlayer(true))
-		if game.player.runStop then game.player:runStop("dream") end
+		if game.player.runStop then game.player:runStop(_t"dream") end
 		local Map = require "engine.Map"
 		for pmem, def in pairs(game.party.members) do
 			if pmem.x and pmem.y and game.level.map(pmem.x, pmem.y, Map.ACTOR) == pmem then

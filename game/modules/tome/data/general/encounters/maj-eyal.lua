@@ -117,7 +117,7 @@ newEntity{
 		if not x then return end
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-		g.name = "Entrance to some ancient elven ruins"
+		g.name = _t"Entrance to some ancient elven ruins"
 		g.display='>' g.color_r=0 g.color_g=255 g.color_b=255 g.notice = true
 		g.change_level=1 g.change_zone="ancient-elven-ruins" g.glow=true
 		g.add_displays = g.add_displays or {}
@@ -156,7 +156,7 @@ newEntity{
 		if not x then return end
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-		g.name = "Entrance to a ruined dungeon"
+		g.name = _t"Entrance to a ruined dungeon"
 		g.display='>' g.color_r=255 g.color_g=0 g.color_b=0 g.notice = true
 		g.change_level=1 g.change_zone="ruined-dungeon" g.glow=true
 		g.add_displays = g.add_displays or {}
@@ -178,7 +178,7 @@ newEntity{
 		if not x then return end
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-		g.name = "Mark of the Spellblaze"
+		g.name = _t"Mark of the Spellblaze"
 		g.display='>' g.color_r=0 g.color_g=200 g.color_b=0 g.notice = true
 		g.change_level=1 g.change_zone="mark-spellblaze" g.glow=true
 		g.add_displays = g.add_displays or {}
@@ -200,7 +200,7 @@ newEntity{
 		if not x then return end
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-		g.name = "Golem Graveyard"
+		g.name = _t"Golem Graveyard"
 		g.display='>' g.color_r=0 g.color_g=200 g.color_b=0 g.notice = true
 		g.change_level=1 g.change_zone="golem-graveyard" g.glow=true
 		g.add_displays = g.add_displays or {}
@@ -246,7 +246,7 @@ newEntity{
 		if not x then return end
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-		g.name = "Hidden compound"
+		g.name = _t"Hidden compound"
 		g.display='>' g.color_r=200 g.color_g=0 g.color_b=0 g.notice = true
 		g.change_level=1 g.change_zone="ring-of-blood" g.glow=true
 		g.add_displays = g.add_displays or {}
@@ -273,7 +273,7 @@ newEntity{
 		if not x then return end
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-		g.name = "tranquil meadow"
+		g.name = _t"tranquil meadow"
 		g.display='>' g.color_r=0 g.color_g=255 g.color_b=128 g.notice = true
 		g.change_level=1 g.change_zone="keepsake-meadow" g.glow=true
 		g.add_displays = g.add_displays or {}

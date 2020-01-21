@@ -67,7 +67,7 @@ newTalent{
 			o = self:removeObject(inven, item)
 			-- Force "wield"
 			self:addObject(pf, o)
-			game.logSeen(self, "%s telekinetically seizes: %s.", self.name:capitalize(), o:getName{do_color=true})
+			game.logSeen(self, "%s telekinetically seizes: %s.", self:getName():capitalize(), o:getName{do_color=true})
 			
 			self:sortInven()
 			self:talentDialogReturn(true)
@@ -199,7 +199,7 @@ newTalent{
 		local tx, ty = util.findFreeGrid(self.x, self.y, 5, true, {[Map.ACTOR]=true})
 		if tx and ty and a:canBe("knockback") then
 			a:move(tx, ty, true)
-			game.logSeen(a, "%s telekinetically grabs %s!", self.name:capitalize(), a.name)
+			game.logSeen(a, "%s telekinetically grabs %s!", self:getName():capitalize(), a.name)
 		end
 	end,
 	callbackOnActBase = function(self, t)
@@ -240,7 +240,7 @@ newTalent{
 		local tk = self:getInven("PSIONIC_FOCUS") and self:getInven("PSIONIC_FOCUS")[1]
 		if not tk then return false end
 
-		local ret = {name = self.name:capitalize().."'s "..t.name}
+		local ret = {name = ("%s's %s"):tformat(self:getName():capitalize(), t.name)}
 		if tk.type == "gem" then
 			local power = (tk.material_level or 1) * 3 + math.ceil(self:callTalent(self.T_RESONANT_FOCUS, "bonus") / 5)
 			self:talentTemporaryValue(ret, "inc_stats", {

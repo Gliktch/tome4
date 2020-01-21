@@ -46,14 +46,14 @@ uberTalent{
 			self:setEffect(self.EFF_FAST_AS_LIGHTNING, 1, {})
 			eff = self:hasEffect(self.EFF_FAST_AS_LIGHTNING)
 			eff.dir = dir eff.nb = 0
-			game.logSeen(self, "#LIGHT_BLUE#%s slows from critical velocity!", self.name:capitalize())
+			game.logSeen(self, "#LIGHT_BLUE#%s slows from critical velocity!", self:getName():capitalize())
 		end
 
 		eff.nb = eff.nb + 1
 
 		if eff.nb >= 3 and not eff.blink then
 			self:effectTemporaryValue(eff, "prob_travel", 5)
-			game.logSeen(self, "#LIGHT_BLUE#%s reaches critical velocity!", self.name:capitalize())
+			game.logSeen(self, "#LIGHT_BLUE#%s reaches critical velocity!", self:getName():capitalize())
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 			game.flyers:add(sx, sy, 30, rng.float(-3, -2), (rng.range(0,2)-1) * 0.5, "CRITICAL VELOCITY!", {0,128,255})
 			eff.particle = self:addParticles(Particles.new("megaspeed", 1, {angle=util.dirToAngle((dir == 4 and 6) or (dir == 6 and 4 or dir))}))
@@ -150,29 +150,29 @@ uberTalent{
 			self.endless_woes[damtype] = 0
 			if damtype == DamageType.TEMPORAL and not self:hasProc("endless_woes_temporal") then
 				self:setProc("endless_woes_temporal", true, 10)
-				game.logSeen(self, "You unleash a blast of #LIGHT_STEEL_BLUE#temporal#LAST# energy!", self.name:capitalize())
+				game.logSeen(self, "You unleash a blast of #LIGHT_STEEL_BLUE#temporal#LAST# energy!", self:getName():capitalize())
 				t.doProject(self, t, damtype, {id="EFF_SLOW", dur=5, params={power=0.3}, canbe="slow"}, "ball_temporal")
 			elseif damtype == DamageType.BLIGHT and not self:hasProc("endless_woes_blight") then
 				self:setProc("endless_woes_blight", true, 10)				
-				game.logSeen(self, "You unleash a blast of #DARK_GREEN#virulent blight!#LAST#!", self.name:capitalize())
+				game.logSeen(self, "You unleash a blast of #DARK_GREEN#virulent blight!#LAST#!", self:getName():capitalize())
 				local dam, stat = t.getBlight(self, t)
 				t.doProject(self, t, damtype, {id="EFF_WOEFUL_DISEASE", dur=5, params = {src=self, dam=dam, str=stat, con=stat, dex=stat}, canbe="disease"}, "ball_blight")
 			elseif damtype == DamageType.ACID and not self:hasProc("endless_woes_acid") then
 				self:setProc("endless_woes_acid", true, 10)
 				local dam = t.getAcid(self, t)
-				game.logSeen(self, "You unleash a blast of #GREEN#acid#LAST#!", self.name:capitalize())
+				game.logSeen(self, "You unleash a blast of #GREEN#acid#LAST#!", self:getName():capitalize())
 				t.doProject(self, t, damtype, {id="EFF_WOEFUL_CORROSION", dur=5, params={src=self, dam=dam}}, "ball_acid")
 			elseif damtype == DamageType.DARKNESS and not self:hasProc("endless_woes_darkness") then
 				self:setProc("endless_woes_darkness", true, 10)
-				game.logSeen(self, "You unleash a blast of numbing #GREY#darkness#LAST#!", self.name:capitalize())
+				game.logSeen(self, "You unleash a blast of numbing #GREY#darkness#LAST#!", self:getName():capitalize())
 				t.doProject(self, t, damtype, {id="EFF_WOEFUL_DARKNESS", dur=5, params={reduce=t.getDarkness(self, t)}}, "shadow_flash")
 			elseif damtype == DamageType.MIND and not self:hasProc("endless_woes_mind") then
 				self:setProc("endless_woes_mind", true, 10)
-				game.logSeen(self, "You unleash a confusing blast of #YELLOW#mental#LAST# energy!", self.name:capitalize())
+				game.logSeen(self, "You unleash a confusing blast of #YELLOW#mental#LAST# energy!", self:getName():capitalize())
 				t.doProject(self, t, damtype, {id="EFF_CONFUSED", dur=5, params={power=50}, canbe="confusion"}, "starfall")
 			elseif damtype == DamageType.PHYSICAL and not self:hasProc("endless_woes_physical") then
 				self:setProc("endless_woes_physical", true, 10)
-				game.logSeen(self, "You unleash a crippling blast of earthen energy!", self.name:capitalize())
+				game.logSeen(self, "You unleash a crippling blast of earthen energy!", self:getName():capitalize())
 				t.doProject(self, t, damtype, {id="EFF_WOEFUL_CRIPPLE", dur=5, params={power=0.2}}, "ball_earth")
 			end
 		end
@@ -235,7 +235,7 @@ uberTalent{
 
 			self:sortInven()
 
-			game.logSeen(self, "#VIOLET#%s assembles %s!", self.name:capitalize(), o:getName{do_colour=true, no_count=true})
+			game.logSeen(self, "#VIOLET#%s assembles %s!", self:getName():capitalize(), o:getName{do_colour=true, no_count=true})
 		end
 	end,
 	info = function(self, t)
@@ -301,38 +301,38 @@ uberTalent{
 			self.elemental_surge[damtype] = 0
 			if damtype == DamageType.PHYSICAL and not self:hasProc("elemental_surge_physical") then
 				self:setProc("elemental_surge_physical", true, 10)
-				game.logSeen(self, "%s surges with earthen power!", self.name:capitalize())
+				game.logSeen(self, "%s surges with earthen power!", self:getName():capitalize())
 				self:removeEffectsFilter({status="detrimental", type="physical", ignore_crosstier=true}, 1)
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_PHYSICAL, 2, {})
 				t.doProject(self, t, damtype, "ball_earth")
 			elseif damtype == DamageType.ARCANE and not self:hasProc("elemental_surge_arcane") then
 				self:setProc("elemental_surge_arcane", true, 10)
-				game.logSeen(self, "%s surges with #PURPLE#arcane#LAST# power!", self.name:capitalize())
+				game.logSeen(self, "%s surges with #PURPLE#arcane#LAST# power!", self:getName():capitalize())
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_ARCANE, 3, {})
 				t.doProject(self, t, damtype, "ball_arcane")
 			elseif damtype == DamageType.FIRE and not self:hasProc("elemental_surge_fire") then
 				self:setProc("elemental_surge_fire", true, 10)
-				game.logSeen(self, "%s surges with #LIGHT_RED#fiery#LAST# power!", self.name:capitalize())
+				game.logSeen(self, "%s surges with #LIGHT_RED#fiery#LAST# power!", self:getName():capitalize())
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_FIRE, 3, {damage = t.getFire(self, t)})
 				t.doProject(self, t, damtype, "ball_fire")
 			elseif damtype == DamageType.COLD and not self:hasProc("elemental_surge_cold") then
 				self:setProc("elemental_surge_cold", true, 10)
-				game.logSeen(self, "%s surges with #1133F3#icy#LAST# power!", self.name:capitalize()) 
+				game.logSeen(self, "%s surges with #1133F3#icy#LAST# power!", self:getName():capitalize()) 
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_COLD, 3, t.getCold(self, t) )
 				t.doProject(self, t, damtype, "ball_ice")
 			elseif damtype == DamageType.LIGHTNING and not self:hasProc("elemental_surge_lightning") then
 				self:setProc("elemental_surge_lightning", true, 10)
-				game.logSeen(self, "%s surges with #ROYAL_BLUE#lightning#LAST# power!", self.name:capitalize())
+				game.logSeen(self, "%s surges with #ROYAL_BLUE#lightning#LAST# power!", self:getName():capitalize())
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_LIGHTNING, 2, {move = t.getLightning(self, t)})
 				t.doProject(self, t, damtype, "ball_lightning")
 			elseif damtype == DamageType.LIGHT and not self:hasProc("elemental_surge_light") then
 				self:setProc("elemental_surge_light", true, 10)
-				game.logSeen(self, "%s surges with #YELLOW#light#LAST# power!", self.name:capitalize())
+				game.logSeen(self, "%s surges with #YELLOW#light#LAST# power!", self:getName():capitalize())
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_LIGHT, 3, {cooldown = t.getLight(self, t)})
 				t.doProject(self, t, damtype, "ball_light")				
 			elseif damtype == DamageType.NATURE and not self:hasProc("elemental_surge_nature") then
 				self:setProc("elemental_surge_nature", true, 10)
-				game.logSeen(self, "%s surges with #LIGHT_GREEN#natural#LAST# power!", self.name:capitalize())
+				game.logSeen(self, "%s surges with #LIGHT_GREEN#natural#LAST# power!", self:getName():capitalize())
 				self:removeEffectsFilter({status="detrimental", type="magical", ignore_crosstier=true}, 1)
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_NATURE, 2, {})
 				t.doProject(self, t, damtype, "slime")

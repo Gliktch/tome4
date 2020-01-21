@@ -150,7 +150,7 @@ newTalent{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the blinding!", target.name:capitalize())
+				game.logSeen(target, "%s resists the blinding!", target:getName():capitalize())
 			end
 		end
 
@@ -212,7 +212,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the stunning blow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stunning blow!", target:getName():capitalize())
 			end
 		end
 
@@ -247,7 +247,7 @@ newTalent{
 			target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			target:crossTierEffect(target.EFF_DISARMED, self:combatPhysicalpower())
 		else
-			game.logSeen(target, "%s resists the blow!", target.name:capitalize())
+			game.logSeen(target, "%s resists the blow!", target:getName():capitalize())
 		end
 
 		return true
@@ -281,7 +281,7 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_CONSTRICTED, t.getDuration(self, t), {src=self, power=1.5 * self:getTalentLevel(t), apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the constriction!", target.name:capitalize())
+				game.logSeen(target, "%s resists the constriction!", target:getName():capitalize())
 			end
 		end
 
@@ -317,7 +317,7 @@ newTalent{
 				target:knockback(self.x, self.y, 4)
 				target:crossTierEffect(target.EFF_OFFBALANCE, self:combatPhysicalpower())
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 
@@ -446,7 +446,7 @@ newTalent{
 			if target:canBe("disease") then
 				target:setEffect(target.EFF_ROTTING_DISEASE, t.getDuration(self, t), {src=self, dam=t.getDamage(self, t), con=math.floor(4 + target:getCon() * 0.1), apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 			end
 		end
 
@@ -482,7 +482,7 @@ newTalent{
 			if target:canBe("disease") then
 				target:setEffect(target.EFF_DECREPITUDE_DISEASE, t.getDuration(self, t), {src=self, dam=t.getDamage(self, t), dex=math.floor(4 + target:getDex() * 0.1), apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 			end
 		end
 
@@ -518,7 +518,7 @@ newTalent{
 			if target:canBe("disease") then
 				target:setEffect(target.EFF_WEAKNESS_DISEASE, t.getDuration(self, t), {src=self, dam=t.getDamage(self, t), str=math.floor(4 + target:getStr() * 0.1), apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 			end
 		end
 
@@ -839,7 +839,7 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the grab!", target.name:capitalize())
+				game.logSeen(target, "%s resists the grab!", target:getName():capitalize())
 			end
 		end
 
@@ -1060,7 +1060,7 @@ newTalent{
 		local trap = mod.class.Trap.new{
 			type = "web", subtype="web", id_by_type=true, unided_name = "sticky web",
 			display = '^', color=colors.YELLOW, image = "trap/trap_spiderweb_01_64.png",
-			name = "sticky web", auto_id = true,
+			name = _t"sticky web", auto_id = true,
 			detect_power = t.getDetect(self, t),
 			disarm_power = t.getDisarm(self, t),
 			level_range = {self.level, self.level},
@@ -1098,7 +1098,7 @@ newTalent{
 				if who:canBe("stun") and who:canBe("pin") then
 					who:setEffect(who.EFF_PINNED, math.ceil(self.pin_dur), {apply_power=self.disarm_power + 5})
 				else
-					game.logSeen(who, "%s resists!", who.name:capitalize())
+					game.logSeen(who, "%s resists!", who:getName():capitalize())
 				end
 				return true, true
 			end
@@ -1170,7 +1170,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		local target = game.level.map(x, y, engine.Map.ACTOR) or self.ai_target.actor or {name="something"}
+		local target = game.level.map(x, y, engine.Map.ACTOR) or self.ai_target.actor or {name=_t"something"}
 		self:logCombat(target, "#Source# hurls a huge boulder at #target#!")
 		self:project(tg, x, y, DamageType.PHYSKNOCKBACK, {dist=t.getDist(self, t), dam=self:mindCrit(t.getDam(self, t))}, {type="archery"})
 		game:playSoundNear(self, "talents/ice")
@@ -1283,7 +1283,7 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the crushing!", target.name:capitalize())
+				game.logSeen(target, "%s resists the crushing!", target:getName():capitalize())
 			end
 		end
 
@@ -1428,11 +1428,11 @@ newTalent{
 			game.zone:addEntity(game.level, m, "actor", x, y)
 
 			if self.is_grgglck then
-				game.logSeen(self, "%s spawns one of its tentacles!", self.name:capitalize())
+				game.logSeen(self, "%s spawns one of its tentacles!", self:getName():capitalize())
 			else
 				m.name = ("%s's summoned tentacle"):tformat(self.name)
 				m.desc = _t"Ewwww.."
-				game.logSeen(self, "%s spawns a tentacle!", self.name:capitalize())
+				game.logSeen(self, "%s spawns a tentacle!", self:getName():capitalize())
 			end
 		else return
 		end
@@ -1563,7 +1563,7 @@ newTalent{
 		local e = Object.new{
 			old_feat = oe,
 			type = rawget(oe, "type"), subtype = oe.subtype,
-			name = "raging volcano", image = oe.image, add_mos = {{image = "terrain/lava/volcano_01.png"}},
+			name = _t"raging volcano", image = oe.image, add_mos = {{image = "terrain/lava/volcano_01.png"}},
 			display = '&', color=colors.LIGHT_RED, back_color=colors.RED,
 			always_remember = true,
 			temporary = t.getDuration(self, t),
@@ -1761,7 +1761,7 @@ newTalent{
 				tgts[target] = true
 				local ox, oy = target.x, target.y
 				target:pull(self.x, self.y, 1)
-				if target.x ~= ox or target.y ~= oy then game.logSeen(target, "%s is pulled in!", target.name:capitalize()) end
+				if target.x ~= ox or target.y ~= oy then game.logSeen(target, "%s is pulled in!", target:getName():capitalize()) end
 			end
 		end)
 		return true
@@ -1803,7 +1803,7 @@ newTalent{
 			local target = game.level.map(tx, ty, Map.ACTOR)
 			m:setTarget(target)
 
-			game.logSeen(self, "%s spawns a slimy crawler!", self.name:capitalize())
+			game.logSeen(self, "%s spawns a slimy crawler!", self:getName():capitalize())
 		else return
 		end
 
@@ -2234,7 +2234,7 @@ newTalent{
 		return ret
 	end,
 	deactivate = function(self, t, p)
-		game.logSeen("#VIOLET#%s is freed from the suspended state!", self.name:capitalize())
+		game.logSeen("#VIOLET#%s is freed from the suspended state!", self:getName():capitalize())
 		return true
 	end,
 	info = function(self, t)
@@ -2314,7 +2314,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_DAZED, t.getDuration(self, t, self:getCombo(combo)), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the body shot!", target.name:capitalize())
+				game.logSeen(target, "%s resists the body shot!", target:getName():capitalize())
 			end
 
 			target:incStamina(- t.getDrain(self, t))
@@ -2511,7 +2511,7 @@ newTalent{
 			if target:checkHit(self:combatAttack(shield_combat), target:combatPhysicalResist(), 0, 95, 5 - self:getTalentLevel(t) / 2) and target:canBe("knockback") then
 				target:knockback(self.x, self.y, 4)
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 
@@ -2667,7 +2667,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, 4, {apply_power=self:combatMindpower()})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 		else --If the target resists the knockback, do half damage to it.
 			target:logCombat(self, "#YELLOW##Source# resists #Target#'s throw!")
@@ -3404,7 +3404,7 @@ newTalent{
 				end
 			end
 		else
-			self:logCombat(target, "#Source# misses a defensive throw against #Target#!", self.name:capitalize(),target.name:capitalize())
+			self:logCombat(target, "#Source# misses a defensive throw against #Target#!", self:getName():capitalize(),target:getName():capitalize())
 		end
 	end,
 	on_unlearn = function(self, t)
@@ -3513,7 +3513,7 @@ newTalent{
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the shadow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the shadow!", target:getName():capitalize())
 			end
 		end
 
@@ -3639,7 +3639,7 @@ newTalent{
 		if target:canBe("disarm") then
 			target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the shadow!", target.name:capitalize())
+			game.logSeen(target, "%s resists the shadow!", target:getName():capitalize())
 		end
 
 		return true

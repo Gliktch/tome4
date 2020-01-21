@@ -103,7 +103,7 @@ newTalent{
 	end,
 	createDark = function(summoner, x, y, damage, duration, creep, creepChance, initialCreep)
 		local e = Object.new{
-			name = summoner.name:capitalize() .. "'s cursed miasma",
+			name = ("%s's cursed miasma"):tformat(summoner:getName():capitalize()),
 			block_sight=function(self, x, y, who)
 				if who and who.attr and who:attr("pierce_cursed_miasma") and x and who.x and core.fov.distance(x, y, who.x, who.y) <= 10 then
 					return false

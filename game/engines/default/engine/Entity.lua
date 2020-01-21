@@ -1187,10 +1187,6 @@ function _M:loadList(file, no_default, res, mod, loaded)
 		switchRarity = function(name) return function(e) if e.rarity then e[name], e.rarity = e.rarity, nil end end end,
 		newEntity = function(t)
 			-- Do we inherit things ?
-			-- I18N add display_name for entity.
-			if t.name then
-				t.display_name = t.display_name or _t(t.name)
-			end
 			if t.base then
 				local base = res[t.base]
 				if not base and res.import_source then base = res.import_source[t.base] end

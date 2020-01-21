@@ -336,12 +336,12 @@ newTalent{
 	sustain_slots = 'celestial_hymn',
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/spell_generic")
-		game.logSeen(self, "#DARK_GREY#A shroud of shadow dances around %s!", self.name)
-		return { name=self.name:capitalize().."'s "..t.name
+		game.logSeen(self, "#DARK_GREY#A shroud of shadow dances around %s!", self:getName())
+		return { name=("%s's %s"):tformat(self:getName():capitalize(), t.name)
 		}
 	end,
 	deactivate = function(self, t, p)
-		game.logSeen(self, "#DARK_GREY#The shroud of shadows around %s disappears.", self.name)
+		game.logSeen(self, "#DARK_GREY#The shroud of shadows around %s disappears.", self:getName())
 		return true
 	end,
 	info = function(self, t)

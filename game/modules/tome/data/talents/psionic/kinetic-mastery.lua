@@ -99,7 +99,7 @@ newTalent{
 				if target:canBe("stun") then
 					target:setEffect(target.EFF_STUNNED, math.floor(self:getTalentRange(t) / 2), {apply_power=self:combatMindpower()})
 				else
-					game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+					game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 				end
 			else --If the target resists the knockback, do half damage to it.
 				target:logCombat(self, "#YELLOW##Source# resists #Target#'s throw!")

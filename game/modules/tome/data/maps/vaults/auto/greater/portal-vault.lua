@@ -101,7 +101,7 @@ local trigger = function(self, who)
 					game.logPlayer(who, "#YELLOW#You overcome intense #LIGHT_BLUE#REPULSIVE FORCES#LAST# as you traverse the Portal.")
 					game:playSoundNear(who, "talents/distortion")
 					who:move(tx, ty, true)
-				end end, "Teleport", "Cancel")
+				end end, _t"Teleport", _t"Cancel")
 			end
 		end
 	else

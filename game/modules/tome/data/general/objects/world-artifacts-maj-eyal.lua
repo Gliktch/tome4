@@ -90,7 +90,7 @@ newEntity{ base = "BASE_STAFF",
 			local effs = {}
 			local known = false
 
-			game.logSeen(who, "%s uses %s %s, curing %s afflictions!", who.name:capitalize(), who:his_her(), self:getName({do_color=true, no_add_name = true}), who:his_her())
+			game.logSeen(who, "%s uses %s %s, curing %s afflictions!", who:getName():capitalize(), who:his_her(), self:getName({do_color=true, no_add_name = true}), who:his_her())
 			-- Create list of poison/disease effects
 			for eff_id, p in pairs(target.tmp) do
 				local e = target.tempeffect_def[eff_id]
@@ -197,7 +197,7 @@ newEntity{ base = "BASE_AMULET",
 			who:project({type="ball", range=0, selffire=false, radius=3}, who.x, who.y, engine.DamageType.DIG, 1)
 			who:project({type="ball", range=0, selffire=false, radius=3}, who.x, who.y, engine.DamageType.DIG, 1)
 			who:project({type="ball", range=0, selffire=false, radius=3}, who.x, who.y, engine.DamageType.PHYSICAL, self.use_power.damage(who))
-			game.logSeen(who, "%s uses the %s!", who.name:capitalize(), self:getName())
+			game.logSeen(who, "%s uses the %s!", who:getName():capitalize(), self:getName())
 			return {id=true, used=true}
 		end
 	},
@@ -643,7 +643,7 @@ newEntity{ base = "BASE_ROD",
 			local tg = self.use_power.target(self, who)
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
-			game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 			who:project(tg, x, y, engine.DamageType.FIRE, self.use_power.damage(self, who), {type="flame"})
 			return {id=true, used=true}
 		end
@@ -795,7 +795,7 @@ newEntity{ base = "BASE_GEM", define_as = "GEM_TELOS",
 		if who.is_alchemist_golem then
 			self.old_golem_name = who.name
 			who.name = "Telos Golem (reluctant follower of "..who.summoner.name..")"
-			game.log("#ROYAL_BLUE#The golem decides to change it's name to #{bold}#%s#{normal}#.", who.name)
+			game.log("#ROYAL_BLUE#The golem decides to change it's name to #{bold}#%s#{normal}#.", who:getName())
 		end
 	end,
 	on_takeoff = function(self, who)
@@ -884,7 +884,7 @@ newEntity{ base = "BASE_LEATHER_BELT",
 		power = 20,
 		shield = function(self, who) return 100 + who:getMag(250) * (100 + (who:attr("shield_factor") or 0)) / 100 end,
 		use = function(self, who)
-			game.logSeen(who, "%s invokes the memory of Neira!", who.name:capitalize())
+			game.logSeen(who, "%s invokes the memory of Neira!", who:getName():capitalize())
 			who:setEffect(who.EFF_DAMAGE_SHIELD, 10, {power=self.use_power.shield(self, who)})
 			game:playSoundNear(who, "talents/arcane")
 			return {id=true, used=true}
@@ -1127,7 +1127,7 @@ newEntity{ base = "BASE_AMULET", --Thanks Grayswandir!
 		power = 24,
 		shield = function(self, who) return 150 + 2*who:getMag(100) end,
 		use = function(self, who)
-			game.logSeen(who, "%s activates %s, forging a reflective barrier!", who.name:capitalize(), self:getName({no_add_name = true}))
+			game.logSeen(who, "%s activates %s, forging a reflective barrier!", who:getName():capitalize(), self:getName({no_add_name = true}))
 			who:setEffect(who.EFF_DAMAGE_SHIELD, 5, {power=self.use_power.shield(self, who), reflect = 50})
 			game:playSoundNear(who, "talents/arcane")
 			return {id=true, used=true}

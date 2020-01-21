@@ -63,7 +63,7 @@ newTalent{
 			end
 		end
 		if known then
-			game.logSeen(self, "%s is cured!", self.name:capitalize())
+			game.logSeen(self, "%s is cured!", self:getName():capitalize())
 		end
 		
 		if core.shader.active(4) then

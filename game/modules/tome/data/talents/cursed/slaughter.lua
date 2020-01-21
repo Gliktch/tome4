@@ -288,7 +288,7 @@ newTalent{
 --				local secondTarget = game.level.map(x, y, Map.ACTOR)
 --				if secondTarget and secondTarget ~= target and self:reactionToward(secondTarget) < 0 then
 --					local multiplier = multiplier or 1 * self:combatTalentWeaponDamage(t, 0.2, 0.7) * getHateMultiplier(self, 0.5, 1.0, false)
---					game.logSeen(self, "%s cleaves through another foe!", self.name:capitalize())
+--					game.logSeen(self, "%s cleaves through another foe!", self:getName():capitalize())
 --					self:attackTarget(secondTarget, nil, multiplier, true)
 --					inCleave = false
 --					return

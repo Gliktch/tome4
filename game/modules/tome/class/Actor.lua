@@ -716,7 +716,7 @@ function _M:act()
 		else
 			-- We are saved for this turn
 			self.paralyzed_counter = self.paralyzed_counter - 100
-			game.logSeen(self, "%s temporarily fights the paralyzation.", self.name:capitalize())
+			game.logSeen(self, "%s temporarily fights the paralyzation.", self:getName():capitalize())
 		end
 	end
 	if self:attr("stoned") then self.energy.value = 0 end
@@ -1652,8 +1652,8 @@ function _M:teleportRandom(x, y, dist, min_dist)
 		self:move(pos[1], pos[2], true)
 		teleported = true
 
-		if self.runStop then self:runStop("teleported") end
-		if self.restStop then self:restStop("teleported") end
+		if self.runStop then self:runStop(_t"teleported") end
+		if self.restStop then self:restStop(_t"teleported") end
 
 		-- after moving
 		if self:attr("defense_on_teleport") or self:attr("resist_all_on_teleport") or self:attr("effect_reduction_on_teleport") then
@@ -1961,7 +1961,12 @@ function _M:getCombatStats(type, inven_id, item)
 	if type == "psionic" then self:attr("use_psi_combat", -1) end
 	return {obj=o, atk=atk, dmg=dmg, apr=apr, crit=crit, crit_power=crit_power or 0, aspeed=aspeed, range=range, mspeed=mspeed, archery=archery, mean=mean, ammo=ammo, block=mean.block, talented=mean.talented}
 end
-
+-- Gets the full name of the Actor
+function _M:getName()
+	-- I18N actor names.
+	local name = _t(self.name) or _t"actor"
+	return name
+end
 function _M:tooltip(x, y, seen_by)
 	if seen_by and not seen_by:canSee(self) then return end
 	local factcolor, factstate, factlevel = "#ANTIQUE_WHITE#", _t"neutral", Faction:factionReaction(self.faction, game.player.faction)
@@ -1989,8 +1994,8 @@ function _M:tooltip(x, y, seen_by)
 	local rank, rank_color = self:TextRank()
 
 	local ts = tstring{}
-	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self.name, {"color", "WHITE"})
-	if self.type == "humanoid" or self.type == "giant" then ts:add({"font","italic"}, "(", self.female and "female" or "male", ")", {"font","normal"}, true) else ts:add(true) end
+	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self:getName(), {"color", "WHITE"})
+	if self.type == "humanoid" or self.type == "giant" then ts:add({"font","italic"}, "(", self.female and _t"female" or _t"male", ")", {"font","normal"}, true) else ts:add(true) end
 	ts:add(_t(self.type):capitalize(), " / ", _t(self.subtype):capitalize(), true)
 	ts:add(_t"Rank: ") ts:merge(rank_color:toTString()) ts:add(rank, {"color", "WHITE"}, true)
 	if self.hide_level_tooltip then ts:add({"color", 0, 255, 255}, _t"Level: unknown", {"color", "WHITE"}, true)
@@ -2325,9 +2330,9 @@ function _M:onHeal(value, src)
 			game.flyers:add(sx, sy, 30, rng.float(-3, -2), (rng.range(0,2)-1) * 0.5, tostring(math.ceil(value)), {255,255,0})
 		end
 		if psi_heal > 0 then
-			game:delayedLogDamage(src or self, self, -value-psi_heal, ("#LIGHT_GREEN#%d healing #LAST##AQUAMARINE#(%d psi heal)#LAST#"):format(value, psi_heal), false)
+			game:delayedLogDamage(src or self, self, -value-psi_heal, ("#LIGHT_GREEN#%d healing #LAST##AQUAMARINE#(%d psi heal)#LAST#"):tformat(value, psi_heal), false)
 		else
-			game:delayedLogDamage(src or self, self, -value, ("#LIGHT_GREEN#%d healing#LAST#"):format(value), false)
+			game:delayedLogDamage(src or self, self, -value, ("#LIGHT_GREEN#%d healing#LAST#"):tformat(value), false)
 		end
 	end
 	return value
@@ -2406,7 +2411,7 @@ function _M:onTakeHit(value, src, death_note)
 			self:startTalentCooldown(self.T_RETRIBUTION)
 
 			-- Explode!
-			game.logSeen(self, "%s unleashes the stored damage in retribution!", self.name:capitalize())
+			game.logSeen(self, "%s unleashes the stored damage in retribution!", self:getName():capitalize())
 			local tg = {type="ball", range=0, radius=self:getTalentRange(self:getTalentFromId(self.T_RETRIBUTION)), selffire=false, talent=t}
 			local grids = self:project(tg, self.x, self.y, DamageType.LIGHT, dam)
 			game.level.map:particleEmitter(self.x, self.y, tg.radius, "sunburst", {radius=tg.radius, grids=grids, tx=self.x, ty=self.y})
@@ -2700,7 +2705,7 @@ function _M:onTakeHit(value, src, death_note)
 	if self:attr("stoned") and value >= self.max_life * 0.3 then
 		-- Make the damage high enough to kill it
 		value = self.max_life + 1
-		game.logSeen(self, "%s shatters into pieces!", self.name:capitalize())
+		game.logSeen(self, "%s shatters into pieces!", self:getName():capitalize())
 	end
 
 	-- Adds hate
@@ -2767,7 +2772,7 @@ function _M:onTakeHit(value, src, death_note)
 			a:removeAllMOs()
 			a.x, a.y = nil, nil
 			game.zone:addEntity(game.level, a, "actor", x, y)
-			game.logSeen(self, "%s splits in two!", self.name:capitalize())
+			game.logSeen(self, "%s splits in two!", self:getName():capitalize())
 			value = value / 2
 		end
 	end
@@ -2836,7 +2841,7 @@ function _M:onTakeHit(value, src, death_note)
 			self.life = 1
 			self:forceUseTalent(self.T_SECOND_LIFE, {ignore_energy=true})
 			local value = self:heal(sl, self)
-			game.logSeen(self, "#YELLOW#%s has been healed by a blast of positive energy!#LAST#", self.name:capitalize())
+			game.logSeen(self, "#YELLOW#%s has been healed by a blast of positive energy!#LAST#", self:getName():capitalize())
 			if value > 0 then
 				if self.player then
 					self:setEmote(require("engine.Emote").new("The Sun Protects!", 45))
@@ -2857,7 +2862,7 @@ function _M:onTakeHit(value, src, death_note)
 		if rng.percent(t.getChance(self, t)) then
 			value = 0
 			self.life = self.max_life
-			game.logSeen(self, "%s fades for a moment and then reforms whole again!", self.name:capitalize())
+			game.logSeen(self, "%s fades for a moment and then reforms whole again!", self:getName():capitalize())
 			game.level.map:particleEmitter(self.x, self.y, 1, "teleport_out")
 			game:playSoundNear(self, "talents/heal")
 			game.level.map:particleEmitter(self.x, self.y, 1, "teleport_in")
@@ -3099,7 +3104,7 @@ function _M:die(src, death_note)
 	if self:attr("self_resurrect") and not self.no_resurrect then
 		self.in_resurrect = true
 		self:attr("self_resurrect", -1)
-		game.logSeen(self, self.self_resurrect_msg or "#LIGHT_RED#%s rises from the dead!", self.name:capitalize()) -- src, not self as the source, to make sure the player knows his doom ;>
+		game.logSeen(self, self.self_resurrect_msg or "#LIGHT_RED#%s rises from the dead!", self:getName():capitalize()) -- src, not self as the source, to make sure the player knows his doom ;>
 		local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, "RESURRECT!", {255,120,0})
 
@@ -3986,7 +3991,7 @@ function _M:levelup()
 	if self.x and self.y and game.party:hasMember(self) and not self.silent_levelup then
 		local x, y = game.level.map:getTileToScreen(self.x, self.y, true)
 		game.flyers:add(x, y, 80, 0.5, -2, "LEVEL UP!", {0,255,255})
-		game.log("#00ffff#Welcome to level %d [%s].", self.level, self.name:capitalize())
+		game.log("#00ffff#Welcome to level %d [%s].", self.level, self:getName():capitalize())
 		local more = _t"Press p to use them."
 		if game.player ~= self then more = ("Select %s in the party list and press G to use them."):tformat(self.name) end
 		local points = {}
@@ -3995,7 +4000,7 @@ function _M:levelup()
 		if self.unused_generics > 0 then points[#points+1] = ("%d generic talent point(s)"):tformat(self.unused_generics) end
 		if self.unused_talents_types > 0 then points[#points+1] = ("%d category point(s)"):tformat(self.unused_talents_types) end
 		if self.unused_prodigies > 0 then points[#points+1] = ("#VIOLET#%d prodigies point(s)#WHITE#"):tformat(self.unused_prodigies) end
-		if #points > 0 then game.log("%s has %s to spend. %s", self.name:capitalize(), table.concat(points, ", "), more) end
+		if #points > 0 then game.log("%s has %s to spend. %s", self:getName():capitalize(), table.concat(points, ", "), more) end
 
 		if self.level == 10 then world:gainAchievement("LEVEL_10", self) end
 		if self.level == 20 then world:gainAchievement("LEVEL_20", self) end
@@ -4445,9 +4450,9 @@ function _M:quickSwitchWeapons(free_swap, message, silent)
 		-- Special Messages
 		if #names == 0 then names = "unarmed" end
 		if message == "warden" then
-			game.logSeen(self, "%s warps space-time to equip: %s.", self.name:capitalize(), names)
+			game.logSeen(self, "%s warps space-time to equip: %s.", self:getName():capitalize(), names)
 		else
-			game.logSeen(self, "%s switches %s weapons to: %s.", self.name:capitalize(), self:his_her(), names)
+			game.logSeen(self, "%s switches %s weapons to: %s.", self:getName():capitalize(), self:his_her(), names)
 		end
 	end
 	-- Make sure sustains are still active
@@ -4909,7 +4914,7 @@ function _M:wearAllInventory(force, ...)
 								self:addObject(self.INVEN_INVEN, worn)
 							end
 							if party then
-								game.logSeen(self, "%s wears %s%s.", self.name:capitalize(), o:getName({do_color=true, no_add_name=true}), type(worn) == "table" and (" (replacing %s)"):format(worn:getName({no_add_name=true})) or "")
+								game.logSeen(self, "%s wears %s%s.", self:getName():capitalize(), o:getName({do_color=true, no_add_name=true}), type(worn) == "table" and (" (replacing %s)"):format(worn:getName({no_add_name=true})) or "")
 							end
 							break
 						end
@@ -5331,7 +5336,7 @@ function _M:paradoxDoAnomaly(chance, paradox, def)
 			-- Be sure we found an anomaly first
 			if ts[1] then
 				local anom = rng.table(ts)
-				game.logSeen(self, "%s #LIGHT_STEEL_BLUE#Triggers an Anomaly! (%s).", self.name:capitalize(), self:getTalentDisplayName(self:getTalentFromId(anom)))
+				game.logSeen(self, "%s #LIGHT_STEEL_BLUE#Triggers an Anomaly! (%s).", self:getName():capitalize(), self:getTalentDisplayName(self:getTalentFromId(anom)))
 				if anomaly_type ~= "major" then
 					if self:attr("no_minor_anomalies") then
 						anomaly_triggered = false
@@ -5621,7 +5626,7 @@ function _M:preUseTalent(ab, silent, fake)
 	end
 
 	if self.forbid_talents and self.forbid_talents[ab.id] then
-		if not silent then game.logSeen(self, self.forbid_talents[ab.id] or "%s can not use %s.", self.name:capitalize(), ab.name) end
+		if not silent then game.logSeen(self, self.forbid_talents[ab.id] or "%s can not use %s.", self:getName():capitalize(), ab.name) end
 		return false
 	end
 
@@ -5632,12 +5637,12 @@ function _M:preUseTalent(ab, silent, fake)
 		return false
 	end
 	if not ab.never_fail and self:attr("feared") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) then
-		if not silent then game.logSeen(self, "%s is too afraid to use %s.", self.name:capitalize(), ab.name) end
+		if not silent then game.logSeen(self, "%s is too afraid to use %s.", self:getName():capitalize(), ab.name) end
 		return false
 	end
 	-- When silenced you can deactivate spells but not activate them
 	if ab.no_silence and self:attr("silence") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) then
-		if not silent then game.logSeen(self, "%s is silenced and cannot use %s.", self.name:capitalize(), ab.name) end
+		if not silent then game.logSeen(self, "%s is silenced and cannot use %s.", self:getName():capitalize(), ab.name) end
 		return false
 	end
 	if ab.is_spell and self:attr("forbid_arcane") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) then
@@ -5646,16 +5651,16 @@ function _M:preUseTalent(ab, silent, fake)
 	end
 	-- Nature is forbidden to undead (just wild-gifts for now)
 	if ab.is_nature and self:attr("forbid_nature") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) then
-		if not silent then game.logSeen(self, "%s is too disconnected from Nature to use %s.", self.name:capitalize(), ab.name) end
+		if not silent then game.logSeen(self, "%s is too disconnected from Nature to use %s.", self:getName():capitalize(), ab.name) end
 		return false
 	end
 
 	if ab.is_inscription and self.inscription_restrictions and not self.inscription_restrictions[ab.type[1]] then
-		if not silent then game.logSeen(self, "%s is unable to use this kind of inscription.", self.name:capitalize()) end
+		if not silent then game.logSeen(self, "%s is unable to use this kind of inscription.", self:getName():capitalize()) end
 		return false
 	end
 	if ab.is_inscription and self.inscription_forbids and self.inscription_forbids[ab.type[1]] then
-		if not silent then game.logSeen(self, "%s is unable to use this kind of inscription.", self.name:capitalize()) end
+		if not silent then game.logSeen(self, "%s is unable to use this kind of inscription.", self:getName():capitalize()) end
 		return false
 	end
 
@@ -5663,18 +5668,18 @@ function _M:preUseTalent(ab, silent, fake)
 	if ab.is_unarmed and not (ab.mode == "sustained" and self:isTalentActive(ab.id)) then
 		-- first check for heavy and massive armor
 		if self:hasMassiveArmor() then
-			if not silent then game.logSeen(self, "%s is too heavily armoured to use this talent.", self.name:capitalize()) end
+			if not silent then game.logSeen(self, "%s is too heavily armoured to use this talent.", self:getName():capitalize()) end
 			return false
 		-- next make sure we're unarmed
 		elseif not self:isUnarmed() then
-			if not silent then game.logSeen(self, "%s can't use this talent while holding a weapon or shield.", self.name:capitalize()) end
+			if not silent then game.logSeen(self, "%s can't use this talent while holding a weapon or shield.", self:getName():capitalize()) end
 			return false
 		end
 	end
 
 	-- Sleeping prevents the use of all non-instant talents
 	if self:attr("sleep") and not self:attr("lucid_dreamer") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= (true or "fake") then
-		if not silent then game.logPlayer(self, "%s is sleeping and unable to do this.", self.name:capitalize(), ab.name) end
+		if not silent then game.logPlayer(self, "%s is sleeping and unable to do this.", self:getName():capitalize(), ab.name) end
 		return false
 	end
 
@@ -5761,7 +5766,7 @@ function _M:preUseTalent(ab, silent, fake)
 		-- Spells can fail
 		if (ab.is_spell and not self:isTalentActive(ab.id)) and not fake and self:attr("spell_failure") then
 			if rng.percent(self:attr("spell_failure")) then
-				if not silent then game.logSeen(self, "%s's %s has been disrupted by #ORCHID#anti-magic forces#LAST#!", self.name:capitalize(), ab.name) end
+				if not silent then game.logSeen(self, "%s's %s has been disrupted by #ORCHID#anti-magic forces#LAST#!", self:getName():capitalize(), ab.name) end
 				if not util.getval(ab.no_energy, self, ab) then
 				if self:attr("scoundrel_failure") then
 					local eff = self:hasEffect(self.EFF_FUMBLE)
@@ -5780,7 +5785,7 @@ function _M:preUseTalent(ab, silent, fake)
 		-- Nature can fail
 		if (ab.is_nature and not self:isTalentActive(ab.id)) and not fake and self:attr("nature_failure") then
 			if rng.percent(self:attr("nature_failure")) then
-				if not silent then game.logSeen(self, "%s's %s has been disrupted by #ORCHID#anti-nature forces#LAST#!", self.name:capitalize(), ab.name) end
+				if not silent then game.logSeen(self, "%s's %s has been disrupted by #ORCHID#anti-nature forces#LAST#!", self:getName():capitalize(), ab.name) end
 				if not util.getval(ab.no_energy, self, ab) then
 					self:useEnergy()
 				else
@@ -5812,7 +5817,7 @@ function _M:preUseTalent(ab, silent, fake)
 		-- Confused ? lose a turn!
 		if self:attr("confused") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") then
 			if rng.percent(util.bound(self:attr("confused"), 0, 50)) then
-				if not silent then game.logSeen(self, "%s is confused and fails to use %s.", self.name:capitalize(), ab.name) end
+				if not silent then game.logSeen(self, "%s is confused and fails to use %s.", self:getName():capitalize(), ab.name) end
 				if self:attr("scoundrel_failure") then
 					local eff = self:hasEffect(self.EFF_FUMBLE)
 					if eff then self:callEffect(self.EFF_FUMBLE, "do_Fumble") end
@@ -5826,7 +5831,7 @@ function _M:preUseTalent(ab, silent, fake)
 		if self:attr("talent_fail_chance") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") and not ab.innate then
 			if rng.percent(self:attr("talent_fail_chance")) then
 				-- Should this trigger callbackOnTalentDisturbed?
-				if not silent then game.logSeen(self, "%s fails to use %s.", self.name:capitalize(), ab.name) end
+				if not silent then game.logSeen(self, "%s fails to use %s.", self:getName():capitalize(), ab.name) end
 				if self:attr("scoundrel_failure") then
 					local eff = self:hasEffect(self.EFF_FUMBLE)
 					if eff then self:callEffect(self.EFF_FUMBLE, "do_Fumble") end
@@ -5840,7 +5845,7 @@ function _M:preUseTalent(ab, silent, fake)
 		if self:attr("scoundrel_failure") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") then
 			local eff = self:hasEffect(self.EFF_FUMBLE)
 			if rng.percent(self:attr("scoundrel_failure")) then
-				if not silent then game.logSeen(self, "%s fumbles and fails to use %s, injuring %s!", self.name:capitalize(), ab.name, self:his_her_self()) end
+				if not silent then game.logSeen(self, "%s fumbles and fails to use %s, injuring %s!", self:getName():capitalize(), ab.name, self:his_her_self()) end
 				self:useEnergy()
 				self:fireTalentCheck("callbackOnTalentDisturbed", ab, eff)
 				return false
@@ -5848,7 +5853,7 @@ function _M:preUseTalent(ab, silent, fake)
 		end
 
 		if self:hasEffect(self.EFF_SENTINEL) and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") then
-			if not silent then game.logSeen(self, "%s's %s is interrupted by the shot!", self.name:capitalize(), ab.name) end
+			if not silent then game.logSeen(self, "%s's %s is interrupted by the shot!", self:getName():capitalize(), ab.name) end
 			self.tempeffect_def[self.EFF_SENTINEL].do_proc(self, self:hasEffect(self.EFF_SENTINEL))
 			self:useEnergy()
 			self:fireTalentCheck("callbackOnTalentDisturbed", t)
@@ -5885,18 +5890,18 @@ function _M:logTalentMessage(ab)
 			end
 			game.logSeen(self, color.."#{bold}#%s#{normal}##LAST#", self:useTalentMessage(ab))
 		elseif ab.mode == "sustained" then
-			game.logSeen(self, "%s %s #{bold}##ORANGE#%s#LAST#.", self.name:capitalize(), self:isTalentActive(ab.id) and "deactivates" or "activates", ab.name)
+			game.logSeen(self, "%s %s #{bold}##ORANGE#%s#LAST#.", self:getName():capitalize(), self:isTalentActive(ab.id) and _t"deactivates" or _t"activates", ab.name)
 		elseif ab.is_spell then
 			if ab.is_inscription then color = "#GREEN#"
 			else color = "#PURPLE#"
 			end
-			game.logSeen(self, "%s casts #{bold}#%s%s.#{normal}##LAST#", self.name:capitalize(), color, ab.name)
+			game.logSeen(self, "%s casts #{bold}#%s%s.#{normal}##LAST#", self:getName():capitalize(), color, ab.name)
 		else
 			if ab.is_mind then color = "#YELLOW#"
 			elseif ab.is_melee then color = "#RED#"
 			elseif ab.is_inscription then color = "#GREEN#"
 			end
-			game.logSeen(self, "%s uses #{bold}#%s%s.#{normal}##LAST#", self.name:capitalize(), color, ab.name)
+			game.logSeen(self, "%s uses #{bold}#%s%s.#{normal}##LAST#", self:getName():capitalize(), color, ab.name)
 		end
 	end
 end
@@ -6394,7 +6399,7 @@ function _M:postUseTalent(ab, ret, silent)
 		end
 		for t in rng.tableSampleIterator(tids, self:attr("random_talent_cooldown_on_use_nb")) do
 			self:startTalentCooldown(t.id, self:attr("random_talent_cooldown_on_use_turns"))
-			game.logSeen(self, "%s talent '%s%s' is disrupted by the mind parasite.", self.name:capitalize(), (t.display_entity and t.display_entity:getDisplayString() or ""), t.name)
+			game.logSeen(self, "%s talent '%s%s' is disrupted by the mind parasite.", self:getName():capitalize(), (t.display_entity and t.display_entity:getDisplayString() or ""), t.name)
 		end
 	end
 
@@ -6621,7 +6626,7 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 				local speed = self:getTalentSpeed(t)
 				local speed_type = self:getTalentSpeedType(t)
 				if type(speed_type) == "string" then
-					speed_type = speed_type:capitalize()
+					speed_type = _t(speed_type):capitalize()
 				else
 					speed_type = _t'Special'
 				end
@@ -7076,7 +7081,7 @@ function _M:suffocate(value, src, death_message)
 	if self.air <= 0 then
 		self.air = 0
 		if not self:hasEffect(self.EFF_SUFFOCATING) then
-			game.logSeen(self, "#LIGHT_RED#%s starts suffocating to death!", self.name:capitalize())
+			game.logSeen(self, "#LIGHT_RED#%s starts suffocating to death!", self:getName():capitalize())
 			self:setEffect(self.EFF_SUFFOCATING, 1, {dam=20})
 		end
 		return false, true
@@ -7339,9 +7344,9 @@ function _M:on_set_temporary_effect(eff_id, e, p)
 		local save_type = nil
 
 		if p.apply_save then save_type = p.apply_save else save_type = save_for_effects[e.type] end
-		if save_type == "combatPhysicalResist" then p.save_string = "Physical save"
-		elseif save_type == "combatMentalResist" then p.save_string = "Mental save"
-		elseif save_type == "combatSpellResist" then p.save_string = "Spell save"
+		if save_type == "combatPhysicalResist" then p.save_string = _t"Physical save"
+		elseif save_type == "combatMentalResist" then p.save_string = _t"Mental save"
+		elseif save_type == "combatSpellResist" then p.save_string = _t"Spell save"
 		end
 
 		if e.status == "detrimental" then
@@ -7355,11 +7360,11 @@ function _M:on_set_temporary_effect(eff_id, e, p)
 				self:fireTalentCheck("callbackOnEffectSave", hd)
 				saved, eff_id, e, p = hd.saved, hd.eff_id, hd.e, hd.p
 				if saved then
-					self:logCombat(p.src, "#ORANGE#%s shrugs off %s '%s'!", self.name:capitalize(), p.src and "#Target#'s" or "the effect", e.desc)
+					self:logCombat(p.src, "#ORANGE#%s shrugs off %s '%s'!", self:getName():capitalize(), p.src and _t"#Target#'s" or _t"the effect", e.desc)
 					return true
 				end
 			else
-				self:logCombat(p.src, "#LIGHT_UMBER#%s resists %s '%s'!", self.name:capitalize(), p.src and "#Target#'s" or "the effect", e.desc)
+				self:logCombat(p.src, "#LIGHT_UMBER#%s resists %s '%s'!", self:getName():capitalize(), p.src and _t"#Target#'s" or _t"the effect", e.desc)
 				return true
 			end
 		end
@@ -7481,7 +7486,7 @@ end
 function _M:on_project(tx, ty, who, t, x, y, damtype, dam, particles)
 	-- Spell reflect
 	if self:attr("spell_reflect") and (t.talent and t.talent.reflectable and t.talent.is_spell) and rng.percent(self:attr("spell_reflect")) then
-		game.logSeen(self, "%s reflects the spell!", self.name:capitalize())
+		game.logSeen(self, "%s reflects the spell!", self:getName():capitalize())
 		-- Setup the bypass so it does not eternally reflect between two actors
 		t.bypass = true
 		who:project(t, x, y, damtype, dam, particles)
@@ -7490,7 +7495,7 @@ function _M:on_project(tx, ty, who, t, x, y, damtype, dam, particles)
 
 	-- Spell absorb
 	if self:attr("spell_absorb") and (t.talent and t.talent.is_spell) and rng.percent(self:attr("spell_absorb")) then
-		game.logSeen(self, "%s ignores the spell!", self.name:capitalize())
+		game.logSeen(self, "%s ignores the spell!", self:getName():capitalize())
 		return true
 	end
 
@@ -7652,7 +7657,7 @@ function _M:doDrop(inven, item, on_done, nb)
 		self:dropFloor(inven, item, true, true)
 	else
 		local stack = self:removeObject(inven, item, nb)
-		game.logSeen(self, "%s drops on the floor: %s.", self.name:capitalize(), stack:getName{do_color=true, do_count=true})
+		game.logSeen(self, "%s drops on the floor: %s.", self:getName():capitalize(), stack:getName{do_color=true, do_count=true})
 		game.level.map:addObject(self.x, self.y, stack)
 	end
 	self:sortInven(inven)

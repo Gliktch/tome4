@@ -77,9 +77,9 @@ newTalent{
 							target:logCombat(nextTarget, "#Source# was blasted into #Target#!")
 						end
 					elseif knockbackCount > 0 then
-						game.logSeen(target, "%s was smashed back %d spaces!", target.name:capitalize(), knockbackCount)
+						game.logSeen(target, "%s was smashed back %d spaces!", target:getName():capitalize(), knockbackCount)
 					else
-						game.logSeen(target, "%s was smashed!", target.name:capitalize())
+						game.logSeen(target, "%s was smashed!", target:getName():capitalize())
 					end
 
 					-- take partial damage
@@ -104,7 +104,7 @@ newTalent{
 			end
 
 			if not blocked and knockbackCount > 0 then
-				game.logSeen(target, "%s was blasted back %d spaces!", target.name:capitalize(), knockbackCount)
+				game.logSeen(target, "%s was blasted back %d spaces!", target:getName():capitalize(), knockbackCount)
 			end
 
 			if not target.dead and (finalX ~= target.x or finalY ~= target.y) then

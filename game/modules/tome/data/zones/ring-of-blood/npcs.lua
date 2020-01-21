@@ -88,9 +88,9 @@ newEntity{ define_as = "SPECTATOR",
 	max_life = 100, life_rating = 12,
 	faction = "neutral",
 	emote_random = resolvers.emote_random{
-		"Blood!", "Fight!", "To the death!",
-		"Oh this is great", "I love the smell of death...",
-		"Slavers forever!",
+		_t"Blood!", _t"Fight!", _t"To the death!",
+		_t"Oh this is great", _t"I love the smell of death...",
+		_t"Slavers forever!",
 	},
 }
 

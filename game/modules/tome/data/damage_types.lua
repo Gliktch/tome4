@@ -288,7 +288,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 		if src.attr and src:attr("encased_in_ice") then
 			local eff = src:hasEffect(src.EFF_FROZEN)
 			eff.hp = eff.hp - dam
-			local srcname = src.x and src.y and game.level.map.seens(src.x, src.y) and src.name:capitalize() or "Something"
+			local srcname = src.x and src.y and game.level.map.seens(src.x, src.y) and src.name:capitalize() or _t"Something"
 			if eff.hp < 0 and not eff.begone then
 				game.logSeen(src, "%s forces the iceblock to shatter.", src.name:capitalize())
 				game:onTickEnd(function() src:removeEffect(src.EFF_FROZEN) end)
@@ -942,7 +942,7 @@ newDamageType{
 				end
 				return DamageType.defaultProjector(src, x, y, type, dam, state)
 			else
-				--game.logSeen(target, "%s resists the mind attack!", target.name:capitalize())
+				--game.logSeen(target, "%s resists the mind attack!", target:getName():capitalize())
 				return DamageType.defaultProjector(src, x, y, type, dam / 2, state)
 			end
 		end
@@ -1005,7 +1005,7 @@ newDamageType{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, 4, {apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1052,7 +1052,7 @@ newDamageType{
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, math.ceil(dam.dur), {apply_power=dam.power_check or src:combatMindpower() * 0.7})
 			else
-				game.logSeen(target, "%s resists the silence!", target.name:capitalize())
+				game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1073,7 +1073,7 @@ newDamageType{
 			if rng.percent(chance) and target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, 3, {apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 		return realdam
@@ -1091,7 +1091,7 @@ newDamageType{
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, 4, {apply_power=src:combatAttack()*0.7, no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists the silence!", target.name:capitalize())
+				game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1108,7 +1108,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, math.ceil(dam), {apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists the blinding light!", target.name:capitalize())
+				game.logSeen(target, "%s resists the blinding light!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1123,7 +1123,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, math.ceil(dam), {apply_power=src:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the blinding light!", target.name:capitalize())
+				game.logSeen(target, "%s resists the blinding light!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1138,7 +1138,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, math.ceil(dam), {apply_power=src:combatPhysicalpower(), apply_save="combatPhysicalResist"})
 			else
-				game.logSeen(target, "%s avoids the blinding ink!", target.name:capitalize())
+				game.logSeen(target, "%s avoids the blinding ink!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1153,7 +1153,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, math.ceil(dam.turns), {apply_power=dam.power, apply_save="combatMentalResist", no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists the blinding light!", target.name:capitalize())
+				game.logSeen(target, "%s resists the blinding light!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1270,7 +1270,7 @@ newDamageType{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, 4, {apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists the darkness!", target.name:capitalize())
+				game.logSeen(target, "%s resists the darkness!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1314,7 +1314,7 @@ newDamageType{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, 4, {apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1333,7 +1333,7 @@ newDamageType{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_BURNING_SHOCK, dam.dur, {src=src, power=dam.dam / dam.dur, apply_power=dam.apply_power or src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists the searing flame!", target.name:capitalize())
+				game.logSeen(target, "%s resists the searing flame!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1456,7 +1456,7 @@ newDamageType{
 				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, "Frozen!", {0,255,155})
 			else
 				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, "Resist!", {0,255,155})
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1473,7 +1473,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_DIM_VISION, 5, {sight=dam, apply_power=src:combatAttack()})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1491,7 +1491,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, 3, {src=src, apply_power=math.max(src:combatAttack(), src:combatSpellpower(), src:combatMindpower())})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 		return realdam
@@ -1510,7 +1510,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, 3, {src=src, apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 		return realdam
@@ -1529,7 +1529,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, 3, {src=src, apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 		return realdam
@@ -1554,7 +1554,7 @@ newDamageType{
 					t.do_hurricane(src, t, target)
 				end
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 				if dam.shock then
 					target:setEffect(target.EFF_SHOCKED, dam.shock, {apply_power=src:combatSpellpower()})
 				end
@@ -1588,9 +1588,9 @@ newDamageType{
 			if target:checkHit(base.power or src:combatSpellpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(srcx, srcy, base.dist or 1)
 				target:crossTierEffect(target.EFF_OFFBALANCE, base.power or src:combatSpellpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the wave!", target.name:capitalize())
+				game.logSeen(target, "%s resists the wave!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1611,9 +1611,9 @@ newDamageType{
 			if target:checkHit(base.power or src:combatSpellpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(srcx, srcy, base.dist or 1)
 				target:crossTierEffect(target.EFF_OFFBALANCE, base.power or src:combatSpellpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the bloody wave!", target.name:capitalize())
+				game.logSeen(target, "%s resists the bloody wave!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1634,9 +1634,9 @@ newDamageType{
 			if target:checkHit(src:combatSpellpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(src.x, src.y, dam.dist)
 				target:crossTierEffect(target.EFF_OFFBALANCE, src:combatSpellpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the punch!", target.name:capitalize())
+				game.logSeen(target, "%s resists the punch!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1657,9 +1657,9 @@ newDamageType{
 			if target:checkHit(src:combatMindpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(src.x, src.y, dam.dist)
 				target:crossTierEffect(target.EFF_OFFBALANCE, src:combatMindpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the punch!", target.name:capitalize())
+				game.logSeen(target, "%s resists the punch!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1680,9 +1680,9 @@ newDamageType{
 			if target:checkHit(src:combatSpellpower(), target:combatMentalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(src.x, src.y, dam.dist)
 				target:crossTierEffect(target.EFF_BRAINLOCKED, src:combatSpellpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the darkness!", target.name:capitalize())
+				game.logSeen(target, "%s resists the darkness!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1704,9 +1704,9 @@ newDamageType{
 			if target:checkHit(src:combatSpellpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(src.x, src.y, dam.dist)
 				target:crossTierEffect(target.EFF_OFFBALANCE, src:combatSpellpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the punch!", target.name:capitalize())
+				game.logSeen(target, "%s resists the punch!", target:getName():capitalize())
 			end
 		end
 		return realdam
@@ -1727,9 +1727,9 @@ newDamageType{
 			if target:checkHit(src:combatMindpower() * 0.8, target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(src.x, src.y, 3)
 				target:crossTierEffect(target.EFF_OFFBALANCE, src:combatMindpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the punch!", target.name:capitalize())
+				game.logSeen(target, "%s resists the punch!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1751,9 +1751,9 @@ newDamageType{
 			if target:checkHit(dam.check, target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(dam.x or src.x, dam.y or src.y, dam.dist)
 				target:crossTierEffect(target.EFF_OFFBALANCE, dam.check)
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1772,9 +1772,9 @@ newDamageType{
 			if target:checkHit(src:combatMindpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("fear") then
 				target:knockback(dam.x, dam.y, dam.dist)
 				target:crossTierEffect(target.EFF_BRAINLOCKED, src:combatMindpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the frightening sight!", target.name:capitalize())
+				game.logSeen(target, "%s resists the frightening sight!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -1987,7 +1987,7 @@ newDamageType{
 				target:setEffect(target.EFF_TIME_PRISON, dam, {apply_power=src:combatSpellpower() - (target:attr("continuum_destabilization") or 0), apply_save="combatSpellResist", no_ct_effect=true})
 				target:setEffect(target.EFF_CONTINUUM_DESTABILIZATION, 100, {power=src:combatSpellpower(0.3), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists the time prison.", target.name:capitalize())
+				game.logSeen(target, "%s resists the time prison.", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2004,7 +2004,7 @@ newDamageType{
 			if target:canBe("confusion") then
 				target:setEffect(target.EFF_CONFUSED, dam.dur, {power=dam.dam or 30, apply_power=(dam.power_check or src.combatSpellpower)(src)})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2022,7 +2022,7 @@ newDamageType{
 			if target:canBe("confusion") then
 				target:setEffect(target.EFF_CONFUSED, 4, {power=dam.power or 30, apply_power=(dam.power_check or src.combatSpellpower)(src), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2040,7 +2040,7 @@ newDamageType{
 			if target:canBe("confusion") then
 				target:setEffect(target.EFF_CONFUSED, 4, {power=dam.power or 30, apply_power=src:combatPhysicalpower(), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2391,7 +2391,7 @@ newDamageType{
 					local check = math.max(src:combatAttack(), src:combatSpellpower(), src:combatMindpower())
 					target:setEffect(target.EFF_BLINDED, 3, {apply_power=(check), no_ct_effect=true})
 				else
-					game.logSeen(target, "%s resists the blinding light!", target.name:capitalize())
+					game.logSeen(target, "%s resists the blinding light!", target:getName():capitalize())
 				end
 			end
 		end
@@ -2459,7 +2459,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, 4, {apply_power=(dam.power_check or math.max(src:combatSpellpower(), src:combatPhysicalpower())), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists the blind!", target.name:capitalize())
+				game.logSeen(target, "%s resists the blind!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2477,7 +2477,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, dam.dur, {apply_power=src:combatPhysicalpower(), apply_save="combatPhysicalResist"})
 			else
-				game.logSeen(target, "%s resists the sandstorm!", target.name:capitalize())
+				game.logSeen(target, "%s resists the sandstorm!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2495,7 +2495,7 @@ newDamageType{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, dam.dur, {apply_power=src:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+				game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2515,7 +2515,7 @@ newDamageType{
 				target:gainExp(-dam.dam*2)
 				src:logCombat(target, "#Source# drains experience from #Target#!")
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 		return realdam
@@ -2798,7 +2798,7 @@ newDamageType{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, 2, {src=src, apply_power=src:combatSpellpower(), min_dur=1})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2879,7 +2879,7 @@ newDamageType{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, 2, {apply_power=src:combatSpellpower(), min_dur=1}, reapplied)
 			else
-				game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+				game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 			end
 			DamageType:get(DamageType.PHYSICAL).projector(src, x, y, DamageType.PHYSICAL, dam, state)
 		end
@@ -2904,9 +2904,9 @@ newDamageType{
 			if target:checkHit(src:combatSpellpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(src.x, src.y, 2)
 				target:crossTierEffect(target.EFF_OFFBALANCE, src:combatSpellpower())
-				game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2947,7 +2947,7 @@ newDamageType{
 			if target:canBe("pin") and rng.percent(dam.pin) then
 				target:setEffect(target.EFF_PINNED, 4, {apply_power=src:combatMindpower()}, true)
 			else
-				game.logSeen(target, "%s resists the pinning!", target.name:capitalize())
+				game.logSeen(target, "%s resists the pinning!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -2990,7 +2990,7 @@ newDamageType{
 			if target:canBe("confusion") and rng.percent(dam.chance) then
 				target:setEffect(target.EFF_CONFUSED, 2, {apply_power=src:combatMindpower(), power=dam.power or 30}, true)
 			else
-				game.logSeen(target, "%s resists the confusion!", target.name:capitalize())
+				game.logSeen(target, "%s resists the confusion!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -3011,7 +3011,7 @@ newDamageType{
 				target:setEffect(target.EFF_SILENCED, 2, {apply_power=src:combatSpellpower(), min_dur=1, no_ct_effect=true}, true)
 			else
 				DamageType:get(DamageType.LIGHT).projector(src, x, y, DamageType.LIGHT, dam, state)
-				game.logSeen(target, "%s resists the silence!", target.name:capitalize())
+				game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -3064,9 +3064,9 @@ newDamageType{
 				DamageType:get(DamageType.DARKNESS).projector(src, x, y, DamageType.DARKNESS, dam, state)
 				if target:checkHit(src:combatSpellpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 					target:knockback(src.x, src.y, 1)
-					game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+					game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 				else
-					game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+					game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 				end
 			end
 		end
@@ -3097,7 +3097,7 @@ newDamageType{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_FROZEN, dam, {hp=70 + src:combatMindpower() * 10, apply_power=src:combatMindpower()})
 			else
-				game.logSeen(target, "%s resists the freezing!", target.name:capitalize())
+				game.logSeen(target, "%s resists the freezing!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -3167,7 +3167,7 @@ newDamageType{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, dam, {apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s has not been stopped!", target.name:capitalize())
+				game.logSeen(target, "%s has not been stopped!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -3187,25 +3187,25 @@ newDamageType{
 				if target:canBe("stun") then
 					target:setEffect(target.EFF_STUNNED, 3, {apply_power=src:combatSpellpower()})
 				else
-					game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+					game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 				end
 			elseif chance == 2 then
 				if target:canBe("blind") then
 					target:setEffect(target.EFF_BLINDED, 3, {apply_power=src:combatSpellpower()})
 				else
-					game.logSeen(target, "%s resists the blindness!", target.name:capitalize())
+					game.logSeen(target, "%s resists the blindness!", target:getName():capitalize())
 				end
 			elseif chance == 3 then
 				if target:checkHit(src:combatSpellpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("pin") then
 					target:setEffect(target.EFF_PINNED, 3, {apply_power=src:combatSpellpower()})
 				else
-					game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+					game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 				end
 			elseif chance == 4 then
 				if target:canBe("confusion") then
 					target:setEffect(target.EFF_CONFUSED, 3, {power=dam.power or 30, apply_power=src:combatSpellpower()})
 				else
-					game.logSeen(target, "%s resists the confusion!", target.name:capitalize())
+					game.logSeen(target, "%s resists the confusion!", target:getName():capitalize())
 				end
 			end
 		end
@@ -3277,7 +3277,7 @@ newDamageType{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, 5, {no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists entanglement!", target.name:capitalize())
+				game.logSeen(target, "%s resists entanglement!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -3297,7 +3297,7 @@ newDamageType{
 				target:setEffect(target.EFF_MANAWORM, 5, {power=dam * 5, src=src, no_ct_effect=true})
 				src:disappear(src)
 			else
-				game.logSeen(target, "%s has no mana to burn.", target.name:capitalize())
+				game.logSeen(target, "%s has no mana to burn.", target:getName():capitalize())
 			end
 		end
 		return realdam
@@ -3334,7 +3334,7 @@ newDamageType{
 			if target:canBe(what) then
 				target:setEffect(what == "blind" and target.EFF_BANE_BLINDED or target.EFF_BANE_CONFUSED, math.ceil(dam.dur), {src=src, power=50, dam=dam.dam, apply_power=src:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists the baneful energy!", target.name:capitalize())
+				game.logSeen(target, "%s resists the baneful energy!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -3608,9 +3608,9 @@ newDamageType{
 				if target:checkHit(src:combatMindpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 					target:knockback(src.x, src.y, dam.knockback)
 					target:crossTierEffect(target.EFF_OFFBALANCE, src:combatMindpower())
-					game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+					game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 				else
-					game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+					game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 				end
 			end
 			-- Do stun
@@ -3618,7 +3618,7 @@ newDamageType{
 				if target:canBe("stun") then
 					target:setEffect(target.EFF_STUNNED, dam.stun, {apply_power=src:combatMindpower()})
 				else
-					game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+					game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 				end
 			end
 			-- Reset resists pen
@@ -3656,9 +3656,9 @@ newDamageType{
 					if target:canBe("knockback") then
 						target:knockback(src.x, src.y, dist)
 						target:crossTierEffect(target.EFF_OFFBALANCE, src:combatMindpower())
-						game.logSeen(target, "%s is knocked back!", target.name:capitalize())
+						game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
 					else
-						game.logSeen(target, "%s resists the forge bellow!", target.name:capitalize())
+						game.logSeen(target, "%s resists the forge bellow!", target:getName():capitalize())
 					end
 				end
 				if do_particles then
@@ -3671,7 +3671,7 @@ newDamageType{
 			else -- Save for half damage
 				DamageType:get(DamageType.MIND).projector(src, x, y, DamageType.MIND, {dam=dam/4, alwaysHit=true}, state)
 				DamageType:get(DamageType.FIREBURN).projector(src, x, y, DamageType.FIREBURN, dam/4, state)
-				game.logSeen(target, "%s resists the dream forge!", target.name:capitalize())
+				game.logSeen(target, "%s resists the dream forge!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -3717,7 +3717,7 @@ newDamageType{
 			if target:canBe("disarm") then
 				target:setEffect(target.EFF_DISARMED, dam.dur or 3, {src=src, apply_power=src:combatMindpower()})
 			else
-				game.logSeen(target, "%s resists disarming!", target.name:capitalize())
+				game.logSeen(target, "%s resists disarming!", target:getName():capitalize())
 			end
 		end
 		return realdam
@@ -3814,14 +3814,14 @@ newDamageType{
 						if target:canBe("pin") then
 							target:setEffect(target.EFF_PINNED, dam.dur, {apply_power=src:combatMindpower()})
 						else
-							game.logSeen(src, "%s resists pinning!", target.name:capitalize())
+							game.logSeen(src, "%s resists pinning!", target:getName():capitalize())
 						end
 					end
 				end)
 				return dam.dam
 			else
 				DamageType:get(DamageType.PHYSICAL).projector(src, target.x, target.y, DamageType.PHYSICAL, dam.dam, state)
-				game.logSeen(src, "%s resists the shove!", target.name:capitalize())
+				game.logSeen(src, "%s resists the shove!", target:getName():capitalize())
 				return dam.dam
 			end
 		end
@@ -3860,25 +3860,25 @@ newDamageType{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, dur, {apply_power=power})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 		elseif eff == 2 then
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, dur, {apply_power=power})
 			else
-				game.logSeen(target, "%s resists the blindness!", target.name:capitalize())
+				game.logSeen(target, "%s resists the blindness!", target:getName():capitalize())
 			end
 		elseif eff == 3 then
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, dur, {apply_power=power})
 			else
-				game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+				game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 			end
 		elseif eff == 4 then
 			if target:canBe("confusion") then
 				target:setEffect(target.EFF_CONFUSED, dur, {power=dam.power or 30, apply_power=power})
 			else
-				game.logSeen(target, "%s resists the confusion!", target.name:capitalize())
+				game.logSeen(target, "%s resists the confusion!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -3895,7 +3895,7 @@ newDamageType{
 			if target:checkHit(src:combatMindpower(), target:combatMentalResist(), 0, 95, 15) then
 				target:crossTierEffect(target.EFF_BRAINLOCKED, src:combatMindpower())
 			else
-				game.logSeen(target, "%s resists the mind attack!", target.name:capitalize())
+				game.logSeen(target, "%s resists the mind attack!", target:getName():capitalize())
 			end
 
 			if src:hasEffect(src.EFF_TRANSCENDENT_ELECTROKINESIS) then
@@ -4113,7 +4113,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_DIM_VISION, 2, {sight=dam.dam, apply_power=src:combatAttack(), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 
 			if dam.poison and dam.poison > 0 then
@@ -4142,7 +4142,7 @@ newDamageType{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, math.ceil(dam), {apply_power=src:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the blinding flare!", target.name:capitalize())
+				game.logSeen(target, "%s resists the blinding flare!", target:getName():capitalize())
 			end
 			target:setEffect(target.EFF_MARKED, 2, {src=src})
 		end
@@ -4177,7 +4177,7 @@ newDamageType{
 			if target:canBe("slow") then
 				target:setEffect(target.EFF_STICKY_PITCH, dam.dur, {slow=dam.dam/100, resist=dam.fire, apply_power=src:combatAttack()})
 			else
-				game.logSeen(target, "%s resists!", target.name:capitalize())
+				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -4237,7 +4237,7 @@ newDamageType{
 				target:setEffect(target.EFF_VOID_ECHOES, 6, {src=src, power=dam, apply_power=src:combatMindpower()})
 				target:crossTierEffect(target.EFF_VOID_ECHOES, src:combatMindpower())
 			else
-				game.logSeen(target, "%s resists the void!", target.name:capitalize())
+				game.logSeen(target, "%s resists the void!", target:getName():capitalize())
 			end
 		end
 	end,

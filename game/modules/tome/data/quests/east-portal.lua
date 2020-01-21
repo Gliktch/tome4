@@ -170,7 +170,7 @@ back_to_last_hope = function(self)
 
 	-- Add the mage
 	local g = mod.class.NPC.new{
-		name="Meranas, Herald of Angolwen",
+		name=_t"Meranas, Herald of Angolwen",
 		type="humanoid", subtype="human", faction="angolwen",
 		display='p', color=colors.RED,
 	}

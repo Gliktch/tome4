@@ -370,7 +370,7 @@ function _M:setupMouse(mouse)
 		self.hotkeys_display:onMouse(button, mx, my, event == "button",
 			function(text)
 				text = text:toTString()
-				text:add(true, "---", true, {"font","italic"}, {"color","GOLD"}, "Left click to use", true, "Right click to configure", true, "Press 'm' to setup", {"color","LAST"}, {"font","normal"})
+				text:add(true, "---", true, {"font","italic"}, {"color","GOLD"}, _t"Left click to use", true, _t"Right click to configure", true, _t"Press 'm' to setup", {"color","LAST"}, {"font","normal"})
 				game:tooltipDisplayAtMap(game.w, game.h, text)
 			end,
 			function(i, hk)

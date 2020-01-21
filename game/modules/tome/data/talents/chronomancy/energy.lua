@@ -86,7 +86,7 @@ newTalent{
 		if not target then return end
 
 		if not self:checkHit(getParadoxSpellpower(self, t), target:combatSpellResist()) then
-			game.logSeen(target, "%s resists!", target.name:capitalize())
+			game.logSeen(target, "%s resists!", target:getName():capitalize())
 			return true
 		end
 
@@ -103,7 +103,7 @@ newTalent{
 			local t = rng.tableRemove(tids)
 			if not t then break end
 			target.talents_cd[t.id] = cdr
-			game.logSeen(target, "%s's %s is disrupted by the Energy Absorption!", target.name:capitalize(), t.name)
+			game.logSeen(target, "%s's %s is disrupted by the Energy Absorption!", target:getName():capitalize(), t.name)
 			count = count + 1
 		end
 

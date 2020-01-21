@@ -30,31 +30,31 @@ newTalent{
 	die_speach = function(self, t)
 		if rng.percent(90) then return end
 		self:doEmote(rng.table{
-			"Noooooo!",
-			"Save me, Master, save meeee---",
-			"Aaaauuuggghhh!",
-			"Did I do good?",
-			"Bwuh? Nwaaah!",
-			"Why, Master, whyyyyy---?",
-			"I thought you loved me! I thought-",
-			"For Master's glory!",
-			"Bye... bye....",
-			"We love you, Master!",
-			"EeeeeeeaaaAAAAAUUUUUGGGGGHHHHH!!!!",
-			"The pain, the PAAAAAIN!",
-			"Please, no, nooo--",
-			"Unlife no more for this dead matter, the time comes for my flesh to splatter.",
-			"You gave back life, you gave back dreams, but now I'm bursting at the seams...",
-			"Remember meeeee!",
-			"My tummy hurts...",
-			"Whu..?",
-			"Ahahahahaha!",
-			"Me go boom, me go BOOM!",
-			"Grave circumstances, Master....",
-			"I see the light.. I see, oh.. just a wisp....",
-			"Master, wait... I thought I saw a....Master? ..",
-			"I'm not.. so sure my spine is supposed to bend this way....",
-			"I told you I could Dash 100 yards and back in time! You owe me 10 gol....",
+			_t"Noooooo!",
+			_t"Save me, Master, save meeee---",
+			_t"Aaaauuuggghhh!",
+			_t"Did I do good?",
+			_t"Bwuh? Nwaaah!",
+			_t"Why, Master, whyyyyy---?",
+			_t"I thought you loved me! I thought-",
+			_t"For Master's glory!",
+			_t"Bye... bye....",
+			_t"We love you, Master!",
+			_t"EeeeeeeaaaAAAAAUUUUUGGGGGHHHHH!!!!",
+			_t"The pain, the PAAAAAIN!",
+			_t"Please, no, nooo--",
+			_t"Unlife no more for this dead matter, the time comes for my flesh to splatter.",
+			_t"You gave back life, you gave back dreams, but now I'm bursting at the seams...",
+			_t"Remember meeeee!",
+			_t"My tummy hurts...",
+			_t"Whu..?",
+			_t"Ahahahahaha!",
+			_t"Me go boom, me go BOOM!",
+			_t"Grave circumstances, Master....",
+			_t"I see the light.. I see, oh.. just a wisp....",
+			_t"Master, wait... I thought I saw a....Master? ..",
+			_t"I'm not.. so sure my spine is supposed to bend this way....",
+			_t"I told you I could Dash 100 yards and back in time! You owe me 10 gol....",
 		}, 40)
 	end,
 	getDecay = function(self, t) return math.max(3, 10 - self:getTalentLevelRaw(self.T_AURA_MASTERY)) end,
@@ -64,7 +64,7 @@ newTalent{
 		self:incSoul(1)
 		if self:attr("extra_soul_chance") and rng.percent(self:attr("extra_soul_chance")) then
 			self:incSoul(1)
-			game.logPlayer(self, "%s rips more animus from its victim. (+1 more soul)", self.name:capitalize())
+			game.logPlayer(self, "%s rips more animus from its victim. (+1 more soul)", self:getName():capitalize())
 		end
 		self.changed = true
 		return self:getSoul() - nb
@@ -770,7 +770,7 @@ newTalent{
 		local c = getMinionChances(self)
 		local chancelist = tstring({})
 		for i, k in ipairs(minion_order) do
-			 if c[k] then chancelist:add(true,minions_list[k].name:capitalize(),(": %d%%"):tformat(c[k])) end
+			 if c[k] then chancelist:add(true,_t(minions_list[k].name):capitalize(),(": %d%%"):tformat(c[k])) end
 		end
 		return chancelist:toString()
 	end,

@@ -204,7 +204,7 @@ newTalent{
 	end,
 	createDark = function(summoner, x, y, damage, duration, creep, creepChance, initialCreep)
 		local e = Object.new{
-			name = summoner.name:capitalize() .. "'s creeping dark",
+			name = ("%s's creeping dark"):tformat(summoner:getName():capitalize()),
 			block_sight=function(self, x, y, who)
 				if who and who.attr and who:attr("pierce_creeping_darkness") and x and who.x and core.fov.distance(x, y, who.x, who.y) <= who:attr("pierce_creeping_darkness") then
 					return false
@@ -411,7 +411,7 @@ newTalent{
 						if not target.dead and target:canBe("blind") then
 							target:setEffect(target.EFF_BLINDED, 3, {apply_power=self:combatMindpower(), min_dur=1})
 							target:setTarget(nil)
-							--game.logSeen(target, "%s stumbles in the darkness!", target.name:capitalize())
+							--game.logSeen(target, "%s stumbles in the darkness!", target:getName():capitalize())
 						end
 					end
 				end

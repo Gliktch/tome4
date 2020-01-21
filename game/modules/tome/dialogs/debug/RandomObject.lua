@@ -419,11 +419,11 @@ The #LIGHT_BLUE#Base Object#LAST# will be used if possible.]]):tformat()}
 	}
 	self.show_character_sheet = show_character_sheet
 
-	local set_actor = _M.newButton{text=("Set working actor: [%s] %s"):tformat(_M.actor.uid, _M.actor.name), _object_field="actor",
+	local set_actor = _M.newButton{text=("Set working actor: [%s] %s"):tformat(_M.actor.uid, _M.actor:getName()), _object_field="actor",
 		fct=function() self:setWorkingActor() end,
 	}
 	set_actor.update = function(ui)
-		ui.text = ("Set working actor: [%s] %s%s"):tformat(_M.actor.uid, _M.actor.name, _M.actor.player and _t" #LIGHT_GREEN#(player)#LAST#" or "")
+		ui.text = ("Set working actor: [%s] %s%s"):tformat(_M.actor.uid, _M.actor:getName(), _M.actor.player and _t" #LIGHT_GREEN#(player)#LAST#" or "")
 		ui:generate()
 	end
 	set_actor:update()

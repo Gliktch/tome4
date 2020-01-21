@@ -439,7 +439,7 @@ newEntity{ base = "BASE_CLOAK", define_as="GLACIAL_CLOAK",
 			local radius = self.use_power.radius
 			local dam = self.use_power.damage(self, who)
 			local blast = self.use_power.target(self, who)
-			game.logSeen(who, "%s releases an icy blast from %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s releases an icy blast from %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			who:project(blast, who.x, who.y, engine.DamageType.COLD, dam*3)
 			who:project(blast, who.x, who.y, engine.DamageType.FREEZE, {dur=6, hp=80+dam})
 			game.level.map:particleEmitter(who.x, who.y, blast.radius, "iceflash", {radius=blast.radius})
@@ -495,7 +495,7 @@ newEntity{ base = "BASE_GREATMAUL", define_as="ROTTING_MAUL",
 				local o, item, inven_id = who:findInAllInventoriesBy("define_as", "ROTTING_MAUL")
 				if not o or not who:getInven(inven_id).worn then return end
 				local dam = rng.avg(1,3) * special.shockwavedam(self, who, special)
-				game.logSeen(who, "%s's %s shakes the ground with its impact!", who.name:capitalize(), o:getName({no_add_name = true}))
+				game.logSeen(who, "%s's %s shakes the ground with its impact!", who:getName():capitalize(), o:getName({no_add_name = true}))
 				local tg = {type="ball", range=10, selffire=false, force_target=target, radius=1, no_restrict=true, act_exclude = {[target.uid]=true}}
 				who:project(tg, target.x, target.y, engine.DamageType.PHYSICAL, dam)
 			end
@@ -521,7 +521,7 @@ newEntity{ base = "BASE_GREATMAUL", define_as="ROTTING_MAUL",
 		use = function(self, who)
 			local dam = rng.float(1,2) * self.use_power.damage(self, who)
 			local tg = {type="ball", range=self.use_power.range, selffire=false, radius=self.use_power.radius, no_restrict=true}
-			game.logSeen(who, "%s slams %s %s into the ground, sending out a shockwave!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s slams %s %s into the ground, sending out a shockwave!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			who:project(tg, who.x, who.y, engine.DamageType.PHYSKNOCKBACK, {dam=dam, dist=self.use_power.radius})
 			return {id=true, used=true}
 		end

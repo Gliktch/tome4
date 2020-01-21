@@ -60,7 +60,7 @@ newTalent{
 				self:logCombat(target, "#Source# delivers a Coup de Grace against #Target#!")
 				target:die(self)
 			elseif target.life > 0 and target.life < target.max_life * 0.2 then
-				game.logSeen(target, "%s resists the Coup de Grace!", target.name:capitalize())
+				game.logSeen(target, "%s resists the Coup de Grace!", target:getName():capitalize())
 			end
 		end
 
@@ -69,7 +69,7 @@ newTalent{
 				if not self:isTalentActive(self.T_STEALTH) then
 					self.hide_chance = 1000
 					self.talents_cd["T_STEALTH"] = 0
-					game.logSeen(self, "#GREY#%s slips into shadow.", self.name:capitalize())
+					game.logSeen(self, "#GREY#%s slips into shadow.", self:getName():capitalize())
 					self:forceUseTalent(self.T_STEALTH, {ignore_energy=true, silent = true})
 					self.hide_chance = nil
 				end

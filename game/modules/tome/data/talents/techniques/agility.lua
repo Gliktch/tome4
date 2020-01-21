@@ -136,7 +136,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_DAZED, 2, {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the daze!", target.name:capitalize())
+				game.logSeen(target, "%s resists the daze!", target:getName():capitalize())
 			end
 		end
 		

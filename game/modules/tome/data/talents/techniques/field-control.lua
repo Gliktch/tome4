@@ -96,7 +96,7 @@ newTalent{
 			if target:checkHit(math.max(self:combatAttack(), self:combatPhysicalpower()), target:combatPhysicalResist(), 0, 95) and target:canBe("knockback") then -- Deprecated Checkhit call
 				return true
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 

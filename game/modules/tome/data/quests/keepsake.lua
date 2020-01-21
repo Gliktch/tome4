@@ -124,7 +124,7 @@ end
 
 on_caravan_destroyed = function(self, who)
 	local Chat = require "engine.Chat"
-	local chat = Chat.new("keepsake-caravan-destroyed", {name="Last of the Caravan"}, game.player)
+	local chat = Chat.new("keepsake-caravan-destroyed", {name=_t"Last of the Caravan"}, game.player)
 	chat:invoke()
 end
 
@@ -136,7 +136,7 @@ on_caravan_destroyed_chat_over = function(self, who)
 	local g = mod.class.Grid.new{
 		show_tooltip=true, always_remember = true,
 		type="floor", subtype="grass",
-		name="secret path to the cave",
+		name=_t"secret path to the cave",
 		image = "terrain/grass.png", add_mos = {{image="terrain/way_next_8.png"}},
 		display = '>', color_r=255, color_g=255, color_b=0,
 		notice = true, always_remember = true,
@@ -213,7 +213,7 @@ end
 
 on_kyless_death = function(self, who, kyless)
 	local Chat = require "engine.Chat"
-	local chat = Chat.new("keepsake-kyless-death", {name="Death of Kyless"}, game.player)
+	local chat = Chat.new("keepsake-kyless-death", {name=_t"Death of Kyless"}, game.player)
 	chat:invoke()
 
 	who:setQuestStatus("keepsake", engine.Quest.COMPLETED, "kyless-killed")
@@ -244,7 +244,7 @@ end
 
 on_berethh_encounter = function(self, who, berethh)
 	local Chat = require "engine.Chat"
-	local chat = Chat.new("keepsake-berethh-encounter", {name="Berethh"}, game.player)
+	local chat = Chat.new("keepsake-berethh-encounter", {name=_t"Berethh"}, game.player)
 	chat:invoke()
 end
 

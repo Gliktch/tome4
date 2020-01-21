@@ -110,9 +110,9 @@ end
 --Make the alchemist's reaction to your turn-in vary depending on whether he lost.
 local function alchemist_reaction_complete(npc, player, lose, other_alch, other_elixir)
 	if lose == true then
-		return ([[Too late! Argh, too late. %s has already finished. I'll make the elixir and reward you as promised, but only because the Brotherhood breaks the fingers of non-member alchemists who rook people. Members, on the other hand...]]):tformat(other_alch)
+		return ([[Too late! Argh, too late. %s has already finished. I'll make the elixir and reward you as promised, but only because the Brotherhood breaks the fingers of non-member alchemists who rook people. Members, on the other hand...]]):tformat(_t(other_alch))
 	else
-		return ([[Give them here. You took long enough; %s cooked up a %s in your absence. Be quicker about the next one lest I make a 'mistake' in brewing your reward.]]):tformat(other_alch, other_elixir)
+		return ([[Give them here. You took long enough; %s cooked up a %s in your absence. Be quicker about the next one lest I make a 'mistake' in brewing your reward.]]):tformat(_t(other_alch), other_elixir)
 	end
 end
 
@@ -161,7 +161,7 @@ newChat{ id="competition",
 newChat{ id="choice",
 	text = _t[[Three elixirs I need. I'll show you the ingredients to one at a time. Are you interested in the Elixir of Mysticism, the Elixir of the Savior, or the Elixir of Mastery?]],
 	answers = {
-		{("The %s."):tformat(e[1].name), jump="list",
+		{("The %s."):tformat(_t(e[1].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[1].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[1].start)
@@ -174,7 +174,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("The %s."):tformat(e[2].name), jump="list",
+		{("The %s."):tformat(_t(e[2].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[2].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[2].start)
@@ -187,7 +187,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("The %s."):tformat(e[3].name), jump="list",
+		{("The %s."):tformat(_t(e[3].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[3].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[3].start)
@@ -230,19 +230,19 @@ newChat{ id="welcome",
 Do I know you?]],
 	answers = {
 		-- If not the final elixir:
-		{("I've returned with the ingredients for the %s."):tformat(e[1].name), jump="complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[1].name)), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 1) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
 			end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[2].name), jump="complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[2].name)), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 2) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
 			end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[3].name), jump="complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[3].name)), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 3) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
@@ -250,24 +250,24 @@ Do I know you?]],
 		},
 
 		-- If the final elixir:
-		{("I've returned with the ingredients for the %s."):tformat(e[1].name), jump="totally-complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[1].name)), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 1) end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[2].name), jump="totally-complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[2].name)), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 2) end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[3].name), jump="totally-complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[3].name)), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 3) end,
 		},
 
 		-- If the elixir got made while you were out:
-		{("I've returned with the ingredients for the %s."):tformat(e[1].name), jump="poached",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[1].name)), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 1) end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[2].name), jump="poached",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[2].name)), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 2) end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[3].name), jump="poached",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[3].name)), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 3) end,
 		},
 
@@ -434,7 +434,7 @@ I have no idea who you are, but I'm pretty sure that I'm supposed to give these 
 newChat{ id="choice",
 	text = _t[[Which of the remaining elixirs interests you?]],
 	answers = {
-		{("The %s."):tformat(e[1].name), jump="list",
+		{("The %s."):tformat(_t(e[1].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[1].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[1].start)
@@ -447,7 +447,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("The %s."):tformat(e[2].name), jump="list",
+		{("The %s."):tformat(_t(e[2].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[2].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[2].start)
@@ -460,7 +460,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("The %s."):tformat(e[3].name), jump="list",
+		{("The %s."):tformat(_t(e[3].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[3].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[3].start)

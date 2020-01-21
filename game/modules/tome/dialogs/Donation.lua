@@ -41,7 +41,7 @@ function _M:init(source)
 	local recur = false
 
 	if not profile.auth or not tonumber(profile.auth.donated) or tonumber(profile.auth.donated) <= 1 or true then
-		local donation_features = { _t"#GOLD#Character cosmetic customization and special tiles#WHITE#", "#GOLD#Exploration mode (infinite lives)#WHITE#", "#GOLD#Item's appearance change (Shimmering)#WHITE#"}
+		local donation_features = { _t"#GOLD#Character cosmetic customization and special tiles#WHITE#", _t"#GOLD#Exploration mode (infinite lives)#WHITE#", _t"#GOLD#Item's appearance change (Shimmering)#WHITE#"}
 		self:triggerHook{"DonationDialog:features", list=donation_features}
 
 		-- First time donation
@@ -51,7 +51,7 @@ It is my dearest hope that you find my game enjoyable, and that you will continu
 ToME is free and open-source and will stay that way, but that does not mean I can live without money, so I have come to disturb you here and now to ask for your kindness.
 If you feel that the (many) hours you have spent having fun were worth it, please consider making a donation for the future of the game.
 
-Donators are also granted a few special features: .]]):tformat(table.concatNice(donation_features, ", ", _t" and "))}
+Donators are also granted a few special features: %s.]]):tformat(table.concatNice(donation_features, ", ", _t" and "))}
 	else
 		-- Recurring donation
 		recur = true

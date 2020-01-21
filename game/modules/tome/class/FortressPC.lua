@@ -70,7 +70,7 @@ function _M:init(t, no_default)
 end
 
 function _M:tooltip(x, y, seen_by)
-	return tstring{{"color", "GOLD"}, self.name, {"color", "WHITE"}}
+	return tstring{{"color", "GOLD"}, self:getName(), {"color", "WHITE"}}
 end
 
 function _M:die(src, death_note)

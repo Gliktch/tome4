@@ -192,10 +192,10 @@ newTalent{
 	
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{ _no_upvalues_check=true,
-			name = "thought-forged bowman", summoner = self,
+			name = _t"thought-forged bowman", summoner = self,
 			color=colors.SANDY_BROWN, shader = "shadow_simulacrum",
 			shader_args = { color = {0.8, 0.8, 0.8}, base = 0.8, time_factor = 4000 },
-			desc = [[A thought-forged bowman.  It appears ready for battle.]],
+			desc = _t[[A thought-forged bowman.  It appears ready for battle.]],
 			body = { INVEN = 10, MAINHAND = 1, BODY = 1, QUIVER=1, HANDS = 1, FEET = 1},
 
 			ai = "summoned", ai_real = "tactical",
@@ -293,10 +293,10 @@ newTalent{
 	
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{ _no_upvalues_check=true,
-			name = "thought-forged warrior", summoner = self, 
+			name = _t"thought-forged warrior", summoner = self, 
 			color=colors.ORANGE, shader = "shadow_simulacrum",
 			shader_args = { color = {0.8, 0.8, 0.8}, base = 0.8, time_factor = 4000 },
-			desc = [[A thought-forged warrior wielding a massive battle-axe and clad in heavy armor.  It appears ready for battle.]],
+			desc = _t[[A thought-forged warrior wielding a massive battle-axe and clad in heavy armor.  It appears ready for battle.]],
 			body = { INVEN = 10, MAINHAND = 1, BODY = 1, HANDS = 1, FEET = 1},
 		
 			ai = "summoned", ai_real = "tactical",
@@ -395,10 +395,10 @@ newTalent{
 	
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{ _no_upvalues_check=true,
-			name = "thought-forged defender", summoner = self,
+			name = _t"thought-forged defender", summoner = self,
 			color=colors.GOLD, shader = "shadow_simulacrum", 
 			shader_args = { color = {0.8, 0.8, 0.8}, base = 0.8, time_factor = 4000 },
-			desc = [[A thought-forged defender clad in massive armor.  It wields a sword and shield and appears ready for battle.]],
+			desc = _t[[A thought-forged defender clad in massive armor.  It wields a sword and shield and appears ready for battle.]],
 			body = { INVEN = 10, MAINHAND = 1, OFFHAND = 1, BODY = 1, HANDS = 1, FEET = 1},
 			
 			ai = "summoned", ai_real = "tactical",

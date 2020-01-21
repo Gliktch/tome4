@@ -81,7 +81,7 @@ newTalent{
 
 			target:setEffect(disease[1], 6, {src=self, dam=self:spellCrit(7 + self:combatTalentSpellDamage(t, 6, 45)), [disease[2]]=self:combatTalentSpellDamage(t, 5, 35), apply_power=self:combatSpellpower()})
 		else
-			game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+			game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 		end
 		self:startTalentCooldown(t)
 		game.level.map:particleEmitter(target.x, target.y, 1, "circle", {oversize=0.7, a=200, limit_life=8, appear=8, speed=-2, img="disease_circle", radius=0})
@@ -166,7 +166,7 @@ newTalent{
 					if target:canBe("disease") then
 						target:setEffect(disease.id, dur, parameters)
 					else
-						game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+						game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 					end
 				end
 			end)
@@ -226,7 +226,7 @@ newTalent{
 			local diseases = t.getTargetDiseases(self, target)			
 
 			if diseases and #diseases > 0 then -- Ravage diseased targets!
-				game.logSeen(target, "Diseases #DARK_GREEN#BURN THROUGH#LAST# %s!", target.name:capitalize())
+				game.logSeen(target, "Diseases #DARK_GREEN#BURN THROUGH#LAST# %s!", target:getName():capitalize())
 				for i, d in ipairs(diseases) do
 					target:removeEffect(d.id)
 					DamageType:get(DamageType.BLIGHT).projector(self, px, py, DamageType.BLIGHT, d.params.dam * d.params.dur * t.getDamage(self, t))
@@ -235,7 +235,7 @@ newTalent{
 				if target:canBe("stun") then
 					target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {apply_power=self:combatSpellpower()})
 				else
-					game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+					game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 				end
 			end
 		end)
@@ -273,7 +273,7 @@ newTalent{
 	do_spread = function(self, t, carrier, dam)
 		if not dam or type(dam) ~= "number" then return end
 		if not rng.percent(100*dam/(t.spreadFactor(self, t)*carrier.max_life)) then return end
-		game.logSeen(self, "The diseases of %s spread!", self.name)
+		game.logSeen(self, "The diseases of %s spread!", self:getName())
 		-- List all diseases
 		local diseases = {}
 		for eff_id, p in pairs(carrier.tmp) do
@@ -298,7 +298,7 @@ newTalent{
 			if target:canBe("disease") then
 				target:setEffect(disease.id, dur, params)
 			else
-				game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 			end
 			game.level.map:particleEmitter(px, py, 1, "slime")
 		end)

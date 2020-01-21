@@ -411,7 +411,7 @@ function _M:descAttribute(attr)
 		for ttn, i in pairs(self.wielder.talents_types_mastery) do
 			local tt = Talents.talents_types_def[ttn]
 			local cat = tt.type:gsub("/.*", "")
-			local name = cat:capitalize().." / "..tt.name:capitalize()
+			local name = _t(cat):capitalize().." / "..tt.name:capitalize()
 			tms[#tms+1] = ("%0.2f %s"):format(i, name)
 		end
 		return table.concat(tms, ",")
@@ -543,7 +543,7 @@ end
 function _M:getName(t)
 	t = t or {}
 	local qty = self:getNumber()
-	local name = self.display_name or self.name
+	local name = _t(self.name) or _t"object"
 
 	if not t.no_add_name and (self.been_reshaped or self.been_imbued) then
 		name = (type(self.been_reshaped) == "string" and self.been_reshaped or "") .. name .. (type(self.been_imbued) == "string" and self.been_imbued or "")
@@ -892,14 +892,14 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	for i, v in ipairs(compare_with or {}) do
 		for tid, data in pairs(v[field] and (v[field].talent_on_hit or {})or {}) do
 			if not talents[tid] or talents[tid][1]~=data.chance or talents[tid][2]~=data.level then
-				desc:add({"color","RED"}, ("When this weapon hits: %s (%d%% chance level %d)."):format(self:getTalentFromId(tid).name, data.chance, data.level), {"color","LAST"}, true)
+				desc:add({"color","RED"}, ("When this weapon hits: %s (%d%% chance level %d)."):tformat(self:getTalentFromId(tid).name, data.chance, data.level), {"color","LAST"}, true)
 			else
 				talents[tid][3] = true
 			end
 		end
 	end
 	for tid, data in pairs(talents) do
-		desc:add(talents[tid][3] and {"color","WHITE"} or {"color","GREEN"}, ("When this weapon hits: %s (%d%% chance level %d)."):format(self:getTalentFromId(tid).name, talents[tid][1], talents[tid][2]), {"color","LAST"}, true)
+		desc:add(talents[tid][3] and {"color","WHITE"} or {"color","GREEN"}, ("When this weapon hits: %s (%d%% chance level %d)."):tformat(self:getTalentFromId(tid).name, talents[tid][1], talents[tid][2]), {"color","LAST"}, true)
 	end
 
 	local talents = {}
@@ -911,14 +911,14 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	for i, v in ipairs(compare_with or {}) do
 		for tid, data in pairs(v[field] and (v[field].talent_on_crit or {})or {}) do
 			if not talents[tid] or talents[tid][1]~=data.chance or talents[tid][2]~=data.level then
-				desc:add({"color","RED"}, ("When this weapon crits: %s (%d%% chance level %d)."):format(self:getTalentFromId(tid).name, data.chance, data.level), {"color","LAST"}, true)
+				desc:add({"color","RED"}, ("When this weapon crits: %s (%d%% chance level %d)."):tformat(self:getTalentFromId(tid).name, data.chance, data.level), {"color","LAST"}, true)
 			else
 				talents[tid][3] = true
 			end
 		end
 	end
 	for tid, data in pairs(talents) do
-		desc:add(talents[tid][3] and {"color","WHITE"} or {"color","GREEN"}, ("When this weapon crits: %s (%d%% chance level %d)."):format(self:getTalentFromId(tid).name, talents[tid][1], talents[tid][2]), {"color","LAST"}, true)
+		desc:add(talents[tid][3] and {"color","WHITE"} or {"color","GREEN"}, ("When this weapon crits: %s (%d%% chance level %d)."):tformat(self:getTalentFromId(tid).name, talents[tid][1], talents[tid][2]), {"color","LAST"}, true)
 	end
 
 	local special = ""
@@ -1015,7 +1015,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	end
 
 	compare_list(
-		"#YELLOW#On weapon hit:#LAST#",
+		_t"#YELLOW#On weapon hit:#LAST#",
 		function(combat)
 			if not combat then return {} end
 			local list = {}
@@ -1037,7 +1037,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	)
 
 	compare_list(
-		"#YELLOW#On weapon crit:#LAST#",
+		_t"#YELLOW#On weapon crit:#LAST#",
 		function(combat)
 			if not combat then return {} end
 			return get_special_list(combat, 'special_on_crit')
@@ -1045,7 +1045,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	)
 
 	compare_list(
-		"#YELLOW#On weapon kill:#LAST#",
+		_t"#YELLOW#On weapon kill:#LAST#",
 		function(combat)
 			if not combat then return {} end
 			return get_special_list(combat, 'special_on_kill')
@@ -1060,13 +1060,13 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	end
 
 	if combat.no_stealth_break then
-		desc:add(found and {"color","WHITE"} or {"color","GREEN"},"When used from stealth a simple attack with it will not break stealth.", {"color","LAST"}, true)
+		desc:add(found and {"color","WHITE"} or {"color","GREEN"},_t"When used from stealth a simple attack with it will not break stealth.", {"color","LAST"}, true)
 	elseif found then
-		desc:add({"color","RED"}, "When used from stealth a simple attack with it will not break stealth.", {"color","LAST"}, true)
+		desc:add({"color","RED"}, _t"When used from stealth a simple attack with it will not break stealth.", {"color","LAST"}, true)
 	end
 
 	if combat.crushing_blow then
-		desc:add({"color", "YELLOW"}, "Crushing Blows: ", {"color", "LAST"}, "Damage dealt by this weapon is increased by half your critical multiplier, if doing so would kill the target.", true)
+		desc:add({"color", "YELLOW"}, "Crushing Blows: ", {"color", "LAST"}, _t"Damage dealt by this weapon is increased by half your critical multiplier, if doing so would kill the target.", true)
 	end
 
 	compare_fields(combat, compare_with, field, "travel_speed", "%+d%%", _t"Travel speed: ", 100, false, false, add_table)
@@ -1595,7 +1595,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 				local tt = Talents.talents_types_def[ttn]
 				if tt then
 					local cat = tt.type:gsub("/.*", "")
-					local name = cat:capitalize().." / "..tt.name:capitalize()
+					local name = _t(cat):capitalize().." / "..tt.name:capitalize()
 					local diff = (ttid[2] or 0) - (ttid[1] or 0)
 					if diff ~= 0 then
 						if ttid[1] then
@@ -1783,7 +1783,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 		compare_fields(w, compare_with, field, "combat_spellcrit", "%+d%%", _t"Spell crit. chance: ")
 		compare_fields(w, compare_with, field, "spell_cooldown_reduction", "%d%%", _t"Lowers spell cool-downs by: ", 100)
 
-		compare_scaled(w, compare_with, field, "combat_mindpower", {"combatMindpower"}, "%+d #LAST#(%+d eff.)", "Mindpower: ")
+		compare_scaled(w, compare_with, field, "combat_mindpower", {"combatMindpower"}, _t"%+d #LAST#(%+d eff.)", _t"Mindpower: ")
 		compare_fields(w, compare_with, field, "combat_mindcrit", "%+d%%", _t"Mental crit. chance: ")
 
 		compare_fields(w, compare_with, field, "lite", "%+d", _t"Light radius: ")
@@ -2143,7 +2143,7 @@ function _M:getUseDesc(use_actor)
 		if self.show_charges then
 			ret = tstring{{"color","YELLOW"}, ("It can be used to %s, with %d charges out of %d."):tformat(desc, math.floor(self.power / usepower(self.use_power.power)), math.floor(self.max_power / usepower(self.use_power.power))), {"color","LAST"}}
 		elseif self.talent_cooldown then
-			local t_name = self.talent_cooldown == "T_GLOBAL_CD" and "all charms" or "Talent "..use_actor:getTalentDisplayName(use_actor:getTalentFromId(self.talent_cooldown))
+			local t_name = self.talent_cooldown == "T_GLOBAL_CD" and _t"all charms" or ("Talent %s"):tformat(use_actor:getTalentDisplayName(use_actor:getTalentFromId(self.talent_cooldown)))
 			ret = tstring{{"color","YELLOW"}, ("It can be used to %s\n\nActivation puts %s on cooldown for %d turns."):tformat(desc:tformat(self:getCharmPower(use_actor)), t_name, usepower(self.use_power.power)), {"color","LAST"}}
 		else
 			ret = tstring{{"color","YELLOW"}, ("It can be used to %s\n\nActivation costs %d power out of %d/%d."):tformat(desc, usepower(self.use_power.power), self.power, self.max_power), {"color","LAST"}}
@@ -2591,7 +2591,7 @@ function _M:commandStaff(element, flavor)
 	end
 	self.combat.element = element
 	if self.combat.melee_element then self.combat.damtype = element end
-	if not self.unique then self.name = self.name:gsub(self.flavor_name or "staff", flavor) end
+	if not self.unique then self.name = _t(self.name):gsub(_t(self.flavor_name or "staff"), _t(flavor)) end
 	self.flavor_name = flavor
 end
 

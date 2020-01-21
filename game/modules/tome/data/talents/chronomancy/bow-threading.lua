@@ -165,13 +165,13 @@ newTalent{
 						if target:checkHit(getParadoxSpellpower(self, t), target:combatPhysicalResist(), 0, 95) and target:canBe("knockback") then -- Deprecated Checkhit call
 							return true
 						else
-							game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+							game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 						end
 					end
 					if can(target) then
 						target:pull(x, y, tg.radius, can)
 						tgts[#tgts+1] = target
-						game.logSeen(target, "%s is drawn in by the singularity!", target.name:capitalize())
+						game.logSeen(target, "%s is drawn in by the singularity!", target:getName():capitalize())
 						target:crossTierEffect(target.EFF_OFFBALANCE, getParadoxSpellpower(self, t))
 					end
 				end

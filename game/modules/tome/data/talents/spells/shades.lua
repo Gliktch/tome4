@@ -199,7 +199,7 @@ newTalent{
 			
 			ai_target = {actor=table.NIL_MERGE},
 			ai = "summoned", ai_real = "tactical",
-			name = "Forgery of Haze ("..self.name..")",
+			name = ("Forgery of Haze (%s)"):tforamt(self:getName()),
 			desc = ([[A dark shadowy shape whose form resembles %s.]]):tformat(self.name),
 		})
 

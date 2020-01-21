@@ -83,7 +83,7 @@ for i = 1, 3 do
 					if i then
 						game.level.map:particleEmitter(i, j, 1, "teleport")
 						game.zone:addEntity(game.level, m, "actor", i, j)
-						m.emote_random = {chance=30, "He shall come!", "You are dooooommmed!!", "He will consume all!", "My life for His!", "Die intruder!"}
+						m.emote_random = {chance=30, _t"He shall come!", _t"You are dooooommmed!!", _t"He will consume all!", _t"My life for His!", _t"Die intruder!"}
 						m.pedestal_x = self.x
 						m.pedestal_y = self.y
 						m.on_die = function(self)
@@ -96,7 +96,7 @@ for i = 1, 3 do
 							g.name = _t"weird pedestal (glowing)"
 							game.level.map:updateMap(self.pedestal_x, self.pedestal_y)
 							game.level.pedestal_events = (game.level.pedestal_events or 0) + 1
-							game.logSeen(self, "%s's soul is absorbed by the pedestal. A glowing orb appears.", self.name:capitalize())
+							game.logSeen(self, "%s's soul is absorbed by the pedestal. A glowing orb appears.", self:getName():capitalize())
 
 							if game.level.pedestal_events >= 3 then
 								game.level.pedestal_events = 0							

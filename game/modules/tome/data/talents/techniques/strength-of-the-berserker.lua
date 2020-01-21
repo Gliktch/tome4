@@ -22,7 +22,7 @@ newTalent{
 	type = {"technique/strength-of-the-berserker",1},
 	require = techs_req1,
 	points = 5,
-	message = function(self) if self.subtype == "rodent" then return "@Source@ uses Warsqueak." else return "@Source@ uses Warshout." end end ,
+	message = function(self) if self.subtype == "rodent" then return _t"@Source@ uses Warsqueak." else return _t"@Source@ uses Warshout." end end ,
 	stamina = 30,
 	cooldown = 18,
 	tactical = { ATTACKAREA = { confusion = 1 }, DISABLE = { confusion = 3 } },
@@ -188,7 +188,7 @@ newTalent{
 					local eff = rng.tableRemove(effs)
 
 					if eff[1] == "effect" then
-						game.logSeen(self, "#CRIMSON#%s shatters %s shield!", self.name:capitalize(), target.name)
+						game.logSeen(self, "#CRIMSON#%s shatters %s shield!", self:getName():capitalize(), target:getName())
 						target:removeEffect(eff[2])
 					end
 				end

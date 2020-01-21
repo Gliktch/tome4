@@ -331,7 +331,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[Your inner flame is strong. Each time that you receive a blow that would kill you, your body is wreathed in flames.
 		The flames will cauterize the wound, fully absorbing all damage done this turn, but they will continue to burn for 8 turns.
-		Each turn 10% of the damage absorbed will be dealt by the flames. This will bypass resistance and affinity.
+		Each turn 10%% of the damage absorbed will be dealt by the flames. This will bypass resistance and affinity.
 		Warning: this has a cooldown.]]):tformat()
 	end,
 }

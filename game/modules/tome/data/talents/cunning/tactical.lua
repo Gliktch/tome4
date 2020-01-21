@@ -102,7 +102,7 @@ newTalent{
 				end
 			end
 		else
-			game.logSeen(self, "%s counters the attack!", target.name:capitalize())
+			game.logSeen(self, "%s counters the attack!", target:getName():capitalize())
 		end
 	end,
 	on_unlearn = function(self, t)

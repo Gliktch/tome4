@@ -241,8 +241,8 @@ function _M:setPlayer(actor, bypass)
 	if actor == game.player then return true end
 
 	-- Stop!!
-	if game.player and game.player.runStop then game.player:runStop("Switching control") end
-	if game.player and game.player.restStop then game.player:restStop("Switching control") end
+	if game.player and game.player.runStop then game.player:runStop(_t"Switching control") end
+	if game.player and game.player.restStop then game.player:restStop(_t"Switching control") end
 
 	local def = self.members[actor]
 	local oldp = self.player
@@ -296,7 +296,7 @@ function _M:setPlayer(actor, bypass)
 
 	if not actor.hotkeys_sorted then actor:sortHotkeys() end
 
-	game.logPlayer(actor, "#MOCCASIN#Character control switched to %s.", actor.name)
+	game.logPlayer(actor, "#MOCCASIN#Character control switched to %s.", actor:getName())
 
 	if game.player.resetMainShader then game.player:resetMainShader() end
 
@@ -364,9 +364,9 @@ function _M:giveOrder(actor, order)
 	local def = self.members[actor]
 
 	if order == "leash" then
-		game:registerDialog(GetQuantity.new(("Set action radius: %d"):tformat(actor.name), _t"Set the maximum distance this creature can go from the party master", actor.ai_state.tactic_leash, actor.ai_state.tactic_leash_max or 100, function(qty)
+		game:registerDialog(GetQuantity.new(("Set action radius: %d"):tformat(actor:getName()), _t"Set the maximum distance this creature can go from the party master", actor.ai_state.tactic_leash, actor.ai_state.tactic_leash_max or 100, function(qty)
 			actor.ai_state.tactic_leash = util.bound(qty, 1, actor.ai_state.tactic_leash_max or 100)
-			game.logPlayer(game.player, "%s maximum action radius set to %d.", actor.name:capitalize(), actor.ai_state.tactic_leash)
+			game.logPlayer(game.player, "%s maximum action radius set to %d.", actor:getName():capitalize(), actor.ai_state.tactic_leash)
 		end), 1)
 	elseif order == "anchor" then
 		local co = coroutine.create(function()
@@ -379,7 +379,7 @@ function _M:giveOrder(actor, order)
 					anchor = {x=x, y=y, name=_t"that location"}
 				end
 				actor.ai_state.tactic_leash_anchor = anchor
-				game.logPlayer(game.player, "%s will stay near %s.", actor.name:capitalize(), anchor.name)
+				game.logPlayer(game.player, "%s will stay near %s.", actor:getName():capitalize(), anchor.name)
 			end
 		end)
 		local ok, err = coroutine.resume(co)
@@ -389,14 +389,14 @@ function _M:giveOrder(actor, order)
 			local x, y, act = game.player:getTarget({type="hit", range=10})
 			if act then
 				actor:setTarget(act)
-				game.player:logCombat(act, "%s targets #Target#.", actor.name:capitalize())
+				game.player:logCombat(act, "%s targets #Target#.", actor:getName():capitalize())
 			end
 		end)
 		local ok, err = coroutine.resume(co)
 		if not ok and err then print(debug.traceback(co)) error(err) end
 	elseif order == "rename" then
 		local scheme = self.members[actor].orders[order]
-		local d = require("engine.dialogs.GetText").new(("Change name of: %s"):format(actor.name), "Name", 2, 25, function(name) if name then
+		local d = require("engine.dialogs.GetText").new(("Change name of: %s"):tformat(actor:getName()), _t"Name", 2, 25, function(name) if name then
 				actor.name = scheme(actor, name)
 		end end)
 		game:registerDialog(d)

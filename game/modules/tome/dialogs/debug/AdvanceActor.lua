@@ -311,7 +311,7 @@ function _M:levelupActor(who, lev, data)
 	 -- backup the character
 	_M.last_actors[who] = _M.last_actors[who] or {}
 	table.insert(_M.last_actors[who], who:cloneFull())
---	game.log("#LIGHT_BLUE#Advancing actor %s[%s]", who.name, who.uid)
+--	game.log("#LIGHT_BLUE#Advancing actor %s[%s]", who:getName(), who.uid)
 	local tt_def=who.talents_types_def
 	who.lastLearntTalentsMax = function(what) return 500 end
 	
@@ -323,16 +323,16 @@ function _M:levelupActor(who, lev, data)
 	lev = who.level
 
 	if data.base_stat_level then
-		game.log("%s #GOLD#Forcing all Base Stats to %s", who.name, data.base_stat_level)
+		game.log("%s #GOLD#Forcing all Base Stats to %s", who:getName(), data.base_stat_level)
 		for stat = 1, 6 do
 			local inc = data.base_stat_level - who:getStat(stat, nil, nil, true)
 			who:incStat(stat, inc)
 		end
 	end
 	
-	if data.set_mastery then game.log("%s #GOLD#Resetting all talents_types_mastery to %s", who.name, data.set_mastery) end
+	if data.set_mastery then game.log("%s #GOLD#Resetting all talents_types_mastery to %s", who:getName(), data.set_mastery) end
 	if data.alltalents then
-		game.log("%s #GOLD#Unlocking All Talent Types", who.name)
+		game.log("%s #GOLD#Unlocking All Talent Types", who:getName())
 		for key, value in ipairs(tt_def) do
 			who:learnTalentType(tt_def[key].type)
 			game.log("#LIGHT_BLUE#%s -- %s", key, value.type)
@@ -366,7 +366,7 @@ function _M:levelupActor(who, lev, data)
 	
 	-- done last to reverse any passive stat bonuses from talents
 	if data.bonus_stat_level then
-		game.log("%s #GOLD#Forcing all Bonus Stats to %s", who.name, data.bonus_stat_level)
+		game.log("%s #GOLD#Forcing all Bonus Stats to %s", who:getName(), data.bonus_stat_level)
 		for stat = 1, 6 do
 			local inc = data.bonus_stat_level - (who:getStat(stat, nil, nil, false) - who:getStat(stat, nil, nil, true))
 			who:incIncStat(stat, inc)
@@ -388,6 +388,6 @@ function _M:levelupActor(who, lev, data)
 		if who.unused_generics > 0 then points[#points+1] = ("%d generic talent point(s)"):tformat(who.unused_generics) end
 		if who.unused_talents_types > 0 then points[#points+1] = ("%d category point(s)"):tformat(who.unused_talents_types) end
 		if who.unused_prodigies > 0 then points[#points+1] = ("#ORCHID#%d prodigy point(s)#LAST#"):tformat(who.unused_prodigies) end
-		if #points > 0 then game.log("#LIGHT_BLUE#%s has %s to spend", who.name:capitalize(), table.concatNice(points, ", ", _t", and ")) end
+		if #points > 0 then game.log("#LIGHT_BLUE#%s has %s to spend", who:getName():capitalize(), table.concatNice(points, ", ", _t", and ")) end
 	end
 end

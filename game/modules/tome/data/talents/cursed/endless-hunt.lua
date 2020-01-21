@@ -149,7 +149,7 @@ newTalent{
 				local t = rng.tableRemove(tids)
 				if t then
 					target.talents_cd[t.id] = getCooldownDuration
-					game.logSeen(target, "#F53CBE#%s's %s is disrupted!", target.name:capitalize(), t.name)
+					game.logSeen(target, "#F53CBE#%s's %s is disrupted!", target:getName():capitalize(), t.name)
 				end
 			end
 		end

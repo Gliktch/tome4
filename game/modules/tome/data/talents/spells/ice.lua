@@ -69,7 +69,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Condenses ambient water on a target, freezing it for %d turns and damaging it for %0.2f.
 		If this is used on a friendly target the cooldown is reduced by 33%%.%s
-		The damage will increase with your Spellpower.]]):tformat(t.getDuration(self, t), damDesc(self, DamageType.COLD, damage), necroEssenceDead(self, true) and "\nAffects all creatures in radius 2." or "")
+		The damage will increase with your Spellpower.]]):tformat(t.getDuration(self, t), damDesc(self, DamageType.COLD, damage), necroEssenceDead(self, true) and _t"\nAffects all creatures in radius 2." or "")
 	end,
 }
 

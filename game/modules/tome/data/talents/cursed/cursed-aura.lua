@@ -85,7 +85,7 @@ newTalent{
 
 		local def = self.tempeffect_def[curse]
 		local ego = Entity.new{
-			name = "curse",
+			name = _t"curse",
 			display_string = " ("..def.short_desc..")",
 			curse = curse,
 			fake_ego = true, unvault_ego = true,
@@ -427,10 +427,10 @@ newTalent{
 		local sentry = NPC.new {
 			type = "construct", subtype = "weapon",
 			display = o.display, color=o.color, image = o.image, blood_color = colors.GREY,
-			name = "animated "..o:getName(),
+			name = ("animated %s"):tformat(o:getName()),
 			neuter = true,
 			faction = self.faction,
-			desc = "A weapon imbued with a living curse. It seems to be searching for its next victim.",
+			desc = _t"A weapon imbued with a living curse. It seems to be searching for its next victim.",
 			faction = self.faction,
 			body = { INVEN = 10, MAINHAND=1, QUIVER=1 },
 			rank = 2,

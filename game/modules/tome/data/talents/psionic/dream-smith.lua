@@ -208,7 +208,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getStun(self, t), {apply_power=self:combatMindpower()})
 			else
-				game.logSeen(target, "%s resists the stunning blow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stunning blow!", target:getName():capitalize())
 			end
 			if rng.percent(50) then
 				game.level.map:particleEmitter(target.x, target.y, 1, "generic_discharge", {rm=225, rM=255, gm=0, gM=0, bm=0, bM=0, am=35, aM=90})

@@ -23,9 +23,9 @@ newEntity{
 	level_range = {1, 50},
 	rarity = 15,
 	charm_power_def = {add=3, max=200, floor=true},
-	resolvers.charm("setup a psionic shield, reducing all damage taken by %d for 5 turns", 25, function(self, who)
+	resolvers.charm(_t"setup a psionic shield, reducing all damage taken by %d for 5 turns", 25, function(self, who)
 		who:setEffect(who.EFF_PSIONIC_SHIELD, 5, {kind="all", power=self:getCharmPower(who)})
-		game.logSeen(who, "%s uses %s!", who.name:capitalize(), self:getName{no_add_name=true, do_color=true})
+		game.logSeen(who, "%s uses %s!", who:getName():capitalize(), self:getName{no_add_name=true, do_color=true})
 		return {id=true, used=true}
 	end,
 	"T_GLOBAL_CD",
@@ -43,10 +43,10 @@ newEntity{
 	level_range = {1, 50},
 	rarity = 20,
 	charm_power_def = {add=1, max=5, floor=true},
-	resolvers.charm("remove 1 confusion or silence effect and prevent the application of %d detrimental mental effects for 5 turns", 25, function(self, who)
+	resolvers.charm(_t"remove 1 confusion or silence effect and prevent the application of %d detrimental mental effects for 5 turns", 25, function(self, who)
 		who:removeEffectsFilter(function(e) return (e.subtype.confusion or e.subtype.silence) end, 1)
 		who:setEffect(who.EFF_CLEAR_MIND, 5, {power=self:getCharmPower(who)})
-		game.logSeen(who, "%s uses %s!", who.name:capitalize(), self:getName{no_add_name=true, do_color=true})
+		game.logSeen(who, "%s uses %s!", who:getName():capitalize(), self:getName{no_add_name=true, do_color=true})
 		return {id=true, used=true}
 	end,
 	"T_GLOBAL_CD",
@@ -83,7 +83,7 @@ newEntity{
 			local dam = self.use_power.damage(self, who)
 			local kb = self.use_power.knockback(self, who)
 
-			game.logSeen(who, "%s uses %s %s!", who.name:capitalize(), who:his_her(), self:getName{no_add_name=true, do_color=true})
+			game.logSeen(who, "%s uses %s %s!", who:getName():capitalize(), who:his_her(), self:getName{no_add_name=true, do_color=true})
 			local DamageType = require "engine.DamageType"
 			local state = {}
 			game.level.map:particleEmitter(who.x, who.y, tg.radius, "mudflow", {radius=tg.radius, tx=x-who.x, ty=y-who.y})
@@ -126,7 +126,7 @@ newEntity{
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
 			local damage = self.use_power.damage(self, who)
-			game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 			if not x or not y then return nil end
 			who:project(tg, x, y, function(tx, ty)
 				local target = game.level.map(tx, ty, engine.Map.ACTOR)

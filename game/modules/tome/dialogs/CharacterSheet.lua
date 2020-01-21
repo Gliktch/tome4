@@ -47,7 +47,7 @@ function _M:init(actor, start_tab)
 	self.font_w, self.font_h = self.font:size(' ')
 	self.font_h = self.font:lineSkip()
 
-	Dialog.init(self, ("Character Sheet: %s"):tformat(self.actor.name), util.bound(self.font_w*200, game.w*0.5, game.w*0.95), util.bound(self.font_h*36, game.h*.35, game.h*.85))
+	Dialog.init(self, ("Character Sheet: %s"):tformat(self.actor:getName()), util.bound(self.font_w*200, game.w*0.5, game.w*0.95), util.bound(self.font_h*36, game.h*.35, game.h*.85))
 
 	self.talent_sorting = config.settings.tome.charsheet_talent_sorting or 1
 
@@ -68,7 +68,7 @@ function _M:init(actor, start_tab)
 					local switch_set = self.equip_set == "off" and "main" or "off"
 					if self:updateEquipDollRefs(switch_set) then
 						self.equip_set = switch_set
-						game.logPlayer(self.actor, "#RED#Displaying %s set for %s (equipment NOT switched)", self.equip_set, self.actor.name:capitalize())
+						game.logPlayer(self.actor, "#RED#Displaying %s set for %s (equipment NOT switched)", self.equip_set, self.actor:getName():capitalize())
 					end
 				end
 				self:switchTo("equipment")
@@ -873,7 +873,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 			local combatc = actor_to_compare and actor_to_compare:getCombatStats(type, inven_id, item) or {}
 			local color
 			local weap_type = combat.talented or table.get(combat.mean, "talented")
-			local text2 = (combat.obj and combat.obj.slot_forbid == "OFFHAND" and _t"Two-Handed, " or "")..(weap_type and weap_type or "")
+			local text2 = (combat.obj and combat.obj.slot_forbid == "OFFHAND" and _t"Two-Handed, " or "")..(weap_type and _t(weap_type) or "")
 			s:drawColorStringBlended(self.font, (text or _t"Weapon")..(weap_type and " ("..text2..")" or "")..":", w, h, 255, 255, 255, true) h = h + self.font_h
 
 			text = compare_fields(player, actor_to_compare,
@@ -919,10 +919,10 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 		if mainhand and (#mainhand > 0) and not player:attr("disarmed") then
 			for i, o in ipairs(player:getInven(player.INVEN_MAINHAND)) do
 				if not double_weapon and o.double_weapon then double_weapon = i end
-				display_combat_stats(_t"#LIGHT_BLUE#Main Hand", player, actor_to_compare, player.INVEN_MAINHAND, _t"mainhand", i) h = h + self.font_h
+				display_combat_stats(_t"#LIGHT_BLUE#Main Hand", player, actor_to_compare, player.INVEN_MAINHAND, "mainhand", i) h = h + self.font_h
 			end
 		else -- Handle bare-handed combat
-			display_combat_stats(_t"#LIGHT_BLUE#Unarmed", player, actor_to_compare, player.INVEN_MAINHAND, _t"barehand", 1) h = h + self.font_h
+			display_combat_stats(_t"#LIGHT_BLUE#Unarmed", player, actor_to_compare, player.INVEN_MAINHAND, "barehand", 1) h = h + self.font_h
 		end
 		-- All weapons in off hands
 		-- Most offhand attacks are with a damage penalty, that can be reduced by talents
@@ -1714,7 +1714,7 @@ function _M:dump()
 		 local ttknown = player:knowTalentType(tt.type)
 		if not (player.talents_types[tt.type] == nil) and ttknown then
 			local cat = tt.type:gsub("/.*", "")
-			local catname = ("%s / %s"):format(cat:capitalize(), tt.name:capitalize())
+			local catname = ("%s / %s"):format(_t(cat):capitalize(), tt.name:capitalize())
 			nl((" - %-35s(mastery %.02f)"):format(catname, player:getTalentTypeMastery(tt.type)))
 
 			-- Find all talents of this school

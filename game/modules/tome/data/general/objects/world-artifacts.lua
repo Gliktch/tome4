@@ -204,7 +204,7 @@ newEntity{ base = "BASE_RING",
 				false
 			)
 			wave.name = "tidal wave"
-			game.logSeen(who, "%s brandishes %s, calling forth the might of the oceans!", who.name:capitalize(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s brandishes %s, calling forth the might of the oceans!", who:getName():capitalize(), self:getName({no_add_name = true, do_color = true}))
 			return {id=true, used=true}
 		end
 	},
@@ -375,7 +375,7 @@ newEntity{ base = "BASE_LITE",
 		litepower = function(self, who) return who:combatStatScale("wil", 50, 150) end,
 		use = function(self, who)
 			who:project({type="ball", range=0, radius=20}, who.x, who.y, engine.DamageType.LITE, self.use_power.litepower(self, who))
-			game.logSeen(who, "%s brandishes %s %s and banishes all shadows!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s brandishes %s %s and banishes all shadows!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 			return {id=true, used=true}
 		end,
 		no_npc_use = function(self, who) return not game.party:hasMember(who) end,
@@ -414,7 +414,7 @@ This star is the culmination of their craft. Light radiates from its ever-shifti
 		no_npc_use = function(self, who) return not game.party:hasMember(who) end,
 		use = function(self, who)
 			who:magicMap(20)
-			game.logSeen(who, "%s brandishes the %s which radiates in all directions!", who.name:capitalize(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s brandishes the %s which radiates in all directions!", who:getName():capitalize(), self:getName({no_add_name = true, do_color = true}))
 			return {id=true, used=true}
 		end
 	},
@@ -493,7 +493,7 @@ newEntity{
 	special = true,
 
 	use_simple = { name = _t"quaff the Blood of Life to grant an extra life", use = function(self, who)
-		game.logSeen(who, "%s quaffs the %s!", who.name:capitalize(), self:getName({no_add_name = true, do_color = true}))
+		game.logSeen(who, "%s quaffs the %s!", who:getName():capitalize(), self:getName({no_add_name = true, do_color = true}))
 		if not who:attr("undead") then
 			who.blood_life = true
 			game.logPlayer(who, "#LIGHT_RED#You feel the Blood of Life rushing through your veins.")
@@ -1982,7 +1982,7 @@ newEntity{ base = "BASE_CLOAK",
 		tactical = { DEFEND = 1 },
 		power = 50,
 		use = function(self, who)
-			game.logSeen(who, "%s empowers %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s empowers %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			local resists = table.values({engine.DamageType.FIRE, engine.DamageType.COLD, engine.DamageType.LIGHTNING, engine.DamageType.NATURE, engine.DamageType.DARKNESS2, engine.DamageType.DARKNESS})
 			if self.set_complete then table.insert(resists, engine.DamageType.ARCANE) end
 			who:setEffect(who.EFF_CHROMATIC_RESONANCE, 16, {resist_types=resists})
@@ -2375,7 +2375,7 @@ newEntity{ base = "BASE_SHIELD",
 			local effs = {}
 			local known = false
 
-			game.logSeen(who, "%s holds %s %s close, cleansing %s of corruption!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}), who:his_her_self())
+			game.logSeen(who, "%s holds %s %s close, cleansing %s of corruption!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}), who:his_her_self())
 			who:setEffect(who.EFF_PURGE_BLIGHT, 5, {power=self.use_power.effpower(self, who)})
 
 				-- Go through all spell effects
@@ -2395,7 +2395,7 @@ newEntity{ base = "BASE_SHIELD",
 					known = true
 				end
 			end
-			if known then game.logSeen(who, "%s is purged of diseases!", who.name:capitalize()) end
+			if known then game.logSeen(who, "%s is purged of diseases!", who:getName():capitalize()) end
 			return {id=true, used=true}
 		end,
 	},
@@ -2486,7 +2486,7 @@ newEntity{ base = "BASE_MINDSTAR",
 			--self.name	= "Withered Axe"
 			if self:isTalentActive (who.T_PSIBLADES) then
 				self:forceUseTalent(who.T_PSIBLADES, {ignore_energy=true})
-				game.logSeen(who, "%s rejects the inferior psionic blade!", self.name:capitalize())
+				game.logSeen(who, "%s rejects the inferior psionic blade!", self:getName():capitalize())
 			end
 			self.desc	= [=[A hazy aura emanates from this dark axe, withering, thorny vines twisting around the handle.]=]
 			self.subtype = "waraxe"
@@ -2862,7 +2862,7 @@ newEntity{ base = "BASE_MINDSTAR",
 		if not rng.percent(25) then return end
 		self.use_talent.id=rng.table{ "T_FIRE_BREATH", "T_ICE_BREATH", "T_LIGHTNING_BREATH", "T_SAND_BREATH", "T_CORROSIVE_BREATH" }
 		self.worn_by:check("useObjectEnable", self)
---		game.logSeen(self.worn_by, "#GOLD#The %s shifts colour!", self.name:capitalize())
+--		game.logSeen(self.worn_by, "#GOLD#The %s shifts colour!", self:getName():capitalize())
 	end,
 	max_power = 30, power_regen = 1,
 	use_talent = { id = rng.table{ Talents.T_FIRE_BREATH, Talents.T_ICE_BREATH, Talents.T_LIGHTNING_BREATH, Talents.T_SAND_BREATH, Talents.T_CORROSIVE_BREATH }, level = 4, power = 30 }
@@ -2964,7 +2964,7 @@ newEntity{ base = "BASE_KNIFE",
 			if target:canBe("cut") and rng.percent(20) then
 				target:setEffect(target.EFF_SHADOW_CUT, 5, {apply_power=math.max(who:combatSpellpower(), who:combatAttack()), src=who, dam=20, heal=15})
 			else
-				game.logSeen(target, "%s resists the shadowy cut", target.name:capitalize())
+				game.logSeen(target, "%s resists the shadowy cut", target:getName():capitalize())
 			end
 		end},
 	},
@@ -3237,7 +3237,7 @@ newEntity{ base = "BASE_GREATSWORD",
 			local tg = self.use_power.target(self, who)
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
-			game.logSeen(who, "%s's %s lashes out in a flaming arc, intensifying the burning of %s enemies!", who.name:capitalize(), self:getName({do_color = true, no_add_name = true}), who:his_her())
+			game.logSeen(who, "%s's %s lashes out in a flaming arc, intensifying the burning of %s enemies!", who:getName():capitalize(), self:getName({do_color = true, no_add_name = true}), who:his_her())
 			who:project(tg, x, y, function(px, py)
 				local target = game.level.map(px, py, engine.Map.ACTOR)
 				if not target then return end
@@ -3299,7 +3299,7 @@ newEntity{ base = "BASE_CLOTH_ARMOR",
 			local tg = self.use_power.target(self, who)
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
-			game.logSeen(who, "%s focuses a beam of force from %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s focuses a beam of force from %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			who:project(tg, x, y, engine.DamageType.MINDKNOCKBACK, who:mindCrit(rng.avg(0.8*dam, dam)))
 			game.level.map:particleEmitter(who.x, who.y, tg.radius, "matter_beam", {tx=x-who.x, ty=y-who.y})
 			return {id=true, used=true}
@@ -3627,11 +3627,11 @@ newEntity{ base = "BASE_LONGSWORD", define_as="MORRIGOR",
 				o.use_talent.power = (target:getTalentCooldown(t, true) or 5)
 				target.talents[t.id] = get_talent
 				o.use_talent.name = ((t.display_entity and t.display_entity:getDisplayString() or "")..t.name):toString()
-				o.use_talent.message = _t"@Source@ taps the #SALMON#trapped soul#LAST# of "..target.name..", xmanifesting "..o.use_talent.name.."!"
+				o.use_talent.message = ("@Source@ taps the #SALMON#trapped soul#LAST# of %s, xmanifesting %s!"):tformat(target:getName(), o.use_talent.name)
 				o.power = 1
 				o.max_power = o.use_talent.power
 				o.power_regen = 1
-				game.logSeen(who, "%s's %s #SALMON#CONSUMES THE SOUL#LAST# of %s, gaining the power of %s!", who.name:capitalize(), o:getName({no_add_name = true, do_color = true}), target.name, o.use_talent.name)
+				game.logSeen(who, "%s's %s #SALMON#CONSUMES THE SOUL#LAST# of %s, gaining the power of %s!", who:getName():capitalize(), o:getName({no_add_name = true, do_color = true}), target:getName(), o.use_talent.name)
 				who:check("useObjectEnable", o, inven_id, item)
 			end
 	end},
@@ -3898,7 +3898,7 @@ newEntity{ base = "BASE_GAUNTLETS",
 				local tg = self.use_power.target(self, who)
 				local x, y = who:getTarget(tg)
 				if not x or not y then return nil end
-				game.logSeen(who, "%s unleashes antimagic forces from %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+				game.logSeen(who, "%s unleashes antimagic forces from %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 				who:project(tg, x, y, function(px, py)
 					local target = game.level.map(px, py, engine.Map.ACTOR)
 					if not target then return end
@@ -3929,7 +3929,7 @@ newEntity{ base = "BASE_GAUNTLETS",
 						end
 					end
 					if target.undead or target.construct then
-						game.logSeen(target, "%s's animating magic is disrupted by the burst of power!", target.name:capitalize())
+						game.logSeen(target, "%s's animating magic is disrupted by the burst of power!", target:getName():capitalize())
 						who:project({type="hit"}, target.x, target.y, engine.DamageType.ARCANE, self.use_power.unnaturaldam(self, who))
 						if target:canBe("stun") then target:setEffect(target.EFF_STUNNED, 10, {apply_power=who:combatMindpower()}) end
 					end
@@ -4062,7 +4062,7 @@ newEntity{ base = "BASE_SHIELD",
 			local tg = self.use_power.target(self, who)
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
-			game.logSeen(who, "%s's %s flashes!", who.name:capitalize(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s's %s flashes!", who:getName():capitalize(), self:getName({do_color = true, no_add_name = true}))
 			game.level.map:particleEmitter(who.x, who.y, tg.radius, "light_beam", {tx=x-who.x, ty=y-who.y})
 			who:project(tg, x, y, engine.DamageType.LITE_LIGHT, who:mindCrit(rng.avg(0.8*dam, dam)))
 			return {id=true, used=true}
@@ -4261,7 +4261,7 @@ newEntity{ base = "BASE_LEATHER_BOOT", --Thanks Grayswandir!
 			if not x or not y then return {id=true} end
 
 			local rad = 2
-			game.logSeen(who, "%s is #PURPLE#ENVELOPED#LAST# in a deep purple aura from %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s is #PURPLE#ENVELOPED#LAST# in a deep purple aura from %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			game.level.map:particleEmitter(who.x, who.y, 1, "teleport")
 			who:teleportRandom(x, y, rad)
 			game.level.map:particleEmitter(who.x, who.y, 1, "teleport")
@@ -4465,7 +4465,7 @@ newEntity{ base = "BASE_LITE", --Thanks Frumple!
 			local tg = self.use_power.target(self, who)
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
-			game.logSeen(who, "%s unshutters %s %s, unleashing a torrent of shadows!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+			game.logSeen(who, "%s unshutters %s %s, unleashing a torrent of shadows!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 			who:project(tg, x, y, engine.DamageType.DARKNESS, who:mindCrit(dam)) -- FIRE!
 			who:project(tg, x, y, engine.DamageType.RANDOM_BLIND, self.use_power.blindchance(self, who)) -- blind
 			game.level.map:particleEmitter(who.x, who.y, tg.radius, "breath_dark", {radius=tg.radius, tx=x-who.x, ty=y-who.y})
@@ -4602,7 +4602,7 @@ newEntity{ base = "BASE_TOOL_MISC",
 	end,
 	max_power = 50, power_regen = 1,
 	use_power = {
-		name = "call forth an immobile antimagic pillar for 10 turns.  (It spits slime, pulls in, stuns, and burns the arcane resources of your foes, while emitting an aura of silence against them within range 5, and will silence you for 5 turns when first summoned.)",
+		name = _t"call forth an immobile antimagic pillar for 10 turns.  (It spits slime, pulls in, stuns, and burns the arcane resources of your foes, while emitting an aura of silence against them within range 5, and will silence you for 5 turns when first summoned.)",
 		power = 50,
 		tactical = {ATTACK = {NATURE = 2},
 			CLOSEIN = 1.5,
@@ -4760,7 +4760,7 @@ newEntity{ base = "BASE_TOOL_MISC",
 			local tg = self.use_power.target(self, who)
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
-			game.logSeen(who, "%s siphons space and time into %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s siphons space and time into %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			who:project(tg, x, y, engine.DamageType.VOID, self.use_power.damage(self, who))
 			game.level.map:particleEmitter(x, y, tg.radius, "shadow_flash", {radius=tg.radius, tx=x, ty=y})
 			return {id=true, used=true}
@@ -4962,7 +4962,7 @@ newEntity{ base = "BASE_GREATMAUL",
 				is_shield = true
 			end
 			if is_shield == true then
-				game.logSeen(target, "%s's magical shields are shattered!", target.name:capitalize())
+				game.logSeen(target, "%s's magical shields are shattered!", target:getName():capitalize())
 			end
 		end},
 	},
@@ -5210,7 +5210,7 @@ newEntity{ base = "BASE_TOOL_MISC", --Sorta Thanks Donkatsu!
 		end,
 		no_npc_use = function(self, who) return who:attr("undead") or self:restrictAIUseObject(who) end,
 		use = function(self, who)
-			game.logSeen(who, "%s merges with %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color=true, no_add_name = true}))
+			game.logSeen(who, "%s merges with %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color=true, no_add_name = true}))
 			who:setEffect(who.EFF_TREE_OF_LIFE, 4, {})
 			return {id=true, used=true}
 		end
@@ -5308,7 +5308,7 @@ newEntity{ base = "BASE_LIGHT_ARMOR", --Thanks SageAcrin!
 		end,
 		invispower = function(self, who) return 10+who:getCun()/6+who:getMag()/6 end,
 		use = function(self, who)
-			game.logSeen(who, "%s pulls %s %s around %s like a dark shroud!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}), who:his_her_self())
+			game.logSeen(who, "%s pulls %s %s around %s like a dark shroud!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}), who:his_her_self())
 			who:setEffect(who.EFF_INVISIBILITY, 10, {power=self.use_power.invispower(self, who), penalty=0.5, regen=true})
 			return {id=true, used=true}
 		end
@@ -5400,7 +5400,7 @@ newEntity{ base = "BASE_TOOL_MISC", --Thanks Alex!
 		end,
 		no_npc_use = function(self, who) return self:restrictAIUseObject(who) end,
 		use = function(self, who)
---game.log("%s: ai_tactic: %s", who.name, who.ai_state.tactic)
+--game.log("%s: ai_tactic: %s", who:getName(), who.ai_state.tactic)
 			local power = self.power
 			self.use_power.last_used = game.turn
 			self.direction = self.direction * -1
@@ -5409,7 +5409,7 @@ newEntity{ base = "BASE_TOOL_MISC", --Thanks Alex!
 			self.wielder.inc_damage.all = 0
 			self.wielder.flat_damage_armor.all = 0
 			who:onWear(self, who.INVEN_TOOL, true)
-			game.logSeen(who, "%s flips %s %s over...", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s flips %s %s over...", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			game.logPlayer(who, "#GOLD#The sands slowly begin falling towards %s.", self.direction > 0 and "stability" or "entropy")
 			self.power = power
 			return {id=true, used=true, no_energy = true} -- effectively instant use without the AI priority boost
@@ -5674,7 +5674,7 @@ newEntity{ base = "BASE_ARROW",
 		special_on_crit = {desc="pin the target to the nearest wall", fct=function(combat, who, target)
 			if not target or target == self then return end
 			if target:checkHit(who:combatPhysicalpower()*1.25, target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
-				game.logSeen(target, "%s is knocked back and pinned!", target.name:capitalize())
+				game.logSeen(target, "%s is knocked back and pinned!", target:getName():capitalize())
 				target:knockback(who.x, who.y, 10)
 				target:setEffect(target.EFF_PINNED, 5, {}) --ignores pinning resistance, too strong!
 			end
@@ -5805,7 +5805,7 @@ newEntity{ base = "BASE_BATTLEAXE",
 			if not target or target == self then return end
 			if target:checkHit(who:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("instakill") and target.life > 0 and ((target.life < target.max_life * 0.25 and target.rank < 3.5) or target.life < target.max_life * 0.10) then
 				target:die(who)
-				game.logSeen(target, "#RED#%s#GOLD# has been decapitated!#LAST#", target.name:capitalize())
+				game.logSeen(target, "#RED#%s#GOLD# has been decapitated!#LAST#", target:getName():capitalize())
 			end
 		end},
 	},
@@ -5990,7 +5990,7 @@ newEntity{ base = "BASE_LEATHER_CAP",
 	use_power = { name = _t"reveal the surrounding area (range 20)", power = 30,
 		no_npc_use = function(self, who) return not game.party:hasMember(who) end,
 		use = function(self, who)
-			game.logSeen(who, "%s grasps %s %s and has a sudden vision!", who.name:capitalize(), who:his_her(), self:getName({do_color=true, no_add_name=true}))
+			game.logSeen(who, "%s grasps %s %s and has a sudden vision!", who:getName():capitalize(), who:his_her(), self:getName({do_color=true, no_add_name=true}))
 			who:magicMap(20)
 			return {id=true, used=true}
 		end
@@ -6455,7 +6455,7 @@ newEntity{ base = "BASE_HEAVY_BOOTS",
 		if math.abs(UP.t_bias) ~= 0 then
 			UP.t_bias = util.bound(UP.t_bias + (UP.t_bias > 1 and -1 or 1), -10, 10)
 		end
---print(("%s acting: worn by %s with tactic %s, bias: %s"):tformat(self.name, who.name, who.ai_state.tactic, UP.t_bias))
+--print(("%s acting: worn by %s with tactic %s, bias: %s"):tformat(self.name, who:getName(), who.ai_state.tactic, UP.t_bias))
 
 	end,
 	use_power = { name = _t"boost movement speed by 300% for up to 5 turns (or until you perform a non-movement action)", power = 32,
@@ -6469,7 +6469,7 @@ newEntity{ base = "BASE_HEAVY_BOOTS",
 			return tac
 		end,
 		use = function(self, who)
-			game.logSeen(who, "%s digs in %s %s.", who.name:capitalize(), who:his_her(), self:getName({do_color=true, no_add_name = true}))
+			game.logSeen(who, "%s digs in %s %s.", who:getName():capitalize(), who:his_her(), self:getName({do_color=true, no_add_name = true}))
 			if not who.player then -- NPCs keep track of tactics to prevent overuse
 				local UP = self.use_power
 				if who.ai_state.tactic == "closein" then
@@ -6870,7 +6870,7 @@ In the case of opponents who weren't alone, he had to improvise.]],
 			local tg = self.use_power.target(self, who)
 			local x, y = who:getTarget(tg)
 			if not x or not y then return nil end
-			game.logSeen(who, "%s focuses time flows through %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color=true, no_add_name=true}))
+			game.logSeen(who, "%s focuses time flows through %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color=true, no_add_name=true}))
 			who:project(tg, x, y, function(px, py)
 				local target = game.level.map(px, py, engine.Map.ACTOR)
 				if not target then return end
@@ -7401,7 +7401,7 @@ newEntity{ base = "BASE_HELM",
 		power = 40,
 		use = function(self, who)
 			who:setEffect(who.EFF_FORGONE_VISION, 6, {power = 2})
-			game.logSeen(who, "%s forgoes their vision!", who.name:capitalize())
+			game.logSeen(who, "%s forgoes their vision!", who:getName():capitalize())
 			return {id=true, used=true}
 		end
 	},
@@ -7463,7 +7463,7 @@ newEntity{ base = "BASE_GREATSWORD",
 			local x, y, target = who:getTarget(tg)
 			if not x or not y then return nil end
 			local _ _, x, y = who:canProject(tg, x, y)
-			who:logCombat(target or who.ai_target.actor or {name = "something"}, "#Source# strikes out at #target# with %s %s!", who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			who:logCombat(target or who.ai_target.actor or {name = _t"something"}, "#Source# strikes out at #target# with %s %s!", who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			game.level.map:particleEmitter(who.x, who.y, tg.radius, "light_beam", {tx=x-who.x, ty=y-who.y})
 			game:playSoundNear(self, "talents/lightning")
 			who:attr("lifesteal", 50)
@@ -7562,7 +7562,7 @@ newEntity{ base = "BASE_MASSIVE_ARMOR",
 		use = function(self, who)
 			local tg = self.use_power.target(self, who)
 			tg.selffire = true -- set here so that the ai will use it
-			game.logSeen(who, "%s rebalances the bulky plates of %s %s, and things slow down a bit.", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s rebalances the bulky plates of %s %s, and things slow down a bit.", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			who:project(tg, who.x, who.y, function(px, py)
 				local target = game.level.map(px, py, engine.Map.ACTOR)
 				if not target then return end
@@ -7734,7 +7734,7 @@ newEntity{ base = "BASE_MASSIVE_ARMOR",
 		radius  = 5,
 		no_npc_use = function(self, who) return self:restrictAIUseObject(who) end,
 		use = function(self, who)
-			game.logSeen(who, "%s revels in the bloodlust of %s %s!", who.name:capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
+			game.logSeen(who, "%s revels in the bloodlust of %s %s!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
 			local damage = self.use_power.bleed(self, who)/4
 			who:project(self.use_power.target(self, who), who.x, who.y, function(px, py)
 				local target = game.level.map(px, py, engine.Map.ACTOR)
@@ -8269,7 +8269,7 @@ newEntity{ base = "BASE_MACE",
 			if not x or not y then return nil end
 			local _ _, x, y = who:canProject(tg, x, y)
 			local target = game.level.map(x, y, engine.Map.ACTOR)
-			who:logCombat(target or {name = "something"}, "#Source# hurls %s %s at #target#!", who:his_her(), self:getName({do_color=true, no_add_name=true}))
+			who:logCombat(target or {name = _t"something"}, "#Source# hurls %s %s at #target#!", who:his_her(), self:getName({do_color=true, no_add_name=true}))
 			if target then
 				local x2, y2 = x + rng.range(-4, 4), y - rng.range(5, 10)
 				game.level.map:particleEmitter(x, y, math.max(math.abs(x2-x), math.abs(y2-y)), "lightning", {tx=x2-x, ty=y2-y})
@@ -8282,7 +8282,7 @@ newEntity{ base = "BASE_MACE",
 				if core.shader.active() then game.level.map:particleEmitter(x, y, 2, "ball_lightning_beam", {radius=2, tx=x, ty=y}, {type="lightning"})
 				else game.level.map:particleEmitter(x, y, 2, "ball_lightning_beam", {radius=2, tx=x, ty=y}) end
 			end
-			game.logSeen(who, "%s's weapon returns to %s!", who.name:capitalize(), who:him_her())
+			game.logSeen(who, "%s's weapon returns to %s!", who:getName():capitalize(), who:him_her())
 			return {id=true, used=true}
 		end
 	},

@@ -1494,7 +1494,7 @@ function _M:compassDirection(dx, dy)
 		if dxdy < -0.5 then dir = dir.."west"
 		elseif dxdy > 0.5 then dir = dir.."east" end
 	end
-	return dir
+	return _t(dir)
 end
 -------------------------------------------------------------
 -------------------------------------------------------------

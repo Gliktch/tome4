@@ -98,10 +98,10 @@ newTalent{
 		local criticalreduction = t.getCriticalChanceReduction(self, t)
 		local classrestriction = ""
 		if self.descriptor and self.descriptor.subclass == "Brawler" then
-			classrestriction = "(Note that brawlers will be unable to perform many of their talents in massive armour.)"
+			classrestriction = _t"(Note that brawlers will be unable to perform many of their talents in massive armour.)"
 		end
 		if self:knowTalent(self.T_STEALTH) then
-			classrestriction = "(Note that wearing mail or plate armour will interfere with stealth.)"
+			classrestriction = _t"(Note that wearing mail or plate armour will interfere with stealth.)"
 		end
 		return ([[You become better at using your armour to deflect blows and protect your vital areas. Increases Armour value by %d, Armour hardiness by %d%%, and reduces the chance melee or ranged attacks critically hit you by %d%% with your current body armour.
 		(This talent only provides bonuses for heavy mail or massive plate armour.)

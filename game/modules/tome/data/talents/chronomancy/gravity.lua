@@ -76,15 +76,15 @@ newTalent{
 							slam = true
 							self:project({type="hit"}, target.x, target.y, DamageType.GRAVITY, bonus_dam)
 							self:project({type="hit"}, x, y, DamageType.GRAVITY, bonus_dam)
-							game.logSeen(target, "%s slams into something solid!", target.name:capitalize())
+							game.logSeen(target, "%s slams into something solid!", target:getName():capitalize())
 						end
 					end)
 					
 					tgts[#tgts+1] = target
-					if not slam then game.logSeen(target, "%s is knocked back!", target.name:capitalize()) end
+					if not slam then game.logSeen(target, "%s is knocked back!", target:getName():capitalize()) end
 					target:crossTierEffect(target.EFF_OFFBALANCE, getParadoxSpellpower(self, t))
 				else
-					game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+					game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 				end
 				
 			end
@@ -142,13 +142,13 @@ newTalent{
 					if target:checkHit(getParadoxSpellpower(self, t), target:combatPhysicalResist(), 0, 95) and target:canBe("knockback") then -- Deprecated Checkhit call
 						return true
 					else
-						game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+						game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 					end
 				end
 				if can(target) then
 					target:pull(x, y, tg.radius, can)
 					tgts[#tgts+1] = target
-					game.logSeen(target, "%s is drawn in by the singularity!", target.name:capitalize())
+					game.logSeen(target, "%s is drawn in by the singularity!", target:getName():capitalize())
 					target:crossTierEffect(target.EFF_OFFBALANCE, getParadoxSpellpower(self, t))
 				end
 			end

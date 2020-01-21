@@ -86,13 +86,13 @@ newTalent{
 		if target:canBe("silence") then
 			target:setEffect(target.EFF_SILENCED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the silence!", target.name:capitalize())
+			game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 		end
 
 		if target:canBe("disarm") then
 			target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the disarm!", target.name:capitalize())
+			game.logSeen(target, "%s resists the disarm!", target:getName():capitalize())
 		end
 
 		game:playSoundNear(self, "talents/arcane")

@@ -38,7 +38,7 @@ function _M:init(actor, def)
 %s is listening attentively, and wants to know what talents to use.
 You can modify the tactical weights of various talents to increase or decrease their use.  The weights are multiplicative (zero will turn the talent off) and relative (changing everything to a weight of 2 will not alter how talents are used relative to each other).
 Word travels fast in Maj'Eyal, and if %s is a summon all future summons of the same type will remember your preferences.
-]]):tformat(actor.name:capitalize(), actor.name)}
+]]):tformat(actor:getName():capitalize(), actor:getName())}
 	self.c_desc = TextzoneList.new{width=halfwidth, height=self.ih, no_color_bleed=true}
 
 	self.c_list = ListColumns.new{width=halfwidth, height=self.ih - 10, sortable=true, scrollbar=true, columns={

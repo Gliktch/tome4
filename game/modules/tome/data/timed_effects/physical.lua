@@ -385,7 +385,7 @@ newEffect{
 			self:removeEffect(eff.effect_id)
 			self:setEffect(self.EFF_STONED, math.floor(eff.stone*chance/100), {})
 		else
-			game.logSeen(self, "#GREY#%s looks stony for a moment, but resists the transformation.", self.name:capitalize())
+			game.logSeen(self, "#GREY#%s looks stony for a moment, but resists the transformation.", self:getName():capitalize())
 		end
 	end,
 	-- There are situations this matters, such as copyEffect
@@ -511,7 +511,7 @@ newEffect{
 newEffect{
 	name = "DISARMED", image = "talents/disarm.png",
 	desc = _t"Disarmed",
-	long_desc = function(self, eff) return "The target is maimed, unable to correctly wield a weapon." end,
+	long_desc = function(self, eff) return _t"The target is maimed, unable to correctly wield a weapon." end,
 	type = "physical",
 	subtype = { disarm=true },
 	status = "detrimental",
@@ -556,7 +556,7 @@ newEffect{
 newEffect{
 	name = "DAZED", image = "effects/dazed.png",
 	desc = _t"Dazed",
-	long_desc = function(self, eff) return "The target is dazed, rendering it unable to move, halving all damage done, defense, saves, accuracy, spell, mind and physical power. Any damage will remove the daze." end,
+	long_desc = function(self, eff) return _t"The target is dazed, rendering it unable to move, halving all damage done, defense, saves, accuracy, spell, mind and physical power. Any damage will remove the daze." end,
 	type = "physical",
 	subtype = { stun=true },
 	status = "detrimental",
@@ -649,7 +649,7 @@ newEffect{
 newEffect{
 	name = "BLINDED", image = "effects/blinded.png",
 	desc = _t"Blinded",
-	long_desc = function(self, eff) return "The target is blinded, unable to see anything." end,
+	long_desc = function(self, eff) return _t"The target is blinded, unable to see anything." end,
 	type = "physical",
 	subtype = { blind=true },
 	status = "detrimental",
@@ -733,7 +733,7 @@ newEffect{
 newEffect{
 	name = "FROZEN_FEET", image = "talents/frozen_ground.png",
 	desc = _t"Frozen Feet",
-	long_desc = function(self, eff) return "The target is frozen on the ground, able to act freely but not move." end,
+	long_desc = function(self, eff) return _t"The target is frozen on the ground, able to act freely but not move." end,
 	type = "physical",
 	subtype = { cold=true, pin=true },
 	status = "detrimental",
@@ -956,7 +956,7 @@ newEffect{
 newEffect{
 	name = "SENSE", image = "talents/track.png",
 	desc = _t"Sensing",
-	long_desc = function(self, eff) return "Improves senses, allowing the detection of unseen things." end,
+	long_desc = function(self, eff) return _t"Improves senses, allowing the detection of unseen things." end,
 	type = "physical",
 	subtype = { sense=true },
 	status = "beneficial",
@@ -1034,7 +1034,7 @@ newEffect{
 newEffect{
 	name = "PINNED", image = "effects/pinned.png",
 	desc = _t"Pinned to the ground",
-	long_desc = function(self, eff) return "The target is pinned to the ground, unable to move." end,
+	long_desc = function(self, eff) return _t"The target is pinned to the ground, unable to move." end,
 	type = "physical",
 	subtype = { pin=true },
 	status = "detrimental",
@@ -1052,7 +1052,7 @@ newEffect{
 newEffect{
 	name = "BONE_GRAB", image = "talents/bone_grab.png",
 	desc = _t"Pinned to the ground",
-	long_desc = function(self, eff) return "The target is pinned to the ground, unable to move." end,
+	long_desc = function(self, eff) return _t"The target is pinned to the ground, unable to move." end,
 	type = "physical",
 	subtype = { pin=true },
 	status = "detrimental",
@@ -1166,7 +1166,7 @@ newEffect{
 			list[i] = DamageType.dam_def[list[i]].name
 		end end
 		local type_str
-		if #list >= 1 then type_str = table.concatNice(list, ", ", " and ") else type_str = "" end
+		if #list >= 1 then type_str = table.concatNice(list, ", ", _t" and ") else type_str = "" end
 		return ("You gain %d%% resistance against %s."):tformat(eff.res, type_str) 
 	end,
 	charges = function(self, eff) return table.count(eff.types) end,
@@ -1244,7 +1244,7 @@ newEffect{
 	subtype = { nature=true, speed=true },
 	status = "beneficial",
 	parameters = {power=1000},
-	on_gain = function(self, err) return ("#Target# prepares %s!"):tformat(not self.player and self.ai_state.tactic == "escape" and "to escape" or "for the next kill"), "+Hunter" end,
+	on_gain = function(self, err) return ("#Target# prepares %s!"):tformat(not self.player and self.ai_state.tactic == "escape" and "to escape" or "for the next kill"), _t"+Hunter" end,
 	on_lose = function(self, err) return _t"#Target# slows down.", _t"-Hunter" end,
 	
 	on_timeout = function(self, eff)--make sure that NPC's that catch their target (or can't get away) can fight
@@ -1853,7 +1853,7 @@ newEffect{
 newEffect{
 	name = "PSIONIC_BIND", image = "effects/psionic_bind.png",
 	desc = _t"Immobilized",
-	long_desc = function(self, eff) return "Immobilized by telekinetic forces." end,
+	long_desc = function(self, eff) return _t"Immobilized by telekinetic forces." end,
 	type = "physical",
 	subtype = { telekinesis=true, pin=true },
 	status = "detrimental",
@@ -2114,7 +2114,7 @@ newEffect{
 
 		self:removeTemporaryValue("healing_factor", old_eff.healFactorId)
 		old_eff.healFactorId = self:addTemporaryValue("healing_factor", old_eff.healFactorChange)
-		game.logSeen(self, "%s has re-opened a cursed wound!", self.name:capitalize())
+		game.logSeen(self, "%s has re-opened a cursed wound!", self:getName():capitalize())
 
 		return old_eff
 	end,
@@ -2261,7 +2261,7 @@ newEffect{ -- Note: This effect is cancelled by EFF_DISARMED
 		return util.bound(adj*(eff.deflects >=1 and eff.chance or eff.chance*math.mod(eff.deflects, 1)), 0, 100)
 	end,
 	long_desc = function(self, eff)
-		return ("Parrying melee%s attacks: Has a %d%% chance to deflect up to %d damage from the next %0.1f attack(s).  Parried attacks cannot crit."):tformat(eff.parry_ranged and " and ranged" or "", math.floor(self:callEffect(self.EFF_PARRY, "deflectchance")), eff.dam, math.max(eff.deflects, 1))
+		return ("Parrying melee%s attacks: Has a %d%% chance to deflect up to %d damage from the next %0.1f attack(s).  Parried attacks cannot crit."):tformat(eff.parry_ranged and _t" and ranged" or "", math.floor(self:callEffect(self.EFF_PARRY, "deflectchance")), eff.dam, math.max(eff.deflects, 1))
 	end,
 	charges = function(self, eff) return math.ceil(eff.deflects) end,
 	type = "physical",
@@ -2393,7 +2393,7 @@ newEffect{
 newEffect{
 	name = "COUNTERSTRIKE", image = "effects/counterstrike.png",
 	desc = _t"Counterstrike",
-	long_desc = function(self, eff) return "Vulnerable to deadly counterstrikes. Next melee attack will inflict double damage." end,
+	long_desc = function(self, eff) return _t"Vulnerable to deadly counterstrikes. Next melee attack will inflict double damage." end,
 	type = "physical",
 	subtype = { tactic=true },
 	status = "detrimental",
@@ -2532,16 +2532,16 @@ newEffect{
 	name = "RAVAGE", image = "talents/ravage.png",
 	desc = _t"Ravage",
 	long_desc = function(self, eff)
-		local ravaged = "each turn."
-		if eff.ravage then ravaged = "and is losing one physical effect turn." end
+		local ravaged = _t"each turn."
+		if eff.ravage then ravaged = _t"and is losing one physical effect turn." end
 		return ("The target is being ravaged by distortion, taking %0.2f physical damage %s"):tformat(eff.dam, ravaged)
 	end,
 	type = "physical",
 	subtype = { distortion=true },
 	status = "detrimental",
 	parameters = {dam=1, distort=0},
-	on_gain = function(self, err) return  nil, "+Ravage" end,
-	on_lose = function(self, err) return "#Target# is no longer being ravaged." or nil, "-Ravage" end,
+	on_gain = function(self, err) return  nil, _t"+Ravage" end,
+	on_lose = function(self, err) return _t"#Target# is no longer being ravaged." or nil, _t"-Ravage" end,
 	on_timeout = function(self, eff)
 		if eff.ravage then
 			-- Go through all physical effects
@@ -2576,7 +2576,7 @@ newEffect{
 	activate = function(self, eff)
 		self:setEffect(self.EFF_DISTORTION, 2, {power=eff.distort})
 		if eff.ravage then
-			game.logSeen(self, "#LIGHT_RED#%s is being ravaged by distortion!", self.name:capitalize())
+			game.logSeen(self, "#LIGHT_RED#%s is being ravaged by distortion!", self:getName():capitalize())
 			eff.dam = eff.dam * 1.5
 		end
 		local particle = Particles.new("ultrashield", 1, {rm=255, rM=255, gm=180, gM=255, bm=220, bM=255, am=35, aM=90, radius=0.2, density=15, life=28, instop=40})
@@ -2596,8 +2596,8 @@ newEffect{
 	subtype = { distortion=true },
 	status = "detrimental",
 	parameters = {power=0},
-	on_gain = function(self, err) return  nil, "+Distortion" end,
-	on_lose = function(self, err) return "#Target# is no longer distorted." or nil, "-Distortion" end,
+	on_gain = function(self, err) return  nil, _t"+Distortion" end,
+	on_lose = function(self, err) return _t"#Target# is no longer distorted." or nil, _t"-Distortion" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "resists", {[DamageType.PHYSICAL]=-eff.power})
 	end,
@@ -2886,7 +2886,7 @@ newEffect{
 	subtype = { nature=true },
 	status = "beneficial",
 	parameters = {power=1},
-	on_gain = function(self, err) return ("#Target# defiantly reasserts %s connection to nature!"):tformat(string.his_her(self)), "+Nature Replenishment" end,
+	on_gain = function(self, err) return ("#Target# defiantly reasserts %s connection to nature!"):tformat(string.his_her(self)), _t"+Nature Replenishment" end,
 	on_lose = function(self, err) return _t"#Target# stops restoring Equilibrium.", _t"-Nature Replenishment" end,
 	on_timeout = function(self, eff)
 		self:incEquilibrium(-eff.power)
@@ -2964,7 +2964,7 @@ newEffect {
 		move_speed_bonus = 1.00
 	},
 	status = "beneficial",
-	on_lose = function(self, eff) return "#Target# loses speed.", "-Directed Speed" end,
+	on_lose = function(self, eff) return _t"#Target# loses speed.", _t"-Directed Speed" end,
 	lists = 'break_with_step_up',
 	callbackOnMove = function(self, eff, moved, force, ox, oy)
 		local angle_start = normalize_direction(math.atan2(self.y - eff.start_y, self.x - eff.start_x))
@@ -3083,7 +3083,7 @@ newEffect {
 		return ([[The target has relocated to a favorable position, giving them +%d%% physical critical chance.]])
 		:tformat(eff.combat_physcrit)
 	end,
-	on_gain = function(self, eff) return "#Target# is poised to strike!" end,
+	on_gain = function(self, eff) return _t"#Target# is poised to strike!" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "combat_physcrit", eff.combat_physcrit)
 	end,
@@ -3099,7 +3099,7 @@ newEffect {
 		-- percent of all damage to ignore
 		reduce = 50
 	},
-	on_gain = function(self, eff) return "#Target# assumes an extreme defensive posture, avoiding some damage!" end,
+	on_gain = function(self, eff) return _t"#Target# assumes an extreme defensive posture, avoiding some damage!" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "incoming_reduce", eff.reduce)
 	end,
@@ -3116,9 +3116,9 @@ newEffect {
 	subtype = {cooldown = true},
 	status = "detrimental",
 	no_stop_resting = true,
-	on_lose = function(self, eff) return "#LIGHT_BLUE##Target# may dodge again.", "+Trained Reactions" end,
+	on_lose = function(self, eff) return _t"#LIGHT_BLUE##Target# may dodge again.", _t"+Trained Reactions" end,
 	long_desc = function(self, eff)
-		return "Trained Reactions may not trigger."
+		return _t"Trained Reactions may not trigger."
 	end,
 }
 
@@ -3132,7 +3132,7 @@ newEffect {
 	parameters = {
 		global_speed_add = 0.1,
 	},
-	on_gain = function(self, eff) return "#Target# has sped up!" end,
+	on_gain = function(self, eff) return _t"#Target# has sped up!" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "global_speed_add", eff.global_speed_add)
 	end,
@@ -3165,7 +3165,7 @@ newEffect{
 newEffect{
 	name = "PARASITIC_LEECHES", image = "talents/blood_suckers.png",
 	desc = _t"Parasitic Leeches",
-	display_desc = function(self, eff) return "Parasitic Leeches: "..eff.nb.." masses" end,
+	display_desc = function(self, eff) return _t"Parasitic Leeches: "..eff.nb.." masses" end,
 	long_desc = function(self, eff)
 		local source = eff.src or self
 		return ("The target is being fed upon by %d masses of parasitic leeches for %0.2f physical and %0.2f acid damage each turn.  After a %d turn feeding period, one mass will drop off and multiply."):tformat(eff.nb,
@@ -3205,7 +3205,7 @@ newEffect{
 				game.zone:addEntity(game.level, m, "actor", x, y)
 				m:learnTalent(m.T_MULTIPLY, 1)
 
-				game.logSeen(self, "Some leeches drop off %s!", self.name:capitalize())
+				game.logSeen(self, "Some leeches drop off %s!", self:getName():capitalize())
 			end
 			eff.turns = 0
 			eff.nb = eff.nb - 1
@@ -3228,7 +3228,7 @@ newEffect{
 					game.zone:addEntity(game.level, m, "actor", x, y)
 				end
 			end
-			game.logSeen(self, "Some leeches drop off %s!", self.name:capitalize())
+			game.logSeen(self, "Some leeches drop off %s!", self:getName():capitalize())
 		end
 	end,
 }
@@ -3238,15 +3238,15 @@ newEffect{
 	desc = _t"Garrote",
 	long_desc = function(self, eff)
 		local silence = eff.silence > 0 and eff.silenceid and ("  It is silenced for the next %d turn(s), preventing it from casting spells and using some vocal talents."):tformat(eff.silence) or ""
-		return ("The target is being garrotted by %s, rendering it unable to move and subject to an automatic unarmed attack (at %d%% damage) each turn.%s"):tformat(eff.src and eff.src.name or "something", eff.power*100, silence) 
+		return ("The target is being garrotted by %s, rendering it unable to move and subject to an automatic unarmed attack (at %d%% damage) each turn.%s"):tformat(eff.src and eff.src.name or _t"something", eff.power*100, silence) 
 	end,
 	type = "physical",
 	subtype = { grapple=true, pin=true },
 	status = "detrimental",
 	parameters = { power = 0.6, silence=0},
 	remove_on_clone = true,
-	on_gain = function(self, eff) return ("%s has garroted #Target#!"):tformat(eff.src and eff.src.name or "Something"), "+Garrote" end,
-	on_lose = function(self, eff) return ("#Target# is free from %s's garrote."):tformat(eff.src and eff.src.name or "something"), "-Garrote" end,
+	on_gain = function(self, eff) return ("%s has garroted #Target#!"):tformat(eff.src and eff.src.name or _t"Something"), _t"+Garrote" end,
+	on_lose = function(self, eff) return ("#Target# is free from %s's garrote."):tformat(eff.src and eff.src.name or _t"something"), _t"-Garrote" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "never_move", 1)
 		if eff.silence > 0 then eff.silenceid = self:addTemporaryValue("silence", 1) end
@@ -3496,9 +3496,9 @@ newEffect{
 			eff.cancel = true
 			return
 		end
-		return "#Target# is in a deep sleep.", "+Sedated"
+		return _t"#Target# is in a deep sleep.", "+Sedated"
 	end,
-	on_lose = function(self, eff) return "#Target# is no longer sleeping.", "-Sedated" end,
+	on_lose = function(self, eff) return _t"#Target# is no longer sleeping.", _t"-Sedated" end,
 	on_timeout = function(self, eff)
 		-- Increment Insomnia Duration
 		if not self:attr("lucid_dreamer") then
@@ -3548,7 +3548,7 @@ newEffect{
 		if eff.pinid then desc[#desc+1] = "pinned" end
 		if eff.slowid then desc[#desc+1] = ("slowed (%d%%)"):tformat(eff.power*100) end
 		if eff.dam > 0 then desc[#desc+1] = ("taking %0.2f physical damage each turn"):tformat(eff.dam) end
-		return "Caught in a bear trap: "..table.concat(desc, ", ")
+		return _t"Caught in a bear trap: "..table.concat(desc, ", ")
 	end,
 	type = "physical",
 	subtype = { slow=true, pin=true, wound=true, cut=true, bleed=true },
@@ -3674,7 +3674,7 @@ newEffect{
 	subtype = { earth=true, shield=true },
 	status = "beneficial",
 	parameters = { rad=3 },
-	on_gain = function(self, err) return ("#Target# begins protecting %s friends with a stone shield."):tformat(string.his_her(self)), "+Stone Link" end,
+	on_gain = function(self, err) return ("#Target# begins protecting %s friends with a stone shield."):tformat(string.his_her(self)), _t"+Stone Link" end,
 	on_lose = function(self, err) return _t"#Target# is no longer protecting anyone.", _t"-Stone Link" end,
 	activate = function(self, eff)
 		if core.shader.active() then
@@ -3792,8 +3792,8 @@ newEffect{
 	subtype = { antimagic=true },
 	status = "beneficial",
 	parameters = { power=0.15 },
-	on_gain = function(self, err) return "#Target# exudes antimagic forces.", true end,
-	on_lose = function(self, err) return "#Target# is no longer toxic to arcane users.", true end,
+	on_gain = function(self, err) return _t"#Target# exudes antimagic forces.", true end,
+	on_lose = function(self, err) return _t"#Target# is no longer toxic to arcane users.", true end,
 	callbackOnDealDamage = function(self, eff, val, target, dead, death_note)
 		if self._manaclashing then return end
 		if not target.x or dead then return end
@@ -4126,8 +4126,8 @@ newEffect{
 	subtype = { nature=true, resist=true },
 	status = "beneficial",
 	parameters = {power=15, resist_types={"FIRE", "COLD", "LIGHTNING", "NATURE", "DARKNESS"} },
-	on_gain = function(self, err) return "#Target##OLIVE_DRAB# shimmers in multiple hues.", true end,
-	on_lose = function(self, err) return "#Target#'s#OLIVE_DRAB# multi-hued shimmer fades.", true end,
+	on_gain = function(self, err) return _t"#Target##OLIVE_DRAB# shimmers in multiple hues.", true end,
+	on_lose = function(self, err) return _t"#Target#'s#OLIVE_DRAB# multi-hued shimmer fades.", true end,
 	callbackOnTakeDamageBeforeResists = function(self, eff, src, x, y, type, dam, state)
 		if dam > 0 and src ~= self and not self:hasEffect(self.EFF_CHROMATIC_RESISTANCE) then
 			for i, r_type in ipairs(eff.resist_types) do
@@ -4171,13 +4171,13 @@ newEffect{
 		local dt = DamageType[eff.type] and DamageType:get(eff.type)
 		if dt then
 			eff.dtype = dt
-			return "#Target##OLIVE_DRAB# resonates with "..(dt.text_color or "#aaaaaa#")..dt.name:capitalize().."#LAST# damage!", true
+			return ("#Target##OLIVE_DRAB# resonates with %s%s#LAST# damage!"):tformat(dt.text_color or "#aaaaaa#", dt.name:capitalize() ), true
 		else eff.type = nil
 		end
 	end,
 	on_lose = function(self, eff)
 		if eff.dtype then
-			return "#Target##OLIVE_DRAB# no longer resonates with "..(eff.dtype.text_color or "#aaaaaa#")..eff.dtype.name:capitalize().."#LAST# damage.", true
+			return ("#Target##OLIVE_DRAB# no longer resonates with %s%s#LAST# damage!"):tformat(eff.dtype.text_color or "#aaaaaa#", eff.dtype.name:capitalize() ), true
 		end
 	end,
 	activate = function(self, eff)
@@ -4275,7 +4275,7 @@ newEffect{
 newEffect{
 	name = "FORGONE_VISION", image = "effects/blinded.png",
 	desc = _t"Blinded",
-	long_desc = function(self, eff) return "The target is blinded, unable to see anything." end,
+	long_desc = function(self, eff) return _t"The target is blinded, unable to see anything." end,
 	type = "other",
 	subtype = {},
 	status = "detrimental",

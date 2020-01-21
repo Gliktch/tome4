@@ -63,7 +63,7 @@ start_game = function(self)
 	game.zone:addEntity(game.level, slave, "actor", spot.x, spot.y)
 
 	game.party:addMember(slave, {
-		control="full", type="slave", title=p.name.."'s slave",
+		control="full", type="slave", title=("%s's slave"):tformat(p:getName()),
 		orders = {target=true, leash=true, anchor=true, talents=true, behavior=true},
 	})
 	game.party:setPlayer(slave)

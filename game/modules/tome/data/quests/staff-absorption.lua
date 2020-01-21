@@ -100,7 +100,7 @@ start_ambush = function(self, who)
 	end
 
 	local Chat = require("engine.Chat")
-	local chat = Chat.new("dreadfell-ambush", {name="Ukruk the Fierce"}, who)
+	local chat = Chat.new("dreadfell-ambush", {name=_t"Ukruk the Fierce"}, who)
 	chat:invoke()
 end
 

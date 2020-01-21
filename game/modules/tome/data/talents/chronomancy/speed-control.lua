@@ -105,7 +105,7 @@ newTalent{
 			self.energy.value = self.energy.value + (t.getDuration(self, t) * 1000)
 			self:setEffect(self.EFF_TIME_STOP, 1, {power=100})
 			
-			game.logSeen(self, "#STEEL_BLUE#%s has stopped time!#LAST#", self.name:capitalize())
+			game.logSeen(self, "#STEEL_BLUE#%s has stopped time!#LAST#", self:getName():capitalize())
 			game:playSoundNear(self, "talents/heal")
 		end)
 		return true

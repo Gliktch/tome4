@@ -190,7 +190,7 @@ function _M:mouseEvent(button, x, y, xrel, yrel, bx, by, event)
 						elseif sel.ui == "ignore" then
 							Dialog:yesnoPopup(_t"Ignore user", ("Really ignore all messages from: %s"):tformat(citem.login), function(ret) if ret then profile.chat:ignoreUser(citem.login) end end)
 						elseif sel.ui == "report" then
-							game:registerDialog(require('engine.dialogs.GetText').new(("Reason to report: %sReason"):tformat(citem.login), 4, 500, function(text)
+							game:registerDialog(require('engine.dialogs.GetText').new(("Reason to report: %s"):tformat(citem.login), _t"Reason", 4, 500, function(text)
 								profile.chat:reportUser(citem.login, text)
 								game.log("#VIOLET#", "Report sent.")
 							end))							

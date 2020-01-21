@@ -112,7 +112,7 @@ newTalent{
 	require = techs_req3,
 	points = 5,
 	random_ego = "attack",
-	message = function(self) if self.subtype == "rodent" then return "@Source@ uses Warsqueak." else return "@Source@ uses Warshout." end end ,
+	message = function(self) if self.subtype == "rodent" then return _t"@Source@ uses Warsqueak." else return _t"@Source@ uses Warshout." end end ,
 	stamina = 30,
 	cooldown = 18,
 	tactical = { ATTACKAREA = { confusion = 1 }, DISABLE = { confusion = 3 } },
@@ -192,10 +192,10 @@ newTalent{
 		if hit then
 			if target:checkHit(self:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 5 - self:getTalentLevel(t) / 2) and target:canBe("instakill") and target.life > 0 and target.life < target.max_life * 0.2 then
 				-- KILL IT !
-				game.logSeen(target, "%s feels the pain of the death blow!", target.name:capitalize())
+				game.logSeen(target, "%s feels the pain of the death blow!", target:getName():capitalize())
 				target:die(self)
 			elseif target.life > 0 and target.life < target.max_life * 0.2 then
-				game.logSeen(target, "%s resists the death blow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the death blow!", target:getName():capitalize())
 			end
 		end
 		return true
@@ -242,7 +242,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the stunning blow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stunning blow!", target:getName():capitalize())
 			end
 		end
 
@@ -304,7 +304,7 @@ newTalent{
 					local eff = rng.tableRemove(effs)
 
 					if eff[1] == "effect" then
-						game.logSeen(self, "#CRIMSON#%s shatters %s shield!", self.name:capitalize(), target.name)
+						game.logSeen(self, "#CRIMSON#%s shatters %s shield!", self:getName():capitalize(), target:getName())
 						target:removeEffect(eff[2])
 					end
 				end

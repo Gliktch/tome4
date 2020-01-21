@@ -116,7 +116,7 @@ local function alchemist_reaction_complete(npc, player, lose, other_alch, other_
 		return (_t[[SON OF A RITCH! YOU SHOW UP TEN MINUTES AFTER I GET THE NEWS THAT SOME JACKASS ALREADY FINISHED THE ELIXIRS AND IS GETTING ACCEPTED BY THE BROTHERHOOD. WHAT THE HELL TOOK YOU SO LONG? MIRVENIA'S MAMMARIES, I'LL TAKE THESE AND MAKE YOU YOUR REWARD, BUT ONLY BECAUSE A CURSE WILL KILL ME IF I DON'T. AND IF IT TASTES LIKE PISS, THAT'S YOUR IMAGINATION, I'M SURE.]])
 	else
 		return ([[#LIGHT_GREEN#*The halfling hands you a note that says, 'Heard %s managed to make a %s while you've been loafing. Hurry the hell up next time.*#WHITE#
-		I STILL CAN'T HEAR A DAMNED THING. FORTUNATELY, YOU DON'T LOOK LIKE THE SORT THAT MAKES INTERESTING CONVERSATION.]]):tformat(other_alch, other_elixir)
+		I STILL CAN'T HEAR A DAMNED THING. FORTUNATELY, YOU DON'T LOOK LIKE THE SORT THAT MAKES INTERESTING CONVERSATION.]]):tformat(_t(other_alch), other_elixir)
 	end
 end
 
@@ -165,7 +165,7 @@ newChat{ id="choice",
 	text = _t[[#LIGHT_GREEN#*He hands you a slip of paper with the names and properties of some elixirs on it.*#WHITE#
 THE INGREDIENTS TO THESE SUCKERS ARE SORT OF A TRADE SECRET, SO I'LL TELL YOU ABOUT ONE AND WE'LL SEE HOW THAT GOES. OH, AND I'LL MAKE ENOUGH FOR YOU TO HAVE A SWIG WHEN I'M DONE, SO GOOD FOR YOU. WHICH ONE WILL IT BE? JUST POINT AT THE DAMNED LIST. I HAVEN'T HEARD A THING YOU'VE SAID YET. I HOPE TO HELL YOU'RE NOT STANDING THERE TRYING TO SELL ME SOMETHING.]],
 	answers = {
-		{("[Indicate the %s.]"):tformat(e[1].name), jump="list",
+		{("[Indicate the %s.]"):tformat(_t(e[1].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[1].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[1].start)
@@ -178,7 +178,7 @@ THE INGREDIENTS TO THESE SUCKERS ARE SORT OF A TRADE SECRET, SO I'LL TELL YOU AB
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("[Indicate the %s.]"):tformat(e[2].name), jump="list",
+		{("[Indicate the %s.]"):tformat(_t(e[2].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[2].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[2].start)
@@ -191,7 +191,7 @@ THE INGREDIENTS TO THESE SUCKERS ARE SORT OF A TRADE SECRET, SO I'LL TELL YOU AB
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("[Indicate the %s.]"):tformat(e[3].name), jump="list",
+		{("[Indicate the %s.]"):tformat(_t(e[3].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[3].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[3].start)
@@ -438,7 +438,7 @@ YOUR DOSE OF THE ELIXIR, AS WELL AS SOMETHING ELSE. THIS INFUSION IS RARE AS HEL
 newChat{ id="choice",
 	text = _t[[WHICH ELIXIR DO YOU WANT TO HELP ME WITH? YOU ARE HERE TO DO JUST THAT, RIGHT? YOU'RE NOT SOME IMBECILE HERE LOOKING FOR A LOVE POTION?]],
 	answers = {
-		{("[Indicate the %s.]"):tformat(e[1].name), jump="list",
+		{("[Indicate the %s.]"):tformat(_t(e[1].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[1].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[1].start)
@@ -451,7 +451,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("[Indicate the %s.]"):tformat(e[2].name), jump="list",
+		{("[Indicate the %s.]"):tformat(_t(e[2].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[2].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[2].start)
@@ -464,7 +464,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("[Indicate the %s.]"):tformat(e[3].name), jump="list",
+		{("[Indicate the %s.]"):tformat(_t(e[3].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[3].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[3].start)

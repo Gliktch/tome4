@@ -53,7 +53,7 @@ function _M:actBase()
 		self.summon_time = self.summon_time - 1
 		if self.summon_time <= 0 then
 			if not self.summon_quiet then
-				game.logPlayer(self.summoner, "#PINK#Your summoned %s disappears.", self.name)
+				game.logPlayer(self.summoner, "#PINK#Your summoned %s disappears.", self:getName())
 			end
 			self:die()
 			self.dead_by_unsummon = true
@@ -396,7 +396,7 @@ function _M:tooltip(x, y, seen_by)
 	str:add(
 		true,
 		("Killed by you: %s"):tformat(killed), true,
-		_t"Target: ", target and target.name or _t"none"
+		_t"Target: ", target and target:getName() or _t"none"
 	)
 	-- Give hints to stealthed/invisible players about where the NPC is looking (if they have LOS)
 	if target == game.player and (game.player:attr("stealth") or game.player:attr("invisible")) and game.player:hasLOS(self.x, self.y) then
@@ -432,7 +432,7 @@ end
 
 --- Make emotes appear in the log too
 function _M:setEmote(e)
-	game.logSeen(self, "%s says: '%s'", self.name:capitalize(), e.text)
+	game.logSeen(self, "%s says: '%s'", self:getName():capitalize(), e.text)
 	mod.class.Actor.setEmote(self, e)
 end
 

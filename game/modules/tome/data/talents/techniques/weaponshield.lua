@@ -55,7 +55,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getStunDuration(self, t), {apply_power=self:combatAttackStr()})
 			else
-				game.logSeen(target, "%s resists the shield bash!", target.name:capitalize())
+				game.logSeen(target, "%s resists the shield bash!", target:getName():capitalize())
 			end
 		end
 
@@ -273,7 +273,7 @@ newTalent{
 					target:knockback(self.x, self.y, t.getDist(self, t))
 					if target:canBe("stun") then target:setEffect(target.EFF_DAZED, t.getDuration(self, t), {}) end
 				else
-					game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+					game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 				end
 			end
 		end)

@@ -55,7 +55,7 @@ newTalent{
 			local spot = i == 1 and {x=x, y=y} or rng.tableRemove(grids)
 			if not spot then break end
 			local trap = Trap.new{
-				name = "glyph of explosion",
+				name = _t"glyph of explosion",
 				type = "elemental", id_by_type=true, unided_name = "trap",
 				display = '^', color=colors.GOLD, image = "trap/trap_glyph_explosion_02_64.png",
 				faction = self.faction,
@@ -131,7 +131,7 @@ newTalent{
 		
 		local dam = self:spellCrit(t.getDazeDuration(self, t))
 		local trap = Trap.new{
-			name = "glyph of paralysis",
+			name = _t"glyph of paralysis",
 			type = "elemental", id_by_type=true, unided_name = "trap",
 			display = '^', color=colors.GOLD, image = "trap/trap_glyph_paralysis_01_64.png",
 			faction = self.faction,
@@ -205,7 +205,7 @@ newTalent{
 		local dam = self:spellCrit(t.getDamage(self, t))
 		local sp = self:combatSpellpower()
 		local trap = Trap.new{
-			name = "glyph of repulsion",
+			name = _t"glyph of repulsion",
 			type = "elemental", id_by_type=true, unided_name = "trap",
 			display = '^', color=colors.GOLD, image = "trap/trap_glyph_repulsion_01_64.png",
 			faction = self.faction,
@@ -295,7 +295,7 @@ newTalent{
 			if not spot then break end
 		
 		local trap = Trap.new{
-			name = "glyph of explosion",
+			name = _t"glyph of explosion",
 			type = "elemental", id_by_type=true, unided_name = "trap",
 			display = '^', color=colors.GOLD, image = "trap/trap_glyph_explosion_02_64.png",
 			faction = self.faction,
@@ -374,7 +374,7 @@ newTalent{
 
 		local dam = t.getSlow(self, t)
 		local trap = Trap.new{
-			name = "glyph of fatigue",
+			name = _t"glyph of fatigue",
 			type = "elemental", id_by_type=true, unided_name = "trap",
 			display = '^', color=colors.GOLD, image = "trap/trap_glyph_fatigue_01_64.png",
 			faction = self.faction,

@@ -47,7 +47,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower(), apply_save="combatSpellResist"})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 			self:forceUseTalent(self.T_BLOCK, {ignore_cooldown=true, ignore_energy=true})
 		end
@@ -131,7 +131,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_DAZED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower(), apply_save="combatSpellResist"})
 			else
-				game.logSeen(target, "%s resists the dazing blows!", target.name:capitalize())
+				game.logSeen(target, "%s resists the dazing blows!", target:getName():capitalize())
 			end
 			self:alterTalentCoolingdown(self.T_BLOCK, -1000)
 		end

@@ -528,7 +528,7 @@ function _M:setArenaTriggers(e, entry)
 			if self.arenaLastHit >= self.max_life * 2 then
 				local x, y = game.level.map:getTileToScreen(self.x, self.y, true)
 				game.flyers:add(x, y, 90, 0, -0.5, "OVERKILL", { 231, 0, 0 }, false)
-				game.log("#LIGHT_GREEN#Your powerful attack completely obliterates #WHITE#%s#LIGHT_GREEN#!", self.name)
+				game.log("#LIGHT_GREEN#Your powerful attack completely obliterates #WHITE#%s#LIGHT_GREEN#!", self:getName())
 				local val = (self.level * 0.015)
 				if val > 0.5 then game.log("#LIGHT_GREEN#The audience cheers!") end
 				game.level.arena.raiseRank(val)

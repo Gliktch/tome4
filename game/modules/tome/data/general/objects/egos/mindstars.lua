@@ -170,7 +170,7 @@ newEntity{
 		melee_project = { [DamageType.ITEM_ACID_CORRODE]= resolvers.mbonus_material(15, 5), [DamageType.ITEM_NATURE_SLOW]= resolvers.mbonus_material(15, 5),},
 	},
 	no_auto_hotkey = true,
-	resolvers.charm("divide the mindstar in two", 1,
+	resolvers.charm(_t"divide the mindstar in two", 1,
 		function(self, who)
 			-- Check for free slot first
 			if who:getFreeHands() == 0 then
@@ -489,7 +489,7 @@ newEntity{
 				if not t then return end
 				
 				target.talents_cd[t.id] = turns
-				game.logSeen(target, "#YELLOW#%s has their %s spell disrupted for for %d turns!", target.name:capitalize(), t.name, turns)
+				game.logSeen(target, "#YELLOW#%s has their %s spell disrupted for for %d turns!", target:getName():capitalize(), t.name, turns)
 			end
 		},
 	},
@@ -741,14 +741,14 @@ newEntity{
 			local x, y, target = who:getTarget(tg)
 			if not x or not y then return nil end
 			if target then
-				game.logSeen(who, "%s feeds %s %s with psychic energy from %s!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}), target.name:capitalize())
+				game.logSeen(who, "%s feeds %s %s with psychic energy from %s!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}), target:getName():capitalize())
 				if target:checkHit(who:combatMindpower(), target:combatMentalResist(), 0, 95, 5) then
 					local damage = self.use_power.damage(self, who)
 					who:project(tg, x, y, engine.DamageType.MIND, {dam=damage, alwaysHit=true}, {type="mind"})
 					who:incPsi(damage/10)
 					who:incHate(damage/10)
 				else
-					game.logSeen(target, "%s resists the mind attack!", target.name:capitalize())
+					game.logSeen(target, "%s resists the mind attack!", target:getName():capitalize())
 				end
 			end
 			return {id=true, used=true}

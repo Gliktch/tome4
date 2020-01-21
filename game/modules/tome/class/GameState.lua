@@ -514,9 +514,7 @@ function _M:generateRandart(data)
 	o.namescheme = name
 	o.define_as = name:format(o.name):upper():gsub("[^A-Z]", "_")
 	o.unique = name:format(o.name)
-	o.name = name:format(o.name)
-	-- I18N display_name
-	o.display_name = name:format(o.display_name)
+	o.name = name:format(o:getName())
 	o.randart = true
 	o.no_unique_lore = true
 	o.rarity = rng.range(200, 290)
@@ -3472,7 +3470,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			a.on_bump = function(self, who)
 				local p = game:getPlayer(true)
 				if who ~= p then
-					game.logPlayer(who, "#ORCHID#%s does not recognize you.", self.name:capitalize())
+					game.logPlayer(who, "#ORCHID#%s does not recognize you.", self:getName():capitalize())
 					return
 				end
 				require("engine.ui.Dialog"):yesnoPopup(_t"Challenge: #PURPLE#Mirror Match", _t"Challenge your mirror clone and triumph!", function(r) if not r then
@@ -3594,7 +3592,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 							if self:isEnded() then return end
 							if target.is_headhunter_npc then -- killed target spawn
 								self.nb_killed = self.nb_killed + 1
-								game.bignews:say(60, ("#ORCHID#You claim the head of %s, giving pause to all foes on the level."):tformat(target.name))
+								game.bignews:say(60, ("#ORCHID#You claim the head of %s, giving pause to all foes on the level."):tformat(target:getName()))
 								if self.nb_killed >= self.to_kill then
 									who:setQuestStatus(self.id, self.COMPLETED)
 								end
@@ -3699,7 +3697,7 @@ function _M:infiniteDungeonChallengeReward(quest, who)
 	end
 	reward_name = table.concatNice(reward_name, ", ", _t" and ")
 	quest.popup_text[engine.Quest.DONE] = ("#OLIVE_DRAB#Reward%s: %s"):tformat((nb>0 and "s" or ""), reward_name)
-	game.log("#LIGHT_BLUE#%s has received: %s.", who.name:capitalize(), reward_name)
+	game.log("#LIGHT_BLUE#%s has received: %s.", who:getName():capitalize(), reward_name)
 	return reward_name
 end
 

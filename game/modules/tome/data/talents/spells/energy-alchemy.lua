@@ -179,14 +179,14 @@ newTalent{
 		if not p.last_life then p.last_life = self.life end
 		local min = self.max_life * 0.2
 		if self.life <= p.last_life - min then
-			game.logSeen(self, "#LIGHT_STEEL_BLUE#%s is energized by all the damage taken!", self.name:capitalize())
+			game.logSeen(self, "#LIGHT_STEEL_BLUE#%s is energized by all the damage taken!", self:getName():capitalize())
 			self.energy.value = self.energy.value + (t.getTurn(self, t) * game.energy_to_act / 100)
 		end
 		p.last_life = self.life
 	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/lightning")
-		local ret = {name = self.name:capitalize().."'s "..t.name}
+		local ret = {name = ("%s's %s"):tformat(self:getName():capitalize(), t.name)}
 		self:talentTemporaryValue(ret, "movement_speed", t.getSpeed(self, t))
 		ret.last_life = self.life
 

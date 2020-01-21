@@ -114,7 +114,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 		self.at_end = at_end
 	end
 
-	Dialog.init(self, title and title or ("Character Creation: %s"):tformat(actor.name), w or 600, h or 400)
+	Dialog.init(self, title and title or ("Character Creation: %s"):tformat(actor:getName()), w or 600, h or 400)
 
 	self.descriptors = {}
 	self.descriptors_by_type = {}

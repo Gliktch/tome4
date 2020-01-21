@@ -73,7 +73,7 @@ newEffect{
 newEffect{
 	name = "SILENCED", image = "effects/silenced.png",
 	desc = _t"Silenced",
-	long_desc = function(self, eff) return "The target is silenced, preventing it from casting spells and using some vocal talents." end,
+	long_desc = function(self, eff) return _t"The target is silenced, preventing it from casting spells and using some vocal talents." end,
 	type = "mental",
 	subtype = { silence=true },
 	status = "detrimental",
@@ -96,8 +96,8 @@ newEffect{
 	subtype = { focus=true },
 	status = "detrimental",
 	parameters = { power = 10 },
-	on_gain = function(self, err) return "Summons flock towards #Target#.", true end,
-	on_lose = function(self, err) return "#Target# is no longer being targeted by summons.", true end,
+	on_gain = function(self, err) return _t"Summons flock towards #Target#.", true end,
+	on_lose = function(self, err) return _t"#Target# is no longer being targeted by summons.", true end,
 	on_timeout = function(self, eff)
 		self:project({type="ball", range=0, friendlyfire=false, radius=eff.range}, self.x, self.y, function(px, py)
 		local target = game.level.map(px, py, Map.ACTOR)
@@ -226,7 +226,7 @@ newEffect{
 	status = "detrimental",
 	parameters = { },
 	on_gain = function(self, err) return _t"#Target#'s mind is dominated.", _t"+Dominant Will" end,
-	on_lose = function(self, err) return "#Target# is free from the domination.",  "-Dominant Will"  end,
+	on_lose = function(self, err) return _t"#Target# is free from the domination.",  "-Dominant Will"  end,
 	activate = function(self, eff)
 		self:setTarget() -- clear ai target
 		eff.old_faction = self.faction
@@ -455,7 +455,7 @@ newEffect{
 	desc = _t"Stalked",
 	long_desc = function(self, eff)
 		local effStalker = eff.src:hasEffect(eff.src.EFF_STALKER)
-		if not effStalker then return "Being stalked." end
+		if not effStalker then return _t"Being stalked." end
 		local t = self:getTalentFromId(eff.src.T_STALK)
 		local desc = ([[Being stalked by %s. Stalker bonus level %d: +%d accuracy, +%d%% melee damage, +%0.2f hate/turn prey was hit.]]):tformat(
 			eff.src.name, effStalker.bonus, t.getAttackChange(eff.src, t, effStalker.bonus), t.getStalkedDamageMultiplier(eff.src, t, effStalker.bonus) * 100 - 100, t.getHitHateChange(eff.src, t, effStalker.bonus))
@@ -550,7 +550,7 @@ newEffect{
 		end
 		if not self:checkHit(eff.src:combatMindpower(), self:combatMentalResist(), 0, 95, 5) then
 			eff.timer = eff.timer + eff.chance * 0.5
-			game.logSeen(self, "#F53CBE#%s struggles against the beckoning.", self.name:capitalize())
+			game.logSeen(self, "#F53CBE#%s struggles against the beckoning.", self:getName():capitalize())
 		else
 			eff.timer = eff.timer + eff.chance
 		end
@@ -608,7 +608,7 @@ newEffect{
 	do_onTakeHit = function(self, eff, dam)
 		eff.resistChance = (eff.resistChance or 0) + math.min(100, math.max(0, dam / self.max_life * 100))
 		if rng.percent(eff.resistChance) then
-			game.logSeen(self, "#F53CBE#%s is jolted to attention by the damage and is no longer being beckoned.", self.name:capitalize())
+			game.logSeen(self, "#F53CBE#%s is jolted to attention by the damage and is no longer being beckoned.", self:getName():capitalize())
 			self:removeEffect(self.EFF_BECKONED)
 		end
 
@@ -960,7 +960,7 @@ newEffect{
 	long_desc = function(self, eff) return ("The target is in a state of growing fear. If they spend %d more turns within range %d and in sight of the source of this fear (%s), they will take %d mind and darkness damage and be subjected to a new fear."):
 		tformat(eff.turns_left, eff.range, eff.src.name, eff.damage) end,
 	type = "other",
-	charges = function(self, eff) return "#ORANGE#"..eff.turns_left.."#LAST#" end,
+	charges = function(self, eff) return _t"#ORANGE#"..eff.turns_left.."#LAST#" end,
 	subtype = { },
 	status = "detrimental",
 	cancel_on_level_change = true,
@@ -974,12 +974,12 @@ newEffect{
 			if eff.turns_left <= 0 then
 				eff.turns_left = eff.turns
 				if rng.percent(eff.chance or 100) then
-					game.logSeen(self, "%s succumbs to heightening fears!", self.name:capitalize())
+					game.logSeen(self, "%s succumbs to heightening fears!", self:getName():capitalize())
 					DamageType:get(DamageType.MIND).projector(eff.src, self.x, self.y, DamageType.MIND, { dam=eff.damage, crossTierChance=25 })
 					DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, eff.damage)
 					tInstillFear.applyEffect(eff.src, tInstillFear, self, true)
 				else
-					game.logSeen(self, "%s feels a little less afraid!", self.name:capitalize())
+					game.logSeen(self, "%s feels a little less afraid!", self:getName():capitalize())
 				end
 			end
 	end,
@@ -1045,7 +1045,7 @@ newEffect{
 		end
 		if not self:checkHit(eff.src:combatMindpower(), self:combatMentalResist(), 0, 95, 5) then
 			eff.timer = eff.timer + eff.attackChance * 0.5
-			game.logSeen(self, "#F53CBE#%s struggles against the paranoia.", self.name:capitalize())
+			game.logSeen(self, "#F53CBE#%s struggles against the paranoia.", self:getName():capitalize())
 		else
 			eff.timer = eff.timer + eff.attackChance
 		end
@@ -1062,9 +1062,9 @@ newEffect{
 						self:logCombat(target, "#F53CBE##Source# attacks #Target# in a fit of paranoia.")
 						if self:attackTarget(target, nil, 1, false) and target ~= eff.src then
 							if not target:canBe("fear") then
-								game.logSeen(target, "#F53CBE#%s ignores the fear!", target.name:capitalize())
+								game.logSeen(target, "#F53CBE#%s ignores the fear!", target:getName():capitalize())
 							elseif not target:checkHit(eff.mindpower, target:combatMentalResist()) then
-								game.logSeen(target, "%s resists the fear!", target.name:capitalize())
+								game.logSeen(target, "%s resists the fear!", target:getName():capitalize())
 							else
 								target:setEffect(target.EFF_PARANOID, eff.duration, {src=eff.src, attackChance=eff.attackChance, mindpower=eff.mindpower, duration=eff.duration, tyrantDur = eff.tyrantDur, tyrantPower = eff.tyrantPower, maxStacks = eff.maxStacks })
 							end
@@ -1258,7 +1258,7 @@ newEffect{
 			if not target or target.dead then
 				self:die()
 			else
-				game.logSeen(self, "%s is tormented by a vision!", target.name:capitalize())
+				game.logSeen(self, "%s is tormented by a vision!", target:getName():capitalize())
 				self:project({type="hit", x=target.x,y=target.y}, target.x, target.y, engine.DamageType.MIND, { dam=self.tormentedDamage,alwaysHit=true,crossTierChance=75 })
 				self:die()
 			end
@@ -1325,7 +1325,7 @@ newEffect{
 		end
 		if not self:checkHit(eff.src:combatMindpower(), self:combatMentalResist(), 0, 95, 5) then
 			eff.timer = eff.timer + eff.chance * 0.5
-			game.logSeen(self, "#F53CBE#%s struggles against the panic.", self.name:capitalize())
+			game.logSeen(self, "#F53CBE#%s struggles against the panic.", self:getName():capitalize())
 		else
 			eff.timer = eff.timer + eff.chance
 		end
@@ -1610,7 +1610,7 @@ newEffect{
 					self:setEffect(self.EFF_CONFUSED, 3, {power=30})
 				end
 			end
-			game.logSeen(self, "#F53CBE#%s succumbs to the nightmare!", self.name:capitalize())
+			game.logSeen(self, "#F53CBE#%s succumbs to the nightmare!", self:getName():capitalize())
 		end
 	end,
 }
@@ -1749,7 +1749,7 @@ newEffect{
 		if self.life <= (self.die_at or 0) then
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), "Falls dead!", {255,0,255})
-			game.logSeen(self, "%s dies when its frenzy ends!", self.name:capitalize())
+			game.logSeen(self, "%s dies when its frenzy ends!", self:getName():capitalize())
 			self:die(self)
 		end
 	end,
@@ -1766,7 +1766,7 @@ newEffect{
 	on_gain = function(self, err) return nil, _t"+Bloodbath" end,
 	on_lose = function(self, err) return nil, _t"-Bloodbath" end,
 	on_merge = function(self, old_eff, new_eff)
-		if old_eff.cur_regen + new_eff.regen < new_eff.max then	game.logSeen(self, "%s's blood frenzy intensifies!", self.name:capitalize()) end
+		if old_eff.cur_regen + new_eff.regen < new_eff.max then	game.logSeen(self, "%s's blood frenzy intensifies!", self:getName():capitalize()) end
 		new_eff.templife_id = old_eff.templife_id
 		self:removeTemporaryValue("max_life", old_eff.life_id)
 		self:removeTemporaryValue("life_regen", old_eff.life_regen_id)
@@ -1856,7 +1856,7 @@ newEffect{
 		if self.life <= 0 then
 			self.life = 1
 			self:setEffect(self.EFF_STUNNED, 3, {})
-			game.logSeen(self, "%s's increased life fades, leaving it stunned by the loss.", self.name:capitalize())
+			game.logSeen(self, "%s's increased life fades, leaving it stunned by the loss.", self:getName():capitalize())
 		end
 	end,
 }
@@ -1874,7 +1874,7 @@ newEffect{
 		if self:isTalentActive(self.T_GESTURE_OF_PAIN) then xs = (" with a %d%% chance to counterattack"):tformat(self:callTalent(self.T_GESTURE_OF_GUARDING,"getCounterAttackChance")) end
 		return ("Guarding against melee damage:  Will dismiss up to %d damage from the next %0.1f attack(s)%s."):tformat(dam, deflects, xs)
 	end,
-	charges = function(self, eff) return "#LIGHT_GREEN#"..math.ceil(eff.deflects) end,
+	charges = function(self, eff) return _t"#LIGHT_GREEN#"..math.ceil(eff.deflects) end,
 	type = "mental",
 	subtype = { curse=true },
 	status = "beneficial",
@@ -1937,7 +1937,7 @@ newEffect{
 		-- restore damage shield
 		if eff.damageShieldMax and eff.damageShield ~= eff.damageShieldMax and not self.dead then
 			eff.damageShieldUsed = (eff.damageShieldUsed or 0) + eff.damageShieldMax - eff.damageShield
-			game.logSeen(self, "%s has shrugged off %d damage and is ready for more.", self.name:capitalize(), eff.damageShieldMax - eff.damageShield)
+			game.logSeen(self, "%s has shrugged off %d damage and is ready for more.", self:getName():capitalize(), eff.damageShieldMax - eff.damageShield)
 			eff.damageShield = eff.damageShieldMax
 
 			if eff.damageShieldBonus and eff.damageShieldUsed >= eff.damageShieldBonus and eff.actualDuration < eff.maxDuration then
@@ -1955,7 +1955,7 @@ newEffect{
 		local absorb = math.min(eff.damageShield, dam)
 		eff.damageShield = eff.damageShield - absorb
 
-		--game.logSeen(self, "%s shrugs off %d damage.", self.name:capitalize(), absorb)
+		--game.logSeen(self, "%s shrugs off %d damage.", self:getName():capitalize(), absorb)
 
 		return dam - absorb
 	end,
@@ -2239,7 +2239,7 @@ newEffect{
 newEffect{
 	name = "FEEDBACK_LOOP", image = "talents/feedback_loop.png",
 	desc = _t"Feedback Loop",
-	long_desc = function(self, eff) return "The target is gaining feedback." end,
+	long_desc = function(self, eff) return _t"The target is gaining feedback." end,
 	type = "mental",
 	subtype = { psionic=true },
 	status = "beneficial",
@@ -2257,7 +2257,7 @@ newEffect{
 newEffect{
 	name = "FOCUSED_WRATH", image = "talents/focused_wrath.png",
 	desc = _t"Focused Wrath",
-	long_desc = function(self, eff) return ("The target's subconscious has focused, increasing Mind resistance penetration by +%d%% and turning its attention on %s."):tformat(eff.pen, eff.target.name:capitalize()) end,
+	long_desc = function(self, eff) return ("The target's subconscious has focused, increasing Mind resistance penetration by +%d%% and turning its attention on %s."):tformat(eff.pen, eff.target:getName():capitalize()) end,
 	type = "mental",
 	subtype = { psionic=true },
 	status = "beneficial",
@@ -2596,7 +2596,7 @@ newEffect{
 newEffect{
 	name = "HIDDEN_RESOURCES", image = "talents/hidden_resources.png",
 	desc = _t"Hidden Resources",
-	long_desc = function(self, eff) return "The target does not consume any resources." end,
+	long_desc = function(self, eff) return _t"The target does not consume any resources." end,
 	type = "mental",
 	subtype = { willpower=true },
 	status = "beneficial",
@@ -2927,12 +2927,12 @@ newEffect{
 	subtype = {psionic=true},
 	status = "beneficial",
 	activate = function(self, eff)
-		game.logSeen(self, "An unseen force begins to swirl around %s!", self.name)
+		game.logSeen(self, "An unseen force begins to swirl around %s!", self:getName())
 		eff.particles = self:addParticles(Particles.new("force_area", 1, { radius = self:getTalentRange(self.T_UNSEEN_FORCE) }))
 	end,
 	deactivate = function(self, eff)
 		self:removeParticles(eff.particles)
-		game.logSeen(self, "The unseen force around %s subsides.", self.name)
+		game.logSeen(self, "The unseen force around %s subsides.", self:getName())
 	end,
 	on_timeout = function(self, eff)
 		local targets = {}

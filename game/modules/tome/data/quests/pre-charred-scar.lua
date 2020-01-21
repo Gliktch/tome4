@@ -28,7 +28,7 @@ desc = function(self, who)
 end
 
 on_grant = function(self, who)
-	local aeryn = {name="High Sun Paladin Aeryn"}
+	local aeryn = {name=_t"High Sun Paladin Aeryn"}
 	local chat = engine.Chat.new("pre-charred-scar", aeryn, who)
 	chat:invoke()
 

@@ -147,14 +147,14 @@ newTalent {
 				local dist = t.getDist(self, t)
 				target:knockback(self.x, self.y, dist)
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 
 		-- Ranged attack
 		local targets = self:archeryAcquireTargets(nil, {one_shot=true, x=target.x, y=target.y, no_energy = true})
 		if targets then
-			--game.logSeen(self, "%s follows up with a shot from %s!", self.name:capitalize(), sling:getName())
+			--game.logSeen(self, "%s follows up with a shot from %s!", self:getName():capitalize(), sling:getName())
 			self:archeryShoot(targets, t, nil, {mult=t.getSlingMult(self, t)})
 		end
 
@@ -189,9 +189,9 @@ newTalent {
 		local t2 = self:getTalentFromId(self.T_SKIRMISHER_BASH_AND_SMASH)
 		if t2 then
 			if self:getTalentLevelRaw(t2) >= 5 then
-				crit = " At talent level 5, your Bash and Smash shield hits are guaranteed criticals."
+				crit = _t" At talent level 5, your Bash and Smash shield hits are guaranteed criticals."
 			else
-				crit = " At talent level 5, your Bash and Smash shield hit is a guaranteed critical."
+				crit = _t" At talent level 5, your Bash and Smash shield hit is a guaranteed critical."
 			end
 		end
 		return ([[When you are hit by a projectile, physical or otherwise, you have a %d%% chance to deflect it up to %d squares away.%s]])

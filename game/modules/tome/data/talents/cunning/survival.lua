@@ -160,7 +160,7 @@ newTalent{
 		
 		dir = util.getDir(x, y, self.x, self.y)
 		x, y = util.coordAddDir(self.x, self.y, dir)
-		print("Requesting disarm trap", self.name, t.id, x, y)
+		print("Requesting disarm trap", self:getName(), t.id, x, y)
 		local t_det = self:attr("see_traps") or 0
 		local trap = game.level.map(x, y, engine.Map.TRAP)
 		if trap and not trap:knownBy(self) then trap = self:detectTrap(nil, x, y, t_det) end

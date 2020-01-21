@@ -2337,7 +2337,7 @@ newEffect{
 		if eff.rot_timer == 0 then
 			DamageType:get(DamageType.BLIGHT).projector(eff.src, self.x, self.y, DamageType.BLIGHT, eff.burst, {from_disease=true})
 			t.spawn_carrion_worm(eff.src, self, t)
-			game.logSeen(self, "#LIGHT_RED#A carrion worm mass bursts out of %s!", self.name:capitalize())
+			game.logSeen(self, "#LIGHT_RED#A carrion worm mass bursts out of %s!", self:getName():capitalize())
 			self:removeEffect(self.EFF_WORM_ROT)
 		end
 	end,
@@ -2346,7 +2346,7 @@ newEffect{
 		if rng.percent(t.getChance(eff.src,t)) then
 			DamageType:get(DamageType.BLIGHT).projector(eff.src, self.x, self.y, DamageType.BLIGHT, eff.burst, {from_disease=true})
 			t.spawn_carrion_worm(eff.src, self, t)
-			game.logSeen(self, "#LIGHT_RED#A carrion worm mass bursts out of %s!", self.name:capitalize())
+			game.logSeen(self, "#LIGHT_RED#A carrion worm mass bursts out of %s!", self:getName():capitalize())
 			self:removeEffect(self.EFF_WORM_ROT)
 		end
 	end,
@@ -2429,7 +2429,7 @@ newEffect{
 	status = "beneficial",
 	parameters = { power=10 },
 	on_gain = function(self, err) return _t"#Target# is surging with arcane energy.", _t"+Arcane Supremacy" end,
-	on_lose = function(self, err) return _t"#The arcane energy around Target# has dissipated.", _t"-Arcane Supremacy" end,
+	on_lose = function(self, err) return _t"The arcane energy around #target# has dissipated.", _t"-Arcane Supremacy" end,
 	activate = function(self, eff)
 		eff.spell_save = self:addTemporaryValue("combat_spellresist", eff.power)
 		eff.spell_power = self:addTemporaryValue("combat_spellpower", eff.power)
@@ -2450,8 +2450,8 @@ newEffect{
 	subtype = { arcane=true },
 	status = "beneficial",
 	parameters = { nb=3 },
-	on_gain = function(self, eff) return ("#Target# warded against %s!"):tformat(DamageType.dam_def[eff.d_type].name), "+Ward" end,
-	on_lose = function(self, eff) return ("#Target#'s %s ward fades"):tformat(DamageType.dam_def[eff.d_type].name), "-Ward" end,
+	on_gain = function(self, eff) return ("#Target# warded against %s!"):tformat(DamageType.dam_def[eff.d_type].name), _t"+Ward" end,
+	on_lose = function(self, eff) return ("#Target#'s %s ward fades"):tformat(DamageType.dam_def[eff.d_type].name), _t"-Ward" end,
 	absorb = function(type, dam, eff, self, src)
 		if eff.d_type ~= type then return dam end
 		game.logPlayer(self, "Your %s ward absorbs the damage!", DamageType.dam_def[eff.d_type].name)
@@ -2770,7 +2770,7 @@ newEffect{
 					local ox, oy = target.x, target.y
 					target:pull(self.x, self.y, 1)
 					if target.x ~= ox or target.y ~= oy then
-						game.logSeen(target, "%s is pulled in!", target.name:capitalize())
+						game.logSeen(target, "%s is pulled in!", target:getName():capitalize())
 					end
 
 					if self:reactionToward(target) < 0 then
@@ -3649,7 +3649,7 @@ newEffect{
 		if self.life <= (self.die_at or 0) then
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), "Unravels!", {255,0,255})
-			game.logSeen(self, "%s has unraveled!", self.name:capitalize())
+			game.logSeen(self, "%s has unraveled!", self:getName():capitalize())
 			self:die(self)
 		end
 	end,
@@ -3722,7 +3722,7 @@ newEffect{
 
 		-- Kill it!!
 		if not self.dead and not self:isTalentActive(self.T_REALITY_SMEARING) and self:canBe("instakill") and self.life > 0 and self.life < self.max_life * 0.2 then
-			game.logSeen(self, "%s has been removed from the timeline!", self.name:capitalize())
+			game.logSeen(self, "%s has been removed from the timeline!", self:getName():capitalize())
 			self:die(src)
 		end
 
@@ -4323,8 +4323,8 @@ newEffect{
 	subtype = { celestial=true, light=true },
 	status = "beneficial",
 	parameters = { power = 10 },
-	on_gain = function(self, err) return "#Target# glows intensely!", true end,
-	on_lose = function(self, err) return "#Target# is no longer glowing .", true end,
+	on_gain = function(self, err) return _t"#Target# glows intensely!", true end,
+	on_lose = function(self, err) return _t"#Target# is no longer glowing .", true end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "inc_damage", {[DamageType.FIRE]=eff.power, [DamageType.LIGHT]=eff.power})
 	end,

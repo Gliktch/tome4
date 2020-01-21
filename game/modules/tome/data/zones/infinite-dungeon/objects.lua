@@ -45,7 +45,7 @@ newEntity{
 	cost = 500,
 
 	use_simple = { name = "quaff the elixir", use = function(self, who)
-		game.logSeen(who, "%s quaffs the %s!", who.name:capitalize(), self:getName())
+		game.logSeen(who, "%s quaffs the %s!", who:getName():capitalize(), self:getName())
 
 		local done = 0
 
@@ -94,7 +94,7 @@ newEntity{
 	use_simple = { name = "quaff the elixir", use = function(self, who, inven, item)
 		local d = require("engine.ui.Dialog"):yesnoLongPopup("Antimagic", [[Quaffing this potion will grant you access to the antimagic talents but at the cost of all access to runes, arcane items and spells.]], 500, function(ret)
 			if ret then
-				game.logSeen(who, "%s quaffs the %s!", who.name:capitalize(), self:getName())
+				game.logSeen(who, "%s quaffs the %s!", who:getName():capitalize(), self:getName())
 
 				who:removeObject(inven, item)
 

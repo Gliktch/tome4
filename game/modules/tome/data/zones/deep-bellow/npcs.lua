@@ -60,7 +60,7 @@ newEntity{ base="BASE_NPC_CORRUPTED_HORROR", define_as = "THE_MOUTH",
 
 	on_takehit = function(self, value)
 		if value <= 500 then
-			game.logSeen(self, "#CRIMSON#%s seems invulnerable, there must be an other way to kill it!", self.name:capitalize())
+			game.logSeen(self, "#CRIMSON#%s seems invulnerable, there must be an other way to kill it!", self:getName():capitalize())
 			return 0
 		end
 		return value
@@ -80,7 +80,7 @@ newEntity{ base="BASE_NPC_CORRUPTED_HORROR", define_as = "THE_MOUTH",
 
 	on_die = function(self, who)
 		game.player:resolveSource():setQuestStatus("deep-bellow", engine.Quest.COMPLETED)
-		game.state:activateBackupGuardian("ABOMINATION", 3, 35, "I have heard a dwarf whispering about some abomination in the deep bellow.")
+		game.state:activateBackupGuardian("ABOMINATION", 3, 35, _t"I have heard a dwarf whispering about some abomination in the deep bellow.")
 
 		if game:getPlayer(true).female then
 			game:setAllowedBuild("cosmetic_race_dwarf_female_beard", true)

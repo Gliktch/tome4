@@ -92,7 +92,7 @@ newTalent{
 		if target:canBe("confusion") then
 			target:setEffect(target.EFF_LOBOTOMIZED, t.getDuration(self, t), {src=self, dam=dam, power=t.getPower(self, t), confuse=t.getConfuse(self,t), apply_power=self:combatMindpower()})
 		else
-			game.logSeen(target, "%s resists the lobotomy!", target.name:capitalize())
+			game.logSeen(target, "%s resists the lobotomy!", target:getName():capitalize())
 		end
 
 		game:playSoundNear(self, "talents/cloud")

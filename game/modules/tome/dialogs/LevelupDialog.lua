@@ -86,7 +86,7 @@ function _M:init(actor, on_finish, on_birth)
 		end
 	end
 
-	Dialog.init(self, ("Levelup: %s, level %s"):tformat(actor.name, actor.level), game.w * 0.9, game.h * 0.9, game.w * 0.05, game.h * 0.05)
+	Dialog.init(self, ("Levelup: %s, level %s"):tformat(actor:getName(), actor.level), game.w * 0.9, game.h * 0.9, game.w * 0.05, game.h * 0.05)
 	if game.w * 0.9 >= 1000 then
 		self.no_tooltip = true
 	end
@@ -493,8 +493,8 @@ function _M:generateList()
 			local isgeneric = self.actor.talents_types_def[tt.type].generic
 			local tshown = (self.actor.__hidden_talent_types[tt.type] == nil and ttknown) or (self.actor.__hidden_talent_types[tt.type] ~= nil and not self.actor.__hidden_talent_types[tt.type])
 			local node = {
-				name=function(item) return tstring{{"font", "bold"}, cat:capitalize().." / "..tt.name:capitalize() ..(" (%s)"):format((isgeneric and _t"generic" or _t"class")), {"font", "normal"}} end,
-				rawname=function(item) return cat:capitalize().." / "..tt.name:capitalize() ..(" (x%.2f)"):format(self.actor:getTalentTypeMastery(item.type)) end,
+				name=function(item) return tstring{{"font", "bold"}, _t(cat):capitalize().." / "..tt.name:capitalize() ..(" (%s)"):format((isgeneric and _t"generic" or _t"class")), {"font", "normal"}} end,
+				rawname=function(item) return _t(cat):capitalize().." / "..tt.name:capitalize() ..(" (x%.2f)"):format(self.actor:getTalentTypeMastery(item.type)) end,
 				type=tt.type,
 				color=function(item) return ((self.actor:knowTalentType(item.type) ~= self.actor_dup:knowTalentType(item.type)) or ((self.actor.__increased_talent_types[item.type] or 0) ~= (self.actor_dup.__increased_talent_types[item.type] or 0))) and {255, 215, 0} or self.actor:knowTalentType(item.type) and {0,200,0} or {175,175,175} end,
 				shown = tshown,
@@ -693,7 +693,7 @@ function _M:createDisplay()
 
 	local recreate_trees = function()
 		self.c_ctree = TalentTrees.new{
-			font = core.display.newFont("/data/font/DroidSans.ttf", 14),
+			font = core.display.newFont(FontPackage:getFont("default"), 14),
 			tiles=game.uiset.hotkeys_display_icons,
 			tree=self.ctree,
 			width=320, height=self.ih-50,
@@ -714,7 +714,7 @@ function _M:createDisplay()
 		}
 
 		self.c_gtree = TalentTrees.new{
-			font = core.display.newFont("/data/font/DroidSans.ttf", 14),
+			font = core.display.newFont(FontPackage:getFont("default"), 14),
 			tiles=game.uiset.hotkeys_display_icons,
 			tree=self.gtree,
 			width=320, height=(self.no_tooltip and self.ih - 50) or self.ih-50 - math.max((not self.b_prodigies and 0 or self.b_prodigies.h + 5), (not self.b_inscriptions and 0 or self.b_inscriptions.h + 5)),
@@ -736,7 +736,7 @@ function _M:createDisplay()
 	recreate_trees()
 
 	self.c_stat = TalentTrees.new{
-		font = core.display.newFont("/data/font/DroidSans.ttf", 14),
+		font = core.display.newFont(FontPackage:getFont("default"), 14),
 		tiles=game.uiset.hotkeys_display_icons,
 		tree=self.tree_stats, no_cross = true,
 		width=50, height=self.ih,
@@ -802,7 +802,7 @@ function _M:createDisplay()
 	end}
 
 	self.t_messages = StatusBox.new{
-		font = core.display.newFont("/data/font/DroidSans.ttf", 16),
+		font = core.display.newFont(FontPackage:getFont("default"), 16),
 		width = math.floor(2 * self.iw / 3), delay = 1,
 	}
 	local vsep1 = Separator.new{dir="horizontal", size=self.ih - self.b_stat.h - 10}

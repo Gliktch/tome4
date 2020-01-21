@@ -162,7 +162,7 @@ newTalent{
 		if not self:checkHit(self:combatAttackRanged(weapon, ammo), target:combatDefenseRanged()) or target:checkEvasion(self) then 
 			xatk, ret = -1e6, false
 		end
-		game.logSeen(self, "%s %s the attack!", self.name:capitalize(), ret and "intercepts" or "fails to intercept")
+		game.logSeen(self, "%s %s the attack!", self:getName():capitalize(), ret and "intercepts" or "fails to intercept")
 		self:archeryShoot(targets, t, nil, {atk = xatk, mult=self:combatTalentWeaponDamage(t, 0.4, 0.9)})
 		return ret
 	end,
@@ -202,7 +202,7 @@ newTalent{
 		if target:canBe("silence") then
 			target:setEffect(target.EFF_SILENCED, t.getDur(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the strangling shot!", target.name:capitalize())
+			game.logSeen(target, "%s resists the strangling shot!", target:getName():capitalize())
 		end
 	end,
 	action = function(self, t)

@@ -165,14 +165,14 @@ It should automatically create a portal back, but it might not be near your arri
 				g:removeAllMOs(true)
 				g:altered()
 				g.show_tooltip = true
-				g.name = "Exploratory Farportal exit"
+				g.name = _t"Exploratory Farportal exit"
 				g.display = '&' g.color_r = colors.VIOLET.r g.color_g = colors.VIOLET.g g.color_b = colors.VIOLET.b
 				g.add_displays = g.add_displays or {}
 				g.add_displays[#g.add_displays+1] = mod.class.Grid.new{image="terrain/maze_teleport.png"}
 				g.notice = true
 				g.change_level = 1 g.change_zone = "shertul-fortress"
 				game.zone:addEntity(game.level, g, "terrain", x, y)
-				if self then game.logSeen(self, "#VIOLET#As %s falls you notice a portal appearing.", self.name)
+				if self then game.logSeen(self, "#VIOLET#As %s falls you notice a portal appearing.", self:getName())
 				else game.logSeen(p, "#VIOLET#Your rod of recall shakes, a portal appears beneath you.") end
 			end
 			zone.on_turn = function(zone)

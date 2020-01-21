@@ -76,7 +76,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	self.selected_cosmetic_options = nil
 	self.tiles = Tiles.new(64, 64, nil, nil, true, nil)
 
-	Dialog.init(self, title and title or "Character Creation", w or 600, h or 400)
+	Dialog.init(self, title and title or _t"Character Creation", w or 600, h or 400)
 
 	self.obj_list = Object:loadList("/data/general/objects/objects.lua")
 	self.obj_list_by_name = {}
@@ -391,10 +391,10 @@ function _M:makeDefault()
 	self:setDescriptor("permadeath", "Adventure")
 	self:setDescriptor("race", "Human")
 	self:setDescriptor("subrace", "Cornac")
-	-- self:setDescriptor("class", "Mage")
-	-- self:setDescriptor("subclass", "Archmage")
-	self:setDescriptor("class", "Warrior")
-	self:setDescriptor("subclass", "Berserker")
+	self:setDescriptor("class", "Mage")
+	self:setDescriptor("subclass", "Alchemist")
+	-- self:setDescriptor("class", "Warrior")
+	-- self:setDescriptor("subclass", "Berserker")
 	__module_extra_info.no_birth_popup = true
 	self:atEnd("created")
 end
@@ -1787,7 +1787,7 @@ function _M:showCosmeticCustomizer(actor, title, on_end)
 	birther:setDescriptor("subrace", actor.descriptor.subrace)
 
 	birther:customizeOptions(clone, function()
-		self:yesnoPopup(_t"Confirm", ("Apply the selected cosmetics to %s?"):tformat(actor.name), function(ret) if ret then
+		self:yesnoPopup(_t"Confirm", ("Apply the selected cosmetics to %s?"):tformat(actor:getName()), function(ret) if ret then
 			local oldactor = birther.actor
 			birther.actor = actor
 			birther:applyCosmeticActor(true)

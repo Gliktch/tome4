@@ -178,7 +178,7 @@ newEntity{ base = "BASE_GEM",
 	on_pickup = function(self, who)
 		if who == game.player then
 			who:runStop(_t"evil touch")
-			who:restStop("evil touch")
+			who:restStop(_t"evil touch")
 		end
 	end,
 	color_attributes = {damage_type = 'SHADOWFLAME',},}
@@ -326,9 +326,9 @@ Now the broken fragments of Raasul's soul are trapped in this terrible artifact,
 				orders = {target=true, leash=true, anchor=true, talents=true},
 			})
 
-			game.logSeen(who, "#GOLD#As the blade touches %s's spilt blood, the blood rises, animated!", target.name:capitalize())
+			game.logSeen(who, "#GOLD#As the blade touches %s's spilt blood, the blood rises, animated!", target:getName():capitalize())
 			if who:knowTalent(who.T_VIM_POOL) then
-				game.logSeen(who, "#GOLD#%s draws power from the spilt blood!", who.name:capitalize())
+				game.logSeen(who, "#GOLD#%s draws power from the spilt blood!", who:getName():capitalize())
 			end
 
 		end},
@@ -384,7 +384,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as = "SWORD_DAWN",
 			game.level.map:particleEmitter(who.x, who.y, blast.radius, "sunburst", {radius=blast.radius})
 			who:project({type="ball", range=0, radius=self.use_power.radius*2}, who.x, who.y, engine.DamageType.LITE, dam/2)
 			game:playSoundNear(self, "talents/fireflash")
-			game.logSeen(who, "%s raises %s and sends out a burst of light!", who.name:capitalize(), self:getName())
+			game.logSeen(who, "%s raises %s and sends out a burst of light!", who:getName():capitalize(), self:getName())
 			return {id=true, used=true}
 		end
 	},

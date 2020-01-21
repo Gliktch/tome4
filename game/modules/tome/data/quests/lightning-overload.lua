@@ -78,7 +78,7 @@ kill_one = function(self)
 
 	if self.kill_count >= self.max_count then
 		local Chat = require "engine.Chat"
-		local chat = Chat.new("derth-attack-over", {name="Scared Halfling"}, game.player)
+		local chat = Chat.new("derth-attack-over", {name=_t"Scared Halfling"}, game.player)
 		chat:invoke()
 
 		if not game.zone.unclean_derth_savior then

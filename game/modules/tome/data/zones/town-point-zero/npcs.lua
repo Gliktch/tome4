@@ -26,7 +26,7 @@ newEntity{
 	type = "humanoid", subtype = "human",
 	display = "p", color=colors.WHITE,
 	faction = "point-zero-guardians",
-	anger_emote = "Catch @himher@!",
+	anger_emote = _t"Catch @himher@!",
 	hates_antimagic = 1,
 	never_anger = 1,
 

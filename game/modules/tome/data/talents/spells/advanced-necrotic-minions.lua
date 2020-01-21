@@ -300,7 +300,7 @@ newTalent{
 		At level 5, it makes an eternal bone giant.
 		At level 6, it has a 20%% chance to produce a runed bone giant.
 		Only %s can be active at any time.]]):
-		tformat(necroEssenceDead(self, true) and "two bone giants" or "one bone giant")
+		tformat(necroEssenceDead(self, true) and _t"two bone giants" or _t"one bone giant")
 	end,
 }
 

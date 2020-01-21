@@ -127,7 +127,7 @@ end
 --- Replace some keywords in the given text
 -- @string text @playername@, @npcname@, @playerdescriptor.(.-)@
 function _M:replace(text)
-	text = text:gsub("@playername@", self.player.name):gsub("@npcname@", self.npc.name)
-	text = text:gsub("@playerdescriptor.(.-)@", function(what) return self.player.descriptor["fake_"..what] or self.player.descriptor[what] end)
+	text = text:gsub("@playername@", self.player:getName()):gsub("@npcname@", self.npc.name)
+	text = text:gsub("@playerdescriptor.(.-)@", function(what) return _t(self.player.descriptor["fake_"..what] or self.player.descriptor[what]) end)
 	return text
 end

@@ -48,7 +48,7 @@ newTalent{
 			self:setEffect(self.EFF_FORGE_SHIELD, dur, {power=t.getPower(self, t), number=1, d_types={[type]=true}})
 			amt = util.bound(dam - t.getPower(self, t), 0, dam)
 			blocked = t.getPower(self, t)
-			game.logSeen(self, "#ORANGE#%s forges a dream shield to block the attack!", self.name:capitalize())
+			game.logSeen(self, "#ORANGE#%s forges a dream shield to block the attack!", self:getName():capitalize())
 		elseif eff and eff.d_types[type] then
 			amt = util.bound(dam - eff.power, 0, dam)
 			blocked = eff.power
@@ -57,7 +57,7 @@ newTalent{
 			eff.d_types[type] = true
 			amt = util.bound(dam - eff.power, 0, dam)
 			blocked = eff.power
-			game.logSeen(self, "#ORANGE#%s's dream shield has been strengthened by the attack!", self.name:capitalize())
+			game.logSeen(self, "#ORANGE#%s's dream shield has been strengthened by the attack!", self:getName():capitalize())
 		end
 
 		if blocked then
@@ -133,13 +133,13 @@ newTalent{
 			local e = Object.new{
 				old_feat = oe,
 				type = oe.type, subtype = oe.subtype,
-				name = self.name:capitalize().."'s forge barrier",
+				name = ("%s's forge barrier"):tformat(self:getName():capitalize()),
 				image = "terrain/lava/lava_mountain5.png",
 				display = '#', color=colors.RED, back_color=colors.DARK_GREY,
 				shader = "shadow_simulacrum",
 				shader_args = { color = {0.6, 0.0, 0.0}, base = 0.9, time_factor = 1500 },
 				always_remember = true,
-				desc = "a summoned wall of mental energy",
+				desc = _t"a summoned wall of mental energy",
 				type = "wall",
 				can_pass = {pass_wall=1},
 				does_block_move = true,
@@ -248,10 +248,10 @@ newTalent{
 			if p.damage < max_damage then
 				p.radius = math.min(p.radius + 1, max_radius)
 				p.damage = math.min(max_damage/4 + p.damage, max_damage)
-				game.logSeen(self, "#GOLD#%s strikes the dreamforge!", self.name:capitalize())
+				game.logSeen(self, "#GOLD#%s strikes the dreamforge!", self:getName():capitalize())
 			elseif p.power == 0 then
 				p.power = power
-				game.logSeen(self, "#GOLD#%s begins breaking dreams!", self.name:capitalize())
+				game.logSeen(self, "#GOLD#%s begins breaking dreams!", self:getName():capitalize())
 				game:playSoundNear(self, "talents/lightning_loud")
 			end
 			local tg = {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=p.radius, talent=t}

@@ -63,7 +63,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 		[Talents.T_SKELETON_REASSEMBLE]={base=1, every=5, max=4},
 	},
 
-	emote_random = {chance=1, "*squeak*", "Squeak!", "Squeak??", "SQUEAK!!!!!"},
+	emote_random = {chance=1, _t"*squeak*", _t"Squeak!", _t"Squeak??", _t"SQUEAK!!!!!"},
 }
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
@@ -88,7 +88,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 		[Talents.T_ROTTING_DISEASE]={base=1, every=7, max=4},
 		[Talents.T_GHOULISH_LEAP]={base=2, every=8, max=4},
 	},
-	emote_random = {chance=1, "*s.q.u.e.a.k*", "Squeeeeeeak!", "Squeakkkkkkk??"},
+	emote_random = {chance=1, _t"*s.q.u.e.a.k*", _t"Squeeeeeeak!", _t"Squeakkkkkkk??"},
 }
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
@@ -124,7 +124,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 
 	resolvers.sustains_at_birth(),
 
-	emote_random = {chance=1, "Eerie Squeak!", "Frightening Squeak??", "SQUEAK!!!!!"},
+	emote_random = {chance=1, _t"Eerie Squeak!", _t"Frightening Squeak??", _t"SQUEAK!!!!!"},
 }
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
@@ -146,7 +146,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 		[Talents.T_COLD_FLAMES]={base=1, every=9, max=5},
 	},
 
-	emote_random = {chance=1, "Squeak! Blood!", "Squeak??", "SQUEAK!!!!!"},
+	emote_random = {chance=1, _t"Squeak! Blood!", _t"Squeak??", _t"SQUEAK!!!!!"},
 }
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT",
@@ -179,7 +179,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT",
 		[Talents.T_KNOCKBACK]={base=1, every=7, max=4},
 	},
 
-	emote_random = {chance=1, "*SQUEAK*", "SQUEAK!!!!!"},
+	emote_random = {chance=1, _t"*SQUEAK*", _t"SQUEAK!!!!!"},
 }
 
 newEntity{ base = "BASE_NPC_UNDEAD_RAT", define_as="RATLICH",
@@ -268,7 +268,7 @@ newEntity{ base = "BASE_NPC_UNDEAD_RAT", define_as="RATLICH",
 	resolvers.drops{chance=100, nb=3, {tome_drops="boss"} },
 	resolvers.drops{chance=100, nb=1, {defined="RATLICH_SKULL"} },
 
-	emote_random = {chance=1, "*squeak*", "Squeak!", "Squeak??", "SQUEAK!!!!!", '"Squeak" I say, yes .. "Squeak!"'},
+	emote_random = {chance=1, _t"*squeak*", _t"Squeak!", _t"Squeak??", _t"SQUEAK!!!!!", _t'"Squeak" I say, yes .. "Squeak!"'},
 
 	on_die = function(self) world:gainAchievement("EVENT_RATLICH", game:getPlayer(true)) end,
 }

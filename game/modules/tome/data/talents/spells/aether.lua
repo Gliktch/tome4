@@ -212,7 +212,7 @@ newTalent{
 		if self:attr("force_talent_ignore_ressources") then return end
 		if self.turn_procs.aether_avatar_penalty then return end
 		self:incMana(-50)
-		game.logSeen(self, "#VIOLET#%s loses 50 mana from using a non-Arcane talent!#LAST#", self.name:capitalize())
+		game.logSeen(self, "#VIOLET#%s loses 50 mana from using a non-Arcane talent!#LAST#", self:getName():capitalize())
 
 		self.turn_procs.aether_avatar_penalty = true
 	end,

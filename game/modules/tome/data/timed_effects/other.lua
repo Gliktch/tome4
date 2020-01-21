@@ -168,7 +168,7 @@ newEffect{
 newEffect{
 	name = "FLASH_SHIELD", image = "talents/flash_of_the_blade.png",
 	desc = _t"Protected by the Sun",
-	long_desc = function(self, eff) return "The Sun has granted a brief immunity to all damage." end,
+	long_desc = function(self, eff) return _t"The Sun has granted a brief immunity to all damage." end,
 	type = "other",
 	subtype = {},
 	status = "beneficial",
@@ -280,7 +280,7 @@ newEffect{
 newEffect{
 	name = "TREE_OF_LIFE", image = "shockbolt/object/artifact/tree_of_life.png",
 	desc = _t"You have taken root!",
-	long_desc = function(self, eff) return "You have taken root becoming one with nature.  Or at least the ground.  Your health, armor, and armor hardiness are improved but you cannot move." end,
+	long_desc = function(self, eff) return _t"You have taken root becoming one with nature.  Or at least the ground.  Your health, armor, and armor hardiness are improved but you cannot move." end,
 	type = "other",
 	subtype = { nature=true },
 	--status = "detrimental",
@@ -377,7 +377,7 @@ newEffect{
 newEffect{
 	name = "TIME_PRISON", image = "talents/time_prison.png",
 	desc = _t"Time Prison",
-	long_desc = function(self, eff) return "The target is removed from the normal time stream, unable to act but unable to take any damage. Time does not pass for this creature." end,
+	long_desc = function(self, eff) return _t"The target is removed from the normal time stream, unable to act but unable to take any damage. Time does not pass for this creature." end,
 	type = "other",
 	subtype = { time=true },
 	status = "detrimental",
@@ -490,7 +490,7 @@ newEffect{
 newEffect{
 	name = "GOLEM_OFS",
 	desc = _t"Golem out of sight",
-	long_desc = function(self, eff) return "The golem is out of sight of the alchemist; direct control will be lost!" end,
+	long_desc = function(self, eff) return _t"The golem is out of sight of the alchemist; direct control will be lost!" end,
 	type = "other",
 	subtype = { miscellaneous=true },
 	status = "detrimental",
@@ -506,8 +506,8 @@ newEffect{
 		if eff.dur <= 1 then
 			game:onTickEnd(function()
 				game.logPlayer(self, "#LIGHT_RED#You lost sight of your golem for too long; direct control is broken!")
-				game.player:runStop("golem out of sight")
-				game.player:restStop("golem out of sight")
+				game.player:runStop(_t"golem out of sight")
+				game.player:restStop(_t"golem out of sight")
 				game.party:setPlayer(self.summoner)
 			end)
 		end
@@ -517,7 +517,7 @@ newEffect{
 newEffect{
 	name = "AMBUSCADE_OFS", image = "talents/ambuscade.png",
 	desc = _t"Shadow out of sight",
-	long_desc = function(self, eff) return "The shadow is out of sight of its host; direct control will be lost!" end,
+	long_desc = function(self, eff) return _t"The shadow is out of sight of its host; direct control will be lost!" end,
 	type = "other",
 	subtype = { miscellaneous=true },
 	status = "detrimental",
@@ -533,8 +533,8 @@ newEffect{
 		if eff.dur <= 1 then
 			game:onTickEnd(function()
 				game.logPlayer(self, "#LIGHT_RED#You lost sight of your shadow for too long; it dissipates!")
-				game.player:runStop("shadow out of sight")
-				game.player:restStop("shadow out of sight")
+				game.player:runStop(_t"shadow out of sight")
+				game.player:restStop(_t"shadow out of sight")
 				game.party:setPlayer(self.summoner)
 			end)
 		end
@@ -544,7 +544,7 @@ newEffect{
 newEffect{
 	name = "HUSK_OFS", image = "talents/animus_purge.png",
 	desc = _t"Husk out of sight",
-	long_desc = function(self, eff) return "The husk is out of sight of its host; direct control will be lost!" end,
+	long_desc = function(self, eff) return _t"The husk is out of sight of its host; direct control will be lost!" end,
 	type = "other",
 	subtype = { miscellaneous=true },
 	status = "detrimental",
@@ -560,8 +560,8 @@ newEffect{
 		if eff.dur <= 1 then
 			game:onTickEnd(function()
 				game.logPlayer(self, "#LIGHT_RED#You lost sight of your husk for too long; it disintegrates!")
-				game.player:runStop("husk out of sight")
-				game.player:restStop("husk out of sight")
+				game.player:runStop(_t"husk out of sight")
+				game.player:restStop(_t"husk out of sight")
 				game.party:setPlayer(self.summoner)
 				self:die(self)
 			end)
@@ -716,7 +716,7 @@ newEffect{
 newEffect{
 	name = "IMMINENT_PARADOX_CLONE",
 	desc = _t"Imminent Paradox Clone",
-	long_desc = function(self, eff) return "When the effect expires you'll be pulled into the past." end,
+	long_desc = function(self, eff) return _t"When the effect expires you'll be pulled into the past." end,
 	type = "other",
 	subtype = { time=true },
 	status = "detrimental",
@@ -768,7 +768,7 @@ newEffect{
 newEffect{
 	name = "PARADOX_CLONE", image = "talents/paradox_clone.png",
 	desc = _t"Paradox Clone",
-	long_desc = function(self, eff) return "You've been pulled into the past." end,
+	long_desc = function(self, eff) return _t"You've been pulled into the past." end,
 	type = "other",
 	subtype = { time=true },
 	status = "detrimental",
@@ -1044,7 +1044,7 @@ newEffect{
 			local def = self.tempeffect_def[self.EFF_CURSE_OF_CORPSES]
 			local tg = {type="ball", 10, radius=def.getCorpselightRadius(eff.level), talent=t}
 			self:project(tg, target.x, target.y, DamageType.LITE, 1)
-			game.logSeen(target, "#F53CBE#%s's remains glow with a strange light.", target.name:capitalize())
+			game.logSeen(target, "#F53CBE#%s's remains glow with a strange light.", target:getName():capitalize())
 		end
 	end,
 	]]
@@ -1102,7 +1102,7 @@ newEffect{
 
 				game.level.map:particleEmitter(x, y, 1, "slime")
 
-				game.logSeen(m, "#F53CBE#The corpse of the %s pulls itself up to fight for you.", target.name)
+				game.logSeen(m, "#F53CBE#The corpse of the %s pulls itself up to fight for you.", target:getName())
 				game:playSoundNear(who, "talents/slime")
 			end)
 			return true
@@ -1206,7 +1206,7 @@ newEffect{
 					end
 				end
 
-				game.logSeen(self, "#F53CBE#%s's mania hastens cooldowns.", self.name:capitalize())
+				game.logSeen(self, "#F53CBE#%s's mania hastens cooldowns.", self:getName():capitalize())
 				self.turn_procs.CoMania = true
 				return {dam = dam}
 			end
@@ -1560,8 +1560,8 @@ newEffect{
 				if p.src and p.src._is_actor then
 					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.MIND, harrowDam)
 					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.DARKNESS, harrowDam)
-					--game.logSeen(self, "#F53CBE#%s harrows '%s'!", self.name:capitalize(), p.src.name)
-					game.logSeen(self, "#F53CBE#%s harrows %s!", self.name:capitalize(), target.name)
+					--game.logSeen(self, "#F53CBE#%s harrows '%s'!", self:getName():capitalize(), p.src.name)
+					game.logSeen(self, "#F53CBE#%s harrows %s!", self:getName():capitalize(), target:getName())
 					self.turn_procs.curse_of_nightmare_3 = true
 				else
 					local tgts = {}
@@ -1574,8 +1574,8 @@ newEffect{
 						local target = rng.table(tgts)
 						DamageType:get(DamageType.MIND).projector(self, target.x, target.y, DamageType.MIND, harrowDam)
 						DamageType:get(DamageType.MIND).projector(self, target.x, target.y, DamageType.DARKNESS, harrowDam)
-						--self:logCombat(target, "#F53CBE##Source# harrows #Target#!", self.name:capitalize(), target.name)
-						game.logSeen(self, "#F53CBE#%s harrows %s!", self.name:capitalize(), target.name)
+						--self:logCombat(target, "#F53CBE##Source# harrows #Target#!", self:getName():capitalize(), target:getName())
+						game.logSeen(self, "#F53CBE#%s harrows %s!", self:getName():capitalize(), target:getName())
 						self.turn_procs.curse_of_nightmare_3 = true
 					end
 				end
@@ -1589,7 +1589,7 @@ newEffect{
 			if target and target.rank <= 2 and target.level <= self.level - 3 and not target:attr("no_breath") and not target:attr("invulnerable") then
 				local def = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES]
 				local airLoss = def.getBaseSuffocateAirChange(eff.level) + Combat:combatTalentScale(self.level - target.level - 3, 1, 5) * def.getSuffocateAirChange(eff.level)
-				game.logSeen(self, "#F53CBE#%s begins to choke from a suffocating curse. (-%d air)", target.name, airLoss)
+				game.logSeen(self, "#F53CBE#%s begins to choke from a suffocating curse. (-%d air)", target:getName(), airLoss)
 				target:suffocate(airLoss, self, "suffocated from a curse")
 			end
 		end
@@ -1696,7 +1696,7 @@ newEffect{
 
 				self.turn_procs.curse_of_nightmare_4 = true
 
-				game.logSeen(self, "#F53CBE#The air around %s grows cold and terrifying shapes begin to coalesce. A nightmare has begun.", self.name:capitalize())
+				game.logSeen(self, "#F53CBE#The air around %s grows cold and terrifying shapes begin to coalesce. A nightmare has begun.", self:getName():capitalize())
 				game:playSoundNear(self, "talents/cloud")
 			end
 		end
@@ -1782,9 +1782,9 @@ newEffect{
 					-- unfortunate end! note that this does not kill if target.die_at < 0
 					dam = dam * multiplier
 					if target.life - dam <= target.die_at then
-						game.logSeen(target, "#F53CBE#%s suffers an unfortunate end.", target.name:capitalize())
+						game.logSeen(target, "#F53CBE#%s suffers an unfortunate end.", target:getName():capitalize())
 					else
-						game.logSeen(target, "#F53CBE#%s suffers an unfortunate blow.", target.name:capitalize())
+						game.logSeen(target, "#F53CBE#%s suffers an unfortunate blow.", target:getName():capitalize())
 					end
 				end
 			end
@@ -1797,7 +1797,7 @@ newEffect{
 newEffect{
 	name = "PROB_TRAVEL_UNSTABLE", image = "talents/probability_travel.png",
 	desc = _t"Unstable Probabilites",
-	long_desc = function(self, eff) return "The target has recently blinked through a wall using probability travel." end,
+	long_desc = function(self, eff) return _t"The target has recently blinked through a wall using probability travel." end,
 	type = "other",
 	subtype = { time=true, space=true },
 	status = "detrimental",
@@ -1948,7 +1948,7 @@ newEffect{
 newEffect{
 	name = "FADED", image = "talents/shadow_fade.png",
 	desc = _t"Faded",
-	long_desc = function(self, eff) return "The target has faded and is no longer taking damage." end,
+	long_desc = function(self, eff) return _t"The target has faded and is no longer taking damage." end,
 	type = "other",
 	subtype = { },
 	status = "beneficial",
@@ -1972,7 +1972,7 @@ newEffect{
 newEffect{
 	name = "HIGHBORN_S_BLOOM", image = "talents/highborn_s_bloom.png",
 	desc = _t"Highborn's Bloom",
-	long_desc = function(self, eff) return "The target is using talents without consuming resources." end,
+	long_desc = function(self, eff) return _t"The target is using talents without consuming resources." end,
 	type = "other",
 	subtype = { arcane=true },
 	status = "beneficial",
@@ -1988,7 +1988,7 @@ newEffect{
 newEffect{
 	name = "VICTORY_RUSH_ZIGUR", image = "talents/arcane_destruction.png",
 	desc = _t"Victory Rush",
-	long_desc = function(self, eff) return "The thrill of victory makes this creature invulnerable." end,
+	long_desc = function(self, eff) return _t"The thrill of victory makes this creature invulnerable." end,
 	type = "other",
 	subtype = { arcane=true },
 	status = "beneficial",
@@ -2071,7 +2071,7 @@ newEffect{
 				life = util.bound(eff.target.life, eff.target.die_at, eff.target.max_life),
 				ai = "summoned", ai_real = "tactical",
 				ai_state={ ai_move="move_complex", talent_in=1, ally_compassion = 10},
-				name = eff.target.name.."'s dream projection",
+				name = ("%s's dream projection"):tformat(eff.target:getName()),
 			})
 
 			if not eff.target:attr("lucid_dreamer") then
@@ -2103,13 +2103,13 @@ newEffect{
 				local p = (who and who:hasEffect(who.EFF_DREAMSCAPE)) or (who and who.summoner and who.summoner:hasEffect(who.summoner.EFF_DREAMSCAPE))
 				if p then -- For the rare instance we die after the effect ends but before the dreamscape instance closes
 					p.projections_killed = p.projections_killed + 1
-					game.logSeen(p.target, "#LIGHT_RED#%s writhes in agony as a fragment of its mind is destroyed!", p.target.name:capitalize())
+					game.logSeen(p.target, "#LIGHT_RED#%s writhes in agony as a fragment of its mind is destroyed!", p.target:getName():capitalize())
 				end
 			end
 
 			game.zone:addEntity(game.level, m, "actor", x, y)
 			game.level.map:particleEmitter(x, y, 1, "generic_teleport", {rm=0, rM=0, gm=180, gM=255, bm=180, bM=255, am=35, aM=90})
-			game.logSeen(eff.target, "#LIGHT_BLUE#%s has spawned a dream projection to protect its mind!", eff.target.name:capitalize())
+			game.logSeen(eff.target, "#LIGHT_BLUE#%s has spawned a dream projection to protect its mind!", eff.target:getName():capitalize())
 
 			if game.party:hasMember(eff.target) then
 				game.party:addMember(m, {
@@ -2134,7 +2134,7 @@ newEffect{
 		if eff.projections_killed/10 >= eff.target.life/eff.target.max_life then
 			game:onTickEnd(function()
 				eff.target:die(self)
-				game.logSeen(eff.target, "#LIGHT_RED#%s's mind shatters into %d tiny fragments!", eff.target.name:capitalize(), eff.target.max_life)
+				game.logSeen(eff.target, "#LIGHT_RED#%s's mind shatters into %d tiny fragments!", eff.target:getName():capitalize(), eff.target.max_life)
 				eff.projections_killed = 0 -- clear this out to prevent closing messages
 			end)
 		end
@@ -2242,7 +2242,7 @@ newEffect{
 
 				local loss = "loss"
 				if kills >= 10 then loss = "potentially fatal loss" elseif kills >=8 then loss = "devastating loss" elseif kills >=6 then loss = "tremendous loss" elseif kills >=4 then loss = "terrible loss" end
-				game.logSeen(eff.target, "#LIGHT_RED#%s suffered a %s of self in the Dreamscape!", eff.target.name:capitalize(), loss)
+				game.logSeen(eff.target, "#LIGHT_RED#%s suffered a %s of self in the Dreamscape!", eff.target:getName():capitalize(), loss)
 			end
 		end)
 	end,
@@ -2251,7 +2251,7 @@ newEffect{
 newEffect{
 	name = "REVISIONIST_HISTORY", image = "talents/revisionist_history.png",
 	desc = _t"Revisionist History",
-	long_desc = function(self, eff) return "While this effect holds you can decide recent history did not happen the way it did." end,
+	long_desc = function(self, eff) return _t"While this effect holds you can decide recent history did not happen the way it did." end,
 	type = "other",
 	subtype = { time=true },
 	status = "beneficial",
@@ -2556,7 +2556,7 @@ newEffect{
 newEffect{
 	name = "VAULTED", image = "talents/time_prison.png",
 	desc = _t"In Vault",
-	long_desc = function(self, eff) return "The target is part of a vault and cannot act until it has been openend." end,
+	long_desc = function(self, eff) return _t"The target is part of a vault and cannot act until it has been openend." end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { vault=true },
@@ -2612,7 +2612,7 @@ newEffect{
 		end
 		local dead, val = self:takeHit(eff.dam, self, {special_death_msg="burnt to death by cauterize"})
 
-		local srcname = self.x and self.y and game.level.map.seens(self.x, self.y) and self.name:capitalize() or "Something"
+		local srcname = self.x and self.y and game.level.map.seens(self.x, self.y) and self.name:capitalize() or _t"Something"
 		game:delayedLogDamage(eff, self, val, ("%s%d %s#LAST#"):tformat(DamageType:get(DamageType.FIRE).text_color or "#aaaaaa#", math.ceil(val), DamageType:get(DamageType.FIRE).name), false)
 	end,
 }
@@ -2620,7 +2620,7 @@ newEffect{
 newEffect{
 	name = "EIDOLON_PROTECT", image = "shockbolt/npc/unknown_unknown_the_eidolon.png",
 	desc = _t"Protected by the Eidolon",
-	long_desc = function(self, eff) return "The target is protected by the Eidolon, no creature may harm it (except self-harm)." end,
+	long_desc = function(self, eff) return _t"The target is protected by the Eidolon, no creature may harm it (except self-harm)." end,
 	zone_wide_effect = true,
 	decrease = 0, no_remove = true,
 	type = "other",
@@ -2637,13 +2637,13 @@ newEffect{
 newEffect{
 	name = "CLOAK_OF_DECEPTION", image = "shockbolt/object/artifact/black_cloak.png",
 	desc = _t"Cloak of Deception",
-	long_desc = function(self, eff) return "The target is under the effect of the cloak of deception, making it look human." end,
+	long_desc = function(self, eff) return _t"The target is under the effect of the cloak of deception, making it look human." end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { undead=true },
 	status = "neutral",
 	parameters = {},
-	on_gain = function(self, err) return ("#LIGHT_BLUE#An illusion appears around #Target# making %s appear human."):tformat(self:him_her()), "+CLOAK OF DECEPTION" end,
+	on_gain = function(self, err) return ("#LIGHT_BLUE#An illusion appears around #Target# making %s appear human."):tformat(self:him_her()), _t"+CLOAK OF DECEPTION" end,
 	on_lose = function(self, err) return _t"#LIGHT_BLUE#The illusion covering #Target# disappears.", _t"-CLOAK OF DECEPTION" end,
 	activate = function(self, eff)
 		self.old_faction_cloak = self.faction
@@ -2710,7 +2710,7 @@ newEffect{
 newEffect{
 	name = "SWIFT_HANDS_CD", image = "talents/swift_hands.png",
 	desc = _t"Swift Hands",
-	long_desc = function(self, eff) return "You swaped an item without taking time this turn." end,
+	long_desc = function(self, eff) return _t"You swaped an item without taking time this turn." end,
 	type = "other",
 	subtype = { prodigy=true },
 	status = "neutral",
@@ -2723,7 +2723,7 @@ newEffect{
 newEffect{
 	name = "HUNTER_PLAYER", image = "talents/hunted_player.png",
 	desc = _t"Hunter!",
-	long_desc = function(self, eff) return "Knows where you are!" end,
+	long_desc = function(self, eff) return _t"Knows where you are!" end,
 	type = "other",
 	subtype = { madness=true },
 	status = "beneficial",
@@ -2760,7 +2760,7 @@ newEffect{
 newEffect{
 	name = "RELOAD_DISARMED", image = "talents/disarm.png",
 	desc = _t"Reloading",
-	long_desc = function(self, eff) return "The target has replenished some ammo." end,
+	long_desc = function(self, eff) return _t"The target has replenished some ammo." end,
 	type = "other",
 	subtype = { disarm=true },
 	status = "detrimental",
@@ -2919,7 +2919,7 @@ newEffect{
 newEffect{
 	name = "TEMPORAL_FUGUE", image = "talents/temporal_fugue.png",
 	desc = _t"Temporal Fugue",
-	long_desc = function(self, eff) return "This target is splitting all damage with its fugue clones." end,
+	long_desc = function(self, eff) return _t"This target is splitting all damage with its fugue clones." end,
 	type = "other",
 	subtype = { time=true },
 	status = "beneficial",
@@ -2998,7 +2998,7 @@ newEffect{
 newEffect{
 	name = "DRACONIC_WILL", image = "talents/draconic_will.png",
 	desc = _t"Draconic Will",
-	long_desc = function(self, eff) return "The target is immune to all detrimental effects." end,
+	long_desc = function(self, eff) return _t"The target is immune to all detrimental effects." end,
 	type = "other",
 	subtype = { nature=true },
 	status = "beneficial",
@@ -3047,7 +3047,7 @@ newEffect{
 newEffect{
 	name = "AEONS_STASIS",
 	desc = _t"Aeons Stasis",
-	long_desc = function(self, eff) return "The target is in temporal stasis." end,
+	long_desc = function(self, eff) return _t"The target is in temporal stasis." end,
 	type = "other", decrease = 0, no_remove = true,
 	subtype = { temporal=true },
 	status = "beneficial",
@@ -3432,7 +3432,7 @@ newEffect{
 	name = "ZONE_AURA_CHALLENGE",
 	desc = _t"Challenge",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) if not eff.id_challenge_quest or not self:hasQuest(eff.id_challenge_quest) then return "???" else return self:hasQuest(eff.id_challenge_quest).name end end,
+	long_desc = function(self, eff) if not eff.id_challenge_quest or not self:hasQuest(eff.id_challenge_quest) then return _t"???" else return self:hasQuest(eff.id_challenge_quest).name end end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3571,7 +3571,7 @@ newEffect{
 		local tg = {type="ball", radius=eff.radius, selffire=false, friendlyfire=false, x=self.x, y=self.y}
 		local dam = eff.dam
 		eff.src:project(tg, self.x, self.y, DamageType.PHYSICAL, dam, {type="bones"})
-		game.logSeen(eff.src, "#LIGHT_RED#%s explodes into a shower of gore!", self.name:capitalize())
+		game.logSeen(eff.src, "#LIGHT_RED#%s explodes into a shower of gore!", self:getName():capitalize())
 		self:removeEffect(self.EFF_TOUCH_OF_DEATH)
 	end,
 }
@@ -3726,7 +3726,7 @@ newEffect{
 newEffect{
 	name = "RECALL", image = "effects/recall.png",
 	desc = _t"Recalling",
-	long_desc = function(self, eff) return "The target is waiting to be recalled back to the worldmap." end,
+	long_desc = function(self, eff) return _t"The target is waiting to be recalled back to the worldmap." end,
 	type = "magical",
 	subtype = { unknown=true },
 	status = "beneficial",
@@ -3752,7 +3752,7 @@ newEffect{
 newEffect{
 	name = "STEALTH_SKEPTICAL", image = "talents/stealth.png",
 	desc = _t"Skeptical",
-	long_desc = function(self, eff) return "The target doesn't believe its ally truly saw anything in the shadows." end,
+	long_desc = function(self, eff) return _t"The target doesn't believe its ally truly saw anything in the shadows." end,
 	type = "other",
 	subtype = { },
 	status = "neutral",
@@ -3980,7 +3980,7 @@ newEffect{
 newEffect{
 	name = "OMNIVISION", image = "talents/track.png",
 	desc = "Sensing Everything",
-	long_desc = function(self, eff) return "Improves senses, allowing the detection of everything." end,
+	long_desc = function(self, eff) return _t"Improves senses, allowing the detection of everything." end,
 	type = "other",
 	subtype = { sense=true },
 	status = "beneficial",
@@ -3997,7 +3997,7 @@ newEffect{
 newEffect{
 	name = "DOZING", image = "talents/sleep.png",
 	desc = _t"Dozing",
-	long_desc = function(self, eff) return "The target is completely asleep, unable to act." end,
+	long_desc = function(self, eff) return _t"The target is completely asleep, unable to act." end,
 	type = "other",
 	subtype = { sleep=true },
 	status = "detrimental",

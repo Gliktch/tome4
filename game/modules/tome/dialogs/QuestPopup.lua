@@ -59,11 +59,11 @@ function _M:init(quest, status)
 	self.blight = self:getUITexture("ui/dialogframe_backglow.png")
 
 	local f, fs = FontPackage:getFont("bold")
-	local quest = Textzone.new{auto_width=true, auto_height=true, text="#ANTIQUE_WHITE#Quest: #AQUAMARINE#"..self.quest.name, font={f, math.ceil(fs * 2)}}
+	local quest = Textzone.new{auto_width=true, auto_height=true, text=("#ANTIQUE_WHITE#Quest: #AQUAMARINE#%s"):tformat(self.quest.name), font={f, math.ceil(fs * 2)}}
 	quest:setTextShadow(3)
 	quest:setShadowShader(Shader.default.textoutline and Shader.default.textoutline.shad, 2)
 
-	local info = Textzone.new{auto_width=true, auto_height=true, text=add..'#ANTIQUE_WHITE#(See your Journal for further details or click here)', font={f, math.ceil(fs)}}
+	local info = Textzone.new{auto_width=true, auto_height=true, text=add.._t'#ANTIQUE_WHITE#(See your Journal for further details or click here)', font={f, math.ceil(fs)}}
 	info:setTextShadow(3)
 	info:setShadowShader(Shader.default.textoutline and Shader.default.textoutline.shad, 2)
 	

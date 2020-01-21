@@ -329,7 +329,7 @@ newEntity{ name = "headless horror",
 			if not eye.dead then eye:die(src) nb = nb + 1 end
 		end
 		if nb > 0 then
-			game.logSeen(self, "#AQUAMARINE#As %s falls all its eyes fall to the ground!", self.name)
+			game.logSeen(self, "#AQUAMARINE#As %s falls all its eyes fall to the ground!", self:getName())
 		end
 	end,
 }

@@ -173,7 +173,7 @@ newTalent{
 		if #effs > 0 then
 			local eff = rng.tableRemove(effs)
 			self:removeEffect(eff[2])
-			game.logSeen(self, "#ORCHID#%s has recovered!", self.name:capitalize())
+			game.logSeen(self, "#ORCHID#%s has recovered!", self:getName():capitalize())
 		end
 	end,
 	info = function(self, t)

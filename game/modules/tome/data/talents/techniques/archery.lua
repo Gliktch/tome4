@@ -362,7 +362,7 @@ newTalent{
 			if target:canBe("knockback") and dist > 0 then target:knockback(self.x, self.y, dist) end
 			if target:canBe("stun") then target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {}) end
 		else	
-			game.logSeen(target, "%s resists the scattershot!", target.name:capitalize())
+			game.logSeen(target, "%s resists the scattershot!", target:getName():capitalize())
 		end
 		local chance = t.getChance(self,t)
 		if rng.percent(chance) then target:setEffect(target.EFF_MARKED, 5, {src=self}) end
@@ -618,21 +618,21 @@ newTalent{
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the silence!", target.name:capitalize())
+				game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 			end
 		elseif not target.turn_procs.called_shot_disarm then
 			target.turn_procs.called_shot_disarm = true
 			if target:canBe("disarm") then
 				target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatAttack(), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists the disarm!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disarm!", target:getName():capitalize())
 			end
 		elseif not target.turn_procs.called_shot_slow then
 			target.turn_procs.called_shot_slow = true
 			if target:canBe("slow") then
 				target:setEffect(target.EFF_SLOW_MOVE, t.getDuration(self, t), {power=0.5, apply_power=self:combatAttack(), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists the slow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the slow!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -793,7 +793,7 @@ newTalent{
 		if target:canBe("pin") then
 			target:setEffect(target.EFF_PINNED, t.getDur(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists!", target.name:capitalize())
+			game.logSeen(target, "%s resists!", target:getName():capitalize())
 		end
 	end,
 	action = function(self, t)

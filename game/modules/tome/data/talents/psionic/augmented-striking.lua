@@ -52,7 +52,7 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, dur, {apply_power=self:combatMindpower()})
 			else
-				game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+				game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 			end
 			if target:attr("frozen") then
 				DamageType:get(DamageType.PHYSICAL).projector(self, x, y, DamageType.PHYSICAL, dam)
@@ -153,8 +153,8 @@ newTalent{
 						if oe and not oe:attr("temporary") and not game.level.map:checkAllEntities(x + i, y + j, "block_move") and not oe.special then
 							local e = Object.new{
 								old_feat = oe,
-								name = "ice wall", image = "npc/iceblock.png",
-								desc = "a summoned, transparent wall of ice",
+								name = _t"ice wall", image = "npc/iceblock.png",
+								desc = _t"a summoned, transparent wall of ice",
 								type = "wall",
 								display = '#', color=colors.LIGHT_BLUE, back_color=colors.BLUE,
 								always_remember = true,

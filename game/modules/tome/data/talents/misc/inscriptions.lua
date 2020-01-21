@@ -37,7 +37,7 @@ newInscription = function(t)
 		elseif tt.type[1] == "inscriptions/runes" then tt.auto_use_check = function(self, t) return not self:hasEffect(self.EFF_RUNE_COOLDOWN) end
 		elseif tt.type[1] == "inscriptions/taints" then tt.auto_use_check = function(self, t) return not self:hasEffect(self.EFF_TAINT_COOLDOWN) end
 		end
-		tt.auto_use_warning = "- will only auto use when no saturation effect exists"
+		tt.auto_use_warning = _t"- will only auto use when no saturation effect exists"
 		tt.cooldown = function(self, t)
 			local data = self:getInscriptionData(t.short_name)
 			return data.cooldown
@@ -159,21 +159,21 @@ newInscription{
 		end
 
 		if removed > 0 then
-			game.logSeen(self, "%s is cured!", self.name:capitalize())
+			game.logSeen(self, "%s is cured!", self:getName():capitalize())
 		end
 		self:setEffect(self.EFF_PAIN_SUPPRESSION, data.dur, {power=data.power + data.inc_stat})
 		return true
 	end,
 	info = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		local what = table.concatNice(table.keys(data.what), ", ", " and ")
+		local what = table.concatNice(table.ts(table.keys(data.what)), ", ", _t" and ")
 
 		return ([[Activate the infusion to cure yourself of one random %s effect and reduce all damage taken by %d%% for %d turns.
 Also removes cross-tier effects of the affected types for free.]]):tformat(what, data.power+data.inc_stat, data.dur)
 	end,
 	short_info = function(self, t)	
 		local data = self:getInscriptionData(t.short_name)
-		local what = table.concat(table.keys(data.what), ", ")
+		local what = table.concat(table.ts(table.keys(data.what)), ", ")
 		return ([[res %d%%; %s; dur %d; cd %d]]):tformat(data.power + data.inc_stat, what, data.dur, data.cooldown)
 	end,
 }
@@ -556,12 +556,12 @@ newInscription{
 		if not target then return end
 
 		if target:attr("timetravel_immune") then
-			game.logSeen(target, "%s is immune!", target.name:capitalize())
+			game.logSeen(target, "%s is immune!", target:getName():capitalize())
 			return true
 		end
 
 		local hit = self:checkHit(self:combatSpellpower(), target:combatSpellResist() + (target:attr("continuum_destabilization") or 0))
-		if not hit then game.logSeen(target, "%s resists!", target.name:capitalize()) return true end
+		if not hit then game.logSeen(target, "%s resists!", target:getName():capitalize()) return true end
 
 		self:project(tg, x, y, DamageType.TEMPORAL, self:spellCrit(t.getDamage(self, t)))
 		game.level.map:particleEmitter(x, y, 1, "temporal_thrust")
@@ -575,7 +575,7 @@ newInscription{
 		if (oe and oe:attr("temporary")) or game.level.map:checkEntity(x, y, Map.TERRAIN, "block_move") then game.logPlayer(self, "Something has prevented the timetravel.") return true end
 		local e = mod.class.Object.new{
 			old_feat = oe, type = "temporal", subtype = "instability",
-			name = "temporal instability",
+			name = _t"temporal instability",
 			display = '&', color=colors.LIGHT_BLUE,
 			temporary = t.getDuration(self, t),
 			canAct = false,
@@ -607,7 +607,7 @@ newInscription{
 		}
 		
 		-- Remove the target
-		game.logSeen(target, "%s has moved forward in time!", target.name:capitalize())
+		game.logSeen(target, "%s has moved forward in time!", target:getName():capitalize())
 		game.level:removeEntity(target, true)
 		
 		-- add the time skip object to the map
@@ -794,7 +794,7 @@ newInscription{
 	end,
 	short_info = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		local str = table.concat(table.keys(data.wards), ", ")
+		local str = table.concat(table.ts(table.keys(data.wards)), ", ")
 		return ([[%d turns; %s]]):tformat(t.getDur(self, t), str:lower() )
 	end,
 }
@@ -844,10 +844,10 @@ newInscription{
 						local NPC = require "mod.class.NPC"
 						local caster = self
 						local image = NPC.new{
-							name = "Mirror Image",
+							name = _t"Mirror Image",
 							type = "image", subtype = "image",
 							ai = "summoned", ai_real = nil, ai_state = { talent_in=1, }, ai_target = {actor=nil},
-							desc = "A blurred image.",
+							desc = _t"A blurred image.",
 							image = caster.image,
 							add_mos = caster.add_mos, -- this is horribly wrong isn't it?  seems to work though
 							shader = "shadow_simulacrum", shader_args = { color = {0.0, 0.4, 0.8}, base = 0.6, time_factor = 1500 },

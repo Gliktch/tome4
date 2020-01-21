@@ -261,12 +261,12 @@ function _M:newGame()
 	local nb_unlocks, max_unlocks, categories = self:countBirthUnlocks()
 	local unlocks_order = { class=1, race=2, cometic=3, other=4 }
 	local unlocks = {}
-	for cat, d in pairs(categories) do unlocks[#unlocks+1] = {desc=d.nb.."/"..d.max.." "..cat, order=unlocks_order[cat] or 99} end
+	for cat, d in pairs(categories) do unlocks[#unlocks+1] = {desc=d.nb.."/"..d.max.." ".._t(cat), order=unlocks_order[cat] or 99} end
 	table.sort(unlocks, "order")
 	self.creating_player = true
 	self.extra_birth_option_defs = {}
 	self:triggerHook{"ToME:extraBirthOptions", options = self.extra_birth_option_defs}
-	local birth; birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, function(loaded)
+	local birth; birth = Birther.new(("Character Creation ( %s unlocked options)"):tformat(table.concat(table.extract_field(unlocks, "desc", ipairs), ", ")), self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, function(loaded)
 		if not loaded then
 			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", _t"Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
 			self.player:check("make_tile")
@@ -308,7 +308,7 @@ function _M:newGame()
 			self.paused = true
 			print("[PLAYER BIRTH] resolved!")
 			local birthend = function()
-				local d = require("engine.dialogs.ShowText").new("Welcome to #LIGHT_BLUE#Tales of Maj'Eyal", "intro-"..self.player.starting_intro, {name=self.player.name}, nil, nil, function()
+				local d = require("engine.dialogs.ShowText").new(_t"Welcome to #LIGHT_BLUE#Tales of Maj'Eyal", "intro-"..self.player.starting_intro, {name=self.player.name}, nil, nil, function()
 					self.player:resetToFull()
 					self.player:registerCharacterPlayed()
 					self.player:onBirth(birth)
@@ -790,10 +790,10 @@ function _M:getSaveDescription()
 		description = ([[%s the level %d %s %s.
 Difficulty: %s / %s
 Campaign: %s
-Exploring level %s of %s.]]):format(
-		player.name, player.level, player.descriptor.subrace, player.descriptor.subclass,
-		player.descriptor.difficulty, player.descriptor.permadeath,
-		player.descriptor.world,
+Exploring level %s of %s.]]):tformat(
+		player.name, player.level, _t(player.descriptor.subrace), _t(player.descriptor.subclass),
+		_t(player.descriptor.difficulty), _t(player.descriptor.permadeath),
+		_t(player.descriptor.world),
 		self.level and self.level.level or "--", self.zone and self.zone.name or "--"
 		),
 	}
@@ -802,14 +802,14 @@ end
 function _M:getVaultDescription(e)
 	e = e:findMember{main=true} -- Because vault "chars" are actualy parties for tome
 	return {
-		name = ([[%s the %s %s]]):format(e.name, e.descriptor.subrace, e.descriptor.subclass),
+		name = ([[%s the %s %s]]):tformat(e.name, _t(e.descriptor.subrace), _t(e.descriptor.subclass)),
 		descriptors = e.descriptor,
 		description = ([[%s the %s %s.
 Difficulty: %s / %s
-Campaign: %s]]):format(
-		e.name, e.descriptor.subrace, e.descriptor.subclass,
-		e.descriptor.difficulty, e.descriptor.permadeath,
-		e.descriptor.world
+Campaign: %s]]):tformat(
+		e.name, _t(e.descriptor.subrace), _t(e.descriptor.subclass),
+		_t(e.descriptor.difficulty), _t(e.descriptor.permadeath),
+		_t(e.descriptor.world)
 		),
 	}
 end
@@ -1363,11 +1363,11 @@ function _M:changeLevelReal(lev, zone, params)
 		local lev = self.zone.base_level + self.level.level - 1
 		if self.zone.level_adjust_level then lev = self.zone:level_adjust_level(self.level) end
 		local diff = lev - self.player.level
-		if diff >= 5 then feeling = "You feel a thrill of terror and your heart begins to pound in your chest. You feel terribly threatened upon entering this area."
-		elseif diff >= 2 then feeling = "You feel mildly anxious, and walk with caution."
+		if diff >= 5 then feeling = _t"You feel a thrill of terror and your heart begins to pound in your chest. You feel terribly threatened upon entering this area."
+		elseif diff >= 2 then feeling = _t"You feel mildly anxious, and walk with caution."
 		elseif diff >= -2 then feeling = nil
-		elseif diff >= -5 then feeling = "You feel very confident walking into this place."
-		else feeling = "You stride into this area without a second thought, while stifling a yawn. You feel your time might be better spent elsewhere."
+		elseif diff >= -5 then feeling = _t"You feel very confident walking into this place."
+		else feeling = _t"You stride into this area without a second thought, while stifling a yawn. You feel your time might be better spent elsewhere."
 		end
 	end
 	if feeling then self.log("#TEAL#%s", feeling) end
@@ -1623,27 +1623,27 @@ end
 -- @param style the message to display
 -- @param ... arguments to be passed to format for style
 -- @return the string with certain fields replaced:
--- #source#|#Source# -> <displayString>..self.name|self.name:capitalize()
--- #target#|#Target# -> target.name|target.name:capitalize()
+-- #source#|#Source# -> <displayString>..self.name|self:getName():capitalize()
+-- #target#|#Target# -> target.name|target:getName():capitalize()
 function _M:logMessage(source, srcSeen, target, tgtSeen, style, ...)
 	-- I18N
 	style = style:tformat(...)
-	local srcname = "something"
+	local srcname = _t"something"
 	local Dstring
 		if source.player then
 			srcname = "#fbd578#"..source.name.."#LAST#"
 		elseif srcSeen then
-			srcname = engine.Entity.check(source, "getName") or source.name or "unknown"
+			srcname = engine.Entity.check(source, "getName") or source.name or _t"unknown"
 		end
-		if srcname ~= "something" then Dstring = source.__is_actor and source.getDisplayString and source:getDisplayString() end
+		if srcname ~= _t"something" then Dstring = source.__is_actor and source.getDisplayString and source:getDisplayString() end
 	style = style:gsub("#source#", srcname)
 	style = style:gsub("#Source#", (Dstring or "")..srcname:capitalize())
-	local tgtname = "something"
+	local tgtname = _t"something"
 	if target then
 		if target.player then
 			tgtname = "#fbd578#"..target.name.."#LAST#"
 		elseif tgtSeen then
-			tgtname = engine.Entity.check(target, "getName") or target.name or "unknown"
+			tgtname = engine.Entity.check(target, "getName") or target.name or _t"unknown"
 		end
 	end
 	style = style:gsub("#target#", tgtname)
@@ -1943,8 +1943,8 @@ function _M:onRegisterDialog(d)
 	self.tooltip2_x, self.tooltip2_y = nil, nil
 	if self.player then self.player:updateMainShader() end
 
---	if self.player and self.player.runStop then self.player:runStop("dialog poping up") end
---	if self.player and self.player.restStop then self.player:restStop("dialog poping up") end
+--	if self.player and self.player.runStop then self.player:runStop(_t"dialog poping up") end
+--	if self.player and self.player.restStop then self.player:restStop(_t"dialog poping up") end
 end
 function _M:onUnregisterDialog(d)
 	-- Clean up tooltip
@@ -2124,7 +2124,7 @@ do return end
 					self.log("You may not auto-explore this level.")
 				elseif #seen > 0 then
 					local dir = game.level.map:compassDirection(seen[1].x - self.player.x, seen[1].y - self.player.y)
-					self.log("You may not auto-explore with enemies in sight (%s to the %s%s)!", seen[1].actor.name, dir, self.level.map:isOnScreen(seen[1].x, seen[1].y) and "" or " - offscreen")
+					self.log("You may not auto-explore with enemies in sight (%s to the %s%s)!", seen[1].actor:getName(), dir, self.level.map:isOnScreen(seen[1].x, seen[1].y) and "" or " - offscreen")
 					for _, node in ipairs(seen) do
 						node.actor:addParticles(engine.Particles.new("notice_enemy", 1))
 					end
@@ -2534,7 +2534,7 @@ function _M:setupMouse(reset)
 		if config.settings.cheat then
 			if button == "right" and core.key.modState("ctrl") and core.key.modState("shift") and core.key.modState("alt") and not xrel and not yrel and event == "button" and self.zone and not self.zone.wilderness then
 				local target = game.level.map(tmx, tmy, Map.ACTOR)
-				if target then game._cheat_move_actor = target game.log("#GOLD#CHEAT MOVE ACTOR %s: ctrl+shift+alt+right click on an empty map spot to move it", target.name)
+				if target then game._cheat_move_actor = target game.log("#GOLD#CHEAT MOVE ACTOR %s: ctrl+shift+alt+right click on an empty map spot to move it", target:getName())
 				elseif game._cheat_move_actor then game._cheat_move_actor:move(tmx, tmy, true) end
 				return
 			elseif button == "right" and core.key.modState("ctrl") and core.key.modState("shift") and not xrel and not yrel and event == "button" and self.zone and not self.zone.wilderness then
@@ -2626,8 +2626,8 @@ end
 
 --- Ask if we really want to close, if so, save the game first
 function _M:onQuit()
-	self.player:runStop("quitting")
-	self.player:restStop("quitting")
+	self.player:runStop(_t"quitting")
+	self.player:restStop(_t"quitting")
 
 	if not self.quit_dialog and not self.player.dead and not self:hasDialogUp() then
 		self.quit_dialog = Dialog:yesnoPopup(_t"Save and go back to main menu?", _t"Save and go back to main menu?", function(ok)
@@ -2642,8 +2642,8 @@ function _M:onQuit()
 end
 
 function _M:onExit()
-	self.player:runStop("quitting")
-	self.player:restStop("quitting")
+	self.player:runStop(_t"quitting")
+	self.player:restStop(_t"quitting")
 
 	if not self.quit_dialog and not self.player.dead and not self:hasDialogUp() then
 		self.quit_dialog = Dialog:yesnoPopup(_t"Save and exit game?", _t"Save and exit game?", function(ok)
@@ -2681,8 +2681,8 @@ end
 
 --- When a save is being made, stop running/resting
 function _M:onSavefilePush()
-	self.player:runStop("saving")
-	self.player:restStop("saving")
+	self.player:runStop(_t"saving")
+	self.player:restStop(_t"saving")
 end
 
 --- When a save has been done, if it's a zone or level, also save the main game

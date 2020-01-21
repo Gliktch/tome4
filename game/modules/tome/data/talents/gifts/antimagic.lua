@@ -43,7 +43,7 @@ newTalent{
 			self:setEffect(self.EFF_RESOLVE, 7, {damtype=damtype, res=eff.res, max_types = max})
 		end
 
-		--game.logSeen(self, "%s is invigorated by the attack!", self.name:capitalize())  Too spammy, delayedLog maybe?
+		--game.logSeen(self, "%s is invigorated by the attack!", self:getName():capitalize())  Too spammy, delayedLog maybe?
 
 	end,
 	info = function(self, t)
@@ -90,7 +90,7 @@ newTalent{
 					target:setEffect(target.EFF_SILENCED, math.ceil(t.getduration(self,t)), {apply_power=math.max(self:combatMindpower(), self:combatPhysicalpower())})
 					if target:hasEffect(target.EFF_SILENCED) then nb = nb + 1 end
 				else
-					game.logSeen(target, "%s resists the silence!", target.name:capitalize())
+					game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 				end
 			end
 		end)
@@ -143,7 +143,7 @@ newTalent{
 
 		if not self:equilibriumChance() then
 			self:forceUseTalent(self.T_ANTIMAGIC_SHIELD, {ignore_energy=true})
-			game.logSeen(self, "#GREEN#The antimagic shield of %s crumbles.", self.name)
+			game.logSeen(self, "#GREEN#The antimagic shield of %s crumbles.", self:getName())
 		end
 		return dam
 	end,

@@ -65,7 +65,7 @@ newTalent{
 				if target:canBe("sleep") then
 					target:setEffect(target.EFF_NIGHTMARE, t.getDuration(self, t), {src=self, power=power, waking=is_waking, dam=damage, insomnia=t.getInsomniaPower(self, t), no_ct_effect=true, apply_power=self:combatMindpower()})
 				else
-					game.logSeen(self, "%s resists the nightmare!", target.name:capitalize())
+					game.logSeen(self, "%s resists the nightmare!", target:getName():capitalize())
 				end
 			end
 		end)
@@ -123,8 +123,8 @@ newTalent{
 			ai_target = {actor=target},
 			ai = "summoned", ai_real = "tactical",
 			ai_tactic={escape=0}, -- never flee
-			name = ""..target.name.."'s Inner Demon",
-			desc = [[A hideous, demonic entity that resembles the creature it came from.]],
+			name = ("%s's Inner Demon"):tformat(target:getName()),
+			desc = _t[[A hideous, demonic entity that resembles the creature it came from.]],
 		}
 		mod.class.NPC.castAs(m)
 		engine.interface.ActorAI.init(m, m)
@@ -152,7 +152,7 @@ newTalent{
 		game.zone:addEntity(game.level, m, "actor", x, y)
 		game.level.map:particleEmitter(x, y, 1, "generic_teleport", {rm=60, rM=130, gm=20, gM=110, bm=90, bM=130, am=70, aM=180})
 
-		game.logSeen(target, "#F53CBE#%s's Inner Demon manifests!", target.name:capitalize())
+		game.logSeen(target, "#F53CBE#%s's Inner Demon manifests!", target:getName():capitalize())
 
 	end,
 	action = function(self, t)
@@ -173,7 +173,7 @@ newTalent{
 		if target:canBe("fear") or target:attr("sleep") then
 			target:setEffect(target.EFF_INNER_DEMONS, t.getDuration(self, t), {src = self, chance=chance, apply_power=self:combatMindpower()})
 		else
-			game.logSeen(target, "%s resists the demons!", target.name:capitalize())
+			game.logSeen(target, "%s resists the demons!", target:getName():capitalize())
 		end
 		
 		game:playSoundNear(self, "talents/arcane")
@@ -222,7 +222,7 @@ newTalent{
 			target:setEffect(target.EFF_WAKING_NIGHTMARE, t.getDuration(self, t), {src = self, chance=t.getChance(self, t), dam=self:mindCrit(t.getDamage(self, t)), apply_power=self:combatMindpower()})
 			game.level.map:particleEmitter(target.x, target.y, 1, "generic_charge", {rm=60, rM=130, gm=20, gM=110, bm=90, bM=130, am=70, aM=180})
 		else
-			game.logSeen(target, "%s resists the nightmare!", target.name:capitalize())
+			game.logSeen(target, "%s resists the nightmare!", target:getName():capitalize())
 		end
 
 		game:playSoundNear(self, "talents/arcane")
@@ -266,10 +266,10 @@ newTalent{
 		local stats = 10 + self:combatTalentMindDamage(t, 10, 50)
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{
-			name = "terror",
+			name = _t"terror",
 			display = "h", color=colors.DARK_GREY, image="npc/horror_eldritch_nightmare_horror.png",
 			blood_color = colors.BLUE,
-			desc = "A formless terror that seems to cut through the air, and its victims, like a knife.",
+			desc = _t"A formless terror that seems to cut through the air, and its victims, like a knife.",
 			type = "horror", subtype = "eldritch",
 			rank = 2,
 			size_category = 2,

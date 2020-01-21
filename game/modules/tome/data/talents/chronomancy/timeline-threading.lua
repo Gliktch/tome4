@@ -135,8 +135,8 @@ newTalent{
 		local function makeFugueClone(self, t)
 			local m = makeParadoxClone(self, self, t.getDuration(self, t))
 			-- Add and change some values
-			m.name = self.name.."'s Fugue Clone"
-			m.desc = ([[The real %s... or so %s says.]]):tformat(self.name, self:he_she())
+			m.name = ("%s's Fugue Clone"):tformat(self:getName())
+			m.desc = ([[The real %s... or so %s says.]]):tformat(self:getName(), self:he_she())
 			
 			-- Handle some AI stuff
 			m.ai_state = { talent_in=1, ally_compassion=10 }
@@ -247,7 +247,7 @@ newTalent{
 		if target then
 			game:onTickEnd(function()
 				target:removeEffect(target.EFF_CEASE_TO_EXIST)
-				game.logSeen(target, "#LIGHT_BLUE#%s never existed, this never happened!", target.name:capitalize())
+				game.logSeen(target, "#LIGHT_BLUE#%s never existed, this never happened!", target:getName():capitalize())
 				target:die(self)
 			end)
 		end
@@ -263,7 +263,7 @@ newTalent{
 		if not target then return end
 
 		if target == self then
-			game.logSeen(self, "#LIGHT_STEEL_BLUE#%s tries to remove %sself from existance!", self.name, string.his_her(self))
+			game.logSeen(self, "#LIGHT_STEEL_BLUE#%s tries to remove %sself from existance!", self:getName(), string.his_her(self))
 			self:incParadox(400)
 			game.level.map:particleEmitter(self.x, self.y, 1, "ball_temporal", {radius=1, tx=self.x, ty=self.y})
 			return true
@@ -271,7 +271,7 @@ newTalent{
 		
 		-- does the spell hit?  if not nothing happens
 		if not self:checkHit(getParadoxSpellpower(self, t), target:combatSpellResist()) then
-			game.logSeen(target, "%s resists!", target.name:capitalize())
+			game.logSeen(target, "%s resists!", target:getName():capitalize())
 			return true
 		end
 	

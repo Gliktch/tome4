@@ -703,7 +703,7 @@ newEntity{
 		fct=function(self, who, target, type, dam, eff, special)
 			if who.turn_procs and who.turn_procs.shield_shrapnel then return end
 			who.turn_procs.shield_shrapnel = true
-			game.logSeen(who, "Shards of metal explode from %s's shield!", who.name:capitalize())
+			game.logSeen(who, "Shards of metal explode from %s's shield!", who:getName():capitalize())
 			local tg = {type="ball", friendlyfire=false, radius=6}
 			local dam = special.shield_shrapnel(who)
 			local damage = who:physicalCrit(dam)

@@ -63,5 +63,5 @@ newEntity{ base = "BASE_GREATMAUL", define_as = "ASTELRID_CLUBSTAFF",
 		healing_factor = 0.25,
 		inscriptions_stat_multiplier = 0.15,
 	},
-	special_desc = function(self) return "Improves the contribution of primary stats on infusions and runes by 15%" end,
+	special_desc = function(self) return _t"Improves the contribution of primary stats on infusions and runes by 15%" end,
 }

@@ -154,7 +154,7 @@ newEntity{ base = "BASE_NPC_GHOUL", define_as = "ROTTING_TITAN",
 	-- But only AFTER we are finished moving, shall we ? :)
 	on_move = function(self) game:onTickEnd(function()
 		if rng.percent(35) then
-			game.logSeen(self, "The ground shakes as %s steps!", self.name:capitalize())
+			game.logSeen(self, "The ground shakes as %s steps!", self:getName():capitalize())
 			local tg = {type="ball", range=0, selffire=false, radius=4, no_restrict=true}
 			local DamageType = require "engine.DamageType"
 			--self:project(tg, self.x, self.y, DamageType.PHYSKNOCKBACK, {dam=24, dist=5})

@@ -2591,7 +2591,7 @@ function _M:checkAutoExplore()
 					end
 				end
 			end
-			self:runStop(("at %s"):tformat(self.running.explore))
+			self:runStop(("at %s"):tformat(_t(self.running.explore)))
 			return false
 		end
 	end

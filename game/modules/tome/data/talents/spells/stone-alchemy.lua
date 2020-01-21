@@ -129,8 +129,8 @@ newTalent{
 				-- create an ego
 				local Entity = require("engine.Entity")
 				local ego = Entity.new{
-					name = "imbue "..gem.name,
-					display_string = " <"..gem.name..">",
+					name = ("imbue %s"):tformat(gem:getName()),
+					display_string = " <"..gem:getName()..">",
 					been_imbued = true,
 					wielder = table.clone(gem.imbue_powers),
 					talent_on_spell = gem.talent_on_spell,

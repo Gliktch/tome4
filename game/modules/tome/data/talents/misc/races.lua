@@ -401,9 +401,9 @@ newTalent{
 			local m = NPC.new{
 				type = "immovable", subtype = "plants",
 				display = "#",
-				name = "treant", color=colors.GREEN,
+				name = _t"treant", color=colors.GREEN,
 				resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/immovable_plants_treant.png", display_h=2, display_y=-1}}},
-				desc = "A very strong near-sentient tree.",
+				desc = _t"A very strong near-sentient tree.",
 
 				body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
 
@@ -757,7 +757,7 @@ newTalent{
 		
 		local nb = self:removeEffectsFilter({status = "detrimental", type = "mental"}, t.getDebuff(self, t))
 		if nb > 0 then
-			game.logSeen(self, "#CRIMSON#%s roars with rage shaking off %d mental debuffs!", self.name:capitalize(), nb)
+			game.logSeen(self, "#CRIMSON#%s roars with rage shaking off %d mental debuffs!", self:getName():capitalize(), nb)
 			self:startTalentCooldown(t)
 		end
 	end,
@@ -878,11 +878,11 @@ newTalent{
 		if not target or target.dead or target == self then return end
 		if game.party:hasMember(target) then return end
 		if target.instakill_immune and target.instakill_immune >= 1 then  -- We special case this instead of letting the canBe check waste the talent because instakill is at present always binary
-			game.logSeen(target, "%s is immune to instakill and mind control effects!", target.name:capitalize())
+			game.logSeen(target, "%s is immune to instakill and mind control effects!", target:getName():capitalize())
 			return
 		end
 		if target.rank > 3 and ((target.life / target.max_life) >= 0.8) then
-			game.logSeen(target, "%s must be below 80%% of their max life to be controlled!", target.name:capitalize())
+			game.logSeen(target, "%s must be below 80%% of their max life to be controlled!", target:getName():capitalize())
 			return
 		end
 		self:project(tg, x, y, function(px, py)
@@ -897,7 +897,7 @@ newTalent{
 					target:setEffect(target.EFF_DOMINANT_WILL, t.getduration(self), {src=self})
 				end
 			else
-				game.logSeen(target, "%s resists the mental assault!", target.name:capitalize())
+				game.logSeen(target, "%s resists the mental assault!", target:getName():capitalize())
 			end
 
 		end)
@@ -947,7 +947,7 @@ newTalent{
 		if self:isTalentCoolingDown(t) then return end
 		if (self.life / self.max_life) >= 0.3 then return end
 
-		game.logSeen(self, "#RED#%s reacts immediately after taking severe wounds!#LAST#", self.name:capitalize())
+		game.logSeen(self, "#RED#%s reacts immediately after taking severe wounds!#LAST#", self:getName():capitalize())
 		self.energy.value = self.energy.value + game.energy_to_act * 1.5
 		self:startTalentCooldown(t)
 	end,
@@ -987,9 +987,9 @@ newTalent{
 			local m = NPC.new{
 				type = "humanoid", subtype = "yeek",
 				display = "y",
-				name = "yeek mindslayer", color=colors.YELLOW,
+				name = _t"yeek mindslayer", color=colors.YELLOW,
 				resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_yeek_yeek_mindslayer.png", display_h=2, display_y=-1}}},
-				desc = "A wayist that came to help.",
+				desc = _t"A wayist that came to help.",
 
 				body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1, PSIONIC_FOCUS=1 },
 

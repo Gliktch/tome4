@@ -63,7 +63,7 @@ carrionworm = function(self, target, duration, x, y)
 			type = "vermin", subtype = "worms",
 			display = "w", color=colors.SANDY_BROWN, image = "npc/vermin_worms_carrion_worm_mass.png",
 			name = "carrion worm mass", faction = self.faction,
-			desc = [[A worm spawned from a damaged horror.  Destroying it may have consequences.]],
+			desc = _t[[A worm spawned from a damaged horror.  Destroying it may have consequences.]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "tactical",
 			ai_state = { ai_move="move_complex", talent_in=1, ally_compassion=10, ai_target="target_closest", },
@@ -113,7 +113,7 @@ carrionworm = function(self, target, duration, x, y)
 					5, nil,
 					engine.MapEffect.new{alpha=90, color_br=1, color_bg=1, color_bb=1, effect_shader="shader_images/poison_effect.png"}
 				)
-				game.logSeen(self, "%s exudes a corrupted gas as it dies.", self.name:capitalize())
+				game.logSeen(self, "%s exudes a corrupted gas as it dies.", self:getName():capitalize())
 	end
 
 	-- Snapshot the casters effective (not base) spellpower
@@ -378,7 +378,7 @@ newTalent{
 			if target:canBe("disease") then
 				target:setEffect(target.EFF_WORM_ROT, 5, {src=self, dam=t.getDamage(self, t), burst=t.getBurstDamage(self, t), rot_timer = 5, apply_power=self:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists the worm rot!", target.name:capitalize())
+				game.logSeen(target, "%s resists the worm rot!", target:getName():capitalize())
 			end
 			game.level.map:particleEmitter(px, py, 1, "slime")
 		end)

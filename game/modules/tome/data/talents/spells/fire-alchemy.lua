@@ -217,7 +217,7 @@ newTalent{
 	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/fireflash")
-		game.logSeen(self, "#FF8000#%s turns into pure flame!", self.name:capitalize())
+		game.logSeen(self, "#FF8000#%s turns into pure flame!", self:getName():capitalize())
 		self:addShaderAura("body_of_fire", "awesomeaura", {time_factor=3500, alpha=1, flame_scale=1.1}, "particles_images/wings.png")
 		return {
 			onhit = self:addTemporaryValue("on_melee_hit", {[DamageType.FIRE]=t.getFireDamageOnHit(self, t)}),
@@ -226,7 +226,7 @@ newTalent{
 	end,
 	deactivate = function(self, t, p)
 		self:removeShaderAura("body_of_fire")
-		game.logSeen(self, "#FF8000#The raging fire around %s calms down and disappears.", self.name)
+		game.logSeen(self, "#FF8000#The raging fire around %s calms down and disappears.", self:getName())
 		self:removeTemporaryValue("on_melee_hit", p.onhit)
 		self:removeTemporaryValue("resists", p.res)
 		return true

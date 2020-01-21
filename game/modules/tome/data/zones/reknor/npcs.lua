@@ -99,7 +99,7 @@ newEntity{ define_as = "GOLBUG",
 	end,
 
 	on_die = function(self, who)
-		game.state:activateBackupGuardian("LITHFENGEL", 4, 35, "They say that after it has been confirmed orcs still inhabited Reknor, they found a mighty demon there.", function(gen)
+		game.state:activateBackupGuardian("LITHFENGEL", 4, 35, _t"They say that after it has been confirmed orcs still inhabited Reknor, they found a mighty demon there.", function(gen)
 			if gen then require("engine.ui.Dialog"):simpleLongPopup(_t"Danger...", _t"When last you saw it, this cavern was littered with the corpses of orcs that you had slain. Now many, many more corpses carpet the floor, all charred and reeking of sulfur. An orange glow dimly illuminates the far reaches of the cavern to the east.", 400) end
 		end)
 

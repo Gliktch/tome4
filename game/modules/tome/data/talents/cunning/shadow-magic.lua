@@ -143,7 +143,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_DAZED, t.getDuration(self, t), {})
 			else
-				game.logSeen(target, "%s is not dazed!", target.name:capitalize())
+				game.logSeen(target, "%s is not dazed!", target:getName():capitalize())
 			end
 		end
 		

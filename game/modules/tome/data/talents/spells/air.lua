@@ -232,12 +232,12 @@ newTalent{
 	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/thunderstorm")
-		game.logSeen(self, "#0080FF#A furious lightning storm forms around %s!", self.name)
+		game.logSeen(self, "#0080FF#A furious lightning storm forms around %s!", self:getName())
 		return {
 		}
 	end,
 	deactivate = function(self, t, p)
-		game.logSeen(self, "#0080FF#The furious lightning storm around %s calms down and disappears.", self.name)
+		game.logSeen(self, "#0080FF#The furious lightning storm around %s calms down and disappears.", self:getName())
 		return true
 	end,
 	info = function(self, t)

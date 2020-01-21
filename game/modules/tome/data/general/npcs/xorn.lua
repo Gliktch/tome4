@@ -138,7 +138,7 @@ newEntity{ base = "BASE_NPC_XORN",
 		for _, m in ipairs(self.all_fragments) do
 			if not m.dead then
 				nb_alive = nb_alive + 1
-				game.logSeen(self, "#AQUAMARINE#%s absorbs the energy of the destroyed fragment!", self.name)
+				game.logSeen(self, "#AQUAMARINE#%s absorbs the energy of the destroyed fragment!", self:getName())
 				m.max_life = m.max_life + m.add_max_life
 				m:heal(m.add_max_life)
 				m.inc_damage.all = (m.inc_damage.all or 0) + 20

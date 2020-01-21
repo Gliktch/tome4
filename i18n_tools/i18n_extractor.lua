@@ -69,6 +69,16 @@ local function explore(file, ast)
 						locales[file][p[2][1]] = {line=p[2].nline, type="talent name"}
 					end
 				end end
+			elseif e.tag == "Id" and e[1] == "newTalentType" then
+				local en = ast[i+1]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "type" then
+						local cat = p[2][1]:gsub("/.*", "")
+						print(colors("%{bright green}newTalentType"), cat)
+						locales[file] = locales[file] or {}
+						locales[file][cat] = {line=p[2].nline, type="talent category"}
+					end
+				end end
 			elseif e.tag == "Id" and e[1] == "newEntity" then
 				local en = ast[i+1]
 				if en then for j, p in ipairs(en[1]) do
@@ -94,6 +104,14 @@ local function explore(file, ast)
 								print(colors("%{green}newEntity"), q[1][1])
 								locales[file] = locales[file] or {}
 								locales[file][q[1][1]] = {line=p[2].nline, type="entity keyword"}
+							end
+						end
+					elseif p[1] and p[2] and p.tag == "Field" and p[1][1] == "combat" then
+						for _, q in ipairs(p[2]) do
+							if q.tag == "Field" and q[1].tag == "String" and q[1][1] == "talented" then
+								print(colors("%{green}newEntity"), q[2][1])
+								locales[file] = locales[file] or {}
+								locales[file][q[2][1]] = {line=p[2].nline, type="entity combat talented"}
 							end
 						end
 					end
@@ -126,6 +144,20 @@ local function explore(file, ast)
 					print(colors("%{bright cyan}newBirthDescriptor"), name[1])
 					locales[file] = locales[file] or {}
 					locales[file][name[1]] = {line=name.nline, type="birth descriptor name"}
+				end
+			elseif e.tag == "Id" and e[1] == "newGem" then
+				local en = ast[i+1]
+				if en[1].tag == "String" then
+					local name = en[1][1]:lower()
+					local a_name = "alchemist "..en[1][1]:lower()
+					local subtype = en[5][1]
+					locales[file] = locales[file] or {}
+					print(colors("%{cyan}newGem"), name)
+					locales[file][name] = {line=en.nline, type="gem name"}
+					print(colors("%{cyan}newGem"), a_name)
+					locales[file][a_name] = {line=en.nline, type="alchemist gem"}
+					print(colors("%{cyan}newGem"), subtype)
+					locales[file][subtype] = {line=en.nline, type="gem subtype"}
 				end
 			elseif e.tag == "Invoke" and e[1].tag == "Id" and e[1][1] == "ActorStats" and e[2].tag == "String" and e[2][1] == "defineStat" then
 				local en = e[3]
@@ -174,6 +206,9 @@ end
 
 local function dofolder(dir)
 	local function handle_file(file)
+		if file:find("/locales/") then 
+			return
+		end
 		print(colors("%{bright}-------------------------------------"))
 		print(colors("%{bright}-- "..file))
 		print(colors("%{bright}-------------------------------------"))

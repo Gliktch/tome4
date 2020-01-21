@@ -70,7 +70,7 @@ local changer = function(id)
 			local NPC = require "mod.class.NPC"
 			local list = NPC:loadList("/data/general/npcs/undead-rat.lua")
 
-			game.logSeen(who, "%s raises %s %s, and a red light flashes from it's eye sockets!", who.name:capitalize(), who:his_her(), self:getName({do_color=true, no_add_name=true}))
+			game.logSeen(who, "%s raises %s %s, and a red light flashes from it's eye sockets!", who:getName():capitalize(), who:his_her(), self:getName({do_color=true, no_add_name=true}))
 			for i = 1, 2 do
 				-- Find space
 				local x, y = util.findFreeGrid(who.x, who.y, 5, true, {[engine.Map.ACTOR]=true})

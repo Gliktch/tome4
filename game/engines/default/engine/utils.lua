@@ -362,6 +362,12 @@ function table.keys(t)
 	return tt
 end
 
+function table.ts(t)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = _t(e) end
+	return tt
+end
+
 function table.values(t)
 	local tt = {}
 	for k, e in pairs(t) do tt[#tt+1] = e end
@@ -826,8 +832,8 @@ end
 
 function string.a_an(str)
 	local first = str:sub(1, 1)
-	if first == "a" or first == "e" or first == "i" or first == "o" or first == "u" or first == "y" then return "an "..str
-	else return "a "..str end
+	if first == "a" or first == "e" or first == "i" or first == "o" or first == "u" or first == "y" then return _t"an "..str
+	else return _t"a "..str end
 end
 
 function string.he_she(actor)

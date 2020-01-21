@@ -61,7 +61,7 @@ newEntity{
 	lite = 3,
 
 	life_rating = 10, max_life = 15,
-	emote_random = {chance=10, "Who are you?", "What do you want?", "Why are you here?", "Where are you going?", "Do you have anything worth living for?"},
+	emote_random = {chance=10, _t"Who are you?", _t"What do you want?", _t"Why are you here?", _t"Where are you going?", _t"Do you have anything worth living for?"},
 	level_range = {1, 1}, exp_worth = 1,
 	rarity = 1,
 

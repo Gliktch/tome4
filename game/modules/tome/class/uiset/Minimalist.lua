@@ -1149,11 +1149,11 @@ function _M:handleEffect(player, eff_id, e, p, x, y, hs, bx, by, is_first, scale
 		local eff_subtype = table.concat(table.keys(e.subtype), "/")
 		if e.display_desc then name = e.display_desc(self, p) end
 		if p.save_string and p.amount_decreased and p.maximum and p.total_dur then
-			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):format(name, e.type, eff_subtype)..e.long_desc(player, p).." "..("%s reduced the duration of this effect by %d turns, from %d to %d."):format(p.save_string, p.amount_decreased, p.maximum, p.total_dur)
+			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):format(name, e.type, eff_subtype)..e.long_desc(player, p).." "..("%s reduced the duration of this effect by %d turns, from %d to %d."):tformat(p.save_string, p.amount_decreased, p.maximum, p.total_dur)
 		else
-			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):format(name, e.type, eff_subtype)..e.long_desc(player, p)
+			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):tformat(name, e.type, eff_subtype)..e.long_desc(player, p)
 		end
-		if allow_remove then desc = desc.."\n---\nRight click to cancel early." end
+		if allow_remove then desc = desc.._t"\n---\nRight click to cancel early." end
 
 		local txt = nil
 		local txt2 = nil
@@ -1808,7 +1808,7 @@ function _M:displayHotkeys(scale, bx, by)
 			self.hotkeys_display:onMouse(button, mx, my, event == "button",
 				function(text)
 					text = text:toTString()
-					text:add(true, "---", true, {"font","italic"}, {"color","GOLD"}, "Left click to use", true, "Right click to configure", true, "Press 'm' to setup", {"color","LAST"}, {"font","normal"})
+					text:add(true, "---", true, {"font","italic"}, {"color","GOLD"}, _t"Left click to use", true, _t"Right click to configure", true, _t"Press 'm' to setup", {"color","LAST"}, {"font","normal"})
 					game:tooltipDisplayAtMap(game.w, game.h, text)
 				end,
 				function(i, hk)
@@ -1924,7 +1924,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("padlock")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.padlock = 0.6 return else self.tbbuttons.padlock = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, self.locked and "Unlock all interface elements so they can be moved and resized." or "Lock all interface elements so they can not be moved nor resized.")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, self.locked and _t"Unlock all interface elements so they can be moved and resized." or _t"Lock all interface elements so they can not be moved nor resized.")
 			if button == "left" and not xrel and not yrel and event == "button" then self:switchLocked() end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, padlock[6], padlock[7], desc_fct, nil, "padlock", true, scale)

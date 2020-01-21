@@ -84,7 +84,7 @@ makeWarpMine = function(self, t, x, y, type, dam)
 						game:playSoundNear(self, "talents/teleport")
 					end
 				else
-					game.logSeen(who, "%s resists the teleport!", who.name:capitalize())
+					game.logSeen(who, "%s resists the teleport!", who:getName():capitalize())
 				end					
 			end
 	
@@ -332,7 +332,7 @@ newTalent{
 								target:setEffect(target.EFF_CONTINUUM_DESTABILIZATION, 100, {power=self.dest_power})
 							end
 							game:playSoundNear(self, "talents/teleport")
-							game.logSeen(target, "#CRIMSON#%s has been yanked back to the tether!", target.name:capitalize())
+							game.logSeen(target, "#CRIMSON#%s has been yanked back to the tether!", target:getName():capitalize())
 						end
 						
 						-- Secondary blast, this occurs as long as the teleport is not resisted, even if it fails, say from Anchor
@@ -347,7 +347,7 @@ newTalent{
 						end
 
 					else
-						game.logSeen(target, "%s resists the teleport!", target.name:capitalize())
+						game.logSeen(target, "%s resists the teleport!", target:getName():capitalize())
 					end
 					
 				end
@@ -423,14 +423,14 @@ newTalent{
 			game.level.map:particleEmitter(target.x, target.y, 1, "temporal_teleport")
 			if self:checkHit(getParadoxSpellpower(self, t), target:combatSpellResist() + (target:attr("continuum_destabilization") or 0)) and target:canBe("teleport") then
 				if not target:teleportRandom(self.x, self.y, t.getTeleport(self, t), t.getTeleport(self, t)/2) then
-					game.logSeen(target, "The spell fizzles on %s!", target.name:capitalize())
+					game.logSeen(target, "The spell fizzles on %s!", target:getName():capitalize())
 				else
 					target:setEffect(target.EFF_CONTINUUM_DESTABILIZATION, 100, {power=getParadoxSpellpower(self, t, 0.3)})
 					game.level.map:particleEmitter(target.x, target.y, 1, "temporal_teleport")
-					game.logSeen(target, "#CRIMSON#%s has been banished!", target.name:capitalize())
+					game.logSeen(target, "#CRIMSON#%s has been banished!", target:getName():capitalize())
 				end
 			else
-				game.logSeen(target, "%s resists the banishment!", target.name:capitalize())
+				game.logSeen(target, "%s resists the banishment!", target:getName():capitalize())
 			end
 			-- random warp
 			DamageType:get(DamageType.RANDOM_WARP).projector(self, target.x, target.y, DamageType.RANDOM_WARP, {dur=t.getDuration(self, t), apply_power=getParadoxSpellpower(self, t)})

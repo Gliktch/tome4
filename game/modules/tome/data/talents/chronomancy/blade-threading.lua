@@ -238,10 +238,10 @@ newTalent{
 				if target and self:reactionToward(target) < 0 then
 					if target:checkHit(getParadoxSpellpower(self, t), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("instakill") and target.life > 0 and target.life < target.max_life * 0.2 then
 						-- KILL IT !
-						game.logSeen(target, "%s has been cut from the timeline!", target.name:capitalize())
+						game.logSeen(target, "%s has been cut from the timeline!", target:getName():capitalize())
 						target:die(self)
 					elseif target.life > 0 and target.life < target.max_life * 0.2 then
-						game.logSeen(target, "%s resists the temporal shear!", target.name:capitalize())
+						game.logSeen(target, "%s resists the temporal shear!", target:getName():capitalize())
 					end
 				end
 			end)

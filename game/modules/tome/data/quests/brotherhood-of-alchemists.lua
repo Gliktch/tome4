@@ -22,9 +22,9 @@ desc = function(self, player, who)
 	local desc = {}
 
 	if self:isStatus(self.DONE) and self.player_won == true then
-		desc[#desc+1] = ("#LIGHT_GREEN#Thanks to your timely aid, %s is the newest member of the Brotherhood of Alchemists.#WHITE#"):tformat(self.winner)
+		desc[#desc+1] = ("#LIGHT_GREEN#Thanks to your timely aid, %s is the newest member of the Brotherhood of Alchemists.#WHITE#"):tformat(_t(self.winner))
 	elseif self:isStatus(self.DONE) and self.player_won == false then
-		desc[#desc+1] = ("#RED#You aided various denizens of Maj'Eyal in their attempts to join the Brotherhood of Alchemists, though you did not prove the deciding factor for any. This year's new member is %s.#WHITE#"):tformat(self.winner)
+		desc[#desc+1] = ("#RED#You aided various denizens of Maj'Eyal in their attempts to join the Brotherhood of Alchemists, though you did not prove the deciding factor for any. This year's new member is %s.#WHITE#"):tformat(_t(self.winner))
 	else
 		desc[#desc+1] = _t"#LIGHT_BLUE#Various alchemists around Maj'Eyal are competing to gain entry into the great Brotherhood of Alchemists, and one or more have enlisted your aid.#WHITE#"
 	end
@@ -32,27 +32,27 @@ desc = function(self, player, who)
 	for i = 1, 4 do --run through list of four alchemists
 		for j = 1, 3 do --run through each alchemist's list of three elixirs
 			if self:isCompleted(self.e[i][j].full) and not self:isCompleted(self.e[i][j].poached) then
-				desc[#desc+1] = ("#GREEN#You have aided %s in creating an %s.#WHITE#"):tformat(self.e[i][j].alchemist, self.e[i][j].name)
+				desc[#desc+1] = ("#GREEN#You have aided %s in creating an %s.#WHITE#"):tformat(_t(self.e[i][j].alchemist), _t(self.e[i][j].name))
 			elseif self:isCompleted(self.e[i][j].full) and self:isCompleted(self.e[i][j].poached) then
-				desc[#desc+1] = ("#RED#%s has completed an %s without your aid.#WHITE#"):tformat(self.e[i][j].alchemist, self.e[i][j].name)
+				desc[#desc+1] = ("#RED#%s has completed an %s without your aid.#WHITE#"):tformat(_t(self.e[i][j].alchemist), _t(self.e[i][j].name))
 			elseif self:isCompleted(self.e[i][j].start) and not self:isCompleted(self.e[i][j].full) and self:isStatus(self.DONE) then
-				desc[#desc+1] = ("#SLATE#Having failed to gain admittance to the Brotherhood of the Alchemists, %s no longer needs your help making the %s."):tformat(self.e[i][j].alchemist, self.e[i][j].name)
+				desc[#desc+1] = ("#SLATE#Having failed to gain admittance to the Brotherhood of the Alchemists, %s no longer needs your help making the %s."):tformat(_t(self.e[i][j].alchemist), _t(self.e[i][j].name))
 			elseif self:isCompleted(self.e[i][j].start) and not self:isCompleted(self.e[i][j].full) then
-				desc[#desc+1] = ("%s needs your help making an %s. He has given you some notes on the ingredients:"):tformat(self.e[i][j].alchemist, self.e[i][j].name)
+				desc[#desc+1] = ("%s needs your help making an %s. He has given you some notes on the ingredients:"):tformat(_t(self.e[i][j].alchemist), _t(self.e[i][j].name))
 				if not self:check_i(player, self.e[i][j].ingredients[1]) then
-					desc[#desc+1] = ("#SLATE#  * 'Needed: one %s. %s'#WHITE#"):tformat(self.e[i][j].ingredients[1].name, game.party:getIngredient(self.e[i][j].ingredients[1].id).alchemy_text)
+					desc[#desc+1] = ("#SLATE#  * 'Needed: one %s. %s'#WHITE#"):tformat(_t(self.e[i][j].ingredients[1].name), game.party:getIngredient(self.e[i][j].ingredients[1].id).alchemy_text)
 				else
-					desc[#desc+1] = ("#LIGHT_GREEN#  * You've found the needed %s.#WHITE#"):tformat(self.e[i][j].ingredients[1].name)
+					desc[#desc+1] = ("#LIGHT_GREEN#  * You've found the needed %s.#WHITE#"):tformat(_t(self.e[i][j].ingredients[1].name))
 				end
 				if not self:check_i(player, self.e[i][j].ingredients[2]) then
-					desc[#desc+1] = ("#SLATE#  * 'Needed: one %s. %s'#WHITE#"):tformat(self.e[i][j].ingredients[2].name, game.party:getIngredient(self.e[i][j].ingredients[2].id).alchemy_text)
+					desc[#desc+1] = ("#SLATE#  * 'Needed: one %s. %s'#WHITE#"):tformat(_t(self.e[i][j].ingredients[2].name), game.party:getIngredient(self.e[i][j].ingredients[2].id).alchemy_text)
 				else
-					desc[#desc+1] = ("#LIGHT_GREEN#  * You've found the needed %s.#WHITE#"):tformat(self.e[i][j].ingredients[2].name)
+					desc[#desc+1] = ("#LIGHT_GREEN#  * You've found the needed %s.#WHITE#"):tformat(_t(self.e[i][j].ingredients[2].name))
 				end
 				if not self:check_i(player, self.e[i][j].ingredients[3]) then
-					desc[#desc+1] = ("#SLATE#  * 'Needed: one %s. %s'#WHITE#"):tformat(self.e[i][j].ingredients[3].name, game.party:getIngredient(self.e[i][j].ingredients[3].id).alchemy_text)
+					desc[#desc+1] = ("#SLATE#  * 'Needed: one %s. %s'#WHITE#"):tformat(_t(self.e[i][j].ingredients[3].name), game.party:getIngredient(self.e[i][j].ingredients[3].id).alchemy_text)
 				else
-					desc[#desc+1] = ("#LIGHT_GREEN#  * You've found the needed %s.#WHITE#"):tformat(self.e[i][j].ingredients[3].name)
+					desc[#desc+1] = ("#LIGHT_GREEN#  * You've found the needed %s.#WHITE#"):tformat(_t(self.e[i][j].ingredients[3].name))
 				end
 			end
 		end

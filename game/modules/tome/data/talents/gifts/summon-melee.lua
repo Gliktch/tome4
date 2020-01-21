@@ -135,7 +135,7 @@ newTalent{
 			type = "animal", subtype = "canine",
 			display = "C", color=colors.LIGHT_DARK, image = "npc/summoner_wardog.png",
 			name = "war hound", faction = self.faction,
-			desc = [[]],
+			desc = _t[[]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "dumb_talented_simple", ai_state = { talent_in=5, },
 			stats = {str=0, dex=0, con=0, cun=0, wil=0, mag=0},
@@ -243,7 +243,7 @@ newTalent{
 		local m = NPC.new{
 			type = "immovable", subtype = "jelly", image = "npc/jelly-darkgrey.png",
 			display = "j", color=colors.BLACK,
-			desc = "A strange blob on the dungeon floor.",
+			desc = _t"A strange blob on the dungeon floor.",
 			name = "black jelly",
 			autolevel = "none", faction=self.faction,
 			stats = {str=0, dex=0, con=0, cun=0, wil=0, mag=0},
@@ -378,7 +378,7 @@ newTalent{
 			global_speed_base=1.2,
 			stats = {str=0, dex=0, con=0, cun=0, wil=0, mag=0},
 			inc_stats = t.incStats(self, t),
-			desc = [[It is a cross between a human and a bull.]],
+			desc = _t[[It is a cross between a human and a bull.]],
 			resolvers.equip{ {type="weapon", subtype="battleaxe", auto_req=true}, },
 			level_range = {self.level, self.level}, exp_worth = 0,
 
@@ -496,7 +496,7 @@ newTalent{
 			ai = "summoned", ai_real = "dumb_talented_simple", ai_state = { talent_in=2, },
 			stats = {str=0, dex=0, con=0, cun=0, wil=0, mag=0},
 			inc_stats = t.incStats(self, t),
-			desc = [[It is a massive animated statue.]],
+			desc = _t[[It is a massive animated statue.]],
 			level_range = {self.level, self.level}, exp_worth = 0,
 
 			combat_armor = 25, combat_def = -20,

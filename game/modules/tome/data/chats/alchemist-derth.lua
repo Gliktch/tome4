@@ -110,9 +110,9 @@ end
 --Make the alchemist's reaction to your turn-in vary depending on whether he lost.
 local function alchemist_reaction_complete(npc, player, lose, other_alch, other_elixir)
 	if lose == true then
-		return ([[Pfaugh. You're too late. %s has already finished. But I suppose it doesn't do any harm to take these and give you your undeserved reward.]]):tformat(other_alch)
+		return ([[Pfaugh. You're too late. %s has already finished. But I suppose it doesn't do any harm to take these and give you your undeserved reward.]]):tformat(_t(other_alch))
 	else
-		return ([[Ah, excellent. Hand them over, if you please. You should know that in your overlong absence, %s has managed to create a %s. I'll be most put out if he steals my rightful spot.]]):tformat(other_alch, other_elixir)
+		return ([[Ah, excellent. Hand them over, if you please. You should know that in your overlong absence, %s has managed to create a %s. I'll be most put out if he steals my rightful spot.]]):tformat(_t(other_alch), other_elixir)
 	end
 end
 
@@ -160,7 +160,7 @@ newChat{ id="competition",
 newChat{ id="choice",
 	text = _t[[Excellent. Now then, I've three elixirs I'm working on. I'll burden you with only one at a time, since I've learned the hard way about the hazards of overloading an adventurer's brain. Here are your options: the elixir of the fox, which makes you as nimble and cunning as a fox; the elixir of avoidance, which sharpens your natural inclinations to get out of the way of incoming harm; or the elixir of precision, which grants intuitive understanding of an enemy's most sensitive spots. Which would you like to aid me with?]],
 	answers = {
-		{("The %s."):tformat(e[1].name), jump="list",
+		{("The %s."):tformat(_t(e[1].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[1].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[1].start)
@@ -173,7 +173,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("The %s."):tformat(e[2].name), jump="list",
+		{("The %s."):tformat(_t(e[2].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[2].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[2].start)
@@ -186,7 +186,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("The %s."):tformat(e[3].name), jump="list",
+		{("The %s."):tformat(_t(e[3].name)), jump="list",
 			cond = function(npc, player) return not game.player:hasQuest("brotherhood-of-alchemists"):isCompleted(e[3].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[3].start)
@@ -229,19 +229,19 @@ newChat{ id="welcome",
 Ah, you again.]],
 	answers = {
 		-- If not the final elixir:
-		{("I've returned with the ingredients for the %s."):tformat(e[1].name), jump="complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[1].name)), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 1) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
 			end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[2].name), jump="complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[2].name)), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 2) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
 			end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[3].name), jump="complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[3].name)), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 3) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
@@ -249,24 +249,24 @@ Ah, you again.]],
 		},
 
 		-- If the final elixir:
-		{("I've returned with the ingredients for the %s."):tformat(e[1].name), jump="totally-complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[1].name)), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 1) end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[2].name), jump="totally-complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[2].name)), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 2) end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[3].name), jump="totally-complete",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[3].name)), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 3) end,
 		},
 
 		-- If the elixir got made while you were out:
-		{("I've returned with the ingredients for the %s."):tformat(e[1].name), jump="poached",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[1].name)), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 1) end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[2].name), jump="poached",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[2].name)), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 2) end,
 		},
-		{("I've returned with the ingredients for the %s."):tformat(e[3].name), jump="poached",
+		{("I've returned with the ingredients for the %s."):tformat(_t(e[3].name)), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 3) end,
 		},
 
@@ -433,7 +433,7 @@ Enjoy the fruits of your labors, adventurer. I know I will. To show my appreciat
 newChat{ id="choice",
 	text = _t[[Excellent. With which would you like to aid me?]],
 	answers = {
-		{("The %s."):tformat(e[1].name), jump="list",
+		{("The %s."):tformat(_t(e[1].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[1].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[1].start)
@@ -446,7 +446,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("The %s."):tformat(e[2].name), jump="list",
+		{("The %s."):tformat(_t(e[2].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[2].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[2].start)
@@ -459,7 +459,7 @@ newChat{ id="choice",
 				game:tooltipDisplayAtMap(game.w, game.h, tostring(o:getDesc()))
 			end,
 		},
-		{("The %s."):tformat(e[3].name), jump="list",
+		{("The %s."):tformat(_t(e[3].name)), jump="list",
 			cond = function(npc, player) return not q:isCompleted(e[3].full) end,
 			action = function(npc, player)
 				player:setQuestStatus("brotherhood-of-alchemists", engine.Quest.COMPLETED, e[3].start)

@@ -26,7 +26,7 @@ newEntity{
 	type = "humanoid", subtype = "shalore",
 	display = "p", color=colors.WHITE,
 	faction = "shalore",
-	anger_emote = "Catch @himher@!",
+	anger_emote = _t"Catch @himher@!",
 	exp_worth = 0,
 	combat = { dam=resolvers.rngavg(1,2), atk=2, apr=0, dammod={str=0.4} },
 
@@ -79,7 +79,7 @@ newEntity{
 	type = "giant", subtype = "ogre",
 	display = "O", color=colors.WHITE,
 	faction = "shalore",
-	anger_emote = "Catch @himher@!",
+	anger_emote = _t"Catch @himher@!",
 	exp_worth = 0,
 	combat = { dam=resolvers.rngavg(1,2), atk=2, apr=0, dammod={str=0.4} },
 

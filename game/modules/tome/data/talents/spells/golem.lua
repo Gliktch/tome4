@@ -70,7 +70,7 @@ newTalent{
 				target:knockback(self.x, self.y, 3)
 				target:crossTierEffect(target.EFF_OFFBALANCE, self:combatPhysicalpower())
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 
@@ -170,7 +170,7 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, t.getPinDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the crushing!", target.name:capitalize())
+				game.logSeen(target, "%s resists the crushing!", target:getName():capitalize())
 			end
 		end
 
@@ -237,7 +237,7 @@ newTalent{
 				if target:canBe("stun") then
 					target:setEffect(target.EFF_DAZED, t.getDazeDuration(self, t), {apply_power=self:combatPhysicalpower()})
 				else
-					game.logSeen(target, "%s resists the dazing blow!", target.name:capitalize())
+					game.logSeen(target, "%s resists the dazing blow!", target:getName():capitalize())
 				end
 			end
 		end)

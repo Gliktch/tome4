@@ -138,7 +138,7 @@ function _M:runStep()
 				self:runMoved()
 				-- Did not move ? no use in running unless we were busy
 				if self.running and not self.running.busy and self.x == oldx and self.y == oldy then
-					self:runStop("didn't move")
+					self:runStop(_t"didn't move")
 				end
 			end
 			if not self.running then return false end
@@ -180,7 +180,7 @@ function _M:runStep()
 				self.running = running_bak
 				-- Can't run around the trap
 				if not ret2 then
-					self:runStop("trap spotted")
+					self:runStop(_t"trap spotted")
 					return false
 				end
 			end
@@ -199,7 +199,7 @@ function _M:runStep()
 					self.running.ignore_left = nil
 					-- We do this check here because it is path/time dependent, not terrain configuration dependent
 					if dir_is_cardinal and self:checkRunDir(sides.left) and self:checkRunDir(self.running.dir, 2) then
-						self:runStop("terrain change on the left")
+						self:runStop(_t"terrain change on the left")
 						return false
 					end
 				end
@@ -212,7 +212,7 @@ function _M:runStep()
 					self.running.ignore_right = nil
 					-- We do this check here because it is path/time dependent, not terrain configuration dependent
 					if dir_is_cardinal and self:checkRunDir(sides.right) and self:checkRunDir(self.running.dir, 2) then
-						self:runStop("terrain change on the right")
+						self:runStop(_t"terrain change on the right")
 						return false
 					end
 				end

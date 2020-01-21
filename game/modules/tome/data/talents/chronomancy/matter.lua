@@ -189,11 +189,11 @@ newTalent{
 			if not oe or oe:attr("temporary") or game.level.map:checkAllEntities(px, py, "block_move") then return end
 				local e = Object.new{
 					old_feat = oe,
-					name = "materialize barrier", image = "terrain/rocky_mountain.png",
+					name = _t"materialize barrier", image = "terrain/rocky_mountain.png",
 					display = '#', color_r=255, color_g=255, color_b=255, back_color=colors.GREY,
 					shader = "shadow_simulacrum",
 					shader_args = { color = {0.6, 0.6, 0.2}, base = 0.9, time_factor = 1500 },
-					desc = "a summoned wall of stone",
+					desc = _t"a summoned wall of stone",
 					type = "wall", --subtype = "floor",
 					always_remember = true,
 					can_pass = {pass_wall=1},
@@ -291,7 +291,7 @@ newTalent{
 				local eff = rng.tableRemove(effs)
 				if eff[1] == "effect" then
 					target:removeEffect(eff[2])
-					game.logSeen(self, "#CRIMSON#%s's beneficial effect was stripped!#LAST#", target.name:capitalize())
+					game.logSeen(self, "#CRIMSON#%s's beneficial effect was stripped!#LAST#", target:getName():capitalize())
 					if what == "physical" then p.physical[target] = true end
 					if what == "magical" then p.magical[target] = true end
 					

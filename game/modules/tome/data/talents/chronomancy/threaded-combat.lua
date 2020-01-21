@@ -327,7 +327,7 @@ newTalent{
 				local tx, ty = util.findFreeGrid(wf.x, wf.y, 1, true, {[Map.ACTOR]=true})
 				if tx and ty then
 					m.blended_target = wf
-					game.logSeen(self, "%s calls forth a temporal warden from another timeline.", self.name:capitalize())
+					game.logSeen(self, "%s calls forth a temporal warden from another timeline.", self:getName():capitalize())
 					game.zone:addEntity(game.level, m, "actor", tx, ty)
 				end
 			end
@@ -340,7 +340,7 @@ newTalent{
 					local tx, ty = util.findFreeGrid(a.x, a.y, 1, true, {[Map.ACTOR]=true})
 					if tx and ty then
 						m.blended_target = a
-						game.logSeen(self, "%s calls forth a temporal warden from another timeline.", self.name:capitalize())
+						game.logSeen(self, "%s calls forth a temporal warden from another timeline.", self:getName():capitalize())
 						game.zone:addEntity(game.level, m, "actor", tx, ty)
 						break
 					else
@@ -404,7 +404,7 @@ newTalent{
 				local tx, ty = find_space(self, target, m)
 				if tx and ty then
 					m.blended_target = wf
-					game.logSeen(self, "%s calls forth a temporal warden from another timeline.", self.name:capitalize())
+					game.logSeen(self, "%s calls forth a temporal warden from another timeline.", self:getName():capitalize())
 					game.zone:addEntity(game.level, m, "actor", tx, ty)
 				end
 			else
@@ -414,7 +414,7 @@ newTalent{
 					local tx, ty = find_space(self, target, m)
 					if tx and ty then
 						m.blended_target = a
-						game.logSeen(self, "%s calls forth a temporal warden from another timeline.", self.name:capitalize())
+						game.logSeen(self, "%s calls forth a temporal warden from another timeline.", self:getName():capitalize())
 						game.zone:addEntity(game.level, m, "actor", tx, ty)
 					end
 				end

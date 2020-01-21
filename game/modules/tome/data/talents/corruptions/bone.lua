@@ -86,12 +86,12 @@ newTalent{
 				if target:canBe("pin") then
 					target:setEffect(target.EFF_BONE_GRAB, t.getDuration(self, t), {apply_power=self:combatSpellpower()})
 				else
-					game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+					game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 				end
 
 				local hit = self:checkHit(self:combatSpellpower(), target:combatSpellResist() + (target:attr("continuum_destabilization") or 0))
 				if not target:canBe("teleport") or not hit then
-					game.logSeen(target, "%s resists being teleported by Bone Grab!", target.name:capitalize())
+					game.logSeen(target, "%s resists being teleported by Bone Grab!", target:getName():capitalize())
 					return true
 				end
 
@@ -113,12 +113,12 @@ newTalent{
 				if target:canBe("pin") then
 					target:setEffect(target.EFF_BONE_GRAB, t.getDuration(self, t), {apply_power=self:combatSpellpower()})
 				else
-					game.logSeen(target, "%s resists the pin!", target.name:capitalize())
+					game.logSeen(target, "%s resists the pin!", target:getName():capitalize())
 				end
 
 				local hit = self:checkHit(self:combatSpellpower(), target:combatSpellResist() + (target:attr("continuum_destabilization") or 0))
 				if not target:canBe("teleport") or not hit then
-					game.logSeen(target, "%s resists being teleported by Bone Grab!", target.name:capitalize())
+					game.logSeen(target, "%s resists being teleported by Bone Grab!", target:getName():capitalize())
 					return true
 				end
 				

@@ -195,7 +195,7 @@ newTalent{
 			if target:canBe("confusion") then
 				target:setEffect(target.EFF_CONFUSED, t.getConfuseDuration(self, t), {apply_power=self:combatAttack(), power=t.getConfusePower(self, t)})
 			else
-				game.logSeen(target, "%s resists the surprise strike!", target.name:capitalize())
+				game.logSeen(target, "%s resists the surprise strike!", target:getName():capitalize())
 			end
 		end
 		return true
@@ -245,7 +245,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getStunDuration(self, t), {apply_power=self:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the stunning strike!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stunning strike!", target:getName():capitalize())
 			end
 
 			-- Attack after the stun, to benefit from backstabs
@@ -421,7 +421,7 @@ newTalent{
 			return nil 
 		end
 
-		game.logSeen(self, "%s becomes a whirlwind of weapons!", self.name:capitalize())
+		game.logSeen(self, "%s becomes a whirlwind of weapons!", self:getName():capitalize())
 
 		local seen_targets = {}
 		for px, py in core.fov.lineIterator(self.x, self.y, mx, my, "block_NOTHINGLOL") do

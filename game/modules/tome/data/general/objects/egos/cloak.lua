@@ -422,7 +422,7 @@ newEntity{
 		},
 	},
 	charm_power_def = {add=5, max=10, floor=true},
-	resolvers.charm("blink randomly (up to range 8) within 2 spaces of a target hostile creature", 10, function(self, who)
+	resolvers.charm(_t"blink randomly (up to range 8) within 2 spaces of a target hostile creature", 10, function(self, who)
 		local tg = self.use_power.target(self, who)
 		local x, y = who:getTarget(tg)
 		if not x or not y then return nil end
@@ -433,7 +433,7 @@ newEntity{
 		game.level.map:particleEmitter(who.x, who.y, 1, "teleport")
 		who:teleportRandom(target.x, target.y, 2)
 		game.level.map:particleEmitter(who.x, who.y, 1, "teleport")
-		game.logSeen(who, "%s uses %s!", who.name:capitalize(), self:getName{no_add_name=true, do_color=true})
+		game.logSeen(who, "%s uses %s!", who:getName():capitalize(), self:getName{no_add_name=true, do_color=true})
 		return {id=true, used=true}
 		end,
 		"T_GLOBAL_CD",

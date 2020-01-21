@@ -213,7 +213,7 @@ newEntity{ base = "BASE_NPC_MULTIHUED_DRAKE",
 			self.resists = t[2].resists
 			self.talents = t[2].talents
 			self.changed = true
-			game.logSeen(self, "#YELLOW#%s's skin turns %s!", self.name:capitalize(), t[1])
+			game.logSeen(self, "#YELLOW#%s's skin turns %s!", self:getName():capitalize(), t[1])
 		end
 	end,
 }

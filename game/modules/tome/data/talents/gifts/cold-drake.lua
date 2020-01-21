@@ -152,8 +152,8 @@ newTalent{
 			if not oe or oe:attr("temporary") or game.level.map:checkAllEntities(px, py, "block_move") then return end
 			local e = Object.new{
 				old_feat = oe,
-				name = "ice wall", image = "npc/iceblock.png",
-				desc = "a summoned, transparent wall of ice",
+				name = _t"ice wall", image = "npc/iceblock.png",
+				desc = _t"a summoned, transparent wall of ice",
 				type = "wall",
 				display = '#', color=colors.LIGHT_BLUE, back_color=colors.BLUE,
 				always_remember = true,
@@ -243,7 +243,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_FROZEN, 3, {hp=damage, apply_power = self:combatMindpower()})
 			else
-				game.logSeen(target, "%s resists the freeze!", target.name:capitalize())
+				game.logSeen(target, "%s resists the freeze!", target:getName():capitalize())
 			end
 		end, t.getDamage(self, t), {type="freeze"})
 

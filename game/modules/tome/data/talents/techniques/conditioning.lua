@@ -82,7 +82,7 @@ newTalent{
 			local eff = effs[1]
 			if eff[1] == "effect" and rng.percent(t.getChance(self, t)) then
 				self:removeEffect(eff[2])
-				game.logSeen(self, "#ORCHID#%s has recovered!#LAST#", self.name:capitalize())
+				game.logSeen(self, "#ORCHID#%s has recovered!#LAST#", self:getName():capitalize())
 			end
 		end
 	end,

@@ -106,7 +106,7 @@ newTalent{
 			self:setEffect(self.EFF_CLEAR_MIND, 6, {power=count})
 		end
 		
-		game.logSeen(self, "%s's mind is clear!", self.name:capitalize())
+		game.logSeen(self, "%s's mind is clear!", self:getName():capitalize())
 		game:playSoundNear(self, "talents/heal")
 		return true
 	end,
@@ -143,8 +143,8 @@ newTalent{
 			ai_target={actor=table.NIL_MERGE},
 			ai = "summoned", ai_real = "tactical",
 			subtype = "ghost", is_psychic_projection = 1,
-			name = "Projection of "..self.name,
-			desc = [[A ghostly figure.]],
+			name = ("Projection of %s"):tformat(self:getName()),
+			desc = _t[[A ghostly figure.]],
 			lite=0,
 		}
 		m:removeTimedEffectsOnClone()

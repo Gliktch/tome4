@@ -67,7 +67,7 @@ newTalent{
 		--mindpower check
 		local mindpower = self:combatMindpower()
 		if not target:checkHit(mindpower, target:combatMentalResist()) then
-			game.logSeen(target, "%s resists the fear!", target.name:capitalize())
+			game.logSeen(target, "%s resists the fear!", target:getName():capitalize())
 			return nil
 		end
 
@@ -83,7 +83,7 @@ newTalent{
 
 		--fear res check & heighten fear bypass
 		if not no_fearRes and not target:canBe("fear") then
-			game.logSeen(target, "#F53CBE#%s resists the fear!", target.name:capitalize())
+			game.logSeen(target, "#F53CBE#%s resists the fear!", target:getName():capitalize())
 			return true
 		end
 
@@ -281,11 +281,11 @@ newTalent{
 				local actor = game.level.map(px, py, engine.Map.ACTOR)
 				if actor and self:reactionToward(actor) < 0 and actor ~= self then
 					if not actor:canBe("fear") then
-						game.logSeen(actor, "#F53CBE#%s ignores the panic!", actor.name:capitalize())
+						game.logSeen(actor, "#F53CBE#%s ignores the panic!", actor:getName():capitalize())
 					elseif actor:checkHit(self:combatMindpower(), actor:combatMentalResist(), 0, 95) then
 						actor:setEffect(actor.EFF_PANICKED, duration, {src=self, range=10, chance=chance, tyrantPower=tyrantPower, maxStacks=maxStacks, tyrantDur=tyrantDur})
 					else
-						game.logSeen(actor, "#F53CBE#%s resists the panic!", actor.name:capitalize())
+						game.logSeen(actor, "#F53CBE#%s resists the panic!", actor:getName():capitalize())
 					end
 				end
 			end,

@@ -141,7 +141,7 @@ newTalent{
 		if not target then return end
 
 		if target:attr("timetravel_immune") then
-			game.logSeen(target, "%s is immune!", target.name:capitalize())
+			game.logSeen(target, "%s is immune!", target:getName():capitalize())
 			return true
 		end
 
@@ -157,7 +157,7 @@ newTalent{
 		-- Check hit
 		local power = getParadoxSpellpower(self, t)
 		local hit = self:checkHit(power, target:combatSpellResist() + (target:attr("continuum_destabilization") or 0))
-		if not hit then game.logSeen(target, "%s resists!", target.name:capitalize()) return true end
+		if not hit then game.logSeen(target, "%s resists!", target:getName():capitalize()) return true end
 		
 		-- Apply spellshock and destabilization
 		target:crossTierEffect(target.EFF_SPELLSHOCKED, getParadoxSpellpower(self, t))
@@ -168,7 +168,7 @@ newTalent{
 		if (oe and oe:attr("temporary")) or game.level.map:checkEntity(x, y, Map.TERRAIN, "block_move") then game.logPlayer(self, "Something has prevented the timetravel.") return true end
 		local e = mod.class.Object.new{
 			old_feat = oe, type = "temporal", subtype = "instability",
-			name = "temporal instability",
+			name = _t"temporal instability",
 			display = '&', color=colors.LIGHT_BLUE,
 			temporary = t.getDuration(self, t),
 			canAct = false,
@@ -200,7 +200,7 @@ newTalent{
 		}
 		
 		-- Remove the target
-		game.logSeen(target, "%s has moved forward in time!", target.name:capitalize())
+		game.logSeen(target, "%s has moved forward in time!", target:getName():capitalize())
 		game.level:removeEntity(target, true)
 		
 		-- add the time skip object to the map

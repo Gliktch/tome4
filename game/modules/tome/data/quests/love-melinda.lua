@@ -91,7 +91,7 @@ end) end
 function melindaCompanion(self, who, c, sc)
 	for uid, e in pairs(game.level.entities) do if e.define_as == "MELINDA_NPC" then e:disappear() end end
 
-	local melinda = require("mod.class.Player").new{name="Melinda"}
+	local melinda = require("mod.class.Player").new{name=_t"Melinda"}
 	local birth = require("mod.dialogs.Birther").new("", melinda, {}, function() end)
 	birth:setDescriptor("sex", "Female")
 	birth:setDescriptor("world", "Maj'Eyal")

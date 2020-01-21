@@ -76,7 +76,7 @@ newTalent{
 		local t = rng.tableRemove(tids)
 		if not t or #tids<=0 then return end
 		target.talents_cd[t.id] = cd
-		game.logSeen(target, "#CRIMSON#%s's %s is disrupted by %s wounds!#LAST#", target.name:capitalize(), t.name, target:his_her())
+		game.logSeen(target, "#CRIMSON#%s's %s is disrupted by %s wounds!#LAST#", target:getName():capitalize(), t.name, target:his_her())
 		self.turn_procs.scoundrel = self.turn_procs.scoundrel or {}
 		self.turn_procs.scoundrel[target] = true
 	end,
@@ -96,7 +96,7 @@ newTalent{
 		local t = rng.tableRemove(tids)
 		if not t or #tids<=0 then return end
 		target.talents_cd[t.id] = cd
-		game.logSeen(target, "#CRIMSON#%s's %s is disrupted by %s wounds!#LAST#", target.name:capitalize(), t.name, target:his_her())
+		game.logSeen(target, "#CRIMSON#%s's %s is disrupted by %s wounds!#LAST#", target:getName():capitalize(), t.name, target:his_her())
 		self.turn_procs.scoundrel = self.turn_procs.scoundrel or {}
 		self.turn_procs.scoundrel[target] = true
 	end,
@@ -132,7 +132,7 @@ newTalent{
 		if e.status ~= "detrimental" or e.type ~= "physical" or not (p.src and p.src._is_actor) then return end
 		local chance = self:callTalent(self.T_MISDIRECTION, "getChance")
 		if not rng.percent(chance) then return end
-		game.logSeen(self, "#ORANGE#%s redirects the effect '%s'!#LAST#", self.name:capitalize(), e.desc)
+		game.logSeen(self, "#ORANGE#%s redirects the effect '%s'!#LAST#", self:getName():capitalize(), e.desc)
 		
 		local tgts = {}
 		self:project({type="ball", radius=1}, self.x, self.y, function(px, py)

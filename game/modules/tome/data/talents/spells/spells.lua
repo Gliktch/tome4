@@ -208,7 +208,7 @@ function necroSetupSummon(self, m, x, y, level, no_control, no_decay)
 			self.life = self.life - self.max_life * (self.necrotic_aura_decaying or 10) / 100
 			self.changed = true
 			if self.life <= 0 then
-				game.logSeen(self, "#{bold}#%s decays into a pile of ash!#{normal}#", self.name:capitalize())
+				game.logSeen(self, "#{bold}#%s decays into a pile of ash!#{normal}#", self:getName():capitalize())
 				if src then
 					local t = src:getTalentFromId(src.T_NECROTIC_AURA)
 					t.die_speach(self, t)

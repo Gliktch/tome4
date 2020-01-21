@@ -177,7 +177,7 @@ newTalent{
 		if self.player then -- prompt the player to pick a new element
 			local state = {}
 			local Chat = require("engine.Chat")
-			local chat = Chat.new("command-staff", {name="Command Staff: "..staff:getName{do_color=true, no_add_name=true}}, self, {version=staff, state=state, co=coroutine.running()})
+			local chat = Chat.new("command-staff", {name=_t"Command Staff: "..staff:getName{do_color=true, no_add_name=true}}, self, {version=staff, state=state, co=coroutine.running()})
 			local d = chat:invoke()
 			if not coroutine.yield() then return nil end
 			return true
@@ -300,7 +300,7 @@ newTalent{
 
 		local list = table.keys(bonuses)
 		local n = #list
-		if n < 1 then return bt, "None" end
+		if n < 1 then return bt, _t"None" end
 		local e_string = ""
 		if n == 1 then
 			e_string = DamageType.dam_def[next(bonuses)].name
@@ -309,7 +309,7 @@ newTalent{
 				if DamageType.dam_def[list[i]] and bt[list[i]] then
 					list[i] = DamageType.dam_def[list[i]].text_color..string.lower(DamageType.dam_def[list[i]].name).."#LAST#"
 			end end
-			e_string = table.concatNice(list, ", ", " and ")
+			e_string = table.concatNice(list, ", ", _t" and ")
 		end
 		return bt, e_string
 	end,
@@ -424,7 +424,7 @@ newTalent{
 				if target.undead or target.construct then
 					self:project({type="hit"}, target.x, target.y, engine.DamageType.ARCANE, 40+self:combatMindpower())
 					if target:canBe("stun") then target:setEffect(target.EFF_STUNNED, 5, {apply_power=self:combatMindpower()}) end
-					game.logSeen(self, "%s's animating magic is disrupted!", target.name:capitalize())
+					game.logSeen(self, "%s's animating magic is disrupted!", target:getName():capitalize())
 				end
 			end
 		end, nil, {type="slime"})
@@ -684,7 +684,7 @@ newTalent{
 		if not self:isTalentCoolingDown(t) then
 			self:startTalentCooldown(t)
 			cb.value=0
-			game.logSeen(self, "#CRIMSON#%s's shield deflects the blow!", self.name)
+			game.logSeen(self, "#CRIMSON#%s's shield deflects the blow!", self:getName())
 			return true
 		else
 		return false

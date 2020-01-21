@@ -147,7 +147,7 @@ newTalent{
 		for tid, cd in pairs(alt) do
 			self:alterTalentCoolingdown(tid, -1)
 		end
-		game.logSeen(self, "#RED#The powerful blow energizes %s reducing their cooldowns!#LAST#", self.name)
+		game.logSeen(self, "#RED#The powerful blow energizes %s reducing their cooldowns!#LAST#", self:getName())
 		end
 		return cb.value
 

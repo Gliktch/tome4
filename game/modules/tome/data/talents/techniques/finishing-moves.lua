@@ -50,7 +50,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getDuration(self, t, self:getCombo(combo)), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 
 			local a = util.dirToAngle(util.getDir(target.x, self.y, self.x, target.y))
@@ -235,10 +235,10 @@ newTalent{
 		if hit then
 			if target:checkHit(self:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 5 - self:getTalentLevel(t) / 2) and target:canBe("instakill") and target.life > target.die_at and target.life < target.max_life * 0.2 then
 				-- KILL IT !
-				game.logSeen(target, "%s feels the pain of the death blow!", target.name:capitalize())
+				game.logSeen(target, "%s feels the pain of the death blow!", target:getName():capitalize())
 				target:die(self)
 			elseif target.life > 0 and target.life < target.max_life * 0.2 then
-				game.logSeen(target, "%s resists the death blow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the death blow!", target:getName():capitalize())
 			end
 
 			local a = util.dirToAngle(util.getDir(target.x, self.y, self.x, target.y))

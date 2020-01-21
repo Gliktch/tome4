@@ -77,7 +77,7 @@ function(zone, goback)
 	goback("stairs back to %s", zone.grid_list.UP)
 end)
 
-g.name = "hidden vault"
+g.name = _t"hidden vault"
 g.always_remember = true
 g.desc = [[Crumbling stairs lead down to something.]]
 g.show_tooltip = true

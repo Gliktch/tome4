@@ -42,7 +42,7 @@ newEntity{ base = "TRAP_NATURAL_FOREST",
 		if who:canBe("stun") then
 			who:setEffect(who.EFF_STUNNED, 4, {apply_power=self.disarm_power + 5})
 		else
-			game.logSeen(who, "%s resists!", who.name:capitalize())
+			game.logSeen(who, "%s resists!", who:getName():capitalize())
 		end
 		return true
 	end

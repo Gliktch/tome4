@@ -127,7 +127,7 @@ newTalent{
 	getPower = function(self, t) return self:combatLimit(self:combatTalentStatDamage(t, "con", 10, 50), 1, 0, 0, 0.357, 35.7) end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 3, 7)) end,
 	do_devourer_frenzy = function(self, target, t)
-		game.logSeen(self, "The scent of blood sends the %ss into a frenzy!", self.name:capitalize())
+		game.logSeen(self, "The scent of blood sends the %ss into a frenzy!", self:getName():capitalize())
 		-- frenzy devourerers
 		local tg = {type="ball", range=0, radius=3, selffire=true, talent=t}
 		self:project(tg, target.x, target.y, function(px, py)
@@ -161,7 +161,7 @@ newTalent{
 			target:setEffect(target.EFF_CUT, 5, {power=t.getBleedDamage(self, t), src=self, apply_power=self:combatPhysicalpower()})
 			t.do_devourer_frenzy(self, target, t)
 		else
-			game.logSeen(target, "%s resists the cut!", target.name:capitalize())
+			game.logSeen(target, "%s resists the cut!", target:getName():capitalize())
 		end
 
 		return true
@@ -298,8 +298,8 @@ newTalent{
 			local m = NPC.new{
 				type = "horror", subtype = "temporal",
 				display = "h", color=colors.GREY, image = "npc/horror_temporal_void_horror.png",
-				name = "void shard", faction = self.faction,
-				desc = [[It looks like a small hole in the fabric of spacetime.]],
+				name = _t"void shard", faction = self.faction,
+				desc = _t[[It looks like a small hole in the fabric of spacetime.]],
 				stats = { str=22, dex=20, wil=15, con=15 },
 
 				--level_range = {self.level, self.level},
@@ -422,7 +422,7 @@ newTalent{
 				local ox, oy = target.x, target.y
 				target:pull(self.x, self.y, 2)
 				self:project({type="hit", range=10, friendlyfire=false, talent=t}, target.x, target.y, engine.DamageType.PHYSICAL, self:mindCrit(self:combatTalentMindDamage(t, 20, 120)))
-				if target.x ~= ox or target.y ~= oy then game.logSeen(target, "%s is pulled in!", target.name:capitalize()) end
+				if target.x ~= ox or target.y ~= oy then game.logSeen(target, "%s is pulled in!", target:getName():capitalize()) end
 			end
 		end)
 		return true
@@ -539,7 +539,7 @@ newTalent{
 				end
 			end)
 		else
-			game.logSeen(target, "%s resists the grab!", target.name:capitalize())
+			game.logSeen(target, "%s resists the grab!", target:getName():capitalize())
 		end
 		game:playSoundNear(self, "talents/slime")
 

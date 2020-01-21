@@ -75,7 +75,7 @@ newTalent{
 			end
 			self:attr("allow_on_heal", -1)
 		else
-			game.logSeen(target, "%s resists!", target.name:capitalize())
+			game.logSeen(target, "%s resists!", target:getName():capitalize())
 		end
 		return true
 	end,

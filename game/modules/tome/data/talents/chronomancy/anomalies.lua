@@ -328,7 +328,7 @@ newTalent{
 		
 		-- Adding the entrance wormhole
 		local entrance = mod.class.Trap.new{
-			name = "wormhole",
+			name = _t"wormhole",
 			type = "annoy", subtype="teleport", id_by_type=true, unided_name = "trap",
 			image = "terrain/wormhole.png",
 			display = '&', color_r=255, color_g=255, color_b=255, back_color=colors.STEEL_BLUE,
@@ -343,13 +343,13 @@ newTalent{
 				if who == self.summoned or who:canBe("teleport") then
 					game.level.map:particleEmitter(who.x, who.y, 1, "temporal_teleport")
 					if not who:teleportRandom(self.dest.x, self.dest.y, 3, 1) then
-						game.logSeen(who, "%s tries to enter the wormhole but a violent force pushes it back.", who.name:capitalize())
+						game.logSeen(who, "%s tries to enter the wormhole but a violent force pushes it back.", who:getName():capitalize())
 					elseif who ~= self.summoned_by then
 						who:setEffect(who.EFF_CONTINUUM_DESTABILIZATION, 100, {power=self.dest_power})
 						game.level.map:particleEmitter(who.x, who.y, 1, "temporal_teleport")
 					end
 				else
-					game.logSeen(who, "%s ignores the wormhole.", who.name:capitalize())
+					game.logSeen(who, "%s ignores the wormhole.", who:getName():capitalize())
 				end
 				return true
 			end,
@@ -976,7 +976,7 @@ newTalent{
 			
 			if tx and ty and target:canBe("knockback") and target:canBe("anomaly") then
 				target:move(tx, ty, true)
-				game.logSeen(target, "%s is drawn in by gravity!", target.name:capitalize())
+				game.logSeen(target, "%s is drawn in by gravity!", target:getName():capitalize())
 			end
 		end)
 
@@ -1055,9 +1055,9 @@ newTalent{
 
 				local e = Object.new{
 					old_feat = oe,
-					name = "stone wall", image = "terrain/granite_wall1.png",
+					name = _t"stone wall", image = "terrain/granite_wall1.png",
 					display = '#', color_r=255, color_g=255, color_b=255, back_color=colors.GREY,
-					desc = "a summoned wall of stone",
+					desc = _t"a summoned wall of stone",
 					type = "wall", --subtype = "floor",
 					always_remember = true,
 					can_pass = {pass_wall=1},
@@ -1146,7 +1146,7 @@ newTalent{
 						local t = rng.tableRemove(tids)
 						if not t then break end
 						target.talents_cd[t.id] = rng.range(2, power)
-						game.logSeen(target, "%s's %s is disrupted!", target.name:capitalize(), t.name)
+						game.logSeen(target, "%s's %s is disrupted!", target:getName():capitalize(), t.name)
 					end
 					target.changed = true
 				end, nil)
@@ -1757,7 +1757,7 @@ newTalent{
 					if target:canBe("stun") then
 						target:setEffect(target.EFF_STUNNED, 4, {apply_power=self.def.apply})
 					else
-						game.logSeen(target, "%s resists the tornado!", target.name:capitalize())
+						game.logSeen(target, "%s resists the tornado!", target:getName():capitalize())
 					end
 
 					-- Lightning ball gets a special treatment to make it look neat
@@ -1857,7 +1857,7 @@ newTalent{
 						if target:canBe("stun") then
 							target:setEffect(target.EFF_STUNNED, 3, {apply_power=getParadoxSpellpower(src, t)})
 						else
-							game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+							game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 						end
 					end
 				end)
@@ -1901,7 +1901,7 @@ newTalent{
 		-- Make a trap so the player can shut it
 		local npcs = mod.class.NPC:loadList{"/data/general/npcs/horror_temporal.lua"}
 		local trap = Trap.new{
-			name = "Spacetime Tear",
+			name = _t"Spacetime Tear",
 			type = "time", id_by_type=true, unided_name = "trap",
 			display = '^', color=colors.GOLD, image = "object/temporal_instability.png",
 			npc_type = npcs,
@@ -1913,7 +1913,7 @@ newTalent{
 				if who == self.summoned_by then
 					if game.level.map(self.x, self.y, engine.Map.TRAP) == self then game.level.map:remove(self.x, self.y, engine.Map.TRAP) end
 					game.level:removeEntity(self)
-					game.logPlayer(who, "%s forces the tear shut!", who.name:capitalize())
+					game.logPlayer(who, "%s forces the tear shut!", who:getName():capitalize())
 				end
 				return true
 			end,
