@@ -157,7 +157,7 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_TOTAL_THUGGERY]=self:getTalentLevelRaw(t) }
 		end
 		m.is_nature_summon = true
@@ -278,7 +278,7 @@ newTalent{
 			end,
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_JELLY_MITOTIC_SPLIT]=self:getTalentLevelRaw(t) }
 		end
 		m.is_nature_summon = true
@@ -393,7 +393,7 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_RUSH]=self:getTalentLevelRaw(t) }
 		end
 		m.is_nature_summon = true
@@ -514,7 +514,7 @@ newTalent{
 			resolvers.sustains_at_birth(),
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_DISARM]=self:getTalentLevelRaw(t) }
 		end
 		m.is_nature_summon = true

@@ -32,8 +32,8 @@ function _M:init(chat)
 
 	local list = {
 		{name = _t"Global", kind = "global"},
-		{name = game.__mod_info.long_name, kind = mod},
-		{name = game.__mod_info.long_name.._t" [spoilers]", kind = mod.."-spoiler"},
+		{name = _t(game.__mod_info.long_name), kind = mod},
+		{name = _t(game.__mod_info.long_name).._t" [spoilers]", kind = mod.."-spoiler"},
 	}
 	for i, l in pairs(profile.chat.channels) do
 		if i ~= "global" and i ~= mod and i ~= mod.."-spoiler" then

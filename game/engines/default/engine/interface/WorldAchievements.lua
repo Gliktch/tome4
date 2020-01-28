@@ -174,7 +174,7 @@ end
 --- Show an achievement gain dialog
 function _M:showAchievement(title, a)
 	if not config.settings.cheat then
-		game:registerDialog(Achievement.new("New Achievement", a))
+		game:registerDialog(Achievement.new(_t"New Achievement", a))
 	end
 end
 

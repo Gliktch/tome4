@@ -101,7 +101,7 @@ end
 function _M:runReal()
 	self.delayed_log_damage = {}
 	self.delayed_log_messages = {}
-	self.calendar = Calendar.new("/data/calendar_allied.lua", _t"Today is the % %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
+	self.calendar = Calendar.new("/data/calendar_allied.lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
 
 	self.uiset:activate()
 
@@ -175,7 +175,7 @@ function _M:runReal()
 end
 
 function _M:rebuildCalendar()
-	self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", _t"Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", (self.player.calendar_start_year or 122), (self.player.calendar_start_day or 167), (self.player.calendar_start_hour or 11))
+	self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", (self.player.calendar_start_year or 122), (self.player.calendar_start_day or 167), (self.player.calendar_start_hour or 11))
 end
 
 --- Resize the hotkeys
@@ -205,7 +205,7 @@ function _M:newGame()
 	self.party:addMember(player, {
 		control="full",
 		type="player",
-		title="Main character",
+		title=_t"Main character",
 		main=true,
 		orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 	})
@@ -268,7 +268,7 @@ function _M:newGame()
 	self:triggerHook{"ToME:extraBirthOptions", options = self.extra_birth_option_defs}
 	local birth; birth = Birther.new(("Character Creation ( %s unlocked options)"):tformat(table.concat(table.extract_field(unlocks, "desc", ipairs), ", ")), self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, function(loaded)
 		if not loaded then
-			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", _t"Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
+			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
 			self.player:check("make_tile")
 			self.player.make_tile = nil
 			self.player:check("before_starting_zone")
@@ -333,7 +333,7 @@ function _M:newGame()
 			else self.player:playerLevelup(birthend, true) end
 		-- Player was loaded from a premade
 		else
-			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", _t"Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
+			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
 			Map:setViewerFaction(self.player.faction)
 			if self.player.__game_difficulty then self:setupDifficulty(self.player.__game_difficulty) end
 			self:setupPermadeath(self.player)
@@ -2354,8 +2354,8 @@ do return end
 			local menu
 			local l = {
 				"resume",
-				{ _t"Show Achievements", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowAchievements").new("Tales of Maj'Eyal Achievements", self.player)) end },
-				{ _t"Show known Lore", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowLore").new("Tales of Maj'Eyal Lore", self.party)) end },
+				{ _t"Show Achievements", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowAchievements").new(_t"Tales of Maj'Eyal Achievements", self.player)) end },
+				{ _t"Show known Lore", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowLore").new(_t"Tales of Maj'Eyal Lore", self.party)) end },
 				{ _t"Show ingredients", function() self:unregisterDialog(menu) self:registerDialog(require("mod.dialogs.ShowIngredients").new(self.party)) end },
 				"highscores",
 				{ _t"Inventory", function() self:unregisterDialog(menu) self.key:triggerVirtual("SHOW_INVENTORY") end },

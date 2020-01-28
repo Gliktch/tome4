@@ -22,8 +22,8 @@ local function check_materials_gave_orb(npc, player)
 	if not q or not q:isCompleted("gotoreknor") or not q:isCompleted("gave-orb") then return false end
 
 	--I18N-TODO it should be done in a i18n-friendly style
-	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond")
-	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame")
+	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond", {raw_name=true})
+	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame", {raw_name=true})
 	return gem_o and athame_o
 end
 
@@ -32,8 +32,8 @@ local function check_materials_withheld_orb(npc, player)
 	if not q or not q:isCompleted("gotoreknor") or not q:isCompleted("withheld-orb") then return false end
 	
 	--I18N-TODO it should be done in a i18n-friendly style
-	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond")
-	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame")
+	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond", {raw_name=true})
+	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame", {raw_name=true})
 	return gem_o and athame_o
 end
 

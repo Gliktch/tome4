@@ -88,7 +88,7 @@ summon_limmir = function(self, who)
 	limmir.no_party_ai = true
 	game.zone:addEntity(game.level, limmir, "actor", 45, 1)
 
-	game.party:addMember(limmir, {type="quest", title="Limmir (Quest)", temporary_level = true})
+	game.party:addMember(limmir, {type="quest", title=_t"Limmir (Quest)", temporary_level = true})
 end
 
 ritual_end = function(self)

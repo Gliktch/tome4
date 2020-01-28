@@ -86,7 +86,7 @@ start_ambush = function(self, who)
 			o:removed()
 		end
 
-		require("engine.ui.Dialog"):simpleLongPopup("Ambush", [[You wake up after a few hours, surprised to be alive, but the staff is gone!
+		require("engine.ui.Dialog"):simpleLongPopup(_t"Ambush", _t[[You wake up after a few hours, surprised to be alive, but the staff is gone!
 #VIOLET#Go at once to Last Hope to report those events!]], 600)
 		
 		local oe = game.level.map(self.x, self.y, engine.Map.TERRAIN)
@@ -107,7 +107,7 @@ end
 killed_ukruk = function(self, who)
 	game.player.die = nil
 
-	require("engine.ui.Dialog"):simpleLongPopup("Ambush", [[You are surprised to still be alive.
+	require("engine.ui.Dialog"):simpleLongPopup(_t"Ambush", _t[[You are surprised to still be alive.
 #VIOLET#Go at once to Last Hope to report those events!]], 600)
 
 	local oe = game.level.map(who.x, who.y, engine.Map.TERRAIN)

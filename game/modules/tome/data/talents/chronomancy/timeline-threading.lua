@@ -157,7 +157,7 @@ newTalent{
 					game.party:addMember(m, {
 						control="full",
 						type="fugue clone",
-						title="Fugue Clone",
+						title=_t"Fugue Clone",
 						orders = {target=true, leash=true, anchor=true, talents=true},
 					})
 				end
@@ -338,7 +338,7 @@ newTalent{
 			-- Flavor :)
 			local sex = self.female and "she" or "he"
 			m.name = self.name
-			m.desc = [[The real ]]..self.name:capitalize()..[[... or so ]]..sex..[[ says.]]
+			m.desc=_t[[The real ]]..self.name:capitalize()..[[... or so ]]..sex..[[ says.]]
 			m.shader = nil
 			m.shader_args = nil
 			 
@@ -391,7 +391,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="full",
 				type="fugue clone",
-				title="Fugue Clone",
+				title=_t"Fugue Clone",
 				orders = {target=true},
 			})
 		end
@@ -430,7 +430,7 @@ newTalent{
 				game.party:addMember(m, {
 					control="full",
 					type="fugue clone",
-					title="Fugue Clone",
+					title=_t"Fugue Clone",
 					orders = {target=true},
 				})
 			end

@@ -30,7 +30,7 @@ newChat{ id="welcome",
 			game.party:addMember(npc, {
 				control="order",
 				type="escort",
-				title="Escort",
+				title=_t"Escort",
 				orders = {escort_portal=true, escort_rest=true},
 			})
 		end},
@@ -57,7 +57,7 @@ newChat{ id="welcome",
 			game.party:addMember(npc, {
 				control="order",
 				type="escort",
-				title="Escort",
+				title=_t"Escort",
 				orders = {escort_portal=true, escort_rest=true},
 			})
 		end},
@@ -67,7 +67,7 @@ newChat{ id="welcome",
 			game.party:addMember(npc, {
 				control="order",
 				type="escort",
-				title="Escort",
+				title=_t"Escort",
 				orders = {escort_portal=true, escort_rest=true},
 			})
 		end},
@@ -92,7 +92,7 @@ newChat{ id="welcome",
 			game.party:addMember(npc, {
 				control="order",
 				type="escort",
-				title="Escort",
+				title=_t"Escort",
 				orders = {escort_portal=true, escort_rest=true},
 			})
 		end},

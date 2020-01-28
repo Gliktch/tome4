@@ -34,7 +34,7 @@ summonTemporalHound = function(self, t)
 		display = "C", color=colors.LIGHT_DARK, image = ("npc/temp_hound_0%d.png"):format(rng.range(1, 12)),
 		shader = "shadow_simulacrum", shader_args = { color = {0.4, 0.4, 0.1}, base = 0.8, time_factor = 1500 },
 		name = "temporal hound", faction = self.faction,
-		desc = [[A trained hound that appears to be all at once a little puppy and a toothless old dog.]],
+		desc=_t[[A trained hound that appears to be all at once a little puppy and a toothless old dog.]],
 		sound_moam = {"creatures/wolves/wolf_hurt_%d", 1, 2}, sound_die = {"creatures/wolves/wolf_hurt_%d", 1, 1},
 		
 		autolevel = "none",
@@ -142,7 +142,7 @@ summonTemporalHound = function(self, t)
 		game.party:addMember(m, {
 			control="no",
 			type="hound",
-			title="temporal-hound",
+			title=_t"temporal-hound",
 			orders = {target=true, leash=true, anchor=true, talents=true},
 		})
 	end

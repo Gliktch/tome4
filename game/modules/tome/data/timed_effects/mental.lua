@@ -147,7 +147,7 @@ newEffect{
 newEffect{
 	name = "DOMINANT_WILL", image = "talents/yeek_will.png",
 	desc = _t"Mental Domination",
-	long_desc = function(self, eff) return ("The target's mind has been shattered. Its body remains as a thrall to %s."):tformat(eff.src.name:capitalize()) end,
+	long_desc = function(self, eff) return ("The target's mind has been shattered. Its body remains as a thrall to %s."):tformat(eff.src:getName():capitalize()) end,
 	type = "mental",
 	subtype = { dominate=true },
 	status = "detrimental",
@@ -179,7 +179,7 @@ newEffect{
 			game.party:addMember(self, {
 				control="full",
 				type="thrall",
-				title="Thrall",
+				title=_t"Thrall",
 				orders = {leash=true, follow=true},
 				on_control = function(self)
 					self:hotkeyAutoTalents()
@@ -220,7 +220,7 @@ newEffect{
 newEffect{
 	name = "DOMINANT_WILL_BOSS", image = "talents/yeek_will.png",
 	desc = _t"Mental Domination",
-	long_desc = function(self, eff) return ("The target's mind has been shaken. It is temporarily aligned with %s and immune to all damage."):tformat(eff.src.name:capitalize()) end,
+	long_desc = function(self, eff) return ("The target's mind has been shaken. It is temporarily aligned with %s and immune to all damage."):tformat(eff.src:getName():capitalize()) end,
 	type = "mental",
 	subtype = { dominate=true },
 	status = "detrimental",
@@ -402,7 +402,7 @@ newEffect{
 newEffect{
 	name = "DISMAYED", image = "talents/dismay.png",
 	desc = _t"Dismayed",
-	long_desc = function(self, eff) return ("The target is dismayed. The next melee attack against the target will be a guaranteed critical hit.") end,
+	long_desc = function(self, eff) return (_t"The target is dismayed. The next melee attack against the target will be a guaranteed critical hit.") end,
 	type = "mental",
 	subtype = { gloom=true, confusion=true },
 	status = "detrimental",
@@ -458,7 +458,7 @@ newEffect{
 		if not effStalker then return _t"Being stalked." end
 		local t = self:getTalentFromId(eff.src.T_STALK)
 		local desc = ([[Being stalked by %s. Stalker bonus level %d: +%d accuracy, +%d%% melee damage, +%0.2f hate/turn prey was hit.]]):tformat(
-			eff.src.name, effStalker.bonus, t.getAttackChange(eff.src, t, effStalker.bonus), t.getStalkedDamageMultiplier(eff.src, t, effStalker.bonus) * 100 - 100, t.getHitHateChange(eff.src, t, effStalker.bonus))
+			eff.src:getName(), effStalker.bonus, t.getAttackChange(eff.src, t, effStalker.bonus), t.getStalkedDamageMultiplier(eff.src, t, effStalker.bonus) * 100 - 100, t.getHitHateChange(eff.src, t, effStalker.bonus))
 		if eff.damageChange and eff.damageChange > 0 then
 			desc = desc..(" Prey damage modifier: %d%%."):tformat(eff.damageChange)
 		end
@@ -505,7 +505,7 @@ newEffect{
 	name = "BECKONED", image = "talents/beckon.png",
 	desc = _t"Beckoned",
 	long_desc = function(self, eff)
-		local message = ("The target has been beckoned by %s and is heeding the call. There is a %d%% chance of moving towards the beckoner each turn."):tformat(eff.src.name, eff.chance)
+		local message = ("The target has been beckoned by %s and is heeding the call. There is a %d%% chance of moving towards the beckoner each turn."):tformat(eff.src:getName(), eff.chance)
 		if eff.spellpowerChangeId and eff.mindpowerChangeId then
 			message = message..(" (spellpower: %d, mindpower: %d"):tformat(eff.spellpowerChange, eff.mindpowerChange)
 		end
@@ -682,7 +682,7 @@ newEffect{
 newEffect{
 	name = "DOMINATED", image = "talents/dominate.png",
 	desc = _t"Dominated",
-	long_desc = function(self, eff) return ("The target has been dominated.  It is unable to move and has lost %d armor and %d defense. Attacks from %s gain %d%% damage penetration."):tformat(-eff.armorChange, -eff.defenseChange, eff.src.name:capitalize(), eff.resistPenetration) end,
+	long_desc = function(self, eff) return ("The target has been dominated.  It is unable to move and has lost %d armor and %d defense. Attacks from %s gain %d%% damage penetration."):tformat(-eff.armorChange, -eff.defenseChange, eff.src:getName():capitalize(), eff.resistPenetration) end,
 	type = "mental",
 	subtype = { dominate=true },
 	status = "detrimental",
@@ -958,7 +958,7 @@ newEffect{
 	name = "HEIGHTEN_FEAR", image = "talents/heighten_fear.png",
 	desc = _t"Heighten Fear",
 	long_desc = function(self, eff) return ("The target is in a state of growing fear. If they spend %d more turns within range %d and in sight of the source of this fear (%s), they will take %d mind and darkness damage and be subjected to a new fear."):
-		tformat(eff.turns_left, eff.range, eff.src.name, eff.damage) end,
+		tformat(eff.turns_left, eff.range, eff.src:getName(), eff.damage) end,
 	type = "other",
 	charges = function(self, eff) return _t"#ORANGE#"..eff.turns_left.."#LAST#" end,
 	subtype = { },
@@ -1299,7 +1299,7 @@ newEffect{
 newEffect{
 	name = "PANICKED", image = "talents/panic.png",
 	desc = _t"Panicked",
-	long_desc = function(self, eff) return ("The target has been panicked by %s, causing them to have a %d%% chance of fleeing in terror instead of acting."):tformat(eff.src.name, eff.chance) end,
+	long_desc = function(self, eff) return ("The target has been panicked by %s, causing them to have a %d%% chance of fleeing in terror instead of acting."):tformat(eff.src:getName(), eff.chance) end,
 	type = "mental",
 	subtype = { fear=true },
 	status = "detrimental",
@@ -1360,7 +1360,7 @@ newEffect{
 
 					if bestX then
 						self:move(bestX, bestY, false)
-						game.logPlayer(self, "#F53CBE#You panic and flee from %s.", eff.src.name)
+						game.logPlayer(self, "#F53CBE#You panic and flee from %s.", eff.src:getName())
 					else
 						self:logCombat(eff.src, "#F53CBE##Source# panics but fails to flee from #Target#.")
 						self:useEnergy(game.energy_to_act * self:combatMovementSpeed(bestX, bestY))
@@ -1392,7 +1392,7 @@ newEffect{
 newEffect{
 	name = "PSIFRENZY", image = "talents/frenzied_focus.png",
 	desc = _t"Frenzied Focus",
-	long_desc = function(self, eff) return ("This creatures psionic focus item is supercharged!") end,
+	long_desc = function(self, eff) return (_t"This creatures psionic focus item is supercharged!") end,
 	type = "mental",
 	subtype = { telekinesis=true, frenzy=true },
 	status = "beneficial",
@@ -1531,7 +1531,7 @@ newEffect{
 newEffect{
 	name = "MASTERFUL_TELEKINETIC_ARCHERY", image = "talents/masterful_telekinetic_archery.png",
 	desc = _t"Telekinetic Archery",
-	long_desc = function(self, eff) return ("Your telekinetically-wielded bow automatically attacks the nearest target each turn.") end,
+	long_desc = function(self, eff) return (_t"Your telekinetically-wielded bow automatically attacks the nearest target each turn.") end,
 	type = "mental",
 	subtype = { telekinesis=true },
 	status = "beneficial",
@@ -1645,7 +1645,7 @@ newEffect{
 newEffect{
 	name = "DOMINATE_ENTHRALL", image = "talents/yeek_will.png",
 	desc = _t"Enthralled",
-	long_desc = function(self, eff) return ("The target is enthralled, temporarily changing its faction.") end,-- to %s.")--:tformat(engine.Faction.factions[eff.faction].name) end,
+	long_desc = function(self, eff) return (_t"The target is enthralled, temporarily changing its faction.") end,-- to %s.")--:tformat(engine.Faction.factions[eff.faction].name) end,
 	type = "mental",
 	subtype = { dominate=true },
 	status = "detrimental",
@@ -1748,7 +1748,7 @@ newEffect{
 		-- check negative life first incase the creature has healing
 		if self.life <= (self.die_at or 0) then
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
-			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), "Falls dead!", {255,0,255})
+			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), _t"Falls dead!", {255,0,255})
 			game.logSeen(self, "%s dies when its frenzy ends!", self:getName():capitalize())
 			self:die(self)
 		end
@@ -2219,7 +2219,7 @@ newEffect{
 newEffect{
 	name = "MIND_LINK_TARGET", image = "talents/mind_link.png",
 	desc = _t"Mind Link",
-	long_desc = function(self, eff) return ("The target's mind has been invaded, increasing all mind damage it receives from %s by %d%%."):tformat(eff.src.name:capitalize(), eff.power) end,
+	long_desc = function(self, eff) return ("The target's mind has been invaded, increasing all mind damage it receives from %s by %d%%."):tformat(eff.src:getName():capitalize(), eff.power) end,
 	type = "mental",
 	subtype = { psionic=true },
 	status = "detrimental",

@@ -160,8 +160,8 @@ function _M:generateList()
 	table.insert(list, 1, {name = _t"#PINK#Test Dummy#LAST#", action=function(item)
 		local m = mod.class.NPC.new{define_as="TRAINING_DUMMY",
 			type = "training", subtype = "dummy",
-			name = "Test Dummy", color=colors.GREY,
-			desc = "Test dummy.", image = "npc/lure.png",
+			name = _t"Test Dummy", color=colors.GREY,
+			desc = _t"Test dummy.", image = "npc/lure.png",
 			level_range = {1, 1}, exp_worth = 0,
 			rank = 3,
 			max_life = 300000, life_rating = 0,

@@ -29,7 +29,7 @@ function win(self)
 	game:playAndStopMusic("Lords of the Sky.ogg")
 
 	game.player.winner = "arena"
-	game:registerDialog(require("engine.dialogs.ShowText").new("Winner", "win", {playername=game.player.name, how="arena"}, game.w * 0.6))
+	game:registerDialog(require("engine.dialogs.ShowText").new(_t"Winner", "win", {playername=game.player.name, how="arena"}, game.w * 0.6))
 end
 
 function onWin(self, who)

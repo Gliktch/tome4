@@ -179,7 +179,7 @@ newEntity{ base = "BASE_RING",
 		name = function(self, who)
 			local dam = self.use_power.damage(self, who)
 			return ("summon a radius %d tidal wave that expands slowly over %d turns, dealing %0.2f cold and %0.2f physical damage (based on Willpower) each turn, knocking opponents back, and lowering their stun resistance"):
-			format(self.use_power:radius(who), self.use_power.duration(self, who), who:damDesc(engine.DamageType.COLD, dam/2), who:damDesc(engine.DamageType.PHYSICAL, dam/2))
+			tformat(self.use_power:radius(who), self.use_power.duration(self, who), who:damDesc(engine.DamageType.COLD, dam/2), who:damDesc(engine.DamageType.PHYSICAL, dam/2))
 		end,
 		power = 60,
 		radius = function(self, who) return 1 end,
@@ -344,7 +344,7 @@ newEntity{ base = "BASE_AMULET", define_as = "SET_GARKUL_TEETH",
 
 	set_list = { {"define_as", "HELM_OF_GARKUL"} },
 	set_desc = {
-		garkul = "Another of Garkul's heirlooms would bring out his spirit.",
+		garkul = _t"Another of Garkul's heirlooms would bring out his spirit.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","die_at"}, -100)
@@ -653,7 +653,7 @@ newEntity{ base = "BASE_SHIELD",
 			who:logCombat(src, "#ORCHID##Source#'s tendrils pull #Target# in!")
 			src:pull(who.x, who.y, 15)
 		else
-			game.logSeen(src, "#ORCHID#%s resists the tendrils' pull!", src.name:capitalize())
+			game.logSeen(src, "#ORCHID#%s resists the tendrils' pull!", src:getName():capitalize())
 		end
 		if core.fov.distance(who.x, who.y, src.x, src.y) <= 1 and src:canBe('pin') then
 			src:setEffect(src.EFF_CONSTRICTED, 6, {src=who})
@@ -682,7 +682,7 @@ newEntity{ base = "BASE_LIGHT_ARMOR",
 	on_takeoff = function(self, who)
 		self.worn_by = nil
 	end,
-	special_desc = function(self) return "Transfers a bleed, poison, or wound to its source or a nearby enemy every 4 turns."
+	special_desc = function(self) return _t"Transfers a bleed, poison, or wound to its source or a nearby enemy every 4 turns."
 	end,
 	wielder = {
 		combat_def = 6,
@@ -844,7 +844,7 @@ newEntity{ base = "BASE_KNIFE",
 		dammod = {dex=0.55,str=0.35},
 		no_stealth_break = true,
 		melee_project={[DamageType.RANDOM_SILENCE] = 10},
-		special_on_kill = {desc="Enter stealth for 3 turns.", fct=function(combat, who, target)
+		special_on_kill = {desc=_t"Enter stealth for 3 turns.", fct=function(combat, who, target)
 			who:setEffect(who.EFF_SILENT_STEALTH, 3, { power = 30 })
 		end},
 	},
@@ -896,7 +896,7 @@ newEntity{ base = "BASE_KNIFE", define_as = "ART_PAIR_MOON",
 	},
 	set_list = { {"define_as","ART_PAIR_STAR"} },
 	set_desc = {
-		moon = "The moon shines alone in a starless sky.",
+		moon = _t"The moon shines alone in a starless sky.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","lite"}, 2)
@@ -951,7 +951,7 @@ newEntity{ base = "BASE_KNIFE", define_as = "ART_PAIR_STAR",
 	},
 	set_list = { {"define_as","ART_PAIR_MOON"} },
 	set_desc = {
-		star = "The star shines alone in a moonless sky.",
+		star = _t"The star shines alone in a moonless sky.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","lite"}, 2)
@@ -1032,7 +1032,7 @@ newEntity{ base = "BASE_MACE", define_as = "CROOKED_CLUB",
 			[DamageType.PHYSICAL] = 30,
 
 		},
-		special_on_hit = {desc="Reduce targets accuracy and powers by 5 (stacks 5 times)", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"Reduce targets accuracy and powers by 5 (stacks 5 times)", fct=function(combat, who, target)
 			target:setEffect(target.EFF_CROOKED, 5, { power = 5 })
 		end},
 	},
@@ -1101,7 +1101,7 @@ newEntity{ base = "BASE_HELM", define_as = "HELM_KROLTAR",
 	use_talent = { id = Talents.T_BELLOWING_ROAR, level = 3, power = 45 },
 	set_list = { {"define_as","SCALE_MAIL_KROLTAR"} },
 	set_desc = {
-		kroltar = "Kroltar's power resides in his scales.",
+		kroltar = _t"Kroltar's power resides in his scales.",
 	},
 	on_set_complete = function(self, who)
 		local Stats = require "engine.interface.ActorStats"
@@ -1266,7 +1266,7 @@ newEntity{ base = "BASE_GLOVES",
 
 	set_list = { {"define_as", "SET_MIGHTY_GIRDLE"} },
 	set_desc = {
-		giantset = "This would be great with a mighty matching belt.",
+		giantset = _t"This would be great with a mighty matching belt.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","combat_dam"}, 10)
@@ -1295,7 +1295,7 @@ newEntity{ base = "BASE_LEATHER_BELT",
 
 	set_list = { {"define_as", "SET_GIANT_WRAPS"} },
 	set_desc = {
-		giantset = "Some giant wraps would make you feel great.",
+		giantset = _t"Some giant wraps would make you feel great.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","max_life"}, 60)
@@ -1485,7 +1485,7 @@ newEntity{ base = "BASE_CLOTH_ARMOR", define_as = "SET_TEMPORAL_ROBE",
 
 	set_list = { {"define_as", "SET_TEMPORAL_FEZ"} },
 	set_desc = {
-		tardis = "Oddly it never produces a hat.",
+		tardis = _t"Oddly it never produces a hat.",
 	},
 	on_set_complete = function(self, who)
 	end,
@@ -1526,7 +1526,7 @@ newEntity{ base = "BASE_WIZARD_HAT", define_as = "SET_TEMPORAL_FEZ",
 
 	set_list = { {"define_as", "SET_TEMPORAL_ROBE"} },
 	set_desc = {
-		tardis = "Needs something equally stylish and cool to go with it.",
+		tardis = _t"Needs something equally stylish and cool to go with it.",
 	},
 	on_set_complete = function(self, who)
 		game.logPlayer(who, "#STEEL_BLUE#A time vortex briefly appears in front of you.")
@@ -1789,7 +1789,7 @@ newEntity{ base = "BASE_HEAVY_ARMOR", define_as = "SCALE_MAIL_KROLTAR",
 	use_talent = { id = Talents.T_DEVOURING_FLAME, level = 3, power = 50 },
 	set_list = { {"define_as","HELM_KROLTAR"} },
 	set_desc = {
-		kroltar = "Kroltar's head would turn up the heat.",
+		kroltar = _t"Kroltar's head would turn up the heat.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","max_life"}, 120)
@@ -1857,7 +1857,7 @@ newEntity{ base = "BASE_GREATSWORD",
 		apr = 9,
 		physcrit = 9,
 		dammod = {str=1.29},
-		special_on_hit = {desc="9% chance to stun or confuse the target", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"9% chance to stun or confuse the target", fct=function(combat, who, target)
 			if not rng.percent(9) then return end
 			local eff = rng.table{"stun", "confusion"}
 			if not target:canBe(eff) then return end
@@ -1888,7 +1888,7 @@ newEntity{ base = "BASE_MACE",
 		apr = 5,
 		physcrit = 2.5,
 		dammod = {str=1},
-		special_on_hit = {desc="10% chance to shimmer to a different hue and gain powers", on_kill=1, fct=function(combat, who, target)
+		special_on_hit = {desc=_t"10% chance to shimmer to a different hue and gain powers", on_kill=1, fct=function(combat, who, target)
 			if not rng.percent(10) then return end
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "URESLAK_FEMUR")
 			if not o or not who:getInven(inven_id).worn then return end
@@ -1940,7 +1940,7 @@ newEntity{ base = "BASE_MACE",
 	},
 	set_list = { {"define_as","URESLAK_CLOAK"} },
 	set_desc = {
-		ureslak = "What would happen if more of Ureslak's remains were reunited?",
+		ureslak = _t"What would happen if more of Ureslak's remains were reunited?",
 	},
 }
 
@@ -1977,7 +1977,7 @@ newEntity{ base = "BASE_CLOAK",
 		name = function(self, who)
 			local resists={"Fire", "Cold", "Lightning", "Nature", "Darkness"}
 			if self.set_complete then table.insert(resists, "Arcane") end
-			return ("energize the scales for 16 turns, increasing resistance to %s damage by 15%% just before you are damaged. (This effect lasts 5 turns and only works on one type of damage.)"):tformat(table.concatNice(resists, ", ", ", or "))
+			return ("energize the scales for 16 turns, increasing resistance to %s damage by 15%% just before you are damaged. (This effect lasts 5 turns and only works on one type of damage.)"):tformat(table.concatNice(table.capitalize(table.ts(table.lower(resists))), ", ", _t", or "))
 		end,
 		tactical = { DEFEND = 1 },
 		power = 50,
@@ -1991,7 +1991,7 @@ newEntity{ base = "BASE_CLOAK",
 	},
 	set_list = { {"define_as","URESLAK_FEMUR"} },
 	set_desc = {
-		ureslak = "It would go well with another part of Ureslak.",
+		ureslak = _t"It would go well with another part of Ureslak.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","equilibrium_regen"}, -1)
@@ -2074,10 +2074,10 @@ newEntity{ base = "BASE_LONGSWORD", define_as = "ART_PAIR_TWSWORD",
 	},
 	set_list = { {"define_as","ART_PAIR_TWDAG"} },
 	set_desc = {
-		twsword = "In the past there was a dagger with it.",
+		twsword = _t"In the past there was a dagger with it.",
 	},
 	on_set_complete = function(self, who)
-		self.combat.special_on_hit = {desc="10% chance to reduce the target's resistances to all damage", fct=function(combat, who, target)
+		self.combat.special_on_hit = {desc=_t"10% chance to reduce the target's resistances to all damage", fct=function(combat, who, target)
 			if not rng.percent(10) then return end
 			target:setEffect(target.EFF_FLAWED_DESIGN, 3, {power=20})
 		end}
@@ -2131,10 +2131,10 @@ newEntity{ base = "BASE_KNIFE", define_as = "ART_PAIR_TWDAG",
 	},
 	set_list = { {"define_as","ART_PAIR_TWSWORD"} },
 	set_desc = {
-		twsword = "Potentially it would go with a sword in the future.",
+		twsword = _t"Potentially it would go with a sword in the future.",
 	},
 	on_set_complete = function(self, who)
-		self.combat.special_on_hit = {desc="10% chance to return the target to a much younger state", fct=function(combat, who, target)
+		self.combat.special_on_hit = {desc=_t"10% chance to return the target to a much younger state", fct=function(combat, who, target)
 			if not rng.percent(10) then return end
 			target:setEffect(target.EFF_TURN_BACK_THE_CLOCK, 3, {power=10})
 		end}
@@ -2286,7 +2286,7 @@ newEntity{ base = "BASE_ARROW",
 		physcrit = 2,
 		dammod = {dex=0.6, str=0.5, wil=0.2},
 		damtype = DamageType.MIND,
-		special_on_crit = {desc="dominate the target", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"dominate the target", fct=function(combat, who, target)
 			if not target or target == self then return end
 			if target:canBe("instakill") then
 				local check = math.max(who:combatSpellpower(), who:combatMindpower(), who:combatAttack())
@@ -2432,7 +2432,7 @@ newEntity{ base = "BASE_SHOT",
 		physcrit = 10,
 		dammod = {dex=0.7, cun=0.5},
 		damtype = DamageType.FIRE,
-		special_on_hit = {desc="sets off a powerful explosion", on_kill=1, fct=function(combat, who, target)
+		special_on_hit = {desc=_t"sets off a powerful explosion", on_kill=1, fct=function(combat, who, target)
 			local tg = {type="ball", range=0, radius=3, friendlyfire=false}
 			local grids = who:project(tg, target.x, target.y, engine.DamageType.FIREKNOCKBACK, {dist=3, dam=40 + who:getMag()*0.6 + who:getCun()*0.6})
 			game.level.map:particleEmitter(target.x, target.y, tg.radius, "ball_fire", {radius=tg.radius})
@@ -2668,7 +2668,7 @@ newEntity{ base = "BASE_STAFF", define_as = "SET_SCEPTRE_LICH",
 	end,
 	set_list = { {"define_as", "SET_LICH_RING"} },
 	set_desc = {
-		archlich = "It desires to be surrounded by undeath.",
+		archlich = _t"It desires to be surrounded by undeath.",
 	},
 	on_set_complete = function(self, who)
 	end,
@@ -2960,7 +2960,7 @@ newEntity{ base = "BASE_KNIFE",
 		convert_damage = {
 			[DamageType.DARKNESS] = 50,
 		},
-		special_on_hit = {desc="20% chance to make the target bleed shadows. You heal for 15 whenever you hit an enemy bleeding shadows.", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"20% chance to make the target bleed shadows. You heal for 15 whenever you hit an enemy bleeding shadows.", fct=function(combat, who, target)
 			if target:canBe("cut") and rng.percent(20) then
 				target:setEffect(target.EFF_SHADOW_CUT, 5, {apply_power=math.max(who:combatSpellpower(), who:combatAttack()), src=who, dam=20, heal=15})
 			else
@@ -3041,7 +3041,7 @@ newEntity{ base = "BASE_SHOT",
 		physcrit = 10,
 		dammod = {dex=0.7, cun=0.5},
 		damtype = DamageType.ICE,
-		special_on_hit = {desc="bursts into an icy cloud",on_kill=1, fct=function(combat, who, target)
+		special_on_hit = {desc=_t"bursts into an icy cloud",on_kill=1, fct=function(combat, who, target)
 			local duration = 4
 			local radius = 1
 			local dam = (10 + who:getMag()/5 + who:getDex()/3)
@@ -3076,7 +3076,7 @@ newEntity{ base = "BASE_WHIP",
 		physcrit = 5,
 		dammod = {dex=1},
 		convert_damage = {[DamageType.LIGHTNING_DAZE] = 50,},
-		special_on_crit = {desc="Focus the lightning forces on an enemy", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"Focus the lightning forces on an enemy", fct=function(combat, who, target)
 			if rng.percent(25) then
 				game.logPlayer(who, "The storm is on your side !")
 				target:setEffect(target.EFF_HURRICANE, 5, {src=who, dam=who:getDex()*0.5+who:getMag()*0.5, radius=2 })
@@ -3140,7 +3140,7 @@ newEntity{ base = "BASE_WHIP",
 		dammod = {dex=0.7, wil=0.2, cun=0.1},
 		wil_attack = true,
 		damtype=DamageType.MIND,
-		special_on_crit = {desc="Try to fry your enemies brain (25% chance to brainlock)", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"Try to fry your enemies brain (25% chance to brainlock)", fct=function(combat, who, target)
 			if rng.percent(25) then
 				local maxpower = math.max(who:combatAttack(), who:combatMindpower())
 				target:crossTierEffect(target.EFF_BRAINLOCKED, maxpower)
@@ -3397,7 +3397,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as="CORPUS",
 		physcrit = 4,
 		dammod = {str=1,},
 		melee_project={[DamageType.DRAINLIFE] = 18},
-		special_on_kill = {desc="grows dramatically in power", fct=function(combat, who, target)
+		special_on_kill = {desc=_t"grows dramatically in power", fct=function(combat, who, target)
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "CORPUS")
 			if not o or not who:getInven(inven_id).worn then return end
 			who:onTakeoff(o, inven_id, true)
@@ -3407,7 +3407,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as="CORPUS",
 			if not rng.percent(o.combat.physcrit*0.8) or o.combat.physcrit < 30 then return end
 			o.summon(o, who)
 		end},
-		special_on_crit = {desc="grows in power", on_kill=1, fct=function(combat, who, target)
+		special_on_crit = {desc=_t"grows in power", on_kill=1, fct=function(combat, who, target)
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "CORPUS")
 			if not o or not who:getInven(inven_id).worn then return end
 			who:onTakeoff(o, inven_id, true)
@@ -3472,7 +3472,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as="CORPUS",
 					control="no",
 					temporary_level = true,
 					type="minion",
-					title="Vilespawn",
+					title=_t"Vilespawn",
 				})
 			end
 	end,
@@ -3504,7 +3504,7 @@ newEntity{ base = "BASE_LONGSWORD",
 		physcrit = 7,
 		dammod = {str=1,wil=0.1},
 		damage_convert = {[DamageType.MIND]=20,},
-		special_on_hit = {desc="torments the target with many mental effects", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"torments the target with many mental effects", fct=function(combat, who, target)
 			if not who:checkHit(who:combatMindpower(), target:combatMentalResist()*0.9) then return end
 			target:setEffect(target.EFF_WEAKENED_MIND, 2, {power=0, save=20})
 			if not rng.percent(40) then return end
@@ -3518,7 +3518,7 @@ newEntity{ base = "BASE_LONGSWORD",
 			elseif eff == "silence" then target:setEffect(target.EFF_SILENCED, 3, {})
 			end
 		end},
-		special_on_kill = {desc="reduces mental save penalty", fct=function(combat, who, target)
+		special_on_kill = {desc=_t"reduces mental save penalty", fct=function(combat, who, target)
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "ANIMA")
 			if not o or not who:getInven(inven_id).worn then return end
 			if o.wielder.combat_mentalresist >= 0 then return end
@@ -3604,7 +3604,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as="MORRIGOR",
 				who:project(tg, target.x, target.y, engine.DamageType.ARCANE, damage)
 				who:project(tg, target.x, target.y, engine.DamageType.DARKNESS, damage)
 			end},
-		special_on_kill = {desc="swallows the victim's soul, gaining a new power", fct=function(combat, who, target)
+		special_on_kill = {desc=_t"swallows the victim's soul, gaining a new power", fct=function(combat, who, target)
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "MORRIGOR")
 			if o.use_talent then return end
 			local got_talent = false
@@ -3666,7 +3666,7 @@ newEntity{ base = "BASE_WHIP", define_as = "HYDRA_BITE",
 		dammod = {str=0.9, dex=0.4},
 		talent_on_hit = { [Talents.T_LIGHTNING_BREATH_HYDRA] = {level=3, chance=10}, [Talents.T_ACID_BREATH] = {level=3, chance=10}, [Talents.T_POISON_BREATH] = {level=3, chance=10} },
 		--convert_damage = {[DamageType.NATURE]=25,[DamageType.ACID]=25,[DamageType.LIGHTNING]=25},
-		special_on_hit = {desc="hit up to two adjacent enemies",on_kill=1, fct=function(combat, who, target)
+		special_on_hit = {desc=_t"hit up to two adjacent enemies",on_kill=1, fct=function(combat, who, target)
 				local o, item, inven_id = who:findInAllInventoriesBy("define_as", "HYDRA_BITE")
 				if not o or not who:getInven(inven_id).worn then return end
 				local tgts = {}
@@ -3945,7 +3945,7 @@ newEntity{ base = "BASE_GAUNTLETS",
 	end,
 	max_power = 150, power_regen = 1,
 	use_power = {
-	name = "destroy an arcane item (of a higher tier than the gauntlets)", power = 1,
+	name = _t"destroy an arcane item (of a higher tier than the gauntlets)", power = 1,
 	no_npc_use = true,
 	use = function(self, who, obj_inven, obj_item)
 		if self.tinker then
@@ -3953,7 +3953,7 @@ newEntity{ base = "BASE_GAUNTLETS",
 			return
 		end
 
-		local d = who:showInventory("Destroy which item?", who:getInven("INVEN"), function(o) return o.unique and o.power_source and o.power_source.arcane and o.power_source.arcane and o.power_source.arcane == true and o.material_level and o.material_level > self.material_level end, function(o, item, inven)
+		local d = who:showInventory(_t"Destroy which item?", who:getInven("INVEN"), function(o) return o.unique and o.power_source and o.power_source.arcane and o.power_source.arcane and o.power_source.arcane == true and o.material_level and o.material_level > self.material_level end, function(o, item, inven)
 			if o.material_level <= self.material_level then return end
 			self.material_level=self.material_level + 1
 			game.logPlayer(who, "You crush the %s, and the gloves take on an illustrious shine!", o:getName{do_color=true})
@@ -4008,7 +4008,7 @@ newEntity{ base = "BASE_SHIELD",
 		physcrit = 4.5,
 		dammod = {str=1},
 		damtype = DamageType.LIGHT,
-		special_on_hit = {desc="releases a burst of light", on_kill=1, fct=function(combat, who, target)
+		special_on_hit = {desc=_t"releases a burst of light", on_kill=1, fct=function(combat, who, target)
 			local tg = {type="ball", range=0, radius=1, selffire=false}
 			local grids = who:project(tg, target.x, target.y, engine.DamageType.LITE_LIGHT, 30 + who:getWil()*0.5)
 			game.level.map:particleEmitter(target.x, target.y, tg.radius, "ball_light", {radius=tg.radius})
@@ -4370,7 +4370,7 @@ newEntity{ base = "BASE_ARROW", --Thanks Grayswandir!
 		physcrit = 5,
 		dammod = {dex=0.7, str=0.5},
 		-- Items can't pass parameters to DamageTypes, so we use special_on_hit instead. Thanks Shibari!
-		special_on_hit = {desc="afflicts the target with a poison dealing 20 damage per turn and causing actions to fail 20% of the time for 6 turns", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"afflicts the target with a poison dealing 20 damage per turn and causing actions to fail 20% of the time for 6 turns", fct=function(combat, who, target)
 			if target and target:canBe("poison") then
 				target:setEffect(target.EFF_CRIPPLING_POISON, 6, {src=who, power=20, fail=20, no_ct_effect=true})
 			end
@@ -4569,7 +4569,7 @@ newEntity{ base = "BASE_LITE", --Thanks Grayswandir!
 			game.party:addMember(m, {
 				control=false,
 				type="summon",
-				title="Summon",
+				title=_t"Summon",
 				orders = {target=true, leash=true, anchor=true, talents=true},
 			})
 			return {id=true, used=true}
@@ -4688,7 +4688,7 @@ newEntity{ base = "BASE_TOOL_MISC",
 			game.party:addMember(m, {
 				control=false,
 				type="summon",
-				title="Summon",
+				title=_t"Summon",
 				temporary_level = true,
 				orders = {target=true, leash=true, anchor=true, talents=true},
 			})
@@ -4866,7 +4866,7 @@ newEntity{ base = "BASE_SHOT", --Thanks Grayswandir!
 			[DamageType.MIND] = 25,
 			[DamageType.MINDSLOW] = 30,
 		},
-		special_on_hit = {desc="50% chance to reload 1 ammo", on_kill=1, fct=function(combat, who, target)
+		special_on_hit = {desc=_t"50% chance to reload 1 ammo", on_kill=1, fct=function(combat, who, target)
 			if not rng.percent(50) then return end
 			local ammo = who:hasAmmo()
 			if not ammo then return end
@@ -4896,7 +4896,7 @@ newEntity{ base = "BASE_SHOT", --Thanks Grayswandir!
 		travel_speed = 1,
 		dammod = {dex=0.7, cun=0.5},
 		talent_on_hit = { [Talents.T_TORNADO] = {level=2, chance=10} },
-		special_on_hit = {desc="35% chance for lightning to arc to a second target", on_kill=1, fct=function(combat, who, target)
+		special_on_hit = {desc=_t"35% chance for lightning to arc to a second target", on_kill=1, fct=function(combat, who, target)
 			if not rng.percent(35) then return end
 			local tgts = {}
 			local x, y = target.x, target.y
@@ -4938,7 +4938,7 @@ newEntity{ base = "BASE_GREATMAUL",
 		physcrit = 4,
 		dammod = {str=1.2},
 		melee_project={[DamageType.NATURE] = 20},
-		special_on_hit = {desc="50% chance to shatter magical shields", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"50% chance to shatter magical shields", fct=function(combat, who, target)
 			if not rng.percent(50) then return end
 			if not target then return end
 
@@ -5198,7 +5198,7 @@ newEntity{ base = "BASE_TOOL_MISC", --Sorta Thanks Donkatsu!
 	end,
 	max_power = 15, power_regen = 1,
 	use_power = {
-		name = "take root increasing health by 300, armor by 20, and armor hardiness by 20%% but rooting you in place for 4 turns",
+		name = _t"take root increasing health by 300, armor by 20, and armor hardiness by 20%% but rooting you in place for 4 turns",
 		power = 10,
 		tactical = {DEFEND = 2},
 		on_pre_use_ai = function(self, who, silent, fake)
@@ -5381,7 +5381,7 @@ newEntity{ base = "BASE_TOOL_MISC", --Thanks Alex!
 	},
 	max_power = 20, power_regen = 1,
 	use_power = {
-		name = function(self, who) return ("flip the hourglass (sands currently flowing towards %s)"):tformat(self.direction > 0 and "stability" or "entropy") end,
+		name = function(self, who) return ("flip the hourglass (sands currently flowing towards %s)"):tformat(self.direction > 0 and _t"stability" or _t"entropy") end,
 		power = 20,
 		tactical = function(self, who, aitarget)
 			if not aitarget then return end
@@ -5671,7 +5671,7 @@ newEntity{ base = "BASE_ARROW",
 		apr = 20,
 		physcrit = 8,
 		dammod = {dex=0.5, str=0.7},
-		special_on_crit = {desc="pin the target to the nearest wall", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"pin the target to the nearest wall", fct=function(combat, who, target)
 			if not target or target == self then return end
 			if target:checkHit(who:combatPhysicalpower()*1.25, target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				game.logSeen(target, "%s is knocked back and pinned!", target:getName():capitalize())
@@ -5801,7 +5801,7 @@ newEntity{ base = "BASE_BATTLEAXE",
 		apr = 25,
 		physcrit = 25,
 		dammod = {str=1.3},
-		special_on_crit = {desc="decapitate a weakened target", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"decapitate a weakened target", fct=function(combat, who, target)
 			if not target or target == self then return end
 			if target:checkHit(who:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("instakill") and target.life > 0 and ((target.life < target.max_life * 0.25 and target.rank < 3.5) or target.life < target.max_life * 0.10) then
 				target:die(who)
@@ -6126,7 +6126,7 @@ Passed on and on, this blade has developed a thirst of its own.]],
 		physcrit = 9,
 		dammod = {str=0.45, dex=0.55, mag=0.05},
 		talent_on_hit = { T_DISPERSE_MAGIC = {level=1, chance=15},},
-		special_on_hit = {desc="steals up to 50 mana from the target", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"steals up to 50 mana from the target", fct=function(combat, who, target)
 			local manadrain = util.bound(target:getMana(), 0, 50)
 			target:incMana(-manadrain)
 			who:incMana(manadrain)
@@ -6190,7 +6190,7 @@ newEntity{ base = "BASE_LONGSWORD", --Thanks BadBadger?
 		apr = 7,
 		physcrit = 12,
 		dammod = {str=1},
-		special_on_crit = {desc="release a burst of light and dark damage (scales with Magic)", on_kill=1, fct=function(combat, who, target)
+		special_on_crit = {desc=_t"release a burst of light and dark damage (scales with Magic)", on_kill=1, fct=function(combat, who, target)
 			local tg = {type="ball", range=10, radius=2, selffire=false}
 			who:project(tg, target.x, target.y, engine.DamageType.LIGHT, 40 + who:getMag()*0.6)
 			who:project(tg, target.x, target.y, engine.DamageType.DARKNESS, 40 + who:getMag()*0.6)
@@ -6288,7 +6288,7 @@ newEntity{ base = "BASE_GREATSWORD",
 		apr = 22,
 		physcrit = 10,
 		dammod = {str=1.2},
-		special_on_hit = {desc="25% chance to strike the target again.", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"25% chance to strike the target again.", fct=function(combat, who, target)
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "DOUBLESWORD")
 			if not o or not who:getInven(inven_id).worn then return end
 			if o.running == true then return end
@@ -6328,7 +6328,7 @@ newEntity{ base = "BASE_LONGSWORD",
 		apr = 12,
 		physcrit = 10,
 		dammod = {str=1},
-		special_on_hit = {desc="Attempt to devour a low HP enemy, striking again and possibly killing it instantly.", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"Attempt to devour a low HP enemy, striking again and possibly killing it instantly.", fct=function(combat, who, target)
 			local Talents = require "engine.interface.ActorTalents"
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "BUTCHER")
 			if not o or not who:getInven(inven_id).worn then return end
@@ -6340,7 +6340,7 @@ newEntity{ base = "BASE_LONGSWORD",
 			end
 			o.running=false
 		end},
-		special_on_kill = {desc="Enter a Rampage (Shared cooldown).", fct=function(combat, who, target)
+		special_on_kill = {desc=_t"Enter a Rampage (Shared cooldown).", fct=function(combat, who, target)
 			if who:hasEffect(who.EFF_RAMPAGE) then return end
 			local Talents = require "engine.interface.ActorTalents"
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "BUTCHER")
@@ -6537,7 +6537,7 @@ Perhaps it feels all the death you will bring to others in the near future.]],
 	max_power = 40, power_regen = 1,
 	set_list = { {"define_as", "SET_SCEPTRE_LICH"} },
 	set_desc = {
-		archlich = "It desires to be surrounded by undeath.",
+		archlich = _t"It desires to be surrounded by undeath.",
 	},
 	on_set_complete = function(self, who)
 		game.logPlayer(who, "#DARK_GREY#Your ring releases a burst of necromantic energy!")
@@ -6662,7 +6662,7 @@ newEntity{ base = "BASE_TOOL_MISC",
 					control=false,
 					temporary_level = true,
 					type="summon",
-					title="Summon",
+					title=_t"Summon",
 					orders = {target=true, leash=true, anchor=true, talents=true},
 				})
 			end
@@ -6915,7 +6915,7 @@ newEntity{ base = "BASE_SHIELD",
 	on_block = {desc = _t"30% chance of petrifying the attacker.", fct = function(self, who, src, type, dam, eff)
 		if rng.percent(30) then
 			if not src then return end
-			game.logSeen(src, "The eye locks onto %s, freezing it in place!", src.name:capitalize())
+			game.logSeen(src, "The eye locks onto %s, freezing it in place!", src:getName():capitalize())
 			if src.canBe and src:canBe("stun") and src:canBe("stone") and src:canBe("instakill") then
 				src:setEffect(who.EFF_STONED, 5, {})
 			end
@@ -6942,7 +6942,7 @@ newEntity{ base = "BASE_KNIFE", --Shibari's #1
 		apr = 20,
 		physcrit = 10,
 		dammod = {dex=1},
-		special_on_hit = {desc="Causes lightning to strike and destroy any projectiles in a radius of 10, dealing damage and dazing enemies in a radius of 5 around them.", on_kill=1, fct=function(combat, who, target)
+		special_on_hit = {desc=_t"Causes lightning to strike and destroy any projectiles in a radius of 10, dealing damage and dazing enemies in a radius of 5 around them.", on_kill=1, fct=function(combat, who, target)
 			local grids = core.fov.circle_grids(who.x, who.y, 10, true)
 			for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 				local i = 0
@@ -7006,7 +7006,7 @@ newEntity{ base = "BASE_KNIFE",
 		physcrit = 15,
 		physspeed = 0.9,
 		dammod = {dex=0.5,cun=0.5},
-		special_on_crit = {desc="Breaks enemy weapon.", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"Breaks enemy weapon.", fct=function(combat, who, target)
 			target:setEffect(target.EFF_SUNDER_ARMS, 5, {power=5+(who:combatPhysicalpower()*0.33), apply_power=who:combatPhysicalpower()})
 		end},
 	},
@@ -7068,8 +7068,8 @@ newEntity{ base = "BASE_GREATMAUL",
 	gemdesc = _t"None", -- Defined by the elemental properties and used by special_desc
 	special_desc = function(self)
 		-- You'll want to color this and such
-		if not self.Gem then return ("No gem") end
-		return ("%s: %s"):tformat(self.Gem.name:capitalize(), self.gemDesc or ("Write a description for this gem's properties!"))
+		if not self.Gem then return (_t"No gem") end
+		return ("%s: %s"):tformat(self.Gem:getName():capitalize(), self.gemDesc or (_t"Write a description for this gem's properties!"))
 	end,
 	cost = 1000,
 	material_level = 2, -- Changes to gem material level on socket
@@ -7246,7 +7246,7 @@ newEntity{ base = "BASE_GLOVES", define_as = "SET_GLOVE_DESTROYER",
 	use_talent = { id = Talents.T_DARKFIRE, level = 5, power = 12 },
 	set_list = { {"define_as", "SET_ARMOR_MASOCHISM"} },
 	set_desc = {
-		destroyer = "Only the masochistic can unlock its full power.",
+		destroyer = _t"Only the masochistic can unlock its full power.",
 	},
 	on_set_complete = function(self, who)
 		game.logPlayer(who, "#STEEL_BLUE#The fist and the mangled clothing glow ominously!")
@@ -7295,7 +7295,7 @@ newEntity{ base = "BASE_LIGHT_ARMOR", define_as = "SET_ARMOR_MASOCHISM",
 	use_talent = { id = Talents.T_BLOOD_GRASP, level = 5, power = 12 },
 	set_list = { {"define_as", "SET_GLOVE_DESTROYER"} },
 	set_desc = {
-		masochism = "With a better grip it would be the destroyer of your enemies.",
+		masochism = _t"With a better grip it would be the destroyer of your enemies.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","demonblood_def"}, 0.03)
@@ -7754,7 +7754,7 @@ newEntity{ base = "BASE_MASSIVE_ARMOR",
 		self.worn_by = nil
 	end,
 	special_desc = function(self)
-		return ("Blood Charges: " .. (self.blood_charge or 0))
+		return (("Blood Charges: %d"):tformat(self.blood_charge or 0))
 	end,
 	act = function(self)
 		self:useEnergy()
@@ -7936,7 +7936,7 @@ newEntity{ base = "BASE_TOOL_MISC",
 	color = colors.BLUE,
 	level_range = {10, 20},
 	desc = _t[[This torque feels tingly to the touch, but seems to enhance your thinking.]],
-	special_desc = function(self) return [[Your mind is attuned to electricity.
+	special_desc = function(self) return _t[[Your mind is attuned to electricity.
 Any lightning damage you do that is more than 10% of the victim's maximum life will attempt to brainlock the target.
 Upon taking lightning damage >10% of your max life, your mind fires back, dealing 30% of the original damage as mind and trying to brainlock the target.
 Upon taking mind damage >10% of your max life, you reflexively trigger the jolt, sending an arc of dazing lightning toward the target (damage based on mindpower).
@@ -8012,7 +8012,7 @@ newEntity{ base = "BASE_BATTLEAXE",
 			[DamageType.LIGHTNING]=15,
 			[DamageType.COLD]=15,
 		},
-		special_on_crit = {desc="inflicts either shocked or wet, chosen at random", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"inflicts either shocked or wet, chosen at random", fct=function(combat, who, target)
 			if not target or target == self then return end
 			if rng.percent(50) then
 				target:setEffect(target.EFF_SHOCKED, 3, {src=who})
@@ -8065,7 +8065,7 @@ newEntity{ base = "BASE_MINDSTAR", define_as = "EYE_OF_SUMMER",
 		harmonious = {{"ms_set_harmonious", true},},
 	},
 	set_desc = {
-		eyesummer = "Nature requires balance in these matters.",
+		eyesummer = _t"Nature requires balance in these matters.",
 	},
 	on_set_complete = {
 		multiple = true,
@@ -8121,7 +8121,7 @@ newEntity{ base = "BASE_MINDSTAR", define_as = "EYE_OF_WINTER",
 		harmonious = {{"ms_set_harmonious", true},},
 	},
 	set_desc = {
-		eyewinter = "Nature requires balance in these matters.",
+		eyewinter = _t"Nature requires balance in these matters.",
 	},
 	on_set_complete = {
 		multiple = true,
@@ -8197,14 +8197,14 @@ Their killing spree ended when one of the victims got lucky and managed to stab 
 		physcrit = 15,
 		dammod = {str=0.45, dex=0.45},
 		melee_project = { [DamageType.COLD]=30 },
-		special_on_crit = {desc="freezes the target", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"freezes the target", fct=function(combat, who, target)
 			if not target or target == self then return end
 			if target:canBe("stun") then
 				local check = math.max(who:combatSpellpower(), who:combatMindpower(), who:combatAttack())
 				target:setEffect(target.EFF_FROZEN, 4, {src=who, apply_power=check})
 			end
 		end},
-		special_on_kill = {desc="explodes a frozen creature (damage scales with willpower)", fct=function(combat, who, target)
+		special_on_kill = {desc=_t"explodes a frozen creature (damage scales with willpower)", fct=function(combat, who, target)
 			if not target or target == self then return end
 			if target:hasEffect(target.EFF_FROZEN) then
 				local tg = {type="ball", range=0, radius=1, selffire=false}
@@ -8327,7 +8327,7 @@ newEntity{ base = "BASE_MINDSTAR", define_as = "KINETIC_FOCUS",
 		resonating = {{"ms_set_resonating", true},},
 	},
 	set_desc = {
-		trifocus = "You feel two unconnected psionic channels on this item.",
+		trifocus = _t"You feel two unconnected psionic channels on this item.",
 	},
 	on_set_complete = {
 		multiple = true,
@@ -8408,7 +8408,7 @@ newEntity{ base = "BASE_MINDSTAR", define_as = "CHARGED_FOCUS",
 		resonating = {{"ms_set_resonating", true,},},
 	},
 	set_desc = {
-		trifocus = "You feel two unconnected psionic channels on this item.",
+		trifocus = _t"You feel two unconnected psionic channels on this item.",
 	},
 	on_set_complete = {
 		multiple = true,
@@ -8489,7 +8489,7 @@ newEntity{ base = "BASE_MINDSTAR", define_as = "THERMAL_FOCUS",
 		resonating = {{"ms_set_resonating", true,},},
 	},
 	set_desc = {
-		trifocus = "You feel two unconnected psionic channels on this item.",
+		trifocus = _t"You feel two unconnected psionic channels on this item.",
 	},
 	on_set_complete = {
 		multiple = true,
@@ -8534,7 +8534,7 @@ newEntity{ base = "BASE_LEATHER_BELT",
 	name = "Lightning Catcher", image = "object/artifact/lightning_collector.png",
 	unided_name = _t"coiled metal belt",
 	desc = _t[[A fine mesh of metal threads held together by a sturdy chain. Sparks dance across it.]],
-	special_desc = function(self) return [[Taking lightning damage or making critical hits builds 2 energy charges, which give you +5% lightning damage and +1 to all stats.
+	special_desc = function(self) return _t[[Taking lightning damage or making critical hits builds 2 energy charges, which give you +5% lightning damage and +1 to all stats.
 The charges decay at a rate of 1 per turn. Max 10 charges.]] end,
 	color = colors.WHITE,
 	level_range = {40, 50},

@@ -90,7 +90,7 @@ newEntity{ define_as="SUBJECT_Z",
 				who:setEffect(who.EFF_RECALL, 5, {})
 				game.bignews:say(120, "#GOLD#You hastily activate your Rod of Recall, vowing to come back later!")
 				game.logPlayer(who, "Space around you starts to dissolve...")
-			end end, "Emergency recall", "Stay and fight!")
+			end end, _t"Emergency recall", _t"Stay and fight!")
 		end
 	end,
 

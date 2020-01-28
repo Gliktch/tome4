@@ -77,7 +77,7 @@ newEntity{ define_as = "ORB_MANY_WAYS2",
 If used near a portal, it could probably activate it.]],
 
 	max_power = 30, power_regen = 1,
-	use_power = { name = "activate a portal", power = 10,
+	use_power = { name = _t"activate a portal", power = 10,
 		use = function(self, who)
 			self:identify(true)
 			local g = game.level.map(who.x, who.y, game.level.map.TERRAIN)

@@ -84,6 +84,7 @@ create_portal = function(self, npc, player)
 		type = "humanoid", subtype = "elf",
 		display = "p", color=colors.AQUAMARINE,
 		name = _t"High Chronomancer Zemekkys",
+		image = "npc/humanoid_elf_high_chronomancer_zemekkys.png",
 		size_category = 3, rank = 3,
 		ai = "none",
 		faction = "sunwall",

@@ -5,6 +5,16 @@ local p = Parser()
 
 local locales = {}
 
+function string.capitalize(str)
+	if #str > 1 then
+		return string.upper(str:sub(1, 1))..str:sub(2)
+	elseif #str == 1 then
+		return str:upper()
+	else
+		return str
+	end
+end
+
 function table.keys(t)
 	local tt = {}
 	for k, e in pairs(t) do tt[#tt+1] = k end
@@ -135,6 +145,16 @@ local function explore(file, ast)
 					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "display_name" then
 						dname = p[2]
 					end
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "cosmetic_options" then
+						for _, q in ipairs(p[2]) do
+							if q[1].tag == "String" then
+								local name = q[1][1]:gsub("_", " "):capitalize()
+								print(colors("%{bright cyan}newBirthDescriptor"), name)
+								locales[file] = locales[file] or {}
+								locales[file][name] = {line=p[2].nline, type="birth facial category"}
+							end
+						end
+					end
 				end end
 				if dname then
 					print(colors("%{bright cyan}newBirthDescriptor"), dname[1])
@@ -158,6 +178,65 @@ local function explore(file, ast)
 					locales[file][a_name] = {line=en.nline, type="alchemist gem"}
 					print(colors("%{cyan}newGem"), subtype)
 					locales[file][subtype] = {line=en.nline, type="gem subtype"}
+				end
+			elseif e.tag == "Id" and e[1] == "newEffect" then
+				local en = ast[i+1]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "subtype" then
+						for _, q in ipairs(p[2]) do
+							if q[1].tag == "String" then
+								print(colors("%{yellow}newEffect"), q[1][1])
+								locales[file] = locales[file] or {}
+								locales[file][q[1][1]] = {line=p[2].nline, type="effect subtype"}
+							end
+						end
+					end
+				end end
+			elseif e.tag == "Id" and e[1] == "floorEffect" then
+				local en = ast[i+1]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "desc" then
+						print(colors("%{yellow}floorEffect"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="floorEffect desc"}
+					end
+				end end
+			elseif e.tag == "Id" and e[1] == "newLore" then
+				local en = ast[i+1]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "category" then
+						print(colors("%{red}newLore"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="newLore category"}
+					end
+				end end
+			elseif e.tag == "VarList" and e[1].tag == "Id" and e[1][1] == "load_tips" then
+				if file:find("init.lua$") then 
+					local en = ast[i+1][1]
+					if en then for _, v in ipairs(en) do 
+						for _, p in ipairs(v[2]) do if p.tag == "Field" and p[1][1]=="text" then
+							local text = p[2][1]
+							print(colors("%{bright red}load_tips"), text)
+							locales[file] = locales[file] or {}
+							locales[file][text] = {line=p[2].nline, type="init.lua load_tips"}
+						end end
+					end end
+				end
+			elseif e.tag == "VarList" and e[1].tag == "Id" and e[1][1] == "description" then
+				if file:find("init.lua$") then 
+					local en = ast[i+1][1]
+					local text = en[1]
+					print(colors("%{bright red}init.lua description"), text)
+					locales[file] = locales[file] or {}
+					locales[file][text] = {line=en.nline, type="init.lua description"}
+				end
+			elseif e.tag == "VarList" and e[1].tag == "Id" and e[1][1] == "long_name" then
+				if file:find("init.lua$") then 
+					local en = ast[i+1][1]
+					local text = en[1]
+					print(colors("%{bright red}init.lua long_name"), text)
+					locales[file] = locales[file] or {}
+					locales[file][text] = {line=en.nline, type="init.lua long_name"}
 				end
 			elseif e.tag == "Invoke" and e[1].tag == "Id" and e[1][1] == "ActorStats" and e[2].tag == "String" and e[2][1] == "defineStat" then
 				local en = e[3]

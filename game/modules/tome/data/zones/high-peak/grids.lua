@@ -30,7 +30,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.
+	desc = _t[[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.
 This one seems to go to the Far East.]],
 
 	orb_portal = {
@@ -62,7 +62,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.
+	desc = _t[[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.
 This one seems to go to the Iron Throne in the West.]],
 
 	orb_portal = {
@@ -94,7 +94,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.
+	desc = _t[[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.
 This one seems to go to an unknown place, seemingly out of this world. You dare not use it.]],
 }
 newEntity{ base = "VOID_PORTAL", define_as = "CVOID_PORTAL",
@@ -132,7 +132,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[An invocation portal, perpetually summoning beings through it.]],
+	desc = _t[[An invocation portal, perpetually summoning beings through it.]],
 	orb_command = {
 		summon = "undead",
 		special = invocation_close,
@@ -146,7 +146,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[An invocation portal, perpetually summoning beings through it.]],
+	desc = _t[[An invocation portal, perpetually summoning beings through it.]],
 	orb_command = {
 		summon = "elemental",
 		special = invocation_close,
@@ -160,7 +160,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[An invocation portal, perpetually summoning beings through it.]],
+	desc = _t[[An invocation portal, perpetually summoning beings through it.]],
 	orb_command = {
 		summon = "dragon",
 		special = invocation_close,
@@ -174,7 +174,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[An invocation portal, perpetually summoning beings through it.]],
+	desc = _t[[An invocation portal, perpetually summoning beings through it.]],
 	orb_command = {
 		summon = "demon",
 		special = invocation_close,
@@ -188,7 +188,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[This portal seems to connect to another part of this level.]],
+	desc = _t[[This portal seems to connect to another part of this level.]],
 	change_level_check = function() game.bignews:say(60, "#GOLD#This portal looks like it reacts only to the Orb of Many Ways.") return true end,
 	change_level = 1,
 	orb_portal = {

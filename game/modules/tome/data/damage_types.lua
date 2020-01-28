@@ -199,7 +199,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			local e = target.tempeffect_def[target.EFF_WARD]
 			dam = e.absorb(type, dam, target.tmp[target.EFF_WARD], target, src)
 			if dam ~= lastdam then
-				game:delayedLogDamage(src, target, 0, ("%s(%d warded)#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false)
+				game:delayedLogDamage(src, target, 0, ("%s(%d warded)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false)
 			end
 		end
 
@@ -290,13 +290,13 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			eff.hp = eff.hp - dam
 			local srcname = src.x and src.y and game.level.map.seens(src.x, src.y) and src.name:capitalize() or _t"Something"
 			if eff.hp < 0 and not eff.begone then
-				game.logSeen(src, "%s forces the iceblock to shatter.", src.name:capitalize())
+				game.logSeen(src, "%s forces the iceblock to shatter.", src:getName():capitalize())
 				game:onTickEnd(function() src:removeEffect(src.EFF_FROZEN) end)
 				eff.begone = game.turn
 			else
 				game:delayedLogDamage(src, eff.ice, dam, ("%s%d %s#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", math.ceil(dam), DamageType:get(type).name))
 				if eff.begone and eff.begone < game.turn and eff.hp < 0 then
-					game.logSeen(src, "%s forces the iceblock to shatter.", src.name:capitalize())
+					game.logSeen(src, "%s forces the iceblock to shatter.", src:getName():capitalize())
 					src:removeEffect(src.EFF_FROZEN)
 				end
 			end
@@ -396,7 +396,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			dam = t.cs_on_damage(target, t, type, dam)
 		end
 		if dam ~= lastdam then
-			game:delayedLogDamage(src, target, 0, ("%s(%d to psi shield)#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false)
+			game:delayedLogDamage(src, target, 0, ("%s(%d to psi shield)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false)
 		end
 
 		-- Block talent from shields
@@ -404,13 +404,13 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			local e = target.tempeffect_def[target.EFF_BLOCKING]
 			lastdam = dam
 			dam = e.do_block(type, dam, target.tmp[target.EFF_BLOCKING], target, src)
-			if lastdam - dam > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d blocked)#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false) end
+			if lastdam - dam > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d blocked)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false) end
 		end
 		if dam > 0 and target.isTalentActive and target:isTalentActive(target.T_FORGE_SHIELD) then
 			local t = target:getTalentFromId(target.T_FORGE_SHIELD)
 			lastdam = dam
 			dam = t.doForgeShield(type, dam, t, target, src)
-			if lastdam - dam > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d blocked)#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false) end
+			if lastdam - dam > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d blocked)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false) end
 		end
 
 		--Vim based defence
@@ -425,13 +425,13 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			local t = target:getTalentFromId(target.T_ANTIMAGIC_SHIELD)
 			lastdam = dam
 			dam = t.on_damage(target, t, type, dam, src)
-			if lastdam - dam  > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d antimagic)#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", lastdam - dam), false) end
+			if lastdam - dam  > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d antimagic)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", lastdam - dam), false) end
 		end
 
 		-- Flat damage reduction ("armour")
 		if dam > 0 and target.flat_damage_armor then
 			local dec = math.min(dam, target:combatGetFlatResist(type))
-			if dec > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d flat reduction)#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", dec), false) end
+			if dec > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d flat reduction)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", dec), false) end
 			dam = math.max(0, dam - dec)
 			print("[PROJECTOR] after flat damage armor", dam)
 		end
@@ -509,7 +509,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			if target.flat_damage_cap[type] then cap = target.flat_damage_cap[type] end
 			if cap and cap > 0 then
 				local ignored = math.max(0, dam - cap * target.max_life / 100)
-				if ignored > 0 then game:delayedLogDamage(src, target, 0, ("#LIGHT_GREY#(%d resilience)#LAST#"):format(ignored), false) end
+				if ignored > 0 then game:delayedLogDamage(src, target, 0, ("#LIGHT_GREY#(%d resilience)#LAST#"):tformat(ignored), false) end
 				dam = dam - ignored
 				print("[PROJECTOR] after flat damage cap", dam)
 			end
@@ -594,7 +594,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 		-- damage affinity healing
 		if not target.dead and affinity_heal > 0 then
 			target:heal(affinity_heal, src)
-			game:delayedLogMessage(target, nil, "Affinity"..type, "#Source##LIGHT_GREEN# HEALS#LAST# from "..(DamageType:get(type).text_color or "#aaaaaa#")..DamageType:get(type).name.."#LAST# damage!")
+			game:delayedLogMessage(target, nil, "Affinity"..type, ("#Source##LIGHT_GREEN# HEALS#LAST# from %s %s #LAST# damage!"):tformat(DamageType:get(type).text_color or "#aaaaaa#", DamageType:get(type).name))
 		end
 
 		if dam > 0 and src.damage_log and src.damage_log.weapon then
@@ -1453,9 +1453,9 @@ newDamageType{
 			local sx, sy = game.level.map:getTileToScreen(x, y, true)
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_FROZEN, dam.dur, {hp=dam.hp * 1.5, apply_power=math.max(src:combatSpellpower(), src:combatMindpower()), min_dur=1})
-				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, "Frozen!", {0,255,155})
+				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"Frozen!", {0,255,155})
 			else
-				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, "Resist!", {0,255,155})
+				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"Resist!", {0,255,155})
 				game.logSeen(target, "%s resists!", target:getName():capitalize())
 			end
 		end
@@ -1934,7 +1934,7 @@ newDamageType{
 					if src.turn_procs then src.turn_procs.has_dug = (src.turn_procs.has_dug or 0) + 1 end
 					game.nicer_tiles:updateAround(game.level, x, y)
 					if not silence then
-						game.logSeen({x=x,y=y}, "%s turns into %s.", feat.name:capitalize(), newfeat.name)
+						game.logSeen({x=x,y=y}, "%s turns into %s.", _t(feat.name):capitalize(), _t(newfeat.name))
 					end
 				end
 			end
@@ -2099,7 +2099,7 @@ newDamageType{
 		end
 		local val = src and math.floor(src:combatStatScale(src:combatMindpower(), 1, 35))+5 or 0
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to reduce damage dealt by #YELLOW#%d%%#LAST#%s")
-			:format(dam, val, parens)
+			:tformat(dam, val, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2131,7 +2131,7 @@ newDamageType{
 		end
 		local val = src and math.floor(src:combatStatScale(src:combatMindpower(), 1, 45))+5 or 0
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to reduce all saves and defense by #YELLOW#%d#LAST#%s")
-			:format(dam, val, parens)
+			:tformat(dam, val, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2162,7 +2162,7 @@ newDamageType{
 			end
 		end
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to gain 10%% of a turn (3/turn limit)%s")
-			:format(dam, parens)
+			:tformat(dam, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2170,7 +2170,7 @@ newDamageType{
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and src and src.name and rng.percent(dam) then
 			if src.turn_procs and src.turn_procs.item_temporal_energize and src.turn_procs.item_temporal_energize > 3 then
-				game.logSeen(src, "#LIGHT_STEEL_BLUE#%s can't gain any more energy this turn! ", src.name:capitalize())
+				game.logSeen(src, "#LIGHT_STEEL_BLUE#%s can't gain any more energy this turn! ", src:getName():capitalize())
 				return
 			end
 			local energy = (game.energy_to_act * 0.1)
@@ -2195,7 +2195,7 @@ newDamageType{
 		end
 		local val = src and src:combatStatScale(src:combatSpellpower(), 10, 45)+5 or 0
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to reduce armor by #VIOLET#%d%%#LAST#%s")
-			:format(dam, val, parens)
+			:tformat(dam, val, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2226,7 +2226,7 @@ newDamageType{
 		end
 		local val = src and math.floor(src:combatStatScale(src:combatSpellpower(), 1, 35))+5 or 0
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to reduce strength, dexterity, and constitution by #VIOLET#%d#LAST#%s")
-			:format(dam, val, parens )
+			:tformat(dam, val, parens )
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2258,7 +2258,7 @@ newDamageType{
 			end
 		end
 		return ("* #DARK_ORCHID#%d arcane resource#LAST# burn%s")
-			:format(dam or 0, parens)
+			:tformat(dam or 0, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2286,7 +2286,7 @@ newDamageType{
 		end
 		local val = src and math.floor(src:combatStatScale(src:combatMindpower(), 20, 70))+10 or 0
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to slow global speed by #YELLOW#%d%%#LAST#%s")
-			:format(dam or 0, val, parens)
+			:tformat(dam or 0, val, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2318,7 +2318,7 @@ newDamageType{
 			end
 		end
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to #ORCHID#reduce effective powers#LAST# by %d%%%s")
-			:format(dam, 20, parens)
+			:tformat(dam, 20, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2347,7 +2347,7 @@ newDamageType{
 			end
 		end
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to #ROYAL_BLUE#daze#LAST# at end of turn%s")
-			:format(dam, parens)
+			:tformat(dam, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2379,7 +2379,7 @@ newDamageType{
 			end
 		end
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to #YELLOW#blind#LAST#%s")
-			:format(dam, parens)
+			:tformat(dam, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2413,7 +2413,7 @@ newDamageType{
 			end
 		end
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to cause #YELLOW#random gloom#LAST#%s")
-			:format(dam, parens)
+			:tformat(dam, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -2926,7 +2926,7 @@ newDamageType{
 				if newfeat then
 					game.level.map(x, y, Map.TERRAIN, newfeat)
 					if not silence then
-						game.logSeen({x=x,y=y}, "%s turns into %s.", feat.name:capitalize(), (newfeat or game.zone.grid_list[newfeat_name]).name)
+						game.logSeen({x=x,y=y}, "%s turns into %s.", _t(feat.name):capitalize(), (_t(newfeat) or _t(game.zone.grid_list[newfeat_name]).name))
 					end
 				end
 			end
@@ -3390,11 +3390,11 @@ newDamageType{
 		if not target then return end
 		if game.party:hasMember(src) and game.party:findMember{type="garkul spirit"} then return end
 		if not rng.percent(dam) then
-			game:delayedLogDamage(src, target, 0, ("%s<%d%%%% orc summon chance>#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", dam), false)
+			game:delayedLogDamage(src, target, 0, ("%s<%d%%%% orc summon chance>#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", dam), false)
 			return
 		end
 
-		game:delayedLogDamage(src, target, 0, ("%s<orc summon>#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#"), false)
+		game:delayedLogDamage(src, target, 0, ("%s<orc summon>#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#"), false)
 
 		-- Find space
 		local x, y = util.findFreeGrid(src.x, src.y, 5, true, {[engine.Map.ACTOR]=true})
@@ -3418,7 +3418,7 @@ newDamageType{
 			ai = "summoned", ai_real = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=2, },
 			stats = { str=20, dex=8, mag=6, con=16 },
 			name = _t"orc spirit", color=colors.SALMON, image = "npc/humanoid_orc_orc_berserker.png",
-			desc = [[An orc clad in massive armour, wielding a huge axe.]],
+			desc=_t[[An orc clad in massive armour, wielding a huge axe.]],
 			level_range = {35, nil}, exp_worth = 0,
 			max_life = resolvers.rngavg(110,120), life_rating = 12,
 			resolvers.equip{
@@ -3446,7 +3446,7 @@ newDamageType{
 		orc:forceLevelup(src.level)
 
 		orc.remove_from_party_on_death = true
-		game.party:addMember(orc, {control="no", type="garkul spirit", title="Garkul Spirit"})
+		game.party:addMember(orc, {control="no", type="garkul spirit", title=_t"Garkul Spirit"})
 		orc:setTarget(target)
 	end,
 }
@@ -3954,7 +3954,7 @@ newDamageType{
 			end
 		end
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to cause #GREEN#random blight#LAST#%s")
-			:format(dam, parens)
+			:tformat(dam, parens)
 	end,
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
@@ -4027,7 +4027,7 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and target:canSee(src) then
-			game:delayedLogDamage(src, target, 0, ("%s<terror chance>#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#"), false)
+			game:delayedLogDamage(src, target, 0, ("%s<terror chance>#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#"), false)
 			if not src:checkHit(src:combatAttack(), target:combatMentalResist()) then return end
 			local effect = rng.range(1, 3)
 			if effect == 1 then
@@ -4088,7 +4088,7 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target then
-			game:delayedLogDamage(src, target, 0, ("%s<blinding powder>#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#"), false)
+			game:delayedLogDamage(src, target, 0, ("%s<blinding powder>#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#"), false)
 			if not src:checkHit(src:combatAttack(), target:combatPhysicalResist()) then return end
 
 			if target:canBe("blind") then
@@ -4109,7 +4109,7 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and src:reactionToward(target) < 0 then
-			game:delayedLogDamage(src, target, 0, ("%s<smoke>#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#"), false)
+			game:delayedLogDamage(src, target, 0, ("%s<smoke>#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#"), false)
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_DIM_VISION, 2, {sight=dam.dam, apply_power=src:combatAttack(), no_ct_effect=true})
 			else

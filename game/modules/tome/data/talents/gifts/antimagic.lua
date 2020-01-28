@@ -212,7 +212,7 @@ newTalent{
 		local vim = base / 2
 		local positive = base / 4
 		local negative = base / 4
-		local is_adept = self:knowTalent(self.T_ANTIMAGIC_ADEPT) and "\n#GREEN#Antimagic Adept:  #LAST#4 magical sustains from the target will be removed." or ""
+		local is_adept = self:knowTalent(self.T_ANTIMAGIC_ADEPT) and _t"\n#GREEN#Antimagic Adept:  #LAST#4 magical sustains from the target will be removed." or ""
 		return ([[Drain %d mana, %d vim, %d positive and negative energies from your target, triggering a chain reaction that explodes in a burst of arcane damage.
 		The damage done is equal to 100%% of the mana drained, 200%% of the vim drained, or 400%% of the positive or negative energy drained, whichever is higher. This effect is called a manaburn.
 		The effect will increase with your Mindpower or Physical power (whichever is greater).

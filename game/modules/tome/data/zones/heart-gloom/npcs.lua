@@ -30,7 +30,7 @@ if not currentZone.is_purified then
 				local list = {"T_GLOOM", "T_AGONY", "T_REPROACH", "T_DARK_TENDRILS", "T_BLINDSIDE"}
 				e[#e+1] = resolvers.talents{[ Talents[rng.table(list)] ] = {base=1, every=5, max=6}}
 				e.rarity = math.ceil(e.rarity * mult + add)
-				e.name = rng.table{"gloomy ", "deformed ", "sick "}..e.name
+				e.name = rng.table{_t"gloomy ", _t"deformed ", _t"sick "}..e:getName()
 			end
 		end
 	end
@@ -43,7 +43,7 @@ else
 				local list = {"T_PYROKINESIS", "T_DREAM_CRUSHER", "T_FORGE_SHIELD", "T_SOLIPSISM", "T_DREAM_WALK"}
 				e[#e+1] = resolvers.talents{[ Talents[rng.table(list)] ] = {base=1, every=5, max=6}}
 				e.rarity = math.ceil(e.rarity * mult + add)
-				e.name = rng.table{"dreaming ", "slumbering ", "dozing "}..e.name
+				e.name = rng.table{_t"dreaming ", _t"slumbering ", _t"dozing "}..e:getName()
 			end
 		end
 	end

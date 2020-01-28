@@ -99,8 +99,8 @@ newTalent{
 			end
 
 			local paradox = getQuantity(
-				"Spacetime Tuning",
-				"What's your preferred paradox level?",
+				_t"Spacetime Tuning",
+				_t"What's your preferred paradox level?",
 				math.floor(self.paradox))
 			if not paradox then return end
 			if paradox > 1000 then paradox = 1000 end
@@ -413,7 +413,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="no",
 				type="minion",
-				title="Paradox Clone",
+				title=_t"Paradox Clone",
 				orders = {target=true},
 			})
 		end
@@ -579,7 +579,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="no",
 				type="temporal-clone",
-				title="Temporal Clone",
+				title=_t"Temporal Clone",
 				orders = {target=true},
 			})
 		end

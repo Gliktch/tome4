@@ -286,7 +286,7 @@ newEntity{ base = "BASE_NPC_HORROR", define_as = "BASE_NPC_ELDRICTH_EYE",
 		end
 		if nb == 0 and self.summoner and self.summoner.is_headless_horror then
 			local sx, sy = game.level.map:getTileToScreen(self.summoner.x, self.summoner.y, true)
-			game.flyers:add(sx, sy, 20, (rng.range(0,2)-1) * 0.5, -3, "+Blind", {255,100,80})
+			game.flyers:add(sx, sy, 20, (rng.range(0,2)-1) * 0.5, -3, _t"+Blind", {255,100,80})
 			self.summoner.blind = 1
 			game.logSeen(self.summoner, "%s is blinded by the loss of all its eyes.", self.summoner:getName():capitalize())
 		end

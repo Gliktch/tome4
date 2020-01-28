@@ -184,7 +184,7 @@ tDef(343, "Randomly selected %s.") -- log
 ------------------------------------------------
 section "game/engines/default/engine/DebugConsole.lua"
 
-tDef(135, "Lua Console") -- _t
+tDef(136, "Lua Console") -- _t
 
 
 ------------------------------------------------
@@ -206,7 +206,7 @@ tDef(803, "File: %s") -- tformat
 ------------------------------------------------
 section "game/engines/default/engine/I18N.lua"
 
-tDef(126, "Testing arg one %d and two %d") -- tformat
+tDef(129, "Testing arg one %d and two %d") -- tformat
 
 
 ------------------------------------------------
@@ -793,6 +793,7 @@ tDef(36, "For every purchase of #{italic}##GREY#%s#LAST##{normal}# you gain a pe
 tDef(38, "#{italic}##UMBER#Voratun Coins available from your donations: #ROYAL_BLUE#%d#{normal}#") -- _t
 tDef(39, "For every donations you've ever made you have earned voratun coins. These can be spent purchasing expansions or options on the online store. This is the amount you have left, if your purchase total is below this number you'll instantly get your purchase validated, if not you'll need to donate some more first.\
 #GOLD##{italic}#Thanks for your support, every little bit helps the game survive for years on!#{normal}#") -- _t
+tDef(50, "%s #GOLD#Online Store#LAST#") -- tformat
 tDef(72, "#YELLOW#-- connecting to server... --") -- _t
 tDef(132, "Name") -- _t
 tDef(133, "Price") -- _t
@@ -819,18 +820,18 @@ tDef(363, "- #{bold}##ROYAL_BLUE#%s #SLATE#x%d#WHITE##{normal}#: Your available 
 tDef(368, "Payment accepted.\
 %s") -- tformat
 tDef(380, "Steam Overlay should appear, if it does not please make sure it you have not disabled it.") -- _t
-tDef(392, "Connecting to Steam") -- _t
 tDef(392, "Finalizing transaction with Steam servers...") -- _t
-tDef(431, "Connecting to server") -- _t
+tDef(392, "Connecting to Steam") -- _t
 tDef(431, "Please wait...") -- _t
+tDef(431, "Connecting to server") -- _t
 tDef(450, "You have enough coins to instantly purchase those options. Confirm?") -- _t
 tDef(452, "Cancel") -- _t
 tDef(452, "Purchase") -- _t
 tDef(455, "You need %s more coins to purchase those options. Do you want to go to the donation page now?") -- tformat
-tDef(457, "Let's go! (Opens in your browser)") -- _t
 tDef(457, "Not now") -- _t
-tDef(461, "Payment") -- _t
+tDef(457, "Let's go! (Opens in your browser)") -- _t
 tDef(461, "Payment refused, you have not been billed.") -- _t
+tDef(461, "Payment") -- _t
 tDef(471, "#{bold}##GOLD#Community Online Event#WHITE##{normal}#: Once you have purchased a community event you will be able to trigger it at any later date, on whichever character you choose.\
 Community events once triggered will activate for #{bold}#every player currently logged on#{normal}# including yourself. Every player receiving it will know you sent it and thus that you are to thank for it.\
 To activate it you will need to have your online events option set to \"all\" (which is the default value).") -- _t
@@ -914,6 +915,12 @@ tDef(370, "%s %s %s.") -- logSeen
 tDef(370, "activates") -- _t
 tDef(370, "deactivates") -- _t
 tDef(372, "%s uses %s.") -- logSeen
+tDef(732, "not enough stat: %s") -- tformat
+tDef(737, "not enough levels") -- _t
+tDef(764, "missing dependency") -- _t
+tDef(770, "is not %s") -- tformat
+tDef(775, "unknown talent type") -- _t
+tDef(780, "not enough talents of this type known") -- _t
 tDef(801, "- Talent category known") -- _t
 tDef(807, "- Lower talents of the same category: %d") -- tformat
 tDef(821, "- Level %d") -- tformat
@@ -991,6 +998,7 @@ tDef(140, "didn't move") -- _t
 tDef(182, "trap spotted") -- _t
 tDef(201, "terrain change on the left") -- _t
 tDef(214, "terrain change on the right") -- _t
+tDef(373, "at %s") -- tformat
 tDef(376, "Ran for %d turns (stop reason: %s).") -- log
 
 
@@ -1001,6 +1009,7 @@ tDef(112, "#%s#Personal New Achievement: %s!") -- log
 tDef(113, "Personal New Achievement: #%s#%s") -- tformat
 tDef(154, "#%s#New Achievement: %s!") -- log
 tDef(155, "New Achievement: #%s#%s") -- tformat
+tDef(176, "New Achievement") -- _t
 
 
 ------------------------------------------------
@@ -1041,46 +1050,50 @@ tDef(244, "Game installed!") -- _t
 ------------------------------------------------
 section "game/engines/default/engine/utils.lua"
 
-tDef(835, "an ") -- _t
-tDef(836, "a ") -- _t
-tDef(840, "she") -- _t
-tDef(842, "he") -- _t
-tDef(848, "its") -- _t
-tDef(849, "his") -- _t
-tDef(854, "her") -- _t
-tDef(855, "it") -- _t
-tDef(856, "him") -- _t
-tDef(861, "herself") -- _t
-tDef(862, "itself") -- _t
-tDef(863, "himself") -- _t
+tDef(838, "%dth") -- _t
+tDef(842, "%dst") -- _t
+tDef(844, "%dnd") -- _t
+tDef(846, "%drd") -- _t
+tDef(857, "an ") -- _t
+tDef(858, "a ") -- _t
+tDef(862, "she") -- _t
+tDef(864, "he") -- _t
+tDef(870, "its") -- _t
+tDef(871, "his") -- _t
+tDef(876, "her") -- _t
+tDef(877, "it") -- _t
+tDef(878, "him") -- _t
+tDef(883, "herself") -- _t
+tDef(884, "itself") -- _t
+tDef(885, "himself") -- _t
 
 
 ------------------------------------------------
 section "game/engines/default/modules/boot/class/Game.lua"
 
-tDef(157, "Welcome to T-Engine and the Tales of Maj'Eyal") -- _t
-tDef(158, "#GOLD#\"Tales of Maj'Eyal\"#WHITE# is the main game, you can also install more addons or modules by going to https://te4.org/\
+tDef(159, "Welcome to T-Engine and the Tales of Maj'Eyal") -- _t
+tDef(160, "#GOLD#\"Tales of Maj'Eyal\"#WHITE# is the main game, you can also install more addons or modules by going to https://te4.org/\
 \
 When inside a module remember you can press Escape to bring up a menu to change keybindings, resolution and other module specific options.\
 \
 Remember that in most roguelikes death is usually permanent so be careful!\
 \
 Now go and have some fun!") -- _t
-tDef(194, "The way the engine manages saving has been reworked for v1.0.5.\
+tDef(196, "The way the engine manages saving has been reworked for v1.0.5.\
 \
 The background saves should no longer lag horribly and as such it is highly recommended that you use the option. The upgrade turned it on for you.\
 \
 For the same reason the save per level option should not be used unless you have severe memory problems. The upgrade turned it off for you.\
 ") -- _t
-tDef(194, "Upgrade to 1.0.5") -- _t
-tDef(215, "Oops! Either you activated safe mode manually or the game detected it did not start correctly last time and thus you are in #LIGHT_GREEN#safe mode#WHITE#.\
+tDef(196, "Upgrade to 1.0.5") -- _t
+tDef(217, "Safe Mode") -- _t
+tDef(217, "Oops! Either you activated safe mode manually or the game detected it did not start correctly last time and thus you are in #LIGHT_GREEN#safe mode#WHITE#.\
 Safe Mode disabled all graphical options and sets a low FPS. It is not advisable to play this way (as it will be very painful and ugly).\
 \
 Please go to the Video Options and try enabling/disabling options and then restarting until you do not get this message.\
 A usual problem is shaders and thus should be your first target to disable.") -- _t
-tDef(215, "Safe Mode") -- _t
-tDef(230, "Duplicate Addon") -- _t
-tDef(230, "Oops! It seems like you have the same addon/dlc installed twice.\
+tDef(232, "Duplicate Addon") -- _t
+tDef(232, "Oops! It seems like you have the same addon/dlc installed twice.\
 This is unsupported and would make many things explode. Please remove one of the copies.\
 \
 Addon name: #YELLOW#%s#LAST#\
@@ -1089,10 +1102,11 @@ Check out the following folder on your computer:\
 %s\
 %s\
 ") -- _t
-tDef(571, "Really exit T-Engine/ToME?") -- _t
-tDef(574, "Quit") -- _t
-tDef(574, "Continue") -- _t
-tDef(577, "Welcome to #LIGHT_GREEN#Tales of Maj'Eyal#LAST#!\
+tDef(308, "Updating addon: #LIGHT_GREEN#%s") -- tformat
+tDef(573, "Really exit T-Engine/ToME?") -- _t
+tDef(576, "Quit") -- _t
+tDef(576, "Continue") -- _t
+tDef(579, "Welcome to #LIGHT_GREEN#Tales of Maj'Eyal#LAST#!\
 \
 Before you can start dying in many innovative ways we need to ask you about online play.\
 \
@@ -1107,24 +1121,25 @@ This is a #{bold}#single player game#{normal}# but it also features many online 
 \
 You will also have a user page on #LIGHT_BLUE#https://te4.org/#LAST# to show off to your friends.\
 This is all optional, you are not forced to use this feature at all, but the developer would thank you if you did as it will make balancing easier.") -- _t
-tDef(627, "Login in...") -- _t
-tDef(627, "Please wait...") -- _t
-tDef(632, "Profile logged in!") -- _t
-tDef(634, "Check your login and password or try again in in a few moments.") -- _t
-tDef(634, "Login failed!") -- _t
-tDef(638, "Registering on https://te4.org/, please wait...") -- _t
-tDef(638, "Registering...") -- _t
-tDef(643, "Your online profile is now active. Have fun!") -- _t
-tDef(643, "Logged in!") -- _t
-tDef(643, "Profile created!") -- _t
-tDef(646, "Creation failed: ") -- _t
-tDef(648, "Profile creation failed!") -- _t
-tDef(648, "Try again in in a few moments, or try online at https://te4.org/") -- _t
+tDef(629, "Please wait...") -- _t
+tDef(629, "Login in...") -- _t
+tDef(634, "Profile logged in!") -- _t
+tDef(636, "Login failed!") -- _t
+tDef(636, "Check your login and password or try again in in a few moments.") -- _t
+tDef(640, "Registering on https://te4.org/, please wait...") -- _t
+tDef(640, "Registering...") -- _t
+tDef(645, "Logged in!") -- _t
+tDef(645, "Your online profile is now active. Have fun!") -- _t
+tDef(645, "Profile created!") -- _t
+tDef(648, "Creation failed: ") -- _t
+tDef(650, "Try again in in a few moments, or try online at https://te4.org/") -- _t
+tDef(650, "Profile creation failed!") -- _t
 
 
 ------------------------------------------------
 section "game/engines/default/modules/boot/class/Player.lua"
 
+tDef(112, "%s available") -- tformat
 tDef(113, "#00ff00#Talent %s is ready to use.") -- log
 tDef(120, "LEVEL UP!") -- _t
 
@@ -1135,6 +1150,12 @@ section "game/engines/default/modules/boot/data/birth/descriptors.lua"
 tDef(21, "base") -- birth descriptor name
 tDef(35, "Destroyer") -- birth descriptor name
 tDef(47, "Acid-maniac") -- birth descriptor name
+
+
+------------------------------------------------
+section "game/engines/default/modules/boot/data/damage_types.lua"
+
+tDef(27, "Kill!") -- _t
 
 
 ------------------------------------------------
@@ -1312,7 +1333,6 @@ tDef(33, "Load Game") -- _t
 tDef(35, "Show older versions") -- _t
 tDef(36, "Ignore unloadable addons") -- _t
 tDef(37, "  Play!  ") -- _t
-tDef(38, "Delete") -- _t
 tDef(117, "#{bold}##GOLD#%s: %s#WHITE##{normal}#\
 Game version: %d.%d.%d\
 Requires addons: %s\
@@ -1320,21 +1340,22 @@ Requires addons: %s\
 %s") -- tformat
 tDef(183, "You can simply grab an older version of the game from where you downloaded it.") -- _t
 tDef(185, "You can downgrade the version by selecting it in the Steam's \"Beta\" properties of the game.") -- _t
-tDef(187, "Original game version not found") -- _t
 tDef(187, "This savefile was created with game version %s. You can try loading it with the current version if you wish but it is recommended you play it with the old version to ensure compatibility\
 %s") -- tformat
+tDef(187, "Original game version not found") -- _t
 tDef(192, "Run with newer version") -- _t
-tDef(197, "#LIGHT_RED#WARNING: #LAST#Loading a savefile while in developer mode will permanently invalidate it. Proceed?") -- _t
 tDef(197, "Developer Mode") -- _t
+tDef(197, "#LIGHT_RED#WARNING: #LAST#Loading a savefile while in developer mode will permanently invalidate it. Proceed?") -- _t
 tDef(199, "Load anyway") -- _t
-tDef(199, "Cancel") -- _t
-tDef(210, "Really delete #{bold}##GOLD#%s#WHITE##{normal}#") -- tformat
 tDef(210, "Delete savefile") -- _t
+tDef(210, "Really delete #{bold}##GOLD#%s#WHITE##{normal}#") -- tformat
+tDef(224, "Delete") -- _t
+tDef(224, "Cancel") -- _t
 tDef(248, "No data available for this game version.") -- _t
 tDef(257, "Downloading old game data: #LIGHT_GREEN#") -- _t
 tDef(271, "Old game data for %s correctly installed. You can now play.") -- tformat
-tDef(272, "Old game data") -- _t
 tDef(272, "Failed to install.") -- _t
+tDef(272, "Old game data") -- _t
 
 
 ------------------------------------------------
@@ -1529,6 +1550,14 @@ tDef(123, "#{bold}##GOLD#%s(%s)#GREEN# High Scores#WHITE##{normal}#\
 
 
 ------------------------------------------------
+section "game/engines/default/modules/boot/init.lua"
+
+tDef(21, "Tales of Maj'Eyal Main Menu") -- init.lua long_name
+tDef(28, "Bootmenu!\
+") -- init.lua description
+
+
+------------------------------------------------
 section "game/engines/default/modules/boot/load.lua"
 
 tDef(65, "str") -- stat short_name
@@ -1617,6 +1646,7 @@ tDef(151, "#RED# [%s]%s #ORANGE#CLEARING OLD TARGET#LAST#: [%s]%s") -- log
 ------------------------------------------------
 section "game/modules/tome/class/Actor.lua"
 
+tDef(604, "drowned to death") -- _t
 tDef(706, "%s has been disrupted by #ORCHID#anti-magic forces#LAST#!") -- logSeen
 tDef(718, "%s temporarily fights the paralyzation.") -- logSeen
 tDef(810, "#VIOLET#Following build order %s; increasing %s by 1.") -- log
@@ -1646,13 +1676,21 @@ tDef(1966, "actor") -- _t
 tDef(1988, "neutral") -- _t
 tDef(1989, "hostile") -- _t
 tDef(1990, "friendly") -- _t
-tDef(1997, "female") -- _t
 tDef(1997, "male") -- _t
+tDef(1997, "female") -- _t
 tDef(1999, "Rank: ") -- _t
 tDef(2000, "Level: unknown") -- _t
 tDef(2001, "Level: %d") -- tformat
 tDef(2002, "INVULNERABLE!") -- _t
 tDef(2003, "HP: %d (%d%%) #GREEN#+%0.2f#LAST#") -- tformat
+tDef(2008, "\
+Mana:  %s%d / %d#LAST#") -- tformat
+tDef(2011, "\
+Vim:  %s%d / %d#LAST#") -- tformat
+tDef(2014, "\
+Positive:  %s%d / %d#LAST#") -- tformat
+tDef(2017, "\
+Negative:  %s%d / %d#LAST#") -- tformat
 tDef(2023, " (%d%%)") -- tformat
 tDef(2028, "Iceblock: %d") -- tformat
 tDef(2031, "%sVim Value: %d#LAST#") -- tformat
@@ -1710,8 +1748,8 @@ tDef(2742, "#F53CBE#Your powerful attack feeds your madness!") -- _t
 tDef(2748, "%s (+%d hate)") -- tformat
 tDef(2774, "%s splits in two!") -- logSeen
 tDef(2791, "%s#Source# converts some damage to Psi!") -- tformat
-tDef(2792, "%s%d %s#LAST#") -- tformat
 tDef(2792, "to psi") -- _t
+tDef(2792, "%s%d %s#LAST#") -- tformat
 tDef(2828, "#RED#(%d refused)#LAST#") -- tformat
 tDef(2831, "#RED##Source# is unstoppable!") -- delayedLogMessage
 tDef(2843, "#YELLOW#%s has been healed by a blast of positive energy!#LAST#") -- logSeen
@@ -1723,6 +1761,7 @@ tDef(2970, "#OLIVE_DRAB##Source# redirects damage from #Target# to %s!#LAST#") -
 tDef(2971, "#OLIVE_DRAB#(%d redirected)#LAST#") -- tformat
 tDef(2973, "#OLIVE_DRAB#%d redirected#LAST#") -- tformat
 tDef(2997, "#CRIMSON##Source# leeches energies from #Target#!") -- delayedLogMessage
+tDef(3108, "RESURRECT!") -- _t
 tDef(3158, "You feel a surge of power as a powerful creature falls nearby.") -- logPlayer
 tDef(3281, "%s feeds you hate from its latest victim. (+%d hate)") -- logPlayer
 tDef(3343, "#LIGHT_RED#The cease to exist spell fizzles and cancels, leaving the timeline intact.") -- logPlayer
@@ -1735,6 +1774,7 @@ tDef(3920, "You have achieved #LIGHT_GREEN#level 50#WHITE#, congratulations!\
 \
 This level is special, it granted you #LIGHT_GREEN#10#WHITE# more stat points, #LIGHT_GREEN#3#WHITE# more class talent points and #LIGHT_GREEN#3#WHITE# more generic talent points.\
 Now go forward boldly and triumph!") -- _t
+tDef(3992, "LEVEL UP!") -- _t
 tDef(3993, "#00ffff#Welcome to level %d [%s].") -- log
 tDef(3994, "Press p to use them.") -- _t
 tDef(3995, "Select %s in the party list and press G to use them.") -- tformat
@@ -1752,6 +1792,7 @@ tDef(4371, "You cannot switch equipment while sleeping!") -- logPlayer
 tDef(4452, "%s warps space-time to equip: %s.") -- logSeen
 tDef(4454, "%s switches %s weapons to: %s.") -- logSeen
 tDef(4916, "%s wears %s%s.") -- logSeen
+tDef(4963, "antimagic") -- _t
 tDef(5338, "%s #LIGHT_STEEL_BLUE#Triggers an Anomaly! (%s).") -- logSeen
 tDef(5345, "#STEEL_BLUE#Casting %s.") -- logPlayer
 tDef(5375, "#STEEL_BLUE#You've moved to another time thread.") -- logPlayer
@@ -1770,8 +1811,8 @@ tDef(5670, "%s is too heavily armoured to use this talent.") -- logSeen
 tDef(5674, "%s can't use this talent while holding a weapon or shield.") -- logSeen
 tDef(5681, "%s is sleeping and unable to do this.") -- logPlayer
 tDef(5698, "have too much committed") -- _t
-tDef(5698, "do not have enough uncommitted") -- _t
 tDef(5698, "You %s %s to activate %s.") -- logPlayer
+tDef(5698, "do not have enough uncommitted") -- _t
 tDef(5706, "You do not have enough feedback to use %s.") -- logPlayer
 tDef(5710, "You do not have enough fortress energy to use %s.") -- logPlayer
 tDef(5731, "You have too much %s to use %s.") -- logPlayer
@@ -1783,9 +1824,9 @@ tDef(5819, "%s is confused and fails to use %s.") -- logSeen
 tDef(5833, "%s fails to use %s.") -- logSeen
 tDef(5847, "%s fumbles and fails to use %s, injuring %s!") -- logSeen
 tDef(5855, "%s's %s is interrupted by the shot!") -- logSeen
-tDef(5892, "%s %s #{bold}##ORANGE#%s#LAST#.") -- logSeen
 tDef(5892, "deactivates") -- _t
 tDef(5892, "activates") -- _t
+tDef(5892, "%s %s #{bold}##ORANGE#%s#LAST#.") -- logSeen
 tDef(5897, "%s casts #{bold}#%s%s.#{normal}##LAST#") -- logSeen
 tDef(5903, "%s uses #{bold}#%s%s.#{normal}##LAST#") -- logSeen
 tDef(6401, "%s talent '%s%s' is disrupted by the mind parasite.") -- logSeen
@@ -1800,9 +1841,10 @@ tDef(6573, "Sustain feedback cost: ") -- _t
 tDef(6583, "gain") -- _t
 tDef(6583, "cost") -- _t
 tDef(6589, "Sustain %s cost: ") -- tformat
-tDef(6596, "Generates") -- _t
 tDef(6596, "Removes") -- _t
+tDef(6596, "Generates") -- _t
 tDef(6598, "Replenishes") -- _t
+tDef(6598, "%s %s: ") -- tformat
 tDef(6598, "Drains") -- _t
 tDef(6607, "melee/personal") -- _t
 tDef(6607, "Range: ") -- _t
@@ -1815,14 +1857,14 @@ tDef(6630, "Special") -- _t
 tDef(6632, "%s (#LIGHT_GREEN#%d%%#LAST# of a turn)") -- tformat
 tDef(6634, "Usage Speed: ") -- _t
 tDef(6645, "Won't Break Stealth:  ") -- _t
-tDef(6651, "Fixed ") -- _t
 tDef(6651, "%sCooldown: ") -- tformat
-tDef(6660, " and ") -- _t
+tDef(6651, "Fixed ") -- _t
 tDef(6660, "Is: ") -- _t
+tDef(6660, " and ") -- _t
 tDef(6667, "Will Deactivate: ") -- _t
 tDef(6673, "Description: ") -- _t
-tDef(6795, "Automatic use enabled") -- _t
 tDef(6795, "%s will now be used as often as possible automatically.") -- tformat
+tDef(6795, "Automatic use enabled") -- _t
 tDef(6799, "- requires a turn to use") -- _t
 tDef(6800, "- requires a target, your last hostile one will be automatically used") -- _t
 tDef(6803, "- will only trigger if no enemies are visible") -- _t
@@ -1844,14 +1886,16 @@ tDef(7362, "#ORANGE#%s shrugs off %s '%s'!") -- logCombat
 tDef(7366, "#Target#'s") -- _t
 tDef(7366, "#LIGHT_UMBER#%s resists %s '%s'!") -- logCombat
 tDef(7366, "the effect") -- _t
+tDef(7474, "but fumbles!") -- _t
+tDef(7476, "to the %s!") -- tformat
 tDef(7478, "#Source# deflects the projectile from #Target# %s") -- logCombat
 tDef(7488, "%s reflects the spell!") -- logSeen
 tDef(7497, "%s ignores the spell!") -- logSeen
 tDef(7622, "You can not drop items while sleeping.") -- logPlayer
 tDef(7627, "You can not drop %s (plot item).") -- logPlayer
 tDef(7632, "You can not drop %s (tagged).") -- logPlayer
-tDef(7637, "Any item dropped on the world map will be lost forever.") -- _t
 tDef(7637, "Warning") -- _t
+tDef(7637, "Any item dropped on the world map will be lost forever.") -- _t
 tDef(7644, "You destroy %s.") -- logPlayer
 tDef(7649, "You can not destroy %s.") -- logPlayer
 tDef(7652, "Cancel") -- _t
@@ -1888,12 +1932,9 @@ tDef(252, "The teleport fizzles!") -- _t
 ------------------------------------------------
 section "game/modules/tome/class/Game.lua"
 
-tDef(103, "Today is the % %s of the %s year of the Age of Ascendancy of Maj'Eyal.\
-The time is %02d:%02d.") -- _t
+tDef(207, "Main character") -- _t
 tDef(268, "Character Creation ( %s unlocked options)") -- tformat
 tDef(310, "Welcome to #LIGHT_BLUE#Tales of Maj'Eyal") -- _t
-tDef(335, "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\
-The time is %02d:%02d.") -- _t
 tDef(789, "%s the level %d %s %s.\
 Difficulty: %s / %s\
 Campaign: %s\
@@ -1910,14 +1951,14 @@ tDef(973, "Stay: level %s of %s") -- tformat
 tDef(974, "Keep Trying: level %s of %s") -- tformat
 tDef(975, "Log the problem, Stay: level %s of %s") -- tformat
 tDef(977, "Debug the problem (move to the failed zone/level)") -- _t
-tDef(1000, "Information on the failed zone and level dumped to the log file.") -- _t
 tDef(1000, "Information logged") -- _t
+tDef(1000, "Information on the failed zone and level dumped to the log file.") -- _t
 tDef(1014, "The game could not generate level %s of %s after %s attempts. What do you want to do?") -- tformat
 tDef(1015, "Level Generation Failure") -- _t
 tDef(1147, "This zone is so easy for you that you can stroll to the last area with ease.") -- _t
 tDef(1147, "Easy!") -- _t
-tDef(1149, "Stroll") -- _t
 tDef(1149, "Stay there") -- _t
+tDef(1149, "Stroll") -- _t
 tDef(1365, "You feel a thrill of terror and your heart begins to pound in your chest. You feel terribly threatened upon entering this area.") -- _t
 tDef(1366, "You feel mildly anxious, and walk with caution.") -- _t
 tDef(1368, "You feel very confident walking into this place.") -- _t
@@ -1925,8 +1966,8 @@ tDef(1369, "You stride into this area without a second thought, while stifling a
 tDef(1372, "#TEAL#%s") -- log
 tDef(1640, "something") -- _t
 tDef(1645, "unknown") -- _t
-tDef(1690, "#Source# hits #Target# for %s (#RED##{bold}#%0.0f#LAST##{normal}# total damage)%s.") -- logMessage
 tDef(1690, " #LIGHT_GREEN#[%0.0f healing]#LAST#") -- tformat
+tDef(1690, "#Source# hits #Target# for %s (#RED##{bold}#%0.0f#LAST##{normal}# total damage)%s.") -- logMessage
 tDef(1693, "#Source# hits #Target# for %s damage.") -- logMessage
 tDef(1695, "#Source# receives %s.") -- logMessage
 tDef(1697, "#Target# receives %s from #Source#.") -- logMessage
@@ -1950,8 +1991,10 @@ tDef(2274, "#GOLD#Automatic talent usage: %s") -- log
 tDef(2280, "#GOLD#Automatic accept target mode: %s") -- log
 tDef(2337, "Displaying creatures.") -- log
 tDef(2339, "Displaying talents.") -- log
+tDef(2356, "Tales of Maj'Eyal Achievements") -- _t
 tDef(2356, "Show Achievements") -- _t
 tDef(2357, "Show known Lore") -- _t
+tDef(2357, "Tales of Maj'Eyal Lore") -- _t
 tDef(2358, "Show ingredients") -- _t
 tDef(2360, "Inventory") -- _t
 tDef(2361, "Character Sheet") -- _t
@@ -1973,8 +2016,28 @@ tDef(2796, "#ANTIQUE_WHITE#Splash screen unlocked: #GOLD#%s") -- log
 section "game/modules/tome/class/GameState.lua"
 
 tDef(51, "#AQUAMARINE#Most stores should have new stock now.") -- log
-tDef(861, "Ambush!") -- _t
+tDef(238, "twisted") -- _t
+tDef(238, "faceted") -- _t
+tDef(238, "immaculate") -- _t
+tDef(238, "scintillating") -- _t
+tDef(238, "silvered") -- _t
+tDef(238, "rune-covered") -- _t
+tDef(238, "crackling") -- _t
+tDef(238, "unblemished") -- _t
+tDef(238, "laminated") -- _t
+tDef(238, "jewel-encrusted") -- _t
+tDef(238, "glowing") -- _t
+tDef(238, "humming") -- _t
+tDef(238, "glistening") -- _t
+tDef(238, "shadowy") -- _t
+tDef(238, "faded") -- _t
+tDef(238, "gleaming") -- _t
+tDef(238, "plated") -- _t
+tDef(238, "sigiled") -- _t
+tDef(238, "flawless") -- _t
 tDef(861, "You have been ambushed!") -- _t
+tDef(861, "Ambush!") -- _t
+tDef(2696, "%s the %s") -- tformat
 tDef(3325, "Leave the level (to the next level) without killing a single creature. You will get #{italic}#two#{normal}# rewards.") -- _t
 tDef(3325, "Pacifist") -- _t
 tDef(3344, "Exterminator") -- _t
@@ -1982,37 +2045,37 @@ tDef(3344, "Exterminate every foe on the level.") -- _t
 tDef(3349, "Foes left: #LIGHT_RED#%s") -- tformat
 tDef(3357, "#LIGHT_RED#EXTERMINATE THIS FOE#LAST#\
 %s") -- tformat
-tDef(3378, "Proceed directly to the next Infinite Dungeon level in less than %d turns (an exit is revealed on your map).") -- tformat
 tDef(3378, "Rush Hour (%d)") -- tformat
+tDef(3378, "Proceed directly to the next Infinite Dungeon level in less than %d turns (an exit is revealed on your map).") -- tformat
 tDef(3397, "\
 #ORCHID# Rush Hour: %s turns left!\
 ") -- log
 tDef(3405, "Proceed to the next Infinite Dungeon level! An exit has been marked on your map.") -- _t
-tDef(3417, "Wake up and kill the dreaming horror boss '%s'.") -- tformat
 tDef(3417, "Dream Hunter") -- _t
+tDef(3417, "Wake up and kill the dreaming horror boss '%s'.") -- tformat
 tDef(3437, "Find, challenge, and kill your mirror clone on the level.") -- _t
 tDef(3437, "Mirror Match") -- _t
 tDef(3452, "An evil twin of %s%s") -- tformat
 tDef(3453, "Mirror Challenge of %s") -- tformat
 tDef(3454, "but nobody knew why #sex# suddenly became evil") -- _t
 tDef(3472, "#ORCHID#%s does not recognize you.") -- logPlayer
-tDef(3475, "Challenge: #PURPLE#Mirror Match") -- _t
 tDef(3475, "Challenge your mirror clone and triumph!") -- _t
+tDef(3475, "Challenge: #PURPLE#Mirror Match") -- _t
 tDef(3484, "#CRIMSON#The Fight Is Joined!") -- _t
-tDef(3510, "Challenge: #PURPLE#Near Sighted") -- _t
 tDef(3510, "Proceed to the next Infinite Dungeon level with -7 sight range for a reward.") -- _t
-tDef(3511, "Proceed to the next Infinite Dungeon level with -7 sight range.") -- _t
+tDef(3510, "Challenge: #PURPLE#Near Sighted") -- _t
 tDef(3511, "Near Sighted") -- _t
+tDef(3511, "Proceed to the next Infinite Dungeon level with -7 sight range.") -- _t
 tDef(3520, "Challenge: #PURPLE#Multiplicity") -- _t
 tDef(3520, "All foes (including bosses) gain the ability to multiply up to 3 times.  You must survive for at least %d turns before exiting.") -- tformat
-tDef(3521, "Multiplicity") -- _t
 tDef(3521, "All foes have the multiply talent!") -- _t
+tDef(3521, "Multiplicity") -- _t
 tDef(3524, "Turns left: #LIGHT_GREEN#%d") -- tformat
 tDef(3533, "#LIGHT_GREEN#Multiplicity: You have survived so far. Exit for your reward!") -- _t
 tDef(3556, "Survive the multiplicative madness!.") -- _t
 tDef(3568, "#rng# the Spawn of Urh'Rok") -- _t
-tDef(3583, "Kill %d spawns of Urh'Rok on the level before killing any other elite (or higher rank) creatures, for an uncommon reward.") -- tformat
 tDef(3583, "Challenge: #PURPLE#Headhunter") -- _t
+tDef(3583, "Kill %d spawns of Urh'Rok on the level before killing any other elite (or higher rank) creatures, for an uncommon reward.") -- tformat
 tDef(3585, "Headhunter") -- _t
 tDef(3585, "Kill %d spawns of Urh'Rok on the level before killing any elite creatures.") -- tformat
 tDef(3587, "%d / %d demon spawn killed.") -- tformat
@@ -2029,13 +2092,15 @@ tDef(3674, "+1 Prodigy Point") -- _t
 tDef(3697, " and ") -- _t
 tDef(3698, "#OLIVE_DRAB#Reward%s: %s") -- tformat
 tDef(3699, "#LIGHT_BLUE#%s has received: %s.") -- log
-tDef(3718, "You have unlocked a new talent: %s!") -- tformat
 tDef(3718, "#LIGHT_GREEN#%s") -- logPlayer
+tDef(3718, "You have unlocked a new talent: %s!") -- tformat
 
 
 ------------------------------------------------
 section "game/modules/tome/class/Grid.lua"
 
+tDef(74, "Open") -- _t
+tDef(74, "Leave") -- _t
 tDef(115, "%s") -- logSeen
 tDef(155, "spot") -- _t
 tDef(157, "%s's %s") -- tformat
@@ -2095,6 +2160,7 @@ tDef(393, "You see one more object.") -- _t
 tDef(394, "You see %d more objects.") -- tformat
 tDef(403, "%d%% power") -- tformat
 tDef(405, "%s-%s power") -- tformat
+tDef(414, "%0.2f %s") -- tformat
 tDef(428, "%s%0.2f/turn") -- tformat
 tDef(431, "%s, %s apr") -- tformat
 tDef(434, "%d/%d, %s, %s apr") -- tformat
@@ -2109,278 +2175,295 @@ tDef(457, "dig speed %d turns") -- tformat
 tDef(459, " [power %d]") -- tformat
 tDef(465, " (%d/%d cooldown)") -- tformat
 tDef(467, " (%d cooldown)") -- tformat
-tDef(595, "object") -- _t
-tDef(600, "%s, %sspecial#LAST#") -- tformat
-tDef(602, "%s, %sego#LAST#") -- tformat
-tDef(639, " crit mult (max 40%)") -- _t
-tDef(641, " crit chance (max 25%)") -- _t
-tDef(643, " base dam (max 20%)") -- _t
-tDef(645, " proc dam (max 200%)") -- _t
-tDef(647, " APR (max 50%)") -- _t
-tDef(647, "Accuracy bonus: ") -- _t
-tDef(822, "Power: %3d%% (%s)  Range: %.1fx (%s)") -- tformat
-tDef(825, "Power: %3d%%  Range: %.1fx") -- tformat
-tDef(846, "Base power: %.1f - %.1f") -- tformat
-tDef(850, "Uses stat%s: %s") -- tformat
-tDef(852, "Damage type: ") -- _t
-tDef(867, "Armour Penetration: ") -- _t
-tDef(868, "Crit. chance: ") -- _t
-tDef(869, "Crit. power: ") -- _t
-tDef(875, "Attack speed: ") -- _t
-tDef(877, "Block value: ") -- _t
-tDef(879, "Dam. multiplier: ") -- _t
-tDef(880, "Firing range: ") -- _t
-tDef(881, "Capacity: ") -- _t
-tDef(882, "Reload speed: ") -- _t
-tDef(883, "Turns elapse between self-loadings: ") -- _t
-tDef(901, "When this weapon hits: %s (%d%% chance level %d).") -- tformat
-tDef(920, "When this weapon crits: %s (%d%% chance level %d).") -- tformat
-tDef(1017, "#YELLOW#On weapon hit:#LAST#") -- _t
-tDef(1039, "#YELLOW#On weapon crit:#LAST#") -- _t
-tDef(1047, "#YELLOW#On weapon kill:#LAST#") -- _t
-tDef(1064, "When used from stealth a simple attack with it will not break stealth.") -- _t
-tDef(1068, "Damage dealt by this weapon is increased by half your critical multiplier, if doing so would kill the target.") -- _t
-tDef(1071, "Travel speed: ") -- _t
-tDef(1073, "Damage Shield penetration (this weapon only): ") -- _t
-tDef(1075, "Lifesteal (this weapon only): ") -- _t
-tDef(1082, "Multiple attacks: ") -- _t
-tDef(1083, "Multiple attacks procs power reduction: ") -- _t
-tDef(1086, "Shots beam through all targets.") -- _t
-tDef(1107, "Damage (radius 1) on hit: ") -- _t
-tDef(1112, "Damage (radius 2) on crit: ") -- _t
-tDef(1117, "Damage conversion: ") -- _t
-tDef(1152, "[Plot Item]") -- _t
-tDef(1153, "[Cosmetic Item]") -- _t
-tDef(1155, "[Legendary]") -- _t
-tDef(1156, "[Godslayer]") -- _t
-tDef(1157, "[Random Unique]") -- _t
-tDef(1158, "[Unique]") -- _t
-tDef(1162, "Type: %s / %s") -- tformat
-tDef(1162, "unknown") -- _t
-tDef(1163, " ; tier ") -- _t
-tDef(1165, "It must be held with both hands.") -- _t
-tDef(1166, "It can be used as a weapon and offhand.") -- _t
-tDef(1185, "Mastery: ") -- _t
-tDef(1189, "Accuracy is based on willpower for this weapon.") -- _t
-tDef(1192, "Weapon Damage: ") -- _t
-tDef(1199, ", ") -- _t
-tDef(1206, "#YELLOW#It can cause special effects when it strikes in combat.#LAST#") -- _t
-tDef(1209, "#ORCHID#It can cause special effects when a melee attack is blocked.#LAST#") -- _t
-tDef(1214, "It %s ambient light (%+d radius).") -- tformat
-tDef(1214, "dims") -- _t
-tDef(1214, "provides") -- _t
-tDef(1219, "#ORANGE#It has an activatable power.#LAST#") -- _t
-tDef(1227, "It is part of a set of items.") -- _t
-tDef(1233, "The set is complete.") -- _t
-tDef(1270, "Accuracy: ") -- _t
-tDef(1271, "Armour penetration: ") -- _t
-tDef(1272, "Physical crit. chance: ") -- _t
-tDef(1273, "Physical power: ") -- _t
-tDef(1275, "Armour: ") -- _t
-tDef(1276, "Armour Hardiness: ") -- _t
-tDef(1277, "Defense: ") -- _t
-tDef(1278, "Ranged Defense: ") -- _t
-tDef(1280, "Fatigue: ") -- _t
-tDef(1282, "Ammo reloads per turn: ") -- _t
-tDef(1300, "Effects on melee hit: ") -- _t
-tDef(1332, "Damage (Melee): ") -- _t
-tDef(1338, "Effects on ranged hit: ") -- _t
-tDef(1342, "Damage (Ranged): ") -- _t
-tDef(1348, "Effects when hit in melee: ") -- _t
-tDef(1352, "Damage when hit (Melee): ") -- _t
-tDef(1382, "No left") -- log
-tDef(1383, "No right") -- log
-tDef(1448, "#YELLOW#On shield block:#LAST#") -- _t
-tDef(1455, "Changes stats: ") -- _t
-tDef(1459, "Changes resistances: ") -- _t
-tDef(1464, "Changes resistances cap: ") -- _t
-tDef(1469, "Reduce damage by fixed amount: ") -- _t
-tDef(1474, "Maximum wards: ") -- _t
-tDef(1479, "Changes resistances penetration: ") -- _t
-tDef(1484, "Changes damage: ") -- _t
-tDef(1489, "Damage against: ") -- _t
-tDef(1498, "Reduced damage from: ") -- _t
-tDef(1507, "Talent category bonus: ") -- _t
-tDef(1516, "Damage affinity(heal): ") -- _t
-tDef(1518, "all") -- _t
-tDef(1521, "Change telepathy range by : ") -- _t
-tDef(1547, "All") -- _t
-tDef(1564, "Grants telepathy: ") -- _t
-tDef(1592, "Talent master%s: ") -- tformat
-tDef(1630, "Talent%s cooldown:") -- tformat
-tDef(1635, "turn%s)") -- tformat
-tDef(1637, " turn%s)") -- tformat
-tDef(1640, " %s (%+d(-) turn%s)") -- tformat
-tDef(1664, "Talent%s granted: ") -- tformat
-tDef(1698, "Allows you to breathe in: ") -- _t
-tDef(1709, "Critical mult.: ") -- _t
-tDef(1710, "Reduces incoming crit damage: ") -- _t
-tDef(1711, "Reduces opponents crit chance: ") -- _t
-tDef(1713, "Trap disarming bonus: ") -- _t
-tDef(1714, "Stealth bonus: ") -- _t
-tDef(1715, "Maximum encumbrance: ") -- _t
-tDef(1717, "Physical save: ") -- _t
-tDef(1718, "Spell save: ") -- _t
-tDef(1719, "Mental save: ") -- _t
-tDef(1721, "Blindness immunity: ") -- _t
-tDef(1722, "Poison immunity: ") -- _t
-tDef(1723, "Disease immunity: ") -- _t
-tDef(1724, "Cut immunity: ") -- _t
-tDef(1726, "Silence immunity: ") -- _t
-tDef(1727, "Disarm immunity: ") -- _t
-tDef(1728, "Confusion immunity: ") -- _t
-tDef(1729, "Sleep immunity: ") -- _t
-tDef(1730, "Pinning immunity: ") -- _t
-tDef(1732, "Stun/Freeze immunity: ") -- _t
-tDef(1733, "Fear immunity: ") -- _t
-tDef(1734, "Knockback immunity: ") -- _t
-tDef(1735, "Instant-death immunity: ") -- _t
-tDef(1736, "Teleport immunity: ") -- _t
-tDef(1738, "Life regen: ") -- _t
-tDef(1739, "Stamina each turn: ") -- _t
-tDef(1740, "Mana each turn: ") -- _t
-tDef(1741, "Hate each turn: ") -- _t
-tDef(1742, "Psi each turn: ") -- _t
-tDef(1743, "Equilibrium each turn: ") -- _t
-tDef(1744, "Vim each turn: ") -- _t
-tDef(1745, "P.Energy each turn: ") -- _t
-tDef(1746, "N.Energy each turn: ") -- _t
-tDef(1748, "Stamina when hit: ") -- _t
-tDef(1749, "Mana when hit: ") -- _t
-tDef(1750, "Equilibrium when hit: ") -- _t
-tDef(1751, "Psi when hit: ") -- _t
-tDef(1752, "Hate when hit: ") -- _t
-tDef(1753, "Vim when hit: ") -- _t
-tDef(1755, "Vim when hitting in melee: ") -- _t
-tDef(1757, "Mana when firing critical spell: ") -- _t
-tDef(1758, "Vim when firing critical spell: ") -- _t
-tDef(1759, "Spellpower on spell critical (stacks up to 3 times): ") -- _t
-tDef(1761, "Hate when firing a critical mind attack: ") -- _t
-tDef(1762, "Psi when firing a critical mind attack: ") -- _t
-tDef(1763, "Equilibrium when firing a critical mind attack: ") -- _t
-tDef(1765, "Hate per kill: ") -- _t
-tDef(1766, "Psi per kill: ") -- _t
-tDef(1767, "Vim per kill: ") -- _t
-tDef(1769, "Only die when reaching: ") -- _t
-tDef(1770, "Maximum life: ") -- _t
-tDef(1771, "Maximum mana: ") -- _t
-tDef(1772, "Maximum souls: ") -- _t
-tDef(1773, "Maximum stamina: ") -- _t
-tDef(1774, "Maximum hate: ") -- _t
-tDef(1775, "Maximum psi: ") -- _t
-tDef(1776, "Maximum vim: ") -- _t
-tDef(1777, "Maximum pos.energy: ") -- _t
-tDef(1778, "Maximum neg.energy: ") -- _t
-tDef(1779, "Maximum air capacity: ") -- _t
-tDef(1781, "Spellpower: ") -- _t
-tDef(1782, "Spell crit. chance: ") -- _t
-tDef(1783, "Lowers spell cool-downs by: ") -- _t
-tDef(1785, "Mindpower: ") -- _t
-tDef(1785, "%+d #LAST#(%+d eff.)") -- _t
-tDef(1786, "Mental crit. chance: ") -- _t
-tDef(1788, "Light radius: ") -- _t
-tDef(1789, "Infravision radius: ") -- _t
-tDef(1790, "Heightened senses radius: ") -- _t
-tDef(1791, "Sight radius: ") -- _t
-tDef(1793, "See stealth: ") -- _t
-tDef(1795, "See invisible: ") -- _t
-tDef(1796, "Invisibility: ") -- _t
-tDef(1798, "Global speed: ") -- _t
-tDef(1799, "Movement speed: ") -- _t
-tDef(1800, "Combat speed: ") -- _t
-tDef(1801, "Casting speed: ") -- _t
-tDef(1802, "Mental speed: ") -- _t
-tDef(1804, "Healing mod.: ") -- _t
-tDef(1805, "Heals friendly targets nearby when you use a nature summon: ") -- _t
-tDef(1807, "Life leech chance: ") -- _t
-tDef(1808, "Life leech: ") -- _t
-tDef(1810, "Resource leech chance: ") -- _t
-tDef(1811, "Resource leech: ") -- _t
-tDef(1813, "Damage Shield penetration: ") -- _t
-tDef(1815, "Deflect projectiles away: ") -- _t
-tDef(1816, "Chance to avoid attacks: ") -- _t
-tDef(1817, "Chance to avoid any damage: ") -- _t
-tDef(1819, "Defense after a teleport: ") -- _t
-tDef(1820, "Resist all after a teleport: ") -- _t
-tDef(1821, "New effects duration reduction after a teleport: ") -- _t
-tDef(1823, "Damage Resonance (when hit): ") -- _t
-tDef(1825, "Size category: ") -- _t
-tDef(1827, "Max wilder summons: ") -- _t
-tDef(1828, "Life regen bonus (wilder-summons): ") -- _t
-tDef(1830, "Damage Shield Duration: ") -- _t
-tDef(1831, "Damage Shield Power: ") -- _t
-tDef(1833, "Ice block penetration: ") -- _t
-tDef(1835, "Slows Projectiles: ") -- _t
-tDef(1837, "Bonus block near projectiles: ") -- _t
-tDef(1839, "Reduces paradox anomalies(equivalent to willpower): ") -- _t
-tDef(1841, "Damage Backlash: ") -- _t
-tDef(1843, "Reduce all damage from unseen attackers: ") -- _t
-tDef(1846, "The wearer is treated as an undead.") -- _t
-tDef(1850, "The wearer is treated as a demon.") -- _t
-tDef(1854, "The wearer is blinded.") -- _t
-tDef(1858, "The wearer is asleep.") -- _t
-tDef(1862, "This item allows the wearer to attack unseen targets without any penalties.") -- _t
-tDef(1866, "This item allows the wearer to act while sleeping.") -- _t
-tDef(1870, "The wearer no longer has to breathe.") -- _t
-tDef(1874, "This item allows the wearer to swap to their secondary weapon without spending a turn.") -- _t
-tDef(1878, "The wearer never triggers traps that require pressure.") -- _t
-tDef(1882, "Allows you to speak and read the old Sher'Tul language.") -- _t
-tDef(1900, "When used to modify unarmed attacks:") -- _t
-tDef(1904, "Learn an unarmed attack talent or enable 'Always show glove combat' to see combat stats.") -- _t
-tDef(1936, "When used to attack (with talents):") -- _t
-tDef(1939, "Learn shield attack talent or enable 'Always show shield combat' to see combat stats.") -- _t
-tDef(1952, "It is immune to teleportation, if you teleport it will fall on the ground.") -- _t
-tDef(1956, "When wielded/worn:") -- _t
-tDef(1959, "Skullcracker multiplicator: ") -- _t
-tDef(1964, "When carried:") -- _t
-tDef(1971, "Attach on item of type '#ORANGE#%s / %s#LAST#'") -- tformat
-tDef(1973, "Attach on item of type '#ORANGE#%s#LAST#'") -- tformat
-tDef(1976, "Attach on item worn on slot '#ORANGE#%s#LAST#'") -- tformat
-tDef(1979, "When attach to an other item:") -- _t
-tDef(1997, "Special effect on block: ") -- _t
-tDef(2002, "When used to imbue an object:") -- _t
-tDef(2013, "When used as an alchemist bomb:") -- _t
-tDef(2014, "Bomb damage +%d%%") -- tformat
-tDef(2015, "Bomb thrown range +%d") -- tformat
-tDef(2016, "Mana regain %d") -- tformat
-tDef(2017, "%d%% chance to daze for %d turns") -- tformat
-tDef(2018, "%d%% chance to stun for %d turns") -- tformat
-tDef(2023, "Additional %d %s damage") -- tformat
-tDef(2026, "Life regen %d%% of max life") -- tformat
-tDef(2033, "Latent Damage Type: ") -- _t
-tDef(2043, "When inscribed on your body:") -- _t
-tDef(2068, "Talent on hit(spell): %s (%d%% chance level %d).") -- tformat
-tDef(2088, "Talent on hit(nature): %s (%d%% chance level %d).") -- tformat
-tDef(2108, "Talent on hit(mindpower): %s (%d%% chance level %d).") -- tformat
-tDef(2116, "Activating this item is instant.") -- _t
-tDef(2143, "It can be used to %s, with %d charges out of %d.") -- tformat
-tDef(2145, "Talent %s") -- tformat
-tDef(2145, "all charms") -- _t
-tDef(2146, "It can be used to %s\
+tDef(599, "object") -- _t
+tDef(604, "%s, %sspecial#LAST#") -- tformat
+tDef(606, "%s, %sego#LAST#") -- tformat
+tDef(643, " crit mult (max 40%)") -- _t
+tDef(645, " crit chance (max 25%)") -- _t
+tDef(647, " base dam (max 20%)") -- _t
+tDef(649, " proc dam (max 200%)") -- _t
+tDef(651, " APR (max 50%)") -- _t
+tDef(651, "Accuracy bonus: ") -- _t
+tDef(804, "%d%% %s") -- tformat
+tDef(826, "Power: %3d%% (%s)  Range: %.1fx (%s)") -- tformat
+tDef(829, "Power: %3d%%  Range: %.1fx") -- tformat
+tDef(850, "Base power: %.1f - %.1f") -- tformat
+tDef(854, "Uses stat%s: %s") -- tformat
+tDef(856, "Damage type: ") -- _t
+tDef(871, "Armour Penetration: ") -- _t
+tDef(872, "Crit. chance: ") -- _t
+tDef(873, "Crit. power: ") -- _t
+tDef(879, "Attack speed: ") -- _t
+tDef(881, "Block value: ") -- _t
+tDef(883, "Dam. multiplier: ") -- _t
+tDef(884, "Firing range: ") -- _t
+tDef(885, "Capacity: ") -- _t
+tDef(886, "Reload speed: ") -- _t
+tDef(887, "Turns elapse between self-loadings: ") -- _t
+tDef(905, "When this weapon hits: %s (%d%% chance level %d).") -- tformat
+tDef(924, "When this weapon crits: %s (%d%% chance level %d).") -- tformat
+tDef(1021, "#YELLOW#On weapon hit:#LAST#") -- _t
+tDef(1043, "#YELLOW#On weapon crit:#LAST#") -- _t
+tDef(1051, "#YELLOW#On weapon kill:#LAST#") -- _t
+tDef(1068, "When used from stealth a simple attack with it will not break stealth.") -- _t
+tDef(1072, "Damage dealt by this weapon is increased by half your critical multiplier, if doing so would kill the target.") -- _t
+tDef(1072, "Crushing Blows: ") -- _t
+tDef(1075, "Travel speed: ") -- _t
+tDef(1077, "Damage Shield penetration (this weapon only): ") -- _t
+tDef(1079, "Lifesteal (this weapon only): ") -- _t
+tDef(1086, "Multiple attacks: ") -- _t
+tDef(1087, "Multiple attacks procs power reduction: ") -- _t
+tDef(1090, "Shots beam through all targets.") -- _t
+tDef(1111, "Damage (radius 1) on hit: ") -- _t
+tDef(1116, "Damage (radius 2) on crit: ") -- _t
+tDef(1121, "Damage conversion: ") -- _t
+tDef(1156, "[Plot Item]") -- _t
+tDef(1157, "[Cosmetic Item]") -- _t
+tDef(1159, "[Legendary]") -- _t
+tDef(1160, "[Godslayer]") -- _t
+tDef(1161, "[Random Unique]") -- _t
+tDef(1162, "[Unique]") -- _t
+tDef(1166, "Type: %s / %s") -- tformat
+tDef(1166, "unknown") -- _t
+tDef(1167, " ; tier ") -- _t
+tDef(1169, "It must be held with both hands.") -- _t
+tDef(1170, "It can be used as a weapon and offhand.") -- _t
+tDef(1189, "Mastery: ") -- _t
+tDef(1193, "Accuracy is based on willpower for this weapon.") -- _t
+tDef(1196, "Weapon Damage: ") -- _t
+tDef(1203, ", ") -- _t
+tDef(1210, "#YELLOW#It can cause special effects when it strikes in combat.#LAST#") -- _t
+tDef(1213, "#ORCHID#It can cause special effects when a melee attack is blocked.#LAST#") -- _t
+tDef(1218, "provides") -- _t
+tDef(1218, "It %s ambient light (%+d radius).") -- tformat
+tDef(1218, "dims") -- _t
+tDef(1223, "#ORANGE#It has an activatable power.#LAST#") -- _t
+tDef(1231, "It is part of a set of items.") -- _t
+tDef(1237, "The set is complete.") -- _t
+tDef(1274, "Accuracy: ") -- _t
+tDef(1275, "Armour penetration: ") -- _t
+tDef(1276, "Physical crit. chance: ") -- _t
+tDef(1277, "Physical power: ") -- _t
+tDef(1279, "Armour: ") -- _t
+tDef(1280, "Armour Hardiness: ") -- _t
+tDef(1281, "Defense: ") -- _t
+tDef(1282, "Ranged Defense: ") -- _t
+tDef(1284, "Fatigue: ") -- _t
+tDef(1286, "Ammo reloads per turn: ") -- _t
+tDef(1304, "Effects on melee hit: ") -- _t
+tDef(1336, "Damage (Melee): ") -- _t
+tDef(1342, "Effects on ranged hit: ") -- _t
+tDef(1346, "Damage (Ranged): ") -- _t
+tDef(1352, "Effects when hit in melee: ") -- _t
+tDef(1356, "Damage when hit (Melee): ") -- _t
+tDef(1386, "No left") -- log
+tDef(1387, "No right") -- log
+tDef(1452, "#YELLOW#On shield block:#LAST#") -- _t
+tDef(1459, "Changes stats: ") -- _t
+tDef(1463, "Changes resistances: ") -- _t
+tDef(1468, "Changes resistances cap: ") -- _t
+tDef(1473, "Reduce damage by fixed amount: ") -- _t
+tDef(1478, "Maximum wards: ") -- _t
+tDef(1483, "Changes resistances penetration: ") -- _t
+tDef(1488, "Changes damage: ") -- _t
+tDef(1493, "Damage against: ") -- _t
+tDef(1502, "Reduced damage from: ") -- _t
+tDef(1511, "Talent category bonus: ") -- _t
+tDef(1520, "Damage affinity(heal): ") -- _t
+tDef(1522, "all") -- _t
+tDef(1522, " %s") -- tformat
+tDef(1525, "Change telepathy range by : ") -- _t
+tDef(1551, "All") -- _t
+tDef(1568, "Grants telepathy: ") -- _t
+tDef(1596, "Talent master%s: ") -- tformat
+tDef(1596, "ies") -- _t
+tDef(1596, "y") -- _t
+tDef(1601, " / ") -- _t
+tDef(1634, "Talent%s cooldown:") -- tformat
+tDef(1639, "turn%s)") -- tformat
+tDef(1641, " turn%s)") -- tformat
+tDef(1644, " %s (%+d(-) turn%s)") -- tformat
+tDef(1668, "Talent%s granted: ") -- tformat
+tDef(1702, "Allows you to breathe in: ") -- _t
+tDef(1713, "Critical mult.: ") -- _t
+tDef(1714, "Reduces incoming crit damage: ") -- _t
+tDef(1715, "Reduces opponents crit chance: ") -- _t
+tDef(1717, "Trap disarming bonus: ") -- _t
+tDef(1718, "Stealth bonus: ") -- _t
+tDef(1719, "Maximum encumbrance: ") -- _t
+tDef(1721, "Physical save: ") -- _t
+tDef(1722, "Spell save: ") -- _t
+tDef(1723, "Mental save: ") -- _t
+tDef(1725, "Blindness immunity: ") -- _t
+tDef(1726, "Poison immunity: ") -- _t
+tDef(1727, "Disease immunity: ") -- _t
+tDef(1728, "Cut immunity: ") -- _t
+tDef(1730, "Silence immunity: ") -- _t
+tDef(1731, "Disarm immunity: ") -- _t
+tDef(1732, "Confusion immunity: ") -- _t
+tDef(1733, "Sleep immunity: ") -- _t
+tDef(1734, "Pinning immunity: ") -- _t
+tDef(1736, "Stun/Freeze immunity: ") -- _t
+tDef(1737, "Fear immunity: ") -- _t
+tDef(1738, "Knockback immunity: ") -- _t
+tDef(1739, "Instant-death immunity: ") -- _t
+tDef(1740, "Teleport immunity: ") -- _t
+tDef(1742, "Life regen: ") -- _t
+tDef(1743, "Stamina each turn: ") -- _t
+tDef(1744, "Mana each turn: ") -- _t
+tDef(1745, "Hate each turn: ") -- _t
+tDef(1746, "Psi each turn: ") -- _t
+tDef(1747, "Equilibrium each turn: ") -- _t
+tDef(1748, "Vim each turn: ") -- _t
+tDef(1749, "P.Energy each turn: ") -- _t
+tDef(1750, "N.Energy each turn: ") -- _t
+tDef(1752, "Stamina when hit: ") -- _t
+tDef(1753, "Mana when hit: ") -- _t
+tDef(1754, "Equilibrium when hit: ") -- _t
+tDef(1755, "Psi when hit: ") -- _t
+tDef(1756, "Hate when hit: ") -- _t
+tDef(1757, "Vim when hit: ") -- _t
+tDef(1759, "Vim when hitting in melee: ") -- _t
+tDef(1761, "Mana when firing critical spell: ") -- _t
+tDef(1762, "Vim when firing critical spell: ") -- _t
+tDef(1763, "Spellpower on spell critical (stacks up to 3 times): ") -- _t
+tDef(1765, "Hate when firing a critical mind attack: ") -- _t
+tDef(1766, "Psi when firing a critical mind attack: ") -- _t
+tDef(1767, "Equilibrium when firing a critical mind attack: ") -- _t
+tDef(1769, "Hate per kill: ") -- _t
+tDef(1770, "Psi per kill: ") -- _t
+tDef(1771, "Vim per kill: ") -- _t
+tDef(1773, "Only die when reaching: ") -- _t
+tDef(1773, "%+.2f life") -- _t
+tDef(1774, "Maximum life: ") -- _t
+tDef(1775, "Maximum mana: ") -- _t
+tDef(1776, "Maximum souls: ") -- _t
+tDef(1777, "Maximum stamina: ") -- _t
+tDef(1778, "Maximum hate: ") -- _t
+tDef(1779, "Maximum psi: ") -- _t
+tDef(1780, "Maximum vim: ") -- _t
+tDef(1781, "Maximum pos.energy: ") -- _t
+tDef(1782, "Maximum neg.energy: ") -- _t
+tDef(1783, "Maximum air capacity: ") -- _t
+tDef(1785, "Spellpower: ") -- _t
+tDef(1786, "Spell crit. chance: ") -- _t
+tDef(1787, "Lowers spell cool-downs by: ") -- _t
+tDef(1789, "%+d #LAST#(%+d eff.)") -- _t
+tDef(1789, "Mindpower: ") -- _t
+tDef(1790, "Mental crit. chance: ") -- _t
+tDef(1792, "Light radius: ") -- _t
+tDef(1793, "Infravision radius: ") -- _t
+tDef(1794, "Heightened senses radius: ") -- _t
+tDef(1795, "Sight radius: ") -- _t
+tDef(1797, "See stealth: ") -- _t
+tDef(1799, "See invisible: ") -- _t
+tDef(1800, "Invisibility: ") -- _t
+tDef(1802, "Global speed: ") -- _t
+tDef(1803, "Movement speed: ") -- _t
+tDef(1804, "Combat speed: ") -- _t
+tDef(1805, "Casting speed: ") -- _t
+tDef(1806, "Mental speed: ") -- _t
+tDef(1808, "Healing mod.: ") -- _t
+tDef(1809, "Heals friendly targets nearby when you use a nature summon: ") -- _t
+tDef(1811, "Life leech chance: ") -- _t
+tDef(1812, "Life leech: ") -- _t
+tDef(1814, "Resource leech chance: ") -- _t
+tDef(1815, "Resource leech: ") -- _t
+tDef(1817, "Damage Shield penetration: ") -- _t
+tDef(1819, "Deflect projectiles away: ") -- _t
+tDef(1820, "Chance to avoid attacks: ") -- _t
+tDef(1821, "Chance to avoid any damage: ") -- _t
+tDef(1823, "Defense after a teleport: ") -- _t
+tDef(1824, "Resist all after a teleport: ") -- _t
+tDef(1825, "New effects duration reduction after a teleport: ") -- _t
+tDef(1827, "Damage Resonance (when hit): ") -- _t
+tDef(1829, "Size category: ") -- _t
+tDef(1831, "Max wilder summons: ") -- _t
+tDef(1832, "Life regen bonus (wilder-summons): ") -- _t
+tDef(1834, "Damage Shield Duration: ") -- _t
+tDef(1835, "Damage Shield Power: ") -- _t
+tDef(1837, "Ice block penetration: ") -- _t
+tDef(1839, "Slows Projectiles: ") -- _t
+tDef(1841, "Bonus block near projectiles: ") -- _t
+tDef(1843, "Reduces paradox anomalies(equivalent to willpower): ") -- _t
+tDef(1845, "Damage Backlash: ") -- _t
+tDef(1847, "Reduce all damage from unseen attackers: ") -- _t
+tDef(1850, "The wearer is treated as an undead.") -- _t
+tDef(1854, "The wearer is treated as a demon.") -- _t
+tDef(1858, "The wearer is blinded.") -- _t
+tDef(1862, "The wearer is asleep.") -- _t
+tDef(1866, "This item allows the wearer to attack unseen targets without any penalties.") -- _t
+tDef(1866, "Blind-Fight: ") -- _t
+tDef(1870, "This item allows the wearer to act while sleeping.") -- _t
+tDef(1870, "Lucid Dreamer: ") -- _t
+tDef(1874, "The wearer no longer has to breathe.") -- _t
+tDef(1878, "Quick Weapon Swap:") -- _t
+tDef(1878, "This item allows the wearer to swap to their secondary weapon without spending a turn.") -- _t
+tDef(1882, "Avoid Pressure Traps: ") -- _t
+tDef(1882, "The wearer never triggers traps that require pressure.") -- _t
+tDef(1886, "Allows you to speak and read the old Sher'Tul language.") -- _t
+tDef(1904, "When used to modify unarmed attacks:") -- _t
+tDef(1908, "Learn an unarmed attack talent or enable 'Always show glove combat' to see combat stats.") -- _t
+tDef(1940, "When used to attack (with talents):") -- _t
+tDef(1943, "Learn shield attack talent or enable 'Always show shield combat' to see combat stats.") -- _t
+tDef(1956, "It is immune to teleportation, if you teleport it will fall on the ground.") -- _t
+tDef(1960, "When wielded/worn:") -- _t
+tDef(1963, "Skullcracker multiplicator: ") -- _t
+tDef(1968, "When carried:") -- _t
+tDef(1975, "Attach on item of type '#ORANGE#%s / %s#LAST#'") -- tformat
+tDef(1977, "Attach on item of type '#ORANGE#%s#LAST#'") -- tformat
+tDef(1980, "Attach on item worn on slot '#ORANGE#%s#LAST#'") -- tformat
+tDef(1983, "When attach to an other item:") -- _t
+tDef(2001, "Special effect on block: ") -- _t
+tDef(2006, "When used to imbue an object:") -- _t
+tDef(2017, "When used as an alchemist bomb:") -- _t
+tDef(2018, "Bomb damage +%d%%") -- tformat
+tDef(2019, "Bomb thrown range +%d") -- tformat
+tDef(2020, "Mana regain %d") -- tformat
+tDef(2021, "%d%% chance to daze for %d turns") -- tformat
+tDef(2022, "%d%% chance to stun for %d turns") -- tformat
+tDef(2027, "Additional %d %s damage") -- tformat
+tDef(2030, "Life regen %d%% of max life") -- tformat
+tDef(2037, "Latent Damage Type: ") -- _t
+tDef(2047, "When inscribed on your body:") -- _t
+tDef(2072, "Talent on hit(spell): %s (%d%% chance level %d).") -- tformat
+tDef(2092, "Talent on hit(nature): %s (%d%% chance level %d).") -- tformat
+tDef(2112, "Talent on hit(mindpower): %s (%d%% chance level %d).") -- tformat
+tDef(2120, "Activating this item is instant.") -- _t
+tDef(2147, "It can be used to %s, with %d charges out of %d.") -- tformat
+tDef(2149, "Talent %s") -- tformat
+tDef(2149, "all charms") -- _t
+tDef(2150, "It can be used to %s\
 \
 Activation puts %s on cooldown for %d turns.") -- tformat
-tDef(2148, "It can be used to %s\
+tDef(2152, "It can be used to %s\
 \
 Activation costs %d power out of %d/%d.") -- tformat
-tDef(2151, "It can be used to %s.") -- tformat
-tDef(2155, "%d out of %d/%d.") -- tformat
-tDef(2155, "Power cost: ") -- _t
-tDef(2157, "It can be used to activate talent %s, placing all other charms into a %s cooldown :") -- tformat
-tDef(2159, "It can be used to activate talent %s (costing %s power out of %s/%s) :") -- tformat
-tDef(2166, "When used:") -- _t
-tDef(2171, "%s%% chance to %s") -- tformat
-tDef(2187, "Newly picked up") -- _t
-tDef(2190, "This item will automatically be transmogrified when you leave the level.") -- _t
-tDef(2205, "Powered by #VIOLET#arcane forces#LAST#") -- _t
-tDef(2206, "Infused by #OLIVE_DRAB#nature#LAST#") -- _t
-tDef(2207, "Infused by #ORCHID#arcane disrupting forces#LAST#") -- _t
-tDef(2208, "Crafted by #LIGHT_UMBER#a master#LAST#") -- _t
-tDef(2209, "Infused by #YELLOW#psionic forces#LAST#") -- _t
-tDef(2210, "Powered by #CRIMSON#unknown forces#LAST#") -- _t
-tDef(2215, "%0.2f Encumbrance.") -- tformat
-tDef(2238, "This object's appearance was changed to %s") -- tformat
-tDef(2240, ".") -- _t
-tDef(2243, "Press <control> to compare") -- _t
+tDef(2155, "It can be used to %s.") -- tformat
+tDef(2159, "%d out of %d/%d.") -- tformat
+tDef(2159, "Power cost: ") -- _t
+tDef(2161, "It can be used to activate talent %s, placing all other charms into a %s cooldown :") -- tformat
+tDef(2163, "It can be used to activate talent %s (costing %s power out of %s/%s) :") -- tformat
+tDef(2170, "When used:") -- _t
+tDef(2175, "%s%% chance to %s") -- tformat
+tDef(2191, "Newly picked up") -- _t
+tDef(2194, "This item will automatically be transmogrified when you leave the level.") -- _t
+tDef(2211, "Powered by #VIOLET#arcane forces#LAST#\
+") -- _t
+tDef(2212, "Infused by #OLIVE_DRAB#nature#LAST#\
+") -- _t
+tDef(2213, "Infused by #ORCHID#arcane disrupting forces#LAST#\
+") -- _t
+tDef(2214, "Crafted by #LIGHT_UMBER#a master#LAST#\
+") -- _t
+tDef(2215, "Infused by #YELLOW#psionic forces#LAST#\
+") -- _t
+tDef(2216, "Powered by #CRIMSON#unknown forces#LAST#\
+") -- _t
+tDef(2222, "%0.2f Encumbrance.") -- tformat
+tDef(2246, "This object's appearance was changed to %s") -- tformat
+tDef(2248, ".") -- _t
+tDef(2251, "Press <control> to compare") -- _t
 
 
 ------------------------------------------------
@@ -2425,6 +2508,7 @@ tDef(317, "#FF0000#Drop some of your items.") -- logPlayer
 tDef(368, "#PINK#Your summoned %s disappears.") -- logPlayer
 tDef(418, "") -- log
 tDef(754, "taken damage") -- _t
+tDef(758, "LOW HEALTH!") -- _t
 tDef(778, "detrimental status effect") -- _t
 tDef(795, "died") -- _t
 tDef(807, "suffocating") -- _t
@@ -2432,9 +2516,9 @@ tDef(815, "chat started") -- _t
 tDef(829, "%s available") -- tformat
 tDef(830, "#00ff00#%sTalent %s is ready to use.") -- log
 tDef(935, "Automatic use of talent %s #DARK_RED#skipped#LAST#: cooldown too low (%d).") -- logPlayer
-tDef(1002, "dialog is displayed") -- _t
 tDef(1037, "losing health!") -- _t
 tDef(1133, "all resources and life at maximum") -- _t
+tDef(1166, "dialog is displayed") -- _t
 tDef(1172, "hostile spotted to the %s (%s%s)") -- tformat
 tDef(1175, "talent prevented") -- _t
 tDef(1177, "losing breath!") -- _t
@@ -2454,8 +2538,8 @@ tDef(1409, "Your antimagic disrupts %s.") -- logPlayer
 tDef(1424, "You have no more %s.") -- log
 tDef(1426, "You have %s.") -- log
 tDef(1441, "Use object") -- _t
-tDef(1545, "You can not use the Orb with foes watching (#Target# to the %s%s)") -- logCombat
 tDef(1545, " - offscreen") -- _t
+tDef(1545, "You can not use the Orb with foes watching (#Target# to the %s%s)") -- logCombat
 tDef(1590, "This does not seem to have any effect.") -- logPlayer
 tDef(1600, "You use the %s on the pedestal. There is a distant 'clonk' sound.") -- logPlayer
 tDef(1623, "#LIGHT_RED#%s briefly catches sight of you!") -- logPlayer
@@ -2520,23 +2604,25 @@ tDef(147, "#YELLOW# Disarm: %d#WHITE#") -- tformat
 tDef(208, "You set off the trap!") -- _t
 tDef(214, "You successfully dismantled the trap.") -- _t
 tDef(218, "You were interrupted.") -- _t
+tDef(226, "dismantled") -- _t
+tDef(226, "Dismantling") -- _t
 tDef(231, "Your level of skill was not enough to understand the workings of this trap.") -- _t
 tDef(233, "You quit dismantling the trap.") -- _t
-tDef(239, "Failure") -- _t
-tDef(239, "#LIGHT_BLUE#%s: %s#LAST#") -- logPlayer
 tDef(239, "Success") -- _t
+tDef(239, "#LIGHT_BLUE#%s: %s#LAST#") -- logPlayer
+tDef(239, "Failure") -- _t
 tDef(250, "Disarming a trap: %s") -- tformat
-tDef(261, "Dismantle Carefully") -- _t
 tDef(261, "Disarm Normally") -- _t
+tDef(261, "Dismantle Carefully") -- _t
 tDef(272, "ignore") -- _t
 tDef(274, "simply ignore") -- _t
 tDef(276, "carefully avoid") -- _t
 tDef(278, "somehow avoid") -- _t
 tDef(280, "dodge") -- _t
 tDef(288, "#CADET_BLUE#You %s a trap (%s).") -- log
+tDef(290, "#CADET_BLUE#%s %ss %s.") -- logSeen
 tDef(290, "something on the floor") -- _t
 tDef(290, "a trap (%s)") -- tformat
-tDef(290, "#CADET_BLUE#%s %ss %s.") -- logSeen
 tDef(303, "trap") -- _t
 
 
@@ -2546,13 +2632,14 @@ section "game/modules/tome/class/UserChatExtension.lua"
 tDef(78, "#ANTIQUE_WHITE#has linked an item: #WHITE# %s") -- tformat
 tDef(80, "#ANTIQUE_WHITE#has linked a creature: #WHITE# %s") -- tformat
 tDef(82, "#ANTIQUE_WHITE#has linked a talent: #WHITE# %s") -- tformat
-tDef(84, "#CRIMSON#%s#WHITE#%s") -- tformat
+tDef(84, "#CRIMSON#%s#WHITE#") -- tformat
 tDef(93, "SHAKING") -- log
 
 
 ------------------------------------------------
 section "game/modules/tome/class/World.lua"
 
+tDef(44, "%s the %s %s level %s") -- tformat
 tDef(117, "#LIGHT_BLUE#New shimmer option unlocked: #{italic}#%s#{normal}#") -- log
 
 
@@ -2600,6 +2687,7 @@ tDef(476, "Congratulations!") -- _t
 tDef(482, "%s the %s") -- tformat
 tDef(482, "%s the Master of Arena") -- tformat
 tDef(483, "#LIGHT_RED#WARNING! %s, the master of the arena, appears!!!") -- log
+tDef(529, "OVERKILL") -- _t
 tDef(530, "#LIGHT_GREEN#Your powerful attack completely obliterates #WHITE#%s#LIGHT_GREEN#!") -- log
 tDef(535, "#LIGHT_GREEN#You destroy #WHITE#%s#LIGHT_GREEN# in a single blow!") -- log
 tDef(543, "#LIGHT_GREEN#Your score multiplier increases by #WHITE#%d#LIGHT_GREEN#!") -- log
@@ -2645,6 +2733,7 @@ tDef(155, "Your %s is depleted!") -- logPlayer
 ------------------------------------------------
 section "game/modules/tome/class/interface/ActorObjectUse.lua"
 
+tDef(135, "Activate an object") -- _t
 tDef(137, "Activate: %s") -- tformat
 tDef(213, "%s activates %s %s!") -- logSeen
 tDef(217, "%s") -- logSeen
@@ -2666,6 +2755,7 @@ tDef(134, "#ORCHID#Your %s CANNOT SHOOT (Resource: %s%s#LAST#).") -- logPlayer
 tDef(171, "#ORCHID#Target out of range.  Hold <ctrl> to force all weapons to fire at targets out of ranges (%d - %d).") -- logPlayer
 tDef(173, "#ORCHID#Target out of range.  Hold <ctrl> to force your weapon to fire at targets beyond its range (%d).") -- logPlayer
 tDef(239, "#ORCHID#You COULD NOT SHOOT your %s (Resource: %s%s#LAST#).") -- logPlayer
+tDef(330, "%s(%d parried#LAST#)") -- tformat
 tDef(399, "#{bold}##Source# performs a ranged critical strike against #Target#!#{normal}#") -- logCombat
 tDef(450, "#Source# misses #target#.") -- logCombat
 tDef(613, "The shattering blow creates a shockwave!") -- logSeen
@@ -2684,6 +2774,7 @@ tDef(477, "#ORCHID#%s parries the attack with %s dual weapons!#LAST#") -- logSee
 tDef(489, "#ORCHID#%s instinctively hardens %s skin and ignores the attack!#LAST#") -- logSeen
 tDef(495, "#Target# repels an attack from #Source#.") -- logCombat
 tDef(498, "#Target# evades #Source#.") -- logCombat
+tDef(519, "%s(%d parried#LAST#)") -- tformat
 tDef(577, "#{bold}##Source# performs a melee critical strike against #Target#!#{normal}#") -- logCombat
 tDef(628, "#Source# misses #Target#.") -- logCombat
 tDef(794, "The shattering blow creates a shockwave!") -- logSeen
@@ -3193,37 +3284,48 @@ The use of spells or arcane-powered equipment is impossible.\
 ------------------------------------------------
 section "game/modules/tome/class/interface/WorldAchievements.lua"
 
-tDef(59, "%s (Roguelike)") -- tformat
-tDef(68, "%s (Exploration mode)") -- tformat
-tDef(80, "%s (Nightmare (Adventure) difficulty)") -- tformat
-tDef(89, "%s (Nightmare (Roguelike) difficulty)") -- tformat
-tDef(99, "%s (Insane (Adventure) difficulty)") -- tformat
-tDef(108, "%s (Insane (Roguelike) difficulty)") -- tformat
-tDef(118, "%s (Madness (Adventure) difficulty)") -- tformat
-tDef(127, "%s (Madness (Roguelike) difficulty)") -- tformat
+tDef(48, "Maj'Eyal") -- _t
+tDef(60, "%s (Roguelike)") -- tformat
+tDef(69, "%s (Exploration mode)") -- tformat
+tDef(81, "%s (Nightmare (Adventure) difficulty)") -- tformat
+tDef(90, "%s (Nightmare (Roguelike) difficulty)") -- tformat
+tDef(100, "%s (Insane (Adventure) difficulty)") -- tformat
+tDef(109, "%s (Insane (Roguelike) difficulty)") -- tformat
+tDef(119, "%s (Madness (Adventure) difficulty)") -- tformat
+tDef(128, "%s (Madness (Roguelike) difficulty)") -- tformat
 
 
 ------------------------------------------------
 section "game/modules/tome/class/uiset/Classic.lua"
 
-tDef(262, "Displaying talents (#{bold}##GOLD#%s#LAST##{normal}#)\
+tDef(254, "Displaying talents (#{bold}##GOLD#%s#LAST##{normal}#)\
 Toggle for creature display") -- tformat
-tDef(264, "Displaying creatures (#{bold}##GOLD#%s#LAST##{normal}#)\
+tDef(256, "Displaying creatures (#{bold}##GOLD#%s#LAST##{normal}#)\
 Toggle for talent display#") -- tformat
-tDef(271, "#{bold}##GOLD#I#LAST##{normal}#nventory") -- _t
-tDef(273, "Inventory (#{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
-tDef(280, "#{bold}##GOLD#C#LAST##{normal}#haracter Sheet") -- _t
-tDef(282, "Character Sheet (#{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
-tDef(288, "Main menu (#{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
-tDef(293, "Show message/chat log (#{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
-tDef(299, "Movement: #LIGHT_GREEN#Default#LAST# (#{bold}##GOLD#%s#LAST##{normal}#)\
+tDef(263, "#{bold}##GOLD#I#LAST##{normal}#nventory") -- _t
+tDef(265, "Inventory (#{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
+tDef(272, "#{bold}##GOLD#C#LAST##{normal}#haracter Sheet") -- _t
+tDef(274, "Character Sheet (#{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
+tDef(280, "Main menu (#{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
+tDef(285, "Show message/chat log (#{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
+tDef(291, "Movement: #LIGHT_GREEN#Default#LAST# (#{bold}##GOLD#%s#LAST##{normal}#)\
 Toggle for passive mode") -- tformat
-tDef(301, "Movement: #LIGHT_RED#Passive#LAST# (#{bold}##GOLD#%s#LAST##{normal}#)\
+tDef(293, "Movement: #LIGHT_RED#Passive#LAST# (#{bold}##GOLD#%s#LAST##{normal}#)\
 Toggle for default mode") -- tformat
-tDef(312, "Cosmetics & Events shop (#{bold}##GOLD#%s#LAST##{normal}#, #{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
-tDef(372, "Right click to configure") -- _t
-tDef(372, "Left click to use") -- _t
-tDef(372, "Press 'm' to setup") -- _t
+tDef(304, "Cosmetics & Events shop (#{bold}##GOLD#%s#LAST##{normal}#, #{bold}##GOLD#%s#LAST##{normal}#)") -- tformat
+tDef(364, "Right click to configure") -- _t
+tDef(364, "Press 'm' to setup") -- _t
+tDef(364, "Left click to use") -- _t
+tDef(373, "Remove this object from your hotkeys?") -- _t
+tDef(373, "Unbind %s") -- tformat
+tDef(410, "Developer") -- _t
+tDef(411, "Moderator / Helper") -- _t
+tDef(412, "Donator") -- _t
+tDef(413, "Recurring Donator") -- _t
+tDef(416, "Playing: ") -- _t
+tDef(417, "Game: ") -- _t
+tDef(421, "Linked by: ") -- _t
+tDef(427, "Show chat user") -- _t
 
 
 ------------------------------------------------
@@ -3304,9 +3406,9 @@ tDef(316, "Hotkeys") -- _t
 tDef(317, "Game Actions") -- _t
 tDef(352, "#CRIMSON#Interface locked, mouse enabled on the map") -- _t
 tDef(354, "#CRIMSON#Interface unlocked, mouse disabled on the map") -- _t
+tDef(360, "Reset UI") -- _t
 tDef(360, "Reset all the interface?") -- _t
 tDef(360, "Reset interface positions") -- _t
-tDef(360, "Reset UI") -- _t
 tDef(581, "%s\
 ---\
 Left mouse drag&drop to move the frame\
@@ -3335,6 +3437,12 @@ tDef(1153, "#{bold}##GOLD#%s\
 tDef(1155, "\
 ---\
 Right click to cancel early.") -- _t
+tDef(1415, "#GOLD##{bold}#%s\
+#WHITE##{normal}#Life: %d%%\
+Level: %d\
+%s") -- tformat
+tDef(1417, "\
+Turns remaining: %s") -- tformat
 tDef(1591, "Toggle for movement mode.\
 Default: when trying to move onto a creature it will attack if hostile.\
 Passive: when trying to move onto a creature it will not attack (use ctrl+direction, or right click to attack manually)") -- _t
@@ -3344,15 +3452,18 @@ tDef(1603, "Show available cosmetic & fun microtransation") -- _t
 tDef(1649, "Left mouse to move\
 Right mouse to scroll\
 Middle mouse to show full map") -- _t
-tDef(1810, "Press 'm' to setup") -- _t
 tDef(1810, "Left click to use") -- _t
+tDef(1810, "Press 'm' to setup") -- _t
 tDef(1810, "Right click to configure") -- _t
+tDef(1819, "Unbind %s") -- tformat
+tDef(1819, "Remove this object from your hotkeys?") -- _t
 tDef(1858, "Left mouse to show inventory\
 Right mouse to show ingredients") -- _t
 tDef(1872, "Left mouse to show known talents") -- _t
 tDef(1885, "Left mouse to show message/chat log.") -- _t
 tDef(1898, "Left mouse to show quest log.\
 Right mouse to show all known lore.") -- _t
+tDef(1900, "Tales of Maj'Eyal Lore") -- _t
 tDef(1912, "Left mouse to show main menu") -- _t
 tDef(1926, "Lock all interface elements so they can not be moved nor resized.") -- _t
 tDef(1926, "Unlock all interface elements so they can be moved and resized.") -- _t
@@ -3866,6 +3977,8 @@ tDef(65, "Their most important stats are: Magic and Constitution") -- _t
 tDef(67, "#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +3 Constitution") -- _t
 tDef(68, "#LIGHT_BLUE# * +5 Magic, +1 Willpower, +0 Cunning") -- _t
 tDef(69, "#GOLD#Life per level:#LIGHT_BLUE# -1") -- _t
+tDef(132, "Golem") -- birth facial category
+tDef(134, "Golem becomes a Drolem") -- _t
 tDef(141, "Archmage") -- birth descriptor name
 tDef(143, "Hated, harrowed, hunted, hidden... Our ways are forbidden, but our cause is just. In our veiled valley we find solace from the world's wrath, free to study our arts. Only through charity and friendship can you earn our trust.") -- _t
 tDef(145, "An Archmage devotes his whole life to the study of magic above anything else.") -- _t
@@ -4137,6 +4250,36 @@ tDef(52, "#LIGHT_BLUE# * +3 Strength, -2 Dexterity, +3 Constitution") -- _t
 tDef(53, "#LIGHT_BLUE# * +2 Magic, +2 Willpower, -5 Cunning") -- _t
 tDef(54, "#GOLD#Life per level:#LIGHT_BLUE# 13") -- _t
 tDef(55, "#GOLD#Experience penalty:#LIGHT_BLUE# 25%") -- _t
+tDef(114, "Skin") -- birth facial category
+tDef(114, "Tatoos") -- birth facial category
+tDef(114, "Hairs") -- birth facial category
+tDef(114, "Special") -- birth facial category
+tDef(114, "Facial features") -- birth facial category
+tDef(116, "Skin Color 1") -- _t
+tDef(117, "Skin Color 2") -- _t
+tDef(118, "Skin Color 3") -- _t
+tDef(119, "Skin Color 4") -- _t
+tDef(120, "Skin Color 5") -- _t
+tDef(123, "Face 1") -- _t
+tDef(124, "Face 2") -- _t
+tDef(125, "Face 3") -- _t
+tDef(128, "Mustache 1") -- _t
+tDef(129, "Mustache 2") -- _t
+tDef(130, "Mustache 3") -- _t
+tDef(131, "Mustache 4") -- _t
+tDef(132, "Mustache 5") -- _t
+tDef(133, "Mustache 6") -- _t
+tDef(134, "Mustache 7") -- _t
+tDef(135, "Mustache 8") -- _t
+tDef(136, "Mustache 9") -- _t
+tDef(139, "Tatoos 1") -- _t
+tDef(140, "Tatoos 2") -- _t
+tDef(141, "Tatoos 3") -- _t
+tDef(142, "Tatoos 4") -- _t
+tDef(143, "Tatoos 5") -- _t
+tDef(144, "Tatoos 6") -- _t
+tDef(145, "Tatoos 7") -- _t
+tDef(148, "Bikini / Mankini") -- _t
 
 
 ------------------------------------------------
@@ -4152,6 +4295,92 @@ tDef(65, "#LIGHT_BLUE# * +4 Strength, -2 Dexterity, +3 Constitution") -- _t
 tDef(66, "#LIGHT_BLUE# * -2 Magic, +3 Willpower, +0 Cunning") -- _t
 tDef(67, "#GOLD#Life per level:#LIGHT_BLUE# 14") -- _t
 tDef(68, "#GOLD#Experience penalty:#LIGHT_BLUE# 0%") -- _t
+tDef(87, "Hairs") -- birth facial category
+tDef(87, "Facial features") -- birth facial category
+tDef(87, "Skin") -- birth facial category
+tDef(87, "Special") -- birth facial category
+tDef(89, "Skin Color 1") -- _t
+tDef(90, "Skin Color 2") -- _t
+tDef(91, "Skin Color 3") -- _t
+tDef(92, "Skin Color 4") -- _t
+tDef(93, "Skin Color 5") -- _t
+tDef(94, "Skin Color 6") -- _t
+tDef(95, "Skin Color 7") -- _t
+tDef(96, "Skin Color 8") -- _t
+tDef(97, "Skin Color 9") -- _t
+tDef(100, "Dark Hair 1") -- _t
+tDef(101, "Dark Hair 2") -- _t
+tDef(102, "Dark Hair 3") -- _t
+tDef(103, "Dark Hair 4") -- _t
+tDef(104, "Dark Hair 5") -- _t
+tDef(105, "Dark Hair 6") -- _t
+tDef(106, "Dark Hair 7") -- _t
+tDef(107, "Dark Hair 8") -- _t
+tDef(108, "Dark Hair 9") -- _t
+tDef(109, "Dark Hair 10") -- _t
+tDef(110, "Blond Hair 1") -- _t
+tDef(111, "Blond Hair 2") -- _t
+tDef(112, "Blond Hair 3") -- _t
+tDef(113, "Blond Hair 4") -- _t
+tDef(114, "Blond Hair 5") -- _t
+tDef(115, "Blond Hair 6") -- _t
+tDef(116, "Blond Hair 7") -- _t
+tDef(117, "Blond Hair 8") -- _t
+tDef(118, "Blond Hair 9") -- _t
+tDef(119, "Blond Hair 10") -- _t
+tDef(120, "Redhead Hair 1") -- _t
+tDef(121, "Redhead Hair 2") -- _t
+tDef(122, "Redhead Hair 3") -- _t
+tDef(123, "Redhead Hair 4") -- _t
+tDef(124, "Redhead Hair 5") -- _t
+tDef(125, "Redhead Hair 6") -- _t
+tDef(126, "Redhead Hair 7") -- _t
+tDef(127, "Redhead Hair 8") -- _t
+tDef(128, "Redhead Hair 9") -- _t
+tDef(129, "Redhead Hair 10") -- _t
+tDef(132, "Dark Beard 1") -- _t
+tDef(133, "Dark Beard 2") -- _t
+tDef(134, "Dark Beard 3") -- _t
+tDef(135, "Dark Beard 4") -- _t
+tDef(136, "Dark Beard 5") -- _t
+tDef(137, "Blond Beard 1") -- _t
+tDef(138, "Blond Beard 2") -- _t
+tDef(139, "Blond Beard 3") -- _t
+tDef(140, "Blond Beard 4") -- _t
+tDef(141, "Blond Beard 5") -- _t
+tDef(142, "Redhead Beard 1") -- _t
+tDef(143, "Redhead Beard 2") -- _t
+tDef(144, "Redhead Beard 3") -- _t
+tDef(145, "Redhead Beard 4") -- _t
+tDef(146, "Redhead Beard 5") -- _t
+tDef(147, "Dark Mustache 1") -- _t
+tDef(148, "Dark Mustache 2") -- _t
+tDef(149, "Dark Mustache 3") -- _t
+tDef(150, "Dark Mustache 4") -- _t
+tDef(151, "Blond Mustache 1") -- _t
+tDef(152, "Blond Mustache 2") -- _t
+tDef(153, "Blond Mustache 3") -- _t
+tDef(154, "Blond Mustache 4") -- _t
+tDef(155, "Redhead Mustache 1") -- _t
+tDef(156, "Redhead Mustache 2") -- _t
+tDef(157, "Redhead Mustache 3") -- _t
+tDef(158, "Redhead Mustache 4") -- _t
+tDef(159, "Dark Beard") -- _t
+tDef(160, "Blond Beard") -- _t
+tDef(161, "Redhead Beard") -- _t
+tDef(162, "Dark Donut") -- _t
+tDef(163, "Blond Donut") -- _t
+tDef(164, "Redhead Donut") -- _t
+tDef(165, "Dark Flip") -- _t
+tDef(166, "Blond Flip") -- _t
+tDef(167, "Redhead Flip") -- _t
+tDef(168, "Dark Mustache") -- _t
+tDef(169, "Blond Mustache") -- _t
+tDef(170, "Redhead Mustache") -- _t
+tDef(171, "Dark Sideburns") -- _t
+tDef(172, "Blond Sideburns") -- _t
+tDef(173, "Redhead Sideburns") -- _t
+tDef(176, "Bikini / Mankini") -- _t
 
 
 ------------------------------------------------
@@ -4162,6 +4391,32 @@ tDef(26, "The elven races are usually named as a whole 'elves', but this is inco
 tDef(27, "Elves are split into three separate races - albeit related - of which only two remain in the current age.") -- _t
 tDef(28, "Elves usually live about one thousand years, except for the Shaloren who magically sustain themselves forever.") -- _t
 tDef(29, "Their view of the world varies wildly across the different elven races.") -- _t
+tDef(56, "Hairs") -- birth facial category
+tDef(56, "Skin") -- birth facial category
+tDef(56, "Special") -- birth facial category
+tDef(58, "Skin Color 1") -- _t
+tDef(59, "Skin Color 2") -- _t
+tDef(60, "Skin Color 3") -- _t
+tDef(61, "Skin Color 4") -- _t
+tDef(62, "Skin Color 5") -- _t
+tDef(63, "Skin Color 6") -- _t
+tDef(64, "Skin Color 7") -- _t
+tDef(65, "Skin Color 8") -- _t
+tDef(66, "Skin Color 9") -- _t
+tDef(70, "Dark Hair 2") -- _t
+tDef(71, "Dark Hair 3") -- _t
+tDef(72, "Dark Hair 4") -- _t
+tDef(73, "Dark Hair 5") -- _t
+tDef(75, "Blond Hair 2") -- _t
+tDef(76, "Blond Hair 3") -- _t
+tDef(77, "Blond Hair 4") -- _t
+tDef(78, "Blond Hair 5") -- _t
+tDef(79, "Redhead Hair 1") -- _t
+tDef(80, "Redhead Hair 2") -- _t
+tDef(81, "Redhead Hair 3") -- _t
+tDef(82, "Redhead Hair 4") -- _t
+tDef(83, "Redhead Hair 5") -- _t
+tDef(86, "Bikini / Mankini") -- _t
 tDef(100, "Shalore") -- birth descriptor name
 tDef(102, "Shaloren elves have close ties with the magic of the world, and produced in the past many great mages.") -- _t
 tDef(103, "Yet they remain quiet and try to hide their magic from the world, for they remember too well the Spellblaze - and the Spellhunt that followed.") -- _t
@@ -4170,6 +4425,7 @@ tDef(106, "#LIGHT_BLUE# * -2 Strength, +1 Dexterity, +0 Constitution") -- _t
 tDef(107, "#LIGHT_BLUE# * +2 Magic, +3 Willpower, +1 Cunning") -- _t
 tDef(108, "#GOLD#Life per level:#LIGHT_BLUE# 9") -- _t
 tDef(109, "#GOLD#Experience penalty:#LIGHT_BLUE# 12%") -- _t
+tDef(115, "Blond Hair 1") -- _t
 tDef(138, "Thalore") -- birth descriptor name
 tDef(140, "Thaloren elves have spent most of the ages hidden within their forests, seldom leaving them.") -- _t
 tDef(141, "The ages of the world passed by and yet they remained unchanged.") -- _t
@@ -4180,6 +4436,7 @@ tDef(145, "#LIGHT_BLUE# * +2 Strength, +3 Dexterity, +1 Constitution") -- _t
 tDef(146, "#LIGHT_BLUE# * -2 Magic, +1 Willpower, +0 Cunning") -- _t
 tDef(147, "#GOLD#Life per level:#LIGHT_BLUE# 11") -- _t
 tDef(148, "#GOLD#Experience penalty:#LIGHT_BLUE# 0%") -- _t
+tDef(153, "Dark Hair 1") -- _t
 
 
 ------------------------------------------------
@@ -4204,12 +4461,88 @@ tDef(63, "#LIGHT_BLUE# * +3 Strength, -1 Dexterity, +0 Constitution") -- _t
 tDef(64, "#LIGHT_BLUE# * +2 Magic, -2 Willpower, +2 Cunning") -- _t
 tDef(65, "#GOLD#Life per level:#LIGHT_BLUE# 13") -- _t
 tDef(66, "#GOLD#Experience penalty:#LIGHT_BLUE# 15%") -- _t
+tDef(92, "Hairs") -- birth facial category
+tDef(92, "Special") -- birth facial category
+tDef(92, "Facial features") -- birth facial category
+tDef(92, "Skin") -- birth facial category
+tDef(92, "Tatoos") -- birth facial category
+tDef(94, "Skin Color 1") -- _t
+tDef(95, "Skin Color 2") -- _t
+tDef(96, "Skin Color 3") -- _t
+tDef(97, "Skin Color 4") -- _t
+tDef(98, "Skin Color 5") -- _t
+tDef(99, "Skin Color 6") -- _t
+tDef(100, "Skin Color 7") -- _t
+tDef(101, "Skin Color 8") -- _t
+tDef(102, "Skin Color 9") -- _t
+tDef(105, "Dark Hair 1") -- _t
+tDef(106, "Dark Hair 2") -- _t
+tDef(107, "Dark Hair 3") -- _t
+tDef(108, "Dark Hair 4") -- _t
+tDef(109, "Dark Hair 5") -- _t
+tDef(110, "Dark Hair 6") -- _t
+tDef(111, "Dark Hair 7") -- _t
+tDef(112, "Dark Hair 8") -- _t
+tDef(113, "Dark Hair 9") -- _t
+tDef(114, "Blond Hair 1") -- _t
+tDef(115, "Blond Hair 2") -- _t
+tDef(116, "Blond Hair 3") -- _t
+tDef(117, "Blond Hair 4") -- _t
+tDef(118, "Blond Hair 5") -- _t
+tDef(119, "Blond Hair 6") -- _t
+tDef(120, "Blond Hair 7") -- _t
+tDef(121, "Blond Hair 8") -- _t
+tDef(122, "Blond Hair 9") -- _t
+tDef(123, "Redhead Hair 1") -- _t
+tDef(124, "Redhead Hair 2") -- _t
+tDef(125, "Redhead Hair 3") -- _t
+tDef(126, "Redhead Hair 4") -- _t
+tDef(127, "Redhead Hair 5") -- _t
+tDef(128, "Redhead Hair 6") -- _t
+tDef(129, "Redhead Hair 7") -- _t
+tDef(130, "Redhead Hair 8") -- _t
+tDef(131, "Redhead Hair 9") -- _t
+tDef(134, "Facial Infusions 1") -- _t
+tDef(135, "Facial Infusions 2") -- _t
+tDef(136, "Facial Runes 1") -- _t
+tDef(137, "Facial Runes 2") -- _t
+tDef(138, "Facial Runes 3") -- _t
+tDef(139, "Facial Runes 4") -- _t
+tDef(142, "Body Tatoos 1") -- _t
+tDef(143, "Body Tatoos 2") -- _t
+tDef(144, "Body Tatoos 3") -- _t
+tDef(145, "Body Tatoos 4") -- _t
+tDef(146, "Body Tatoos 5") -- _t
+tDef(147, "Body Tatoos 6") -- _t
+tDef(148, "Body Tatoos 7") -- _t
+tDef(149, "Body Tatoos 8") -- _t
+tDef(152, "Bikini / Mankini") -- _t
 
 
 ------------------------------------------------
 section "game/modules/tome/data/birth/races/halfling.lua"
 
 tDef(29, "Halflings are agile, lucky, and resilient but lacking in strength.") -- _t
+tDef(59, "Special") -- birth facial category
+tDef(59, "Hairs") -- birth facial category
+tDef(59, "Skin") -- birth facial category
+tDef(61, "Skin Color 1") -- _t
+tDef(62, "Skin Color 2") -- _t
+tDef(63, "Skin Color 3") -- _t
+tDef(64, "Skin Color 4") -- _t
+tDef(65, "Skin Color 5") -- _t
+tDef(66, "Skin Color 6") -- _t
+tDef(70, "Blond Hair 2") -- _t
+tDef(71, "Blond Hair 3") -- _t
+tDef(72, "Blond Hair 4") -- _t
+tDef(74, "Dark Hair 2") -- _t
+tDef(75, "Dark Hair 3") -- _t
+tDef(76, "Dark Hair 4") -- _t
+tDef(77, "Redhead 1") -- _t
+tDef(78, "Redhead 2") -- _t
+tDef(79, "Redhead 3") -- _t
+tDef(80, "Redhead 4") -- _t
+tDef(83, "Bikini / Mankini") -- _t
 tDef(97, "Halfling") -- birth descriptor name
 tDef(99, "Halflings are a race of very short stature, rarely exceeding four feet in height.") -- _t
 tDef(100, "They are like humans in that they can do just about anything they set their minds to, yet they excel at ordering and studying things.") -- _t
@@ -4221,6 +4554,8 @@ tDef(105, "#LIGHT_BLUE# * +0 Magic, +0 Willpower, +3 Cunning") -- _t
 tDef(106, "#LIGHT_BLUE# * +5 Luck") -- _t
 tDef(107, "#GOLD#Life per level:#LIGHT_BLUE# 12") -- _t
 tDef(108, "#GOLD#Experience penalty:#LIGHT_BLUE# 10%") -- _t
+tDef(116, "Blond Hair 1") -- _t
+tDef(116, "Dark Hair 1") -- _t
 
 
 ------------------------------------------------
@@ -4231,6 +4566,56 @@ tDef(26, "The Humans are one of the main races on Maj'Eyal, along with the Halfl
 tDef(27, "Humans of these Allied Kingdoms have known peace for over a century now.") -- _t
 tDef(28, "Humans are split into two categories: the Highers, and the rest. Highers have latent magic in their blood which gives them higher attributes and senses along with a longer life.") -- _t
 tDef(29, "The rest of Humanity is gifted with quick learning and mastery. They can do and become anything they desire.") -- _t
+tDef(60, "Skin") -- birth facial category
+tDef(60, "Special") -- birth facial category
+tDef(60, "Hairs") -- birth facial category
+tDef(60, "Facial features") -- birth facial category
+tDef(62, "Skin Color 1") -- _t
+tDef(63, "Skin Color 2") -- _t
+tDef(64, "Skin Color 3") -- _t
+tDef(65, "Skin Color 4") -- _t
+tDef(66, "Skin Color 5") -- _t
+tDef(67, "Skin Color 6") -- _t
+tDef(68, "Skin Color 7") -- _t
+tDef(69, "Skin Color 8") -- _t
+tDef(73, "Dark Hair 2") -- _t
+tDef(74, "Dark Hair 3") -- _t
+tDef(75, "Dark Hair 4") -- _t
+tDef(76, "Dark Hair 5") -- _t
+tDef(77, "Dark Hair 6") -- _t
+tDef(79, "Blond Hair 2") -- _t
+tDef(80, "Blond Hair 3") -- _t
+tDef(81, "Blond Hair 4") -- _t
+tDef(82, "Blond Hair 5") -- _t
+tDef(83, "Blond Hair 6") -- _t
+tDef(84, "Redhead 1") -- _t
+tDef(85, "Redhead 2") -- _t
+tDef(86, "Redhead 3") -- _t
+tDef(87, "Redhead 4") -- _t
+tDef(88, "Redhead 5") -- _t
+tDef(89, "Redhead 6") -- _t
+tDef(92, "Dark Beard 1") -- _t
+tDef(93, "Dark Beard 2") -- _t
+tDef(94, "Dark Beard 3") -- _t
+tDef(95, "Dark Beard 4") -- _t
+tDef(96, "Dark Beard 5") -- _t
+tDef(97, "Blonde Beard 1") -- _t
+tDef(98, "Blonde Beard 2") -- _t
+tDef(99, "Blonde Beard 3") -- _t
+tDef(100, "Blonde Beard 4") -- _t
+tDef(101, "Blonde Beard 5") -- _t
+tDef(102, "Redhead Beard 1") -- _t
+tDef(103, "Redhead Beard 2") -- _t
+tDef(104, "Redhead Beard 3") -- _t
+tDef(105, "Redhead Beard 4") -- _t
+tDef(106, "Redhead Beard 5") -- _t
+tDef(107, "Dark Mustache 1") -- _t
+tDef(108, "Dark Mustache 2") -- _t
+tDef(109, "Blond Mustache 1") -- _t
+tDef(110, "Blond Mustache 2") -- _t
+tDef(111, "Redhead Mustache 1") -- _t
+tDef(112, "Redhead Mustache 2") -- _t
+tDef(115, "Bikini / Mankini") -- _t
 tDef(129, "Higher") -- birth descriptor name
 tDef(131, "Highers are a special branch of Humans that have been imbued with latent magic since the Age of Allure.") -- _t
 tDef(132, "They usually do not breed with other Humans, trying to keep their blood 'pure'.") -- _t
@@ -4238,6 +4623,7 @@ tDef(133, "They possess the #GOLD#Wrath of the Highborn#WHITE# which allows them
 tDef(135, "#LIGHT_BLUE# * +1 Strength, +1 Dexterity, +0 Constitution") -- _t
 tDef(136, "#LIGHT_BLUE# * +1 Magic, +1 Willpower, +0 Cunning") -- _t
 tDef(137, "#GOLD#Life per level:#LIGHT_BLUE# 11") -- _t
+tDef(145, "Blond Hair 1") -- _t
 tDef(161, "Cornac") -- birth descriptor name
 tDef(163, "Cornacs are Humans from the northern parts of the Allied Kingdoms.") -- _t
 tDef(164, "Humans are an inherently very adaptable race and as such they gain a #GOLD#talent category point#WHITE# (others only gain one at levels 10, 20 and 34) and both #GOLD#a class and a generic talent point#WHITE# at birth and every 10 levels.") -- _t
@@ -4246,6 +4632,7 @@ tDef(166, "#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution") -- _t
 tDef(167, "#LIGHT_BLUE# * +0 Magic, +0 Willpower, +0 Cunning") -- _t
 tDef(168, "#GOLD#Life per level:#LIGHT_BLUE# 10") -- _t
 tDef(169, "#GOLD#Experience penalty:#LIGHT_BLUE# 0%") -- _t
+tDef(177, "Dark Hair 1") -- _t
 
 
 ------------------------------------------------
@@ -4265,6 +4652,8 @@ tDef(24, "Undead") -- birth descriptor name
 tDef(26, "Grave strength, dread will, this flesh cannot stay still. Kings die, masters fall, we will outlast them all.") -- _t
 tDef(28, "Undead are humanoids (Humans, Elves, Dwarves, ...) that have been brought back to life by the corruption of dark magics.") -- _t
 tDef(29, "Undead can take many forms, from ghouls to vampires and liches.") -- _t
+tDef(70, "Special") -- birth facial category
+tDef(72, "Bikini / Mankini") -- _t
 tDef(85, "Ghoul") -- birth descriptor name
 tDef(87, "Slow to shuffle, quick to bite, learn from master, rule the night!") -- _t
 tDef(89, "Ghouls are dumb, but resilient, rotting undead creatures, making good fighters.") -- _t
@@ -4278,6 +4667,12 @@ tDef(99, "#LIGHT_BLUE# * +0 Magic, -2 Willpower, -2 Cunning") -- _t
 tDef(100, "#GOLD#Life per level:#LIGHT_BLUE# 14") -- _t
 tDef(101, "#GOLD#Experience penalty:#LIGHT_BLUE# 12%") -- _t
 tDef(102, "#GOLD#Speed penalty:#LIGHT_BLUE# -20%") -- _t
+tDef(145, "Skin Color 9") -- _t
+tDef(162, "Alternative Face") -- _t
+tDef(163, "Fangs 1") -- _t
+tDef(164, "Fangs 2") -- _t
+tDef(170, "Bloodstains") -- _t
+tDef(171, "Bones") -- _t
 tDef(182, "Skeleton") -- birth descriptor name
 tDef(184, "The marching bones, each step we rattle; but servants no more, we march to battle!") -- _t
 tDef(186, "Skeletons are animated bones, undead creatures both strong and dexterous.") -- _t
@@ -4294,6 +4689,58 @@ tDef(196, "#GOLD#Life per level:#LIGHT_BLUE# 12") -- _t
 tDef(197, "#GOLD#Experience penalty:#LIGHT_BLUE# 20%") -- _t
 tDef(284, "Lich") -- birth descriptor name
 tDef(286, "You should not see this!") -- _t
+tDef(295, "Skin") -- birth facial category
+tDef(295, "Facial features") -- birth facial category
+tDef(295, "Hairs") -- birth facial category
+tDef(295, "Tatoos") -- birth facial category
+tDef(297, "Skin Color 1") -- _t
+tDef(298, "Skin Color 2") -- _t
+tDef(299, "Skin Color 3") -- _t
+tDef(300, "Skin Color 4") -- _t
+tDef(301, "Skin Color 5") -- _t
+tDef(302, "Skin Color 6") -- _t
+tDef(303, "Skin Color 7") -- _t
+tDef(304, "Skin Color 8") -- _t
+tDef(307, "Hair 1") -- _t
+tDef(308, "Hair 2") -- _t
+tDef(309, "Redhead Hair 1") -- _t
+tDef(310, "Redhead Hair 2") -- _t
+tDef(311, "White Hair 1") -- _t
+tDef(312, "White Hair 2") -- _t
+tDef(315, "Beard 1") -- _t
+tDef(316, "Beard 2") -- _t
+tDef(317, "Redhead Beard 1") -- _t
+tDef(318, "Redhead Beard 2") -- _t
+tDef(319, "White Beard 1") -- _t
+tDef(320, "White Beard 2") -- _t
+tDef(321, "Eyes 1") -- _t
+tDef(322, "Eyes 2") -- _t
+tDef(323, "Eyes 3") -- _t
+tDef(324, "Mustache") -- _t
+tDef(325, "Redhead Mustache") -- _t
+tDef(326, "White Mustache") -- _t
+tDef(327, "Teeth 1") -- _t
+tDef(328, "Teeth 2") -- _t
+tDef(329, "Lich Eyes 1") -- _t
+tDef(330, "Lich Eyes 2") -- _t
+tDef(331, "Lich Eyes 3") -- _t
+tDef(332, "Lich Regalia 1") -- _t
+tDef(333, "Lich Regalia 2") -- _t
+tDef(334, "Lich Regalia 3") -- _t
+tDef(335, "Lich Regalia 4") -- _t
+tDef(336, "Lich Regalia 5") -- _t
+tDef(337, "Lich Regalia 6") -- _t
+tDef(338, "Lich Regalia 7") -- _t
+tDef(339, "Lich Regalia 8") -- _t
+tDef(340, "Lich Regalia 9") -- _t
+tDef(341, "Lich Regalia 10") -- _t
+tDef(344, "Cracks") -- _t
+tDef(345, "Guts") -- _t
+tDef(346, "Iron Bolt") -- _t
+tDef(347, "Molds") -- _t
+tDef(348, "Runes 1") -- _t
+tDef(349, "Runes 2") -- _t
+tDef(350, "Rust") -- _t
 
 
 ------------------------------------------------
@@ -4302,6 +4749,62 @@ section "game/modules/tome/data/birth/races/yeek.lua"
 tDef(28, "Yeeks are a mysterious race of small humanoids native to the tropical island of Rel.") -- _t
 tDef(29, "Their body is covered with white fur and their disproportionate heads give them a ridiculous look.") -- _t
 tDef(30, "Although they are now nearly unheard of in Maj'Eyal, they spent many thousand years as secret slaves to the Halfling nation of Nargol.") -- _t
+tDef(62, "Tatoos") -- birth facial category
+tDef(62, "Hairs") -- birth facial category
+tDef(62, "Facial features") -- birth facial category
+tDef(62, "Special") -- birth facial category
+tDef(62, "Skin") -- birth facial category
+tDef(64, "Skin Color 1") -- _t
+tDef(65, "Skin Color 2") -- _t
+tDef(66, "Skin Color 3") -- _t
+tDef(67, "Skin Color 4") -- _t
+tDef(68, "Skin Color 5") -- _t
+tDef(69, "Skin Color 6") -- _t
+tDef(70, "Skin Color 7") -- _t
+tDef(71, "Skin Color 8") -- _t
+tDef(72, "Skin Color 9") -- _t
+tDef(73, "Skin Color 10") -- _t
+tDef(76, "Hair 1") -- _t
+tDef(77, "Hair 2") -- _t
+tDef(78, "Hair 3") -- _t
+tDef(79, "Hair 4") -- _t
+tDef(80, "Hair 5") -- _t
+tDef(81, "Redfur Hair 1") -- _t
+tDef(82, "Redfur Hair 2") -- _t
+tDef(83, "Redfur Hair 3") -- _t
+tDef(84, "Redfur Hair 4") -- _t
+tDef(85, "Redfur Hair 5") -- _t
+tDef(88, "Beard 1") -- _t
+tDef(89, "Beard 2") -- _t
+tDef(90, "Beard 3") -- _t
+tDef(91, "Redfur Beard 1") -- _t
+tDef(92, "Redfur Beard 2") -- _t
+tDef(93, "Redfur Beard 3") -- _t
+tDef(94, "Eyes 1") -- _t
+tDef(95, "Eyes 2") -- _t
+tDef(96, "Eyes 3") -- _t
+tDef(97, "Eyes 4") -- _t
+tDef(98, "Eyes 5") -- _t
+tDef(99, "Eyes 6") -- _t
+tDef(100, "Eyes 7") -- _t
+tDef(101, "Eyes 8") -- _t
+tDef(102, "Eyes 9") -- _t
+tDef(103, "Eyes 10") -- _t
+tDef(104, "Eyes 11") -- _t
+tDef(105, "Eyes 12") -- _t
+tDef(106, "Eyes 13") -- _t
+tDef(107, "Mustache 1") -- _t
+tDef(108, "Mustache 2") -- _t
+tDef(109, "Mustache 3") -- _t
+tDef(110, "Redfur Mustache 1") -- _t
+tDef(111, "Redfur Mustache 2") -- _t
+tDef(112, "Redfur Mustache 3") -- _t
+tDef(115, "Bodypaint 1") -- _t
+tDef(116, "Bodypaint 2") -- _t
+tDef(117, "Tatoos 1") -- _t
+tDef(118, "Tatoos 2") -- _t
+tDef(119, "Redfur") -- _t
+tDef(122, "Bikini / Mankini") -- _t
 tDef(136, "Yeek") -- birth descriptor name
 tDef(138, "One race, one mind, one way. Our oppression shall end, and we shall inherit Eyal. Do not presume we are weak - our way is true, and only those who help us shall see our strength.") -- _t
 tDef(140, "Yeeks are a mysterious race native to the tropical island of Rel.") -- _t
@@ -5195,21 +5698,25 @@ tDef(37, "Go away; I do not help filthy arcane users!") -- _t
 tDef(64, "#LIGHT_GREEN#[Pretend to help but when it is time you will use a technique to make the portal fizzle. @npcname@ will be sent to Zigur to be 'dealt with' properly.]#WHITE#\
 Lead on; I will protect you.") -- _t
 tDef(90, "Lead on; I will protect you.") -- _t
+tDef(95, "Escort") -- _t
 tDef(99, "Go away; I do not care for the weak.") -- _t
 
 
 ------------------------------------------------
 section "game/modules/tome/data/chats/escort-quest.lua"
 
+tDef(221, "physical") -- _t
+tDef(221, "mental") -- _t
+tDef(221, "spell") -- _t
 tDef(232, "improved %s by +%d") -- tformat
 tDef(234, "[Improve %s by +%d]") -- tformat
 tDef(250, "improved %s save by +%d") -- tformat
 tDef(252, "[Improve %s save by +%d]") -- tformat
+tDef(272, "improved") -- _t
 tDef(272, "%s talent %s (+%d level(s))") -- tformat
 tDef(272, "learnt") -- _t
-tDef(272, "improved") -- _t
-tDef(275, "[%s talent %s (+%d level(s))]") -- tformat
 tDef(275, "Improve") -- _t
+tDef(275, "[%s talent %s (+%d level(s))]") -- tformat
 tDef(275, "Learn") -- _t
 tDef(282, "#GOLD#%s#LAST#\
 %s") -- tformat
@@ -5474,9 +5981,9 @@ tDef(31, "\
 You would not happen to be interested, by any chance?") -- _t
 tDef(31, "while") -- _t
 tDef(32, "\
-Oh my friend, good news! As I told you I can now request a truly #{italic}#unique#{normal}# object to be crafted just for you. For a truly unique price...") -- _t
-tDef(32, "\
 I eventually plan to arrange a truly unique service for the most discerning of customers. If you come back later when I'm fully set up I shall be able to order for you something quite marvellous. For a perfectly #{italic}#suitable#{normal}# price, of course.") -- _t
+tDef(32, "\
+Oh my friend, good news! As I told you I can now request a truly #{italic}#unique#{normal}# object to be crafted just for you. For a truly unique price...") -- _t
 tDef(34, "Yes please, let me see your wares.") -- _t
 tDef(38, "What about the unique object?") -- _t
 tDef(39, "Ambush Trap?  Sounds useful.") -- _t
@@ -5498,6 +6005,9 @@ tDef(86, "Why, 'tis a paltry sum - take my order, man, and be quick about it!") 
 tDef(87, "Yes, please!") -- _t
 tDef(88, "HOW MUCH?! Please, excuse me, I- I need some fresh air...") -- _t
 tDef(89, "Not now, thank you.") -- _t
+tDef(131, "dragonbone wand") -- _t
+tDef(132, "dragonbone totem") -- _t
+tDef(133, "voratun torque") -- _t
 tDef(139, "I've changed my mind.") -- _t
 tDef(183, "#CRIMSON#Your timetravel has no effect on pre-determined outcomes such as this.") -- log
 tDef(189, "Do you want to name your item?\
@@ -6602,6 +7112,8 @@ tDef(48, "Please teach me what I need to know (unlocks talent category) - 500 go
 tDef(49, "The shopkeeper spends a great deal of time going over the finer details of channeling energy through mindstars with you.") -- logPlayer
 tDef(56, "He is impressed with your mastery and shows you a few tricks to handle stronger energy flows.") -- logPlayer
 tDef(64, "I'm already proficient, but I want to be an expert (improves talent mastery by 0.2) - 750 gold.") -- _t
+tDef(68, "The shopkeeper spends a great deal of time going over the finer details of channeling energy through mindstars with you%s.") -- tformat
+tDef(68, ", and teaches you enhanced mental discipline needed to maintain powerful energy fields") -- _t
 tDef(74, "No thanks.") -- _t
 
 
@@ -6659,114 +7171,121 @@ tDef(72, "...") -- _t
 ------------------------------------------------
 section "game/modules/tome/data/damage_types.lua"
 
+tDef(202, "%s(%d warded)#LAST#") -- tformat
 tDef(267, "#Source# strikes #Target# in the darkness (%+d%%%%%%%% damage).") -- delayedLogMessage
 tDef(291, "Something") -- _t
 tDef(299, "%s forces the iceblock to shatter.") -- logSeen
+tDef(399, "%s(%d to psi shield)#LAST#") -- tformat
+tDef(413, "%s(%d blocked)#LAST#") -- tformat
+tDef(428, "%s(%d antimagic)#LAST#") -- tformat
+tDef(434, "%s(%d flat reduction)#LAST#") -- tformat
 tDef(502, "You end your target with a crushing blow!") -- logPlayer
+tDef(512, "#LIGHT_GREY#(%d resilience)#LAST#") -- tformat
 tDef(555, "#CRIMSON##Source# damages %s through Martyrdom!") -- delayedLogMessage
 tDef(561, "#CRIMSON##Source# reflects damage back to #Target#!") -- delayedLogMessage
+tDef(597, "#Source##LIGHT_GREEN# HEALS#LAST# from %s %s #LAST# damage!") -- tformat
 tDef(740, "cosmetic") -- _t
 tDef(743, "cosmeticed") -- _t
 tDef(752, "physical") -- _t
+tDef(765, "chopped into tiny pieces") -- _t
+tDef(765, "torn limb from limb") -- _t
+tDef(765, "shattered") -- _t
+tDef(765, "squished") -- _t
+tDef(765, "impaled") -- _t
+tDef(765, "mutilated") -- _t
+tDef(765, "battered") -- _t
+tDef(765, "maimed") -- _t
+tDef(765, "struck") -- _t
 tDef(765, "bludgeoned") -- _t
+tDef(765, "dissected") -- _t
+tDef(765, "minced") -- _t
+tDef(765, "stabbed") -- _t
+tDef(765, "tortured") -- _t
+tDef(765, "raked") -- _t
+tDef(765, "mauled") -- _t
+tDef(765, "bled") -- _t
+tDef(765, "smashed") -- _t
+tDef(765, "pierced") -- _t
+tDef(765, "splattered") -- _t
+tDef(765, "decapitated") -- _t
+tDef(765, "skewered") -- _t
+tDef(765, "sliced") -- _t
 tDef(765, "disembowelled") -- _t
 tDef(765, "punctured") -- _t
-tDef(765, "dissected") -- _t
-tDef(765, "raked") -- _t
-tDef(765, "splattered") -- _t
-tDef(765, "squished") -- _t
-tDef(765, "sliced") -- _t
-tDef(765, "struck") -- _t
-tDef(765, "torn limb from limb") -- _t
+tDef(765, "ground") -- _t
+tDef(765, "swiped") -- _t
 tDef(765, "hacked apart") -- _t
-tDef(765, "maimed") -- _t
-tDef(765, "chopped into tiny pieces") -- _t
-tDef(765, "smashed") -- _t
-tDef(765, "bled") -- _t
-tDef(765, "tortured") -- _t
-tDef(765, "battered") -- _t
-tDef(765, "impaled") -- _t
-tDef(765, "eviscerated") -- _t
-tDef(765, "shattered") -- _t
 tDef(765, "crushed") -- _t
 tDef(765, "cleaved") -- _t
-tDef(765, "pierced") -- _t
-tDef(765, "mutilated") -- _t
-tDef(765, "skewered") -- _t
-tDef(765, "minced") -- _t
-tDef(765, "decapitated") -- _t
-tDef(765, "mauled") -- _t
-tDef(765, "stabbed") -- _t
-tDef(765, "swiped") -- _t
-tDef(765, "ground") -- _t
+tDef(765, "eviscerated") -- _t
 tDef(770, "arcane") -- _t
-tDef(772, "imploded") -- _t
-tDef(772, "dweomered") -- _t
-tDef(772, "energised") -- _t
 tDef(772, "blasted") -- _t
+tDef(772, "dweomered") -- _t
 tDef(772, "mana-torn") -- _t
+tDef(772, "energised") -- _t
+tDef(772, "imploded") -- _t
+tDef(801, "slowly cooked") -- _t
+tDef(801, "toasted") -- _t
+tDef(801, "scorched") -- _t
+tDef(801, "blazed") -- _t
 tDef(801, "boiled") -- _t
+tDef(801, "roasted") -- _t
+tDef(801, "flamed") -- _t
 tDef(801, "combusted") -- _t
 tDef(801, "fried") -- _t
-tDef(801, "scorched") -- _t
-tDef(801, "toasted") -- _t
-tDef(801, "roasted") -- _t
-tDef(801, "blazed") -- _t
 tDef(801, "burnt") -- _t
-tDef(801, "slowly cooked") -- _t
-tDef(801, "flamed") -- _t
-tDef(820, "chilled") -- _t
-tDef(820, "cooled") -- _t
 tDef(820, "iced") -- _t
+tDef(820, "chilled") -- _t
 tDef(820, "frozen") -- _t
 tDef(820, "frozen and shattered into a million little shards") -- _t
+tDef(820, "cooled") -- _t
 tDef(823, "lightning") -- _t
-tDef(837, "zapped") -- _t
+tDef(837, "amped") -- _t
 tDef(837, "bolted") -- _t
+tDef(837, "electrocuted") -- _t
 tDef(837, "shocked") -- _t
 tDef(837, "volted") -- _t
-tDef(837, "amped") -- _t
-tDef(837, "electrocuted") -- _t
+tDef(837, "zapped") -- _t
 tDef(842, "acid") -- _t
 tDef(855, "corroded") -- _t
+tDef(855, "scalded") -- _t
 tDef(855, "melted") -- _t
 tDef(855, "dissolved") -- _t
-tDef(855, "scalded") -- _t
 tDef(860, "nature") -- _t
 tDef(873, "naturalised") -- _t
-tDef(873, "splurged") -- _t
 tDef(873, "slimed") -- _t
+tDef(873, "splurged") -- _t
 tDef(873, "treehugged") -- _t
 tDef(877, "blight") -- _t
-tDef(896, "debilitated by noxious blight before falling") -- _t
-tDef(896, "plagued") -- _t
 tDef(896, "tainted") -- _t
+tDef(896, "debilitated by noxious blight before falling") -- _t
+tDef(896, "fouled") -- _t
+tDef(896, "infected") -- _t
+tDef(896, "plagued") -- _t
 tDef(896, "diseased") -- _t
 tDef(896, "poxed") -- _t
-tDef(896, "infected") -- _t
-tDef(896, "fouled") -- _t
 tDef(901, "light") -- _t
-tDef(903, "jerkied") -- _t
-tDef(903, "radiated") -- _t
+tDef(903, "purified") -- _t
 tDef(903, "seared") -- _t
 tDef(903, "tanned") -- _t
+tDef(903, "radiated") -- _t
 tDef(903, "sun baked") -- _t
-tDef(903, "purified") -- _t
+tDef(903, "jerkied") -- _t
 tDef(910, "shadowed") -- _t
 tDef(910, "darkened") -- _t
 tDef(910, "swallowed by the void") -- _t
 tDef(928, "mind") -- _t
 tDef(951, "mindraped") -- _t
-tDef(951, "mentally tortured") -- _t
 tDef(951, "psyched") -- _t
+tDef(951, "mentally tortured") -- _t
 tDef(957, "winter") -- _t
 tDef(979, "temporal") -- _t
-tDef(993, "grandfathered") -- _t
-tDef(993, "temporally distorted") -- _t
-tDef(993, "timewarped") -- _t
-tDef(993, "replaced by a time clone (and no one ever knew the difference)") -- _t
 tDef(993, "time dilated") -- _t
 tDef(993, "spaghettified across the whole of space and time") -- _t
+tDef(993, "grandfathered") -- _t
+tDef(993, "timewarped") -- _t
+tDef(993, "temporally distorted") -- _t
+tDef(993, "replaced by a time clone (and no one ever knew the difference)") -- _t
 tDef(993, "paradoxed") -- _t
 tDef(998, "temporal stun") -- _t
 tDef(1016, "lite") -- _t
@@ -6794,6 +7313,8 @@ tDef(1388, "ice storm") -- _t
 tDef(1407, "glacial vapour") -- _t
 tDef(1424, "pinning cold") -- _t
 tDef(1446, "freeze") -- _t
+tDef(1456, "Frozen!") -- _t
+tDef(1458, "Resist!") -- _t
 tDef(1467, "sticky smoke") -- _t
 tDef(1484, "acid blind") -- _t
 tDef(1503, "blinding darkness") -- _t
@@ -6825,18 +7346,29 @@ tDef(1990, "%s resists the time prison.") -- logSeen
 tDef(2033, "% chance of confusion") -- _t
 tDef(2050, "% chance of gloom effects") -- _t
 tDef(2087, "item darkness numbing") -- _t
+tDef(2101, "* #LIGHT_GREEN#%d%%#LAST# chance to reduce damage dealt by #YELLOW#%d%%#LAST#%s") -- tformat
 tDef(2119, "item expose") -- _t
+tDef(2133, "* #LIGHT_GREEN#%d%%#LAST# chance to reduce all saves and defense by #YELLOW#%d#LAST#%s") -- tformat
 tDef(2151, "item temporal energize") -- _t
+tDef(2164, "* #LIGHT_GREEN#%d%%#LAST# chance to gain 10%% of a turn (3/turn limit)%s") -- tformat
 tDef(2173, "#LIGHT_STEEL_BLUE#%s can't gain any more energy this turn! ") -- logSeen
 tDef(2184, "item acid corrode") -- _t
+tDef(2197, "* #LIGHT_GREEN#%d%%#LAST# chance to reduce armor by #VIOLET#%d%%#LAST#%s") -- tformat
 tDef(2215, "item blight disease") -- _t
+tDef(2228, "* #LIGHT_GREEN#%d%%#LAST# chance to reduce strength, dexterity, and constitution by #VIOLET#%d#LAST#%s") -- tformat
 tDef(2248, "item manaburn arcane") -- _t
+tDef(2260, "* #DARK_ORCHID#%d arcane resource#LAST# burn%s") -- tformat
 tDef(2275, "item nature slow") -- _t
+tDef(2288, "* #LIGHT_GREEN#%d%%#LAST# chance to slow global speed by #YELLOW#%d%%#LAST#%s") -- tformat
 tDef(2308, "item antimagic scouring") -- _t
+tDef(2320, "* #LIGHT_GREEN#%d%%#LAST# chance to #ORCHID#reduce effective powers#LAST# by %d%%%s") -- tformat
 tDef(2336, "item lightning daze") -- _t
+tDef(2349, "* #LIGHT_GREEN#%d%%#LAST# chance to #ROYAL_BLUE#daze#LAST# at end of turn%s") -- tformat
 tDef(2368, "item light blind") -- _t
+tDef(2381, "* #LIGHT_GREEN#%d%%#LAST# chance to #YELLOW#blind#LAST#%s") -- tformat
 tDef(2394, "%s resists the blinding light!") -- logSeen
 tDef(2402, "item mind gloom") -- _t
+tDef(2415, "* #LIGHT_GREEN#%d%%#LAST# chance to cause #YELLOW#random gloom#LAST#%s") -- tformat
 tDef(2432, "confusion") -- _t
 tDef(2437, "stun") -- _t
 tDef(2442, "slow'") -- _t
@@ -6902,7 +7434,11 @@ tDef(3337, "%s resists the baneful energy!") -- logSeen
 tDef(3345, "decaying darkness") -- _t
 tDef(3359, "abyssal darkness") -- _t
 tDef(3384, "% chance to summon an orc spirit") -- _t
+tDef(3393, "%s<%d%%%% orc summon chance>#LAST#") -- tformat
+tDef(3397, "%s<orc summon>#LAST#") -- tformat
 tDef(3420, "orc spirit") -- _t
+tDef(3421, "An orc clad in massive armour, wielding a huge axe.") -- _t
+tDef(3449, "Garkul Spirit") -- _t
 tDef(3456, "nightmare") -- _t
 tDef(3481, "cursed miasma") -- _t
 tDef(3500, "weakness") -- _t
@@ -6936,11 +7472,15 @@ tDef(3898, "%s resists the mind attack!") -- logSeen
 tDef(3912, "static net") -- _t
 tDef(3927, "wormblight") -- _t
 tDef(3943, "pestilent blight") -- _t
+tDef(3956, "* #LIGHT_GREEN#%d%%#LAST# chance to cause #GREEN#random blight#LAST#%s") -- tformat
 tDef(3991, "blight poison") -- _t
 tDef(4023, "terror") -- _t
+tDef(4030, "%s<terror chance>#LAST#") -- tformat
 tDef(4058, "random poison") -- _t
 tDef(4084, "blinding powder") -- _t
+tDef(4091, "%s<blinding powder>#LAST#") -- tformat
 tDef(4105, "smokescreen") -- _t
+tDef(4112, "%s<smoke>#LAST#") -- tformat
 tDef(4130, "flare") -- _t
 tDef(4145, "%s resists the blinding flare!") -- logSeen
 tDef(4153, "flare light") -- _t
@@ -7014,15 +7554,16 @@ tDef(60, "#LIGHT_RED#As you enter you notice the trap door has no visible handle
 tDef(63, "Enter the tunnels") -- _t
 tDef(69, "Sect of Kryl-Faijan") -- entity name
 tDef(70, "hostile") -- entity type
-tDef(79, "Encounter") -- _t
 tDef(79, "You find an entrance to an old crypt. An aura of terrible evil emanates from this place. You feel threatened just standing there.\
 You hear the muffled cries of a woman coming from inside.") -- _t
+tDef(79, "Encounter") -- _t
 tDef(81, "#LIGHT_BLUE#You carefully get away without making a sound.") -- logPlayer
 tDef(84, "#LIGHT_RED#You carefully open the door and enter the underground crypt...") -- logPlayer
 tDef(85, "#LIGHT_RED#As you enter you notice the door has no visible handle on the inside. You are stuck here!") -- logPlayer
-tDef(87, "Enter the crypt") -- _t
 tDef(87, "Leave carefully") -- _t
+tDef(87, "Enter the crypt") -- _t
 tDef(93, "Lost kitten") -- entity name
+tDef(104, "Lost Kitty") -- _t
 tDef(111, "Ancient Elven Ruins") -- entity name
 tDef(119, "Entrance to some ancient elven ruins") -- _t
 tDef(133, "Cursed Village") -- entity name
@@ -7034,8 +7575,8 @@ tDef(216, "Agrimley the Hermit") -- entity name
 tDef(240, "Ring of Blood") -- entity name
 tDef(248, "Hidden compound") -- _t
 tDef(262, "Tranquil Meadow") -- entity name
-tDef(263, "harmless") -- entity type
 tDef(263, "special") -- entity subtype
+tDef(263, "harmless") -- entity type
 tDef(275, "tranquil meadow") -- _t
 
 
@@ -7054,6 +7595,13 @@ tDef(49, "%s (blighted aura)") -- tformat
 
 
 ------------------------------------------------
+section "game/modules/tome/data/general/events/conclave-vault.lua"
+
+tDef(30, "Only crumbling bones are left of what once was the proud Director Hompalan, chief of this facility.\
+Now those remains look at you with empty eyes but you can not mistake their intent.") -- _t
+
+
+------------------------------------------------
 section "game/modules/tome/data/general/events/cultists.lua"
 
 tDef(48, "monolith") -- _t
@@ -7068,20 +7616,30 @@ tDef(110, "This is too soon!") -- _t
 tDef(112, "disrupted monolith") -- _t
 tDef(122, "Something the cultists are doing is coming. Beware.") -- _t
 tDef(123, "The cultist's soul seems to be absorbed by the strange stone he was guarding. You feel like something is about to happen...") -- _t
+tDef(151, "Shasshhiy'Kaish") -- _t
 tDef(153, "This demon would be very attractive if not for the hovering crown of flames, the three tails and sharp claws. As you watch her you can almost feel pain digging in your flesh. She wants you to suffer.") -- _t
 tDef(154, "and used for her perverted desires") -- _t
 tDef(206, "burning crown") -- _t
 tDef(207, "This crown of pure flames possesses a myriad of small molten rocks floating wildly above it. Each can be removed to throw as a true meteor.") -- _t
-tDef(241, "Cultist") -- _t
 tDef(241, "A terrible shout thunders across the level: 'Come my darling, come, I will be ssssooo *nice* to you!'\
 You should flee from this level!") -- _t
+tDef(241, "Cultist") -- _t
 tDef(253, "%s pulls a dagger and opens his own chest, piercing his beating heart. The stone glows with malevolent colors.") -- logSeen
 
 
 ------------------------------------------------
 section "game/modules/tome/data/general/events/damp-cave.lua"
 
+tDef(34, "ladder back to %s") -- tformat
+tDef(37, "Damp Cave") -- _t
 tDef(86, "damp cave") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/general/events/drake-cave.lua"
+
+tDef(29, "Intimidating Cave") -- _t
+tDef(78, "ladder back to %s") -- _t
 
 
 ------------------------------------------------
@@ -7197,6 +7755,7 @@ tDef(37, "%s (protective aura)") -- tformat
 ------------------------------------------------
 section "game/modules/tome/data/general/events/rat-lich.lua"
 
+tDef(36, "way up to %s") -- tformat
 tDef(40, "#VIOLET# As you leave the crypt, the stairway collapses in upon itself.") -- log
 tDef(50, "dusty rat skull") -- _t
 tDef(57, "This ancient skull is all that remains of the Rat Lich. Some fragments of its power remain and a faint red light still glows within its eye sockets.") -- _t
@@ -7205,8 +7764,10 @@ tDef(68, "You cannot summon; you are suppressed!") -- logPlayer
 tDef(73, "%s raises %s %s, and a red light flashes from it's eye sockets!") -- logSeen
 tDef(94, "From the dust of decay a %s forms!") -- logSeen
 tDef(152, "stairway leading downwards") -- _t
+tDef(154, "Stairs seem to lead into some kind of crypt.") -- _t
 tDef(168, "You hear squeaks and the sounds of clicking bone echo around you... Pure death awaits. Flee!") -- _t
 tDef(168, "Forsaken Crypt") -- _t
+tDef(172, "Stairs lead downwards into rubble.") -- _t
 
 
 ------------------------------------------------
@@ -7240,9 +7801,15 @@ tDef(32, "spellblaze scar") -- _t
 ------------------------------------------------
 section "game/modules/tome/data/general/events/sub-vault.lua"
 
+tDef(49, "way up (%s)") -- tformat
 tDef(52, "#VIOLET# The stairway collapses completely as you ascend!") -- log
 tDef(54, "#VIOLET# The decrepit stairs crumble some more as you climb them.") -- log
 tDef(115, "hidden vault") -- _t
+tDef(117, "Crumbling stairs lead down to something.") -- _t
+tDef(133, "collapsing hidden vault") -- _t
+tDef(137, "collapsed hidden vault") -- _t
+tDef(138, "A collapsed stairway, leading down") -- _t
+tDef(140, "nearly collapsed hidden vault") -- _t
 
 
 ------------------------------------------------
@@ -7268,18 +7835,20 @@ section "game/modules/tome/data/general/events/weird-pedestals.lua"
 
 tDef(60, "weird pedestal") -- _t
 tDef(62, "Do you wish to inspect the pedestal?") -- _t
+tDef(63, "inspecting") -- _t
+tDef(63, "inspected") -- _t
 tDef(68, "As you inspect it a shadow materializes near you, and suddenly it is no more a shadow!") -- _t
 tDef(80, "#rng# the Invoker") -- _t
-tDef(86, "Die intruder!") -- _t
 tDef(86, "He will consume all!") -- _t
+tDef(86, "You are dooooommmed!!") -- _t
 tDef(86, "My life for His!") -- _t
 tDef(86, "He shall come!") -- _t
-tDef(86, "You are dooooommmed!!") -- _t
+tDef(86, "Die intruder!") -- _t
 tDef(96, "weird pedestal (glowing)") -- _t
 tDef(99, "%s's soul is absorbed by the pedestal. A glowing orb appears.") -- logSeen
 tDef(112, "#rng# the Bringer of Doom") -- _t
-tDef(128, "Weird Pedestal") -- _t
 tDef(128, "You hear a terrible voice saying 'Their lives are mine! I am coming!'") -- _t
+tDef(128, "Weird Pedestal") -- _t
 
 
 ------------------------------------------------
@@ -7312,19 +7881,22 @@ tDef(59, "exit to the worldmap") -- entity name
 tDef(97, "way to the previous level") -- entity name
 tDef(134, "way to the next level") -- entity name
 tDef(219, "door") -- entity name
+tDef(255, "This door seems to have been sealed off. You think you can open it.") -- _t
 tDef(304, "glass wall") -- entity name
 tDef(330, "glass door") -- entity name
 tDef(342, "open glass door") -- entity name
 tDef(360, "sealed door") -- entity name
+tDef(370, "This door seems to have been sealed off. You need to find a way to open it.") -- _t
 tDef(378, "#VIOLET#You hear a door opening.") -- log
 tDef(388, "wall") -- entity type
 tDef(389, "open door") -- entity name
+tDef(396, "This door seems to have been sealed off. You need to find a way to close it.") -- _t
 tDef(402, "#VIOLET#You hear a door closing.") -- log
-tDef(412, "lever") -- entity type
 tDef(412, "floor") -- entity subtype
+tDef(412, "lever") -- entity type
 tDef(413, "huge lever") -- entity name
-tDef(440, "bool") -- entity subtype
 tDef(440, "trigger") -- entity type
+tDef(440, "bool") -- entity subtype
 
 
 ------------------------------------------------
@@ -7333,10 +7905,13 @@ section "game/modules/tome/data/general/grids/bone.lua"
 tDef(26, "sand") -- entity name
 tDef(51, "bone walls") -- entity name
 tDef(99, "door") -- entity name
+tDef(108, "This door seems to have been sealed off. You think you can open it.") -- _t
 tDef(132, "sealed door") -- entity name
+tDef(141, "This door seems to have been sealed off. You need to find a way to open it.") -- _t
 tDef(149, "#VIOLET#You hear a door opening.") -- log
 tDef(159, "wall") -- entity type
 tDef(160, "open door") -- entity name
+tDef(166, "This door seems to have been sealed off. You need to find a way to close it.") -- _t
 tDef(172, "#VIOLET#You hear a door closing.") -- log
 tDef(182, "lever") -- entity type
 tDef(183, "huge lever") -- entity name
@@ -7346,8 +7921,8 @@ tDef(288, "way to the previous level") -- entity name
 tDef(329, "way to the next level") -- entity name
 tDef(340, "ladder to the next level") -- entity name
 tDef(350, "ladder to the previous level") -- entity name
-tDef(359, "floor") -- entity type
 tDef(359, "bone") -- entity subtype
+tDef(359, "floor") -- entity type
 tDef(360, "ladder to worldmap") -- entity name
 
 
@@ -7370,8 +7945,9 @@ section "game/modules/tome/data/general/grids/cave.lua"
 
 tDef(25, "cave floor") -- entity name
 tDef(56, "cave walls") -- entity name
-tDef(87, "wall") -- entity type
+tDef(80, "This rock is loose, you think you can move it away.") -- _t
 tDef(87, "grass") -- entity subtype
+tDef(87, "wall") -- entity type
 tDef(88, "huge loose rock") -- entity name
 tDef(106, "ladder to the next level") -- entity name
 tDef(115, "ladder to the previous level") -- entity name
@@ -7411,6 +7987,7 @@ tDef(82, "tall thick tree") -- entity name
 tDef(100, "flower") -- entity name
 tDef(110, "wall") -- entity type
 tDef(111, "huge loose rock") -- entity name
+tDef(119, "This rock is loose, you think you can move it away.") -- _t
 tDef(140, "old road") -- entity name
 tDef(153, "exit to the worldmap") -- entity name
 tDef(195, "way to the previous level") -- entity name
@@ -7424,9 +8001,10 @@ section "game/modules/tome/data/general/grids/fortress.lua"
 
 tDef(60, "door") -- entity name
 tDef(74, "open door") -- entity name
-tDef(87, "floor") -- entity subtype
 tDef(87, "wall") -- entity type
+tDef(87, "floor") -- entity subtype
 tDef(88, "sealed door") -- entity name
+tDef(96, "This door seems to be sealed.") -- _t
 
 
 ------------------------------------------------
@@ -7438,16 +8016,19 @@ tDef(59, "exit to the worldmap") -- entity name
 tDef(97, "way to the previous level") -- entity name
 tDef(134, "way to the next level") -- entity name
 tDef(219, "door") -- entity name
+tDef(255, "This door seems to have been sealed off. You think you can open it.") -- _t
 tDef(267, "sealed door") -- entity name
+tDef(276, "This door seems to have been sealed off. You need to find a way to open it.") -- _t
 tDef(285, "#VIOLET#You hear a door opening.") -- log
 tDef(295, "wall") -- entity type
 tDef(296, "open door") -- entity name
+tDef(303, "This door seems to have been sealed off. You need to find a way to close it.") -- _t
 tDef(309, "#VIOLET#You hear a door closing.") -- log
 tDef(319, "lever") -- entity type
 tDef(319, "floor") -- entity subtype
 tDef(320, "huge lever") -- entity name
-tDef(347, "trigger") -- entity type
 tDef(347, "bool") -- entity subtype
+tDef(347, "trigger") -- entity type
 
 
 ------------------------------------------------
@@ -7549,8 +8130,11 @@ tDef(104, "ladder to worldmap") -- entity name
 ------------------------------------------------
 section "game/modules/tome/data/general/grids/sand.lua"
 
+tDef(55, "unstable sand tunnel") -- _t
+tDef(57, "Loose sand is steadily filling this void, which could collapse suddenly and completely.") -- _t
 tDef(66, "The unstable sand tunnel collapses!") -- logSeen
 tDef(71, "You are crushed by the collapsing tunnel! You suffocate!") -- logPlayer
+tDef(72, "was buried alive") -- _t
 tDef(102, "sandwall") -- entity name
 tDef(117, "wall") -- entity type
 tDef(118, "tree") -- entity name
@@ -7602,16 +8186,19 @@ tDef(59, "exit to the worldmap") -- entity name
 tDef(97, "way to the previous level") -- entity name
 tDef(134, "way to the next level") -- entity name
 tDef(219, "door") -- entity name
+tDef(255, "This door seems to have been sealed off. You think you can open it.") -- _t
 tDef(267, "sealed door") -- entity name
+tDef(276, "This door seems to have been sealed off. You need to find a way to open it.") -- _t
 tDef(285, "#VIOLET#You hear a door opening.") -- log
 tDef(295, "wall") -- entity type
 tDef(296, "open door") -- entity name
+tDef(303, "This door seems to have been sealed off. You need to find a way to close it.") -- _t
 tDef(309, "#VIOLET#You hear a door closing.") -- log
 tDef(319, "lever") -- entity type
 tDef(319, "floor") -- entity subtype
 tDef(320, "huge lever") -- entity name
-tDef(347, "trigger") -- entity type
 tDef(347, "bool") -- entity subtype
+tDef(347, "trigger") -- entity type
 
 
 ------------------------------------------------
@@ -7637,6 +8224,7 @@ tDef(37, "mushroom creep") -- entity name
 tDef(84, "underground thick vegetation") -- entity name
 tDef(101, "wall") -- entity type
 tDef(102, "huge loose rock") -- entity name
+tDef(110, "This rock is loose, you think you can move it away.") -- _t
 tDef(117, "ladder to the next level") -- entity name
 tDef(126, "ladder to the previous level") -- entity name
 tDef(135, "underground") -- entity subtype
@@ -7652,6 +8240,7 @@ tDef(37, "mushroom creep") -- entity name
 tDef(81, "underground thick vegetation") -- entity name
 tDef(97, "wall") -- entity type
 tDef(98, "huge loose rock") -- entity name
+tDef(106, "This rock is loose, you think you can move it away.") -- _t
 tDef(113, "ladder to the next level") -- entity name
 tDef(122, "ladder to the previous level") -- entity name
 tDef(131, "underground") -- entity subtype
@@ -7667,6 +8256,7 @@ tDef(37, "mushroom creep") -- entity name
 tDef(81, "underground thick vegetation") -- entity name
 tDef(98, "wall") -- entity type
 tDef(99, "huge loose rock") -- entity name
+tDef(107, "This rock is loose, you think you can move it away.") -- _t
 tDef(114, "ladder to the next level") -- entity name
 tDef(123, "ladder to the previous level") -- entity name
 tDef(132, "underground") -- entity subtype
@@ -7798,6 +8388,7 @@ tDef(26, "bird") -- entity subtype
 tDef(47, "Phoenix") -- entity name
 tDef(50, "Ever burning, ever dying, ever reviving, the Phoenix swoops down upon you, seeking to share its fiery fate with you.") -- _t
 tDef(102, "#LIGHT_RED#%s raises from the dead!") -- logSeen
+tDef(104, "RESURRECT!") -- _t
 
 
 ------------------------------------------------
@@ -8052,6 +8643,7 @@ tDef(256, "#AQUAMARINE#As %s falls all its eyes fall to the ground!") -- logSeen
 tDef(262, "eldritch eye") -- entity name
 tDef(263, "A small bloodshot eye floats here.") -- _t
 tDef(277, "#AQUAMARINE#As #Source# falls #Target# seems to weaken!") -- logCombat
+tDef(289, "+Blind") -- _t
 tDef(291, "%s is blinded by the loss of all its eyes.") -- logSeen
 tDef(408, "luminous horror") -- entity name
 tDef(409, "A lanky humanoid shape composed of yellow light.") -- _t
@@ -8179,9 +8771,13 @@ section "game/modules/tome/data/general/npcs/lich.lua"
 tDef(24, "undead") -- entity type
 tDef(25, "Only the most powerful spellcasters raised to unlife become liches. Doomed to haunt the world for an eternity, they have grown to hate all that breathes or trespasses on their domain. Unfortunately that includes you.") -- _t
 tDef(76, "lich") -- entity name
+tDef(78, "Having thought to discover life eternal, these beings have allowed undeath to rob them of the joys of life. Now they seek to destroy it as well.") -- _t
 tDef(110, "ancient lich") -- entity name
+tDef(112, "An elder being from a now-forgotten age, filled and fueled by its hate and rage toward all things living, it seeks to deprive all others of a prize it cannot have... life.") -- _t
 tDef(144, "archlich") -- entity name
+tDef(146, "Blacker than the deepest night, this cold cruel form of darkness approaches.  Long ago it laid aside its mortality, but it has not forgotten its power; rather, its malice and hate have bent this undead entity on the destruction of all things living.") -- _t
 tDef(181, "blood lich") -- entity name
+tDef(182, "The seething, pumping, disembodied blood of a horrendously powerful necromancer. To strike it is to bathe in the rivers of the Fearscape itself.") -- _t
 
 
 ------------------------------------------------
@@ -8517,14 +9113,23 @@ section "game/modules/tome/data/general/npcs/skeleton.lua"
 tDef(24, "undead") -- entity type
 tDef(24, "skeleton") -- entity subtype
 tDef(59, "degenerated skeleton warrior") -- entity name
+tDef(60, "A haphazard collection of crumbling bones, with jerky movements that remind you of a child playing with a marionette.  It only has one arm, but that's all it needs to hold a sword.") -- _t
 tDef(69, "degenerated skeleton archer") -- entity name
+tDef(70, "A frail skeleton; just about the only bones that aren't cracked are its arms.  It's missing a hand, but a notch has been carved into its wrist to let it pull back a bowstring regardless.") -- _t
 tDef(83, "skeleton mage") -- entity name
+tDef(84, "Given its condition, you're less inclined to think this skeleton knows proper spells, rather than simply disgorging its magical energy as it breaks down.  This doesn't make it much less dangerous to be around, mind you.") -- _t
 tDef(103, "skeleton warrior") -- entity name
+tDef(104, "The forces binding this skeleton together are resilient enough to let it hold a shield and swing a weapon as well as it could have in life.  It's still wearing its old armor, in rusty but servicable condition.") -- _t
 tDef(115, "skeleton archer") -- entity name
+tDef(116, "Nobody scavenged the high-quality bow from this archer before it was raised from the dead.  You're about to wish the world had more grave-robbers.") -- _t
 tDef(129, "skeleton magus") -- entity name
+tDef(130, "This skeleton has been imbued with far more magical energy than normal, and serves as a conduit of its master's spellcasting prowess.") -- _t
 tDef(150, "armoured skeleton warrior") -- entity name
+tDef(151, "It feels no pain.  It moves with fluidity and strength that would tear natural muscles apart.  It must be from a fresh corpse, since its bones, armor, and weapon are all in pristine condition.  And it's furious.") -- _t
 tDef(176, "skeleton master archer") -- entity name
+tDef(177, "This skeleton can fire arrows and nock new ones with blinding speed.  Arcane forces pull its bones with unnatural precision - its arms will never tremble or get tired.") -- _t
 tDef(194, "skeleton assassin") -- entity name
+tDef(195, "Most skeletons announce their presence with a chorus of rattling bones; this one's been charred black and has enough cartilage between its joints to muffle its approach.  The first you'll see of it will be the flash of its blade.") -- _t
 
 
 ------------------------------------------------
@@ -8740,10 +9345,16 @@ section "game/modules/tome/data/general/npcs/vampire.lua"
 tDef(24, "undead") -- entity type
 tDef(26, "These ancient cursed beings often take the form of a bat and attack their prey.") -- _t
 tDef(63, "lesser vampire") -- entity name
+tDef(64, "This vampire has only just begun its new life. It has not yet fathomed its newfound power, yet it still has a thirst for blood.") -- _t
 tDef(77, "vampire") -- entity name
+tDef(78, "It is a humanoid with an aura of power. You notice a sharp set of front teeth.") -- _t
 tDef(93, "master vampire") -- entity name
+tDef(95, "It is a humanoid form dressed in robes. Power emanates from its chilling frame.") -- _t
 tDef(111, "elder vampire") -- entity name
+tDef(112, "A terrible robed undead figure, this creature has existed in its unlife for many centuries by stealing the life of others.\
+It can summon the very shades of its victims from beyond the grave to come enslaved to its aid.") -- _t
 tDef(134, "vampire lord") -- entity name
+tDef(135, "A foul wind chills your bones as this ghastly figure approaches.") -- _t
 
 
 ------------------------------------------------
@@ -8777,9 +9388,13 @@ tDef(32, "wight") -- entity subtype
 tDef(32, "undead") -- entity type
 tDef(34, "These be white wights.") -- _t
 tDef(66, "forest wight") -- entity name
+tDef(67, "It is a ghostly apparition with a humanoid form.") -- _t
 tDef(80, "grave wight") -- entity name
+tDef(81, "It is a ghostly form with eyes that haunt you.") -- _t
 tDef(93, "barrow wight") -- entity name
+tDef(95, "It is a ghostly nightmare of an entity.") -- _t
 tDef(107, "emperor wight") -- entity name
+tDef(109, "Your life force is torn from your body as this powerful unearthly being approaches.") -- _t
 
 
 ------------------------------------------------
@@ -8961,12 +9576,14 @@ tDef(223, "This jeweled crown shimmers with colors.") -- _t
 tDef(258, "Warmaster Gnarg's Murderblade") -- entity name
 tDef(259, "blood-etched greatsword") -- _t
 tDef(260, "A blood-etched greatsword, it has seen many foes. From the inside.") -- _t
+tDef(271, "10% chance to send the wielder into a killing frenzy") -- _t
 tDef(292, "fiery whip") -- _t
 tDef(293, "Whip of Urh'Rok") -- entity name
 tDef(294, "With this unbearably bright whip of flame, the demon master Urh'Rok has become known for never having lost in combat.") -- _t
 tDef(329, "Storm Fury") -- entity name
 tDef(330, "crackling longbow") -- _t
 tDef(331, "This dragonbone longbow is enhanced with bands of steel, which arc with intense lightning. Bolts travel up and down the string, ignorant of you.") -- _t
+tDef(341, "Automatically fires lightning bolts every game turn at nearby enemies dealing %d to %d lightning damage based on Magic with a chance to inflict Daze.") -- tformat
 tDef(393, "#GOLD#A bolt of lightning fires from #Source#'s bow, striking #Target#!") -- logCombat
 tDef(408, "Frozen Shroud") -- entity name
 tDef(409, "chilling cloak") -- _t
@@ -8995,9 +9612,13 @@ tDef(29, "glittering longsword") -- _t
 tDef(30, "Wintertide") -- entity name
 tDef(33, "The air seems to freeze around the blade of this sword, draining all heat from the area.\
 It is said the Conclave created this weapon for their warmaster during the dark times of the first allure war.") -- _t
+tDef(44, "No Winter Storm Active") -- _t
+tDef(46, "None") -- _t
 tDef(46, "radius %d (%d turns remaining)") -- tformat
+tDef(46, "Winter Storm: ") -- _t
 tDef(59, "Create a Winter Storm that gradually expands (from radius %d to radius %d), dealing %0.2f cold damage (based on Strength) to your enemies each turn and slowing their ability to act by 20%%.  Subsequent melee strikes will relocate the storm on top of your target and increase its duration.") -- tformat
 tDef(92, "#LIGHT_BLUE#A Winter Storm forms around %s.") -- logSeen
+tDef(139, "precipitate ice walls (lasting 10 turns) within your Winter Storm's area") -- _t
 tDef(153, "#LIGHT_BLUE#%s brandishes %s %s, releasing a wave of Winter cold!") -- logSeen
 tDef(169, "a summoned wall of ice") -- _t
 tDef(202, "#LIGHT_BLUE#Ice and snow form a barrier!") -- log
@@ -9021,6 +9642,7 @@ tDef(487, "obsidian ring") -- _t
 tDef(511, "tribal helm") -- _t
 tDef(512, "Steel Helm of Garkul") -- entity name
 tDef(513, "A great helm that belonged to Garkul the Devourer, one of the greatest orcs ever to live.") -- _t
+tDef(534, "Another of Garkul's heirlooms would bring out his spirit.") -- _t
 tDef(546, "Lunar Shield") -- entity name
 tDef(549, "chitinous shield") -- _t
 tDef(550, "A large section of chitin removed from Nimisil. It continues to give off a strange white glow.") -- _t
@@ -9055,8 +9677,10 @@ tDef(869, "You cannot summon; you are suppressed!") -- logPlayer
 tDef(880, "You need an enemy nearby to summon!") -- logPlayer
 tDef(886, "Not enough space to summon!") -- logPlayer
 tDef(890, "%s taps %s %s, summoning a vampire thrall!") -- logSeen
-tDef(973, "gem") -- entity type
+tDef(900, "A terrible robed undead figure, this creature has existed in its unlife for many centuries by stealing the life of others. It can summon the very shades of its victims from beyond the grave to come enslaved to its aid.") -- _t
+tDef(959, "Vampire") -- _t
 tDef(973, "red") -- entity subtype
+tDef(973, "gem") -- entity type
 tDef(974, "human skull") -- _t
 tDef(975, "Runed Skull") -- entity name
 tDef(982, "Dull red runes are etched all over this blackened skull.") -- _t
@@ -9112,17 +9736,17 @@ Though clearly a powerful piece, it must once have been much greater.") -- _t
 tDef(1534, "Aletta's Diadem") -- entity name
 tDef(1536, "A filigree of silver set with many small jewels, this diadem seems radiant - ethereal almost. But its touch seems to freeze your skin and brings wild thoughts to your mind. You want to drop it, throw it away, and yet you cannot resist thinking of what powers it might bring you.\
 Is this temptation a weak will on your part, or some domination from the artifact itself...?") -- _t
-tDef(1558, "hare-skin sling") -- _t
 tDef(1558, "Hare-Skin Sling") -- entity name
+tDef(1558, "hare-skin sling") -- _t
 tDef(1560, "This well-tended sling is made from the leather and sinews of a large hare. It feels smooth to the touch, yet very durable. Some say that the skin of a hare brings luck and fortune.\
 Hard to tell if that really helped its former owner, but it's clear that the skin is at least also strong and reliable.") -- _t
 tDef(1586, "Prox's Lucky Halfling Foot") -- entity name
 tDef(1587, "a mummified halfling foot") -- _t
 tDef(1588, "A large hairy foot, very recognizably a halfling's, is strung on a piece of thick twine. In its decomposed state it's hard to tell how long ago it parted with its owner, but from what look like teeth marks around the ankle you get the impression that it wasn't given willingly.\
 It has been kept somewhat intact with layers of salt and clay, but in spite of this it's clear that nature is beginning to take its toll on the dead flesh. Some say the foot of a halfling brings luck to its bearer - right now the only thing you can be sure of is that it stinks.") -- _t
-tDef(1599, " (cooling down: %d turns)") -- tformat
 tDef(1599, "Detects traps.\
 Removes (25%% chance) up to three stuns, pins, or dazes each turn%s") -- tformat
+tDef(1599, " (cooling down: %d turns)") -- tformat
 tDef(1608, "") -- _t
 tDef(1627, "#CRIMSON#%s twitches, alerting %s that a hidden trap is nearby.") -- logSeen
 tDef(1655, "%s shrugs off some effects!") -- logSeen
@@ -9130,6 +9754,7 @@ tDef(1676, "#LIGHT_RED#You feel uneasy carrying %s.") -- logPlayer
 tDef(1687, "Psionic Fury") -- entity name
 tDef(1688, "vibrating mindstar") -- _t
 tDef(1692, "This mindstar constantly shakes and vibrates, as if a powerful force is desperately trying to escape.") -- _t
+tDef(1717, "release a wave of psionic power, dealing %0.2f mind damage (based on Willpower) to all within radius %d") -- tformat
 tDef(1729, "%s's %s sends out a blast of psionic energy!") -- logSeen
 tDef(1740, "Storm Bringer's Gauntlets") -- entity name
 tDef(1741, "fine-mesh gauntlets") -- _t
@@ -9165,12 +9790,14 @@ tDef(87, "Upon defeat, Ak'Gishil collapsed into this tiny rift. How it remains s
 tDef(115, "Blade of Distorted Time") -- entity name
 tDef(116, "time-warped sword") -- _t
 tDef(119, "The remnants of a damaged timeline, this blade shifts and fades at random.") -- _t
+tDef(131, "inflicts bonus temporal damage and slows target") -- _t
 tDef(148, "Rune of Reflection") -- entity name
 tDef(149, "You can see your own image mirrored in the surface of this silvery rune.") -- _t
 tDef(150, "shiny rune") -- _t
 tDef(170, "The Gaping Maw") -- entity name
 tDef(171, "huge granite battleaxe") -- _t
 tDef(174, "This huge granite battleaxe is as much mace as it is axe.  The shaft is made of blackened wood tightly bound in drakeskin leather and the sharpened granite head glistens with a viscous green fluid.") -- _t
+tDef(187, "deal manaburn damage equal to your mindpower in a radius 3 cone") -- _t
 tDef(209, "#DARK_GREEN#You feel like Nature's Wrath incarnate!") -- logPlayer
 
 
@@ -9326,6 +9953,7 @@ tDef(90, " of accuracy") -- entity name
 tDef(91, "accuracy") -- entity keyword
 tDef(103, " of crippling") -- entity name
 tDef(104, "crippling") -- entity keyword
+tDef(112, "Cripple the target reducing mind, spell, and combat action speeds by 30%") -- _t
 tDef(120, " of annihilation") -- entity name
 tDef(121, "annihilation") -- entity keyword
 tDef(139, "acidic ") -- entity name
@@ -9348,6 +9976,10 @@ tDef(283, " of paradox") -- entity name
 tDef(284, "paradox") -- entity keyword
 tDef(301, "elemental ") -- entity name
 tDef(302, "elemental") -- entity keyword
+tDef(311, "fire") -- _t
+tDef(312, "cold") -- _t
+tDef(313, "lightning") -- _t
+tDef(314, "acid") -- _t
 tDef(319, "Create an explosion dealing #VIOLET#%d#LAST# %s damage (1/turn)") -- tformat
 tDef(339, "plaguebringer's ") -- entity name
 tDef(340, "plague") -- entity keyword
@@ -9378,6 +10010,7 @@ tDef(548, " of persecution") -- entity name
 tDef(549, "persecution") -- entity keyword
 tDef(565, "inquisitor's ") -- entity name
 tDef(566, "inquisitors") -- entity keyword
+tDef(576, "Deals #YELLOW#%d#LAST# Manaburn damage and puts 1 random spell talent on cooldown for #YELLOW#%d#LAST# turns (checks Confusion immunity)") -- tformat
 tDef(601, "#YELLOW#%s has their %s spell disrupted for for %d turns!") -- logSeen
 tDef(609, " of disruption") -- entity name
 tDef(610, "disruption") -- entity keyword
@@ -9395,6 +10028,7 @@ tDef(710, "#LIGHT_GREEN#50%%#LAST# chance to put 1 talent on cooldown for #YELLO
 tDef(729, "#YELLOW#%s has temporarily forgotten %s for %d turns!") -- logSeen
 tDef(738, " of torment") -- entity name
 tDef(739, "torment") -- entity keyword
+tDef(747, "#LIGHT_GREEN#20%#LAST# chance to stun, blind, pin, confuse, or silence the target for 3 turns") -- _t
 
 
 ------------------------------------------------
@@ -10078,6 +10712,7 @@ tDef(182, "You cannot split your %s while it has a tinker inside.") -- logPlayer
 tDef(187, "You cannot split your %s while using it as a psionic focus.") -- logPlayer
 tDef(195, "Your %s is too flawed to divide.") -- logPlayer
 tDef(198, "You divide your %s in two, forming a linked set.") -- logPlayer
+tDef(218, "This mindstar would symbiotize with another like it.") -- _t
 tDef(223, "#GREEN#The mindstars pulse with life.") -- logPlayer
 tDef(226, "#SLATE#The link between the mindstars is broken.") -- logPlayer
 tDef(248, "wyrm's ") -- entity name
@@ -10098,6 +10733,7 @@ tDef(431, "manaburning ") -- entity name
 tDef(432, "manaburning") -- entity keyword
 tDef(455, "inquisitor's ") -- entity name
 tDef(456, "inquisitors") -- entity keyword
+tDef(466, "Deals #YELLOW#%d#LAST# Manaburn damage and puts 1 random spell talent on cooldown for #YELLOW#%d#LAST# turns (checks Confusion immunity)") -- tformat
 tDef(492, "#YELLOW#%s has their %s spell disrupted for for %d turns!") -- logSeen
 tDef(500, "protector's ") -- entity name
 tDef(501, "protectors") -- entity keyword
@@ -10195,6 +10831,7 @@ tDef(430, "mage-hunter's ") -- entity name
 tDef(431, "magehunters") -- entity keyword
 tDef(453, "throat-seeking ") -- entity name
 tDef(454, "throat") -- entity keyword
+tDef(468, "silences the target") -- _t
 
 
 ------------------------------------------------
@@ -10414,6 +11051,7 @@ tDef(445, "scouring ") -- entity name
 tDef(446, "scouring") -- entity keyword
 tDef(473, "warded ") -- entity name
 tDef(474, "ward") -- entity keyword
+tDef(480, "reduce the cooldown of your ward talent by 1") -- _t
 tDef(506, "wrathful ") -- entity name
 tDef(507, "wrathful") -- entity keyword
 tDef(528, "Deals #VIOLET#%d#LAST# light and fire damage to each enemy blocked") -- tformat
@@ -10428,6 +11066,7 @@ tDef(631, " of the stars") -- entity name
 tDef(632, "stars") -- entity keyword
 tDef(662, " of crushing") -- entity name
 tDef(663, "crushing") -- entity keyword
+tDef(672, "Smash the target reducing mind, spell, and combat action speeds by 30%") -- _t
 tDef(687, " of shrapnel") -- entity name
 tDef(688, "shrapnel") -- entity keyword
 tDef(697, "Cause enemies within radius 6 to bleed for #RED#%d#LAST# physical damage over 5 turns (1/turn)") -- tformat
@@ -10560,6 +11199,7 @@ tDef(122, "You cannot summon; you are suppressed!") -- logPlayer
 tDef(131, "Not enough space to summon!") -- logPlayer
 tDef(140, "A lashing tentacle.") -- _t
 tDef(185, "#Source# points %s %s at #target#, releasing a writhing tentacle!") -- logCombat
+tDef(192, "Summon") -- _t
 tDef(199, "%s activates %s %s!") -- logSeen
 
 
@@ -10576,11 +11216,11 @@ tDef(58, "create a radius %d storm for %d turns. Each turn, creatures within tak
 tDef(67, "%s conjures a lightning storm from %s %s!") -- logSeen
 tDef(90, " of conjuration") -- entity name
 tDef(91, "conjure") -- entity keyword
-tDef(109, "fire a magical bolt dealing %d %s damage") -- tformat
-tDef(134, " of shielding") -- entity name
-tDef(135, "shielding") -- entity keyword
-tDef(143, "create a shield absorbing up to %d damage on yourself and all friendly characters within 10 spaces for %d turns") -- tformat
-tDef(149, "%s activates %s %s!") -- logSeen
+tDef(108, "fire a magical bolt dealing %d %s damage") -- tformat
+tDef(133, " of shielding") -- entity name
+tDef(134, "shielding") -- entity keyword
+tDef(142, "create a shield absorbing up to %d damage on yourself and all friendly characters within 10 spaces for %d turns") -- tformat
+tDef(148, "%s activates %s %s!") -- logSeen
 
 
 ------------------------------------------------
@@ -10605,6 +11245,7 @@ tDef(93, "warbringer's ") -- entity name
 tDef(94, "warbringer") -- entity keyword
 tDef(113, " of crippling") -- entity name
 tDef(114, "crippling") -- entity keyword
+tDef(124, "Cripple the target reducing mind, spell, and combat action speeds by 30%") -- _t
 tDef(132, " of evisceration") -- entity name
 tDef(133, "evisc") -- entity keyword
 tDef(147, "Wound the target dealing #RED#%d#LAST# physical damage across 5 turns and reducing healing by %d%%") -- tformat
@@ -10634,6 +11275,10 @@ tDef(362, " of paradox") -- entity name
 tDef(363, "paradox") -- entity keyword
 tDef(384, "elemental ") -- entity name
 tDef(385, "elemental") -- entity keyword
+tDef(400, "fire") -- _t
+tDef(401, "cold") -- _t
+tDef(402, "lightning") -- _t
+tDef(403, "acid") -- _t
 tDef(408, "Create an explosion dealing #VIOLET#%d#LAST# %s damage (1/turn)") -- tformat
 tDef(428, "plaguebringer's ") -- entity name
 tDef(429, "plague") -- entity keyword
@@ -10661,6 +11306,7 @@ tDef(632, " of persecution") -- entity name
 tDef(633, "persecution") -- entity keyword
 tDef(649, "inquisitor's ") -- entity name
 tDef(650, "inquisitors") -- entity keyword
+tDef(660, "Deals #YELLOW#%d#LAST# Manaburn damage and puts 1 random spell talent on cooldown for #YELLOW#%d#LAST# turns (checks Confusion immunity)") -- tformat
 tDef(685, "#YELLOW#%s has their %s spell disrupted for for %d turns!") -- logSeen
 tDef(693, " of disruption") -- entity name
 tDef(694, "disruption") -- entity keyword
@@ -10680,6 +11326,7 @@ tDef(824, "#LIGHT_GREEN#50%%#LAST# chance to put 1 talent on cooldown for #YELLO
 tDef(843, "#YELLOW#%s has temporarily forgotten %s for %d turns!") -- logSeen
 tDef(852, " of torment") -- entity name
 tDef(853, "torment") -- entity keyword
+tDef(861, "#LIGHT_GREEN#20%#LAST# chance to stun, blind, pin, confuse, or silence the target for 3 turns") -- _t
 
 
 ------------------------------------------------
@@ -10881,31 +11528,31 @@ section "game/modules/tome/data/general/objects/gem.lua"
 
 tDef(24, "gem") -- entity type
 tDef(30, "Gems can be sold for money or used in arcane rituals.") -- _t
-tDef(83, "color") -- entity subtype
 tDef(83, "..") -- entity name
+tDef(83, "color") -- entity subtype
 tDef(83, "alchemist-gem") -- entity type
 tDef(95, "alchemist diamond") -- alchemist gem
 tDef(95, "diamond") -- gem name
-tDef(99, "alchemist pearl") -- alchemist gem
 tDef(99, "pearl") -- gem name
+tDef(99, "alchemist pearl") -- alchemist gem
 tDef(101, "Lights terrain (power 100)") -- _t
-tDef(103, "moonstone") -- gem name
 tDef(103, "alchemist moonstone") -- alchemist gem
-tDef(107, "fire opal") -- gem name
+tDef(103, "moonstone") -- gem name
 tDef(107, "alchemist fire opal") -- alchemist gem
-tDef(111, "bloodstone") -- gem name
+tDef(107, "fire opal") -- gem name
 tDef(111, "alchemist bloodstone") -- alchemist gem
-tDef(115, "alchemist ruby") -- alchemist gem
+tDef(111, "bloodstone") -- gem name
 tDef(115, "ruby") -- gem name
-tDef(119, "amber") -- gem name
+tDef(115, "alchemist ruby") -- alchemist gem
 tDef(119, "alchemist amber") -- alchemist gem
-tDef(123, "turquoise") -- gem name
+tDef(119, "amber") -- gem name
 tDef(123, "alchemist turquoise") -- alchemist gem
-tDef(127, "jade") -- gem name
+tDef(123, "turquoise") -- gem name
 tDef(127, "alchemist jade") -- alchemist gem
+tDef(127, "jade") -- gem name
 tDef(129, "Slows by 17%") -- _t
-tDef(131, "sapphire") -- gem name
 tDef(131, "alchemist sapphire") -- alchemist gem
+tDef(131, "sapphire") -- gem name
 tDef(135, "white") -- gem subtype
 tDef(135, "alchemist quartz") -- alchemist gem
 tDef(135, "quartz") -- gem name
@@ -10913,29 +11560,29 @@ tDef(139, "emerald") -- gem name
 tDef(139, "alchemist emerald") -- alchemist gem
 tDef(143, "lapis lazuli") -- gem name
 tDef(143, "alchemist lapis lazuli") -- alchemist gem
-tDef(147, "red") -- gem subtype
 tDef(147, "alchemist garnet") -- alchemist gem
 tDef(147, "garnet") -- gem name
+tDef(147, "red") -- gem subtype
 tDef(151, "alchemist onyx") -- alchemist gem
 tDef(151, "onyx") -- gem name
+tDef(155, "amethyst") -- gem name
 tDef(155, "violet") -- gem subtype
 tDef(155, "alchemist amethyst") -- alchemist gem
-tDef(155, "amethyst") -- gem name
-tDef(159, "opal") -- gem name
 tDef(159, "alchemist opal") -- alchemist gem
+tDef(159, "opal") -- gem name
 tDef(163, "topaz") -- gem name
 tDef(163, "alchemist topaz") -- alchemist gem
-tDef(167, "blue") -- gem subtype
 tDef(167, "aquamarine") -- gem name
 tDef(167, "alchemist aquamarine") -- alchemist gem
+tDef(167, "blue") -- gem subtype
 tDef(171, "alchemist ametrine") -- alchemist gem
 tDef(171, "ametrine") -- gem name
 tDef(173, "Lights terrain (power 10)") -- _t
 tDef(175, "alchemist zircon") -- alchemist gem
 tDef(175, "zircon") -- gem name
 tDef(179, "spinel") -- gem name
-tDef(179, "green") -- gem subtype
 tDef(179, "alchemist spinel") -- alchemist gem
+tDef(179, "green") -- gem subtype
 tDef(183, "yellow") -- gem subtype
 tDef(183, "citrine") -- gem name
 tDef(183, "alchemist citrine") -- alchemist gem
@@ -11133,10 +11780,13 @@ tDef(28, "necromancer poem") -- entity name
 tDef(29, "A poem written by a... Necromancer?") -- _t
 tDef(36, "rogues do it from behind") -- entity name
 tDef(37, "A poem written for a rogue?") -- _t
+tDef(45, "how to become a necromancer, part %d") -- tformat
 tDef(46, "How to become a powerful Necromancer!") -- _t
 tDef(53, "\"Dust to Dust\", an undead hunter's guide, by Aslabor Borys") -- entity name
 tDef(54, "An undead hunter's guide, by Aslabor Borys.") -- _t
-tDef(68, "..") -- entity name
+tDef(63, "Rolf") -- _t
+tDef(65, "Weisman") -- _t
+tDef(68, "letter to %s (%d)") -- tformat
 tDef(69, "A part of the correspondence between two adventurers.") -- _t
 tDef(77, "of halfling feet") -- entity name
 tDef(78, "Notes about... Halfling feet??") -- _t
@@ -11330,11 +11980,11 @@ tDef(326, "recall the user to the worldmap after 40 turns") -- _t
 tDef(340, "Force a recall") -- _t
 tDef(340, "The Fortress Shadow warned you that trying to force a recall without finding the portal back could break the exploratory farportal forever.") -- _t
 tDef(343, "Space around you starts to dissolve...") -- logPlayer
-tDef(348, "Cancel") -- _t
 tDef(348, "Recall") -- _t
+tDef(348, "Cancel") -- _t
 tDef(352, "The rod emits a strange noise, glows briefly and returns to normal.") -- logPlayer
-tDef(366, "You found a Rod of Recall. You can use it to quickly get out of your current zone and return to the worldmap.") -- _t
 tDef(366, "Rod of Recall") -- _t
+tDef(366, "You found a Rod of Recall. You can use it to quickly get out of your current zone and return to the worldmap.") -- _t
 tDef(373, "sher'tul") -- entity subtype
 tDef(373, "chest") -- entity type
 tDef(378, "This chest is an extension of old Sher'tul places of power. Any items dropped inside are transported to an other place, processed and destroyed to extract energy.\
@@ -11348,7 +11998,13 @@ tDef(405, "Make the Transmogrification Chest the default item's destroyer?") -- 
 tDef(409, "You do not have any items to transmogrify in your chest or on the floor.") -- _t
 tDef(412, "Transmogrify all %s item(s) on the floor?") -- tformat
 tDef(426, "Transmogrify all %s item(s) in your chest?") -- tformat
-tDef(426, "Transmogrification Chest") -- _t
+tDef(441, "Transmogrification Chest") -- _t
+tDef(441, "This chest is an extension of old Sher'Tul places of power. Any items dropped inside is transported to an other place, processed and destroyed to extract energy.\
+The byproduct of this effect is the creation of gold, which is useless to process, so it is sent back to you.\
+\
+When you possess the chest all items you walk upon will automatically be put inside and transmogrified when you leave the level.\
+To take an item out, simply go to your inventory to move them out of the chest.\
+Items in the chest will not encumber you.") -- _t
 tDef(451, "You cannot bring yourself to drop the %s") -- logPlayer
 tDef(459, "Bikini") -- entity name
 tDef(461, "Revealing, pink, fun.\
@@ -11955,12 +12611,13 @@ tDef(63, "All your damage is converted and split into light and darkness.") -- _
 tDef(80, "shimmering gold shield") -- _t
 tDef(81, "Unsetting Sun") -- entity name
 tDef(84, "When Elmio Panason, captain of the Vanguard, first sought shelter for his shipwrecked crew, he reflected the last rays of the setting sun off his shield.  Where the beam hit they rested and built the settlement that would become the Sunwall.  In the dark days that followed the shield became a symbol of hope for a better future.") -- _t
+tDef(110, "Glows brightly in the light of dawn.") -- _t
 tDef(124, "Scorched Boots") -- entity name
 tDef(125, "pair of blackened boots") -- _t
 tDef(126, "The master blood mage Ru'Khan was the first orc to experiment with the power of the Sher'Tul farportals in the Age of Pyre.  However, that first experiment was not particularly successful, and after the explosion of energy all that could be found of Ru'Khan was a pair of scorched boots.") -- _t
 tDef(148, "unearthly black stone") -- _t
-tDef(149, "Goedalath Rock") -- entity name
 tDef(149, "demonic") -- entity subtype
+tDef(149, "Goedalath Rock") -- entity name
 tDef(153, "A small rock that seems from beyond this world, vibrating with a fierce energy.  It feels warped and terrible and evil... and yet oh so powerful.") -- _t
 tDef(181, "evil touch") -- _t
 tDef(189, "Threads of Fate") -- entity name
@@ -11970,7 +12627,9 @@ tDef(225, "Blood-Edge") -- entity name
 tDef(226, "red crystalline sword") -- _t
 tDef(232, "This deep red sword weeps blood continuously. It was born in the labs of the orcish corrupter Hurik, who sought to make a crystal that would house his soul after death. But his plans were disrupted by a band of sun paladins, and though most died purging his keep of dread minions, their leader Raasul fought through to Hurik's lab, sword in hand. There the two did battle, blade against blood magic, till both fell to the floor with weeping wounds. The orc with his last strength crawled towards his fashioned phylactery, hoping to save himself, but Raasul saw his plans and struck the crystal with his light-bathed sword. It shattered, and in the sudden impulse of energies the steel, crystal and blood were fused into one.\
 Now the broken fragments of Raasul's soul are trapped in this terrible artifact, his mind warped beyond all sanity by decades of imprisonment. Only the taste of blood calls him forth, his soul stealing the lifeblood of others to take on physical form again, that he may thrash and wail against the living.") -- _t
+tDef(258, "15% chance to animate a bleeding foe's blood") -- _t
 tDef(282, "A haze of blood, vibrant and pulsing through the air, possessed by a warped and cracked soul. Every now and then a scream or wail of agony garbles through it, telling of the mindless suffering undergone by its possessor.") -- _t
+tDef(325, "Summon") -- _t
 tDef(329, "#GOLD#As the blade touches %s's spilt blood, the blood rises, animated!") -- logSeen
 tDef(331, "#GOLD#%s draws power from the spilt blood!") -- logSeen
 tDef(341, "Dawn's Blade") -- entity name
@@ -11979,6 +12638,7 @@ tDef(348, "Said to have been forged in the earliest days of the Sunwall, this lo
 tDef(376, "invoke dawn, inflicting %0.2f light damage in radius %d (based on Magic) and lighting the area within radius %d") -- tformat
 tDef(387, "%s raises %s and sends out a burst of light!") -- logSeen
 tDef(406, "#GOLD#You feel a swell of positive energy!") -- logPlayer
+tDef(412, "If the sun doesn't set, dawn's power lasts forever.") -- _t
 tDef(417, "#GOLD#As you wield the sword and shield of the Sunwall, you feel the Sun's light radiating from your core.") -- logPlayer
 tDef(420, "#GOLD#You feel the Sun's light vanish from within you.") -- logPlayer
 tDef(427, "Zemekkys' Broken Hourglass") -- entity name
@@ -11987,6 +12647,7 @@ tDef(429, "This small broken hourglass hangs from a thin gold chain.  The glass 
 tDef(450, "Mandible of Ungolmor") -- entity name
 tDef(451, "curved, serrated black dagger") -- _t
 tDef(454, "This obsidian-crafted, curved blade is studded with the deadly fangs of the Ungolmor. It seems to drain light from the world around it.") -- _t
+tDef(467, "inflicts spydric poison dealing 200 damage over 3 turns and pinning the target") -- _t
 tDef(488, "Kinetic Spike") -- entity name
 tDef(489, "bladeless hilt") -- _t
 tDef(492, "A simple, rudely crafted stone hilt, this object manifests a blade of wavering, nearly invisible force, like a heat haze, as you grasp it. Despite its simple appearance, it is capable of shearing through solid granite, in the hands of those with the necessary mental fortitude to use it properly.") -- _t
@@ -12022,8 +12683,8 @@ tDef(241, "glowing elven-wood longbow") -- _t
 tDef(241, "Thaloren-Tree Longbow") -- entity name
 tDef(242, "In the aftermath of the Spellblaze, the Thaloren had to defend their forests against foes and fires alike. Many of the trees died despite the efforts of the Elves to save them. Their wood was fashioned into a bow to be wielded against the darkness.") -- _t
 tDef(267, "#DARK_GREEN#You understand this bow-and its connection to nature-in a way few can.") -- logPlayer
-tDef(274, "Corpsebow") -- entity name
 tDef(274, "rotting longbow") -- _t
+tDef(274, "Corpsebow") -- entity name
 tDef(275, "A lost artifact of the Age of Dusk, the Corpsebow is filled with a lingering essence of that era's terrible plagues. Those struck by arrows fired from its rotten string find themselves afflicted by echoes of ancient sickness.") -- _t
 tDef(300, "#DARK_BLUE#You feel a kindred spirit in this bow...") -- logPlayer
 tDef(308, "Spellblade") -- entity name
@@ -12072,8 +12733,8 @@ tDef(686, "Blood-Letter") -- entity name
 tDef(687, "glacial hatchet") -- _t
 tDef(690, "A hand axe carved out of the most frozen parts of the northern wasteland.") -- _t
 tDef(719, "scintillating white crystal") -- _t
-tDef(720, "Telos's Staff Crystal") -- entity name
 tDef(720, "multi-hued") -- entity subtype
+tDef(720, "Telos's Staff Crystal") -- entity name
 tDef(723, "A closer look at this pure white crystal reveals that it is really a plethora of colors swirling and scintillating.") -- _t
 tDef(753, "combine with a staff") -- _t
 tDef(777, "You fix the crystal on the %s and create the %s.") -- logPlayer
@@ -12109,11 +12770,13 @@ tDef(1021, "Staff of Arcane Supremacy") -- entity name
 tDef(1022, "silver-runed staff") -- _t
 tDef(1027, "A long slender staff, made of ancient dragon-bone, with runes emblazoned all over its surface in bright silver.\
 It hums faintly, as if great power is locked within, yet alone it seems incomplete.") -- _t
+tDef(1054, "A true understanding of the arcane is needed to release its full power.") -- _t
 tDef(1058, "#STEEL_BLUE#You feel a swell of arcane energy.") -- logSeen
 tDef(1065, "Hat of Arcane Understanding") -- entity name
 tDef(1066, "silver-runed hat") -- _t
 tDef(1067, "A traditional pointed wizard's hat, made of fine purple elven-silk and decorated with bright silver runes. You sense it has been passed from ancient times, and has been born on the heads of great mages.\
 Touching the cloth you feel a sense of knowledge and power from bygone ages, yet it is partly sealed away, waiting for a trigger to release it.") -- _t
+tDef(1090, "Only supremacy of the arcane can release its full power.") -- _t
 tDef(1099, "#STEEL_BLUE#The arcane energies surrounding you dissipate.") -- logPlayer
 tDef(1106, "Mirror Shards") -- entity name
 tDef(1107, "mirror lined chain") -- _t
@@ -12129,6 +12792,7 @@ tDef(1168, "This jagged crystal glows with an unnatural light. A strap of cloth 
 tDef(1196, "Mercy") -- entity name
 tDef(1197, "wickedly sharp dagger") -- _t
 tDef(1200, "This dagger was used by a nameless healer during the Age of Dusk. The plagues that ravaged his town were beyond the ability of mortal man to treat, so he took to using his dagger to as an act of mercy when faced with hopeless patients. Despite his good intentions, it is now cursed with dark power, letting it kill in a single stroke against those already weakened.") -- _t
+tDef(1211, "deals 60 physical damage increased by 1% for each 1% life the target has lost") -- _t
 tDef(1226, "Thalore-Wood Cuirass") -- entity name
 tDef(1227, "thick wooden plate armour") -- _t
 tDef(1228, "Expertly hewn from the bark of trees, this wooden armor provides excellent protection at a low weight.") -- _t
@@ -12139,8 +12803,8 @@ tDef(1260, "#DARK_GREEN#The armor molds comfortably to one of its caretakers.") 
 section "game/modules/tome/data/general/objects/world-artifacts.lua"
 
 tDef(34, "windy gem") -- _t
-tDef(35, "blue") -- entity subtype
 tDef(35, "Windborne Azurite") -- entity name
+tDef(35, "blue") -- entity subtype
 tDef(38, "Air currents swirl around this bright blue jewel.") -- _t
 tDef(69, "Primal Infusion") -- entity name
 tDef(70, "This wild infusion has evolved.") -- _t
@@ -12153,6 +12817,7 @@ tDef(137, "This unique-looking staff is carved with runes of destruction.") -- _
 tDef(169, "Vargh Redemption") -- entity name
 tDef(170, "sea-blue ring") -- _t
 tDef(171, "This azure ring seems to be always moist to the touch.") -- _t
+tDef(181, "summon a radius %d tidal wave that expands slowly over %d turns, dealing %0.2f cold and %0.2f physical damage (based on Willpower) each turn, knocking opponents back, and lowering their stun resistance") -- tformat
 tDef(207, "%s brandishes %s, calling forth the might of the oceans!") -- logSeen
 tDef(228, "Ring of the Dead") -- entity name
 tDef(229, "dull black ring") -- _t
@@ -12171,6 +12836,7 @@ tDef(302, "You can feel this strange metallic hand wriggling around, it feels as
 tDef(320, "Garkul's Teeth") -- entity name
 tDef(321, "a necklace made of teeth") -- _t
 tDef(322, "Hundreds of humanoid teeth have been strung together on multiple strands of thin leather, creating this tribal necklace.  One would have to assume that these are not the teeth of Garkul the Devourer but rather the teeth of Garkul's many meals.") -- _t
+tDef(347, "Another of Garkul's heirlooms would bring out his spirit.") -- _t
 tDef(351, "#CRIMSON#As you wear both Garkul's heirlooms you can feel the mighty warrior's spirit flowing through you.") -- logSeen
 tDef(354, "#CRIMSON#The spirit of Garkul fades away.") -- logPlayer
 tDef(361, "Summertide Phial") -- entity name
@@ -12218,6 +12884,7 @@ tDef(656, "#ORCHID#%s resists the tendrils' pull!") -- logSeen
 tDef(668, "Rogue Plight") -- entity name
 tDef(670, "blackened leather armour") -- _t
 tDef(671, "No rogue blades shall incapacitate the wearer of this armour.") -- _t
+tDef(685, "Transfers a bleed, poison, or wound to its source or a nearby enemy every 4 turns.") -- _t
 tDef(721, "#CRIMSON#Rogue Plight transfers an effect to its source!") -- logPlayer
 tDef(731, "#CRIMSON#Rogue Plight transfers an effect to a nearby enemy!") -- logPlayer
 tDef(745, "misc") -- entity type
@@ -12233,11 +12900,13 @@ tDef(822, "#LIGHT_BLUE#The legacy of Dwarven Emperors grants you their wisdom.")
 tDef(830, "Silent Blade") -- entity name
 tDef(831, "shining dagger") -- _t
 tDef(834, "A thin, dark dagger that seems to meld seamlessly into the shadows.") -- _t
+tDef(847, "Enter stealth for 3 turns.") -- _t
 tDef(860, "Moon") -- entity name
 tDef(861, "crescent blade") -- _t
 tDef(864, "A viciously curved blade that a folk story says is made from a material that originates from the moon.  Devouring the light around it, it fades.") -- _t
 tDef(879, "Deal 200%% of your Cunning as Darkness damage (%d).") -- tformat
 tDef(881, "Deal %d Darkness damage.") -- tformat
+tDef(899, "The moon shines alone in a starless sky.") -- _t
 tDef(905, "#ANTIQUE_WHITE#The two blades glow brightly as they are brought close together.") -- logSeen
 tDef(908, "#ANTIQUE_WHITE#The light from the two blades fades as they are separated.") -- logPlayer
 tDef(915, "Star") -- entity name
@@ -12245,6 +12914,7 @@ tDef(916, "jagged blade") -- _t
 tDef(919, "Legend tells of a blade, shining bright as a star. Forged from a material fallen from the skies, it glows.") -- _t
 tDef(934, "Deal 200%% of your Dexterity as Light damage (%d).") -- tformat
 tDef(936, "Deal %d Light damage.") -- tformat
+tDef(954, "The star shines alone in a moonless sky.") -- _t
 tDef(967, "Ring of the War Master") -- entity name
 tDef(968, "blade-edged ring") -- _t
 tDef(969, "A blade-edged ring that radiates power. As you put it on, strange thoughts of pain and destruction come to your mind.") -- _t
@@ -12254,6 +12924,7 @@ tDef(990, "A huge greatmaul of incredible weight. Wielding it, you feel utterly 
 tDef(1015, "Crooked Club") -- entity name
 tDef(1016, "weird club") -- _t
 tDef(1019, "An oddly twisted club with a hefty weight on the end. There's something very strange about it.") -- _t
+tDef(1035, "Reduce targets accuracy and powers by 5 (stacks 5 times)") -- _t
 tDef(1047, "Spider-Silk Robe of Spydrë") -- entity name
 tDef(1048, "spider-silk robe") -- _t
 tDef(1049, "This set of robes is made wholly of spider silk. It looks outlandish and some sages think it came from another world, probably through a farportal.") -- _t
@@ -12262,6 +12933,7 @@ tDef(1070, "Huh?") -- _t
 tDef(1081, "Dragon-helm of Kroltar") -- entity name
 tDef(1082, "dragon-helm") -- _t
 tDef(1083, "A visored steel helm, embossed and embellished with gold, that bears as its crest the head of Kroltar, the greatest of the fire drakes.") -- _t
+tDef(1104, "Kroltar's power resides in his scales.") -- _t
 tDef(1113, "#GOLD#As the helm of Kroltar approaches the your scale armour, they begin to fume and emit fire.") -- logPlayer
 tDef(1116, "#GOLD#The fumes and fire fade away.") -- logPlayer
 tDef(1123, "Crown of Command") -- entity name
@@ -12280,9 +12952,11 @@ tDef(1218, "The legendary hammer of the Dwarven master smiths. For ages it was u
 tDef(1242, "Snow Giant Wraps") -- entity name
 tDef(1243, "fur-lined leather wraps") -- _t
 tDef(1244, "Two large pieces of leather designed to be wrapped about the hands and the forearms.  This particular pair of wraps has been enchanted, imparting the wearer with great strength.") -- _t
+tDef(1269, "This would be great with a mighty matching belt.") -- _t
 tDef(1280, "Mighty Girdle") -- entity name
 tDef(1281, "massive, stained girdle") -- _t
 tDef(1282, "This girdle is enchanted with mighty wards against expanding girth. Whatever the source of its wondrous strength, it will prove of great aid in the transport of awkward burdens.") -- _t
+tDef(1298, "Some giant wraps would make you feel great.") -- _t
 tDef(1304, "#GOLD#You grow to immense size!") -- logPlayer
 tDef(1307, "#LIGHT_BLUE#You feel a lot smaller...") -- logPlayer
 tDef(1315, "Serpentine Cloak") -- entity name
@@ -12303,10 +12977,12 @@ tDef(1428, "A plain elven-silk robe. It would be unremarkable if not for the she
 tDef(1454, "Temporal Augmentation Robe - Designed In-Style") -- entity name
 tDef(1455, "stylish robe with a scarf") -- _t
 tDef(1456, "Designed by a slightly quirky Paradox Mage, this robe always appears to be stylish in any time the user finds him, her, or itself in. Crafted to aid Paradox Mages through their adventures, this robe is of great help to those that understand what a wibbly-wobbly, timey-wimey mess time actually is. Curiously, as a result of a particularly prolonged battle involving its fourth wearer, the robe appends a very long, multi-coloured scarf to its present wearers.") -- _t
+tDef(1488, "Oddly it never produces a hat.") -- _t
 tDef(1499, "Un'fezan's Cap") -- entity name
 tDef(1500, "red stylish hat") -- _t
 tDef(1501, "This fez once belonged to a traveler; it always seems to be found lying around in odd locations.\
 #{italic}#Fezzes are cool.#{normal}#") -- _t
+tDef(1529, "Needs something equally stylish and cool to go with it.") -- _t
 tDef(1541, "#STEEL_BLUE#A time vortex briefly appears in front of you.") -- logPlayer
 tDef(1548, "crude iron battle axe") -- _t
 tDef(1549, "Crude Iron Battle Axe of Kroll") -- entity name
@@ -12334,6 +13010,7 @@ tDef(1736, "Blood drips continuously from this fell suit of iron, and dark magic
 tDef(1764, "Scale Mail of Kroltar") -- entity name
 tDef(1765, "perfectly-wrought suit of dragon scales") -- _t
 tDef(1766, "A heavy shirt of scale mail constructed from the remains of Kroltar, whose armour was like tenfold shields.") -- _t
+tDef(1792, "Kroltar's head would turn up the heat.") -- _t
 tDef(1804, "Cuirass of the Thronesmen") -- entity name
 tDef(1805, "heavy dwarven-steel armour") -- _t
 tDef(1806, "This heavy dwarven-steel armour was created in the deepest forges of the Iron Throne. While it grants incomparable protection, it demands that you rely only on your own strength.") -- _t
@@ -12341,9 +13018,11 @@ tDef(1835, "#LIGHT_BLUE#You feel your dwarven power swelling to meet the challen
 tDef(1843, "Golden Three-Edged Sword 'The Truth'") -- entity name
 tDef(1844, "three-edged sword") -- _t
 tDef(1845, "The wise ones say that truth is a three-edged sword. And sometimes, the truth hurts.") -- _t
+tDef(1860, "9% chance to stun or confuse the target") -- _t
 tDef(1875, "Ureslak's Femur") -- entity name
 tDef(1876, "a strangely colored bone") -- _t
 tDef(1879, "A shortened femur of the mighty prismatic dragon Ureslak, this erratic club still resonates with his volatile nature.") -- _t
+tDef(1891, "10% chance to shimmer to a different hue and gain powers") -- _t
 tDef(1902, "#GOLD#Ureslak's Femur glows and shimmers!") -- logSeen
 tDef(1906, "Flaming") -- _t
 tDef(1912, "Frozen") -- _t
@@ -12351,11 +13030,14 @@ tDef(1918, "Crackling") -- _t
 tDef(1924, "Venomous") -- _t
 tDef(1929, "Starry") -- _t
 tDef(1935, "Eldritch") -- _t
+tDef(1943, "What would happen if more of Ureslak's remains were reunited?") -- _t
 tDef(1950, "Ureslak's Molted Scales") -- entity name
 tDef(1951, "scaly multi-hued cloak") -- _t
 tDef(1952, "This cloak is fashioned from the scales of some large reptilian creature.  It appears to reflect every color of the rainbow.") -- _t
+tDef(1980, ", or ") -- _t
 tDef(1980, "energize the scales for 16 turns, increasing resistance to %s damage by 15%% just before you are damaged. (This effect lasts 5 turns and only works on one type of damage.)") -- tformat
 tDef(1985, "%s empowers %s %s!") -- logSeen
+tDef(1994, "It would go well with another part of Ureslak.") -- _t
 tDef(2000, "#YELLOW_GREEN#An ironic harmony surrounds Ureslak's remains as they reunite.") -- logSeen
 tDef(2004, "#YELLOW_GREEN#Ureslak's remains seem more unsettled.") -- logSeen
 tDef(2011, "razor sharp war axe") -- _t
@@ -12365,11 +13047,15 @@ It is said the wielder will slowly grow mad. This, however, has never been prove
 tDef(2040, "Sword of Potential Futures") -- entity name
 tDef(2041, "under-wrought blade") -- _t
 tDef(2044, "Legend has it this blade is one of a pair: twin blades forged in the earliest of days of the Wardens. To an untrained wielder it is less than perfect; to a Warden, it represents the untapped potential of time.") -- _t
+tDef(2077, "In the past there was a dagger with it.") -- _t
+tDef(2080, "10% chance to reduce the target's resistances to all damage") -- _t
 tDef(2085, "#CRIMSON#The echoes of time resound as the blades are reunited once more.") -- logSeen
 tDef(2089, "#CRIMSON#Time seems less perfect in your eyes as the blades are separated.") -- logPlayer
 tDef(2096, "Dagger of the Past") -- entity name
 tDef(2097, "rusted blade") -- _t
 tDef(2100, "Legend has it this blade is one of a pair: twin blades forged in the earliest of days of the Wardens. To an untrained wielder it is less than perfect; to a Warden, it represents the opportunity to learn from the mistakes of the past.") -- _t
+tDef(2134, "Potentially it would go with a sword in the future.") -- _t
+tDef(2137, "10% chance to return the target to a much younger state") -- _t
 tDef(2152, "Stone Gauntlets of Harkor'Zun") -- entity name
 tDef(2153, "dark stone gauntlets") -- _t
 tDef(2154, "Fashioned in ancient times by cultists of Harkor'Zun, these heavy granite gauntlets were designed to protect the wearer from the wrath of their dark master.") -- _t
@@ -12386,6 +13072,7 @@ tDef(2247, "This strange orange quiver is made of brass and etched with many bri
 tDef(2272, "Quiver of Domination") -- entity name
 tDef(2273, "grey quiver") -- _t
 tDef(2274, "Powerful telepathic forces emanate from the arrows of this quiver. The tips appear dull, but touching them causes you intense pain.") -- _t
+tDef(2289, "dominate the target") -- _t
 tDef(2302, "Blightstopper") -- entity name
 tDef(2303, "vine coated shield") -- _t
 tDef(2306, "This voratun shield, coated with thick vines, was imbued with nature's power long ago by the Halfling General Almadar Riul, who used it to stave off the magic and diseases of orcish corruptors during the peak of the Pyre Wars.") -- _t
@@ -12396,6 +13083,7 @@ tDef(2410, "#DARK_GREEN#You feel nature's power protecting you!") -- logPlayer
 tDef(2418, "Star Shot") -- entity name
 tDef(2419, "blazing shot") -- _t
 tDef(2420, "Intense heat radiates from this powerful shot.") -- _t
+tDef(2435, "sets off a powerful explosion") -- _t
 tDef(2531, "Nexus of the Way") -- entity name
 tDef(2532, "brilliant green mindstar") -- _t
 tDef(2536, "The vast psionic force of the Way reverberates through this gemstone. With a single touch, you can sense overwhelming power, and hear countless thoughts.") -- _t
@@ -12432,19 +13120,22 @@ tDef(2917, "This helmet radiates a dark power. Its visor seems to twist and corr
 tDef(2945, "Umbral Razor") -- entity name
 tDef(2946, "shadowy dagger") -- _t
 tDef(2949, "This dagger seems to be formed of pure shadows, with a strange miasma surrounding it.") -- _t
+tDef(2963, "20% chance to make the target bleed shadows. You heal for 15 whenever you hit an enemy bleeding shadows.") -- _t
 tDef(2967, "%s resists the shadowy cut") -- logSeen
 tDef(2985, "Emblem of Evasion") -- entity name
 tDef(2986, "gold coated emblem") -- _t
 tDef(2987, "Said to have belonged to a master of avoiding attacks, this gilded steel emblem symbolizes his talent.") -- _t
-tDef(3004, "high-quality bow") -- _t
 tDef(3004, "Surefire") -- entity name
+tDef(3004, "high-quality bow") -- _t
 tDef(3005, "This tightly strung bow appears to have been crafted by someone of considerable talent. When you pull the string, you feel incredible power behind it.") -- _t
 tDef(3027, "Frozen Shards") -- entity name
 tDef(3029, "pouch of crystallized ice") -- _t
 tDef(3030, "In this dark blue pouch lie several small orbs of ice. A strange vapour surrounds them, and touching them chills you to the bone.") -- _t
+tDef(3044, "bursts into an icy cloud") -- _t
 tDef(3065, "electrified whip") -- _t
 tDef(3066, "Stormlash") -- entity name
 tDef(3067, "This steel plated whip arcs with intense electricity. The force feels uncontrollable, explosive, powerful.") -- _t
+tDef(3079, "Focus the lightning forces on an enemy") -- _t
 tDef(3081, "The storm is on your side !") -- logPlayer
 tDef(3084, "The storm betrayed you...") -- logPlayer
 tDef(3096, "strike an enemy within range %d (for 100%% weapon damage as lightning) and release a radius %d burst of electricity dealing %0.2f to %0.2f lightning damage (based on Magic and Dexterity)") -- tformat
@@ -12452,6 +13143,7 @@ tDef(3113, "#Source# strikes #Target# with %s %s, sending out an arc of lightnin
 tDef(3127, "gemmed whip handle") -- _t
 tDef(3128, "Focus Whip") -- entity name
 tDef(3129, "A small mindstar rests at top of this handle. As you touch it, a translucent cord appears, flicking with your will.") -- _t
+tDef(3143, "Try to fry your enemies brain (25% chance to brainlock)") -- _t
 tDef(3156, "strike all targets in a line (for 100%% weapon damage as mind) out to range 4") -- _t
 tDef(3164, "#Source# manifests a psychic assult with %s %s!") -- logCombat
 tDef(3181, "Latafayn") -- entity name
@@ -12470,11 +13162,16 @@ tDef(3318, "A thick venom drips from this mindstar.") -- _t
 tDef(3384, "Corpathus") -- entity name
 tDef(3385, "bound sword") -- _t
 tDef(3388, "Thick straps encircle this blade. Jagged edges like teeth travel down the blade, bisecting it. It fights to overcome the straps, but lacks the strength.") -- _t
+tDef(3400, "grows dramatically in power") -- _t
+tDef(3410, "grows in power") -- _t
 tDef(3425, "Corpathus bursts open, unleashing a horrific mass!") -- logSeen
 tDef(3433, "This mass of putrid slime burst from Corpathus, and seems quite hungry.") -- _t
+tDef(3475, "Vilespawn") -- _t
 tDef(3491, "Anmalice") -- entity name
 tDef(3492, "twisted blade") -- _t
 tDef(3495, "The eye on the hilt of this blade seems to glare at you, piercing your soul and mind. Tentacles surround the hilt, latching onto your hand.") -- _t
+tDef(3507, "torments the target with many mental effects") -- _t
+tDef(3521, "reduces mental save penalty") -- _t
 tDef(3554, "Anmalice focuses its mind-piercing eye on #Target#!") -- logCombat
 tDef(3562, "#CRIMSON#The tentacles release your arm, sated.") -- logPlayer
 tDef(3564, "#CRIMSON#As you tear the tentacles from your arm, horrible images enter your mind!") -- logPlayer
@@ -12483,13 +13180,15 @@ tDef(3581, "Morrigor") -- entity name
 tDef(3584, "jagged, segmented, sword") -- _t
 tDef(3585, "This heavy, ridged blade emanates magical power, yet as you grasp the handle an icy chill runs its course through your spine. You feel the disembodied presence of all those slain by it. In unison, they demand company.") -- _t
 tDef(3598, "deal %0.2f arcane and %0.2f darkness damage (based on Magic) in a radius 1 around the target") -- tformat
+tDef(3607, "swallows the victim's soul, gaining a new power") -- _t
 tDef(3630, "@Source@ taps the #SALMON#trapped soul#LAST# of %s, xmanifesting %s!") -- tformat
 tDef(3634, "%s's %s #SALMON#CONSUMES THE SOUL#LAST# of %s, gaining the power of %s!") -- logSeen
 tDef(3653, "Hydra's Bite") -- entity name
 tDef(3654, "triple headed flail") -- _t
 tDef(3655, "This three-headed stralite flail strikes with the power of a hydra. With each attack it lashes out, hitting everyone around you.") -- _t
-tDef(3690, " and %s") -- tformat
+tDef(3669, "hit up to two adjacent enemies") -- _t
 tDef(3690, "#Source#'s three headed flail lashes at #Target#%s!") -- logCombat
+tDef(3690, " and %s") -- tformat
 tDef(3692, "#Source#'s three headed flail lashes at #Target#!") -- logCombat
 tDef(3709, "Spellhunt Remnants") -- entity name
 tDef(3710, "heavily corroded voratun gauntlets") -- _t
@@ -12507,14 +13206,17 @@ tDef(3838, "These brilliant voratun gauntlets shine with an almost otherworldly 
 tDef(3864, "attempt to destroy all magic effects and sustains on creatures in a radius %d cone (unnatural creatures are additionally dealt %0.2f arcane damage and stunned)") -- tformat
 tDef(3901, "%s unleashes antimagic forces from %s %s!") -- logSeen
 tDef(3932, "%s's animating magic is disrupted by the burst of power!") -- logSeen
+tDef(3948, "destroy an arcane item (of a higher tier than the gauntlets)") -- _t
 tDef(3952, "#LIGHT_RED#You can not do that with a tinker attached. Remove it first.") -- log
+tDef(3956, "Destroy which item?") -- _t
 tDef(3959, "You crush the %s, and the gloves take on an illustrious shine!") -- logPlayer
-tDef(3974, "sleek stringed bow") -- _t
 tDef(3974, "Merkul's Second Eye") -- entity name
+tDef(3974, "sleek stringed bow") -- _t
 tDef(3975, "This bow is said to have been the tool of an infamous dwarven spy. Rumours say it allowed him to \"steal\" the eyes of his enemies. Adversaries struck were left alive, only to unknowingly divulge their secrets to his unwavering sight.") -- _t
 tDef(3995, "Summertide") -- entity name
 tDef(3996, "shining gold shield") -- _t
 tDef(4001, "A bright light shines from the center of this shield. Holding it clears your mind.") -- _t
+tDef(4011, "releases a burst of light") -- _t
 tDef(4052, "send out a range %d beam, lighting its path and dealing %0.2f to %0.2f light damage (based on Willpower and Cunning)") -- tformat
 tDef(4065, "%s's %s flashes!") -- logSeen
 tDef(4076, "Wanderer's Rest") -- entity name
@@ -12545,6 +13247,7 @@ tDef(4332, "An endless supply of arrows lay within this deep black quiver. Tiny 
 tDef(4356, "Hornet Stingers") -- entity name
 tDef(4358, "sting tipped arrows") -- _t
 tDef(4359, "A vile poison drips from the tips of these arrows.") -- _t
+tDef(4373, "afflicts the target with a poison dealing 20 damage per turn and causing actions to fail 20% of the time for 6 turns") -- _t
 tDef(4384, "Umbraphage") -- entity name
 tDef(4385, "deep black lantern") -- _t
 tDef(4389, "This lantern of pale white crystal holds a sphere of darkness, that yet emanates light. Everywhere it shines, darkness vanishes entirely.") -- _t
@@ -12584,12 +13287,15 @@ tDef(4821, "A deep red light glows from within this damaged amulet of black ston
 tDef(4849, "Pouch of the Subconscious") -- entity name
 tDef(4851, "familiar pouch") -- _t
 tDef(4852, "You find yourself constantly fighting an urge to handle this strange pouch of shot.") -- _t
+tDef(4869, "50% chance to reload 1 ammo") -- _t
 tDef(4881, "Wind Worn Shot") -- entity name
 tDef(4883, "perfectly smooth shot") -- _t
 tDef(4884, "These perfectly white spheres appear to have been worn down by years of exposure to strong winds.") -- _t
+tDef(4899, "35% chance for lightning to arc to a second target") -- _t
 tDef(4927, "Spellcrusher") -- entity name
 tDef(4928, "vine coated hammer") -- _t
 tDef(4929, "This large steel greatmaul has thick vines wrapped around the handle.") -- _t
+tDef(4941, "50% chance to shatter magical shields") -- _t
 tDef(4965, "%s's magical shields are shattered!") -- logSeen
 tDef(4981, "#DARK_GREEN#You feel a great power rise within you!") -- logPlayer
 tDef(4990, "Telekinetic Core") -- entity name
@@ -12614,6 +13320,7 @@ tDef(5159, "tree shaped totem") -- _t
 tDef(5162, "This small tree-shaped totem is imbued with powerful healing energies.") -- _t
 tDef(5165, "Heals all nearby living creatures by 5 points each turn.") -- _t
 tDef(5187, "#CRIMSON# A powerful healing aura appears around you as you equip the %s.") -- logPlayer
+tDef(5201, "take root increasing health by 300, armor by 20, and armor hardiness by 20%% but rooting you in place for 4 turns") -- _t
 tDef(5213, "%s merges with %s %s!") -- logSeen
 tDef(5222, "Ring of Growth") -- entity name
 tDef(5223, "This small wooden ring has a single green stem wrapped around it. Thin leaves still seem to be growing from it.") -- _t
@@ -12634,6 +13341,8 @@ tDef(5360, "Eternity's Counter") -- entity name
 tDef(5361, "crystalline hourglass") -- _t
 tDef(5362, "This hourglass of otherworldly crystal appears to be filled with countless tiny gemstones in place of sand. As they fall, you feel the flow of time change around you.") -- _t
 tDef(5372, "Offers either offensive or defensive benefits, depending on the position of the sands.  Switching the direction of flow takes no time.") -- _t
+tDef(5384, "entropy") -- _t
+tDef(5384, "stability") -- _t
 tDef(5384, "flip the hourglass (sands currently flowing towards %s)") -- tformat
 tDef(5412, "%s flips %s %s over...") -- logSeen
 tDef(5413, "#GOLD#The sands slowly begin falling towards %s.") -- logPlayer
@@ -12663,6 +13372,7 @@ tDef(5633, "This powerful sling is said to have belonged to a warrior so strong 
 tDef(5658, "The Titan's Quiver") -- entity name
 tDef(5660, "gigantic ceramic arrows") -- _t
 tDef(5661, "These massive arrows are honed to a vicious sharpness, and appear to be nearly unbreakable. They seem more like spikes than any arrow you've ever seen.") -- _t
+tDef(5674, "pin the target to the nearest wall") -- _t
 tDef(5677, "%s is knocked back and pinned!") -- logSeen
 tDef(5687, "Inertial Twine") -- entity name
 tDef(5688, "This double-helical ring seems resistant to attempts to move it. Wearing it seems to extend this property to your entire body.") -- _t
@@ -12676,6 +13386,7 @@ tDef(5751, "This tall staff is tipped with a pitch black sphere that yet seems t
 tDef(5789, "gore stained battleaxe") -- _t
 tDef(5790, "Eksatin's Ultimatum") -- entity name
 tDef(5794, "This gore-stained battleaxe was once used by an infamously sadistic king, who took the time to personally perform each and every execution he ordered. He kept a vault of every head he ever removed, each and every one of them carefully preserved. When he was overthrown, his own head was added as the centrepiece of the vault, which was maintained as a testament to his cruelty.") -- _t
+tDef(5804, "decapitate a weakened target") -- _t
 tDef(5808, "#RED#%s#GOLD# has been decapitated!#LAST#") -- logSeen
 tDef(5820, "Radiance") -- entity name
 tDef(5821, "a sparkling, golden cloak") -- _t
@@ -12720,6 +13431,7 @@ tDef(6112, "Spelldrinker") -- entity name
 tDef(6113, "eerie black dagger") -- _t
 tDef(6116, "Countless mages have fallen victim to the sharp sting of this blade, betrayed by those among them with greed for ever greater power.\
 Passed on and on, this blade has developed a thirst of its own.") -- _t
+tDef(6129, "steals up to 50 mana from the target") -- _t
 tDef(6149, "Frost Lord's Chain") -- entity name
 tDef(6150, "ice coated chain") -- _t
 tDef(6151, "This impossibly cold chain of frost-coated metal radiates a strange and imposing aura.") -- _t
@@ -12727,6 +13439,7 @@ tDef(6157, "Gives all your cold damage a 20% chance to freeze the target.") -- _
 tDef(6177, "Twilight's Edge") -- entity name
 tDef(6178, "shining long sword") -- _t
 tDef(6184, "The blade of this sword seems to have been forged of a mixture of voratun and stralite, resulting in a blend of swirling light and darkness.") -- _t
+tDef(6193, "release a burst of light and dark damage (scales with Magic)") -- _t
 tDef(6214, "Mnemonic") -- entity name
 tDef(6215, "As long as you wear this ring, you will never forget who you are.") -- _t
 tDef(6216, "familiar ring") -- _t
@@ -12737,11 +13450,14 @@ tDef(6248, "This warped, blackened sword drips acid from its countless pores.") 
 tDef(6276, "Borosk's Hate") -- entity name
 tDef(6278, "double-bladed sword") -- _t
 tDef(6279, "This impressive looking sword features two massive blades aligned in parallel. They seem weighted remarkably well.") -- _t
+tDef(6291, "25% chance to strike the target again.") -- _t
 tDef(6311, "Butcher") -- entity name
 tDef(6312, "blood drenched shortsword") -- _t
 tDef(6315, "Be it corruption, madness or eccentric boredom, the halfling butcher by the name of Caleb once took to eating his kin instead of cattle. His spree was never ended and nobody knows where he disappeared to. Only the blade remained, stuck fast in a bloodied block. Beneath, a carving said \"This was fun, let's do it again some time.\"") -- _t
-tDef(6324, "Enter Rampage if health falls below 20%%%s") -- tformat
 tDef(6324, " (cooling down: %d turns)") -- tformat
+tDef(6324, "Enter Rampage if health falls below 20%%%s") -- tformat
+tDef(6331, "Attempt to devour a low HP enemy, striking again and possibly killing it instantly.") -- _t
+tDef(6343, "Enter a Rampage (Shared cooldown).") -- _t
 tDef(6386, "Ethereal Embrace") -- entity name
 tDef(6387, "wispy purple cloak") -- _t
 tDef(6388, "This cloak waves and bends with shimmering light, reflecting the depths of space and the heart of the Aether.") -- _t
@@ -12758,6 +13474,7 @@ tDef(6519, "Ring of the Archlich") -- entity name
 tDef(6520, "dusty, cracked ring") -- _t
 tDef(6521, "This ring is filled with an overwhelming, yet restrained, power. It lashes, grasps from its metal prison, searching for life to snuff out. You alone are unharmed.\
 Perhaps it feels all the death you will bring to others in the near future.") -- _t
+tDef(6540, "It desires to be surrounded by undeath.") -- _t
 tDef(6543, "#DARK_GREY#Your ring releases a burst of necromantic energy!") -- logPlayer
 tDef(6550, "#DARK_GREY#Your ring's power fades away.") -- logPlayer
 tDef(6558, "wand") -- entity subtype
@@ -12769,6 +13486,7 @@ tDef(6587, "You cannot summon; you are suppressed!") -- logPlayer
 tDef(6596, "Not enough space to summon!") -- logPlayer
 tDef(6605, "A shining orb.") -- _t
 tDef(6657, "#Source# points %s %s at #target#, releasing a brilliant orb of light!") -- logCombat
+tDef(6665, "Summon") -- _t
 tDef(6677, "handled hole in space") -- _t
 tDef(6678, "Temporal Rift") -- entity name
 tDef(6681, "Some mad Chronomancer appears to have affixed a handle to this hole in spacetime. It looks highly effective, in its own strange way.") -- _t
@@ -12799,11 +13517,13 @@ tDef(6918, "The eye locks onto %s, freezing it in place!") -- logSeen
 tDef(6929, "Shantiz the Stormblade") -- entity name
 tDef(6930, "thin stormy blade") -- _t
 tDef(6936, "This surreal dagger crackles with the intensity of a vicious storm.") -- _t
+tDef(6945, "Causes lightning to strike and destroy any projectiles in a radius of 10, dealing damage and dazing enemies in a radius of 5 around them.") -- _t
 tDef(6956, "#GREEN#Shantiz strikes down a projectile!") -- logPlayer
 tDef(6992, "Swordbreaker") -- entity name
 tDef(6993, "hooked blade") -- _t
 tDef(6996, "This ordinary blade is made of fine, sturdy voratun and outfitted with jagged hooks along the edge. This simple appearance belies a great power - the hooked maw of this dagger broke many a blade and the stride of many would-be warriors.") -- _t
 tDef(7002, "Can block like a shield, potentially disarming the enemy.") -- _t
+tDef(7009, "Breaks enemy weapon.") -- _t
 tDef(7029, "Shieldsmaiden") -- entity name
 tDef(7030, "icy shield") -- _t
 tDef(7033, "Myths tell of shieldsmaidens, a tribe of warrior women from the northern wastes of Maj'Eyal. Their martial prowess and beauty drew the fascination of swaths of admirers, yet all unrequited. So began the saying, that a shieldsmaiden's heart is as cold and unbreakable as her shield.") -- _t
@@ -12811,7 +13531,9 @@ tDef(7041, "Granted talent can block up to 1 instance of damage each 10 turns.")
 tDef(7065, "Tirakai's Maul") -- entity name
 tDef(7066, "This massive hammer is formed from a thick mass of strange crystalline growths. In the side of the hammer itself you see an empty slot; it looks like a gem of your own could easily fit inside it.") -- _t
 tDef(7068, "None") -- _t
+tDef(7071, "No gem") -- _t
 tDef(7072, "%s: %s") -- tformat
+tDef(7072, "Write a description for this gem's properties!") -- _t
 tDef(7094, "Demonic") -- _t
 tDef(7097, "imbue the hammer with a gem of your choice") -- _t
 tDef(7118, "You remove your %s.") -- logPlayer
@@ -12822,6 +13544,7 @@ tDef(7215, "vile gauntlets") -- _t
 tDef(7216, "These fell looking gloves glow with untold power.") -- _t
 tDef(7226, "Increases all damage by %d%% of current vim \
 Current Bonus: %d%%") -- tformat
+tDef(7249, "Only the masochistic can unlock its full power.") -- _t
 tDef(7252, "#STEEL_BLUE#The fist and the mangled clothing glow ominously!") -- logPlayer
 tDef(7257, "#STEEL_BLUE#The ominous glow dies down.") -- logPlayer
 tDef(7264, "Masochism") -- entity name
@@ -12832,6 +13555,7 @@ tDef(7266, "Stolen flesh,\
 	Is to live again.") -- _t
 tDef(7279, "Reduces all damage by %d%% of current vim or 50%% of the damage, whichever is lower; but at the cost of vim equal to 5%% of the damage blocked. \
 Current Bonus: %d") -- tformat
+tDef(7298, "With a better grip it would be the destroyer of your enemies.") -- _t
 tDef(7311, "Obliterator") -- entity name
 tDef(7312, "titanic maul") -- _t
 tDef(7313, "This massive hammer strikes with deadly force. Bones crunch, splinter and grind to dust under its impact.") -- _t
@@ -12867,6 +13591,7 @@ tDef(7676, "black, spiked armor") -- _t
 tDef(7679, "Worn by a villain long forgotten, this armor was powered by the blood of thousands of innocents. Decrepit and old, the dark lord died in solitude, his dominion crumbled, his subjects gone. Only this cuirass remained, dying to finally taste fresh blood again.") -- _t
 tDef(7703, "drain blood from all creatures within range 5, causing them to bleed for %0.2f physical damage over 4 turns (based on your Physicalpower). For each creature drained (up to 10), the armor gains strength, which fades over 10 turns if it is not fed") -- tformat
 tDef(7737, "%s revels in the bloodlust of %s %s!") -- logSeen
+tDef(7757, "Blood Charges: %d") -- tformat
 tDef(7821, "Decayed Visage") -- entity name
 tDef(7822, "mask of mummified skin") -- _t
 tDef(7826, "A desiccated mask of human skin, all that remains of a necromancer from the Age of Pyre who failed to achieve lichdom.  The transformative process partially succeeded, leaving him unable to die as his body slowly rotted from the inside out over several years.  Now his spirit resides within this last bit of mummified flesh, still hungering for eternal life.") -- _t
@@ -12877,14 +13602,20 @@ tDef(7890, "Cloud Caller") -- entity name
 tDef(7891, "broad brimmed hat") -- _t
 tDef(7892, "This hat's broad brim protects you from biting colds and sudden storms.") -- _t
 tDef(7899, "A small storm cloud follows you, dealing 15 lightning damage to all enemies in a radius of 3 each turn.") -- _t
-tDef(7933, "torque") -- entity subtype
 tDef(7933, "charm") -- entity type
+tDef(7933, "torque") -- entity subtype
 tDef(7934, "The Jolt") -- entity name
 tDef(7935, "tingling torque") -- _t
 tDef(7938, "This torque feels tingly to the touch, but seems to enhance your thinking.") -- _t
+tDef(7939, "Your mind is attuned to electricity.\
+Any lightning damage you do that is more than 10% of the victim's maximum life will attempt to brainlock the target.\
+Upon taking lightning damage >10% of your max life, your mind fires back, dealing 30% of the original damage as mind and trying to brainlock the target.\
+Upon taking mind damage >10% of your max life, you reflexively trigger the jolt, sending an arc of dazing lightning toward the target (damage based on mindpower).\
+This item can have up to 2 charges, with each charge having 4 turn cooldown.") -- _t
 tDef(7997, "damp steel battle axe") -- _t
 tDef(7998, "Stormfront") -- entity name
 tDef(8000, "The blade glows faintly blue, and reflects a sky full of stormy clouds.") -- _t
+tDef(8015, "inflicts either shocked or wet, chosen at random") -- _t
 tDef(8035, "Eye of Summer") -- entity name
 tDef(8036, "warm mindstar") -- _t
 tDef(8041, "This mindstar glows with a bright warm light, but seems somehow incomplete.") -- _t
@@ -12893,6 +13624,7 @@ tDef(8084, "#GREEN#The seasons no longer feel balanced.") -- logPlayer
 tDef(8091, "Eye of Winter") -- entity name
 tDef(8092, "cold mindstar") -- _t
 tDef(8097, "This mindstar glows with a dim cool light, but seems somehow incomplete.") -- _t
+tDef(8124, "Nature requires balance in these matters.") -- _t
 tDef(8144, "Ruthless Grip") -- entity name
 tDef(8146, "sinister gauntlets") -- _t
 tDef(8147, "Crafted for a warlord who wanted to keep his subjects under a stralite grip. Dark thoughts went into the making of these gauntlets, literally.") -- _t
@@ -12901,12 +13633,14 @@ tDef(8184, "sharpened icicle") -- _t
 tDef(8185, "As any scryer knows, the link between the murderer and the murdered is the murder weapon, and a scryer can follow that link from the murdered to the weapon to the murderer.\
 One rather cold blooded killer thought of a way around this. By carving blades out of ice, they could kill as they wished and the link would just melt away.\
 Their killing spree ended when one of the victims got lucky and managed to stab the murderer in the heart with the icey blade. After being united with the cold heart that created it, the final ice blade has never melted.") -- _t
+tDef(8200, "freezes the target") -- _t
+tDef(8207, "explodes a frozen creature (damage scales with willpower)") -- _t
 tDef(8226, "Thunderfall") -- entity name
 tDef(8227, "large echoing mace") -- _t
 tDef(8229, "Tremendous power is concentrated in this heavy mace. Just dropping it can knock down nearby walls.") -- _t
 tDef(8251, "perform a melee strike against a target at up to range %d for an automatic critical hit as lightning damage") -- tformat
-tDef(8272, "#Source# hurls %s %s at #target#!") -- logCombat
 tDef(8272, "something") -- _t
+tDef(8272, "#Source# hurls %s %s at #target#!") -- logCombat
 tDef(8285, "%s's weapon returns to %s!") -- logSeen
 tDef(8294, "Kinetic Focus") -- entity name
 tDef(8295, "humming mindstar") -- _t
@@ -12918,9 +13652,12 @@ tDef(8381, "Electrical energies are focussed in the core of this mindstar.") -- 
 tDef(8453, "Thermal Focus") -- entity name
 tDef(8454, "blazing mindstar") -- _t
 tDef(8459, "Thermal energies are focussed in the core of this mindstar.") -- _t
+tDef(8492, "You feel two unconnected psionic channels on this item.") -- _t
 tDef(8534, "Lightning Catcher") -- entity name
 tDef(8535, "coiled metal belt") -- _t
 tDef(8536, "A fine mesh of metal threads held together by a sturdy chain. Sparks dance across it.") -- _t
+tDef(8537, "Taking lightning damage or making critical hits builds 2 energy charges, which give you +5% lightning damage and +1 to all stats.\
+The charges decay at a rate of 1 per turn. Max 10 charges.") -- _t
 
 
 ------------------------------------------------
@@ -13086,10 +13823,11 @@ tDef(21, "store") -- entity subtype
 ------------------------------------------------
 section "game/modules/tome/data/general/traps/teleport.lua"
 
-tDef(20, "trap") -- _t
-tDef(20, "teleport") -- entity subtype
 tDef(20, "annoy") -- entity type
+tDef(20, "teleport") -- entity subtype
+tDef(20, "trap") -- _t
 tDef(26, "teleport trap") -- entity name
+tDef(27, "Teleports the victim away.  How does anyone get close enough to disarm this trap...?") -- _t
 tDef(32, "@Target@ shimmers briefly.") -- _t
 tDef(33, "shimmering floor switch") -- _t
 tDef(37, "%s is teleported away!") -- logSeen
@@ -13099,15 +13837,17 @@ tDef(42, "%s resists being teleported!") -- logSeen
 ------------------------------------------------
 section "game/modules/tome/data/general/traps/temporal.lua"
 
-tDef(20, "water") -- entity subtype
 tDef(20, "temporal") -- entity type
+tDef(20, "water") -- entity subtype
 tDef(20, "trap") -- _t
 tDef(28, "disturbed pocket of time") -- entity name
 tDef(33, "@Target@ is caught in a distorted pocket of time!") -- _t
 tDef(34, "faint distortion") -- _t
+tDef(35, "Creates a temporal anomaly when triggered.") -- _t
 tDef(43, "extremely disturbed pocket of time") -- entity name
 tDef(48, "@Target@ is caught in an extremely distorted pocket of time!") -- _t
 tDef(49, "distortion") -- _t
+tDef(50, "Creates a major temporal anomaly when triggered.") -- _t
 
 
 ------------------------------------------------
@@ -13396,6 +14136,7 @@ It has been an honor working with such talented individuals, and an honor doing 
 \
 Long live the Conclave!\
 Healer Astelrid") -- _t
+tDef(258, "age of allure") -- newLore category
 tDef(259, "investigator Churrack note") -- _t
 tDef(260, "FROM: Investigator Churrack\
 TO: Whoever holds the position of High Overseer of Loyalty when we're let out\
@@ -13472,6 +14213,7 @@ But we won't age sleeping in these ruins#{normal}#\
 ------------------------------------------------
 section "game/modules/tome/data/lore/age-pyre.lua"
 
+tDef(25, "age of pyre") -- newLore category
 tDef(26, "Atamathon, the giant golem") -- _t
 tDef(27, "This giant golem was constructed by the Halflings during the Pyre Wars to fight the orcs, but was felled by Garkul the Devourer.\
 Its body is made of marble, its joints of solid voratun, and its eyes of purest ruby. One of its eyes seems to be missing. At over 40 feet high it towers above you.\
@@ -13524,6 +14266,7 @@ Another day dawns on Angolwen. I hesitate to write this, but it almost feels as 
 This is not to say that life has been without conflict at all. An agent of the Ziguranth infiltrated Angolwen under the guise of a travelling alchemist a few days ago; an unhappy first, I'm afraid. Having used choking powder to incapacitate the guards and rob the surrounding mages of their voices, things may have turned ugly if Linaniil hadn't been passing by on one of her walks. Little was left of that man... or the tree he hid behind... or many of the surrounding buildings, to be honest.\
 \
 In a way, the incident lit a fire under me to pursue my studies and develop my powers, but I must admit that my interest in staff practice has waned as of late. My fencing, on the other hand, improves by the day. Hmm... I wonder if I can get some of the enchanters to help me \"augment\" my old sword. After all, what is a blade but a sharpened metal staff?") -- _t
+tDef(82, "angolwen") -- newLore category
 tDef(83, "Angolwen Fountain") -- _t
 tDef(85, "#{italic}#(You see here a large, elaborate fountain.  A statue of Linaniil stands in the center, her arms outstretched to welcome all; around the outside of the fountain stand statues of a dwarf manipulating earthen runes, a human with a simple healer's crosier, an elf with a tall, elaborate staff, and a halfling with a scepter in one hand and a fireball hovering over the other.  The runes and the fireball are not connected to anything, and float in a fixed position in the air.  You see a carving repeating along the border of the fountain, in small print.)#{normal}#\
 \
@@ -13577,12 +14320,17 @@ I have slain dozens of these arachnids, each one seemingly more difficult than t
 #{bold}#Journal Entry VIII#{normal}#\
 \
 Incredible, the size of that arachnid is unimaginable; there is no doubt about it, that spider is the matriarch here. I am heavily wounded, but there is no turning back now; I must finish what I started for the sake of all those awaiting my return. If I don't make it back, whoever is now reading this journal, please make High Sun Paladin Aeryn at the Gates of Morning aware of the grave situation... and tell Melnela that I'm sorry.") -- _t
+tDef(74, "ardhungol") -- newLore category
 tDef(75, "scrap of paper") -- _t
+tDef(76, "#{italic}#A few tattered scraps of paper lie on the ground, ruined from your fight with the creature carrying it.  It's almost completely illegible, but you can piece some of it together to read:#{normal}#\
+\"...pheromone signals effective on much Eyalite wildlife ineffective on species 'sun paladin.'  at current planetary core cooling rates, passive study would lead to great loss - next step of emigration program should be cleaning of local 'sun paladin' nest and establishment of...\"") -- _t
+tDef(79, "#{italic}#This pile of tattered paper could theoretically be assembled into something legible, but without more text to draw back on, it'd still be in a language you could never interpret.  If only you had more Spydric text to help translate this...#{normal}#") -- _t
 
 
 ------------------------------------------------
 section "game/modules/tome/data/lore/arena.lua"
 
+tDef(2, "arena") -- newLore category
 tDef(3, "Arena for dummies") -- _t
 tDef(4, "#{italic}#You find a note with some highlighted words...\
 #{bold}#SCORING IN THE ARENA\
@@ -13608,6 +14356,8 @@ section "game/modules/tome/data/lore/blighted-ruins.lua"
 
 tDef(26, "Work on my glorious project has been delayed. This displeases me. The fools from the nearby village are starting to suspect my presence, and have begun guarding their graveyards and cemeteries closely. Whatever meagre remains I can steal away are often too rotted or insubstantial to use for my project, so I have no choice but to use them as sub-par minions instead. Perhaps they will sow enough conflict and discord so that new, fresher remains will become available...") -- _t
 tDef(33, "The cloak of deception is complete! Truly my finest work, not counting my project of course, it allows my minions to walk amongst the living without arousing their suspicions at all. Already I have taken a stroll to a nearby town alongside a ghoulish thrall, wrapped in the cloak... hah! The fools didn't even bat an eyelid! With this item, acquisition of components for my project shall be all the more simple.") -- _t
+tDef(40, "Fate smiles upon me. What did I come across today but the body of an unfortunate %s? Unfortunate indeed, but rather fortunate for me. The body displays next to no decomposition... it shall be perfect! With this new minion and the cloak of deception, the completion of my project is all but assured. I must prepare for the ritual... my dark menagerie shall soon have a new member.") -- tformat
+tDef(45, "blighted ruins") -- newLore category
 tDef(46, "note from the Necromancer") -- _t
 tDef(47, "My masterpiece walks! It is glorious, beautiful. While it remains unfinished, it is finished enough to serve in its purpose of protecting my lair. No would-be hero will be able to defeat it, and once it is complete it will be nigh invulnerable! Now all that remains is to animate my newest minion and bend it to my will... then they'll see. They'll ALL see. What can possibly stop me now, I ask? What?!") -- _t
 
@@ -13633,6 +14383,7 @@ tDef(69, "#{bold}#Relle, Cornac Fighter and Expedition Leader#{normal}#\
 It knows we're here.  Xann's gone, and I have to assume the worst.  Too late to run.  One option left, a contraption Sodelost ensured us he'd be able to use to get the kill...  shame he didn't leave instructions behind with it, it's unclear how to arm it, and I don't want to add \"being charred to a crisp\" to my list of troubles today.\
 I might not know a great deal about artifice, but I know how wild animals work, and for all the praise they get, dragons are no better.  I don't need to know how to rig this device so it goes off when the beast steps on it - I just need to put it inside something it'll eat whole...\
 #{italic}#Judging from this note's intact state and delicate placement next to a sack covered in assorted animal viscera, the dragon not only avoided setting off the trap, but has kept it as a trophy.  Inside the sack is a disarmed trap featuring a few recognizable alchemical flasks, and a means of mixing them in the right proportion when a pressure plate is triggered to produce a blast of dragonsfire. Figuring out how to arm it is almost as easy as figuring out how to make more traps like it.#{normal}#") -- _t
+tDef(83, "daikara") -- newLore category
 tDef(84, "Freezing Trap") -- _t
 tDef(85, "#{bold}#Relle, Cornac Fighter and Expedition Leader#{normal}#\
 It knows we're here.  Xann's gone, and I have to assume the worst.  Too late to run.  One option left, a contraption Sodelost ensured us he'd be able to use to get the kill...  shame he didn't leave instructions behind with it, it's unclear how to arm it, and I don't want to add \"being frozen solid\" to my list of troubles today.\
@@ -13643,6 +14394,7 @@ I might not know a great deal about artifice, but I know how wild animals work, 
 ------------------------------------------------
 section "game/modules/tome/data/lore/derth.lua"
 
+tDef(25, "derth") -- newLore category
 tDef(26, "Beam Trap") -- _t
 tDef(27, "#{italic}#A villager runs up to you, carrying a hefty looking sack.#{normal}#\
 You've saved us from the storms!  We can't ever repay you enough, but, well...  Shortly after you stopped them, a witch approached us and offered us some...  magical #{italic}#things#{normal}# and said they would protect our town if anything like that happened again.\
@@ -13728,6 +14480,7 @@ Thank you for telling me of Borfast's weaknesses - it shall make overcoming the 
 You must feel a little betrayed of course. I promised you power beyond your imaginings, and instead I drained your blood, fed your flesh to my servants, and enthralled your soul to my bidding. Well, we all struggle to manage expectations sometimes, eh? At least be glad I let your tortured essence roam the cold fastness of my fortress, haunting anyone foolish enough to invade. And some power I will impart to you, and it is indeed beyond your imaginings, for your mind could never reach the dark places I can. But open your eyes now, for such dark places shall be with you till the end of time... Welcome, indeed, to the dark place of my heart.\
 \
 - The Master") -- _t
+tDef(164, "dreadfell") -- newLore category
 tDef(165, "a letter to Filio from the Master") -- _t
 tDef(166, "Oh Filio, what a fun game we have had of cat and mouse! Well, perhaps to you it was a life and death struggle, but for me this past three weeks of patiently hunting you through my halls has been the most entertaining of past-times. I have enjoyed extending the game so, letting you escape my clutches when I felt it most prudent, watching as you got ever more desperate. Alas, you have now degraded too much, and it was simply too embarrassing watching you eat your own faeces to survive. I had to put an end to it - I'm sure you understand.\
 \
@@ -14115,6 +14868,7 @@ Linaniil stood for a while staring at the black cave.  Fear radiated from her fa
 She marched forwards and I followed, until we came right up to the shadowed opening.  Linaniil hesitated a moment, staring into the blackness, before finally stepping inside and being swallowed from sight.  I could feel it then, the sensation that something ancient lay in this place.  My skin tingled and my arcane attunement felt on fire.  This dark cave held some mysterious force, secluded from all knowledge since the oldest days of Eyal.  There was something here that could change the destiny of the world.\
 \
 I took a deep breath and stepped forwards.") -- _t
+tDef(452, "spellblaze") -- newLore category
 tDef(453, "The Spellblaze Chronicles(8): Forbidden") -- _t
 tDef(454, "#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#\
 \
@@ -14222,6 +14976,7 @@ tDef(26, "a fearsome sight") -- _t
 tDef(27, "You stand in a field of fire, the flames dancing back and forth like blaze-spawned corn waving in the wind. It licks your feet, your skin, your face, and writhes around in tiny shapes which tear across your flesh and crawl down your throat. It burns and blazes through your body, and crazed thoughts fill your mind. This is Goedalath they tell you, the Fearscape, and you have no rightful place here.\
 \
 In the distance you see looming, demonic shapes of absolute darkness, towering above the blazing land like wardens of doom. The sky is black, but above your head hangs a round world that you recognise as Eyal. Across the burning plains gather armies of fiendish figures, and glowing eyes turn up with hateful glowers to your home world. Suddenly both you and it and seem small and frail. As the flames fill your body with pain your only thought is of escape.") -- _t
+tDef(34, "fearscape") -- newLore category
 tDef(35, "sacrificial altar") -- _t
 tDef(37, "You see a female human lying unconscious on a black altar, twisted sigils scored into her naked flesh.\
 Around her are several figures in dark robes.\
@@ -14385,6 +15140,7 @@ The rogue is unknown to this day\
 Though rumours persist still\
 Rogues aren't known by name or deed\
 But by the names they kill") -- _t
+tDef(214, "misc") -- newLore category
 tDef(215, "Dust to Dust") -- _t
 tDef(216, "#{italic}#An undead hunter's guide, by Aslabor Borys#{normal}#\
 \
@@ -14504,6 +15260,7 @@ it will be\
 #{italic}##FIREBRICK#b e a u t i f u l#LAST##{normal}#\
 \
 ") -- _t
+tDef(82, "high peak") -- newLore category
 tDef(83, "Elandar's journal (2)") -- _t
 tDef(84, "I awoke early this morning to see the love of my life altering the unique farportal we've been building together.  Our plans are all on track so far, the Staff of Absorption has been integrated into the portal so it'll drain Gerlyk the moment it summons him, the orcs are too busy suspecting each other to bother investigating us...  and then I discover that she's sabotaged it.  This portal will #{italic}#em#{normal}#power Gerlyk when it summons him - and he surely must be insane from the loneliness of tumbling in the void of space all this time.  In any case, even a sane god would be devastating to life as we know it.\
     \
@@ -14534,6 +15291,7 @@ tDef(69, "clue (ruined dungeon)") -- _t
 tDef(70, "There is an inscription here:\
 #{italic}#...Unleash dark thoughts.\
 Upon this blighted land!#{normal}#") -- _t
+tDef(78, "ruined dungeon") -- newLore category
 tDef(79, "infinite dungeon (ruined dungeon)") -- _t
 tDef(80, "There is an inscription here:\
 The deceptive god Ralkur fled before the wrath of the godslayer Branzir and his dark blade Madrath. But though he fled to the depths of the dungeon he came to an end. Seeing himself cornered he used his power to delve deeper into the ground, laying traps and summoning enemies to confound his enemy. But Branzir would not be lost. He pursued his prey ever on, hunting him ever deeper. And Ralkur fled further, and faster, delving to fathoms beyond knowledge, with the godslayer always behind him, hunting relentlessly.\
@@ -14563,6 +15321,7 @@ tDef(128, "The Hunter and the Hunted chapter 4") -- _t
 tDef(129, "Seeing the full powers of the Sher'Tul Ralkur felt paralysed with fear, and thought his quest for vengeance hopeless. But he bided his time still, and his patience was rewarded as he saw dissention begin to arise in the great race. When Caldizar disappeared and the Godslayers separated he felt his time was ripe, and he came upon the forest keep of Branzir under a storm of wrath. He flew down screeching, and spreading his wings he let loose spikes of steel that rained down on the keep, cutting through wood and stone and flesh. All who were in the keep were killed, and the air was filled with Ralkur's cackling laughter as he flew away.\
 \
 But the vengeful god had been hasty at the last, for Branzir was out hunting at the time. Coming back the next day he saw his home in ruins, and all his family and servants butchered, and sorrow and torment filled every corner of his being. On hearing reports of what happened he knew well the perpetrator and his fury was incandescent. He sought the aid of the other Godhunters in scouring out the stray god, but they were all divided, and each engaged in the politics that would lay the seeds for war. Perhaps if they had aided him then the popular Branzir could have helped unify the people and stop the madness that was to come. But Caldizar was gone, reportedly aggrieved and repentant at their acts, and the remaining Godslayers thought only of their own powers and making gods of themselves.") -- _t
+tDef(136, "infinite dungeon") -- newLore category
 tDef(137, "The Hunter and the Hunted chapter 5") -- _t
 tDef(138, "So Branzir set out alone, with Madrath in his sheath. It did not take long to find his prey, who had now stopped all attempts at hiding. He came upon the god in a settlement of lesser creatures who worshipped him, and he ruthlessly cut down the pathetic wretches that tried to protect their new deity. Ralkur fled at the sight of Branzir and his dark blade, filled with all-encompassing fright. But Branzir was not to be lost, and chased him into some nearby ruins. There Ralkur laid traps and summoned enemies and fled deeper into the darkness. But Branzir overcame them all and came on faster, till they reached the depths of the dungeons. And being out of space the god created new space and fled further, and kept on fleeing. And Branzir carried on chasing, not letting up for a second as the pursued god continued to delve deeper into the ground.\
 \
@@ -14651,6 +15410,7 @@ But must stay focussed, much work to be done. Miners are rowdy, hrm! One of the 
 Hmm, that fellow's blood was so red, spilling on the cavernous floor. I wonder where they buried him? My mouth... it wants to taste, yes yes...\
 \
 -- Foreman Tamoth") -- _t
+tDef(155, "iron throne") -- newLore category
 tDef(156, "Deep Bellow excavation report 3") -- _t
 tDef(158, "Hah, my mouth, it tastes, it feels, hmm hmm. It grows, yes yes! The others are changing, flying, screaming, squelching, warping. Bad for profit, hmm hmm. My teeth, they grow, they hunger, yes. They want to escape!\
 \
@@ -14815,6 +15575,7 @@ As the iron cuts your flesh, you slowly become aware of a sound coming from the 
 Dogs barking. Following that come the voices of men. These must be Berethh's companions. Arriving too late.\
 You rise and prepare to kill again.\
 ") -- _t
+tDef(263, "keepsake") -- newLore category
 tDef(264, "Keepsake") -- _t
 tDef(266, "Berethh lies dead. Kyless has been destroyed. The merchant caravan wiped out. Nothing of your past remains.\
 You thought you might find answers in this place but you have been left with only one certainty. You are cursed.\
@@ -14850,6 +15611,7 @@ It's not fleeing, it's just tactical repositioning...\
 tDef(63, "Kor'Pul, Kor'Pul... When the farmer told me what this place was called it reminded me of something, and I think it's coming back to me now. My mother used to tell me a story about our ancestors, how they fled by ship to escape the grasp of an evil sorcerer who dominated the lands. The sorcerer was a vile necromancer who took advantage of the destruction from the Spellblaze and the Cataclysm to create huge armies of undead. The people fought against him time and time again, but though he would be defeated he would still come back, sometimes after hundreds of years. And that sorcerer's name was.... Kor'Pul.\
 \
 Probably just a coincidence.") -- _t
+tDef(70, "kor'pul") -- newLore category
 tDef(71, "journal page (kor'pul)") -- _t
 tDef(72, "It's quiet down here. And dark... very dark. I suppose I should have brought a lantern. Our motto is to bring light into dark places, but I guess I should have thought about that in practical terms. I've cleared out pretty much all of this area, and there's not much left to explore beyond this last room.\
 \
@@ -14949,6 +15711,7 @@ Drake held the small, drakeskin pouch high, opened it and emptied its contents o
 \
 By the time Drake left the Iron Council, the Dwarves had agreed to pay thirty times the previous amount.\
 ") -- _t
+tDef(170, "southspar") -- newLore category
 tDef(171, "The Pale King, part two") -- _t
 tDef(172, "#{bold}#3. Drake and the Conclave Mages.#{normal}#\
 \
@@ -15009,6 +15772,7 @@ It’s a remarkable report, and one I’m minded to believe, in spite of the not
 - Lord Estevan Asimir\
 \
 #{italic}#Footnote: After this paper was published Lord Asimir was found dead and stripped of all valuables in one of the ports of Last Hope.#{normal}#") -- _t
+tDef(249, "last hope") -- newLore category
 tDef(250, "A creased letter") -- _t
 tDef(252, "Oh Cecil, what must you think of me? But I remember your words to me, before the fever took you - you told me to live. And live I must... And yet that fever has now spread to me and I feel my days are numbered.\
 \
@@ -15268,7 +16032,6 @@ RIP Gedis the Paladin\
 Bright star from foreign lands\
 We weep your fallen light\
 #{normal}#") -- _t
-tDef(559, "gravestone") -- _t
 tDef(559, "#{bold}#\
 Foursaw the Clown\
 #{normal}#82 - 114#{italic}#\
@@ -15276,6 +16039,8 @@ We laughed\
 Until we saw\
 The joke was over\
 #{normal}#") -- _t
+tDef(559, "gravestone") -- _t
+tDef(559, "last hope graveyard") -- newLore category
 
 
 ------------------------------------------------
@@ -15297,6 +16062,7 @@ I still remember Archmage Tarelion's lecture about the spell - \"Probability eff
 Besides, I'm enjoying myself - I'm having an adventure!!\
 \
 I saw something! I don't know what it was... but it was big and shadowy! But when I tried chasing it I got lost... Um, maybe I just imagined it? No, I'm sure it must be something cool and exciting, I just have to keep exploring!") -- _t
+tDef(53, "maze") -- newLore category
 tDef(54, "the perfect killing device") -- _t
 tDef(55, "I have now devised the perfect trap for the horned beast that walks these halls! Truly he cannot avoid this amazing contraption - the perfect blend of technical mastery and nature's lethal gifts. Ah, how I look forward to having that monster's head mounted on my walls - it shall be the pride of my collection!\
 \
@@ -15338,6 +16104,7 @@ tDef(53, "#{bold}#Tract of Acceptance#{normal}#\
 Betrayed by the Shalorën, wilful and destructive, and the Thalorën, aloof and suspicious, a long, seething silence fell over the remaining Nalorën people. It was during this period of grim introspection that salvation was suddenly and unexpectedly granted. The ancient Sher'Tul magicks, long pondered over by the land's mystics, would bear fruit at last.\
 \
 The same force that destroyed the Nalorën would save them. Through the Sher'Tul's magic, the Nalorën became able to breathe water as if it was air. Their bodies became adapted for existence under the waves, their legs becoming long, snake-like tails. Such drastic metamorphosis would naturally cause horror, you may expect. However, the Nalorën saw the possibilities their new forms provided: Their sunken lands were their own once again. Their homes would be rebuilt, their civilisation reborn. Nalorën no more, the denizens of the sunken kingdom would come to be known as 'nagas'...") -- _t
+tDef(62, "temple of creation") -- newLore category
 tDef(63, "personal note (Slasul)") -- _t
 tDef(64, "At long last, the temple finally reveals its secrets to me, and my plans can be set in motion. Lithe in form, faultless in combat, unmatched in speed both above the waves and beneath... nature couldn't have hoped to create such a race as nagas. With the Temple of Creation now open to me however, we may become so much more. With my guidance, my careful shaping of the Sher'Tul's magicks, under my expert hand our great race shall soon reach its zenith. A new tract shall soon be written: The Tract of the Devourer.\
 ") -- _t
@@ -15409,6 +16176,7 @@ By my ancestors' profits I hope you receive this message in good health and spir
 Your friend,\
 \
 Rolf.") -- _t
+tDef(162, "adventures") -- newLore category
 tDef(163, "Last Will of Rolf") -- _t
 tDef(165, "Last Will and Testament of Rolf Two-Axes\
 \
@@ -15443,6 +16211,7 @@ But Gerlyk's brothers grew jealous of each others creatures, and they fought, an
 And Gerlyk was sad, and looked at Human and said, \"I am sorry, but this is not a time for creators any more. I must go.\"\
 And Gerlyk walked into the Darkness.\
 But Human did not cry, for the coal in his heart burned hot, and he knew he was not truly alone.") -- _t
+tDef(215, "myths of creation") -- newLore category
 tDef(216, "a logical analysis of creation, by philosopher Smythen") -- _t
 tDef(217, "Many are the tales of how our world was made, from the absurd to the romantic to the horrific. But they are all mere myths, with no more than seeds of truth to even the most reliable. The history of our race goes back far, but it is tantalisingly scant in details from before we met the other races. Indeed, it is only through our battles with the others that we halflings have any ancient records at all.\
 \
@@ -15461,6 +16230,7 @@ Now that this has been clearly analysed in logical terms, one must consider the 
 However there remains the matter of the Sher'Tul. Clearly these were of greater power than us, and yet they disappeared. One must presume that our god made this race before us, but was somehow unhappy with them, and so removed them and made us instead. We are not as powerful as the Sher'Tul - not yet at least - but we have our own gifts that evidently give us a greater place in our creator's heart. This would explain why we were the first race to unlock the powers of the Sher'Tul farportals. We had a natural affinity to the works of our elder brethren.\
 \
 So what happened to these gods after they had made the races which we see today? One must presume strife between them, and that they killed themselves, or took their battle away from the world. Our creator, seeing the other gods killed or left, must have then entrusted the world to us halflings, knowing that we would rule over it in his stead. This is why at every point in history we have played a pivotal role in the shaping of our world. It is our rightful inheritance, and it is our duty to rule it well.") -- _t
+tDef(238, "eyal") -- newLore category
 tDef(239, "Tale of the Moonsisters") -- _t
 tDef(240, "Eyal was raised from Darkness,\
 And One came who made a blinding light called Sun,\
@@ -15495,6 +16265,7 @@ tDef(278, "Death is nearing. I can feel her chilling breath down the back of my 
 tDef(285, "Death mocks my experiments. I can preserve the flesh of my servants, tightly wrapped and salted, treated with the correct chemicals. I can animate them, make them shuffle about the empty halls of my mausoleum. But they are but empty shells, devoid of any soul. Is this how my majesty is to end? I demand a greater fate...\
 \
 My days are numbered. Each night that passes saps strength from me. I must find the way to preserve my soul within my flesh. My greatness cannot be allowed to fade.") -- _t
+tDef(291, "ancient elven ruins") -- newLore category
 tDef(292, "ancient papyrus scroll") -- _t
 tDef(293, "Death has met her match. My results are complete, and I am ready to step to the Beyond. I have my sword by my side, and its icy edge will freeze even the dark one in her tracks. My powers cannot be denied...\
 \
@@ -15513,6 +16284,7 @@ tDef(318, "Oh, what terrible horrors! Demons, clawed creatures, dark smog, cloud
 It was when I was studying the moonstone, and as the red star was rising again before the dawn. The stone glowed blood-red and suddenly portals awakened in the rock of the valley. From them poured forth all manner of demonic creatures! I put my ring of invisibility on and fled into the caves. But now the creatures are everywhere! The caves are infested with them, prowling about like hungry animals.\
 \
 And there is something... something terrible. In the shadows, in the darkness, I can sense it looking for me. It stalks me, an invisible hunter after invisible prey. Now and then I hear the cracking of a terrible whip. I must stay hidden...") -- _t
+tDef(326, "valley of the moon") -- newLore category
 tDef(327, "Rassir's journal part 3") -- _t
 tDef(328, "I fell asleep in a dark hollow, but my sleep was troubled by terrible dreams. The dreams are so vivid in my mind!\
 \
@@ -15642,6 +16414,7 @@ Giants live mostly around the mountainous peaks surrounding the Daikara Pass. Th
 Nagas were once believed to be mere myth, but reliable reports and even the capturing of dead physical samples has shown them to be real creatures. The upper half of their body is humanoid in form, with blonde hair and an extremely thin build, but the lower half is like that of a giant snake's tail. They stand around 6' tall on land, though their tails extend several feet further. They have been encountered off the eastern and south-eastern coasts of Maj'Eyal, which seems to indicate some exotic civilisation beneath the waves. Records of them exist only from the last few hundred years, and only more recently have they been interpreted as more than just the wild fantasies of inebriated sailors. They can breathe in air and underwater, possessing both lungs and gills, and have been reported to move with surprising speed on the ground. One might think them simply odd monsters, but they decorate themselves in jewellry and craft weapons and armour from materials found on the sea-bed, such as supple mail formed from layers of thick shark-hide. This would suggest an advanced culture, but communication with them so far has proved impossible. It is not known if they are capable of complex speech, but to date their only response to those who encounter them has been extreme violence, and fishermen in the east are always wary of coming across these vicious creatures.\
 \
 The origin of Demons is not wholly known, but it is clear that they are capable of intelligence and so I feel the need to describe them somewhat here. It is known that they can be summoned by certain magical rites, and minor demons were oft in the employ of evil sorcerers during the Age of Dusk. The main theory, which is supported by certain studies by Shaloren archmages, seems to indicate that they come from another world than our own, with connections formed through intense arcane energies. It must be a truly terrifying place to host such foul denizens. Demons vary immensely in appearance and power, as much as the creatures of our own world vary. They generally have blueish blood and metallic flesh and skin, which can oft react oddly with our atmosphere - some become wreathed in flames, others release hideous acids or belching clouds of darkness. All seem versed in magical abilities to some degree, and the strongest of them possess truly terrifying powers. Luckily they are exceptionally rare, and seem to be much less common in modern times since magic has fallen out of use.") -- _t
+tDef(508, "races") -- newLore category
 tDef(509, "Loremaster Greynot's Analysis of the Races - Chapter 11 - Dragons") -- _t
 tDef(510, "The common man may scoff at the idea of classifying dragons as an intelligent race, but experienced wyrmics know otherwise. Dragons are incredibly long-lived creatures, with some known to survive for thousands of years. Though in their early life they are of a bestial nature, as they advance through the centuries they gain an ever keener and more developed intellect. The eldest of wyrms are sometimes considered the most subtle and intelligent of creatures in Maj'Eyal, capable of telepathic communication and advanced mental abilities, and wyrmics speak of them with the highest reverence.\
 \
@@ -15652,6 +16425,7 @@ All corners of Maj'Eyal show some trace of different types of dragons. The Daika
 Attacks from dragons on humans and halfling settlements are fairly rare, but when they occur they can be truly devastating. Usually they are to feed on livestock, but now and then come attacks from newly matured drakes, seeking out precious metals and gemstones to build up a hoard. Dragon hoards have become a thing of legend, with the greatest wyrms rumoured to protect literal mountains of gold, but in modern times truly sizeable hoards are rare. The dwarves farmed hoarding dragons almost to extinction in the Age of Allure, and most dragons these days retain only modest treasures in their lairs.\
 \
 Dragons are regularly hunted for their thick scales and their elementally imbued bones. Dragonskin leather is prized amongst armour-workers, as when properly treated it is both light and tough, and oft retains some inkling of the original wyrm's power. Dragon-bone is highly favoured by staff-crafters for its natural attunement to elemental forces, and is sometimes used by fletchers in the crafting of the most delicate yet resilient bows and arrows. However the hunting of dragons for their skin and bones is greatly opposed by many wyrmics, and there is an increasing market for \"naturally harvested\" drake materials - those taken from dragons which have died of natural causes. Still, demand for all dragon materials is strong with exceptionally high prices paid, and many are the greedy souls that lose their lives each year at the fangs and claws of these magnificent creatures.") -- _t
+tDef(527, "shatur") -- newLore category
 tDef(528, "Lament for Lands now Lost") -- _t
 tDef(529, "You see a moss covered statue of a Thalore reciting a poem, over and over.\
 #{italic}#\"Where bright and berried yews did stand,\
@@ -15684,6 +16458,7 @@ Running man, running man\
 Now's the time to choose\
 Running man, running man\
 Your honour or your shoes!") -- _t
+tDef(567, "artifacts") -- newLore category
 tDef(568, "Gifts of Nature") -- _t
 tDef(569, "In Age of Allure rose an archmage high\
 With power beyond compare\
@@ -15734,22 +16509,26 @@ The blood that freely ran\
 To gifts of Nature trust\
 Your faith instead in tools arcane\
 Now to Nature you are dust\"") -- _t
+tDef(621, "dreamscape") -- newLore category
 tDef(622, "If I Should Die Before I Wake") -- _t
 tDef(623, "You wake suddenly from your unexpected slumber and attempt to quickly regain your bearings. However, you are not prepared for the bizarre vision that greets you: instead of land and sky you see only amorphous shapes and varying degrees of light. A strange psychedelic haze permeates the air and otherworldly colors and shadows flicker in and out of your peripheral vision. \
 As you begin to come to grips with this strange environment, you realize with horror that you cannot move! Your body feels as if it is completely without weight and try as you may you cannot budge an inch. You experience a sense of Déjà Vu as you recall past nightmares of being paralyzed. That's when it strikes you: you never woke up at all, you're still asleep! This epiphany is only reinforced when you notice a strange phenomenon: mirror copies of yourself are being slowly projected from where you stand and are moving about of their own volition.\
 They all seem to be focused on something in particular, but what? Just as soon as you set your mind to discerning what your dreamselves are focusing on, you feel it. With horror, you realize that you are not alone here. \
 Somehow, your foe has invaded your very subconcious and is attacking you in your dreams. Still unable to move, your lucid mind races on how to handle such an insane and horrible situation. On a whim you concentrate on one of your projections and you find that you can control it. \
 Free now to face this nightmare, you turn to find your foe. While you have a sense that having one of your dreamselves destroyed may not by itself be catastrophic, what would happen if several or many are cut down? Unwilling to find out, you resolve yourself to end this offensive intrustion into your mind.") -- _t
+tDef(633, "vault") -- newLore category
 tDef(634, "Mocking Note") -- _t
 tDef(635, "Dear graverobber,\
 \
 Try to be a little faster next time.\
 \
 Love, #{italic}#Eden#{normal}#") -- _t
+tDef(644, "magic") -- newLore category
 tDef(645, "Nature vs Magic") -- _t
 tDef(647, "Your arcane abilities have been interfered with!\
 \
 Eyal is a torn world, and the forces of nature can react strongly to the arcane energies that seek to manipulate them. Some items and areas are imbued with anti-magic, a natural energy that disrupts magical abilities and effects. There are even those who have learned to harness anti-magic into their own wild abilities, and who use them to hunt down and destroy those who practise magic. So beware, caster! It is a hostile world ye wander in.") -- _t
+tDef(654, "highfin") -- newLore category
 tDef(655, "On Adventuring") -- _t
 tDef(656, "I must say, as time grows, I feel so do I grow more and more inclined to distance myself from the calling of an 'adventurer', like so many you can find roaming the countryside. I feel like the myth of a wandering hero has blinded too many with promise of easy fame and riches, with no eye for the other kind of fortune.\
 \
@@ -15764,6 +16543,7 @@ What does reach us then, are not people, but objects. Artifacts of great power, 
 It is important to remember, that every artifact has a meaning, beings of great power and importance behind them. Stories, that now slowly wane into nothing. This is why it is not artifacts that make an adventurer. It is his great deeds, the will to dare where nobody did before. It is not important if you get known in the process or not, after all, if you were truly great, maybe you will leave behind a legacy of your own.\
 \
 -#{italic}#Kestin Highfin#{normal}#") -- _t
+tDef(673, "point zero") -- newLore category
 tDef(674, "Warden-Master Galsamae's Orientation Notes") -- _t
 tDef(675, "Congratulations, sir and/or madam. Whether by invitation, discovering it on your own, or simply being enough of a thorn in our side to recruit rather than dispose of, you have gained the secrets of chronomancy. The ultimate power of time - the ability to reset and try again if you fail, the ability to save time by seeing the results of investigations before they happen. Though our powers are bound to post-Spellblaze Eyal, they are those of nigh-omnipotence with enough patience.\
 \
@@ -15780,6 +16560,7 @@ Welcome to Point Zero, agent. Enclosed are timespace coordinates to what is, qui
 [i]-Galsamae[/i]\
 \
 PS: You might encounter a... benefactor of sorts in your travels. You'll know it when you see it, ham-fistedly yanking its puppets back from the brink of death; if you see it for yourself, we regret to inform you that you've taken a one-way trip off prime Timeline-E4-RL territory for a doomed offshoot unless \"he\" feels like weaving you back in - and it tends to only do that to people who narrowly avert its engineered apocalypses through incredible power or luck. If you have been chosen by its schemes, play along and you might get brought back from the temporal graveyard that is the Timeline-E4-EXPADV subnetwork. We do not know what it is - a runaway creation of our own, a competing culture's weapon, or something far above ourselves - but if it has hostile intent, it has already won. So far it's been... mostly cooperative. Just make a point not to remind it that we're its competition.") -- _t
+tDef(694, "spydrë") -- newLore category
 tDef(695, "Mantra of a Shiiak") -- _t
 tDef(696, "Each morning I wake, happy I'm alive;\
 the traps of this tomb won't claim me today.\
@@ -15809,6 +16590,7 @@ I have done it! My fool of a master said I was not ready for the rites of lichdo
 \
 Zilquick the Eternal, hah! What an unbearable buffoon, and I am glad his pride was his undoing. The young fool used up the Ruby of Eldoral in creating his phylactery, however; I must acquire a new phylactery for myself. On the bright side, my incompetent apprentice did illustrate why a bone from a creature slain by my own hand is important: the dragon bone he chose had left to fester a mold infection, and the mold somehow infused itself with the bone's inherent magical properties, altering the magical composition of the spell. I do hope whoever finds this note shall kill this \"lich\" using the most painful means available, and shall deposit him someplace where he is sure to be found.\
 Oh, look. He is trying to harm me with spells, but all he can manage is a corruption of his own name: Z'quikzshl.") -- _t
+tDef(737, "boss") -- newLore category
 tDef(738, "Walrog") -- _t
 tDef(739, "Dirge of the Naloren\
 \
@@ -15848,6 +16630,7 @@ tDef(57, "Another body, if one could call it that. Mangled remains strewn about 
 I did not even attempt to bury the remains. I ran, and as frightful thoughts filled my head the sky turned red and the earth turned black, and spiders appeared with morphing faces. They laughed at me and spun their webs. I tore through them, the strands sticking to my fingers, mucousy remnants dripping over my skin. A surge of revulsion pulsed through me and suddenly the webs evaporated and the spiders coalesced into a giant face, its mouth a red flower. I reached into the midst of the crimson petals and it exploded in a wet mess, blinding all sight and thought.\
 \
 I woke up with my flesh drenched in blood. Or is it blood? Is it my flesh? The ground rumbles with my every moan, the mists swirl with my every sigh. I am closer to the heart of the caldera now. Closer to finding the truth. The truth of this place. The truth of myself...") -- _t
+tDef(66, "dogroth caldera") -- newLore category
 tDef(67, "tattered paper scrap") -- _t
 tDef(68, "Broken land and broken thoughts. If I think clearly the land runs smooth. But my thoughts are not clear. I think.\
 \
@@ -15883,6 +16666,7 @@ tDef(61, "#{italic}#From the notes of Darwood Oakton, explorer:\
 #{bold}#CHAPTER FOUR: NEEDS MUST...\
 \
 #{normal}#Before I continue, I must make one thing clear: I am no great friend to the mages. Some powers simply were not meant for mortal hands or minds. As history has taught us time and again, from the sudden disappearance of the Sher'Tul to the Spellblaze and the plagues it brought in its wake, magic is wont to cause more harm than good. But I fear it is a necessity for my current task. During my stay in Derth a fellow traveller and I have become fast friends, often drinking together in the local tavern. I can't put my finger on it, but I believe him to be a mage; he has an unexplainable feeling of power surrounding him, not to mention a rather ostentatious hat. I wonder what his thoughts would be on the art of water-breathing...?") -- _t
+tDef(69, "old forest") -- newLore category
 tDef(70, "journal entry (old forest)") -- _t
 tDef(72, "#{italic}#From the notes of Darwood Oakton, explorer:\
 #{bold}#CHAPTER FIVE: HORR...\
@@ -15904,6 +16688,7 @@ If any come after, I bid you turn ... horrors ... too much. If you are foolish e
 \
 #{italic}#You find with the note a tiny, faintly glowing orb - is this the key the note mentions?\
 #{normal}#") -- _t
+tDef(100, "lake of nur") -- newLore category
 tDef(101, "magical barrier") -- _t
 tDef(103, "As you descend to the next level you traverse a kind of magical barrier keeping the water away. You hear terrible screams.") -- _t
 
@@ -16116,6 +16901,7 @@ The reason for suicide is beyond understanding. His research has been immensely 
 I see his notes also suggest the mothers may be in pain. I will allow a doping infusion to be administered to alleviate this. We would not wish our women to suffer...\
 \
 ") -- _t
+tDef(354, "orc prides") -- newLore category
 tDef(355, "Ukruk's log") -- _t
 tDef(356, "Sher'Tul ruin matches description from high command. Investigation begun, but slow. Looks like it crashed into the ground long ago - hard to access many areas. Target item has been described by command as a staff. Do not know why a staff so important. Surely the ultimate weapon should be a sword or axe, like that wielded by the great Garkul?\
 \
@@ -16173,6 +16959,7 @@ One day soon he will return to us, and bring us to our proper glory. Look forwar
 \
 -- The Inquisitor\
 ") -- _t
+tDef(78, "rhaloren") -- newLore category
 tDef(79, "carefully preserved letter (rhaloren camp)") -- _t
 tDef(80, "My dearest,\
 \
@@ -16218,6 +17005,7 @@ To the darkest depths I now depart\
 In search of my one fate\
 How I long to taste the beating heart\
 Of the legendary worm so great!") -- _t
+tDef(67, "sandworm lair") -- newLore category
 tDef(68, "song of the sands") -- _t
 tDef(69, "I have seen the Queen in glory true\
 And she has moved me to my soul\
@@ -16262,6 +17050,7 @@ There is a wonder here, a wonder beyond all else I have ever seen. A crystal of 
 I felt it touch me, I felt it reach into my heart and imbue me with its strength. I stood entranced as its energy flowed into me. Oh how the blood now courses through my veins! Blood corrupted with true power!\
 \
 I see now the path that lies before me. The Spellblaze was not a curse, it was a blessing. I must open our people's eyes to the glory that our race has unlocked! I shall bring the wonders of this corruption to the whole world!") -- _t
+tDef(84, "scintillating caves") -- newLore category
 tDef(85, "exploration journal") -- _t
 tDef(86, "#{italic}#10th Mirth, Year 122 of the Age of Ascendancy#{normal}#\
 The council has seen fit to allow me to investigate the scintillating caverns after that Rhaloren madman started raving on the streets about how someone had \"befouled\" them... I do not see any such befoulment, but neither do I see the moving crystals this place was rumoured to have. There are oddly misplaced crystal shards, which seem to have sheared off of something larger, but hardly anything spectacular.\
@@ -16299,8 +17088,8 @@ tDef(59, "#{italic}#'We conquered the world, and built for ourselves towering ci
 tDef(66, "fifth mural painting") -- _t
 tDef(68, "This mural shows nine Sher'Tul standing side by side, each holding aloft a dark weapon. Your eyes are drawn to a runed staff held by the red-robed figure in the centre. It seems familiar somehow...\
 There is some text beneath ") -- _t
-tDef(69, "#{italic}#'Of pride we accepted no equals, and of greed we accepted no servitude. We made for ourselves terrible weapons - the Godslayers - and nine were chosen to wield them.'#{normal}#") -- _t
 tDef(69, "which you do not understand: #{italic}#'Zubadon koref noch hesen, ik dorudon koref noch pasor. Cosief maro dondreth karatu - Ranaduzil - ik jein belsan ovrienis.'#{normal}#") -- _t
+tDef(69, "#{italic}#'Of pride we accepted no equals, and of greed we accepted no servitude. We made for ourselves terrible weapons - the Godslayers - and nine were chosen to wield them.'#{normal}#") -- _t
 tDef(76, "sixth mural painting") -- _t
 tDef(78, "You see images of epic battles, with Sher'Tul warriors fighting and slaying god-like figures over ten times their size.\
 There is some text underneath ") -- _t
@@ -16309,19 +17098,20 @@ tDef(79, "#{italic}#'The petty gods were hunted down and slain, and their spirit
 tDef(86, "seventh mural painting") -- _t
 tDef(88, "You see the red-robed Sher'Tul striking the huge god with the dark, runed staff. Bodies litter the floor around them, and the golden throne behind is bathed in blood. The light in the god's eyes seems faded.\
 There is some text underneath ") -- _t
-tDef(89, "#{italic}#'The almighty AMAKTHEL was assaulted on his golden throne, and though many died before his feet, he was finally felled.'#{normal}#") -- _t
 tDef(89, "which you do not understand: #{italic}#'Trobazan AMAKTHEL konruata as va aurin leas, ik mab peli zort akan hun, penetar dondeberoth.'#{normal}#") -- _t
+tDef(89, "#{italic}#'The almighty AMAKTHEL was assaulted on his golden throne, and though many died before his feet, he was finally felled.'#{normal}#") -- _t
 tDef(96, "eighth mural painting") -- _t
 tDef(98, "The large mural shows the great god spread on the ground, with the dark staff held against his chest. Sher'Tul surround him, some hacking off his limbs, cutting out his tongue, and binding him with chains. A burst of light flares up from where a tall Sher'Tul warrior is gouging his eye with a black-bladed halberd. In the background a Sher'Tul mage beckons to a huge chasm in the ground.\
 The text beneath says simply ") -- _t
-tDef(99, "#{italic}#'The Great Sin.'#{normal}#") -- _t
 tDef(99, "#{italic}#'Meas Abar.'#{normal}#") -- _t
+tDef(99, "#{italic}#'The Great Sin.'#{normal}#") -- _t
 tDef(106, "ninth mural painting") -- _t
 tDef(108, "This final mural has been ruined, with deep scores and scratches etched across its surface. All you can see of the original appears to be flames.") -- _t
 tDef(114, "Yiilkgur raising toward the sky") -- _t
 tDef(116, "Yiilkgur, the Sher'Tul Fortress is re-activated and raises from the depths of Nur toward the sky.") -- _t
 tDef(122, "a living Sher'Tul?!") -- _t
 tDef(124, "You somehow got teleported to an other Sher'Tul Fortress, in a very alien location. There you saw a living Sher'Tul.") -- _t
+tDef(129, "sher'tul") -- newLore category
 tDef(130, "lost farportal") -- _t
 tDef(132, "%s boldly entering a Sher'Tul farportal.") -- tformat
 
@@ -16353,6 +17143,7 @@ tDef(50, "#{italic}#Touching the conch makes it emit a sound. As you put it to y
 \"Waverider Tiamel reporting. Immediate perimeter is secure, though I have sent some members to scout the surrounding areas. I will feel better when we have mapped the land and are ready to sustain a larger team. Still, we should be perfectly safe as long as the landdwellers do not know of our presence. And even if they dare come here the magics of Zoisla will put their puny star worship to shame.\
 \
 \"I fear that some of the team are not taking our mission seriously. Do they not know the responsibility the Saviour has laid on us? We are his arms and tails in this far land, and it is our duty to protect the farportal which will help bring us to greater strengths. We are his first line of attack against the blood relatives of those who doomed our race so long ago. And with our efforts we shall push forward our race to new boundaries, laying the path for the bright future our great Saviour has planned for us. Long live Slasul! Long live the legend of the Devourer!\"") -- _t
+tDef(59, "slazish fens") -- newLore category
 tDef(60, "conch (3)") -- _t
 tDef(61, "#{italic}#Touching the conch makes it emit a sound. As you put it to your ear you hear a charismatic and commanding voice emanating from within:#{normal}#\
 \
@@ -16368,6 +17159,7 @@ tDef(61, "#{italic}#Touching the conch makes it emit a sound. As you put it to y
 ------------------------------------------------
 section "game/modules/tome/data/lore/spellblaze.lua"
 
+tDef(25, "spellblaze") -- newLore category
 tDef(26, "draft letter (mark of the spellblaze)") -- _t
 tDef(27, "Dear Father,\
 \
@@ -16435,6 +17227,7 @@ Necromancers and fell conjurers can present a great threat when they summon thei
 Hexes and curses can wreak terror upon you, and you would do well to have an infusion that removes these and other blighted magic effects when facing dread occultists. Infusions to augment your natural healing are also a must for difficult battles.\
 \
 Remember to show no mercy, for they will give you none.") -- _t
+tDef(84, "age of dusk") -- newLore category
 tDef(85, "Spellhunter's Guide part 3: How to Kill a Magic-User") -- _t
 tDef(86, "When a magic-user is captured, they must be slain, and slain fast. Captivity is too great a risk. Preferably they should be killed in a way that utterly removes any means for the body to recover through arcane force. Remember that coming back from the dead is no alien feat to these abominations.\
 \
@@ -16462,6 +17255,7 @@ tDef(37, "And boy were all the rumors about unreliable adventurers true. I'd hea
 This Thanchir guy really, really needs to find a more urban spot with accessible public transportation (no adventurers please!). However, once I could get him to talk, he did know quite a bit. Apparently, he claims some distant kinship to the first Elf in these parts. They arrived by boat from some legendary land called \"Maj'Eyal\". He says that it definitely exists, but could provide no real evidence. This should be investigated further") -- _t
 tDef(45, "However, I have been repeatedly told by the powers that be, that I need to get on with this and turn in another report on how a different race got here. So, I will temporarily pause my researches on whether or not Maj'Eyal is real or just an Elf legend. (Can't trust everything they say despite their long memories.) Instead, I am on to meet the keeper of the Eastern Historical Society who has the best collection of lore about how Humans got here. As such, I will be travelling to northern Vor to use their archives.\
 And yes, unfortunately I will be travelling by adventurer again. By all the gods, why don't I get a better budget? This is absolutely terrible. It has been a particularly long walk. Longer than I thought it would be, truthfully, so I have run out of food. Foolish, I know, but I figured I could ask the escort for some of his. The snobby piece of troll-liver says he doesn't eat! Now talk about a terrible lie. Did he really think that would fool me? This Eastern Historical Society had better be good...") -- _t
+tDef(51, "history of the Sunwall") -- newLore category
 tDef(52, "Loremaster Verutir's note") -- _t
 tDef(53, "Finally arrived in Vor safe and mostly sound. (Though I do have some burns on my stomach from mage fire and my coat is a complete wreck. I wonder if I can expense a new coat.) However, the Eastern Historical Society is everything I could have hoped. Who can doubt that Humans are the superior race! You'd never see an Elf or an orc keep neat paper records like this!\
 In short: Aethidry was the first Human to map out these shores. EHS has his map preserved in good crackly yellow parchment. However, he travelled on and later died on distant shores, so he was neither the first Human to arrive here, nor the one who organized the first settlement. Some historians guess that the first Human to arrive in the east was one Vaeryn Gorthol. At the least, many of the first explorers mention him as a precursor, so he may well have been. A few of the important first settlers were Oweodry Arandur, Aethor (or perhaps Aethur) the Wronged, and Bloran the Black.") -- _t
@@ -16503,6 +17297,7 @@ My drolem grabbed it with its jaws, as usual, but I told it to back off on seein
 I've \"officially\" agreed to their deal - they'll supply me with materials, subjects, and what little progress they've made, and in return I've developed a modified orb that'll give them readings when it's used in a portal.  Needless to say, the readings are all bogus, and if they actually try to use those readings to make a second portal of their own, it'll blow them to bits.  The data they've given me has been VERY useful!  I've used it to construct a second altar from scratch - it still has some links to the demonic realm, but a single teleport with a genuine Orb of Many Ways will recalibrate it and cut those off completely, letting me get away scot-free with my knowledge and treasures, and preventing the demons from reaching me again.\
 \
 Now, I just need to get a genuine orb before the demons catch on...") -- _t
+tDef(74, "tannen's tower") -- newLore category
 tDef(75, "Demon Orders") -- _t
 tDef(76, "Order to the Portal Excursion Team:\
 \
@@ -16526,6 +17321,7 @@ tDef(39, "You find a tattered page scrap. Perhaps this is part of a diary entry.
 ...\
 \
 ...initely found his treasure stash further on, but had to turn back. If you get this, HELP!\"") -- _t
+tDef(49, "trollmire") -- newLore category
 tDef(50, "tattered paper scrap (trollmire)") -- _t
 tDef(51, "You find a tattered page scrap. Perhaps this is part of a diary entry.\
 \"...writing this in a tree and he's at the bottom of it. Waiting. His club is the size of a tall dwarf. Don't think I'm going to make it...\"\
@@ -16584,12 +17380,35 @@ She explained how she and her friends were helping to save the world, to rid our
 \
 I have no voice now to tell my story to others, and so I write it down instead, and I spread it to the winds. I have suffered from my contact with magic, and others will suffer too. Do not trust in the terrible powers of these devious arts. They will only betray you and bring you to harm. Turn your back on magic, and make others repent too. Find your own salvation in nature's joys before it is too late.\
 ") -- _t
+tDef(91, "zigur") -- newLore category
 tDef(92, "Purging Trap") -- _t
 tDef(93, "[As you begin to leave, Protector Myssil stops you.]\
 \
 Actually...  You fight in a more subtle way than most, do you not?  It is a point of pride for many of us that we stand tall in the face of arcane aggression and give warlocks one chance to repent before purging them, and much of our training reflects that, but I won't deny that less...  #{italic}#traditionally glorious#{normal}# methods can be extremely effective.  Decorum's no reason to let a necromancer get away alive when you could've planted a trap in their escape route.\
 \
 (She hands you a scroll.) Here - some of us have come up with a pre-prepared device which will sap magic from whoever or whatever sets it off.  All we ask is that you use discretion with these devices; no matter what our #{italic}#last#{normal}# assassin thought, planting them in some lesser rune-scribe's shop would be more likely to do us harm than good in the long run.") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/maps/towns/gates-of-morning.lua"
+
+tDef(51, "Limmir the Jeweler") -- _t
+tDef(63, "Melnela") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/maps/towns/last-hope.lua"
+
+tDef(19, "Statue of King Tolak the Fair") -- _t
+tDef(20, "Statue of King Toknor the Brave") -- _t
+tDef(21, "Statue of Queen Mirvenia the Inspirer") -- _t
+tDef(22, "Declaration of the Unification of the Allied Kingdoms") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/maps/towns/shatur.lua"
+
+tDef(27, "Moss covered statue") -- _t
 
 
 ------------------------------------------------
@@ -16610,20 +17429,26 @@ tDef(57, "Something in the floor clicks ominously.") -- logPlayer
 ------------------------------------------------
 section "game/modules/tome/data/maps/vaults/auto/greater/paladin-vs-vampire.lua"
 
+tDef(34, "corrupted lava floor") -- _t
 tDef(43, "#Source# emits dark energies at your feet.") -- logCombat
 tDef(48, "The corrupted lava reanimates %s's corpse!") -- logSeen
+tDef(56, "human sun-paladin") -- _t
+tDef(60, "A Human in shining plate armour.") -- _t
 
 
 ------------------------------------------------
 section "game/modules/tome/data/maps/vaults/auto/greater/portal-vault.lua"
 
 tDef(97, "#YELLOW#The Portal repels you briefly before becoming quiescent.  The other side seems to be blocked.") -- logPlayer
-tDef(99, "Malevolent Portal") -- _t
 tDef(99, "An ominous aura emanates from this portal. Are you sure you want to go through?") -- _t
+tDef(99, "Malevolent Portal") -- _t
 tDef(100, "#YELLOW#You overcome intense #LIGHT_BLUE#REPULSIVE FORCES#LAST# as you traverse the Portal.") -- logPlayer
-tDef(103, "Teleport") -- _t
 tDef(103, "Cancel") -- _t
+tDef(103, "Teleport") -- _t
 tDef(107, "#YELLOW#Nothing happens when you use the Portal.") -- logPlayer
+tDef(132, "A strange portal to some place else.") -- _t
+tDef(149, "Portal") -- _t
+tDef(150, "A portal out of this place.") -- _t
 
 
 ------------------------------------------------
@@ -16639,6 +17464,13 @@ tDef(138, "Dozing #rng#") -- _t
 section "game/modules/tome/data/maps/vaults/auto/lesser/loot-vault.lua"
 
 tDef(63, "A small scrap of paper written in a mocking tone.") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/maps/vaults/collapsed-tower.lua"
+
+tDef(66, "collapsed tower") -- _t
+tDef(94, "stairs back to %s") -- _t
 
 
 ------------------------------------------------
@@ -16666,16 +17498,57 @@ tDef(120, "#YELLOW#The world spins around you!") -- logPlayer
 
 
 ------------------------------------------------
+section "game/modules/tome/data/maps/wilderness/eyal.lua"
+
+tDef(446, "Island of Rel") -- _t
+tDef(447, "Charred Scar") -- _t
+tDef(448, "Far East") -- _t
+tDef(452, "Tar'Eyal") -- _t
+tDef(453, "Maj'Eyal") -- _t
+
+
+------------------------------------------------
 section "game/modules/tome/data/maps/zones/halfling-ruins-last.lua"
 
-tDef(42, "As you enter the tunnel you feel a strange compulsion to go backward.") -- _t
+tDef(26, "Long tunnel to the island of Rel") -- _t
 tDef(42, "Long tunnel") -- _t
+tDef(42, "As you enter the tunnel you feel a strange compulsion to go backward.") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/maps/zones/shertul-fortress-caldizar.lua"
+
+tDef(41, "Control Room") -- _t
+tDef(42, "Exploratory Farportal") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/maps/zones/tannen-tower-1.lua"
+
+tDef(22, "open sky") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/maps/zones/tempest-peak-top.lua"
+
+tDef(22, "open sky") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/data/maps/zones/valley-moon.lua"
+
+tDef(19, "Passage to the caverns") -- _t
+tDef(19, "A dark hole in the mountain") -- _t
 
 
 ------------------------------------------------
 section "game/modules/tome/data/mapscripts/lib/subvault.lua"
 
+tDef(34, "Hidden Vault - %s") -- tformat
+tDef(77, "stairs back to %s") -- _t
 tDef(80, "hidden vault") -- _t
+tDef(82, "Crumbling stairs lead down to something.") -- _t
+tDef(91, "collapsing hidden vault") -- _t
 tDef(95, "collapsed hidden vault") -- _t
 tDef(96, "It is fully collapsed, no way down.") -- _t
 tDef(97, "#VIOLET# The stairway is about to collapses completely, you may still go back but it will be the last time!") -- log
@@ -16722,6 +17595,7 @@ section "game/modules/tome/data/quests/arena.lua"
 tDef(20, "The Arena") -- _t
 tDef(23, "Seeking wealth, glory, and a great fight, you challenge the Arena!") -- _t
 tDef(24, "Can you defeat your foes and become Master of Arena?") -- _t
+tDef(32, "Winner") -- _t
 tDef(38, "#GOLD#Well done! You have won the Arena: Challenge of the Master#WHITE#") -- _t
 tDef(39, "") -- _t
 tDef(40, "You valiantly fought every creature the arena could throw at you and you emerged victorious!") -- _t
@@ -16812,7 +17686,7 @@ tDef(130, "Tannen points to the location of Telmur on your map.") -- logPlayer
 tDef(156, "Back and there again") -- _t
 tDef(156, "A portal appears in the center of the tower!") -- _t
 tDef(173, "Meranas, Herald of Angolwen") -- _t
-tDef(186, "#VIOLET#You enter the swirling portal and in the blink of an eye you are back in Last Hope.") -- logPlayer
+tDef(187, "#VIOLET#You enter the swirling portal and in the blink of an eye you are back in Last Hope.") -- logPlayer
 
 
 ------------------------------------------------
@@ -16879,6 +17753,7 @@ tDef(102, "#LIGHT_RED#As you enter the level you hear a familiar voice.") -- log
 tDef(103, "#LIGHT_RED#Fallen Sun Paladin Aeryn: '%s YOU BROUGHT ONLY DESTRUCTION TO THE SUNWALL! YOU WILL PAY!'") -- logPlayer
 tDef(109, "Ruins of the Gates of Morning") -- _t
 tDef(110, "The Sunwall was destroyed while you were trapped in the High Peak.") -- _t
+tDef(143, "Winner") -- _t
 tDef(175, "#GOLD#Well done! You have won the Tales of Maj'Eyal: The Age of Ascendancy#WHITE#") -- _t
 tDef(177, "The Sorcerers are dead, and the Orc Pride lies in ruins, thanks to your efforts.") -- _t
 tDef(182, "Your sacrifice worked. Your mental energies were imbued with farportal energies. The Way radiated from the High Peak toward the rest of Eyal like a mental tidal wave.") -- _t
@@ -17019,7 +17894,7 @@ tDef(31, "The Fortress Shadow said she could be cured.") -- _t
 tDef(34, "Melinda decided to come live with you in your Fortress.") -- _t
 tDef(37, "The Fortress Shadow has established a portal for her so she can come and go freely.") -- _t
 tDef(60, "You saved her from the depth of a cultists' lair and fell in love with her. She has moved into the Fortress to see you more often.") -- _t
-tDef(94, "Melinda") -- _t
+tDef(117, "Melinda") -- _t
 
 
 ------------------------------------------------
@@ -17060,6 +17935,7 @@ tDef(32, "#VIOLET#This tome seems to be about the power of gems. Maybe you shoul
 tDef(67, "Limmir points to the entrance to a cave on your map. This is supposed to be the way to the valley.") -- logPlayer
 tDef(75, "You must be near the moonstone to summon Limmir.") -- logPlayer
 tDef(80, "You do not have the summoning scroll!") -- logPlayer
+tDef(91, "Limmir (Quest)") -- _t
 tDef(114, "Limmir the Master Jeweler") -- _t
 
 
@@ -17226,7 +18102,12 @@ tDef(41, "You should bring it to the elders of Last Hope in the southeast.") -- 
 tDef(48, "#00FFFF#You can feel the power of this staff just by carrying it. This is both ancient and dangerous.") -- logPlayer
 tDef(49, "#00FFFF#It should be shown to the wise elders in Last Hope!") -- logPlayer
 tDef(53, "#VIOLET#As you come out of the Dreadfell, you encounter a band of orcs!") -- logPlayer
+tDef(89, "You wake up after a few hours, surprised to be alive, but the staff is gone!\
+#VIOLET#Go at once to Last Hope to report those events!") -- _t
 tDef(103, "Ukruk the Fierce") -- _t
+tDef(110, "Ambush") -- _t
+tDef(110, "You are surprised to still be alive.\
+#VIOLET#Go at once to Last Hope to report those events!") -- _t
 
 
 ------------------------------------------------
@@ -17268,6 +18149,7 @@ tDef(24, "When you arrived there you found nothing but orcs, well organized and 
 tDef(25, "Most of your team was killed there and now you and Norgan (the sole survivor besides you) must hurry back to the Iron Council to bring the news.") -- _t
 tDef(26, "Let nothing stop you.") -- _t
 tDef(28, "Both Norgan and you made it home.") -- _t
+tDef(47, "Norgan") -- _t
 
 
 ------------------------------------------------
@@ -18006,6 +18888,14 @@ tDef(478, "Up to five targets in a radius of %d are teleporting %d tiles every t
 tDef(484, "Anomaly Summon Townsfolk") -- talent name
 tDef(500, "Some innocent bystanders have been teleported into the fight.") -- _t
 tDef(513, "Not enough space to summon!") -- logPlayer
+tDef(549, "human farmer") -- _t
+tDef(552, "A weather-worn Human farmer, looking at a loss as to what's going on.") -- _t
+tDef(556, "halfling gardener") -- _t
+tDef(558, "A rugged Halfling gardener, looking quite confused as to what he's doing here.") -- _t
+tDef(563, "shalore scribe") -- _t
+tDef(565, "A scrawny Elven scribe, looking bewildered at his surroundings.") -- _t
+tDef(570, "dwarven lumberjack") -- _t
+tDef(572, "A brawny Dwarven lumberjack, looking a bit upset at his current situation.") -- _t
 tDef(588, "Pulls innocent people into the fight.") -- tformat
 tDef(594, "Anomaly Slow") -- talent name
 tDef(610, "@Source@ creates a bubble of slow time.") -- _t
@@ -18151,54 +19041,55 @@ section "game/modules/tome/data/talents/chronomancy/chronomancer.lua"
 tDef(20, "Blade Threading") -- _t
 tDef(20, "A blend of chronomancy and dual-weapon combat.") -- _t
 tDef(21, "Bow Threading") -- _t
-tDef(22, "A blend of chronomancy and physical combat.") -- _t
 tDef(22, "Temporal Combat") -- _t
+tDef(22, "A blend of chronomancy and physical combat.") -- _t
 tDef(23, "Warden combat training and techniques.") -- _t
 tDef(23, "Temporal Guardian") -- _t
 tDef(24, "A blend of ranged and dual-weapon combat.") -- _t
 tDef(24, "Threaded Combat") -- _t
-tDef(25, "Temporal Hounds") -- _t
 tDef(25, "Call temporal hounds to aid you in combat.") -- _t
-tDef(27, "flux") -- _t
+tDef(25, "Temporal Hounds") -- _t
 tDef(27, "Fluctuate spacetime.") -- _t
-tDef(28, "gravity") -- _t
+tDef(27, "flux") -- _t
 tDef(28, "Call upon the force of gravity to crush, push, and pull your foes.") -- _t
-tDef(29, "matter") -- _t
+tDef(28, "gravity") -- _t
 tDef(29, "Change and shape matter itself.") -- _t
-tDef(30, "Mastery of folding points in space.") -- _t
+tDef(29, "matter") -- _t
 tDef(30, "Spacetime Folding") -- _t
+tDef(30, "Mastery of folding points in space.") -- _t
 tDef(31, "Control how fast objects and creatures move through spacetime.") -- _t
 tDef(31, "Speed Control") -- _t
-tDef(32, "stasis") -- _t
 tDef(32, "Stabilize spacetime.") -- _t
-tDef(33, "Timeline Threading") -- _t
+tDef(32, "stasis") -- _t
 tDef(33, "Examine and alter the timelines that make up the spacetime continuum.") -- _t
-tDef(34, "timetravel") -- _t
+tDef(33, "Timeline Threading") -- _t
 tDef(34, "Directly manipulate the flow of time") -- _t
-tDef(35, "Manipulate chronomantic spells.") -- _t
+tDef(34, "timetravel") -- _t
 tDef(35, "Spellbinding") -- _t
+tDef(35, "Manipulate chronomantic spells.") -- _t
 tDef(38, "Chronomancy") -- _t
 tDef(38, "Allows you to glimpse the future, or become more aware of the present.") -- _t
-tDef(39, "energy") -- _t
 tDef(39, "Manipulate raw energy by addition or subtraction.") -- _t
+tDef(39, "energy") -- _t
 tDef(40, "Fate Weaving") -- _t
 tDef(40, "Weave the threads of fate.") -- _t
-tDef(41, "Weave the threads of spacetime.") -- _t
 tDef(41, "Spacetime Weaving") -- _t
-tDef(44, "Passive effects that Weapon Folding can trigger.") -- _t
+tDef(41, "Weave the threads of spacetime.") -- _t
 tDef(44, "Manifold") -- _t
+tDef(44, "Passive effects that Weapon Folding can trigger.") -- _t
 tDef(45, "Miscellaneous Chronomancy effects.") -- _t
 tDef(45, "Other") -- _t
 tDef(47, "Manipulate the age of creatures you encounter.") -- _t
 tDef(47, "Age Manipulation") -- _t
-tDef(48, "A blend of chronomancy and ranged combat.") -- _t
 tDef(48, "Temporal Archery") -- _t
+tDef(48, "A blend of chronomancy and ranged combat.") -- _t
 tDef(49, "paradox") -- _t
 tDef(49, "Break the laws of spacetime.") -- _t
-tDef(52, "chronomancy") -- talent category
-tDef(52, "Spacetime anomalies that can randomly occur when paradox is to high.") -- _t
 tDef(52, "anomalies") -- _t
+tDef(52, "Spacetime anomalies that can randomly occur when paradox is to high.") -- _t
+tDef(52, "chronomancy") -- talent category
 tDef(256, "%s's temporal clone") -- tformat
+tDef(257, "A creature from another timeline.") -- _t
 
 
 ------------------------------------------------
@@ -18326,6 +19217,7 @@ tDef(32, "Increases weapon damage by %d%% and physical power by 30 when using sw
 		You now also use your Magic in place of Strength when equipping weapons and ammo as well as when calculating weapon damage.\
 		These bonuses override rather than stack with weapon mastery, dagger mastery, and bow mastery.") -- tformat
 tDef(40, "Guardian Unity") -- talent name
+tDef(93, "Guardian") -- _t
 tDef(103, "#STEEL_BLUE##Source# shares damage with %s guardian!") -- delayedLogMessage
 tDef(104, "#STEEL_BLUE#(%d shared)#LAST#") -- tformat
 tDef(107, "Not enough space to summon warden!") -- logPlayer
@@ -18353,7 +19245,6 @@ tDef(143, "Tune yourself into the ebb and flow of spacetime.  When your Paradox 
 		While Cosmic Cycle is expanding, your temporal resistance penetration will be increased by %d%%.  While it's contracting, your Willpower for Paradox calculations will be increased by %d%%.") -- tformat
 tDef(150, "Polarity Shift") -- talent name
 tDef(158, "You must have Cosmic Cycle active to use this talent.") -- logPlayer
-tDef(180, "particles_images/alt_temporal_bolt_0%d") -- tformat
 tDef(224, "Reverses the polarity of your Cosmic Cycle.  If it's currently contracting, it will begin to expand, firing a homing missile at each target within the radius that deals %0.2f temporal damage.\
 		If it's currently expanding, it will begin to contract, braiding the lifelines of all targets within the radius for %d turns.  Braided targets take %d%% of all damage dealt to other braided targets.\
 		The damage will scale with your Spellpower.") -- tformat
@@ -18395,7 +19286,8 @@ tDef(333, "While active your physical and temporal damage has a %d%% chance to r
 ------------------------------------------------
 section "game/modules/tome/data/talents/chronomancy/other.lua"
 
-tDef(22, "Spacetime Tuning") -- talent name
+tDef(101, "Spacetime Tuning") -- _t
+tDef(102, "What's your preferred paradox level?") -- _t
 tDef(120, "Use to set your preferred Paradox.  While resting or waiting you'll adjust your Paradox towards this number at the rate of %d per turn.\
 		Your Paradox modifier is factored into the duration and spellpower of all chronomancy spells.\
 \
@@ -18431,9 +19323,9 @@ tDef(341, "You partially remove yourself from the timeline for 10 turns.\
 		This increases your resistance to all damage by %d%%, reduces the duration of all detrimental effects on you by %d%%, and reduces all damage you deal by 20%%.\
 		The resistance bonus, effect reduction, and damage penalty will gradually lose power over the duration of the spell.\
 		The effects scale with your Spellpower.") -- tformat
-tDef(350, "Paradox Clone") -- talent name
 tDef(380, "%s's Paradox Clone") -- tformat
 tDef(381, "The real %s... or so %s says.") -- tformat
+tDef(415, "Paradox Clone") -- _t
 tDef(425, "You summon your future self to fight alongside you for %d turns.  At some point in the future, you'll be pulled into the past to fight alongside your past self after the initial effect ends.\
 		This spell splits the timeline.  Attempting to use another spell that also splits the timeline while this effect is active will be unsuccessful.") -- tformat
 tDef(431, "Displace Damage") -- talent name
@@ -18444,8 +19336,8 @@ tDef(480, "Repulsion Field") -- talent name
 tDef(517, "You surround yourself with a radius %d distortion of gravity, knocking back and dealing %0.2f physical damage to all creatures inside it.  The effect lasts %d turns.  Deals 50%% extra damage to pinned targets, in addition to the knockback.\
 		The blast wave may hit targets more then once, depending on the radius and the knockback effect.\
 		The damage will scale with your Spellpower.") -- tformat
-tDef(524, "Temporal Clone") -- talent name
 tDef(550, "Not enough space to summon!") -- logPlayer
+tDef(581, "Temporal Clone") -- _t
 tDef(594, "Clones the target creature for up to %d turns.  The duration of the effect will be divided by half the target's rank, and the target will have have %d%% of its normal life and deal %d%% less damage.\
 		If you clone a hostile creature the clone will target the creature it was cloned from.\
 		The life and damage penalties will be lessened by your Spellpower.") -- tformat
@@ -18669,6 +19561,8 @@ tDef(343, "Attack the target with either your ranged or melee weapons for %d%% d
 ------------------------------------------------
 section "game/modules/tome/data/talents/chronomancy/temporal-hounds.lua"
 
+tDef(37, "A trained hound that appears to be all at once a little puppy and a toothless old dog.") -- _t
+tDef(145, "temporal-hound") -- _t
 tDef(164, "Temporal Hounds") -- talent name
 tDef(235, "Upon activation summon a Temporal Hound.  Every %d turns another hound will be summoned, up to a maximum of three hounds. If a hound dies you'll summon a new hound in %d turns.  \
 		Your hounds inherit your increased damage percent, have %d%% physical resistance and %d%% temporal resistance, and are immune to teleportation effects.\
@@ -18729,6 +19623,7 @@ tDef(112, "Rethread the timeline, dealing %0.2f temporal damage to the target be
 tDef(120, "Temporal Fugue") -- talent name
 tDef(137, "%s's Fugue Clone") -- tformat
 tDef(138, "The real %s... or so %s says.") -- tformat
+tDef(159, "Fugue Clone") -- _t
 tDef(173, "Not enough space to summon!") -- logPlayer
 tDef(189, "For the next %d turns two alternate versions of you enter your timeline.  While the effect is active all damage done by you or your copies is reduced by two thirds and all damage received is split between the three of you.\
 		Temporal Fugue does not normally cooldown while active.  You may take direct control of your clones, give them orders, and set their talent usage.\
@@ -18969,6 +19864,7 @@ tDef(52, "Bite the target, dealing %d%% melee damage  \
 		The bonus damage improves with your Spellpower.") -- tformat
 tDef(65, "A worm spawned from a damaged horror.  Destroying it may have consequences.") -- _t
 tDef(115, "%s exudes a corrupted gas as it dies.") -- logSeen
+tDef(135, "Summon") -- _t
 tDef(142, "Infestation") -- talent name
 tDef(217, "Your body has become a mass of living corruption, increasing your blight and acid resistance by %d%% and blight affinity by %d%%.\
 On taking damage greater than 15%% of your maximum health, the damage will be reduced by %d%% and a carrion worm mass will burst forth onto a nearby tile, attacking your foes for 5 turns.\
@@ -19274,32 +20170,34 @@ section "game/modules/tome/data/talents/cunning/cunning.lua"
 
 tDef(21, "stealth") -- _t
 tDef(21, "Allows the user to enter stealth.") -- _t
-tDef(22, "trapping") -- _t
 tDef(22, "The knowledge of trap laying and assorted trickeries.") -- _t
-tDef(23, "Collection of known traps.") -- _t
+tDef(22, "trapping") -- _t
 tDef(23, "traps") -- _t
+tDef(23, "Collection of known traps.") -- _t
 tDef(24, "The knowledge of poisons and how to apply them to 'good' effects.") -- _t
-tDef(25, "poisons") -- _t
 tDef(25, "Collection of known poisons.") -- _t
-tDef(26, "Teaches various talents to cripple your foes.") -- _t
+tDef(25, "poisons") -- _t
 tDef(26, "dirty fighting") -- _t
-tDef(27, "lethality") -- _t
+tDef(26, "Teaches various talents to cripple your foes.") -- _t
 tDef(27, "How to make your foes feel the pain.") -- _t
+tDef(27, "lethality") -- _t
 tDef(28, "shadow magic") -- _t
 tDef(28, "Blending magic and shadows.") -- _t
 tDef(29, "Using darkness and a bit of magic, you manipulate the shadows.") -- _t
 tDef(29, "ambush") -- _t
 tDef(30, "The knowledge of the dangers of the world, and how to best avoid them.") -- _t
 tDef(30, "survival") -- _t
-tDef(31, "tactical") -- _t
 tDef(31, "Tactical combat abilities.") -- _t
+tDef(31, "tactical") -- _t
 tDef(32, "scoundrel") -- _t
 tDef(32, "The use of ungentlemanly techniques.") -- _t
-tDef(33, "Create and use cunning tools.") -- _t
 tDef(33, "artifice") -- _t
+tDef(33, "Create and use cunning tools.") -- _t
 tDef(34, "tools") -- _t
 tDef(34, "Artificer's tools.") -- _t
 tDef(38, "cunning") -- talent category
+tDef(39, "Called Shots") -- _t
+tDef(41, "Inflict maximum pain to specific places on your enemies.") -- _t
 
 
 ------------------------------------------------
@@ -19524,7 +20422,11 @@ tDef(201, "#CADET_BLUE#Placing %s...") -- logPlayer
 tDef(222, "You cannot place a trap there.") -- logPlayer
 tDef(263, "#CADET_BLUE#Your %s has expired.") -- logPlayer
 tDef(306, "@Source@ activates a prepared device.") -- _t
+tDef(320, "shadowy assassin") -- _t
+tDef(321, "A shadowy figure, garbed all in black.") -- _t
 tDef(375, "#PINK#A %s materializes from the shadows!") -- logSeen
+tDef(395, "bladestorm construct") -- _t
+tDef(396, "A lethal contraption of whirling blades.") -- _t
 tDef(557, "Trap Mastery") -- talent name
 tDef(600, "\
 #YELLOW#Newly prepared traps are put on cooldown.#LAST#") -- _t
@@ -19700,7 +20602,10 @@ tDef(30, "Defiling Touch") -- talent name
 tDef(88, "curse") -- _t
 tDef(166, "The %s lying nearby catches your attention. What draws you to it is not the thing itself, but something burning inside you. You feel contempt for it and all worldly things. This feeling is not new but the power of it overwhelms you. You reach out to touch the object, to curse it, to defile it. And you notice it begin to change. The colors of it begin to fade and are replaced with an insatiable hate. For a moment you hesitate. You know you must choose to resist this manifestation of your curse now and forever, or fall further into your madness.") -- tformat
 tDef(170, "The %s lies defiled at your feet. An aura of hatred surrounds you and you now feel truly cursed. You have gained the Cursed Aura talent tree and 1 point in Defiling Touch, but at the cost of 2 Willpower.") -- tformat
+tDef(175, "Cursed Fate") -- _t
 tDef(175, "The %s returns to normal and your hate subsides.") -- tformat
+tDef(178, "Release your hate upon the object") -- _t
+tDef(179, "Suppress your affliction") -- _t
 tDef(258, "Your defiling touch permeates everything around you, permanently imparting a random curse on each item you find. When you equip a cursed item, you gain the effects of that curse (shown as a beneficial effect). Each item with the same curse that is equipped increases the curse's power.  Initially curses are harmful, but powerful benefits accumulate as the power of the curse increases.\
 		The Dark Gifts talent unlocks higher level curse effects and increases their power.\
 		Your aura permeates your equipment more thoroughly with talent level and can affect items as follows:\
@@ -19721,12 +20626,12 @@ tDef(297, "Your curses bring you dark gifts. Unlocks bonus level %d effects on a
 tDef(304, "Ruined Earth") -- talent name
 tDef(347, "Curse the earth around you in a radius of %d for %d turns. Any who stand upon it are weakened, reducing the damage they inflict by %d%%") -- tformat
 tDef(352, "Choose Cursed Sentry") -- talent name
-tDef(370, "Cursed Sentry") -- talent name
 tDef(396, "You cannot use %s without a weapon in your inventory!") -- logPlayer
 tDef(430, "animated %s") -- tformat
 tDef(433, "A weapon imbued with a living curse. It seems to be searching for its next victim.") -- _t
 tDef(489, "#ffa0ff#%s returns to your bags!") -- logPlayer
 tDef(512, "Your animated sentry struggles for a moment and then returns to your inventory inexplicably.") -- logPlayer
+tDef(568, "Cursed Sentry") -- _t
 tDef(579, "Instill a part of your living curse into a weapon in your inventory, and toss it nearby. This nearly impervious sentry will attack all nearby enemies for %d turns. When the curse ends, the weapon will drop to the ground.\
 			Cursed Sentry attack speed (currently %d%%) will improve with talent level.\
 			When you first select a weapon, it will be remembered and used as long as it's in your inventory. Use Choose Cursed Sentry talent to alter your selection.\
@@ -20091,6 +20996,7 @@ tDef(166, "Reform") -- talent name
 tDef(175, "When a shadow is hit and killed, there is a %d%% chance it will reform unhurt.") -- tformat
 tDef(336, "Call Shadows") -- talent name
 tDef(407, "Your hate is too low to call another shadow!") -- logPlayer
+tDef(438, "Summon") -- _t
 tDef(465, "While this ability is active, you will continually call up to %d level %d shadows to aid you in battle. Each shadow costs 5 hate to summon. Shadows are weak combatants that can: Use Arcane Reconstruction to heal themselves (level %d), Blindside their opponents (level %d), and Phase Door from place to place.\
 		Shadows ignore %d%% of the damage dealt to them by their master.") -- tformat
 tDef(471, "Shadow Warriors") -- talent name
@@ -20196,6 +21102,8 @@ tDef(166, "Surround yourself with a shield that will absorb at most %d non-physi
 		Each time damage is absorbed by the shield, your equilibrium increases by 1 for every 30 points of damage and a standard Equilibrium check is made. If the check fails, the shield will crumble and Antimagic Shield will go on cooldown.\
 		The damage the shield can absorb will increase with your Mindpower or Physical power (whichever is greater).") -- tformat
 tDef(174, "Mana Clash") -- talent name
+tDef(215, "\
+#GREEN#Antimagic Adept:  #LAST#4 magical sustains from the target will be removed.") -- _t
 tDef(216, "Drain %d mana, %d vim, %d positive and negative energies from your target, triggering a chain reaction that explodes in a burst of arcane damage.\
 		The damage done is equal to 100%% of the mana drained, 200%% of the vim drained, or 400%% of the positive or negative energy drained, whichever is higher. This effect is called a manaburn.\
 		The effect will increase with your Mindpower or Physical power (whichever is greater).\
@@ -20282,7 +21190,9 @@ tDef(63, "Conjures %d missile-shaped rocks that you target individually at any t
 		The damage will increase with your Spellpower.") -- tformat
 tDef(70, "Elemental Split") -- talent name
 tDef(99, "A crystaline structure that has taken the form of %s.") -- tformat
+tDef(125, "Crystaline Half") -- _t
 tDef(142, "A stone structure that has taken the form of %s.") -- tformat
+tDef(168, "Stone Half") -- _t
 tDef(180, "Reach inside your dwarven core and summon your stone and crystaline halves to fight alongside you for %d turns.\
 		Your Crystaline Half will attack your foes with earthen missiles.\
 		Your Stone Half will taunt your foes to protect you.\
@@ -20431,20 +21341,20 @@ section "game/modules/tome/data/talents/gifts/gifts.lua"
 
 tDef(20, "Be at one with nature.") -- _t
 tDef(20, "call of the wild") -- _t
-tDef(21, "harmony") -- _t
 tDef(21, "Nature heals and cleans you.") -- _t
-tDef(22, "antimagic") -- _t
+tDef(21, "harmony") -- _t
 tDef(22, "The way to combat magic, or even nullify it.") -- _t
+tDef(22, "antimagic") -- _t
 tDef(23, "summoning (melee)") -- _t
 tDef(23, "The art of calling creatures adept in melee combat to your aid.") -- _t
-tDef(24, "The art of calling creatures adept in elemental destruction to your aid.") -- _t
 tDef(24, "summoning (distance)") -- _t
-tDef(25, "summoning (utility)") -- _t
+tDef(24, "The art of calling creatures adept in elemental destruction to your aid.") -- _t
 tDef(25, "The art of calling versatile creatures to your aid.") -- _t
-tDef(26, "summoning (augmentation)") -- _t
+tDef(25, "summoning (utility)") -- _t
 tDef(26, "The art of manipulating the lifespan and location of your summons.") -- _t
-tDef(27, "The art of improving the quality of your summons.") -- _t
+tDef(26, "summoning (augmentation)") -- _t
 tDef(27, "summoning (advanced)") -- _t
+tDef(27, "The art of improving the quality of your summons.") -- _t
 tDef(28, "slime") -- _t
 tDef(28, "Through dedicated consumption of slime mold juice, you have gained an affinity with slime molds.") -- _t
 tDef(29, "fungus") -- _t
@@ -20453,38 +21363,39 @@ tDef(30, "sand drake aspect") -- _t
 tDef(30, "Take on the defining aspects of a Sand Drake.") -- _t
 tDef(31, "Take on the defining aspects of a Fire Drake.") -- _t
 tDef(31, "fire drake aspect") -- _t
-tDef(32, "Take on the defining aspects of a Cold Drake.") -- _t
 tDef(32, "cold drake aspect") -- _t
-tDef(33, "Take on the defining aspects of a Storm Drake.") -- _t
+tDef(32, "Take on the defining aspects of a Cold Drake.") -- _t
 tDef(33, "storm drake aspect") -- _t
+tDef(33, "Take on the defining aspects of a Storm Drake.") -- _t
 tDef(34, "venom drake aspect") -- _t
 tDef(34, "Take on the defining aspects of a Venom Drake.") -- _t
 tDef(35, "Take on the aspects of aged and powerful dragons.") -- _t
 tDef(35, "higher draconic abilities") -- _t
 tDef(36, "Learn to channel your mental power through mindstars, forming powerful psionic blades.") -- _t
 tDef(36, "mindstar mastery") -- _t
-tDef(37, "Cover the floor with natural mucus.") -- _t
 tDef(37, "mucus") -- _t
+tDef(37, "Cover the floor with natural mucus.") -- _t
 tDef(38, "ooze") -- _t
 tDef(38, "Your body and internal organs are becoming more ooze-like in nature, allowing you to spawn more of you.") -- _t
-tDef(39, "moss") -- _t
 tDef(39, "You learn to control moss, making it grow at will to help you on the battlefield.") -- _t
+tDef(39, "moss") -- _t
 tDef(40, "malleable body") -- _t
 tDef(40, "Your body's anatomy is starting to blur.") -- _t
-tDef(41, "You channel ooze through your psiblades.") -- _t
 tDef(41, "oozing blades") -- _t
-tDef(42, "You channel acid through your psiblades.") -- _t
+tDef(41, "You channel ooze through your psiblades.") -- _t
 tDef(42, "corrosive blades") -- _t
+tDef(42, "You channel acid through your psiblades.") -- _t
 tDef(43, "eyal's fury") -- _t
 tDef(43, "Unleash nature's fury against foes around you.") -- _t
-tDef(44, "earthen power") -- _t
 tDef(44, "Dwarves have learned to imbue their shields with the power of stone itself.") -- _t
-tDef(45, "Control the stone itself and bring it alive in the form of dreadful vines.") -- _t
+tDef(44, "earthen power") -- _t
 tDef(45, "earthen vines") -- _t
+tDef(45, "Control the stone itself and bring it alive in the form of dreadful vines.") -- _t
 tDef(46, "wild-gift") -- talent category
-tDef(46, "dwarven nature") -- _t
 tDef(46, "Learn to harness the innate power of your race.") -- _t
+tDef(46, "dwarven nature") -- _t
 tDef(112, "#PINK#You can manage a maximum of %d summons at any time. You need %d Cunning to increase your limit.") -- logPlayer
+tDef(150, "Summon") -- _t
 
 
 ------------------------------------------------
@@ -20933,6 +21844,7 @@ tDef(749, "@Source@ summons a Fire Drake!") -- _t
 tDef(761, "You cannot summon; you are suppressed!") -- logPlayer
 tDef(842, "Not enough space to summon!") -- logPlayer
 tDef(851, "A mighty fire drake.") -- _t
+tDef(881, "%s (wild summon)") -- tformat
 tDef(898, "Summon a Fire Drake for %d turns to burn and crush your foes to death. Fire Drakes are behemoths that can burn foes from afar with their fiery breath.\
 		It will get %d Strength, %d Constitution and 38 Willpower.\
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.\
@@ -20974,6 +21886,7 @@ tDef(426, "@Source@ summons a Stone Golem!") -- _t
 tDef(437, "You cannot summon; you are suppressed!") -- logPlayer
 tDef(477, "Not enough space to summon!") -- logPlayer
 tDef(498, "It is a massive animated statue.") -- _t
+tDef(516, "%s (wild summon)") -- tformat
 tDef(533, "Summon a Stone Golem for %d turns to attack your foes. Stone golems are formidable foes that can become unstoppable.\
 		It will get %d Strength, %d Constitution and %d Dexterity.\
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.\
@@ -20999,6 +21912,7 @@ tDef(218, "Spider") -- talent name
 tDef(223, "@Source@ summons a Spider!") -- _t
 tDef(235, "You cannot summon; you are suppressed!") -- logPlayer
 tDef(270, "Not enough space to summon!") -- logPlayer
+tDef(306, "%s (wild summon)") -- tformat
 tDef(323, "Summon a Spider for %d turns to harass your foes. Spiders can poison your foes and throw webs to pin them to the ground.\
 		It will get %d Dexterity, %d Strength, 18 Willpower and %d Constitution.\
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.\
@@ -21210,6 +22124,7 @@ tDef(804, "Rune: Mirror Image") -- talent name
 tDef(827, "You cannot summon; you are suppressed!") -- logPlayer
 tDef(847, "Mirror Image") -- _t
 tDef(850, "A blurred image.") -- _t
+tDef(885, "Summon") -- _t
 tDef(898, "Activate the rune to create up to 3 images of yourself that taunt nearby enemies each turn and immediately after being summoned.\
 			Only one image can be created per enemy in radius 10 with the first being created near the closest enemy.\
 			Images inherit all of your life, resistance, armor, defense, and armor hardiness.") -- tformat
@@ -21234,8 +22149,8 @@ tDef(1172, "Activate the infusion to brighten the area in a radius of %d and ill
 		It will also blind any creatures caught inside (power %d) for %d turns.") -- tformat
 tDef(1174, "\
 The light is so powerful it will also banish magical darkness") -- _t
-tDef(1179, "rad %d; power %d; turns %d%s") -- tformat
 tDef(1179, "; dispels darkness") -- _t
+tDef(1179, "rad %d; power %d; turns %d%s") -- tformat
 tDef(1184, "Taint: Telepathy") -- talent name
 tDef(1202, "Strip the protective barriers from your mind for %d turns, allowing in the thoughts all creatures within %d squares but reducing mind save by %d and increasing your mindpower by %d for 10 turns.") -- tformat
 tDef(1206, "Range %d telepathy for %d turns") -- tformat
@@ -21341,8 +22256,8 @@ tDef(27, "wild-gift") -- talent category
 tDef(28, "psionic") -- talent category
 tDef(30, "other") -- _t
 tDef(31, "undead") -- talent category
-tDef(31, "Keepsake shadows's innate abilities.") -- _t
 tDef(31, "keepsake shadow") -- _t
+tDef(31, "Keepsake shadows's innate abilities.") -- _t
 tDef(32, "Talents of the various entities of the world.") -- _t
 tDef(32, "misc") -- _t
 tDef(32, "cursed") -- talent category
@@ -21676,6 +22591,7 @@ tDef(3524, "You reach out with shadowy vines toward your target, pulling it to y
 tDef(3531, "Ambuscade") -- talent name
 tDef(3549, "Not enough space to invoke your shadow!") -- logPlayer
 tDef(3554, "A dark shadowy form in the shape of %s.") -- tformat
+tDef(3592, "Shadow of %s") -- tformat
 tDef(3611, "You take full control of your own shadow for %d turns.\
 		Your shadow possesses your talents and stats, has %d%% life and deals %d%% damage, -30%% all resistances, -100%% light resistance and +100%% darkness resistance.\
 		Your shadow is permanently stealthed (%d power), and all melee damage it deals is converted to darkness damage.\
@@ -21698,15 +22614,15 @@ tDef(3748, "Creates a circle of radius %d at your feet; the circle lights up aff
 ------------------------------------------------
 section "game/modules/tome/data/talents/misc/objects.lua"
 
+tDef(19, "fortress") -- _t
 tDef(19, "sher'tul") -- talent category
 tDef(19, "Yiilkgur abilities.") -- _t
-tDef(19, "fortress") -- _t
 tDef(20, "spell") -- talent category
-tDef(20, "Spell abilities of the various objects of the world.") -- _t
 tDef(20, "object spells") -- _t
-tDef(21, "Abilities of the various objects of the world.") -- _t
+tDef(20, "Spell abilities of the various objects of the world.") -- _t
 tDef(21, "other") -- talent category
 tDef(21, "object powers") -- _t
+tDef(21, "Abilities of the various objects of the world.") -- _t
 tDef(22, "Techniques of the various objects of the world.") -- _t
 tDef(22, "technique") -- talent category
 tDef(23, "wild-gift") -- talent category
@@ -21757,6 +22673,8 @@ tDef(475, "Soul Purge") -- talent name
 tDef(490, "Remove any talent Morrigor has absorbed.") -- tformat
 tDef(495, "Dig") -- talent name
 tDef(513, "You require a digger to dig.") -- logPlayer
+tDef(522, "dug") -- _t
+tDef(522, "digging") -- _t
 tDef(528, "You have been interrupted!") -- logPlayer
 tDef(541, "Dig/cut a tree/...\
 		Digging takes %d turns (based on your currently best digger available).") -- tformat
@@ -22333,8 +23251,8 @@ tDef(109, "%s's mind is clear!") -- logSeen
 tDef(115, "Clears your mind of current mental effects, and blocks additional ones over 6 turns.  At most, %d mental effects will be affected.") -- tformat
 tDef(120, "Projection") -- talent name
 tDef(134, "Not enough space to invoke your spirit!") -- logPlayer
-tDef(146, "Projection of %s") -- tformat
 tDef(147, "A ghostly figure.") -- _t
+tDef(182, "Projection of %s") -- tformat
 tDef(210, "Activate to project your mind from your body for %d turns.  In this state you're invisible (+%d power), can see invisible and stealthed creatures (+%d detection power), can move through walls, and do not need air to survive.\
 		All damage you suffer is shared with your physical body, and while in this form you may only deal damage to 'ghosts' or through an active mind link (mind damage only in the second case.)\
 		To return to your body, simply release control of the projection.") -- tformat
@@ -22366,10 +23284,10 @@ tDef(224, "%s resists the nightmare!") -- logSeen
 tDef(234, "Inflicts %0.2f darkness damage each turn for %d turns, and has a %d%% chance to randomly cause blindness, stun, or confusion (lasting 3 turns).\
 		If the target is sleeping, the chance of avoiding a negative effect will be halved and fear immunity will be ignored.\
 		The damage will scale with your Mindpower.") -- tformat
-tDef(242, "Night Terror") -- talent name
 tDef(255, "You can't cast this on friendly targets.") -- logPlayer
 tDef(268, "terror") -- _t
 tDef(271, "A formless terror that seems to cut through the air, and its victims, like a knife.") -- _t
+tDef(317, "Night Terror") -- _t
 tDef(339, "Increases your damage and resistance penetration on sleeping targets by %d%%.  Additionally, every time you slay a sleeping target, a Night Terror will be summoned for %d turns.\
 		The Night Terror's stats will scale with your Mindpower, as will the damage bonus to sleeping targets.") -- tformat
 
@@ -22386,6 +23304,14 @@ tDef(154, "#Source#'s mindstar telekinetically grabs #target#!") -- logCombat
 tDef(201, "%s telekinetically grabs %s!") -- logSeen
 tDef(233, "You require a telekinetically wielded weapon or gem for your psionic focus.") -- logPlayer
 tDef(242, "%s's %s") -- tformat
+tDef(274, "Allows you to wield a physical melee or ranged weapon, a mindstar or a gem telekinetically, gaining a special effect for each.\
+		A gem will provide a +3 bonus to all primary stats per tier of the gem.\
+		A mindstar will randomly try to telekinetically grab a far away foe (10% chance and range 3 for a tier 1 mindstar, +1 range and +5% chance for each tier above 1) and pull it into melee range.\
+		A physical melee weapon will act as a semi independant entity, automatically attacking adjacent foes each turn, while a ranged weapon will fire at your target whenever you perform a ranged attack.\
+		While this talent is active, all melee and ranged attacks use 60% of your Cunning and Willpower in place of Dexterity and Strength for accuracy and damage calculations respectively.\
+		\
+\
+		") -- _t
 tDef(297, "The telekinetically-wielded gem grants you +%d stats.") -- tformat
 tDef(300, "The telekinetically-wielded mindstar has a %d%% chance to grab a foe up to %d range away.") -- tformat
 tDef(310, "The telekinetically-wielded ranged weapon uses Willpower in place of Strength, and Cunning in place of Dexterity, to determine Accuracy and damage respectively.\
@@ -22665,6 +23591,7 @@ tDef(187, "You seek balance between fire and cold based on your current Psi leve
 ------------------------------------------------
 section "game/modules/tome/data/talents/psionic/thought-forms.lua"
 
+tDef(140, "thought-form") -- _t
 tDef(165, "Thought-Form: Bowman") -- talent name
 tDef(195, "thought-forged bowman") -- _t
 tDef(198, "A thought-forged bowman.  It appears ready for battle.") -- _t
@@ -22790,6 +23717,9 @@ tDef(161, "Increases your golem's life, mana and stamina regeneration rates by %
 ------------------------------------------------
 section "game/modules/tome/data/talents/spells/advanced-necrotic-minions.lua"
 
+tDef(47, "A towering creature, made from the bones of dozens of dead bodies. It is covered by an unholy aura.") -- _t
+tDef(117, "A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.") -- _t
+tDef(154, "A towering creature, made from the bones of hundreds of dead bodies, rune-etched and infused with hateful sorceries.") -- _t
 tDef(179, "Undead Explosion") -- talent name
 tDef(206, "Minions are only tools. You may dispose of them... Violently.\
 		Makes the targeted minion explode for %d%% of its maximum life in a radius of %d as blight damage.\
@@ -22801,8 +23731,8 @@ tDef(297, "Combines 3 of your minions into a bone giant.\
 		At level 5, it makes an eternal bone giant.\
 		At level 6, it has a 20%% chance to produce a runed bone giant.\
 		Only %s can be active at any time.") -- tformat
-tDef(303, "two bone giants") -- _t
 tDef(303, "one bone giant") -- _t
+tDef(303, "two bone giants") -- _t
 tDef(308, "Sacrifice") -- talent name
 tDef(355, "Sacrifice a bone giant minion. Using its bones, you make a temporary shield around you that prevents any attacks from doing more than %d%% of your total life.\
 		The effect lasts %d turns.") -- tformat
@@ -22895,6 +23825,7 @@ tDef(67, "Your hunger for souls grows ever more. When you kill a creature you ri
 		In addition you are able to store %d more souls.") -- tformat
 tDef(74, "Animus Purge") -- talent name
 tDef(161, "Your husk is out of sight; you cannot establish direct control.") -- logPlayer
+tDef(175, "Lifeless Husk") -- _t
 tDef(183, "#GREY##Source# rips apart the animus of #target# and creates an undead husk.") -- logCombat
 tDef(192, "Try to crush the soul of your foe, doing %0.2f darkness damage (that can never kill the target).\
 		If the target is left with less than %d%% life you try to take control of its body.\
@@ -23293,11 +24224,19 @@ tDef(507, "Breathe poison on your foes, doing %d damage over a few turns.\
 ------------------------------------------------
 section "game/modules/tome/data/talents/spells/golemancy.lua"
 
+tDef(51, "Golem has no master") -- _t
+tDef(52, "Master must know the Gem Golem talent") -- _t
+tDef(53, "impossible to use this gem") -- _t
+tDef(54, "Master's Gem Golem talent too low for this gem") -- _t
 tDef(120, "Your golem is out of sight; you cannot establish direct control.") -- logPlayer
 tDef(164, "Interact with the Golem") -- talent name
 tDef(190, "Interact with your golem to check its inventory, talents, ...\
 		Note: You can also do that while taking direct control of the golem.") -- tformat
 tDef(197, "Refit Golem") -- talent name
+tDef(232, "Golem") -- _t
+tDef(238, "%s (servant of %s)") -- tformat
+tDef(259, "refitting") -- _t
+tDef(259, "refitted") -- _t
 tDef(265, "You have been interrupted!") -- logPlayer
 tDef(285, "You need to ready 2 alchemist gems in your quiver to heal your golem.") -- logPlayer
 tDef(302, "You need to ready 15 alchemist gems in your quiver to heal your golem.") -- logPlayer
@@ -23462,6 +24401,12 @@ tDef(66, "%s rips more animus from its victim. (+1 more soul)") -- logPlayer
 tDef(95, "Emits a necrotic aura, sustaining your undead minions in a radius of %d. Minions outside the radius will lose %d%% life per turn.\
 		Any creature you or your minions kill within your aura will be absorbed as a soul that can be used to raise minions.\
 		Retch from your ghouls will also heal you, even if you are not undead.") -- tformat
+tDef(411, "It is a humanoid with an aura of power. You notice a sharp set of front teeth.") -- _t
+tDef(439, "It is a humanoid form dressed in robes. Power emanates from its chilling frame.") -- _t
+tDef(465, "It is a ghostly form with eyes that haunt you.") -- _t
+tDef(493, "It is a ghostly nightmare of an entity.") -- _t
+tDef(527, "It is a form that screams its presence against the eye. Death incarnate, its hideous black body seems to struggle against reality as the universe itself strives to banish it.") -- _t
+tDef(577, "Having thought to discover life eternal, these beings have allowed undeath to rob them of the joys of life. Now they seek to destroy it as well.") -- _t
 tDef(737, "Create Minions") -- talent name
 tDef(772, ": %d%%") -- tformat
 tDef(813, "Fires powerful undead energies through your necrotic aura. For each recent death that happened inside your aura, you will raise an undead minion (up to %d minions). These minions will be raised within a cone that extends to the edge of your necrotic aura.\
@@ -23530,12 +24475,23 @@ tDef(20, "Shadow Tunnel") -- talent name
 tDef(66, "Surround your minions in a veil of darkness. The darkness will teleport them to you, and grant them %d%% evasion for 5 turns.\
 		The evasion chance will increase with your Spellpower.") -- tformat
 tDef(73, "Curse of the Meek") -- talent name
+tDef(116, "human farmer") -- _t
+tDef(119, "A weather-worn human farmer, looking at a loss as to what's going on.") -- _t
+tDef(121, "halfling gardener") -- _t
+tDef(123, "A rugged halfling gardener, looking quite confused as to what he's doing here.") -- _t
+tDef(126, "shalore scribe") -- _t
+tDef(128, "A scrawny elven scribe, looking bewildered at his surroundings.") -- _t
+tDef(131, "dwarven lumberjack") -- _t
+tDef(133, "A brawny dwarven lumberjack, looking a bit upset at his current situation.") -- _t
+tDef(136, "cute bunny") -- _t
+tDef(138, "It is so cute!") -- _t
 tDef(162, "Reaches through the shadows into quieter places, summoning %d harmless creatures.\
 		Those creatures are then cursed with a Curse of Hate, making all hostile foes try to kill them.\
 		If the summoned creatures are killed by hostile foes, you have 70%% chance to gain a soul.") -- tformat
-tDef(170, "Forgery of Haze") -- talent name
 tDef(187, "Not enough space to summon!") -- logPlayer
+tDef(201, "Forgery of Haze (%s)") -- tformat
 tDef(202, "A dark shadowy shape whose form resembles %s.") -- tformat
+tDef(217, "Forgery of Haze") -- _t
 tDef(226, "Through the shadows, you forge a temporary copy of yourself, existing for %d turns.\
 		The copy possesses your exact talents and stats, has %d%% life and deals %d%% damage.") -- tformat
 tDef(233, "Frostdusk") -- talent name
@@ -23573,63 +24529,64 @@ tDef(36, "phantasm") -- _t
 tDef(36, "Control the power of tricks and illusions.") -- _t
 tDef(37, "Magical enhancement of your body.") -- _t
 tDef(37, "enhancement") -- _t
-tDef(38, "Conveyance is the school of travel. It allows you to travel faster and to track others.") -- _t
 tDef(38, "conveyance") -- _t
-tDef(39, "divination") -- _t
+tDef(38, "Conveyance is the school of travel. It allows you to travel faster and to track others.") -- _t
 tDef(39, "Divination allows the caster to sense its surroundings, and find hidden things.") -- _t
-tDef(40, "aegis") -- _t
+tDef(39, "divination") -- _t
 tDef(40, "Command the arcane forces into healing and protection.") -- _t
+tDef(40, "aegis") -- _t
 tDef(43, "Manipulate gems to turn them into explosive magical bombs.") -- _t
 tDef(43, "explosive admixtures") -- _t
 tDef(44, "infusion") -- _t
 tDef(44, "Infusion your gem bombs with the powers of the elements.") -- _t
-tDef(46, "golemancy") -- _t
 tDef(46, "Learn to craft and upgrade your golem.") -- _t
+tDef(46, "golemancy") -- _t
 tDef(47, "advanced-golemancy") -- _t
 tDef(47, "Advanced golem operations.") -- _t
 tDef(48, "Alchemical spells designed to wage war.") -- _t
 tDef(49, "Alchemical control over fire.") -- _t
 tDef(49, "fire alchemy") -- _t
-tDef(50, "acid alchemy") -- _t
 tDef(50, "Alchemical control over acid.") -- _t
-tDef(51, "frost alchemy") -- _t
+tDef(50, "acid alchemy") -- _t
 tDef(51, "Alchemical control over frost.") -- _t
+tDef(51, "frost alchemy") -- _t
 tDef(52, "Alchemical control over lightning energies.") -- _t
 tDef(52, "energy alchemy") -- _t
 tDef(53, "Manipulate gems, and imbue their powers into other objects.") -- _t
 tDef(54, "stone alchemy") -- _t
 tDef(54, "Alchemical control over stone and gems.") -- _t
-tDef(55, "staff combat") -- _t
 tDef(55, "Harness the power of magical staves.") -- _t
-tDef(56, "fighting") -- _t
+tDef(55, "staff combat") -- _t
 tDef(56, "Golem melee capacity.") -- _t
-tDef(57, "arcane") -- _t
+tDef(56, "fighting") -- _t
 tDef(57, "Golem arcane capacity.") -- _t
+tDef(57, "arcane") -- _t
 tDef(58, "Golem basic capacity.") -- _t
 tDef(59, "Drolem basic capacity.") -- _t
 tDef(59, "golem") -- talent category
 tDef(59, "drolem") -- _t
 tDef(62, "Create and empower dumb undead minions.") -- _t
 tDef(62, "necrotic minions") -- _t
-tDef(63, "Create and empower powerful undead minions.") -- _t
 tDef(63, "advanced necrotic minions") -- _t
-tDef(64, "Manipulate darkness itself to slaughter your foes.") -- _t
+tDef(63, "Create and empower powerful undead minions.") -- _t
 tDef(64, "nightfall") -- _t
+tDef(64, "Manipulate darkness itself to slaughter your foes.") -- _t
 tDef(65, "Invoke and control shades.") -- _t
 tDef(65, "shades") -- _t
-tDef(66, "necrosis") -- _t
 tDef(66, "Gain control over death, eventually turning into a lich.") -- _t
+tDef(66, "necrosis") -- _t
 tDef(67, "grave") -- _t
 tDef(67, "Use the rotting cold doom of the tomb to fell your foes.") -- _t
 tDef(68, "Crush the souls of your foes to improve yourself.") -- _t
 tDef(68, "animus") -- _t
-tDef(70, "Infuse arcane forces into your shield.") -- _t
 tDef(70, "eldritch shield") -- _t
+tDef(70, "Infuse arcane forces into your shield.") -- _t
 tDef(71, "Summon stony spikes imbued with various powers.") -- _t
 tDef(71, "eldritch stone") -- _t
 tDef(72, "Harness the power of the world to turn into a Deeprock Form.") -- _t
-tDef(72, "deeprock") -- _t
 tDef(72, "spell") -- talent category
+tDef(72, "deeprock") -- _t
+tDef(190, "Necrotic Minion") -- _t
 tDef(210, "#{bold}#%s decays into a pile of ash!#{normal}#") -- logSeen
 tDef(234, "A soul returns to %s.") -- logPlayer
 
@@ -24376,6 +25333,8 @@ tDef(279, "In an extreme feat of agility, you move to a spot you can see within 
 		This talent cannot be used while wearing heavy armor, and leaves you exhausted.  The exhaustion increases the cost of your activated Mobility talents by %d%% (stacking), but fades over %d turns.") -- tformat
 tDef(285, "Trained Reactions") -- talent name
 tDef(300, "%s is not usable while wearing heavy armour.") -- logPlayer
+tDef(338, "an attack") -- _t
+tDef(338, "damage") -- _t
 tDef(338, "#FIREBRICK##Target# reacts to %s from #Source#, mitigating the blow!#LAST#.") -- logCombat
 tDef(342, " #ffcc80#, -%d stam#LAST#") -- tformat
 tDef(343, "%s(%d reacted#LAST#%s%s)#LAST#") -- tformat
@@ -24598,64 +25557,72 @@ tDef(29, "Specialized bow techniques.") -- _t
 tDef(29, "archery - bows") -- _t
 tDef(30, "archery - slings") -- _t
 tDef(30, "Specialized sling techniques.") -- _t
-tDef(31, "archery training") -- _t
 tDef(31, "Generic archery techniques.") -- _t
-tDef(32, "archery prowess") -- _t
+tDef(31, "archery training") -- _t
 tDef(32, "Specialized archery techniques to maim your targets.") -- _t
-tDef(33, "archery excellence") -- _t
+tDef(32, "archery prowess") -- _t
 tDef(33, "Specialized archery techniques that result from honed training.") -- _t
-tDef(34, "Advanced combat techniques.") -- _t
+tDef(33, "archery excellence") -- _t
 tDef(34, "superiority") -- _t
-tDef(35, "battle tactics") -- _t
+tDef(34, "Advanced combat techniques.") -- _t
 tDef(35, "Advanced combat tactics.") -- _t
+tDef(35, "battle tactics") -- _t
 tDef(36, "Master the warcries to improve yourself and weaken others.") -- _t
 tDef(36, "warcries") -- _t
 tDef(37, "bloodthirst") -- _t
 tDef(37, "Delight in the act of battle and the spilling of blood.") -- _t
-tDef(38, "Control the battlefield using various techniques.") -- _t
 tDef(38, "field control") -- _t
+tDef(38, "Control the battlefield using various techniques.") -- _t
 tDef(39, "combat techniques") -- _t
-tDef(40, "combat veteran") -- _t
 tDef(40, "Generic combat oriented techniques.") -- _t
+tDef(40, "combat veteran") -- _t
 tDef(41, "combat training") -- _t
 tDef(41, "Teaches to use various armours, weapons and improves health.") -- _t
 tDef(42, "magical combat") -- _t
 tDef(42, "The blending together of magic and melee prowess.") -- _t
-tDef(43, "mobility") -- _t
 tDef(43, "Training and techniques to improve mobility and evade your enemies.  On the battlefield, positioning is paramount.") -- _t
-tDef(44, "thuggery") -- _t
+tDef(43, "mobility") -- _t
 tDef(44, "Whatever wins the day, wins the day.") -- _t
+tDef(44, "thuggery") -- _t
 tDef(45, "assassination") -- _t
 tDef(45, "Bring death from the shadows.") -- _t
-tDef(46, "throwing knives") -- _t
 tDef(46, "Master the art of throwing knives to fight from a distance.") -- _t
-tDef(47, "Use your dual weapons to parry and counter.") -- _t
+tDef(46, "throwing knives") -- _t
 tDef(47, "duelist") -- _t
+tDef(47, "Use your dual weapons to parry and counter.") -- _t
 tDef(48, "Training in the use of bows and slings.") -- _t
 tDef(48, "marksmanship") -- _t
 tDef(49, "Use your reflexes to evade and counter.") -- _t
 tDef(49, "reflexes") -- _t
-tDef(50, "Equip specialised ammunition.") -- _t
 tDef(50, "munitions") -- _t
+tDef(50, "Equip specialised ammunition.") -- _t
 tDef(51, "Take advantage of speed and shield to fight in close quarters.") -- _t
 tDef(51, "agility") -- _t
 tDef(52, "Stealth and specialised long range archery techniques.") -- _t
 tDef(52, "sniper") -- _t
-tDef(85, "Unarmed Boxing techniques that may not be practiced in massive armor or while a weapon or shield is equipped.") -- _t
+tDef(57, "Acrobatics") -- _t
+tDef(60, "For light footed Rogues who prefer flight to fighting fair!") -- _t
+tDef(65, "Buckler Training") -- _t
+tDef(67, "Mastery over their shields separates Skirmishers from Archers, and gives them an edge.") -- _t
+tDef(72, "Skirmisher - Slings") -- _t
+tDef(74, "Slings! Pow Pow!") -- _t
+tDef(79, "Tireless Combatant") -- _t
+tDef(81, "Your will carries you through the most difficult struggles, allowing you to fight on when others would have collapsed from exhaustion.") -- _t
 tDef(85, "pugilism") -- _t
-tDef(86, "Finishing moves that use combo points and may not be practiced in massive armor or while a weapon or shield is equipped.") -- _t
+tDef(85, "Unarmed Boxing techniques that may not be practiced in massive armor or while a weapon or shield is equipped.") -- _t
 tDef(86, "finishing moves") -- _t
-tDef(87, "grappling") -- _t
+tDef(86, "Finishing moves that use combo points and may not be practiced in massive armor or while a weapon or shield is equipped.") -- _t
 tDef(87, "Grappling techniques that may not be practiced in massive armor or while a weapon or shield is equipped.") -- _t
-tDef(88, "unarmed discipline") -- _t
+tDef(87, "grappling") -- _t
 tDef(88, "Advanced unarmed techniques including kicks and blocks that may not be practiced in massive armor or while a weapon or shield is equipped.") -- _t
+tDef(88, "unarmed discipline") -- _t
 tDef(89, "unarmed training") -- _t
 tDef(89, "Teaches various martial arts techniques that may not be practiced in massive armor or while a weapon or shield is equipped.") -- _t
 tDef(90, "Physical conditioning.") -- _t
 tDef(90, "conditioning") -- _t
 tDef(92, "unarmed other") -- _t
-tDef(92, "Base martial arts attack and stances.") -- _t
 tDef(92, "technique") -- talent category
+tDef(92, "Base martial arts attack and stances.") -- _t
 tDef(333, "You require a %s to use this talent.") -- tformat
 tDef(340, "You do not have enough ammo left!") -- logPlayer
 
@@ -24664,6 +25631,7 @@ tDef(340, "You do not have enough ammo left!") -- logPlayer
 section "game/modules/tome/data/talents/techniques/throwing-knives.lua"
 
 tDef(100, "Throwing Knives") -- talent name
+tDef(165, "Throwing Knife") -- _t
 tDef(185, "%d%% %s") -- tformat
 tDef(188, "Range: %d\
 Net Damage: %d - %d\
@@ -25050,7 +26018,7 @@ tDef(154, "You can wrap temporal threads around you, assuming the form of a telu
 		You also are able to cast anomalies: Anomaly Rearrange, Anomaly Temporal Storm, Anomaly Flawed Design, Anomaly Gravity Pull and Anomaly Wormhole.") -- tformat
 tDef(162, "Blighted Summoning") -- talent name
 tDef(164, "Have summoned at least 100 creatures. More permanent summons may count as more than 1.") -- _t
-tDef(241, "You infuse blighted energies into all of your summons, granting them Bone Shield (level 3) and a bonus to Spellpower equal to your Magic.\
+tDef(242, "You infuse blighted energies into all of your summons, granting them Bone Shield (level 3) and a bonus to Spellpower equal to your Magic.\
 		Your Wilder Summons and Necrotic Minions will gain special corrupted talents (level 3), other summons will gain 10%% Blight damage conversion and Virulent Disease (level 3).\
 		#GREEN#Wilder Summons:#LAST#\
 		- War Hound: Gnaw\
@@ -25072,16 +26040,16 @@ tDef(241, "You infuse blighted energies into all of your summons, granting them 
 		- Vampires / Liches: Blood Grasp and Blood Boil\
 		- Ghosts / Wights: Blood Fury and Curse of Death\
 		") -- tformat
-tDef(267, "Revisionist History") -- talent name
-tDef(272, "Have time-travelled at least once") -- _t
-tDef(289, "You can now control the recent past. Upon using this prodigy you gain a temporal effect for 20 turns.\
+tDef(268, "Revisionist History") -- talent name
+tDef(273, "Have time-travelled at least once") -- _t
+tDef(290, "You can now control the recent past. Upon using this prodigy you gain a temporal effect for 20 turns.\
 		While this effect holds you can use the prodigy again to rewrite history.\
 		This prodigy splits the timeline. Attempting to use another spell that also splits the timeline while this effect is active will be unsuccessful.") -- tformat
-tDef(296, "Unfold History") -- talent name
-tDef(311, "Rewrite the recent past to go back to when you cast Revisionist History.") -- tformat
-tDef(317, "Cauterize") -- talent name
-tDef(320, "Have received at least 7500 fire damage and have cast at least 1000 spells") -- _t
-tDef(331, "Your inner flame is strong. Each time that you receive a blow that would kill you, your body is wreathed in flames.\
+tDef(297, "Unfold History") -- talent name
+tDef(312, "Rewrite the recent past to go back to when you cast Revisionist History.") -- tformat
+tDef(318, "Cauterize") -- talent name
+tDef(321, "Have received at least 7500 fire damage and have cast at least 1000 spells") -- _t
+tDef(332, "Your inner flame is strong. Each time that you receive a blow that would kill you, your body is wreathed in flames.\
 		The flames will cauterize the wound, fully absorbing all damage done this turn, but they will continue to burn for 8 turns.\
 		Each turn 10%% of the damage absorbed will be dealt by the flames. This will bypass resistance and affinity.\
 		Warning: this has a cooldown.") -- tformat
@@ -25207,6 +26175,7 @@ tDef(140, "Gnaw") -- talent name
 tDef(161, "Risen Ghoul") -- _t
 tDef(163, "Flesh is falling off in chunks from this decaying abomination.") -- _t
 tDef(213, "A #GREY##Source##LAST# rises from the corpse of #Target#.") -- logCombat
+tDef(220, "Ghoulish Minion") -- _t
 tDef(239, "%s resists the disease!") -- logSeen
 tDef(250, "Gnaw your target for %d%% damage.  If your attack hits, the target may be infected with Ghoul Rot for %d turns.\
 		Each turn, Ghoul Rot inflicts %0.2f blight damage.\
@@ -27103,17 +28072,28 @@ tDef(49, "%s from %s") -- tformat
 ------------------------------------------------
 section "game/modules/tome/data/timed_effects/floor.lua"
 
-tDef(44, "The target is walking on an icy floor. Increasing movement speed by 20%, providing +20% cold damage piercing and -30% stun immunity.") -- _t
-tDef(54, "The target is near a font of life, granting %+0.2f life regeneration, %+0.2f equilibrium regeneration, %+0.2f stamina regeneration and %+0.2f psi regeneration.  (Only living creatures benefit.)") -- tformat
-tDef(71, "The target is near a spellblaze scar, granting +25% spell critical chance, +10% fire and blight damage but critical spells will drain arcane forces.") -- _t
-tDef(85, "The target is walking on blighted soil, reducing diseases resistance by 60% and giving all attacks a 40% chance to infect the target with a random disease (can only happen once per turn).") -- _t
-tDef(94, "The target is affected by a glimmerstone, its next attack will try to daze.") -- _t
-tDef(101, "The target is near a protective aura, granting +%d armour and +%d physical save.") -- tformat
-tDef(114, "The target is near an antimagic bush, granting +20%% nature damage, +20%% nature resistance penetration and -%d spellpower.") -- tformat
-tDef(125, "The target is in a zone of necrotic air, granting -40% healing mod. Undead creatures also get +15% to all resistances.") -- _t
-tDef(134, "The target is in a whistling vortex, granting +%d ranged defense, -%d ranged accuracy and incoming projectiles are 30%% slower.") -- tformat
-tDef(145, "The target is surrounded by a fell aura, granting 40% critical damage bonus but -20% to all resistances.") -- _t
-tDef(154, "The target is walking on slime. Decreasing movement speed by 20% and dealing 20 slime damage to any creatures attacking it.") -- _t
+tDef(44, "Icy Floor") -- floorEffect desc
+tDef(45, "The target is walking on an icy floor. Increasing movement speed by 20%, providing +20% cold damage piercing and -30% stun immunity.") -- _t
+tDef(54, "Font of Life") -- floorEffect desc
+tDef(55, "The target is near a font of life, granting %+0.2f life regeneration, %+0.2f equilibrium regeneration, %+0.2f stamina regeneration and %+0.2f psi regeneration.  (Only living creatures benefit.)") -- tformat
+tDef(71, "Spellblaze Scar") -- floorEffect desc
+tDef(72, "The target is near a spellblaze scar, granting +25% spell critical chance, +10% fire and blight damage but critical spells will drain arcane forces.") -- _t
+tDef(85, "Blighted Soil") -- floorEffect desc
+tDef(86, "The target is walking on blighted soil, reducing diseases resistance by 60% and giving all attacks a 40% chance to infect the target with a random disease (can only happen once per turn).") -- _t
+tDef(94, "Glimmerstone") -- floorEffect desc
+tDef(95, "The target is affected by a glimmerstone, its next attack will try to daze.") -- _t
+tDef(101, "Protective Aura") -- floorEffect desc
+tDef(102, "The target is near a protective aura, granting +%d armour and +%d physical save.") -- tformat
+tDef(114, "Antimagic Bush") -- floorEffect desc
+tDef(115, "The target is near an antimagic bush, granting +20%% nature damage, +20%% nature resistance penetration and -%d spellpower.") -- tformat
+tDef(125, "Necrotic Air") -- floorEffect desc
+tDef(126, "The target is in a zone of necrotic air, granting -40% healing mod. Undead creatures also get +15% to all resistances.") -- _t
+tDef(134, "Whistling Vortex") -- floorEffect desc
+tDef(135, "The target is in a whistling vortex, granting +%d ranged defense, -%d ranged accuracy and incoming projectiles are 30%% slower.") -- tformat
+tDef(145, "Fell Aura") -- floorEffect desc
+tDef(146, "The target is surrounded by a fell aura, granting 40% critical damage bonus but -20% to all resistances.") -- _t
+tDef(154, "Slimey Pool") -- floorEffect desc
+tDef(155, "The target is walking on slime. Decreasing movement speed by 20% and dealing 20 slime damage to any creatures attacking it.") -- _t
 
 
 ------------------------------------------------
@@ -27141,16 +28121,18 @@ tDef(119, "-Mana Overflow") -- _t
 tDef(119, "#Target# stops overflowing mana.") -- _t
 tDef(130, "Stoned") -- _t
 tDef(131, "The target has been turned to stone: it is rooted in place, unable to act, and may be shattered by a single blow dealing more than 30% of its maximum life.  It's new form makes it immune to being poisoned or cut, and grants improved physical(+20%), fire(+80%) and lightning(+50%) resistances.") -- _t
-tDef(136, "+Stoned") -- _t
+tDef(133, "stun") -- effect subtype
+tDef(133, "stone") -- effect subtype
 tDef(136, "#Target# turns to #GREY#STONE#LAST#!") -- _t
-tDef(137, "#Target# is no longer a #GREY#statue#LAST#.") -- _t
+tDef(136, "+Stoned") -- _t
 tDef(137, "-Stoned") -- _t
+tDef(137, "#Target# is no longer a #GREY#statue#LAST#.") -- _t
 tDef(162, "Arcane Storm") -- _t
 tDef(163, "The target is the epicenter of a terrible arcane storm, providing +%d%% arcane resistance.") -- tformat
 tDef(180, "Earthen Barrier") -- _t
 tDef(181, "Reduces physical damage received by %d%%.") -- tformat
-tDef(186, "+Earthen barrier") -- _t
 tDef(186, "#Target# hardens its skin.") -- _t
+tDef(186, "+Earthen barrier") -- _t
 tDef(187, "-Earthen barrier") -- _t
 tDef(200, "Molten Skin") -- _t
 tDef(201, "Reduces fire damage received by %d%%.") -- tformat
@@ -27159,45 +28141,47 @@ tDef(206, "+Molten Skin") -- _t
 tDef(207, "-Molten Skin") -- _t
 tDef(220, "Reflective Skin") -- _t
 tDef(221, "Magically returns %d%% of any damage done to the attacker.") -- tformat
-tDef(226, "+Reflective Skin") -- _t
 tDef(226, "#Target#'s skin starts to shimmer.") -- _t
-tDef(227, "-Reflective Skin") -- _t
+tDef(226, "+Reflective Skin") -- _t
 tDef(227, "#Target#'s skin returns to normal.") -- _t
+tDef(227, "-Reflective Skin") -- _t
 tDef(240, "Vimsense") -- _t
 tDef(241, "Reduces blight resistance by %d%% and all saves by %d.") -- tformat
 tDef(258, "Invisibility") -- _t
 tDef(259, "Improves/gives invisibility (power %d), reducing damage dealt by %d%%%s.") -- tformat
-tDef(264, "+Invis") -- _t
 tDef(264, "#Target# vanishes from sight.") -- _t
-tDef(265, "-Invis") -- _t
+tDef(264, "+Invis") -- _t
 tDef(265, "#Target# is no longer invisible.") -- _t
+tDef(265, "-Invis") -- _t
 tDef(298, "Ethereal") -- _t
 tDef(299, "Invisible (power %d), damage dealt reduced by %d%%, all resistances increased by %d%%, movement speed increased by %d%%.") -- tformat
-tDef(305, "#Target# becomes ethereal.") -- _t
+tDef(302, "phantasm") -- effect subtype
 tDef(305, "+Ethereal") -- _t
+tDef(305, "#Target# becomes ethereal.") -- _t
 tDef(306, "#Target# is no longer ethereal.") -- _t
 tDef(306, "-Ethereal") -- _t
 tDef(336, "Stormshield") -- _t
 tDef(337, "The target is protected a raging storm deflecting up to %d instances of damage over %d.") -- tformat
 tDef(344, "+Stormshield") -- _t
 tDef(344, "#Target# summons a storm to protect them!") -- _t
-tDef(345, "-Stormshield") -- _t
 tDef(345, "#Target#'s storm dissipates.") -- _t
+tDef(345, "-Stormshield") -- _t
 tDef(358, "%s(%d stormshielded#LAST#%s)#LAST#") -- tformat
 tDef(361, "#BLUE##Target#'s stormshield is out of charges and disspitates!#LAST#.") -- logCombat
 tDef(370, "Prismatic Shield") -- _t
 tDef(377, "The target is protected by a prismatic shield blocking many instances of damage.  Remaining:  %s") -- tformat
+tDef(380, "ward") -- effect subtype
 tDef(383, "#Target# summons a prismatic shield to protect him!") -- _t
 tDef(383, "+Prismatic") -- _t
-tDef(384, "-Prismatic") -- _t
 tDef(384, "#Target#'s prismatic shield fades.") -- _t
+tDef(384, "-Prismatic") -- _t
 tDef(394, "%s(%d to prism#LAST#%s)#LAST#") -- tformat
 tDef(406, "PURGING") -- _t
 tDef(407, "The target is being purged of 1 physical ailment each turn.") -- tformat
 tDef(413, "#Target# is being purged of his physical ailments!") -- _t
 tDef(413, "+Purging") -- _t
-tDef(414, "#Target#'s is no longer being purged.") -- _t
 tDef(414, "-Purging") -- _t
+tDef(414, "#Target#'s is no longer being purged.") -- _t
 tDef(427, "Sensing (Vim)") -- _t
 tDef(428, "Improves senses, allowing the detection of unseen things.") -- _t
 tDef(456, "Sense Hidden") -- _t
@@ -27206,14 +28190,17 @@ tDef(462, "#Target#'s eyes tingle.") -- _t
 tDef(463, "#Target#'s eyes tingle no more.") -- _t
 tDef(476, "Bane of Blindness") -- _t
 tDef(477, "The target is blinded, unable to see anything and takes %0.2f darkness damage per turn.") -- tformat
-tDef(482, "#Target# loses sight!") -- _t
+tDef(479, "blind") -- effect subtype
 tDef(482, "+Blind") -- _t
-tDef(483, "#Target# recovers sight.") -- _t
+tDef(482, "#Target# loses sight!") -- _t
 tDef(483, "-Blind") -- _t
+tDef(483, "#Target# recovers sight.") -- _t
 tDef(505, "Bane of Confusion") -- _t
 tDef(506, "The target is confused, acting randomly (chance %d%%), unable to perform complex actions and takes %0.2f darkness damage per turn.") -- tformat
-tDef(512, "#Target# wanders around!.") -- _t
+tDef(509, "bane") -- effect subtype
+tDef(509, "confusion") -- effect subtype
 tDef(512, "+Confused") -- _t
+tDef(512, "#Target# wanders around!.") -- _t
 tDef(513, "-Confused") -- _t
 tDef(513, "#Target# seems more focused.") -- _t
 tDef(529, "Supercharge Golem") -- _t
@@ -27222,16 +28209,16 @@ tDef(535, "+Supercharge") -- _t
 tDef(536, "-Supercharge") -- _t
 tDef(555, "Power Overload") -- _t
 tDef(556, "The target radiates incredible power, increasing all damage done by %d%%.") -- tformat
-tDef(561, "#Target# is overloaded with power.") -- _t
 tDef(561, "+Overload") -- _t
-tDef(562, "#Target# seems less dangerous.") -- _t
+tDef(561, "#Target# is overloaded with power.") -- _t
 tDef(562, "-Overload") -- _t
+tDef(562, "#Target# seems less dangerous.") -- _t
 tDef(573, "Life Tap") -- _t
 tDef(574, "The target taps its blood's hidden power, healing for %d%% of all damage they deal.") -- tformat
 tDef(579, "+Life Tap") -- _t
 tDef(579, "#Target# looks healthier as he deals damage.") -- _t
-tDef(580, "#Target# stops leeching life.") -- _t
 tDef(580, "-Life Tap") -- _t
+tDef(580, "#Target# stops leeching life.") -- _t
 tDef(597, "Arcane Eye") -- _t
 tDef(598, "You have an arcane eye observing for you in a radius of %d.") -- tformat
 tDef(630, "Seen by Arcane Eye") -- _t
@@ -27240,17 +28227,17 @@ tDef(651, "All stats increase") -- _t
 tDef(652, "All primary stats of the target are increased by %d.") -- tformat
 tDef(675, "Displacement Shield") -- _t
 tDef(676, "The target is surrounded by a space distortion that randomly sends (%d%% chance) incoming damage to another target (%s). Absorbs %d/%d damage before it crumbles.") -- tformat
-tDef(681, "The very fabric of space alters around #target#.") -- _t
 tDef(681, "+Displacement Shield") -- _t
-tDef(682, "The fabric of space around #target# stabilizes to normal.") -- _t
+tDef(681, "The very fabric of space alters around #target#.") -- _t
 tDef(682, "-Displacement Shield") -- _t
+tDef(682, "The fabric of space around #target# stabilizes to normal.") -- _t
 tDef(729, "Damage Shield") -- _t
 tDef(730, "(reflecting %d%% back to the attacker)") -- tformat
 tDef(730, "The target is surrounded by a magical shield, absorbing %d/%d damage %s before it crumbles.") -- tformat
-tDef(736, "+Shield") -- _t
 tDef(736, "A shield forms around #target#.") -- _t
-tDef(737, "-Shield") -- _t
+tDef(736, "+Shield") -- _t
 tDef(737, "The shield around #target# crumbles.") -- _t
+tDef(737, "-Shield") -- _t
 tDef(829, "Martyrdom") -- _t
 tDef(830, "All damage done by the target will also hurt it for %d%%.") -- tformat
 tDef(835, "#Target# is a martyr.") -- _t
@@ -27259,10 +28246,11 @@ tDef(836, "-Martyr") -- _t
 tDef(836, "#Target# is no longer influenced by martyrdom.") -- _t
 tDef(848, "Radiance Lost") -- _t
 tDef(849, "You have expended the power of your Radiance temporarily reducing its radius to 1.") -- tformat
-tDef(853, "+Dim") -- _t
+tDef(851, "radiance") -- effect subtype
 tDef(853, "#Target#'s aura dims.") -- _t
-tDef(854, "#Target# shines with renewed light.") -- _t
+tDef(853, "+Dim") -- _t
 tDef(854, "-Dim") -- _t
+tDef(854, "#Target# shines with renewed light.") -- _t
 tDef(865, "Curse of Vulnerability") -- _t
 tDef(866, "The target is cursed, reducing all resistances by %d%%.") -- tformat
 tDef(885, "Curse of Impotence") -- _t
@@ -27272,10 +28260,12 @@ tDef(906, "The target is cursed, reducing defence and all saves by %d.") -- tfor
 tDef(929, "Curse of Death") -- _t
 tDef(930, "The target is cursed, taking %0.2f darkness damage per turn and preventing natural life regeneration.") -- tformat
 tDef(951, "Curse of Hate") -- _t
+tDef(952, "The target is cursed, force all foes in a radius of 5 to attack it.") -- _t
+tDef(954, "curse") -- effect subtype
 tDef(957, "+Curse") -- _t
 tDef(957, "#Target# is cursed.") -- _t
-tDef(958, "-Curse") -- _t
 tDef(958, "#Target# is no longer cursed.") -- _t
+tDef(958, "-Curse") -- _t
 tDef(975, "Corrupting Strike") -- _t
 tDef(976, "The targets natural essence in corrupted reducing disease resistance by 100%%.") -- tformat
 tDef(981, "#Target# is completely vulnerable to disease!") -- _t
@@ -27284,6 +28274,7 @@ tDef(992, "Bloodlust") -- _t
 tDef(993, "The target is in a magical frenzy, improving spellpower by %d.") -- tformat
 tDef(1015, "Acid Splash") -- _t
 tDef(1016, "The target has been splashed with acid, taking %0.2f acid damage per turn, reducing armour by %d and attack by %d.") -- tformat
+tDef(1018, "sunder") -- effect subtype
 tDef(1039, "Bloodfury") -- _t
 tDef(1040, "The target's blight and acid damage is increased by %d%%.") -- tformat
 tDef(1056, "Reviving Phoenix") -- _t
@@ -27296,8 +28287,8 @@ tDef(1096, "Hurricane") -- _t
 tDef(1097, "The target is in the center of a lightning hurricane, doing %0.2f to %0.2f lightning damage to itself and others around every turn.") -- tformat
 tDef(1102, "+Hurricane") -- _t
 tDef(1102, "#Target# is caught inside a Hurricane.") -- _t
-tDef(1103, "The Hurricane around #Target# dissipates.") -- _t
 tDef(1103, "-Hurricane") -- _t
+tDef(1103, "The Hurricane around #Target# dissipates.") -- _t
 tDef(1118, "Teleport: Angolwen") -- _t
 tDef(1119, "The target is waiting to be recalled back to Angolwen.") -- _t
 tDef(1137, "There are creatures that could be watching you; you cannot take the risk of teleporting to Angolwen.") -- log
@@ -27305,25 +28296,26 @@ tDef(1144, "You are yanked out of this place!") -- logPlayer
 tDef(1149, "Space restabilizes around you.") -- logPlayer
 tDef(1156, "Timeport: Point Zero") -- _t
 tDef(1157, "The target is waiting to be recalled back to Point Zero.") -- _t
+tDef(1159, "timeport") -- effect subtype
 tDef(1181, "There are creatures that could be watching you; you cannot take the risk of timeporting to Point Zero.") -- log
 tDef(1188, "You are yanked out of this time!") -- logPlayer
 tDef(1193, "Time restabilizes around you.") -- logPlayer
 tDef(1200, "Premonition Shield") -- _t
 tDef(1201, "Reduces %s damage received by %d%%.") -- tformat
-tDef(1206, "+Premonition Shield") -- _t
 tDef(1206, "#Target# casts a protective shield just in time!") -- _t
-tDef(1207, "-Premonition Shield") -- _t
+tDef(1206, "+Premonition Shield") -- _t
 tDef(1207, "The protective shield of #Target# disappears.") -- _t
+tDef(1207, "-Premonition Shield") -- _t
 tDef(1218, "Corrosive Worm") -- _t
 tDef(1219, "The target is infected with a corrosive worm, reducing blight and acid resistance by %d%%. When the effect ends, the worm will explode, dealing %d acid damage in a 4 radius ball. This damage will increase by %d%% of all damage taken while under torment") -- tformat
-tDef(1224, "+Corrosive Worm") -- _t
 tDef(1224, "#Target# is infected by a corrosive worm.") -- _t
+tDef(1224, "+Corrosive Worm") -- _t
 tDef(1225, "-Corrosive Worm") -- _t
 tDef(1225, "#Target# is free from the corrosive worm.") -- _t
 tDef(1248, "Wraithform") -- _t
 tDef(1249, "Turn into a wraith, passing through walls (but not natural obstacles), granting %d defense and %d armour.") -- tformat
-tDef(1254, "+Wraithform") -- _t
 tDef(1254, "#Target# turns into a wraith.") -- _t
+tDef(1254, "+Wraithform") -- _t
 tDef(1255, "-Wraithform") -- _t
 tDef(1255, "#Target# returns to normal.") -- _t
 tDef(1287, "Empowered Healing") -- _t
@@ -27343,34 +28335,37 @@ tDef(1434, "Light damage has been increased by %d%% to +%d%%.") -- tformat
 tDef(1447, "Shrouded in Darklight") -- _t
 tDef(1449, "%d%% of the targets damage is being split between light and darkness and they are taking %d light and %d darkness damage each turn.") -- tformat
 tDef(1475, "Sanctity") -- _t
+tDef(1476, "The target is protected from silence effects.") -- _t
 tDef(1494, "Shifting Shadows") -- _t
 tDef(1495, "The target's defense is increased by %d.") -- tformat
 tDef(1519, "Blazing Light") -- _t
 tDef(1520, "The target is gaining %d positive energy each turn.") -- tformat
 tDef(1535, "Warding") -- _t
 tDef(1536, "Projectiles aimed at the target are slowed by %d%%.") -- tformat
+tDef(1538, "circle") -- effect subtype
 tDef(1554, "Turn Back the Clock") -- _t
 tDef(1555, "The target has been returned to a much younger state, reducing all its stats by %d.") -- tformat
-tDef(1560, "+Turn Back the Clock") -- _t
 tDef(1560, "#Target# is returned to a much younger state!") -- _t
+tDef(1560, "+Turn Back the Clock") -- _t
 tDef(1561, "-Turn Back the Clock") -- _t
 tDef(1561, "#Target# has regained its natural age.") -- _t
 tDef(1583, "Wasting") -- _t
 tDef(1584, "The target is wasting away, taking %0.2f temporal damage per turn.") -- tformat
 tDef(1589, "#Target# is wasting away!") -- _t
 tDef(1589, "+Wasting") -- _t
-tDef(1590, "-Wasting") -- _t
 tDef(1590, "#Target# stops wasting away.") -- _t
+tDef(1590, "-Wasting") -- _t
 tDef(1607, "Prescience") -- _t
 tDef(1608, "The target's awareness is fully in the present, increasing stealth detection, see invisibility, defense, and accuracy by %d.") -- tformat
-tDef(1613, "+Prescience") -- _t
 tDef(1613, "#Target# has found the present moment!") -- _t
+tDef(1613, "+Prescience") -- _t
 tDef(1614, "-Prescience") -- _t
 tDef(1614, "#Target#'s awareness returns to normal.") -- _t
 tDef(1631, "Invigorate") -- _t
 tDef(1632, "The target is regaining %d life per turn and refreshing talents at twice the normal rate.") -- tformat
-tDef(1637, "+Invigorate") -- _t
+tDef(1634, "regeneration") -- effect subtype
 tDef(1637, "#Target# is invigorated.") -- _t
+tDef(1637, "+Invigorate") -- _t
 tDef(1638, "#Target# is no longer invigorated.") -- _t
 tDef(1638, "-Invigorate") -- _t
 tDef(1665, "Gather the Threads") -- _t
@@ -27381,26 +28376,27 @@ tDef(1673, "-Gather the Threads") -- _t
 tDef(1673, "#Target# is no longer manipulating the timestream.") -- _t
 tDef(1700, "Flawed Design") -- _t
 tDef(1701, "The target's resistances have been reduced by %d%%.") -- tformat
-tDef(1706, "+Flawed") -- _t
 tDef(1706, "#Target# is flawed.") -- _t
-tDef(1707, "-Flawed") -- _t
+tDef(1706, "+Flawed") -- _t
 tDef(1707, "#Target# is no longer flawed.") -- _t
+tDef(1707, "-Flawed") -- _t
 tDef(1720, "Manaworm") -- _t
 tDef(1721, "The target is infected by a manaworm, draining %0.2f mana per turn and releasing it as arcane damage to the target.") -- tformat
-tDef(1726, "#Target# is infected by a manaworm!") -- _t
 tDef(1726, "+Manaworm") -- _t
+tDef(1726, "#Target# is infected by a manaworm!") -- _t
 tDef(1727, "-Manaworm") -- _t
 tDef(1727, "#Target# is no longer infected.") -- _t
 tDef(1738, "Surge of Undeath") -- _t
 tDef(1739, "Increases the target combat power, spellpower, accuracy by %d, armour penetration by %d and critical chances by %d.") -- tformat
-tDef(1744, "+Undeath Surge") -- _t
+tDef(1741, "frenzy") -- effect subtype
 tDef(1744, "#Target# is engulfed in dark energies.") -- _t
+tDef(1744, "+Undeath Surge") -- _t
 tDef(1745, "-Undeath Surge") -- _t
 tDef(1745, "#Target# seems less powerful.") -- _t
 tDef(1766, "Bone Shield") -- _t
 tDef(1767, "Any attacks doing more than %d%% of your life is reduced to %d%%.") -- tformat
-tDef(1772, "#Target# protected by flying bones.") -- _t
 tDef(1772, "+Bone Shield") -- _t
+tDef(1772, "#Target# protected by flying bones.") -- _t
 tDef(1773, "#Target# flying bones crumble.") -- _t
 tDef(1773, "-Bone Shield") -- _t
 tDef(1790, "Redux") -- _t
@@ -27422,33 +28418,34 @@ tDef(1925, "+Haste") -- _t
 tDef(1926, "-Haste") -- _t
 tDef(1951, "Cease to Exist") -- _t
 tDef(1952, "The target is being removed from the timeline, its resistance to physical and temporal damage have been reduced by %d%%.") -- tformat
-tDef(1957, "#Target# is being removed from the timeline.") -- _t
 tDef(1957, "+Cease to Exist") -- _t
+tDef(1957, "#Target# is being removed from the timeline.") -- _t
 tDef(1973, "Impending Doom") -- _t
 tDef(1974, "The target's final doom is drawing near, reducing healing factor by 80%% and dealing %0.2f arcane damage per turn. The effect will stop if the caster dies.") -- tformat
-tDef(1979, "+Doomed") -- _t
 tDef(1979, "#Target# is doomed!") -- _t
-tDef(1980, "#Target# is freed from the impending doom.") -- _t
+tDef(1979, "+Doomed") -- _t
 tDef(1980, "-Doomed") -- _t
+tDef(1980, "#Target# is freed from the impending doom.") -- _t
 tDef(1995, "Rigor Mortis") -- _t
 tDef(1996, "The target takes %d%% more damage from necrotic minions.") -- tformat
 tDef(2001, "#Target# feels death coming!") -- _t
 tDef(2001, "+Rigor Mortis") -- _t
-tDef(2002, "-Rigor Mortis") -- _t
 tDef(2002, "#Target# is freed from the rigor mortis.") -- _t
+tDef(2002, "-Rigor Mortis") -- _t
 tDef(2013, "Abyssal Shroud") -- _t
 tDef(2014, "The target's lite radius has been reduced by %d, and its darkness resistance by %d%%.") -- tformat
-tDef(2019, "+Abyssal Shroud") -- _t
 tDef(2019, "#Target# feels closer to the abyss!") -- _t
-tDef(2020, "-Abyssal Shroud") -- _t
+tDef(2019, "+Abyssal Shroud") -- _t
 tDef(2020, "#Target# is free from the abyss.") -- _t
+tDef(2020, "-Abyssal Shroud") -- _t
 tDef(2033, "Spin Fate") -- _t
 tDef(2034, "The target's defense and saves have been increased by %d.") -- tformat
 tDef(2041, "+Spin Fate") -- _t
 tDef(2041, "#Target# spins fate.") -- _t
-tDef(2042, "#Target# stops spinning fate.") -- _t
 tDef(2042, "-Spin Fate") -- _t
+tDef(2042, "#Target# stops spinning fate.") -- _t
 tDef(2088, "Spellshocked") -- _t
+tDef(2091, "cross tier") -- effect subtype
 tDef(2094, "+Spellshocked") -- _t
 tDef(2095, "-Spellshocked") -- _t
 tDef(2108, "Rotting Disease") -- _t
@@ -27494,17 +28491,20 @@ tDef(2305, "#Target# is free from the worm rot.") -- _t
 tDef(2349, "#LIGHT_RED#A carrion worm mass bursts out of %s!") -- logSeen
 tDef(2357, "Ghoul Rot") -- _t
 tDef(2361, "The target is infected by a disease doing %0.2f blight damage per turn.%s") -- tformat
+tDef(2364, "disease") -- effect subtype
 tDef(2367, "#Target# is afflicted by ghoul rot!") -- _t
 tDef(2368, "#Target# is free from the ghoul rot.") -- _t
 tDef(2383, "Bloodcasting") -- _t
+tDef(2384, "Corruptions consume health instead of vim.") -- _t
 tDef(2400, "Sanguine Infusion") -- _t
 tDef(2402, "Maximum life increased by %d.") -- tformat
+tDef(2404, "corruption") -- effect subtype
 tDef(2425, "Arcane Supremacy") -- _t
 tDef(2426, "The target's spellpower and spell save has been increased by %d") -- tformat
 tDef(2431, "+Arcane Supremacy") -- _t
 tDef(2431, "#Target# is surging with arcane energy.") -- _t
-tDef(2432, "-Arcane Supremacy") -- _t
 tDef(2432, "The arcane energy around #target# has dissipated.") -- _t
+tDef(2432, "-Arcane Supremacy") -- _t
 tDef(2447, "Ward") -- _t
 tDef(2448, "Fully absorbs %d %s attack%s.") -- tformat
 tDef(2453, "#Target# warded against %s!") -- tformat
@@ -27527,109 +28527,119 @@ tDef(2516, "#Target# is no longer out of phase.") -- _t
 tDef(2516, "-Phased") -- _t
 tDef(2552, "Blood Lock") -- _t
 tDef(2553, "Cannot heal higher than %d life.") -- tformat
-tDef(2558, "#Target# is blood locked.") -- _t
+tDef(2555, "blood") -- effect subtype
 tDef(2558, "+Blood Lock") -- _t
-tDef(2559, "#Target# is no longer blood locked.") -- _t
+tDef(2558, "#Target# is blood locked.") -- _t
 tDef(2559, "-Blood Lock") -- _t
+tDef(2559, "#Target# is no longer blood locked.") -- _t
 tDef(2572, "Congeal Time") -- _t
 tDef(2573, "Reduces global action speed by %d%% and all outgoing projectiles speed by %d%%.") -- tformat
 tDef(2578, "+Congeal Time") -- _t
 tDef(2578, "#Target# slows down.") -- _t
-tDef(2579, "-Congeal Time") -- _t
 tDef(2579, "#Target# speeds up.") -- _t
+tDef(2579, "-Congeal Time") -- _t
 tDef(2597, "Arcane Vortex") -- _t
 tDef(2598, "An arcane vortex follows the target. Each turn a manathrust fires from it to a random foe in sight doing %0.2f arcane damage to all. If no foes are found the main target takes 50%% more arcane damage this turn. If the target dies the remaining damage is dealt as a radius 2 ball of arcane.") -- tformat
-tDef(2603, "#Target# is focused by an arcane vortex!.") -- _t
 tDef(2603, "+Arcane Vortex") -- _t
+tDef(2603, "#Target# is focused by an arcane vortex!.") -- _t
 tDef(2604, "#Target# is free from the arcane vortex.") -- _t
 tDef(2604, "-Arcane Vortex") -- _t
 tDef(2643, "Aether Breach") -- _t
 tDef(2644, "Fires an arcane explosion each turn doing %0.2f arcane damage in radius 2.") -- tformat
 tDef(2649, "+Aether Breach") -- _t
 tDef(2649, "#Target# begins channeling arcane through a breach in reality!") -- _t
-tDef(2650, "-Aether Breach") -- _t
 tDef(2650, "The aetheric breach around #Target# seals itself.") -- _t
+tDef(2650, "-Aether Breach") -- _t
 tDef(2682, "Aether Avatar") -- _t
+tDef(2683, "Filled with pure aether forces!") -- _t
 tDef(2716, "Vulnerability Poison") -- _t
-tDef(2720, "The target is afflicted with a magical poison and is suffering %0.2f arcane damage per turn.  All resistances are reduced by 10%%%s.") -- tformat
 tDef(2720, " and poison resistance is reduced by %s%%") -- tformat
-tDef(2726, "#Target# is magically poisoned!") -- _t
+tDef(2720, "The target is afflicted with a magical poison and is suffering %0.2f arcane damage per turn.  All resistances are reduced by 10%%%s.") -- tformat
 tDef(2726, "+Vulnerability Poison") -- _t
+tDef(2726, "#Target# is magically poisoned!") -- _t
 tDef(2727, "-Vulnerability Poison") -- _t
 tDef(2727, "#Target# is no longer magically poisoned.") -- _t
 tDef(2746, "Irresistible Sun") -- _t
 tDef(2747, "The target is attracting all toward it, also dealing fire, light and physical damage each turn..") -- tformat
-tDef(2752, "+Irresistible Sun") -- _t
 tDef(2752, "#Target# starts to attract all creatures around!") -- _t
-tDef(2753, "#Target# is no longer attracting creatures.") -- _t
+tDef(2752, "+Irresistible Sun") -- _t
 tDef(2753, "-Irresistible Sun") -- _t
+tDef(2753, "#Target# is no longer attracting creatures.") -- _t
 tDef(2773, "%s is pulled in!") -- logSeen
 tDef(2791, "Weight of the Sun") -- _t
 tDef(2792, "The target is struggling against immense gravity, all damage it does is reduced by %d%%.") -- tformat
 tDef(2797, "#Target# can barely stand!") -- _t
 tDef(2797, "+Weight of the Sun") -- _t
-tDef(2798, "-Weight of the Sun") -- _t
 tDef(2798, "#Target# can move freely once more.") -- _t
+tDef(2798, "-Weight of the Sun") -- _t
 tDef(2806, "Temporal Form") -- _t
 tDef(2807, "The target assumes the form of a telugoroth.") -- tformat
 tDef(2812, "+Temporal Form") -- _t
 tDef(2812, "#Target# threads time as a shell!") -- _t
-tDef(2813, "-Temporal Form") -- _t
 tDef(2813, "#Target# is no longer embeded in time.") -- _t
+tDef(2813, "-Temporal Form") -- _t
 tDef(2863, "Corrupted Losgoroth Form") -- _t
 tDef(2864, "The target has assumed the form of a corrupted losgoroth, gaining immunity to poison, disease, bleeding, and confusion.  It does not need to breathe, and converts half of all damage to life draining blight.") -- tformat
-tDef(2869, "#Target# turns into a losgoroth!") -- _t
+tDef(2866, "arcane") -- effect subtype
 tDef(2869, "+Corrupted Losgoroth Form") -- _t
+tDef(2869, "#Target# turns into a losgoroth!") -- _t
 tDef(2870, "-Corrupted Losgoroth Form") -- _t
 tDef(2950, "Shivgoroth Form") -- _t
 tDef(2951, "The target assumes the form of a shivgoroth.") -- tformat
 tDef(2956, "#Target# turns into a shivgoroth!") -- _t
 tDef(2956, "+Shivgoroth Form") -- _t
-tDef(2957, "-Shivgoroth Form") -- _t
 tDef(2957, "#Target# is no longer transformed.") -- _t
+tDef(2957, "-Shivgoroth Form") -- _t
 tDef(3001, "Keepers of Reality Rally Call") -- _t
 tDef(3002, "The keepers of reality have called upon all to defend Point Zero. Life increased by 5000, damage by 300%.") -- _t
 tDef(3021, "Receptive Mind") -- _t
 tDef(3022, "You can sense the presence of all %s around you.") -- tformat
+tDef(3024, "rune") -- effect subtype
 tDef(3036, "Born into Magic") -- _t
 tDef(3037, "%s damage increased by 20%%.") -- tformat
+tDef(3039, "race") -- effect subtype
 tDef(3051, "Essence of the Dead") -- _t
 tDef(3052, "The target consumed souls to gain new powers. %d spells affected.") -- tformat
+tDef(3055, "necrotic") -- effect subtype
 tDef(3069, "Ice Armour") -- _t
 tDef(3070, "The target is covered in a layer of ice. Its armour is increased by %d, it deals %0.1f Cold damage to attackers that hit in melee, and 50%% of its damage is converted to cold.") -- tformat
+tDef(3072, "armour") -- effect subtype
+tDef(3072, "cold") -- effect subtype
 tDef(3075, "#Target# is covered in icy armor!") -- _t
 tDef(3076, "#Target#'s ice coating crumbles away.") -- _t
 tDef(3093, "Caustic Golem") -- _t
 tDef(3094, "The target is coated with acid. When struck in melee, it has a %d%% chance to spray a cone of acid towards the attacker doing %0.1f damage.") -- tformat
+tDef(3096, "acid") -- effect subtype
+tDef(3096, "coating") -- effect subtype
 tDef(3099, "#Target# is coated in acid!") -- _t
 tDef(3100, "#Target#'s acid coating is diluted.") -- _t
 tDef(3121, "Sun's Vengeance") -- _t
 tDef(3122, "The target is filled with the Sun's fury, next Sun Beam will be instant cast.") -- tformat
-tDef(3127, "+Sun's Vengeance") -- _t
 tDef(3127, "#Target# is filled with the Sun's fury!") -- _t
+tDef(3127, "+Sun's Vengeance") -- _t
 tDef(3128, "-Sun's Vengeance") -- _t
 tDef(3136, "Suncloak") -- _t
 tDef(3137, "The target is protected by the sun, increasing their spell casting speed by %d%%, reducing spell cooldowns by %d%%, and preventing damage over %d%% of your maximum life from a single hit.") -- tformat
 tDef(3143, "+Suncloak") -- _t
 tDef(3143, "#Target# is energized and protected by the Sun!") -- _t
-tDef(3144, "-Suncloak") -- _t
 tDef(3144, "#Target#'s solar fury subsides.") -- _t
+tDef(3144, "-Suncloak") -- _t
 tDef(3158, "Mark of Light") -- _t
 tDef(3159, "The creature that marked the target with light will be healed for all melee attacks against it by %d%%.") -- tformat
-tDef(3164, "#Target# is marked by light!") -- _t
 tDef(3164, "+Mark of Light") -- _t
-tDef(3165, "#Target#'s mark disappears.") -- _t
+tDef(3164, "#Target# is marked by light!") -- _t
 tDef(3165, "-Mark of Light") -- _t
+tDef(3165, "#Target#'s mark disappears.") -- _t
 tDef(3179, "Righteous Strength") -- _t
 tDef(3180, "Increase light and physical damage by %d%%.") -- tformat
-tDef(3185, "#Target# shines with light!") -- _t
 tDef(3185, "+Righteous Strength") -- _t
-tDef(3186, "-Righteous Strength") -- _t
+tDef(3185, "#Target# shines with light!") -- _t
 tDef(3186, "#Target# stops shining.") -- _t
+tDef(3186, "-Righteous Strength") -- _t
 tDef(3206, "Lightburn") -- _t
 tDef(3207, "The creature is burnt by light, dealing %0.2f light damage each turn and reducing armour by %d.") -- tformat
-tDef(3212, "+Lightburn") -- _t
 tDef(3212, "#Target# burns with light!") -- _t
+tDef(3212, "+Lightburn") -- _t
 tDef(3213, "-Lightburn") -- _t
 tDef(3213, "#Target# stops burning.") -- _t
 tDef(3233, "Illumination ") -- _t
@@ -27642,18 +28652,23 @@ tDef(3257, "+Light Burst") -- _t
 tDef(3258, "-Light Burst") -- _t
 tDef(3263, "Light Burst Speed") -- _t
 tDef(3264, "The target is invigorated from Searing Sight, increasing movement speed by %d%%.") -- tformat
+tDef(3266, "sun") -- effect subtype
 tDef(3270, "+Light Burst Speed") -- _t
 tDef(3271, "-Light Burst Speed") -- _t
 tDef(3292, "Healing Inversion") -- _t
 tDef(3293, "All healing done to the target will instead turn into %d%% blight damage.") -- tformat
+tDef(3295, "heal") -- effect subtype
 tDef(3298, "+Healing Inversion") -- _t
 tDef(3299, "-Healing Inversion") -- _t
 tDef(3322, "Shocked") -- _t
 tDef(3323, "Target is reeling from an lightning shock, halving its stun and pinning resistance.") -- tformat
+tDef(3325, "lightning") -- effect subtype
 tDef(3327, "+Shocked") -- _t
 tDef(3328, "-Shocked") -- _t
 tDef(3343, "Wet") -- _t
 tDef(3344, "Target is drenched with magical water, halving its stun resistance.") -- tformat
+tDef(3346, "ice") -- effect subtype
+tDef(3346, "water") -- effect subtype
 tDef(3348, "+Wet") -- _t
 tDef(3349, "-Wet") -- _t
 tDef(3367, "Probability Travel") -- _t
@@ -27666,24 +28681,26 @@ tDef(3390, "+Blink") -- _t
 tDef(3391, "-Blink") -- _t
 tDef(3401, "Dimensional Anchor") -- _t
 tDef(3402, "The target is unable to teleport and takes %0.2f temporal and %0.2f physical damage if they try.") -- tformat
-tDef(3407, "+Anchor") -- _t
+tDef(3404, "slow") -- effect subtype
 tDef(3407, "#Target# is anchored.") -- _t
-tDef(3408, "-Anchor") -- _t
+tDef(3407, "+Anchor") -- _t
 tDef(3408, "#Target# is no longer anchored.") -- _t
+tDef(3408, "-Anchor") -- _t
 tDef(3423, "Breach") -- _t
 tDef(3424, "The target's defenses have been breached, reducing armor hardiness, stun, pin, blindness, and confusion immunity by 50%%.") -- tformat
 tDef(3428, "+Breach") -- _t
 tDef(3429, "-Breach") -- _t
 tDef(3454, "Braided") -- _t
 tDef(3455, "The target is taking %d%% of all damage dealt to other braided targets.") -- tformat
-tDef(3460, "+Braided") -- _t
 tDef(3460, "#Target#'s lifeline has been braided.") -- _t
-tDef(3461, "-Braided") -- _t
+tDef(3460, "+Braided") -- _t
 tDef(3461, "#Target#'s lifeline is no longer braided.") -- _t
+tDef(3461, "-Braided") -- _t
 tDef(3467, "#CRIMSON##Source# damages #Target# through the Braid!") -- delayedLogMessage
 tDef(3468, "#PINK#%d braided #LAST#") -- tformat
 tDef(3490, "Precognition") -- _t
 tDef(3491, "Peer into the future, detecting enemies, increasing defense by %d, and granting a %d%% chance to ignore critical hits.") -- tformat
+tDef(3493, "sense") -- effect subtype
 tDef(3512, "Webs of Fate") -- _t
 tDef(3513, "Displacing %d%% of all damage on to a random enemy.") -- tformat
 tDef(3517, "+Webs of Fate") -- _t
@@ -27691,19 +28708,21 @@ tDef(3518, "-Webs of Fate") -- _t
 tDef(3549, "%s(%d webs of fate)#LAST#") -- tformat
 tDef(3568, "Seal Fate") -- _t
 tDef(3575, "The target has a %d%% chance of increasing the duration of one detrimental status effects on targets it damages by one.") -- tformat
+tDef(3578, "focus") -- effect subtype
 tDef(3581, "+Seal Fate") -- _t
 tDef(3582, "-Seal Fate") -- _t
 tDef(3628, "Unravel") -- _t
 tDef(3630, "The target is immune to further damage but is dealing %d%% less damage.") -- tformat
-tDef(3632, "#Target# has started to unravel.") -- _t
 tDef(3632, "+Unraveling") -- _t
+tDef(3632, "#Target# has started to unravel.") -- _t
+tDef(3651, "Unravels!") -- _t
 tDef(3652, "%s has unraveled!") -- logSeen
 tDef(3660, "Entropy") -- _t
 tDef(3661, "The target is losing one sustain per turn.") -- _t
-tDef(3662, "#Target# is caught in an entropic field!") -- _t
 tDef(3662, "+Entropy") -- _t
-tDef(3663, "-Entropy") -- _t
+tDef(3662, "#Target# is caught in an entropic field!") -- _t
 tDef(3663, "#Target# is free from the entropy.") -- _t
+tDef(3663, "-Entropy") -- _t
 tDef(3684, "Regression") -- _t
 tDef(3685, "Reduces your three highest stats by %d.") -- tformat
 tDef(3686, "#Target# has regressed.") -- _t
@@ -27722,43 +28741,48 @@ tDef(3749, "-Attenuate") -- _t
 tDef(3749, "#Target# is no longer being grounded.") -- _t
 tDef(3766, "Ogric Wrath") -- _t
 tDef(3767, "Do not try to resist it!") -- tformat
-tDef(3772, "+Ogric Wrath") -- _t
 tDef(3772, "#Target# enters an ogric frenzy.") -- _t
-tDef(3773, "-Ogric Wrath") -- _t
+tDef(3772, "+Ogric Wrath") -- _t
 tDef(3773, "#Target# calms down.") -- _t
+tDef(3773, "-Ogric Wrath") -- _t
 tDef(3816, "Ogre Fury") -- _t
 tDef(3817, "Increases crit chance by %d%% and critical power by %d%%. %d charge(s).") -- tformat
 tDef(3863, "Writ Large") -- _t
 tDef(3864, "Inscriptions cooldown twice as fast.") -- tformat
+tDef(3866, "runic") -- effect subtype
 tDef(3869, "+Writ Large") -- _t
 tDef(3870, "-Writ Large") -- _t
 tDef(3891, "Static History") -- _t
 tDef(3892, "Chronomancy spells cast by the target will not produce minor anomalies.") -- tformat
-tDef(3897, "+Static History") -- _t
 tDef(3897, "Spacetime has stabilized around #Target#.") -- _t
+tDef(3897, "+Static History") -- _t
 tDef(3898, "-Static History") -- _t
 tDef(3898, "The fabric of spacetime around #Target# has returned to normal.") -- _t
 tDef(3908, "Arrow Echoes") -- _t
 tDef(3909, "Each turn will fire an arrow at %s.") -- tformat
+tDef(3911, "time") -- effect subtype
 tDef(3914, "+Arrow Echoes") -- _t
 tDef(3915, "-Arrow Echoes") -- _t
 tDef(3932, "Warden's Focus") -- _t
 tDef(3934, "Focused on %s, +%d%% critical damage and +%d%% critical hit chance against this target.") -- tformat
+tDef(3937, "tactic") -- effect subtype
 tDef(3939, "+Warden's Focus") -- _t
 tDef(3940, "-Warden's Focus") -- _t
 tDef(3948, "%s(%d focus)#LAST#") -- tformat
 tDef(3965, "Fateweaver") -- _t
 tDef(3966, "The target's accuracy and power have been increased by %d.") -- tformat
-tDef(3973, "#Target# weaves fate.") -- _t
 tDef(3973, "+Fateweaver") -- _t
-tDef(3974, "-Fateweaver") -- _t
+tDef(3973, "#Target# weaves fate.") -- _t
 tDef(3974, "#Target# stops weaving fate.") -- _t
+tDef(3974, "-Fateweaver") -- _t
 tDef(4012, "Fold Fate") -- _t
 tDef(4013, "The target is nearing the end, its resistance to physical and temporal damage have been reduced by %d%%.") -- tformat
 tDef(4018, "+Fold Fate") -- _t
 tDef(4018, "#Target# is nearing the end.") -- _t
 tDef(4051, "Spatial Tether") -- _t
 tDef(4054, "The target has been tethered to the location and has a %d%% chance of being teleported back, creating an explosion for %0.2f physical and %0.2f temporal warp damage at both ends of the teleport.") -- tformat
+tDef(4057, "teleport") -- effect subtype
+tDef(4057, "temporal") -- effect subtype
 tDef(4060, "+Tether") -- _t
 tDef(4060, "#Target# has been tethered!") -- _t
 tDef(4061, "-Tether") -- _t
@@ -27779,16 +28803,19 @@ tDef(4126, "Crippling Blight") -- _t
 tDef(4127, "The target is poisoned and sick, doing %0.2f blight damage per turn. Each time it tries to use a talent there is %d%% chance of failure.") -- tformat
 tDef(4132, "#Target# is poisoned with crippling blight!") -- _t
 tDef(4132, "+Crippling Blight") -- _t
-tDef(4133, "-Crippling Blight") -- _t
 tDef(4133, "#Target# is free from the crippling blight.") -- _t
+tDef(4133, "-Crippling Blight") -- _t
 tDef(4155, "Numbing Blight") -- _t
 tDef(4156, "The target is poisoned and sick, doing %0.2f blight damage per turn. All damage it does is reduced by %d%%.") -- tformat
-tDef(4161, "#Target# is poisoned numbing blight!") -- _t
+tDef(4158, "blight") -- effect subtype
+tDef(4158, "poison") -- effect subtype
 tDef(4161, "+Numbing Blight") -- _t
-tDef(4162, "#Target# is free from the numbing blight.") -- _t
+tDef(4161, "#Target# is poisoned numbing blight!") -- _t
 tDef(4162, "-Numbing Blight") -- _t
+tDef(4162, "#Target# is free from the numbing blight.") -- _t
 tDef(4184, "Eldritch Stone Shield") -- _t
 tDef(4186, "The target is surrounded by a stone shield absorbing %d/%d damage.  When the shield is removed, it will explode for up to %d (currently %d) Arcane damage in a radius %d.") -- tformat
+tDef(4190, "shield") -- effect subtype
 tDef(4193, "#Target# is encased in a stone shield.") -- _t
 tDef(4195, "The stone shield around #Target# %s") -- tformat
 tDef(4238, "Deeprock Form") -- _t
@@ -27796,16 +28823,21 @@ tDef(4242, ", +%d%% Arcane damage and +%d%% Arcane damage penetration,") -- tfor
 tDef(4245, ", +%d%% Nature damage and +%d%% Nature damage penetration") -- tformat
 tDef(4248, ", %d%% bleeding, poison, disease, and stun immunity") -- tformat
 tDef(4250, "The target has turned into a huge deeprock elemental.  It gains 2 size categories%s and +%d%% Physical damage and +%d%% Physical damage penetration.%s") -- tformat
-tDef(4256, "+Deeprock Form") -- _t
+tDef(4253, "elemental") -- effect subtype
+tDef(4253, "earth") -- effect subtype
 tDef(4256, "#Target# is imbued by the power of the Stone.") -- _t
+tDef(4256, "+Deeprock Form") -- _t
 tDef(4257, "-Deeprock Form") -- _t
 tDef(4257, "#Target# is abandoned by the Stone's power.") -- _t
 tDef(4319, "Bathe in Light") -- _t
 tDef(4320, "Fire and Light damage increased by %d%%.") -- tformat
+tDef(4323, "celestial") -- effect subtype
+tDef(4323, "light") -- effect subtype
 tDef(4326, "#Target# glows intensely!") -- _t
 tDef(4327, "#Target# is no longer glowing .") -- _t
 tDef(4337, "Overseer of Nations") -- _t
 tDef(4338, "Detects creatures of type %s/%s in radius 15.") -- tformat
+tDef(4340, "higher") -- effect subtype
 tDef(4354, "Pacification Hex") -- _t
 tDef(4355, "The target is hexed, granting it %d%% chance each turn to be dazed for 3 turns.") -- tformat
 tDef(4360, "+Pacification Hex") -- _t
@@ -27813,8 +28845,9 @@ tDef(4361, "-Pacification Hex") -- _t
 tDef(4384, "Burning Hex") -- _t
 tDef(4385, "The target is hexed.  Each time it uses an ability it takes %0.2f fire damage, and talent cooldowns are increased by %s plus 1 turn.") -- tformat
 tDef(4386, "%d%%") -- tformat
-tDef(4394, "+Burning Hex") -- _t
+tDef(4390, "fire") -- effect subtype
 tDef(4394, "#Target# is hexed!") -- _t
+tDef(4394, "+Burning Hex") -- _t
 tDef(4395, "-Burning Hex") -- _t
 tDef(4400, "Empathic Hex") -- _t
 tDef(4401, "The target is hexed, creating an empathic bond with its victims. It takes %d%% feedback damage from all damage done.") -- tformat
@@ -27822,8 +28855,10 @@ tDef(4407, "+Empathic Hex") -- _t
 tDef(4408, "-Empathic hex") -- _t
 tDef(4423, "Domination Hex") -- _t
 tDef(4424, "The target is hexed, temporarily changing its faction to %s.") -- tformat
-tDef(4429, "+Domination Hex") -- _t
+tDef(4426, "dominate") -- effect subtype
+tDef(4426, "hex") -- effect subtype
 tDef(4429, "#Target# is hexed.") -- _t
+tDef(4429, "+Domination Hex") -- _t
 tDef(4430, "#Target# is free from the hex.") -- _t
 tDef(4430, "-Domination hex") -- _t
 tDef(4447, "Shadowguard Immunity") -- _t
@@ -27833,28 +28868,36 @@ tDef(4452, "#Target#'s fades into the shadows.") -- _t
 tDef(4453, "#Target#'s can be afflicted again.") -- _t
 tDef(4462, "Shadowguard") -- _t
 tDef(4463, "The target is enveloped in shadows gaining %d spellpower and defense.") -- tformat
+tDef(4465, "shadow") -- effect subtype
 tDef(4468, "-Shadowguard") -- _t
 tDef(4468, "#Target#'s fully exits the shadows.") -- _t
 tDef(4478, "Retched") -- _t
 tDef(4479, "The target is walking in its own retch, negating the natural ghoul's speed penalty.") -- tformat
-tDef(4483, "#Target# speeds up in the retch.") -- _t
+tDef(4481, "undead") -- effect subtype
+tDef(4481, "speed") -- effect subtype
 tDef(4483, "+Retched") -- _t
+tDef(4483, "#Target# speeds up in the retch.") -- _t
 tDef(4484, "#Target# speeds down outside of the retch.") -- _t
 tDef(4484, "-Retched") -- _t
 tDef(4493, "Shadow Cut") -- _t
 tDef(4494, "Huge shadow cut that bleeds, doing %0.2f darkness damage per turn. Anytime you hit it you get healed for %d.") -- tformat
+tDef(4496, "wound") -- effect subtype
+tDef(4496, "bleed") -- effect subtype
+tDef(4496, "cut") -- effect subtype
 tDef(4499, "+Shadow Cut") -- _t
 tDef(4499, "#Target# starts to bleed darkness.") -- _t
-tDef(4500, "-Shadow Cut") -- _t
 tDef(4500, "#Target# stops bleeding darkness.") -- _t
+tDef(4500, "-Shadow Cut") -- _t
 tDef(4525, "Draining Moonlight") -- _t
 tDef(4526, "The target has been drained by a glyph, all damage it does is reduced by %d%%.") -- tformat
-tDef(4531, "#Target# is weakened by the glyph of moonlight!") -- _t
+tDef(4528, "darkness") -- effect subtype
 tDef(4531, "+Draining Moonlight") -- _t
+tDef(4531, "#Target# is weakened by the glyph of moonlight!") -- _t
 tDef(4532, "#Target# looks shakes off the effect of the glyph of moonlight.") -- _t
 tDef(4532, "-Draining Moonlight") -- _t
 tDef(4542, "Auger of Destruction") -- _t
 tDef(4543, "Physical damage increased by %d%%.") -- tformat
+tDef(4545, "physical") -- effect subtype
 
 
 ------------------------------------------------
@@ -27872,6 +28915,7 @@ tDef(61, "#Target# regains their energy.") -- _t
 tDef(61, "-Numbing Darkness") -- _t
 tDef(75, "Silenced") -- _t
 tDef(76, "The target is silenced, preventing it from casting spells and using some vocal talents.") -- _t
+tDef(78, "silence") -- effect subtype
 tDef(81, "#Target# is silenced!") -- _t
 tDef(81, "+Silenced") -- _t
 tDef(82, "-Silenced") -- _t
@@ -27886,6 +28930,7 @@ tDef(134, "#Target# wanders around!.") -- _t
 tDef(135, "#Target# seems more focused.") -- _t
 tDef(150, "The target's mind has been shattered. Its body remains as a thrall to %s.") -- tformat
 tDef(155, "#Target#'s mind is shattered.") -- _t
+tDef(182, "Thrall") -- _t
 tDef(212, "%s's mind recovers from the domination.") -- logSeen
 tDef(214, "%s collapses.") -- logSeen
 tDef(222, "Mental Domination") -- _t
@@ -27896,10 +28941,10 @@ tDef(246, "Battle Shout") -- _t
 tDef(247, "Increases maximum life and stamina by %d%%. When the effect ends, the extra life and stamina will be lost.") -- tformat
 tDef(271, "Battle Cry") -- _t
 tDef(272, "The target's will to defend itself is shattered by the powerful battle cry, reducing defense by %d.") -- tformat
-tDef(277, "+Battle Cry") -- _t
 tDef(277, "#Target#'s will is shattered.") -- _t
-tDef(278, "#Target# regains some of its will.") -- _t
+tDef(277, "+Battle Cry") -- _t
 tDef(278, "-Battle Cry") -- _t
+tDef(278, "#Target# regains some of its will.") -- _t
 tDef(288, "Willful Combat") -- _t
 tDef(289, "The target puts all its willpower into its blows, improving physical power by %d.") -- tformat
 tDef(294, "#Target# lashes out with pure willpower.") -- _t
@@ -27920,10 +28965,12 @@ tDef(381, "The gloom has confused the target, making it act randomly (%d%% chanc
 tDef(387, "#F53CBE##Target# is lost in despair!") -- _t
 tDef(388, "#Target# overcomes the gloom") -- _t
 tDef(404, "Dismayed") -- _t
+tDef(405, "The target is dismayed. The next melee attack against the target will be a guaranteed critical hit.") -- _t
+tDef(407, "gloom") -- effect subtype
 tDef(410, "#F53CBE##Target# is dismayed!") -- _t
 tDef(410, "+Dismayed") -- _t
-tDef(411, "#Target# overcomes the dismay") -- _t
 tDef(411, "-Dismayed") -- _t
+tDef(411, "#Target# overcomes the dismay") -- _t
 tDef(422, "Stalking") -- _t
 tDef(424, "Stalking %d/%d +%d ") -- tformat
 tDef(429, "Stalking %s. Bonus level %d: +%d accuracy, +%d%% melee damage, +%0.2f hate/turn prey was hit.") -- tformat
@@ -27934,6 +28981,7 @@ tDef(455, "Stalked") -- _t
 tDef(458, "Being stalked.") -- _t
 tDef(460, "Being stalked by %s. Stalker bonus level %d: +%d accuracy, +%d%% melee damage, +%0.2f hate/turn prey was hit.") -- tformat
 tDef(463, " Prey damage modifier: %d%%.") -- tformat
+tDef(468, "veil") -- effect subtype
 tDef(506, "Beckoned") -- _t
 tDef(508, "The target has been beckoned by %s and is heeding the call. There is a %d%% chance of moving towards the beckoner each turn.") -- tformat
 tDef(510, " (spellpower: %d, mindpower: %d") -- tformat
@@ -27947,8 +28995,8 @@ tDef(621, "Overwhelmed") -- _t
 tDef(622, "The target has been overwhemed by a furious assault, reducing defence by %d.") -- tformat
 tDef(627, "#Target# has been overwhelmed.") -- _t
 tDef(627, "+Overwhelmed") -- _t
-tDef(628, "-Overwhelmed") -- _t
 tDef(628, "#Target# is no longer overwhelmed.") -- _t
+tDef(628, "-Overwhelmed") -- _t
 tDef(643, "Cursed Miasma") -- _t
 tDef(644, "The target is enveloped in a cursed miasma.") -- tformat
 tDef(649, "#Target# is surrounded by a cursed miasma.") -- _t
@@ -27959,16 +29007,17 @@ tDef(664, "Harassed") -- _t
 tDef(665, "The target has been harassed by its stalker, reducing damage by %d%%.") -- tformat
 tDef(670, "+Harassed") -- _t
 tDef(670, "#Target# has been harassed.") -- _t
-tDef(671, "#Target# is no longer harassed.") -- _t
 tDef(671, "-Harassed") -- _t
+tDef(671, "#Target# is no longer harassed.") -- _t
 tDef(684, "Dominated") -- _t
 tDef(685, "The target has been dominated.  It is unable to move and has lost %d armor and %d defense. Attacks from %s gain %d%% damage penetration.") -- tformat
 tDef(689, "+Dominated") -- _t
 tDef(689, "#F53CBE##Target# has been dominated!") -- _t
-tDef(690, "-Dominated") -- _t
 tDef(690, "#F53CBE##Target# is no longer dominated.") -- _t
+tDef(690, "-Dominated") -- _t
 tDef(710, "Agony") -- _t
 tDef(711, "%s is writhing in agony, suffering from %d to %d damage over %d turns.") -- tformat
+tDef(713, "pain") -- effect subtype
 tDef(716, "#Target# is writhing in agony!") -- _t
 tDef(716, "+Agony") -- _t
 tDef(717, "-Agony") -- _t
@@ -27977,23 +29026,26 @@ tDef(746, "Hateful Whisper") -- _t
 tDef(747, "%s has heard the hateful whisper.") -- tformat
 tDef(752, "#Target# has heard the hateful whisper!") -- _t
 tDef(752, "+Hateful Whisper") -- _t
-tDef(753, "#Target# no longer hears the hateful whisper.") -- _t
 tDef(753, "-Hateful Whisper") -- _t
+tDef(753, "#Target# no longer hears the hateful whisper.") -- _t
 tDef(832, "Slowed by madness") -- _t
 tDef(833, "Madness reduces the target's global speed by %d%% and lowers mind resistance by %d%%.") -- tformat
-tDef(838, "#F53CBE##Target# slows in the grip of madness!") -- _t
+tDef(835, "slow") -- effect subtype
 tDef(838, "+Slow") -- _t
+tDef(838, "#F53CBE##Target# slows in the grip of madness!") -- _t
 tDef(839, "-Slow") -- _t
 tDef(839, "#Target# overcomes the madness.") -- _t
 tDef(854, "Stunned by madness") -- _t
 tDef(855, "Madness has stunned the target, reducing damage by 50%%, lowering mind resistance by %d%%, putting 4 random talents on cooldown and reducing movement speed by 50%%.  While stunned talents cooldown twice as slow.") -- tformat
-tDef(860, "+Stunned") -- _t
+tDef(857, "stun") -- effect subtype
 tDef(860, "#F53CBE##Target# is stunned by madness!") -- _t
+tDef(860, "+Stunned") -- _t
 tDef(861, "-Stunned") -- _t
 tDef(893, "Confused by madness") -- _t
 tDef(894, "Madness has confused the target, lowering mind resistance by %d%% and making it act randomly (%d%% chance)") -- tformat
-tDef(900, "#F53CBE##Target# is lost in madness!") -- _t
+tDef(896, "power") -- effect subtype
 tDef(900, "+Confused") -- _t
+tDef(900, "#F53CBE##Target# is lost in madness!") -- _t
 tDef(901, "#Target# overcomes the madness") -- _t
 tDef(901, "-Confused") -- _t
 tDef(918, "Maligned") -- _t
@@ -28010,8 +29062,8 @@ tDef(982, "%s feels a little less afraid!") -- logSeen
 tDef(994, "Tyrant") -- _t
 tDef(1021, "Paranoid") -- _t
 tDef(1022, "Paranoia has gripped the target, causing a %d%% chance they will physically attack anyone nearby, friend or foe. Targets of the attack may become paranoid themselves.") -- tformat
-tDef(1027, "#F53CBE##Target# becomes paranoid!") -- _t
 tDef(1027, "+Paranoid") -- _t
+tDef(1027, "#F53CBE##Target# becomes paranoid!") -- _t
 tDef(1028, "-Paranoid") -- _t
 tDef(1028, "#Target# is no longer paranoid") -- _t
 tDef(1048, "#F53CBE#%s struggles against the paranoia.") -- logSeen
@@ -28020,24 +29072,25 @@ tDef(1065, "#F53CBE#%s ignores the fear!") -- logSeen
 tDef(1067, "%s resists the fear!") -- logSeen
 tDef(1082, "Despair") -- _t
 tDef(1083, "The target is in despair, reducing their armour, defence, mindsave and mind resist by %d.") -- tformat
-tDef(1089, "+Despair") -- _t
 tDef(1089, "#F53CBE##Target# is in despair!") -- _t
+tDef(1089, "+Despair") -- _t
 tDef(1090, "-Despair") -- _t
 tDef(1090, "#Target# is no longer in despair") -- _t
 tDef(1113, "Terrified") -- _t
 tDef(1114, "The target is terrified taking %d mind and darkness damage per turn and increasing all their cooldowns by %d%%.") -- tformat
-tDef(1120, "#F53CBE##Target# becomes terrified!") -- _t
 tDef(1120, "+Terrified") -- _t
-tDef(1121, "#Target# is no longer terrified") -- _t
+tDef(1120, "#F53CBE##Target# becomes terrified!") -- _t
 tDef(1121, "-Terrified") -- _t
+tDef(1121, "#Target# is no longer terrified") -- _t
 tDef(1170, "Haunted") -- _t
 tDef(1171, "The target is haunted by a feeling of dread, causing each detrimental mental effect to inflict %d mind and darkness damage every turn.") -- tformat
-tDef(1177, "+Haunted") -- _t
 tDef(1177, "#F53CBE##Target# becomes haunted!") -- _t
-tDef(1178, "#Target# is no longer haunted") -- _t
+tDef(1177, "+Haunted") -- _t
 tDef(1178, "-Haunted") -- _t
+tDef(1178, "#Target# is no longer haunted") -- _t
 tDef(1301, "Panicked") -- _t
 tDef(1302, "The target has been panicked by %s, causing them to have a %d%% chance of fleeing in terror instead of acting.") -- tformat
+tDef(1304, "fear") -- effect subtype
 tDef(1307, "+Panicked") -- _t
 tDef(1307, "#F53CBE##Target# becomes panicked!") -- _t
 tDef(1308, "-Panicked") -- _t
@@ -28047,11 +29100,12 @@ tDef(1363, "#F53CBE#You panic and flee from %s.") -- logPlayer
 tDef(1365, "#F53CBE##Source# panics but fails to flee from #Target#.") -- logCombat
 tDef(1376, "Quick") -- _t
 tDef(1377, "Increases global speed by %d%%.") -- tformat
-tDef(1382, "+Quick") -- _t
 tDef(1382, "#Target# speeds up.") -- _t
-tDef(1383, "#Target# slows down.") -- _t
+tDef(1382, "+Quick") -- _t
 tDef(1383, "-Quick") -- _t
+tDef(1383, "#Target# slows down.") -- _t
 tDef(1394, "Frenzied Focus") -- _t
+tDef(1395, "This creatures psionic focus item is supercharged!") -- _t
 tDef(1400, "#Target# enters a frenzy!") -- _t
 tDef(1401, "#Target# is no longer frenzied.") -- _t
 tDef(1406, "Spiked Kinetic Shield") -- _t
@@ -28070,11 +29124,14 @@ tDef(1497, "Perfect control") -- _t
 tDef(1498, "The target's combat attack and crit chance are improved by %d and %d%%, respectively.") -- tformat
 tDef(1515, "Matter is energy") -- _t
 tDef(1516, "The gem's matter gradually transforms, granting %0.2f psi per turn.") -- tformat
+tDef(1518, "psychic_drain") -- effect subtype
 tDef(1521, "Energy starts pouring from the gem into #Target#.") -- _t
 tDef(1521, "+Energy") -- _t
 tDef(1522, "-Energy") -- _t
 tDef(1522, "The flow of energy from #Target#'s gem ceases.") -- _t
 tDef(1533, "Telekinetic Archery") -- _t
+tDef(1534, "Your telekinetically-wielded bow automatically attacks the nearest target each turn.") -- _t
+tDef(1536, "telekinesis") -- effect subtype
 tDef(1539, "+Telekinetic archery") -- _t
 tDef(1539, "#Target# enters a telekinetic archer's trance!") -- _t
 tDef(1540, "-Telekinetic archery") -- _t
@@ -28083,12 +29140,14 @@ tDef(1545, "Receptive Mind") -- _t
 tDef(1546, "Decreases mind save by %d and increases mindpower by %d.") -- tformat
 tDef(1563, "Void Echoes") -- _t
 tDef(1564, "The target is seeing echoes from the void and will take %0.2f mind damage as well as some resource damage each turn it fails a mental save.") -- tformat
-tDef(1569, "+Void Echoes") -- _t
+tDef(1566, "madness") -- effect subtype
 tDef(1569, "#Target# is being driven mad by the void.") -- _t
+tDef(1569, "+Void Echoes") -- _t
 tDef(1570, "-Void Echoes") -- _t
 tDef(1570, "#Target# has survived the void madness.") -- _t
 tDef(1585, "Waking Nightmare") -- _t
 tDef(1586, "The target is lost in a nightmare that deals %0.2f mind damage each turn and has a %d%% chance to cause a random detrimental effect.") -- tformat
+tDef(1588, "darkness") -- effect subtype
 tDef(1591, "+Night Terrors") -- _t
 tDef(1592, "-Night Terrors") -- _t
 tDef(1613, "#F53CBE#%s succumbs to the nightmare!") -- logSeen
@@ -28096,9 +29155,11 @@ tDef(1620, "Inner Demons") -- _t
 tDef(1621, "The target is plagued by inner demons and each turn there's a %d%% chance that one will appear.  If the caster is killed or the target resists setting his demons loose the effect will end early.") -- tformat
 tDef(1627, "+Inner Demons") -- _t
 tDef(1627, "#F53CBE##Target# is plagued by inner demons!") -- _t
-tDef(1628, "-Inner Demons") -- _t
 tDef(1628, "#Target# is freed from the demons.") -- _t
+tDef(1628, "-Inner Demons") -- _t
 tDef(1647, "Enthralled") -- _t
+tDef(1648, "The target is enthralled, temporarily changing its faction.") -- _t
+tDef(1650, "dominate") -- effect subtype
 tDef(1653, "#Target# is entralled.") -- _t
 tDef(1653, "+Enthralled") -- _t
 tDef(1654, "-Enthralled") -- _t
@@ -28111,17 +29172,20 @@ tDef(1684, "Perfect Accuracy") -- _t
 tDef(1685, "The target's accuracy is improved by %d.") -- tformat
 tDef(1705, "Deadly Strikes") -- _t
 tDef(1706, "The target's armour penetration is increased by %d.") -- tformat
+tDef(1708, "focus") -- effect subtype
 tDef(1711, "#Target# aims carefully.") -- _t
 tDef(1712, "#Target# aims less carefully.") -- _t
 tDef(1723, "Frenzy") -- _t
 tDef(1724, "Increases global action speed by %d%% and physical crit by %d%%.\
 Additionally the target will continue to fight until its Life reaches -%d%%.") -- tformat
-tDef(1729, "#Target# goes into a killing frenzy.") -- _t
 tDef(1729, "+Frenzy") -- _t
+tDef(1729, "#Target# goes into a killing frenzy.") -- _t
 tDef(1730, "-Frenzy") -- _t
+tDef(1751, "Falls dead!") -- _t
 tDef(1752, "%s dies when its frenzy ends!") -- logSeen
 tDef(1760, "Bloodbath") -- _t
 tDef(1761, "The thrill of combat improves the target's maximum life by %d%%, life regeneration by %0.2f, and stamina regeneration by %0.2f.") -- tformat
+tDef(1763, "regeneration") -- effect subtype
 tDef(1766, "+Bloodbath") -- _t
 tDef(1767, "-Bloodbath") -- _t
 tDef(1769, "%s's blood frenzy intensifies!") -- logSeen
@@ -28131,19 +29195,23 @@ tDef(1814, "Bloodrage") -- _t
 tDef(1815, "The target's strength is increased by %d by the thrill of combat.") -- tformat
 tDef(1839, "Increased Life") -- _t
 tDef(1840, "The target's maximum life is increased by %d.") -- tformat
+tDef(1842, "heal") -- effect subtype
 tDef(1844, "+Life") -- _t
 tDef(1844, "#Target# gains extra life.") -- _t
-tDef(1845, "-Life") -- _t
 tDef(1845, "#Target# loses extra life.") -- _t
+tDef(1845, "-Life") -- _t
 tDef(1859, "%s's increased life fades, leaving it stunned by the loss.") -- logSeen
 tDef(1866, "Guarded") -- _t
 tDef(1874, " with a %d%% chance to counterattack") -- tformat
 tDef(1875, "Guarding against melee damage:  Will dismiss up to %d damage from the next %0.1f attack(s)%s.") -- tformat
 tDef(1877, "#LIGHT_GREEN#") -- _t
+tDef(1879, "curse") -- effect subtype
 tDef(1895, "Rampaging") -- _t
 tDef(1897, "The target is rampaging! (+%d%% movement speed, +%d%% attack speed, +%d%% mind speed") -- tformat
 tDef(1899, ", +%d%% physical damage, +%d physical save, +%d mental save") -- tformat
 tDef(1902, ", %d/%d damage shrugged off this turn") -- tformat
+tDef(1908, "speed") -- effect subtype
+tDef(1908, "evade") -- effect subtype
 tDef(1911, "#F53CBE##Target# begins rampaging!") -- _t
 tDef(1911, "+Rampage") -- _t
 tDef(1912, "-Rampage") -- _t
@@ -28157,91 +29225,98 @@ tDef(1979, "#Target# enters a state of bloodlust.") -- _t
 tDef(1980, "#Target# calms down.") -- _t
 tDef(1991, "Orcish Triumph") -- _t
 tDef(1992, "Inspired by a recent kill increasing all resistance by %d%%.") -- tformat
+tDef(1994, "frenzy") -- effect subtype
 tDef(1997, "#Target# roars triumphantly.") -- _t
 tDef(1998, "#Target# is no longer inspired.") -- _t
 tDef(2009, "Brainlocked") -- _t
 tDef(2010, "Renders a random talent unavailable. Talent cooldown is halved until the effect has worn off.") -- tformat
+tDef(2012, "cross tier") -- effect subtype
 tDef(2015, "+Brainlocked") -- _t
 tDef(2016, "-Brainlocked") -- _t
 tDef(2037, "Frantic Summoning") -- _t
 tDef(2038, "Reduces the time taken for summoning by %d%%.") -- tformat
 tDef(2042, "+Frantic Summoning") -- _t
 tDef(2042, "#Target# starts summoning at high speed.") -- _t
-tDef(2043, "#Target#'s frantic summoning ends.") -- _t
 tDef(2043, "-Frantic Summoning") -- _t
+tDef(2043, "#Target#'s frantic summoning ends.") -- _t
 tDef(2071, "Wild Summon") -- _t
 tDef(2072, "%d%% chance to get a more powerful summon.") -- tformat
+tDef(2074, "summon") -- effect subtype
 tDef(2093, "Lobotomized (confused)") -- _t
 tDef(2094, "The target's mental faculties have been severely impaired, making it act randomly each turn (%d%% chance) and reducing its cunning by %d.") -- tformat
+tDef(2096, "confusion") -- effect subtype
 tDef(2099, "#Target# higher mental functions have been imparied.") -- _t
 tDef(2099, "+Lobotomized") -- _t
-tDef(2100, "#Target#'s regains its senses.") -- _t
 tDef(2100, "-Lobotomized") -- _t
+tDef(2100, "#Target#'s regains its senses.") -- _t
 tDef(2120, "Psionic Shield") -- _t
 tDef(2122, "Reduces all incoming %s damage by %d.") -- tformat
 tDef(2168, "Clear Mind") -- _t
 tDef(2169, "Nullifies the next %d detrimental mental effects.") -- tformat
 tDef(2186, "Resonance Field") -- _t
 tDef(2187, "The target is surrounded by a psychic field, absorbing 50%% of all damage (up to %d/%d).") -- tformat
-tDef(2192, "A psychic field forms around #target#.") -- _t
 tDef(2192, "+Resonance Shield") -- _t
-tDef(2193, "-Resonance Shield") -- _t
+tDef(2192, "A psychic field forms around #target#.") -- _t
 tDef(2193, "The psychic field around #target# crumbles.") -- _t
+tDef(2193, "-Resonance Shield") -- _t
 tDef(2221, "Mind Link") -- _t
 tDef(2222, "The target's mind has been invaded, increasing all mind damage it receives from %s by %d%%.") -- tformat
-tDef(2228, "+Mind Link") -- _t
 tDef(2228, "#Target#'s mind has been invaded!") -- _t
-tDef(2229, "-Mind Link") -- _t
+tDef(2228, "+Mind Link") -- _t
 tDef(2229, "#Target# is free from the mental invasion.") -- _t
+tDef(2229, "-Mind Link") -- _t
 tDef(2241, "Feedback Loop") -- _t
 tDef(2242, "The target is gaining feedback.") -- _t
-tDef(2247, "#Target# is gaining feedback.") -- _t
 tDef(2247, "+Feedback Loop") -- _t
+tDef(2247, "#Target# is gaining feedback.") -- _t
 tDef(2248, "#Target# is no longer gaining feedback.") -- _t
 tDef(2248, "-Feedback Loop") -- _t
 tDef(2259, "Focused Wrath") -- _t
 tDef(2260, "The target's subconscious has focused, increasing Mind resistance penetration by +%d%% and turning its attention on %s.") -- tformat
-tDef(2265, "+Focused Wrath") -- _t
 tDef(2265, "#Target#'s subconscious has been focused.") -- _t
+tDef(2265, "+Focused Wrath") -- _t
 tDef(2266, "-Focused Wrath") -- _t
 tDef(2266, "#Target#'s subconscious has returned to normal.") -- _t
 tDef(2279, "Sleep") -- _t
 tDef(2280, "The target is asleep and unable to perform most actions.  Every %d damage it takes will reduce the duration of the effect by one turn.") -- tformat
-tDef(2285, "#Target# has been put to sleep.") -- _t
 tDef(2285, "+Sleep") -- _t
+tDef(2285, "#Target# has been put to sleep.") -- _t
 tDef(2286, "-Sleep") -- _t
 tDef(2333, "Slumber") -- _t
 tDef(2334, "The target is in a deep sleep and unable to perform most actions.  Every %d damage it takes will reduce the duration of the effect by one turn.") -- tformat
-tDef(2339, "+Slumber") -- _t
 tDef(2339, "#Target# is in a deep sleep.") -- _t
+tDef(2339, "+Slumber") -- _t
 tDef(2340, "-Slumber") -- _t
 tDef(2340, "#Target# is no longer sleeping.") -- _t
 tDef(2383, "Nightmare") -- _t
 tDef(2384, "The target is in a nightmarish sleep, suffering %0.2f mind damage each turn and unable to to perform most actions.  Every %d damage it takes will reduce the duration of the effect by one turn.") -- tformat
-tDef(2389, "#F53CBE##Target# is lost in a nightmare.") -- _t
+tDef(2386, "sleep") -- effect subtype
+tDef(2386, "nightmare") -- effect subtype
 tDef(2389, "+Nightmare") -- _t
+tDef(2389, "#F53CBE##Target# is lost in a nightmare.") -- _t
 tDef(2390, "#Target# is free from the nightmare.") -- _t
 tDef(2390, "-Nightmare") -- _t
 tDef(2442, "Restless Night") -- _t
 tDef(2443, "Fatigue from poor sleep, dealing %0.2f mind damage per turn.") -- tformat
-tDef(2448, "+Restless Night") -- _t
 tDef(2448, "#Target# had a restless night.") -- _t
+tDef(2448, "+Restless Night") -- _t
 tDef(2449, "-Restless Night") -- _t
 tDef(2449, "#Target# has recovered from poor sleep.") -- _t
 tDef(2466, "Insomnia") -- _t
 tDef(2467, "The target is wide awake and has %d%% resistance to sleep effects.") -- tformat
-tDef(2472, "#Target# is suffering from insomnia.") -- _t
 tDef(2472, "+Insomnia") -- _t
+tDef(2472, "#Target# is suffering from insomnia.") -- _t
 tDef(2473, "#Target# is no longer suffering from insomnia.") -- _t
 tDef(2473, "-Insomnia") -- _t
 tDef(2506, "Sundered Mind") -- _t
 tDef(2507, "The target's mental faculties have been impaired, reducing its mental save by %d.") -- tformat
-tDef(2511, "#Target#'s mental functions have been impaired.") -- _t
 tDef(2511, "+Sundered Mind") -- _t
+tDef(2511, "#Target#'s mental functions have been impaired.") -- _t
 tDef(2512, "-Sundered Mind") -- _t
 tDef(2512, "#Target# regains its senses.") -- _t
 tDef(2533, "Broken Dream") -- _t
 tDef(2534, "The target's dreams have been broken by the dreamforge, reducing its mental save by %d and reducing its chance of successfully casting a spell by %d%%.") -- tformat
+tDef(2536, "morale") -- effect subtype
 tDef(2538, "+Broken Dream") -- _t
 tDef(2538, "#Target#'s dreams have been broken.") -- _t
 tDef(2539, "-Broken Dream") -- _t
@@ -28250,53 +29325,61 @@ tDef(2553, "Forge Shield") -- _t
 tDef(2568, "Absorbs %d damage from the next blockable attack.  Currently Blocking: %s.") -- tformat
 tDef(2598, "Hidden Resources") -- _t
 tDef(2599, "The target does not consume any resources.") -- _t
-tDef(2603, "#Target#'s focuses.") -- _t
+tDef(2601, "willpower") -- effect subtype
 tDef(2603, "+Hidden Ressources") -- _t
-tDef(2604, "#Target#'s loses some focus.") -- _t
+tDef(2603, "#Target#'s focuses.") -- _t
 tDef(2604, "-Hidden Ressources") -- _t
+tDef(2604, "#Target#'s loses some focus.") -- _t
 tDef(2613, "Spell Feedback") -- _t
 tDef(2614, "The target suffers %d%% spell failue.") -- tformat
-tDef(2618, "+Spell Feedback") -- _t
 tDef(2618, "#Target# is surrounded by antimagic forces.") -- _t
-tDef(2619, "-Spell Feedback") -- _t
+tDef(2618, "+Spell Feedback") -- _t
 tDef(2619, "#Target#'s antimagic forces vanishes.") -- _t
+tDef(2619, "-Spell Feedback") -- _t
 tDef(2628, "Mind Parasite") -- _t
 tDef(2629, "The target is infected with a mind parasite. Each time it uses a talent it has a %d%% chance to have %d random talent(s) put on cooldown for %d turns.") -- tformat
+tDef(2631, "nature") -- effect subtype
 tDef(2633, "+Mind Parasite") -- _t
 tDef(2633, "#Target# is infected with a mind parasite.") -- _t
-tDef(2634, "-Mind Parasite") -- _t
 tDef(2634, "#Target# is free from the mind parasite.") -- _t
+tDef(2634, "-Mind Parasite") -- _t
 tDef(2645, "Mindlash") -- _t
 tDef(2646, "Repeated mindlash usage is very taxing increasing the psi cost each time (currently %d%%)") -- tformat
 tDef(2662, "Shadow Empathy") -- _t
 tDef(2663, "%d%% of all damage is redirected to a random shadow.") -- tformat
 tDef(2679, "Shadow Decoy") -- _t
 tDef(2680, "A random shadow absorbed a fatal blow for you, granting you a negative shield of %d.") -- tformat
+tDef(2682, "mind") -- effect subtype
 tDef(2698, "Crystal Resonance") -- _t
 tDef(2700, "The power released by the %s resonates.") -- tformat
-tDef(2705, "+Crystal Resonance") -- _t
 tDef(2705, "#Target# glints with a crystaline aura") -- _t
-tDef(2706, "-Crystal Resonance") -- _t
+tDef(2705, "+Crystal Resonance") -- _t
 tDef(2706, "#Target# is no longer glinting.") -- _t
+tDef(2706, "-Crystal Resonance") -- _t
 tDef(2719, "Weapon Warding") -- _t
 tDef(2720, "Target is using %s telekinetically wielded weapon defensively and will block the next melee attack and retaliate.") -- tformat
 tDef(2737, "#CRIMSON##Source# blocks #Target#'s attack and retaliates with %s telekinetically wielded weapon!#LAST#") -- logCombat
 tDef(2755, "Thought Sense") -- _t
 tDef(2756, "Detect nearby thoughts, revealing creature locations in a radius of %d and boosting defense by %d.") -- tformat
+tDef(2758, "tactic") -- effect subtype
 tDef(2779, "Static Charge") -- _t
 tDef(2780, "You have accumulated an electric charge. Your next melee hit does %d extra lightning damage.") -- tformat
 tDef(2806, "Heart Started") -- _t
 tDef(2807, "A psionic charge is keeping your heart pumping, allowing you to survive to %+d health.") -- tformat
 tDef(2821, "Transcendent Telekinesis") -- _t
 tDef(2822, "Your telekinesis transcends normal limits. +%d Physical damage and +%d%% Physical damage penetration, and improved kinetic effects.") -- tformat
+tDef(2824, "physical") -- effect subtype
 tDef(2841, "Transcendent Pyrokinesis") -- _t
 tDef(2842, "Your pyrokinesis transcends normal limits. +%d%% Fire/Cold damage and +%d%% Fire/Cold damage penetration, and improved thermal effects.") -- tformat
+tDef(2844, "cold") -- effect subtype
+tDef(2844, "fire") -- effect subtype
 tDef(2861, "Transcendent Electrokinesis") -- _t
 tDef(2862, "Your electrokinesis transcends normal limits. +%d%% Lightning damage and +%d%% Lightning damage penetration, and improved charged effects.") -- tformat
 tDef(2881, "Psionic Damage Shield") -- _t
 tDef(2882, "The target is surrounded by a psionic shield, absorbing %d/%d damage before it crumbles.") -- tformat
-tDef(2887, "+Shield") -- _t
+tDef(2884, "shield") -- effect subtype
 tDef(2887, "A psionic shield forms around #target#.") -- _t
+tDef(2887, "+Shield") -- _t
 tDef(2888, "-Shield") -- _t
 tDef(2888, "The psionic shield around #target# crumbles.") -- _t
 tDef(2920, "Unseen Force") -- _t
@@ -28304,8 +29387,10 @@ tDef(2930, "An unseen force begins to swirl around %s!") -- logSeen
 tDef(2935, "The unseen force around %s subsides.") -- logSeen
 tDef(2966, "Psionic Maelstrom") -- _t
 tDef(2967, "This creature is standing in the eye of a powerful storm of psionic forces.") -- tformat
+tDef(2969, "psionic") -- effect subtype
 tDef(3016, "Caught Lightning") -- _t
 tDef(3017, "Lightning Catcher has caught energy and is empowering you for +%d%% lightning damage and +%d to all stats.") -- tformat
+tDef(3019, "lightning") -- effect subtype
 
 
 ------------------------------------------------
@@ -28314,8 +29399,11 @@ section "game/modules/tome/data/timed_effects/other.lua"
 tDef(31, "Ethereal Form") -- _t
 tDef(32, "Ethereal Form bonuses reduced by %d%%") -- tformat
 tDef(64, "Elemental Surge: Arcane") -- _t
+tDef(65, "Spell and mind speed increased by 30%") -- _t
 tDef(78, "Elemental Surge: Physical") -- _t
+tDef(79, "Immune to detrimental physical effects") -- _t
 tDef(91, "Elemental Surge: Nature") -- _t
+tDef(92, "Immune to detrimental magical effects") -- _t
 tDef(104, "Elemental Surge: Fire") -- _t
 tDef(105, "All damage increased by %d%%") -- tformat
 tDef(117, "Elemental Surge: Cold") -- _t
@@ -28324,6 +29412,7 @@ tDef(131, "Elemental Surge: Lightning") -- _t
 tDef(132, "Movement speed increased by %d%%.") -- tformat
 tDef(144, "Elemental Surge: Light") -- _t
 tDef(145, "All talent cooldowns reduced by %d%%.") -- tformat
+tDef(147, "elemental") -- effect subtype
 tDef(157, "Circle Surge") -- _t
 tDef(170, "Protected by the Sun") -- _t
 tDef(171, "The Sun has granted a brief immunity to all damage.") -- _t
@@ -28331,10 +29420,10 @@ tDef(175, "#Target# whirls around and a radiant shield surrounds them!") -- _t
 tDef(175, "+Divine Shield") -- _t
 tDef(188, "Absorption Strike") -- _t
 tDef(189, "The target's light has been drained, reducing light resistance by %d%% and damage by %d%%.") -- tformat
-tDef(194, "#Target# is drained from light!") -- _t
 tDef(194, "+Absorption Strike") -- _t
-tDef(195, "-Absorption Strike") -- _t
+tDef(194, "#Target# is drained from light!") -- _t
 tDef(195, "#Target#'s light is back.") -- _t
+tDef(195, "-Absorption Strike") -- _t
 tDef(204, "Charm:  Piercing") -- _t
 tDef(205, "All damage penetration increased by %d%%.") -- tformat
 tDef(219, "Charm:  Damage") -- _t
@@ -28349,24 +29438,28 @@ tDef(282, "You have taken root!") -- _t
 tDef(283, "You have taken root becoming one with nature.  Or at least the ground.  Your health, armor, and armor hardiness are improved but you cannot move.") -- _t
 tDef(288, "#LIGHT_BLUE##Target# takes root.") -- _t
 tDef(288, "+Pinned") -- _t
-tDef(289, "#LIGHT_BLUE##Target# is no longer a badass tree.") -- _t
 tDef(289, "-Pinned") -- _t
+tDef(289, "#LIGHT_BLUE##Target# is no longer a badass tree.") -- _t
 tDef(316, "Infusion Saturation") -- _t
 tDef(317, "The more you use infusions, the longer they will take to recharge (+%d cooldowns).") -- tformat
+tDef(320, "infusion") -- effect subtype
 tDef(333, "Runic Saturation") -- _t
 tDef(334, "The more you use runes, the longer they will take to recharge (+%d cooldowns).") -- tformat
+tDef(337, "rune") -- effect subtype
 tDef(350, "Tainted") -- _t
 tDef(351, "The more you use taints, the longer they will take to recharge (+%d cooldowns).") -- tformat
+tDef(353, "taint") -- effect subtype
 tDef(366, "Path of the Sun") -- _t
 tDef(367, "The target is able to instantly travel alongside Sun Paths.") -- tformat
 tDef(379, "Time Prison") -- _t
 tDef(380, "The target is removed from the normal time stream, unable to act but unable to take any damage. Time does not pass for this creature.") -- _t
-tDef(386, "#Target# is removed from time!") -- _t
 tDef(386, "+Out of Time") -- _t
+tDef(386, "#Target# is removed from time!") -- _t
 tDef(387, "#Target# is returned to normal time.") -- _t
 tDef(387, "-Out of Time") -- _t
 tDef(414, "Time Shield") -- _t
 tDef(415, "The target is surrounded by a time distortion, absorbing %d/%d damage and sending it forward in time. While active all newly applied status effects durations are reduced by %d%%.") -- tformat
+tDef(417, "shield") -- effect subtype
 tDef(420, "+Time Shield") -- _t
 tDef(420, "The very fabric of time alters around #target#.") -- _t
 tDef(421, "-Time Shield") -- _t
@@ -28395,14 +29488,14 @@ tDef(574, "Continuum Destabilization") -- _t
 tDef(575, "The target has been affected by space or time manipulations and is becoming more resistant to them (+%d).") -- tformat
 tDef(580, "#Target# looks a little pale around the edges.") -- _t
 tDef(580, "+Destabilized") -- _t
-tDef(581, "-Destabilized") -- _t
 tDef(581, "#Target# is firmly planted in reality.") -- _t
+tDef(581, "-Destabilized") -- _t
 tDef(604, "Summoning Destabilization") -- _t
 tDef(605, "The more the target summons creatures the longer it will take to summon more (+%d turns).") -- tformat
 tDef(630, "Damage Smearing") -- _t
 tDef(631, "Damage received in the past is returned as %0.2f temporal damage per turn.") -- tformat
-tDef(636, "#Target# is taking damage received in the past!") -- _t
 tDef(636, "+Smeared") -- _t
+tDef(636, "#Target# is taking damage received in the past!") -- _t
 tDef(637, "-Smeared") -- _t
 tDef(637, "#Target# stops taking damage received in the past.") -- _t
 tDef(654, "See the Threads") -- _t
@@ -28424,17 +29517,19 @@ tDef(827, "+Sever Lifeline") -- _t
 tDef(827, "#Target#'s lifeline is being severed!") -- _t
 tDef(838, "Fade From Time") -- _t
 tDef(839, "The target is partially removed from the timeline, reducing all damage dealt by %d%%, all damage received by %d%%, and the duration of all detrimental effects by %d%%.") -- tformat
-tDef(845, "+Fade From Time") -- _t
 tDef(845, "#Target# has partially removed itself from the timeline.") -- _t
-tDef(846, "#Target# has returned fully to the timeline.") -- _t
+tDef(845, "+Fade From Time") -- _t
 tDef(846, "-Fade From Time") -- _t
+tDef(846, "#Target# has returned fully to the timeline.") -- _t
 tDef(879, "Shadow Veil") -- _t
 tDef(880, "You veil yourself in shadows and let them control you. While in the veil you become immune to status effects, and gain %d%% all damage reduction. Each turn you blink to a nearby foe within range %d, hitting it for %d%% darkness weapon damage. While this goes on you cannot be stopped unless you are killed, and you cannot control your character.") -- tformat
-tDef(885, "+Assail") -- _t
 tDef(885, "#Target# is covered in a veil of shadows!") -- _t
-tDef(886, "#Target# is no longer covered by shadows.") -- _t
+tDef(885, "+Assail") -- _t
 tDef(886, "-Assail") -- _t
+tDef(886, "#Target# is no longer covered by shadows.") -- _t
 tDef(928, "Zero Gravity") -- _t
+tDef(930, "There is no gravity here; you float in the air. Movement is three times as slow, and any melee or archery blows have a chance to knockback. Maximum encumbrance is greatly increased.") -- _t
+tDef(933, "spacetime") -- effect subtype
 tDef(943, "#LIGHT_BLUE#You enter a zero gravity zone, beware!") -- logPlayer
 tDef(953, "Curse of Corpses") -- _t
 tDef(954, "Corpses") -- _t
@@ -28445,6 +29540,8 @@ tDef(979, "An aura of death surrounds you.\
 #CRIMSON#Power 2+: %s%+d Luck, %+d Strength, %+d Magic\
 #CRIMSON#Power 3+: %sLiving Death: Ghoulish retch heals you. Once every %d turns, retch (level %d) when you fall below %d%% health\
 #CRIMSON#Power 4+: %sReprieve from Death: Humanoids you slay have a %d%% chance to rise to fight beside you as ghouls for 6 turns.") -- tformat
+tDef(1055, "This corpse was recently alive but moves as though it is just learning to use its body.") -- _t
+tDef(1100, "Summon") -- _t
 tDef(1105, "#F53CBE#The corpse of the %s pulls itself up to fight for you.") -- logSeen
 tDef(1117, "Curse of Madness") -- _t
 tDef(1118, "Madness") -- _t
@@ -28483,6 +29580,7 @@ tDef(1509, "Horrible visions fill your mind.\
 #CRIMSON#Power 4+: %sNightmare: Each time you are damaged by a foe there is a chance (currently %d%%) of triggering a radius %d nightmare (summon Terrors and chances to slow, deal %d Mind damage, and deal %d Darkness damage) for 8 turns. The chance grows each time you are struck but fades over time.") -- tformat
 tDef(1578, "#F53CBE#%s harrows %s!") -- logSeen
 tDef(1601, "A formless terror that seems to cut through the air, and its victims, like a knife.") -- _t
+tDef(1688, "Nightmare") -- _t
 tDef(1699, "#F53CBE#The air around %s grows cold and terrifying shapes begin to coalesce. A nightmare has begun.") -- logSeen
 tDef(1709, "Curse of Misfortune") -- _t
 tDef(1710, "Misfortune") -- _t
@@ -28497,7 +29595,9 @@ tDef(1785, "#F53CBE#%s suffers an unfortunate end.") -- logSeen
 tDef(1787, "#F53CBE#%s suffers an unfortunate blow.") -- logSeen
 tDef(1799, "Unstable Probabilites") -- _t
 tDef(1800, "The target has recently blinked through a wall using probability travel.") -- _t
+tDef(1802, "space") -- effect subtype
 tDef(1815, "Cursed Form") -- _t
+tDef(1817, "curse") -- effect subtype
 tDef(1824, "The target's unnatural body has responded to damage taken.") -- _t
 tDef(1826, " All damage that the target inflicts is increased by %d%%.") -- tformat
 tDef(1829, " Strength and Willpower are increased by %d. Poisons and diseases have a %d%% chance of being neutralized each turn.") -- tformat
@@ -28509,24 +29609,28 @@ tDef(1931, "\
 - %s%s#LAST#") -- tformat
 tDef(1936, "\
 - #ffa0ff#%s#LAST#") -- tformat
+tDef(1942, "predator") -- effect subtype
 tDef(1950, "Faded") -- _t
 tDef(1951, "The target has faded and is no longer taking damage.") -- _t
-tDef(1955, "#Target# fades!") -- _t
 tDef(1955, "+Faded") -- _t
+tDef(1955, "#Target# fades!") -- _t
 tDef(1974, "Highborn's Bloom") -- _t
 tDef(1975, "The target is using talents without consuming resources.") -- _t
 tDef(1990, "Victory Rush") -- _t
 tDef(1991, "The thrill of victory makes this creature invulnerable.") -- _t
+tDef(1993, "arcane") -- effect subtype
 tDef(2006, "Solipsism") -- _t
 tDef(2007, "This creature has fallen into a solipsistic state and is caught up in its own egoic thoughts (-%d%% global speed).") -- tformat
 tDef(2024, "Clarity") -- _t
 tDef(2025, "The creature has found a state of clarity and sees the world for what it is (+%d%% global speed).") -- tformat
 tDef(2042, "Dreamscape") -- _t
 tDef(2043, "This target has invaded %s's dreams and has gained a %d%% bonus to all damage.") -- tformat
+tDef(2045, "psionic") -- effect subtype
 tDef(2061, "You could not find enough space to form a dream projection...") -- logPlayer
 tDef(2074, "%s's dream projection") -- tformat
 tDef(2106, "#LIGHT_RED#%s writhes in agony as a fragment of its mind is destroyed!") -- logSeen
 tDef(2112, "#LIGHT_BLUE#%s has spawned a dream projection to protect its mind!") -- logSeen
+tDef(2118, "Dream Self") -- _t
 tDef(2137, "#LIGHT_RED#%s's mind shatters into %d tiny fragments!") -- logSeen
 tDef(2235, "#LIGHT_BLUE#You are brought back from the Dreamscape!") -- logPlayer
 tDef(2245, "#LIGHT_RED#%s suffered a %s of self in the Dreamscape!") -- logSeen
@@ -28535,54 +29639,77 @@ tDef(2254, "While this effect holds you can decide recent history did not happen
 tDef(2278, "#LIGHT_RED#The spell fizzles.") -- logSeen
 tDef(2282, "#LIGHT_BLUE#You go back in time to rewrite history!") -- logPlayer
 tDef(2306, "Oil mist") -- _t
+tDef(2308, "Zone-wide effect: +10% fire damage, -10% fire resistance, -10% armour, -2 sight range.") -- _t
 tDef(2327, "Grave chill") -- _t
+tDef(2329, "Zone-wide effect: +10% cold damage, -10% cold resistance, -10% physical save, -20% confusion immunity.") -- _t
 tDef(2348, "Static discharge") -- _t
+tDef(2350, "Zone-wide effect: +10% lightning damage, -10% lightning resistance, -10% physical power, -20% stun immunity.") -- _t
 tDef(2369, "Noxious fumes") -- _t
+tDef(2371, "Zone-wide effect: +10% acid damage, -10% acid resistance, -10% defense, -20% disarm immunity.") -- _t
 tDef(2390, "Echoes of the void") -- _t
+tDef(2392, "Zone-wide effect: +10% darkness damage, -10% darkness resistance, -10% mental save, -20% fear immunity.") -- _t
 tDef(2411, "Eerie silence") -- _t
+tDef(2413, "Zone-wide effect: +10% mind damage, -10% mind resistance, -10% spellpower, -20% silence immunity.") -- _t
 tDef(2432, "Aura of light") -- _t
+tDef(2434, "Zone-wide effect: +10% light damage, -10% light resistance, -10% accuracy, -20% blind immunity.") -- _t
 tDef(2453, "Aether residue") -- _t
+tDef(2455, "Zone-wide effect: +10% arcane damage, -10% arcane resistance, -10% armour hardiness, -20% stoning immunity.") -- _t
 tDef(2474, "Impossible geometries") -- _t
+tDef(2476, "Zone-wide effect: +10% temporal damage, -10% temporal resistance, -10% spell save, -20% pinning immunity.") -- _t
 tDef(2495, "Uncontrolled anger") -- _t
+tDef(2497, "Zone-wide effect: +10% physical damage, -10% physical resistance, -10% mindpower, -20% knockback immunity.") -- _t
 tDef(2516, "Miasma") -- _t
+tDef(2518, "Zone-wide effect: +10% blight damage, -10% blight resistance, -20% healing mod, -20% disease immunity.") -- _t
 tDef(2537, "Slimy floor") -- _t
+tDef(2539, "Zone-wide effect: +10% nature damage, -10% nature resistance, -10% ranged defense, -20% poison immunity.") -- _t
 tDef(2558, "In Vault") -- _t
 tDef(2559, "The target is part of a vault and cannot act until it has been openend.") -- _t
+tDef(2562, "vault") -- effect subtype
 tDef(2585, "Cauterize") -- _t
 tDef(2586, "Your body is cauterizing, burning for %0.2f damage each turn.") -- tformat
-tDef(2591, "#CRIMSON##Target# is wreathed in flames on the brink of death!") -- _t
+tDef(2588, "fire") -- effect subtype
 tDef(2591, "+Cauterize") -- _t
+tDef(2591, "#CRIMSON##Target# is wreathed in flames on the brink of death!") -- _t
 tDef(2592, "#CRIMSON#The flames around #target# vanish.") -- _t
 tDef(2592, "-Cauterize") -- _t
 tDef(2615, "Something") -- _t
 tDef(2622, "Protected by the Eidolon") -- _t
 tDef(2623, "The target is protected by the Eidolon, no creature may harm it (except self-harm).") -- _t
+tDef(2627, "eidolon") -- effect subtype
 tDef(2639, "Cloak of Deception") -- _t
 tDef(2640, "The target is under the effect of the cloak of deception, making it look human.") -- _t
+tDef(2643, "undead") -- effect subtype
 tDef(2646, "+CLOAK OF DECEPTION") -- _t
 tDef(2646, "#LIGHT_BLUE#An illusion appears around #Target# making %s appear human.") -- tformat
 tDef(2647, "#LIGHT_BLUE#The illusion covering #Target# disappears.") -- _t
 tDef(2647, "-CLOAK OF DECEPTION") -- _t
 tDef(2666, "Suffocating") -- _t
 tDef(2667, "You are suffocating! Each turn you lose an ever increasing percent of your total life (currently %d%%)") -- tformat
+tDef(2669, "suffocating") -- effect subtype
 tDef(2673, "#Target# is suffocating.") -- _t
 tDef(2673, "+SUFFOCATING") -- _t
 tDef(2674, "#Target# can breathe again.") -- _t
 tDef(2674, "-Suffocating") -- _t
+tDef(2684, "suffocated to death") -- _t
 tDef(2692, "Antimagic Disruption") -- _t
 tDef(2695, "Your arcane powers are disrupted by your antimagic equipment.  Arcane talents fail %d%% of the time and arcane sustains have a %0.1f%% chance to deactivate each turn.") -- tformat
+tDef(2698, "antimagic") -- effect subtype
 tDef(2712, "Swift Hands") -- _t
 tDef(2713, "You swaped an item without taking time this turn.") -- _t
+tDef(2715, "prodigy") -- effect subtype
 tDef(2725, "Hunter!") -- _t
 tDef(2726, "Knows where you are!") -- _t
+tDef(2728, "madness") -- effect subtype
 tDef(2740, "Through The Crowd") -- _t
 tDef(2741, "Increases physical save, spell save, and mental save by %d. Global speed increased by %d%%.") -- tformat
+tDef(2743, "miscellaneous") -- effect subtype
 tDef(2762, "Reloading") -- _t
 tDef(2763, "The target has replenished some ammo.") -- _t
+tDef(2765, "disarm") -- effect subtype
 tDef(2768, "+Disarmed") -- _t
 tDef(2768, "#Target# is disarmed!") -- _t
-tDef(2769, "#Target# rearms.") -- _t
 tDef(2769, "-Disarmed") -- _t
+tDef(2769, "#Target# rearms.") -- _t
 tDef(2782, "Spacetime Tuning") -- _t
 tDef(2783, "Tuning Paradox at a rate of %+d per turn.") -- tformat
 tDef(2788, "+Spacetime Tuning") -- _t
@@ -28598,28 +29725,33 @@ tDef(2954, "#STEEL_BLUE##Source# shares damage with %s fugue clones!") -- delaye
 tDef(2960, "#STEEL_BLUE#(%d shared)#LAST#") -- tformat
 tDef(3000, "Draconic Will") -- _t
 tDef(3001, "The target is immune to all detrimental effects.") -- _t
-tDef(3005, "#Target#'s skin hardens.") -- _t
 tDef(3005, "+Draconic Will") -- _t
-tDef(3006, "-Draconic Will") -- _t
+tDef(3005, "#Target#'s skin hardens.") -- _t
 tDef(3006, "#Target#'s skin is back to normal.") -- _t
+tDef(3006, "-Draconic Will") -- _t
 tDef(3015, "Reality Smearing") -- _t
 tDef(3016, "Damage received in the past is returned as %0.2f paradox damage per turn.") -- tformat
 tDef(3021, "Reality smears around #Target#.") -- _t
 tDef(3021, "+Smearing") -- _t
-tDef(3022, "-Smearing") -- _t
 tDef(3022, "Reality around #Target# is coherent again.") -- _t
+tDef(3022, "-Smearing") -- _t
 tDef(3049, "Aeons Stasis") -- _t
 tDef(3050, "The target is in temporal stasis.") -- _t
-tDef(3054, "#Target#'s is back to the normal timeflow.") -- _t
+tDef(3052, "temporal") -- effect subtype
 tDef(3054, "-Aeons Stasis") -- _t
+tDef(3054, "#Target#'s is back to the normal timeflow.") -- _t
 tDef(3098, "Unstoppable") -- _t
 tDef(3099, "The target is unstoppable! It refuses to die and cannot heal.  When the effect ends, it will heal %d Life (%d%% of maximum life per foe slain during the frenzy).") -- tformat
+tDef(3101, "frenzy") -- effect subtype
 tDef(3120, "Hit Penalty") -- _t
 tDef(3121, "The target is using a two handed weapon in a single hand, reducing accuracy, physical power, spellpower and mindpower by %d%% (based on size); also all damage procs from your offhand are reduced by 50%%.") -- tformat
+tDef(3123, "combat") -- effect subtype
+tDef(3123, "penalty") -- effect subtype
 tDef(3134, "Twist Fate") -- _t
 tDef(3138, "Currently Twisted Anomlay: %s\
 \
 		%s") -- tformat
+tDef(3143, "time") -- effect subtype
 tDef(3146, "+Twist Fate") -- _t
 tDef(3147, "-Twist Fate") -- _t
 tDef(3173, "Warden's Focus Target") -- _t
@@ -28627,21 +29759,34 @@ tDef(3174, "%s is focusing on this target.") -- tformat
 tDef(3180, "+Warden's Focus") -- _t
 tDef(3181, "-Warden's Focus") -- _t
 tDef(3202, "Death in a Dream") -- _t
+tDef(3203, "mind") -- effect subtype
 tDef(3205, "The target had breathed in noxious sleep-induced fumes and is losing %d life per turn.") -- tformat
 tDef(3208, "%s%d %s#LAST#") -- tformat
 tDef(3214, "Natural Aura") -- _t
+tDef(3216, "Zone-wide effect: +20 mindpower, +2 life regen, -1 equilibrium per turn, -20% resistance penetration.") -- _t
 tDef(3235, "Sorcerous Aura") -- _t
+tDef(3237, "Zone-wide effect: +20 magic, +2 mana regen, -20 accuracy, -20 stealth power.") -- _t
 tDef(3256, "Disciplined Aura") -- _t
+tDef(3258, "Zone-wide effect: +20 defense, +20 all saves, -20 spell power.") -- _t
 tDef(3278, "Sinister Aura") -- _t
+tDef(3280, "Zone-wide effect: +10% critical chance, +20% critical damage, -20% nature and blight resistance.") -- _t
 tDef(3300, "Underwater Zone") -- _t
+tDef(3302, "Zone-wide effect: Air decreases over time. If you run out of air you will start losing life. Look for bubbles to recover air. The water also reduces stun resistance by 10% and fire damage is reduced by 10%, however cold damage is increased by 10%.") -- _t
 tDef(3319, "Fearscape Zone") -- _t
+tDef(3321, "Zone-wide effect: The flames of the Fearscape increase all fire and blight damage by 10%, but the weird gravity reduces knockback resistance by 20%.") -- _t
 tDef(3338, "Out of Time Zone") -- _t
+tDef(3340, "Zone-wide effect: You seem to be outside the normal spacetime continuum. +10% physical resistance, -10% temporal resistance and -20% teleport resistance.") -- _t
 tDef(3357, "Spellblaze Aura") -- _t
+tDef(3359, "Zone-wide effect: The power of the Spellblaze still burns here. -10% resistance to fire, arcane and blight damage, but +10% cold resistance. WARNING: The powerful magic here reflects teleportation magic!") -- _t
 tDef(3375, "Heady Scent") -- _t
+tDef(3377, "Zone-wide effect: Strong scents fill the air and make you feel drowsy. If the timer reaches 0 you will fall into a dreaming sleep state. -10% mind resistance, -20% sleep resistance, +10% nature damage.") -- _t
 tDef(3395, "Thunderstorm") -- _t
+tDef(3397, "Zone-wide effect: A huge thunderstorm rages above you. +10 lightning damage, -10% stun resistance.") -- _t
 tDef(3414, "Abashed Expanse") -- _t
+tDef(3416, "Zone-wide effect: Your Phase Door spell is super easy to use here, allowing you to target it regardless of level. Any projectiles is slowed down by 80%.") -- _t
 tDef(3433, "Challenge") -- _t
 tDef(3435, "???") -- _t
+tDef(3438, "aura") -- effect subtype
 tDef(3464, "Throwing Knives") -- _t
 tDef(3466, "Has %d throwing knives prepared:\
 \
@@ -28652,8 +29797,8 @@ tDef(3504, "Fumble") -- _t
 tDef(3505, "The target is suffering from distracting wounds, and has a %d%% chance to fail to use a talent and injure itself for %d physical damage.") -- tformat
 tDef(3550, "Touch of Death") -- _t
 tDef(3551, "The target is taking %0.2f physical damage each turn. If they die while under this effect, they will explode!") -- tformat
-tDef(3556, "+Touch of Death!") -- _t
 tDef(3556, "#Target# is mortally wounded!") -- _t
+tDef(3556, "+Touch of Death!") -- _t
 tDef(3557, "#Target# overcomes the touch of death.") -- _t
 tDef(3557, "-Touch of Death") -- _t
 tDef(3574, "#LIGHT_RED#%s explodes into a shower of gore!") -- logSeen
@@ -28663,47 +29808,57 @@ tDef(3586, "+Marked!") -- _t
 tDef(3587, "-Marked") -- _t
 tDef(3602, "Flare") -- _t
 tDef(3603, "The target is lit up by a flare, reducing its stealth and invisibility power by %d, defense by %d and removing all evasion bonus from being unseen.") -- tformat
+tDef(3605, "sun") -- effect subtype
 tDef(3608, "+Illumination") -- _t
 tDef(3609, "-Illumination") -- _t
 tDef(3620, "Pinned Down") -- _t
 tDef(3621, "The next Steady Shot or Shoot has 100%% chance to be a critical hit and mark.") -- tformat
+tDef(3623, "tactic") -- effect subtype
 tDef(3634, "Demigod Mode") -- _t
 tDef(3635, "DEMI-GODMODE: Target has 10000 additional life and regenerates 2000 life per turn.  It deals +500%% damage, and has full ESP.") -- tformat
 tDef(3665, "God Mode") -- _t
 tDef(3666, "GODMODE: Target is invulnerable to damage, immune to bad status effects, deals +10000%% damage (100%% penetration), does not need to breathe, and has full ESP.") -- tformat
+tDef(3668, "cheat") -- effect subtype
 tDef(3693, "Slippery Ground") -- _t
 tDef(3694, "The target is having trouble keeping their balance. Each time it tries to use a talent there is %d%% chance of failure.") -- tformat
-tDef(3699, "+Slippery Ground") -- _t
 tDef(3699, "#Target# is struggling to keep his footing!") -- _t
+tDef(3699, "+Slippery Ground") -- _t
 tDef(3700, "#Target# regains their balance.") -- _t
 tDef(3700, "-Slippery Ground") -- _t
 tDef(3711, "Frozen Ground") -- _t
 tDef(3712, "The target is energized by the cold while wearing the Frost Treads, gaining 20%% increased cold damage.") -- tformat
+tDef(3714, "nature") -- effect subtype
 tDef(3717, "+Frozen Ground") -- _t
 tDef(3717, "#Target# is energized by the cold!") -- _t
 tDef(3718, "-Frozen Ground") -- _t
 tDef(3718, "#Target# regains balance.") -- _t
 tDef(3728, "Recalling") -- _t
 tDef(3729, "The target is waiting to be recalled back to the worldmap.") -- _t
+tDef(3731, "unknown") -- effect subtype
 tDef(3742, "You are yanked out of this place!") -- logPlayer
 tDef(3747, "Space restabilizes around you.") -- logPlayer
 tDef(3754, "Skeptical") -- _t
 tDef(3755, "The target doesn't believe its ally truly saw anything in the shadows.") -- _t
 tDef(3773, "Empowered by the shadows") -- _t
 tDef(3774, "Gain %d%% all damage and %d%% all res.") -- tformat
+tDef(3776, "darkness") -- effect subtype
 tDef(3787, "Intimidated") -- _t
 tDef(3788, "The target's morale is weakened, reducing its attack power, mind power, and spellpower by %d.") -- tformat
 tDef(3793, "#Target#'s morale has been lowered.") -- _t
 tDef(3793, "+Intimidated") -- _t
-tDef(3794, "#Target# has regained its confidence.") -- _t
 tDef(3794, "-Intimidated") -- _t
+tDef(3794, "#Target# has regained its confidence.") -- _t
 tDef(3824, "Feeding") -- _t
 tDef(3825, "%s is feeding from %s.") -- tformat
 tDef(3922, "Fed Upon") -- _t
 tDef(3923, "%s is fed upon by %s.") -- tformat
+tDef(3925, "psychic_drain") -- effect subtype
+tDef(3982, "Sensing Everything") -- _t
 tDef(3983, "Improves senses, allowing the detection of everything.") -- _t
+tDef(3985, "sense") -- effect subtype
 tDef(3999, "Dozing") -- _t
 tDef(4000, "The target is completely asleep, unable to act.") -- _t
+tDef(4002, "sleep") -- effect subtype
 
 
 ------------------------------------------------
@@ -28719,12 +29874,14 @@ Defense:  %d\
 All Damage:  %d%%\
 Stamina Regeneration:  %d\
 %s") -- tformat
+tDef(55, "tempo") -- effect subtype
 tDef(57, "+Tempo") -- _t
 tDef(57, "#Target# is gaining tempo.") -- _t
-tDef(58, "-Tempo") -- _t
 tDef(58, "#Target# loses their tempo.") -- _t
+tDef(58, "-Tempo") -- _t
 tDef(107, "Concussion") -- _t
 tDef(108, "The target can't think straight, causing their actions to fail.") -- tformat
+tDef(110, "concussion") -- effect subtype
 tDef(113, "#Target#'s brain isn't quite working right!") -- _t
 tDef(113, "+Concussion") -- _t
 tDef(114, "-Concussion") -- _t
@@ -28737,14 +29894,14 @@ tDef(133, "-Bleeds") -- _t
 tDef(133, "#Target# stops bleeding.") -- _t
 tDef(157, "Deep Wound") -- _t
 tDef(158, "Huge cut that bleeds, doing %0.2f physical damage per turn and decreasing all heals received by %d%%.") -- tformat
-tDef(164, "+Deep Wounds") -- _t
 tDef(164, "#Target# is cut deeply.") -- _t
-tDef(165, "#Target#'s deep wound closes.") -- _t
+tDef(164, "+Deep Wounds") -- _t
 tDef(165, "-Deep Wounds") -- _t
+tDef(165, "#Target#'s deep wound closes.") -- _t
 tDef(184, "Regeneration") -- _t
 tDef(185, "A flow of life spins around the target, regenerating %0.2f life per turn.") -- tformat
-tDef(190, "#Target# starts regenerating health quickly.") -- _t
 tDef(190, "+Regen") -- _t
+tDef(190, "#Target# starts regenerating health quickly.") -- _t
 tDef(191, "#Target# stops regenerating health quickly.") -- _t
 tDef(191, "-Regen") -- _t
 tDef(216, "Poison") -- _t
@@ -28754,8 +29911,8 @@ tDef(224, "-Poison") -- _t
 tDef(224, "#Target# stops being poisoned.") -- _t
 tDef(246, "Spydric Poison") -- _t
 tDef(247, "The target is poisoned, taking %0.2f nature damage per turn and unable to move (but can otherwise act freely).") -- tformat
-tDef(252, "#Target# is poisoned and cannot move!") -- _t
 tDef(252, "+Spydric Poison") -- _t
+tDef(252, "#Target# is poisoned and cannot move!") -- _t
 tDef(253, "-Spydric Poison") -- _t
 tDef(273, "Insidious Poison") -- _t
 tDef(274, "The target is poisoned, taking %0.2f nature damage per turn and decreasing all heals received by %d%%.") -- tformat
@@ -28771,8 +29928,8 @@ tDef(336, "+Numbing Poison") -- _t
 tDef(337, "-Numbing Poison") -- _t
 tDef(358, "Stoning Poison") -- _t
 tDef(361, "The target is taking %0.2f nature damage per turn from a potent earth-based poison.  In %d more turn(s), or when the poison has run its course (%d%% chance), the target will be turned to stone for %d turns.") -- tformat
-tDef(367, "+Stoning Poison") -- _t
 tDef(367, "#Target# is infused with stone poison!") -- _t
+tDef(367, "+Stoning Poison") -- _t
 tDef(368, "#Target# is free of the stone poison!") -- _t
 tDef(368, "-Stoning Poison") -- _t
 tDef(388, "#GREY#%s looks stony for a moment, but resists the transformation.") -- logSeen
@@ -28784,37 +29941,38 @@ tDef(427, "#Target# stops burning.") -- _t
 tDef(427, "-Burn") -- _t
 tDef(444, "Burning Shock") -- _t
 tDef(445, "The target is on fire, taking %0.2f fire damage per turn, reducing damage by 50%%, putting 4 random talents on cooldown and reducing movement speed by 50%%. While flameshocked talents cooldown twice as slow.") -- tformat
-tDef(451, "#Target# is stunned by the burning flame!") -- _t
 tDef(451, "+Burning Shock") -- _t
+tDef(451, "#Target# is stunned by the burning flame!") -- _t
 tDef(452, "-Burning Shock") -- _t
 tDef(481, "Stunned") -- _t
 tDef(482, "The target is stunned, reducing damage by 50%%, putting 3 random talents on cooldown and reducing movement speed by 50%%.  While stunned talents cooldown twice as slow.") -- tformat
-tDef(487, "#Target# is stunned!") -- _t
 tDef(487, "+Stunned") -- _t
-tDef(488, "-Stunned") -- _t
+tDef(487, "#Target# is stunned!") -- _t
 tDef(488, "#Target# is not stunned anymore.") -- _t
+tDef(488, "-Stunned") -- _t
 tDef(513, "Disarmed") -- _t
 tDef(514, "The target is maimed, unable to correctly wield a weapon.") -- _t
+tDef(516, "disarm") -- effect subtype
 tDef(519, "#Target# is disarmed!") -- _t
 tDef(519, "+Disarmed") -- _t
 tDef(520, "-Disarmed") -- _t
 tDef(520, "#Target# rearms.") -- _t
 tDef(534, "Constricted") -- _t
 tDef(535, "The target is constricted, preventing movement and making it suffocate (loses %0.2f air per turn).") -- tformat
-tDef(540, "#Target# is constricted!") -- _t
 tDef(540, "+Constricted") -- _t
+tDef(540, "#Target# is constricted!") -- _t
 tDef(541, "-Constricted") -- _t
 tDef(541, "#Target# is free to breathe.") -- _t
 tDef(549, " was constricted to death by %s.") -- tformat
 tDef(558, "Dazed") -- _t
 tDef(559, "The target is dazed, rendering it unable to move, halving all damage done, defense, saves, accuracy, spell, mind and physical power. Any damage will remove the daze.") -- _t
-tDef(564, "+Dazed") -- _t
 tDef(564, "#Target# is dazed!") -- _t
+tDef(564, "+Dazed") -- _t
 tDef(565, "-Dazed") -- _t
 tDef(565, "#Target# is not dazed anymore.") -- _t
 tDef(576, "Evasion") -- _t
-tDef(578, " and gains %d defense") -- tformat
 tDef(578, "The target has %d%% chance to evade melee and ranged attacks") -- tformat
+tDef(578, " and gains %d defense") -- tformat
 tDef(588, "#Target# tries to evade attacks.") -- _t
 tDef(588, "+Evasion") -- _t
 tDef(589, "#Target# is no longer evading attacks.") -- _t
@@ -28824,26 +29982,27 @@ tDef(625, "Slow") -- _t
 tDef(626, "Reduces global action speed by %d%%.") -- tformat
 tDef(632, "+Slow") -- _t
 tDef(633, "-Slow") -- _t
-tDef(657, "#Target# loses sight!") -- _t
 tDef(657, "+Blind") -- _t
+tDef(657, "#Target# loses sight!") -- _t
 tDef(699, "Stoneskin") -- _t
 tDef(700, "The target's skin reacts to damage, granting %d armour.") -- tformat
 tDef(715, "Thorny Skin") -- _t
 tDef(716, "The target's skin reacts to damage, granting %d armour and %d%% armour hardiness.") -- tformat
-tDef(721, "+Thorny Skin") -- _t
 tDef(721, "#Target#'s skin looks a bit thorny.") -- _t
-tDef(722, "#Target# is less thorny now.") -- _t
+tDef(721, "+Thorny Skin") -- _t
 tDef(722, "-Thorny Skin") -- _t
+tDef(722, "#Target# is less thorny now.") -- _t
 tDef(735, "Frozen Feet") -- _t
 tDef(736, "The target is frozen on the ground, able to act freely but not move.") -- _t
 tDef(741, "#Target# is frozen to the ground!") -- _t
 tDef(742, "#Target# warms up.") -- _t
 tDef(755, "Frozen") -- _t
 tDef(756, "The target is encased in ice. All damage done to it will be split, 40%% absorbed by the ice and 60%% by the target. The target's defense is nullified while in the ice, and it may only attack the ice, but it is also immune to any new detrimental status effects (except Wet and Frozen Feet). The target cannot teleport or heal while frozen. %d HP on the iceblock remaining.") -- tformat
+tDef(759, "cold") -- effect subtype
 tDef(762, "+Frozen") -- _t
 tDef(762, "#Target# is encased in ice!") -- _t
-tDef(763, "-Frozen") -- _t
 tDef(763, "#Target# is free from the ice.") -- _t
+tDef(763, "-Frozen") -- _t
 tDef(816, "Wrath of the Woods") -- _t
 tDef(836, "Wrath of the Highborn") -- _t
 tDef(837, "The target calls upon its inner resources, improving all damage by %d%% and reducing all damage taken by %d%%.") -- tformat
@@ -28851,10 +30010,10 @@ tDef(842, "#Target# radiates power.") -- _t
 tDef(843, "#Target#'s aura of power vanishes.") -- _t
 tDef(856, "Shell Shield") -- _t
 tDef(857, "The target takes cover in its shell, gaining %d%% all resist.") -- tformat
-tDef(862, "+Shell Shield") -- _t
 tDef(862, "#Target# takes cover under its shell.") -- _t
-tDef(863, "#Target# leaves the cover of its shell.") -- _t
+tDef(862, "+Shell Shield") -- _t
 tDef(863, "-Shell Shield") -- _t
+tDef(863, "#Target# leaves the cover of its shell.") -- _t
 tDef(874, "Serpentine Nature") -- _t
 tDef(875, "The target takes on the properties of the hydra, gaining %d%% affinity to lightning, acid, and nature damage and regenerating %d life per turn.") -- tformat
 tDef(892, "Pain Suppression") -- _t
@@ -28865,10 +30024,10 @@ tDef(899, "-Pain Suppression") -- _t
 tDef(899, "#Target# feels pain again.") -- _t
 tDef(910, "Primal Attunement") -- _t
 tDef(911, "The target is attuned to the wild, increasing all damage affinity by %d%% and reducing a random debuff duration by %d each turn.") -- tformat
-tDef(916, "+Primal") -- _t
 tDef(916, "#Target# attunes to the wild.") -- _t
-tDef(917, "#Target# is no longer one with nature.") -- _t
+tDef(916, "+Primal") -- _t
 tDef(917, "-Primal") -- _t
+tDef(917, "#Target# is no longer one with nature.") -- _t
 tDef(936, "Purge Blight") -- _t
 tDef(937, "The target is infused with the power of nature, reducing all blight damage taken by %d%%, increasing spell saves by %d, and granting immunity to diseases.") -- tformat
 tDef(942, "#Target# rejects blight!") -- _t
@@ -28881,8 +30040,8 @@ tDef(983, "Heroism") -- _t
 tDef(985, "Keeps you from dying even if your life drops to %+d") -- tformat
 tDef(1000, "Sunder Armour") -- _t
 tDef(1001, "The target's armour and saves are broken, reducing them by %d.") -- tformat
-tDef(1006, "+Sunder Armor") -- _t
 tDef(1006, "#Target#'s armour is damaged!") -- _t
+tDef(1006, "+Sunder Armor") -- _t
 tDef(1007, "-Sunder Armor") -- _t
 tDef(1018, "Sunder Arms") -- _t
 tDef(1019, "The target's combat ability is reduced, reducing its attack by %d.") -- tformat
@@ -28894,32 +30053,35 @@ tDef(1042, "+Pinned") -- _t
 tDef(1043, "-Pinned") -- _t
 tDef(1054, "Pinned to the ground") -- _t
 tDef(1055, "The target is pinned to the ground, unable to move.") -- _t
-tDef(1060, "#Target# is pinned to the ground.") -- _t
 tDef(1060, "+Bone Grab") -- _t
-tDef(1061, "-Bone Grab") -- _t
+tDef(1060, "#Target# is pinned to the ground.") -- _t
 tDef(1061, "#Target# is no longer pinned.") -- _t
+tDef(1061, "-Bone Grab") -- _t
 tDef(1083, "Mighty Blows") -- _t
 tDef(1084, "The target's combat damage is improved by %d.") -- tformat
+tDef(1086, "golem") -- effect subtype
 tDef(1089, "#Target# looks menacing.") -- _t
 tDef(1090, "#Target# looks less menacing.") -- _t
 tDef(1101, "Cripple") -- _t
 tDef(1102, "The target is crippled, reducing melee, spellcasting and mind speed by %d%%.") -- tformat
+tDef(1104, "cripple") -- effect subtype
 tDef(1107, "#Target# is crippled.") -- _t
 tDef(1108, "#Target# is not crippled anymore.") -- _t
 tDef(1118, "Burrow") -- _t
 tDef(1119, "The target is able to burrow into walls, and additionally has %d more APR and %d%% more physical resistance penetration.") -- tformat
 tDef(1139, "Reduced Vision") -- _t
 tDef(1140, "The target's vision range is decreased by %d.") -- tformat
+tDef(1142, "sense") -- effect subtype
 tDef(1145, "+Dim Vision") -- _t
-tDef(1146, "The smoke around #target# dissipates.") -- _t
 tDef(1146, "-Dim Vision") -- _t
+tDef(1146, "The smoke around #target# dissipates.") -- _t
 tDef(1162, "Resolve") -- _t
 tDef(1169, " and ") -- _t
 tDef(1170, "You gain %d%% resistance against %s.") -- tformat
-tDef(1177, "#Target# attunes to the damage.") -- _t
 tDef(1177, "+Resolve") -- _t
-tDef(1178, "-Resolve") -- _t
+tDef(1177, "#Target# attunes to the damage.") -- _t
 tDef(1178, "#Target# is no longer attuned.") -- _t
+tDef(1178, "-Resolve") -- _t
 tDef(1201, "Wild Speed") -- _t
 tDef(1202, "Moving at extreme speed (%d%% faster) and gains 100%% stun, daze and pinning immunity. Any action other than movement will cancel it.") -- tformat
 tDef(1208, "+Wild Speed") -- _t
@@ -28932,29 +30094,31 @@ tDef(1247, "+Hunter") -- _t
 tDef(1248, "-Hunter") -- _t
 tDef(1284, "Step Up") -- _t
 tDef(1285, "Movement is %d%% faster.") -- tformat
-tDef(1290, "#Target# prepares for the next kill!.") -- _t
 tDef(1290, "+Step Up") -- _t
+tDef(1290, "#Target# prepares for the next kill!.") -- _t
 tDef(1291, "-Step Up") -- _t
 tDef(1314, "Lightning Speed") -- _t
 tDef(1315, "Turn into pure lightning, moving %d%% faster. It also increases your lightning resistance by 100%% and your physical resistance by 30%%.") -- tformat
+tDef(1317, "lightning") -- effect subtype
 tDef(1320, "+Lightning Speed") -- _t
 tDef(1320, "#Target# turns into pure lightning!.") -- _t
 tDef(1321, "#Target# is back to normal.") -- _t
 tDef(1321, "-Lightning Speed") -- _t
 tDef(1354, "Dragon's Fire") -- _t
 tDef(1355, "Dragon blood runs through your veins. You can breathe fire (or have it improved if you already could).") -- tformat
+tDef(1357, "fire") -- effect subtype
 tDef(1360, "+Dragon's fire") -- _t
 tDef(1360, "#Target#'s throat seems to be burning.") -- _t
-tDef(1361, "#Target#'s throat seems to cool down.") -- _t
 tDef(1361, "-Dragon's fire") -- _t
+tDef(1361, "#Target#'s throat seems to cool down.") -- _t
 tDef(1394, "Greater Weapon Focus") -- _t
 tDef(1395, "Each melee blow landed has a %d%% chance to trigger an additional melee blow (up to once per turn for each weapon).") -- tformat
 tDef(1426, "Grappling") -- _t
 tDef(1427, "Engaged in a grapple draining %d stamina per turn and redirecting %d%% of damage taken to %s.  Any movement will break the effect as will some unarmed talents.") -- tformat
 tDef(1432, "#Target# is engaged in a grapple!") -- _t
 tDef(1432, "+Grappling") -- _t
-tDef(1433, "-Grappling") -- _t
 tDef(1433, "#Target# has released the hold.") -- _t
+tDef(1433, "-Grappling") -- _t
 tDef(1463, "Grappled") -- _t
 tDef(1464, "The target is grappled, unable to move, and limited in its offensive capabilities.\
 #RED#%sPinned\
@@ -28968,46 +30132,47 @@ tDef(1471, "-Grappled") -- _t
 tDef(1500, "Crushing Hold") -- _t
 tDef(1501, "The target is being crushed and suffers %d damage each turn") -- tformat
 tDef(1506, "+Crushing Hold") -- _t
-tDef(1507, "-Crushing Hold") -- _t
 tDef(1507, "#Target# has escaped the crushing hold.") -- _t
+tDef(1507, "-Crushing Hold") -- _t
 tDef(1525, "Strangle Hold") -- _t
 tDef(1526, "The target is being strangled and may not cast spells and suffers %d damage each turn.") -- tformat
+tDef(1528, "silence") -- effect subtype
 tDef(1531, "+Strangle Hold") -- _t
 tDef(1531, "#Target# is being strangled.") -- _t
 tDef(1532, "-Strangle Hold") -- _t
 tDef(1532, "#Target# has escaped the strangle hold.") -- _t
 tDef(1553, "Maimed") -- _t
 tDef(1554, "The target is maimed, reducing damage by %d and global speed by 30%%.") -- tformat
-tDef(1559, "#Target# is maimed.") -- _t
 tDef(1559, "+Maimed") -- _t
+tDef(1559, "#Target# is maimed.") -- _t
 tDef(1560, "#Target# has recovered from the maiming.") -- _t
 tDef(1560, "-Maimed") -- _t
 tDef(1573, "Expose Weakness") -- _t
 tDef(1574, "The target is focused on penetrating defenses, increasing armor penetration by %d, accuracy by %d, and all damage penetration by %d%%.") -- tformat
 tDef(1579, "#Target# is focusing on penetrating defenses.") -- _t
 tDef(1579, "+Expose Weakness") -- _t
-tDef(1580, "-Expose Weakness") -- _t
 tDef(1580, "#Target# is no longer focused on penetrating defenses.") -- _t
+tDef(1580, "-Expose Weakness") -- _t
 tDef(1592, "Combo") -- _t
 tDef(1594, "The target is in the middle of a combo chain and has earned %d combo points.") -- tformat
 tDef(1619, "Defensive Maneuver") -- _t
 tDef(1620, "The target's defense is increased by %d.") -- tformat
-tDef(1625, "+Defensive Maneuver") -- _t
 tDef(1625, "#Target# is moving defensively!") -- _t
-tDef(1626, "#Target# isn't moving as defensively anymore.") -- _t
+tDef(1625, "+Defensive Maneuver") -- _t
 tDef(1626, "-Defensive Maneuver") -- _t
+tDef(1626, "#Target# isn't moving as defensively anymore.") -- _t
 tDef(1637, "Set Up") -- _t
 tDef(1638, "The target is off balance and is %d%% more likely to be crit by the target that set it up.  In addition all its saves are reduced by %d.") -- tformat
 tDef(1643, "#Target# has been set up!") -- _t
 tDef(1643, "+Set Up") -- _t
-tDef(1644, "#Target# has survived the set up.") -- _t
 tDef(1644, "-Set Up") -- _t
+tDef(1644, "#Target# has survived the set up.") -- _t
 tDef(1660, "Recovery") -- _t
 tDef(1661, "The target has %d increased life regeneration.") -- tformat
 tDef(1666, "#Target# is recovering from the damage!") -- _t
 tDef(1666, "+Recovery") -- _t
-tDef(1667, "-Recovery") -- _t
 tDef(1667, "#Target# has finished recovering.") -- _t
+tDef(1667, "-Recovery") -- _t
 tDef(1684, "Reflexive Dodging") -- _t
 tDef(1685, "Increases global action speed by %d%%.") -- tformat
 tDef(1690, "+Reflexive Dodging") -- _t
@@ -29015,6 +30180,7 @@ tDef(1691, "-Reflexive Dodging") -- _t
 tDef(1703, "Weakened Defenses") -- _t
 tDef(1704, "The target's physical resistance has been reduced by %d%%.") -- tformat
 tDef(1731, "Waters of Life") -- _t
+tDef(1732, "The target purifies all diseases and poisons, turning them into healing effects.") -- _t
 tDef(1749, "Elemental Harmony") -- _t
 tDef(1751, "Increases global speed by %d%%.") -- tformat
 tDef(1752, "Increases armour by %d.") -- tformat
@@ -29031,10 +30197,11 @@ tDef(1855, "Immobilized") -- _t
 tDef(1856, "Immobilized by telekinetic forces.") -- _t
 tDef(1861, "+Paralyzed") -- _t
 tDef(1861, "#F53CBE##Target# is bound by telekinetic forces!") -- _t
-tDef(1862, "#Target# shakes free of the telekinetic binding") -- _t
 tDef(1862, "-Paralyzed") -- _t
+tDef(1862, "#Target# shakes free of the telekinetic binding") -- _t
 tDef(1875, "Imploding (slow)") -- _t
 tDef(1876, "Slowed by 50%% and taking %d crushing damage per turn.") -- tformat
+tDef(1878, "telekinesis") -- effect subtype
 tDef(1881, "+Imploding") -- _t
 tDef(1881, "#Target# is being crushed.") -- _t
 tDef(1882, "#Target# shakes off the crushing forces.") -- _t
@@ -29043,18 +30210,23 @@ tDef(1898, "Free Action") -- _t
 tDef(1899, "The target gains %d%% stun, daze and pinning immunity.") -- tformat
 tDef(1904, "#Target# is moving freely.") -- _t
 tDef(1904, "+Free Action") -- _t
-tDef(1905, "#Target# is moving less freely.") -- _t
 tDef(1905, "-Free Action") -- _t
+tDef(1905, "#Target# is moving less freely.") -- _t
 tDef(1920, "Adrenaline Surge") -- _t
 tDef(1921, "The target's combat damage is improved by %d and it an continue to fight past the point of exhaustion, supplementing life for stamina.") -- tformat
+tDef(1923, "frenzy") -- effect subtype
 tDef(1926, "#Target# feels a surge of adrenaline.") -- _t
 tDef(1927, "#Target#'s adrenaline surge has come to an end.") -- _t
 tDef(1938, "Blindside Bonus") -- _t
 tDef(1939, "The target has appeared out of nowhere! It's defense is boosted by %d.") -- tformat
+tDef(1941, "evade") -- effect subtype
 tDef(1954, "Off-balance") -- _t
+tDef(1955, "Badly off balance. Global damage is reduced by 15%.") -- _t
 tDef(1960, "+Off-balance") -- _t
 tDef(1961, "-Off-balance") -- _t
 tDef(1972, "Off-guard") -- _t
+tDef(1973, "Badly off guard. Attackers gain a 10% bonus to physical critical strike chance and physical critcal strike power.") -- _t
+tDef(1975, "cross tier") -- effect subtype
 tDef(1978, "+Off-guard") -- _t
 tDef(1979, "-Off-guard") -- _t
 tDef(1990, "Slow movement") -- _t
@@ -29063,20 +30235,21 @@ tDef(1996, "+Slow movement") -- _t
 tDef(1997, "-Slow movement") -- _t
 tDef(2008, "Weakened") -- _t
 tDef(2009, "The target has been weakened, reducing all damage inflicted by %d%%.") -- tformat
+tDef(2012, "curse") -- effect subtype
 tDef(2015, "#Target# has been weakened.") -- _t
 tDef(2016, "#Target#'s is no longer weakened.") -- _t
 tDef(2027, "Lowered fire resistance") -- _t
 tDef(2028, "The target fire resistance is reduced by %d%%.") -- tformat
 tDef(2033, "#Target# becomes more vulnerable to fire.") -- _t
 tDef(2033, "+Low. fire resist") -- _t
-tDef(2034, "#Target# is less vulnerable to fire.") -- _t
 tDef(2034, "-Low. fire resist") -- _t
+tDef(2034, "#Target# is less vulnerable to fire.") -- _t
 tDef(2044, "Lowered cold resistance") -- _t
 tDef(2045, "The target cold resistance is reduced by %d%%.") -- tformat
 tDef(2050, "#Target# becomes more vulnerable to cold.") -- _t
 tDef(2050, "+Low. cold resist") -- _t
-tDef(2051, "#Target# is less vulnerable to cold.") -- _t
 tDef(2051, "-Low. cold resist") -- _t
+tDef(2051, "#Target# is less vulnerable to cold.") -- _t
 tDef(2061, "Lowered nature resistance") -- _t
 tDef(2062, "The target nature resistance is reduced by %d%%.") -- tformat
 tDef(2067, "#Target# becomes more vulnerable to nature.") -- _t
@@ -29085,45 +30258,46 @@ tDef(2068, "#Target# is less vulnerable to nature.") -- _t
 tDef(2068, "-Low. nature resist") -- _t
 tDef(2078, "Lowered physical resistance") -- _t
 tDef(2079, "The target physical resistance is reduced by %d%%.") -- tformat
-tDef(2084, "+Low. physical resist") -- _t
 tDef(2084, "#Target# becomes more vulnerable to physical.") -- _t
+tDef(2084, "+Low. physical resist") -- _t
 tDef(2085, "-Low. physical resist") -- _t
 tDef(2085, "#Target# is less vulnerable to physical.") -- _t
 tDef(2096, "Cursed Wound") -- _t
 tDef(2097, "The target's has a cursed wound, reducing healing by %d%%.") -- tformat
-tDef(2102, "+Cursed Wound") -- _t
 tDef(2102, "#Target# has a cursed wound!") -- _t
+tDef(2102, "+Cursed Wound") -- _t
 tDef(2103, "#Target# no longer has a cursed wound.") -- _t
 tDef(2103, "-Cursed Wound") -- _t
 tDef(2117, "%s has re-opened a cursed wound!") -- logSeen
 tDef(2125, "Luminescence ") -- _t
 tDef(2126, "The target has been revealed, reducing its stealth power by %d.") -- tformat
+tDef(2128, "light") -- effect subtype
 tDef(2131, "#Target# has been illuminated.") -- _t
 tDef(2131, "+Luminescence") -- _t
-tDef(2132, "#Target# is no longer illuminated.") -- _t
 tDef(2132, "-Luminescence") -- _t
+tDef(2132, "#Target# is no longer illuminated.") -- _t
 tDef(2143, "Spell Disruption") -- _t
 tDef(2144, "The target has a %d%% chance to fail any spell it casts and a chance each turn to lose spell sustains.") -- tformat
 tDef(2150, "#Target#'s magic has been disrupted.") -- _t
 tDef(2151, "#Target#'s is no longer disrupted.") -- _t
 tDef(2171, "Resonance") -- _t
 tDef(2172, "+%d%% %s damage.") -- tformat
-tDef(2177, "+Resonance") -- _t
 tDef(2177, "#Target# resonates with the damage.") -- _t
+tDef(2177, "+Resonance") -- _t
 tDef(2178, "#Target# is no longer resonating.") -- _t
 tDef(2178, "-Resonance") -- _t
 tDef(2189, "Thorn Grab") -- _t
 tDef(2190, "The target is encased in thorny vines, dealing %d nature damage each turn and reducing its speed by %d%%.") -- tformat
 tDef(2208, "Leaves Cover") -- _t
 tDef(2209, "%d%% chance to fully absorb any damaging actions.") -- tformat
-tDef(2214, "#Target# is protected by a layer of thick leaves.") -- _t
 tDef(2214, "+Leaves Cover") -- _t
+tDef(2214, "#Target# is protected by a layer of thick leaves.") -- _t
 tDef(2215, "-Leaves Cover") -- _t
 tDef(2215, "#Target# cover of leaves falls apart.") -- _t
 tDef(2233, "Parrying melee attacks: Has a %d%% chance to deflect up to %d damage from the next %0.1f attack(s).") -- tformat
 tDef(2257, "Parrying") -- _t
-tDef(2264, " and ranged") -- _t
 tDef(2264, "Parrying melee%s attacks: Has a %d%% chance to deflect up to %d damage from the next %0.1f attack(s).  Parried attacks cannot crit.") -- tformat
+tDef(2264, " and ranged") -- _t
 tDef(2312, "Reduces all damage taken by %d.") -- tformat
 tDef(2354, "#CRIMSON##Source# heals from blocking with %s shield!") -- delayedLogMessage
 tDef(2368, "%s resists the disarming attempt!") -- logSeen
@@ -29149,19 +30323,20 @@ tDef(2544, "#Target# is no longer being ravaged.") -- _t
 tDef(2579, "#LIGHT_RED#%s is being ravaged by distortion!") -- logSeen
 tDef(2593, "Distortion") -- _t
 tDef(2594, "The target has recently taken distortion damage, is vulnerable to distortion effects, and has its physical resistance decreased by %d%%.") -- tformat
+tDef(2596, "distortion") -- effect subtype
 tDef(2599, "+Distortion") -- _t
 tDef(2600, "#Target# is no longer distorted.") -- _t
 tDef(2600, "-Distortion") -- _t
 tDef(2609, "Disable") -- _t
 tDef(2610, "The target is disabled, reducing movement speed by %d%% and accuracy by %d.") -- tformat
-tDef(2615, "#Target# is disabled.") -- _t
 tDef(2615, "+Disabled") -- _t
+tDef(2615, "#Target# is disabled.") -- _t
 tDef(2616, "-Disabled") -- _t
 tDef(2616, "#Target# is not disabled anymore.") -- _t
 tDef(2629, "Anguish") -- _t
 tDef(2630, "The target is in extreme anguish, preventing them from making tactical decisions, and reducing Willpower by %d and Cunning by %d.") -- tformat
-tDef(2635, "+Anguish") -- _t
 tDef(2635, "#Target# is in anguish.") -- _t
+tDef(2635, "+Anguish") -- _t
 tDef(2636, "-Anguish") -- _t
 tDef(2636, "#Target# is no longer in anguish.") -- _t
 tDef(2649, "Fast As Lightning") -- _t
@@ -29170,25 +30345,30 @@ tDef(2658, "#Target# is speeding up.") -- _t
 tDef(2658, "+Fast As Lightning") -- _t
 tDef(2659, "#Target# is slowing down.") -- _t
 tDef(2659, "-Fast As Lightning") -- _t
+tDef(2673, "Resets Rush cooldown if killed.") -- _t
 tDef(2689, "Steamroller") -- _t
 tDef(2690, "Grants a +%d%% damage bonus.") -- tformat
 tDef(2711, "Spine of the World") -- _t
-tDef(2717, "#Target# become impervious to physical effects.") -- _t
+tDef(2712, "Immune to physical effects.") -- _t
+tDef(2714, "status") -- effect subtype
 tDef(2717, "+Spine of the World") -- _t
+tDef(2717, "#Target# become impervious to physical effects.") -- _t
 tDef(2718, "#Target# is less impervious to physical effects.") -- _t
 tDef(2718, "-Spine of the World") -- _t
 tDef(2726, "Fungal Blood") -- _t
 tDef(2727, "You have %d fungal energies stored. Release them to heal by using the Fungal Blood prodigy.") -- tformat
+tDef(2729, "heal") -- effect subtype
 tDef(2732, "+Fungal Blood") -- _t
 tDef(2733, "-Fungal Blood") -- _t
 tDef(2745, "Mucus") -- _t
 tDef(2746, "You lay mucus where you walk.") -- tformat
+tDef(2748, "mucus") -- effect subtype
 tDef(2751, "+Mucus") -- _t
 tDef(2752, "-Mucus") -- _t
 tDef(2760, "Corrosive Nature") -- _t
 tDef(2761, "Acid damage increased by %d%%.") -- tformat
-tDef(2767, "+Corrosive Nature") -- _t
 tDef(2767, "#Target#'s acid damage is more potent.") -- _t
+tDef(2767, "+Corrosive Nature") -- _t
 tDef(2768, "#Target#'s acid damage is no longer so potent.") -- _t
 tDef(2768, "-Corrosive Nature") -- _t
 tDef(2774, "%s's corrosive nature intensifies!") -- logSeen
@@ -29201,37 +30381,42 @@ tDef(2802, "-Nature Acid") -- _t
 tDef(2808, "%s's natural acid becomes more concentrated!") -- logSeen
 tDef(2828, "Corrode") -- _t
 tDef(2829, "The target is corroded, reducing their accuracy by %d, their armor by %d, and their defense by %d.") -- tformat
+tDef(2831, "acid") -- effect subtype
 tDef(2834, "#Target# is corroded.") -- _t
 tDef(2835, "#Target# has shook off the effects of their corrosion.") -- _t
 tDef(2845, "Slippery Moss") -- _t
 tDef(2846, "The target is covered in slippery moss. Each time it tries to use a talent there is %d%% chance of failure.") -- tformat
+tDef(2848, "moss") -- effect subtype
 tDef(2851, "+Slippery Moss") -- _t
 tDef(2851, "#Target# is covered in slippery moss!") -- _t
 tDef(2852, "-Slippery Moss") -- _t
 tDef(2852, "#Target# is free from the slippery moss.") -- _t
 tDef(2863, "Juggernaut") -- _t
 tDef(2864, "Reduces physical damage received by %d%% and provides a %d%% chance to ignore critical hits.") -- tformat
-tDef(2869, "#Target# hardens its skin.") -- _t
+tDef(2866, "superiority") -- effect subtype
 tDef(2869, "+Juggernaut") -- _t
+tDef(2869, "#Target# hardens its skin.") -- _t
 tDef(2870, "-Juggernaut") -- _t
 tDef(2883, "Natural Replenishment") -- _t
 tDef(2884, "The target has been directly exposed to arcane energies and has responded by reasserting it's connection to nature, restoring %0.1f Equilibrium per turn.") -- tformat
-tDef(2889, "+Nature Replenishment") -- _t
 tDef(2889, "#Target# defiantly reasserts %s connection to nature!") -- tformat
-tDef(2890, "#Target# stops restoring Equilibrium.") -- _t
+tDef(2889, "+Nature Replenishment") -- _t
 tDef(2890, "-Nature Replenishment") -- _t
+tDef(2890, "#Target# stops restoring Equilibrium.") -- _t
 tDef(2899, "Berserker Rage") -- _t
 tDef(2900, "Increases critical hit chance by %d%%.") -- tformat
 tDef(2906, "%0.1f%%") -- tformat
 tDef(2928, "Relentless Fury") -- _t
 tDef(2929, "Increases stamina regeneration by %d, movement and attack speed by %d%%.") -- tformat
 tDef(2955, "Directed Speed") -- _t
-tDef(2967, "-Directed Speed") -- _t
 tDef(2967, "#Target# loses speed.") -- _t
+tDef(2967, "-Directed Speed") -- _t
 tDef(3004, "Target is currently moving with %d%% additional speed in a single direction (%s). Stopping or changing directions will remove this effect.") -- tformat
 tDef(3013, "Stun Lengthen") -- _t
+tDef(3016, "stun") -- effect subtype
 tDef(3021, "#Target# is stunned further! (now %d turns)") -- tformat
 tDef(3037, "Eternal Warrior") -- _t
+tDef(3040, "morale") -- effect subtype
 tDef(3050, "+Eternal Warrior") -- _t
 tDef(3051, "-Eternal Warrior") -- _t
 tDef(3053, "The target stands strong, increasing all resistances by %0.1f%% and resistance caps by %0.1f%%.") -- tformat
@@ -29242,31 +30427,35 @@ tDef(3094, "Defensive Roll") -- _t
 tDef(3102, "#Target# assumes an extreme defensive posture, avoiding some damage!") -- _t
 tDef(3107, "The target is in an extreme defensive posture, avoiding %d%% of all incoming damage.") -- tformat
 tDef(3114, "Trained Reactions Cooldown") -- _t
-tDef(3119, "+Trained Reactions") -- _t
+tDef(3116, "cooldown") -- effect subtype
 tDef(3119, "#LIGHT_BLUE##Target# may dodge again.") -- _t
+tDef(3119, "+Trained Reactions") -- _t
 tDef(3121, "Trained Reactions may not trigger.") -- _t
 tDef(3127, "Superb Agility") -- _t
 tDef(3135, "#Target# has sped up!") -- _t
 tDef(3140, "The target's reactions have quickened, giving +%d%% global speed.") -- tformat
 tDef(3147, "Anti-Gravity") -- _t
 tDef(3148, "Target is caught in an anti-gravity field, halving its knockback resistance.") -- tformat
+tDef(3150, "spacetime") -- effect subtype
 tDef(3152, "+Anti-Gravity") -- _t
 tDef(3153, "-Anti-Gravity") -- _t
 tDef(3167, "Parasitic Leeches") -- _t
 tDef(3168, "Parasitic Leeches: ") -- _t
 tDef(3171, "The target is being fed upon by %d masses of parasitic leeches for %0.2f physical and %0.2f acid damage each turn.  After a %d turn feeding period, one mass will drop off and multiply.") -- tformat
-tDef(3187, "+Parasitic Leeches") -- _t
+tDef(3175, "parasite") -- effect subtype
 tDef(3187, "#Target# is #GREEN#INFESTED#LAST# with parasitic leeches!") -- _t
+tDef(3187, "+Parasitic Leeches") -- _t
 tDef(3231, "Some leeches drop off %s!") -- logSeen
 tDef(3238, "Garrote") -- _t
 tDef(3240, "  It is silenced for the next %d turn(s), preventing it from casting spells and using some vocal talents.") -- tformat
 tDef(3241, "The target is being garrotted by %s, rendering it unable to move and subject to an automatic unarmed attack (at %d%% damage) each turn.%s") -- tformat
+tDef(3244, "grapple") -- effect subtype
+tDef(3248, "%s has garroted #Target#!") -- tformat
 tDef(3248, "Something") -- _t
 tDef(3248, "+Garrote") -- _t
-tDef(3248, "%s has garroted #Target#!") -- tformat
+tDef(3249, "-Garrote") -- _t
 tDef(3249, "something") -- _t
 tDef(3249, "#Target# is free from %s's garrote.") -- tformat
-tDef(3249, "-Garrote") -- _t
 tDef(3266, "#Source# #LIGHT_RED#strangles#LAST# #Target#!") -- logCombat
 tDef(3281, "Marked for Death") -- _t
 tDef(3282, "The target takes %d%% increased damage from all sources.  If this effect runs its full course, the target will take an additional %0.1f physical damage (increased by %d%% of all damage taken while this effect is active).") -- tformat
@@ -29285,6 +30474,7 @@ tDef(3330, "+Deadly Poison") -- _t
 tDef(3331, "-Deadly Poison") -- _t
 tDef(3392, "Razorwire") -- _t
 tDef(3393, "The target's equipment has been shredded by razorwire, reducing its accuracy by %d, armour by %d, and defense by %d.") -- tformat
+tDef(3395, "physical") -- effect subtype
 tDef(3398, "#Target# is entangled in razorwire!") -- _t
 tDef(3399, "#Target# has shook off the razorwire.") -- _t
 tDef(3409, "Dirty Fighting") -- _t
@@ -29295,30 +30485,36 @@ tDef(3442, "Soothing Darkness") -- _t
 tDef(3444, "The target is wreathed in shadows, increasing life regeneration by %0.1f") -- tformat
 tDef(3446, ", stamina regeneration by %0.1f and all damage resistance by %d%%.") -- tformat
 tDef(3448, " and stamina regeneration by %0.1f.") -- tformat
+tDef(3452, "healing") -- effect subtype
+tDef(3452, "regeneration") -- effect subtype
 tDef(3468, "Shadow Dance") -- _t
 tDef(3469, "The target is able to make actions and attacks while remaining stealthed.") -- tformat
 tDef(3473, "#GREY#You begin your Shadow Dance.") -- logPlayer
 tDef(3474, "#GREY#You end your Shadow Dance.") -- logPlayer
 tDef(3487, "Sedated") -- _t
 tDef(3488, "The target is in a deep sleep and unable to act.  Every %d damage it takes will reduce the duration of the effect by one turn.") -- tformat
+tDef(3490, "sleep") -- effect subtype
 tDef(3499, "#Target# is in a deep sleep.") -- _t
-tDef(3501, "-Sedated") -- _t
 tDef(3501, "#Target# is no longer sleeping.") -- _t
+tDef(3501, "-Sedated") -- _t
 tDef(3528, "Rogue's Brew") -- _t
 tDef(3529, "The target will not die until falling below -%d life.") -- tformat
 tDef(3545, "Bear Trap") -- _t
 tDef(3549, "slowed (%d%%)") -- tformat
 tDef(3550, "taking %0.2f physical damage each turn") -- tformat
 tDef(3551, "Caught in a bear trap: ") -- _t
+tDef(3554, "wound") -- effect subtype
+tDef(3554, "bleed") -- effect subtype
 tDef(3557, "A bear trap snaps onto #Target#!") -- _t
 tDef(3557, "+Bear Trap") -- _t
-tDef(3558, "-Bear Trap") -- _t
 tDef(3558, "#Target# is freed from a bear trap.") -- _t
+tDef(3558, "-Bear Trap") -- _t
 tDef(3590, "Stone Vine") -- _t
-tDef(3591, "A living stone vine holds the target in place, inflicting %0.1f Nature%s damage per turn.") -- tformat
 tDef(3591, " and %0.1f Arcane") -- tformat
-tDef(3596, "#Target# is seized by a stone vine.") -- _t
+tDef(3591, "A living stone vine holds the target in place, inflicting %0.1f Nature%s damage per turn.") -- tformat
+tDef(3593, "pin") -- effect subtype
 tDef(3596, "+Stone Vine") -- _t
+tDef(3596, "#Target# is seized by a stone vine.") -- _t
 tDef(3597, "#Target# is free from the stone vine.") -- _t
 tDef(3597, "-Stone Vine") -- _t
 tDef(3635, "Dwarven Resilience") -- _t
@@ -29331,10 +30527,12 @@ tDef(3677, "#Target# begins protecting %s friends with a stone shield.") -- tfor
 tDef(3678, "#Target# is no longer protecting anyone.") -- _t
 tDef(3700, "Stone Link") -- _t
 tDef(3701, "The target is protected by %s, redirecting all damage to it.") -- tformat
+tDef(3703, "earth") -- effect subtype
+tDef(3703, "shield") -- effect subtype
 tDef(3706, "#Target# is protected by a stone shield.") -- _t
 tDef(3706, "+Stone Link") -- _t
-tDef(3707, "-Stone Link") -- _t
 tDef(3707, "#Target# is less protected.") -- _t
+tDef(3707, "-Stone Link") -- _t
 tDef(3716, "Exhaustion") -- _t
 tDef(3717, "The target has recently performed an extreme feat of agility and is exhausted.  The stamina cost of activated Mobility talents is increased by %d%%.") -- tformat
 tDef(3740, "Mobile Defense") -- _t
@@ -29347,8 +30545,10 @@ tDef(3763, "#Target# speeds up.") -- _t
 tDef(3764, "-Fast") -- _t
 tDef(3775, "Feint") -- _t
 tDef(3776, "The target gains 1 extra parry opportunity each turn, and its chance to fail each parry is reduced by %d%%.") -- tformat
+tDef(3778, "tactical") -- effect subtype
 tDef(3789, "Mana Clash") -- _t
 tDef(3790, "All damage you do also trigget a manaburn for %d%% of the damage done.") -- tformat
+tDef(3792, "antimagic") -- effect subtype
 tDef(3795, "#Target# exudes antimagic forces.") -- _t
 tDef(3796, "#Target# is no longer toxic to arcane users.") -- _t
 tDef(3808, "Bullseye") -- _t
@@ -29356,6 +30556,7 @@ tDef(3821, "Trueshot") -- _t
 tDef(3822, "Increases attack speed by %d%%, grants infinite ammo, and causes all marking shots to have a 100%% increased chance to mark.") -- tformat
 tDef(3838, "Escape") -- _t
 tDef(3839, "Focusing on defense and mobility, reducing all damage taken by %d%%, stamina regeneration by %0.1f and movement speed by %d%%. Melee and ranged attacks will break this effect.") -- tformat
+tDef(3841, "speed") -- effect subtype
 tDef(3844, "#Target# enters an evasive stance!.") -- _t
 tDef(3844, "+Escape!") -- _t
 tDef(3845, "-Escape") -- _t
@@ -29368,24 +30569,28 @@ tDef(3902, "Rapid Movement") -- _t
 tDef(3903, "Increases movement speed by %d%%.") -- tformat
 tDef(3915, "Sticky Pitch") -- _t
 tDef(3916, "The target's global speed is reduced by %d%% and fire resistance by %d%%.") -- tformat
+tDef(3918, "slow") -- effect subtype
 tDef(3921, "+Pitch") -- _t
 tDef(3921, "#Target# is covered in sticky, flammable pitch.") -- _t
 tDef(3922, "#Target# is free from the pitch.") -- _t
 tDef(3922, "-Pitch") -- _t
 tDef(3939, "Punctured Armour") -- _t
 tDef(3940, "Armour has been punctured, increasing all damage taken by %d%%.") -- tformat
+tDef(3942, "sunder") -- effect subtype
 tDef(3945, "+Punctured Armour!") -- _t
 tDef(3945, "#Target#'s armour is punctured!") -- _t
-tDef(3946, "-Punctured Armour") -- _t
 tDef(3946, "#Target#'s armour is more intact.") -- _t
+tDef(3946, "-Punctured Armour") -- _t
 tDef(3955, "Leeching Poison") -- _t
 tDef(3956, "The target is poisoned, doing %0.2f nature damage per turn and restoring life to the attacker equal to the damage dealt.") -- tformat
-tDef(3961, "+Leeching Poison") -- _t
+tDef(3958, "poison") -- effect subtype
 tDef(3961, "#Target# is poisoned!") -- _t
+tDef(3961, "+Leeching Poison") -- _t
 tDef(3962, "#Target# is no longer poisoned.") -- _t
 tDef(3962, "-Leeching Poison") -- _t
 tDef(3977, "Maim") -- _t
 tDef(3978, "The target is maimed, doing %0.2f physical damage per turn. All damage it does is reduced by %d%%.") -- tformat
+tDef(3980, "cut") -- effect subtype
 tDef(3983, "+Maim") -- _t
 tDef(3983, "#Target# is maimed!") -- _t
 tDef(3984, "-Maim") -- _t
@@ -29400,42 +30605,54 @@ tDef(4046, "Concealment") -- _t
 tDef(4047, "The target is concealed, increasing sight and attack range by %d and chance to avoid damage by %d%%.") -- tformat
 tDef(4075, "Shadow Smoke") -- _t
 tDef(4076, "The target is wrapped in disorientating smoke, reducing vision range by %d.") -- tformat
+tDef(4078, "blind") -- effect subtype
 tDef(4081, "#Target# is surrounded by a thick smoke.") -- _t
 tDef(4081, "+Shadow Smoke") -- _t
-tDef(4082, "-Shadow Smoke") -- _t
 tDef(4082, "The smoke around #target# dissipate.") -- _t
+tDef(4082, "-Shadow Smoke") -- _t
 tDef(4104, "Shadowstrike") -- _t
 tDef(4105, "The target's critical strike damage bonus is increased by %d%%.") -- tformat
+tDef(4107, "darkness") -- effect subtype
 tDef(4120, "Chromatic Resonance") -- _t
 tDef(4123, "Preemptively reacts to %s damage, increasing the appropriate resistance by %d for 5 turns.") -- tformat
 tDef(4129, "#Target##OLIVE_DRAB# shimmers in multiple hues.") -- _t
 tDef(4130, "#Target#'s#OLIVE_DRAB# multi-hued shimmer fades.") -- _t
 tDef(4159, "Chromatic Resistance") -- _t
 tDef(4163, "%sresistance increased by %d%%.") -- tformat
+tDef(4166, "resist") -- effect subtype
 tDef(4174, "#Target##OLIVE_DRAB# resonates with %s%s#LAST# damage!") -- tformat
 tDef(4180, "#Target##OLIVE_DRAB# no longer resonates with %s%s#LAST# damage!") -- tformat
 tDef(4194, "Swift Shot") -- _t
 tDef(4195, "Increases attack speed by %d%%.") -- tformat
+tDef(4197, "tactic") -- effect subtype
 tDef(4206, "Crooked") -- _t
 tDef(4207, "The target becomes more and more primitive, reducing accuracy and powers by %d") -- tformat
 tDef(4245, "Eldoral") -- _t
 tDef(4246, "Firing slings does not consume shots.") -- tformat
 tDef(4251, "+Eldoral") -- _t
 tDef(4251, "#Target# is focused on firing.") -- _t
-tDef(4252, "-Eldoral") -- _t
 tDef(4252, "#Target# is less focused.") -- _t
+tDef(4252, "-Eldoral") -- _t
 tDef(4262, "Stealthed") -- _t
 tDef(4263, "Gain %d stealth power") -- tformat
 tDef(4268, "+Silent stealth") -- _t
 tDef(4268, "#Target# is more stealthy.") -- _t
-tDef(4269, "#Target# is visible again.") -- _t
 tDef(4269, "-Silent stealth") -- _t
+tDef(4269, "#Target# is visible again.") -- _t
 tDef(4277, "Blinded") -- _t
 tDef(4278, "The target is blinded, unable to see anything.") -- _t
-tDef(4283, "#Target# recovers sight.") -- _t
 tDef(4283, "-Blind") -- _t
+tDef(4283, "#Target# recovers sight.") -- _t
 tDef(4309, "Gift of the Woods") -- _t
 tDef(4310, "Increases the effectiveness of all healing the target receives by %d%%.") -- tformat
+tDef(4312, "nature") -- effect subtype
+
+
+------------------------------------------------
+section "game/modules/tome/data/wda/eyal.lua"
+
+tDef(41, "Maj'Eyal") -- _t
+tDef(94, "Far East") -- _t
 
 
 ------------------------------------------------
@@ -29497,8 +30714,10 @@ tDef(28, "ancient papyrus scroll") -- entity name
 tDef(29, "This seems to be an account of the last days of a great Shaloren mage.") -- _t
 tDef(37, "Bindings of Eternal Night") -- entity name
 tDef(39, "Woven through with fell magics of undeath, these bindings suck the light and life out of everything they touch. Any who don them will find themselves suspended in a nightmarish limbo between life and death.") -- _t
+tDef(68, "A complementing item would be your crowning glory.") -- _t
 tDef(81, "Crown of Eternal Night") -- entity name
 tDef(83, "This crown looks useless, yet you can feel it is woven with fell magics of undeath. Maybe it has a use.") -- _t
+tDef(100, "You need to find something to bind its powers.") -- _t
 tDef(114, "#ANTIQUE_WHITE#The Crown of Eternal Night seems to react with the Bindings, you feel tremendous dark power.") -- logSeen
 tDef(117, "#ANTIQUE_WHITE#The powerful darkness aura you felt wanes away.") -- logPlayer
 
@@ -29540,6 +30759,7 @@ tDef(32, "scrap of paper") -- entity name
 tDef(33, "A scrap of paper.") -- _t
 tDef(43, "Rod of Spydric Poison") -- entity name
 tDef(44, "This rod carved out of a giant spider fang continuously drips venom.") -- _t
+tDef(49, "shoot a bolt of spydric poison out to range %d, dealing %0.2f nature damage (based on Magic) over %d turns while rendering the target unable to move") -- tformat
 tDef(63, "%s activates %s %s!") -- logSeen
 
 
@@ -29605,6 +30825,7 @@ tDef(226, "gladiator") -- entity name
 tDef(254, "reaver") -- entity name
 tDef(260, "A warrior of death.") -- _t
 tDef(288, "headless horror") -- entity name
+tDef(291, "A headless gangly humanoid with a large distended stomach. Was captured and tamed by the first master of the arena.") -- _t
 tDef(331, "#AQUAMARINE#As %s falls all its eyes fall to the ground!") -- logSeen
 tDef(339, "Ryal") -- entity name
 tDef(344, "A gargantuan bone giant resembling a wingless wyrm. He is fully sentient and surprisingly fast.") -- _t
@@ -29650,8 +30871,8 @@ tDef(1025, "sun paladin") -- entity name
 tDef(1027, "human") -- entity subtype
 tDef(1032, "Warriors from afar. They wield the power of light, and a mean sword.") -- _t
 tDef(1056, "star crusader") -- entity name
-tDef(1058, "humanoid") -- entity type
 tDef(1058, "elf") -- entity subtype
+tDef(1058, "humanoid") -- entity type
 tDef(1063, "Warriors from afar. They wield the power of light, and a mean sword. Darkness, too.") -- _t
 
 
@@ -29681,12 +30902,15 @@ tDef(62, "#VIOLET#Boss round starts!!!") -- log
 tDef(63, "#LIGHT_RED#Final round starts!!!!") -- log
 tDef(287, "#YELLOW#The gates open!") -- log
 tDef(301, "#LIGHT_RED#The gates close!") -- log
+tDef(315, "RANK UP!!") -- _t
 tDef(316, "#LIGHT_GREEN#The public is pleased by your performance! You now have the rank of #WHITE#%s#LIGHT_GREEN#!") -- log
+tDef(326, " kills!") -- _t
 tDef(327, "#YELLOW#You killed %d enemies in a single turn! The public is excited!") -- log
 tDef(349, "#YELLOW#Items lying around will disappear in #WHITE#%d#YELLOW# turns!#LAST#") -- log
 tDef(363, "#VIOLET#Boss round!!!") -- log
 tDef(366, "#GOLD#Miniboss round!") -- log
 tDef(371, "#LIGHT_RED#Final round!!!") -- log
+tDef(403, "Round Clear! +%s EXP!") -- tformat
 tDef(404, "%sWave clear!") -- log
 tDef(405, "%sClear bonus: %s%s%s! Score bonus: %s%s%s! Danger bonus: %s%s%s! Rank bonus: %s%s%s!") -- log
 tDef(406, "%sYour experience increases by %s%s%s!") -- log
@@ -29711,8 +30935,11 @@ tDef(74, "Half-Finished Bone Giant") -- entity name
 tDef(75, "A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.\
 This specimen looks like it was hastily assembled and is not really complete yet.") -- _t
 tDef(127, "fleshy experiment") -- entity name
+tDef(128, "This pile of rotting flesh twitches and makes horrid noises.") -- _t
 tDef(158, "boney experiment") -- entity name
+tDef(159, "This pile of bones appears to move on its own, but it can't seem to organise itself into something dangerous.") -- _t
 tDef(190, "sanguine experiment") -- entity name
+tDef(191, "It looks like a giant blood clot. Is that what its creator intended?") -- _t
 
 
 ------------------------------------------------
@@ -29759,6 +30986,7 @@ section "game/modules/tome/data/zones/charred-scar/grids.lua"
 tDef(26, "lava") -- entity subtype
 tDef(26, "floor") -- entity type
 tDef(27, "Farportal: the Far East") -- entity name
+tDef(32, "A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use.") -- _t
 tDef(41, "#VIOLET#You enter the swirling portal and in the blink of an eye you are back to the far east.") -- _t
 
 
@@ -29883,6 +31111,7 @@ tDef(111, "You cannot abandon Melinda here!") -- _t
 ------------------------------------------------
 section "game/modules/tome/data/zones/daikara/grids.lua"
 
+tDef(30, "The rift leads... somewhere.") -- _t
 tDef(34, "Temporal Rift") -- _t
 tDef(34, "Are you sure you want to enter? There's no telling where you will end up or if you will be able to make it back.") -- _t
 tDef(39, "The rift is too unstable to cross it.") -- log
@@ -29948,7 +31177,7 @@ tDef(192, "A parchment falls to the floor near The Abomination.") -- logSeen
 ------------------------------------------------
 section "game/modules/tome/data/zones/deep-bellow/objects.lua"
 
-tDef(24, "..") -- entity name
+tDef(24, "Deep Bellow excavation report %d") -- tformat
 tDef(33, "letter to Rolf (3)") -- entity name
 tDef(39, "letter to Weisman (4)") -- entity name
 tDef(45, "Last Will of Rolf") -- entity name
@@ -29978,9 +31207,12 @@ tDef(21, "Fearscape") -- _t
 section "game/modules/tome/data/zones/demon-plane/grids.lua"
 
 tDef(24, "Demonic Portal") -- entity name
-tDef(33, "Back and there again") -- _t
+tDef(29, "This portal seems to be connected with Maj'Eyal; you could probably use it to go back.") -- _t
 tDef(33, "Enter the portal back to Maj'Eyal? (Warning loot Draebor first)") -- _t
+tDef(33, "Back and there again") -- _t
 tDef(41, "#VIOLET#You enter the swirling portal and in the blink of an eye you are back to Maj'Eyal, near the Daikara.") -- logPlayer
+tDef(43, "Enter") -- _t
+tDef(43, "Stay") -- _t
 
 
 ------------------------------------------------
@@ -30156,6 +31388,8 @@ tDef(173, "#LIGHT_RED#You are sent back to the material plane!") -- logPlayer
 section "game/modules/tome/data/zones/eruan/grids.lua"
 
 tDef(29, "Farportal: Charred Scar") -- entity name
+tDef(34, "A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.\
+This one seems to go to the west, to Charred Scar. A fiery volcano that can only spell death...") -- _t
 tDef(40, "#VIOLET#You enter the swirling portal while it fades away and in the blink of an eye you set foot on hellish land, the heart of a volcano...") -- _t
 
 
@@ -30259,9 +31493,10 @@ tDef(34, "floor") -- entity name
 tDef(91, "door") -- entity name
 tDef(104, "roost") -- entity subtype
 tDef(105, "open door") -- entity name
+tDef(126, "This rock seems to have been sealed off. You need to find a way to open it.") -- _t
 tDef(134, "#VIOLET#You hear a rock crumbling opening.") -- log
-tDef(142, "sand") -- entity subtype
 tDef(142, "wall") -- entity type
+tDef(142, "sand") -- entity subtype
 tDef(143, "huge loose rock") -- entity name
 
 
@@ -30330,13 +31565,15 @@ tDef(88, "#LIGHT_RED#Intense fight") -- _t
 tDef(88, "As you approach you come upon an other Wayist and receive a very clear mental message:\
 #{italic}##UMBER#RUN AWAY! I am done for but you can save yourself still!#{normal}#") -- _t
 tDef(91, "Space around you starts to dissolve...") -- logPlayer
+tDef(92, "Emergency recall") -- _t
+tDef(92, "Stay and fight!") -- _t
 tDef(104, "Halfling?! DIE!!!!!") -- _t
 tDef(107, "The Way sent you?") -- _t
 tDef(110, "You.. saved me?") -- _t
 tDef(117, "Yeek Wayist") -- entity name
 tDef(118, "This creature is about as tall as a halfling. It is covered in white silky fur and has a disproportionate head. The weirdest thing about it though, its weapon simply floats in front of it.") -- _t
-tDef(119, "humanoid") -- entity type
 tDef(119, "yeek") -- entity subtype
+tDef(119, "humanoid") -- entity type
 
 
 ------------------------------------------------
@@ -30369,6 +31606,12 @@ tDef(71, "tree") -- entity name
 ------------------------------------------------
 section "game/modules/tome/data/zones/heart-gloom/npcs.lua"
 
+tDef(33, "deformed ") -- _t
+tDef(33, "gloomy ") -- _t
+tDef(33, "sick ") -- _t
+tDef(46, "slumbering ") -- _t
+tDef(46, "dreaming ") -- _t
+tDef(46, "dozing ") -- _t
 tDef(61, "The Withering Thing") -- entity name
 tDef(63, "This deformed beast might have been a wolf before, but now it is just... terrible.") -- _t
 tDef(64, "and corrupted into a pile of writhing worms") -- _t
@@ -30389,16 +31632,24 @@ tDef(24, "Heart of the Gloom") -- _t
 section "game/modules/tome/data/zones/high-peak/grids.lua"
 
 tDef(27, "Farportal: the Far East") -- entity name
+tDef(32, "A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.\
+This one seems to go to the Far East.") -- _t
 tDef(41, "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the Far East, with no trace of the portal...") -- _t
 tDef(59, "Farportal: Iron Throne") -- entity name
+tDef(64, "A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.\
+This one seems to go to the Iron Throne in the West.") -- _t
 tDef(73, "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the slopes of the Iron Throne, with no trace of the portal...") -- _t
 tDef(91, "Farportal: the Void") -- entity name
+tDef(96, "A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.\
+This one seems to go to an unknown place, seemingly out of this world. You dare not use it.") -- _t
 tDef(115, "#LIGHT_BLUE#You use the orb on the portal, shutting it down easily.") -- logPlayer
 tDef(129, "Invocation Portal: Undeath") -- entity name
 tDef(143, "Invocation Portal: Elements") -- entity name
 tDef(157, "Invocation Portal: Dragons") -- entity name
 tDef(171, "Invocation Portal: Destruction") -- entity name
+tDef(176, "An invocation portal, perpetually summoning beings through it.") -- _t
 tDef(185, "Portal: The Sanctum") -- entity name
+tDef(190, "This portal seems to connect to another part of this level.") -- _t
 tDef(195, "#VIOLET#You enter the swirling portal and appear in a large room with other portals and the two wizards.") -- _t
 tDef(219, "next level") -- entity name
 
@@ -30427,10 +31678,13 @@ tDef(36, "A strangely wet athame.") -- _t
 tDef(51, "journal") -- entity name
 tDef(52, "A magically-preserved journal.") -- _t
 tDef(62, "Awakened Staff of Absorption") -- entity name
+tDef(64, "ominous, dark runed staff") -- _t
 tDef(71, "Carved with runes of power, this staff seems to have been made long ago, yet it bears no signs of tarnish.\
 Light around it seems to dim and you can feel its tremendous power simply by touching it.\
 The Sorcerers seem to have awakened its power.\
 #{italic}#\"And lo they came to Amakthel himself, and thousands were killed in the assault on his throne, and three of the Godslayers were broken beneath his feet. But Falion with his dying breath pierced the great god on his knee with the icy sword Arkil, and seeing his opportunity Caldizar, leader of the Godslayers, advanced with the Staff of Absorption and struck a terrifying blow against Amakthel. So fell the greatest of the gods by the hands of his own children, and his face was forced into the dust.\"#{normal}#") -- _t
+tDef(122, "absorb the essence (ignoring resistance and bypassing most defenses) of a target in range %d, draining 30%% of its life and increasing your own damage by 30%% for %d turns") -- tformat
+tDef(147, "was absorbed by the %s held by %s") -- tformat
 tDef(151, "#Source# brandishes %s %s, absorbing the essence of #target#!") -- logCombat
 tDef(162, "gem") -- entity type
 tDef(162, "white") -- entity subtype
@@ -30442,6 +31696,8 @@ tDef(168, "A pearl, three times the size of a normal pearl, that glitters in inf
 section "game/modules/tome/data/zones/high-peak/zone.lua"
 
 tDef(21, "High Peak") -- _t
+tDef(23, "High Peak: The Sanctum") -- _t
+tDef(24, "High Peak (%d)") -- tformat
 
 
 ------------------------------------------------
@@ -30467,6 +31723,7 @@ tDef(203, "rock") -- entity subtype
 tDef(217, "snowy_grass") -- entity subtype
 tDef(218, "snowy passage") -- entity name
 tDef(232, "Temporal Rift") -- entity name
+tDef(238, "The rift leads to another floor of the dungeon.") -- _t
 tDef(246, "rift") -- entity subtype
 tDef(247, "crack in spacetime") -- entity name
 tDef(273, "coral wall") -- entity name
@@ -30476,8 +31733,8 @@ tDef(318, "open door") -- entity name
 tDef(347, "lava floor") -- entity name
 tDef(357, "wall") -- entity type
 tDef(358, "lava wall") -- entity name
-tDef(371, "floor") -- entity type
 tDef(371, "lava") -- entity subtype
+tDef(371, "floor") -- entity type
 tDef(372, "next level") -- entity name
 
 
@@ -30652,10 +31909,11 @@ section "game/modules/tome/data/zones/last-hope-graveyard/objects.lua"
 
 tDef(28, "creased letter") -- entity name
 tDef(29, "A letter.") -- _t
-tDef(37, "misc") -- entity type
 tDef(37, "heart") -- entity subtype
+tDef(37, "misc") -- entity type
 tDef(39, "Celia's Still Beating Heart") -- entity name
 tDef(45, "The living heart of the necromancer Celia, carved out of her chest and preserved with magic.") -- _t
+tDef(49, "extract a tiny part of Celia's soul") -- _t
 tDef(52, "You squeeze Celia's heart in your hand, absorbing part of her soul into your necrotic aura.") -- logPlayer
 
 
@@ -30716,12 +31974,14 @@ tDef(21, "Mark of the Spellblaze") -- _t
 section "game/modules/tome/data/zones/maze/grids.lua"
 
 tDef(23, "teleporting circle to the surface") -- entity name
-tDef(33, "cracks") -- entity subtype
 tDef(33, "wall") -- entity type
+tDef(33, "cracks") -- entity subtype
 tDef(34, "huge crack in the floor") -- entity name
-tDef(40, "Crack in the floor") -- _t
 tDef(40, "This area appears to have been hit by a huge tremor, breaking the floor in a huge crack.\
 You think you can jump to the level below.") -- _t
+tDef(40, "Crack in the floor") -- _t
+tDef(42, "Jump") -- _t
+tDef(42, "Stay") -- _t
 
 
 ------------------------------------------------
@@ -30922,6 +32182,7 @@ tDef(69, "Orc Breeding Pit") -- _t
 section "game/modules/tome/data/zones/paradox-plane/grids.lua"
 
 tDef(33, "Temporal Rift") -- entity name
+tDef(38, "The rift leads... somewhere.") -- _t
 
 
 ------------------------------------------------
@@ -30961,7 +32222,9 @@ tDef(192, "A massive, shifting, ethereal form floats in the air around an orb of
 tDef(251, "Heavy Sentinel") -- entity name
 tDef(252, "A towering creature, made from the bones of countless bodies. An aura of flame billows from within its chest.") -- _t
 tDef(297, "Arch Zephyr") -- entity name
+tDef(299, "The robes of this ancient vampire billow with intense winds. Bolts of lightning arc along its body. In its hand it holds a bow, electricity streaking across it.") -- _t
 tDef(348, "Void Spectre") -- entity name
+tDef(350, "Intense Arcane energy whirls in the air around this ethereal form.") -- _t
 
 
 ------------------------------------------------
@@ -31012,9 +32275,12 @@ tDef(21, "Escape from Reknor") -- _t
 ------------------------------------------------
 section "game/modules/tome/data/zones/reknor/grids.lua"
 
+tDef(28, "A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.\
+This one seems to go to the Far East, a continent of which only rumours are known...") -- _t
 tDef(41, "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on an unfamiliar cave, with no trace of the portal...") -- _t
 tDef(50, "Farportal: the Far East") -- entity name
 tDef(66, "Iron Throne Edict") -- entity name
+tDef(67, "\"AN EDICT TO ALL CITIZENS OF THE IRON THRONE. LONG MAY OUR EMPIRE ENDURE\"") -- _t
 
 
 ------------------------------------------------
@@ -31101,8 +32367,8 @@ tDef(25, "Blood Master") -- entity name
 tDef(28, "This small humanoid is covered in silky white fur. Its bulging eyes stare deep into your mind.") -- _t
 tDef(81, "spectator") -- entity name
 tDef(85, "A spectator, who probably paid a lot to watch this bloody \"game\".") -- _t
-tDef(90, "Fight!") -- _t
 tDef(90, "Blood!") -- _t
+tDef(90, "Fight!") -- _t
 tDef(90, "To the death!") -- _t
 tDef(91, "Oh this is great") -- _t
 tDef(91, "I love the smell of death...") -- _t
@@ -31327,6 +32593,9 @@ section "game/modules/tome/data/zones/shertul-fortress-caldizar/grids.lua"
 
 tDef(25, "Sher'Tul Control Orb") -- entity name
 tDef(36, "Exploratory Farportal") -- entity name
+tDef(41, "A farportal is a way to travel incredible distances in the blink of an eye. They were left behind by the powerful Sher'tul race.\
+This farportal is not connected to any other portal. It is made for exploration; you cannot know where it will send you.\
+It should automatically create a portal back, but it might not be near your arrival zone.") -- _t
 tDef(48, "Farportal") -- _t
 tDef(48, "The farportal seems to be inactive") -- _t
 
@@ -31335,6 +32604,7 @@ tDef(48, "The farportal seems to be inactive") -- _t
 section "game/modules/tome/data/zones/shertul-fortress-caldizar/npcs.lua"
 
 tDef(23, "Caldizar") -- entity name
+tDef(25, "A creature stands before you, with long tentacle-like appendages and a squat bump in place of a head. An intense aura of power radiates from this being unlike anything you've ever felt before. It can only be a Sher'Tul. A living Sher'Tul!") -- _t
 
 
 ------------------------------------------------
@@ -31351,18 +32621,23 @@ tDef(67, "stair back to the lake of Nur") -- entity name
 tDef(74, "teleportation circle to the surface") -- entity name
 tDef(82, "teleportation circle for Melinda") -- entity name
 tDef(89, "Sher'Tul Control Orb") -- entity name
+tDef(113, "A farportal is a way to travel incredible distances in the blink of an eye. They were left behind by the powerful Sher'tul race.\
+This farportal is not connected to any other portal. It is made for exploration; you cannot know where it will send you.\
+It should automatically create a portal back, but it might not be near your arrival zone.") -- _t
 tDef(123, "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot in a strangely familiar zone, right next to a farportal...") -- log
 tDef(132, "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot in strange empty space...") -- log
 tDef(145, "The farportal seems to be inactive") -- _t
 tDef(146, "The farportal is broken and will not be usable anymore.") -- _t
 tDef(147, "The fortress does not have enough energy to power a trip through the portal.") -- _t
-tDef(149, "Exploratory Farportal") -- _t
 tDef(149, "Do you want to travel in the farportal? You cannot know where you will end up.") -- _t
+tDef(149, "Exploratory Farportal") -- _t
 tDef(167, "Exploratory Farportal exit") -- _t
 tDef(174, "#VIOLET#As %s falls you notice a portal appearing.") -- logSeen
 tDef(175, "#VIOLET#Your rod of recall shakes, a portal appears beneath you.") -- logSeen
 tDef(197, "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot in an unfamiliar zone, with no trace of the portal...") -- log
 tDef(220, "Library of Lost Mysteries") -- entity name
+tDef(229, "Receiving the lost knowledge of the universe...") -- _t
+tDef(246, "Yiilkgur's Library of Lost Mysteries") -- _t
 tDef(254, "wall") -- entity type
 tDef(254, "floor") -- entity subtype
 tDef(255, "mural painting") -- entity name
@@ -31378,11 +32653,12 @@ tDef(24, "Weirdling Beast") -- entity name
 tDef(25, "A roughly humanoid creature, with tentacle-like appendages in the place of arms and legs. You gasp in horror as you notice it has no head. Putrid warts form quickly on its skin and explode as quickly.") -- _t
 tDef(26, "and slowly consumed") -- _t
 tDef(92, "#LIGHT_RED#As the Weirdling beast falls it shrieks one last time and the door behind it shatters and explodes, revealing the room behind it. The stair up vanishes!") -- log
+tDef(109, "Teleportation portal to the Sher'Tul Fortress") -- _t
 tDef(128, "Sher'Tul") -- entity subtype
 tDef(129, "Fortress Shadow") -- entity name
 tDef(130, "The shadow created by the fortress, it resembles somewhat the horrors you saw previously, but it is not the same.") -- _t
-tDef(142, "dummy") -- entity subtype
 tDef(142, "training") -- entity type
+tDef(142, "dummy") -- entity subtype
 tDef(143, "Training Dummy") -- entity name
 tDef(144, "Training dummy.") -- _t
 tDef(176, "Pumpkin, the little kitty") -- entity name
@@ -31398,7 +32674,8 @@ tDef(23, "simple gown") -- entity name
 ------------------------------------------------
 section "game/modules/tome/data/zones/shertul-fortress/zone.lua"
 
-tDef(21, "Yiilkgur, the Sher'Tul Fortress") -- _t
+tDef(24, "%s (Yiilkgur, the Sher'Tul Fortress)") -- tformat
+tDef(25, "Yiilkgur, the Sher'Tul Fortress") -- _t
 tDef(86, "This level seems to be removed from the rest of the ruins. The air is fresh and the level is lighted. You hear the distant crackling of magical energies.") -- _t
 tDef(99, "As you enter the familiar Fortress you notice a small orange cat has followed you somehow.\
 It looks like the kitty you fed earlier.") -- _t
@@ -31417,6 +32694,8 @@ tDef(28, "tree") -- entity name
 tDef(62, "bog water") -- entity name
 tDef(75, "coral portal") -- entity name
 tDef(86, "#VIOLET#The portal is already broken!") -- log
+tDef(90, "destroying the portal") -- _t
+tDef(90, "destroyed the portal") -- _t
 tDef(92, "#VIOLET#The portal starts to break down, run!") -- log
 
 
@@ -31465,6 +32744,10 @@ tDef(112, "orb pedestal (destruction)") -- entity name
 tDef(133, "sealed door") -- entity name
 tDef(142, "exit to Grushnak Pride") -- entity name
 tDef(152, "Entrance to the High Peak") -- entity name
+tDef(158, "The way forward is blocked. There must be some way around here to unlock those doors.") -- _t
+tDef(161, "High Peak") -- _t
+tDef(161, "As you stand on the stairs you can feel this is a \"do or die\" one way trip. If you enter there will be no coming back.\
+Enter?") -- _t
 
 
 ------------------------------------------------
@@ -31546,12 +32829,15 @@ tDef(128, "Look over there!") -- _t
 section "game/modules/tome/data/zones/stellar-system-shandral/grids.lua"
 
 tDef(42, "Shandral (Sun)") -- entity name
+tDef(44, "The sun of the Shandral star system.") -- _t
 tDef(55, "Eyal (Planet)") -- entity name
 tDef(65, "Summertide (Moon of Eyal)") -- entity name
 tDef(75, "Wintertide (Moon of Eyal)") -- entity name
+tDef(77, "One of the moons of Eyal.") -- _t
 tDef(88, "Kolal (Planet)") -- entity name
 tDef(101, "Luxam (Planet)") -- entity name
 tDef(114, "Ponx (Gaz Planet)") -- entity name
+tDef(116, "One of the main planets of the Shandral system.") -- _t
 
 
 ------------------------------------------------
@@ -31564,8 +32850,11 @@ tDef(21, "Stellar System: Shandral") -- _t
 section "game/modules/tome/data/zones/tannen-tower/grids.lua"
 
 tDef(27, "Portal to Last Hope") -- entity name
+tDef(32, "This portal seems to be connected with Last Hope; you could probably use it to go back.") -- _t
 tDef(36, "Back and there again") -- _t
 tDef(36, "Enter the portal back to Last Hope?") -- _t
+tDef(40, "Stay") -- _t
+tDef(40, "Enter") -- _t
 
 
 ------------------------------------------------
@@ -31590,11 +32879,12 @@ tDef(25, "Resonating Diamond") -- entity name
 tDef(44, "misc") -- entity subtype
 tDef(46, "Blood-Runed Athame") -- entity name
 tDef(50, "An athame, covered in blood runes. It radiates power.") -- _t
-tDef(69, "orb") -- entity subtype
 tDef(69, "jewelry") -- entity type
+tDef(69, "orb") -- entity subtype
 tDef(71, "Orb of Many Ways") -- entity name
 tDef(75, "The orb projects images of distant places, some that seem not to be of this world, switching rapidly.\
 If used near a portal, it could probably activate it.") -- _t
+tDef(79, "activate a portal") -- _t
 tDef(87, "There is no portal to activate here.") -- logPlayer
 tDef(95, "You cannot bring yourself to drop the %s") -- logPlayer
 tDef(109, "tattered paper scrap") -- entity name
@@ -31612,11 +32902,13 @@ tDef(62, "As you climb up the steps, you see Tannen standing with his drolem, re
 ------------------------------------------------
 section "game/modules/tome/data/zones/telmur/npcs.lua"
 
-tDef(30, "ghost") -- entity subtype
 tDef(30, "undead") -- entity type
+tDef(30, "ghost") -- entity subtype
 tDef(31, "The Shade of Telos") -- entity name
 tDef(33, "Everybody thought Telos dead and his spirit destroyed, but it seems he still lingers in his old place of power.") -- _t
 tDef(34, "and was savagely mutilated, a show of his rage towards all living things") -- _t
+tDef(91, "Back and there again") -- _t
+tDef(91, "As the shade dissipates, you see no sign of the text entitled \"Inverted and Reverted Probabilistic Fields\". You should go back to Tannen.") -- _t
 
 
 ------------------------------------------------
@@ -31694,6 +32986,8 @@ tDef(21, "Temporal Reprieve") -- _t
 section "game/modules/tome/data/zones/temporal-rift/grids.lua"
 
 tDef(33, "Temporal Rift") -- entity name
+tDef(38, "The rift leads... somewhere.") -- _t
+tDef(44, "Temporal Warden") -- _t
 
 
 ------------------------------------------------
@@ -31906,6 +33200,8 @@ section "game/modules/tome/data/zones/town-gates-of-morning/grids.lua"
 tDef(27, "floor") -- entity subtype
 tDef(28, "old road") -- entity name
 tDef(36, "Farportal: Last Hope") -- entity name
+tDef(41, "A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.\
+This one seems to go near the town of Last Hope in Maj'Eyal.") -- _t
 tDef(50, "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot on the outskirts of Last Hope, with no trace of the portal...") -- _t
 tDef(69, "grass") -- entity subtype
 tDef(69, "rockwall") -- entity type
@@ -32044,6 +33340,8 @@ section "game/modules/tome/data/zones/town-last-hope/grids.lua"
 tDef(25, "floor") -- entity subtype
 tDef(26, "old road") -- entity name
 tDef(34, "Farportal: Gates of Morning") -- entity name
+tDef(39, "A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use. You have no idea if it is even two-way.\
+This one seems to go near the Gates of Morning in the Far East.") -- _t
 tDef(48, "#VIOLET#You enter the swirling portal and in the blink of an eye you set foot in sight of the Gates of Morning, with no trace of the portal...") -- _t
 
 
@@ -32068,10 +33366,13 @@ tDef(92, "A clean-looking Halfling resident of Last Hope.") -- _t
 section "game/modules/tome/data/zones/town-last-hope/objects.lua"
 
 tDef(24, "last hope foundation") -- entity subtype
+tDef(25, "The Diaries of King Toknor the Brave (%d)") -- tformat
 tDef(26, "A part of the history of Last Hope, and King Toknor the Brave.") -- _t
 tDef(37, "analysis") -- entity subtype
 tDef(48, "southspar") -- entity subtype
-tDef(49, "..") -- entity name
+tDef(49, "one") -- _t
+tDef(49, "the Pale King part %s") -- tformat
+tDef(49, "two") -- _t
 tDef(50, "A study of Southspar's most unusual ruler.") -- _t
 tDef(59, "oceans") -- entity subtype
 tDef(60, "The Oceans of Eyal") -- entity name
@@ -32129,6 +33430,7 @@ tDef(52, "You hear screaming not too far from you.") -- _t
 section "game/modules/tome/data/zones/town-point-zero/grids.lua"
 
 tDef(27, "Temporal Rift to Maj'Eyal") -- entity name
+tDef(32, "The rift leads to Maj'Eyal.") -- _t
 tDef(41, "wall") -- entity type
 tDef(42, "cold forest") -- entity name
 tDef(62, "floor") -- entity type
@@ -32144,15 +33446,15 @@ tDef(25, "humanoid") -- entity type
 tDef(28, "Catch @himher@!") -- _t
 tDef(51, "guardian of reality") -- entity name
 tDef(56, "A stern-looking guardian, ever vigilant against the threats of the paradox.") -- _t
-tDef(78, "void") -- entity subtype
 tDef(78, "elemental") -- entity type
+tDef(78, "void") -- entity subtype
 tDef(81, "Losgoroth are mighty void elementals, native to the void between the stars; they are rarely seen on the planet's surface.") -- _t
 tDef(114, "monstrous losgoroth") -- entity name
 tDef(130, "Zemekkys, Grand Keeper of Reality") -- entity name
 tDef(132, "shalore") -- entity subtype
 tDef(133, "A timeless elf stands before you. Even though his age is impossible to determine, you feel he has seen many things.") -- _t
-tDef(202, "horror") -- entity type
 tDef(202, "temporal") -- entity subtype
+tDef(202, "horror") -- entity type
 tDef(203, "Temporal Defiler") -- entity name
 tDef(206, "A huge, slender, metallic monstrosity with long claws in place of fingers, and razor-sharp teeth. It seems to seek something here.") -- _t
 
@@ -32224,6 +33526,7 @@ tDef(21, "Shatur") -- _t
 section "game/modules/tome/data/zones/town-zigur/grids.lua"
 
 tDef(26, "Zigur Postsign") -- entity name
+tDef(27, "The laws of the Ziguranth") -- _t
 tDef(38, "lava pit") -- entity name
 tDef(45, "cultivated fields") -- entity name
 tDef(52, "cobblestone road") -- entity name
@@ -32327,33 +33630,43 @@ tDef(155, "Trollmire") -- _t
 section "game/modules/tome/data/zones/tutorial-combat-stats/grids.lua"
 
 tDef(54, "Lobby Portal") -- entity name
-tDef(63, "Tutorial Lobby Portal") -- _t
+tDef(59, "This portal will bring you back to the Tutorial Lobby.") -- _t
 tDef(63, "Enter the portal back to the lobby?") -- _t
+tDef(63, "Tutorial Lobby Portal") -- _t
 tDef(70, "#VIOLET#You enter the swirling portal and in the blink of an eye you are back in the lobby.") -- logPlayer
 tDef(80, "grass") -- entity name
 tDef(138, "Rune of Enlightenment: Summer Vacation") -- entity name
+tDef(139, "Causes the player's brain to jettison all recently-acquired knowledge.") -- _t
 tDef(148, "#VIOLET#You feel unenlightened.") -- logPlayer
 tDef(173, "Rune of Enlightenment: Shove") -- entity name
+tDef(174, "Teaches the player 'Shove'.") -- _t
 tDef(186, "#VIOLET#You have learned the talent Shove.") -- logPlayer
 tDef(200, "#VIOLET#The sound of an ancient door grinding open echoes down the tunnel!") -- logPlayer
 tDef(244, "Rune of Enlightenment: Mana Gale") -- entity name
+tDef(245, "Teaches the player 'Mana Gale'.") -- _t
 tDef(257, "#VIOLET#You have learned the talent Mana Gale.") -- logPlayer
 tDef(276, "Rune of Enlightenment: Telekinetic Punt") -- entity name
+tDef(277, "Teaches the player 'Telekinetic Punt'.") -- _t
 tDef(289, "#VIOLET#You have learned the talent Telekinetic Punt.") -- logPlayer
 tDef(309, "Rune of Enlightenment: Blink") -- entity name
+tDef(310, "Teaches the player 'Blink'.") -- _t
 tDef(322, "#VIOLET#You have learned the talent Blink.") -- logPlayer
 tDef(341, "Rune of Enlightenment: Fear") -- entity name
+tDef(342, "Teaches the player 'Fear'.") -- _t
 tDef(354, "#VIOLET#You have learned the talent Fear.") -- logPlayer
 tDef(373, "Rune of Enlightenment: Bleed") -- entity name
+tDef(374, "Teaches the player 'Bleed'.") -- _t
 tDef(385, "#VIOLET#You have learned the talent Bleed.") -- logPlayer
 tDef(395, "Rune of Enlightenment: Confusion") -- entity name
+tDef(396, "Teaches the player 'Confusion'.") -- _t
 tDef(407, "#VIOLET#You have learned the talent Confusion.") -- logPlayer
-tDef(417, "wall") -- entity type
 tDef(417, "floor") -- entity subtype
+tDef(417, "wall") -- entity type
 tDef(418, "glowing door") -- entity name
 tDef(446, "#VIOLET#You must achieve Enlightenment before you can pass. Seek ye to the west to discover the ancient art of Shoving Stuff.") -- logPlayer
 tDef(453, "sealed door") -- entity name
 tDef(481, "Sign") -- entity name
+tDef(482, "Contains a snippet of ToME wisdom.") -- _t
 
 
 ------------------------------------------------
@@ -32421,8 +33734,9 @@ tDef(38, "tutorial2") -- entity subtype
 tDef(54, "tutorial3") -- entity subtype
 tDef(70, "tutorial4") -- entity subtype
 tDef(86, "tutorial5") -- entity subtype
-tDef(102, "tutorial") -- entity type
 tDef(102, "tutorial6") -- entity subtype
+tDef(102, "tutorial") -- entity type
+tDef(104, "A tutorial") -- _t
 tDef(118, "Movement") -- entity name
 tDef(123, "Melee Combat") -- entity name
 tDef(128, "Objects") -- entity name
@@ -32465,6 +33779,7 @@ tDef(50, "It is a large wolf with eyes full of cunning, only 3 times bigger than
 section "game/modules/tome/data/zones/tutorial/traps.lua"
 
 tDef(22, "tutorial") -- entity subtype
+tDef(24, "A tutorial") -- _t
 tDef(38, "Movement") -- entity name
 tDef(43, "Melee Combat") -- entity name
 tDef(48, "Objects") -- entity name
@@ -32487,6 +33802,7 @@ tDef(21, "Tutorial") -- _t
 section "game/modules/tome/data/zones/unhallowed-morass/grids.lua"
 
 tDef(35, "Temporal Rift") -- entity name
+tDef(40, "The rift leads to another part of the morass.") -- _t
 tDef(53, "The rift has brought you back to Point Zero, and the source of the disturbances.\
 A temporal defiler is attacking the town, all the Keepers in range are attacking it!") -- _t
 tDef(53, "Point Zero") -- _t
@@ -32569,9 +33885,10 @@ tDef(21, "Caverns to the hidden valley") -- _t
 section "game/modules/tome/data/zones/valley-moon/grids.lua"
 
 tDef(26, "moonstone") -- entity name
-tDef(37, "floor") -- entity type
 tDef(37, "grass") -- entity subtype
+tDef(37, "floor") -- entity type
 tDef(39, "Fearscape Portal") -- entity name
+tDef(44, "An invocation portal, perpetually summoning beings through it.") -- _t
 
 
 ------------------------------------------------
@@ -32597,6 +33914,8 @@ tDef(21, "Ithilthum, Valley of the Moon") -- _t
 section "game/modules/tome/data/zones/void/grids.lua"
 
 tDef(33, "Temporal Rift") -- entity name
+tDef(38, "The rift leads... somewhere.") -- _t
+tDef(44, "Temporal Warden") -- _t
 
 
 ------------------------------------------------
@@ -32769,6 +34088,7 @@ tDef(801, "The arid wastes of Erúan") -- entity name
 section "game/modules/tome/data/zones/wilderness/zone.lua"
 
 tDef(21, "World of Eyal") -- _t
+tDef(22, "Eyal") -- _t
 
 
 ------------------------------------------------
@@ -32815,6 +34135,10 @@ tDef(417, "Basic Gameplay (recommended)") -- _t
 tDef(419, "Cancel") -- _t
 tDef(520, "This is the name of your character.\
 Right mouse click to generate a random name based on race and sex.") -- _t
+tDef(937, "\
+\
+#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available.") -- _t
+tDef(970, "-- locked --") -- _t
 tDef(1088, "Characters Vault") -- _t
 tDef(1106, " Load ") -- _t
 tDef(1107, "Delete") -- _t
@@ -32833,6 +34157,7 @@ tDef(1391, "Later") -- _t
 tDef(1395, "Select a Tile") -- _t
 tDef(1639, "Use default tile") -- _t
 tDef(1644, "Use custom-made tile") -- _t
+tDef(1645, "Howto: Custom-made tiles") -- _t
 tDef(1645, "You can use your own custom tiles if you are a donator.\
 For the game to use them you must simply respect a few rules:\
 - they must be 64x64 or 64x128 tiles\
@@ -32840,13 +34165,12 @@ For the game to use them you must simply respect a few rules:\
 - you must place them in folder #LIGHT_BLUE#%s#WHITE#\
 \
 Once you have done so, simply restart the game and the tiles will be listed at the bottom of the list.") -- tformat
-tDef(1645, "Howto: Custom-made tiles") -- _t
 tDef(1687, "Cosmetic Options") -- _t
 tDef(1692, "Name") -- _t
 tDef(1714, "Cosmetic customization is a donator-only feature.") -- _t
 tDef(1714, "Donator Feature") -- _t
-tDef(1716, "Dismiss") -- _t
 tDef(1716, "I want to help!") -- _t
+tDef(1716, "Dismiss") -- _t
 tDef(1765, "Birth Options") -- _t
 tDef(1789, "Apply the selected cosmetics to %s?") -- tformat
 tDef(1789, "Confirm") -- _t
@@ -32860,15 +34184,15 @@ tDef(53, "[G]eneral") -- _t
 tDef(54, "[A]ttack") -- _t
 tDef(55, "[D]efense") -- _t
 tDef(56, "[T]alents") -- _t
-tDef(59, "off") -- _t
 tDef(59, "main") -- _t
+tDef(59, "off") -- _t
 tDef(70, "#RED#Displaying %s set for %s (equipment NOT switched)") -- logPlayer
 tDef(79, "[E]quipment: %s set") -- tformat
 tDef(82, "Sort: %s") -- tformat
-tDef(90, "Sort:  %s") -- tformat
-tDef(90, "Groups") -- _t
-tDef(90, "Name") -- _t
 tDef(90, "Type") -- _t
+tDef(90, "Groups") -- _t
+tDef(90, "Sort:  %s") -- tformat
+tDef(90, "Name") -- _t
 tDef(94, "Manage [I]nventory") -- _t
 tDef(98, "[L]evelup") -- _t
 tDef(107, "Values #00FF00#in brackets ( )#LAST# show changes made from last character sheet checking.\
@@ -32886,19 +34210,19 @@ tDef(132, "#GOLD#Days adventuring / current month:#LAST# %d / %s\
 ") -- tformat
 tDef(212, "Poison") -- _t
 tDef(213, "Bleed") -- _t
-tDef(213, "Disease") -- _t
 tDef(213, "Confusion") -- _t
-tDef(214, "Blindness") -- _t
+tDef(213, "Disease") -- _t
 tDef(214, "Silence") -- _t
+tDef(214, "Blindness") -- _t
 tDef(214, "Disarm") -- _t
-tDef(215, "Pinning") -- _t
 tDef(215, "Stun/Freeze") -- _t
 tDef(215, "Sleep") -- _t
-tDef(216, "Knockback") -- _t
+tDef(215, "Pinning") -- _t
 tDef(216, "Stoning") -- _t
+tDef(216, "Knockback") -- _t
 tDef(216, "Fear") -- _t
-tDef(217, "Instant death") -- _t
 tDef(217, "Teleportation") -- _t
+tDef(217, "Instant death") -- _t
 tDef(218, "#GOLD#All Status     ") -- _t
 tDef(219, "#ORANGE#Mental Status  ") -- _t
 tDef(220, "#ORANGE#Physical Status") -- _t
@@ -32906,13 +34230,13 @@ tDef(221, "#ORANGE#Magical Status ") -- _t
 tDef(431, "Inventory") -- _t
 tDef(481, "Online URL: #LIGHT_BLUE##{underline}#%s#{normal}#") -- tformat
 tDef(485, "You can find your character sheet online") -- _t
-tDef(603, "Sex  : ") -- _t
-tDef(603, "Female") -- _t
 tDef(603, "Male") -- _t
-tDef(604, "Race : ") -- _t
+tDef(603, "Female") -- _t
+tDef(603, "Sex  : ") -- _t
 tDef(604, "Type : ") -- _t
-tDef(607, "Stype: ") -- _t
+tDef(604, "Race : ") -- _t
 tDef(607, "Class: ") -- _t
+tDef(607, "Stype: ") -- _t
 tDef(609, "Antimagic adherent") -- _t
 tDef(609, "Zigur follower") -- _t
 tDef(613, "Size : ") -- _t
@@ -32920,7 +34244,10 @@ tDef(615, "Level: #00ff00#%d") -- tformat
 tDef(616, "Exp  : #00ff00#%2d%%") -- tformat
 tDef(617, "Gold : #00ff00#%0.2f") -- tformat
 tDef(621, "#LIGHT_BLUE#Resources:") -- _t
+tDef(622, "%+.0f max") -- _t
 tDef(626, "#c00000#Life    : #00ff00#%d/%s") -- tformat
+tDef(638, "max") -- _t
+tDef(638, "min") -- _t
 tDef(642, "No Description") -- _t
 tDef(651, "%s%-8.8s: #00ff00#%s ") -- tformat
 tDef(653, "#GOLD#%s Recovery/Depletion#LAST#\
@@ -32969,8 +34296,8 @@ tDef(911, "Archery      : #00ff00#%s, %s") -- tformat
 tDef(921, "#LIGHT_BLUE#Main Hand") -- _t
 tDef(924, "#LIGHT_BLUE#Unarmed") -- _t
 tDef(932, "#LIGHT_BLUE#Offhand%s") -- tformat
-tDef(937, "#LIGHT_BLUE#Offhand-Dual Weapon%s") -- tformat
 tDef(937, " (disabled)") -- _t
+tDef(937, "#LIGHT_BLUE#Offhand-Dual Weapon%s") -- tformat
 tDef(941, "#LIGHT_BLUE#Psionic Focus") -- _t
 tDef(946, "#LIGHT_BLUE#Physical:") -- _t
 tDef(948, "Phys. Power: #00ff00#%s") -- tformat
@@ -33005,6 +34332,7 @@ tDef(1103, "Physical: #00ff00#%s") -- tformat
 tDef(1105, "Spell   : #00ff00#%s") -- tformat
 tDef(1107, "Mental  : #00ff00#%s") -- tformat
 tDef(1118, "#LIGHT_BLUE#Resistances   : base / cap:") -- _t
+tDef(1131, "All") -- _t
 tDef(1146, "Absolute") -- _t
 tDef(1163, "Speed Res") -- _t
 tDef(1205, "#ORANGE#vs %-11s#LAST#: #00ff00#%3s %s") -- tformat
@@ -33013,6 +34341,15 @@ tDef(1236, "#LIGHT_BLUE#Flat resistances:") -- _t
 tDef(1241, "All damage    : #00ff00#%s") -- tformat
 tDef(1258, "#LIGHT_BLUE#Effect resistances:") -- _t
 tDef(1294, "#LIGHT_BLUE#Damage when hit:") -- _t
+tDef(1323, "race/.*") -- _t
+tDef(1326, "Inscriptions") -- _t
+tDef(1328, "Prodigies") -- _t
+tDef(1330, "Item_Talents") -- _t
+tDef(1338, "Talents") -- _t
+tDef(1341, "Sustained") -- _t
+tDef(1341, "Passive") -- _t
+tDef(1345, "Activated") -- _t
+tDef(1345, "Instant") -- _t
 
 
 ------------------------------------------------
@@ -33626,8 +34963,10 @@ tDef(33, "Inventory") -- _t
 ------------------------------------------------
 section "game/modules/tome/dialogs/ShowLore.lua"
 
-tDef(36, "Lore") -- _t
 tDef(43, "Search: ") -- _t
+tDef(46, "") -- _t
+tDef(47, "Lore") -- _t
+tDef(48, "Category") -- _t
 tDef(101, "#GOLD#Category:#AQUAMARINE# %s\
 #GOLD#Found as:#0080FF# %s\
 #GOLD#Text:#ANTIQUE_WHITE# %s") -- tformat
@@ -33793,8 +35132,10 @@ tDef(133, "") -- _t
 tDef(143, " Force all BONUS stats to: ") -- _t
 tDef(158, "Learn Talents ") -- _t
 tDef(166, "Unlock & Learn all available talents to level: ") -- _t
+tDef(166, "maximum allowed") -- _t
 tDef(181, "Ignore requirements") -- _t
 tDef(191, "Force all talent mastery levels to (0.1-5.0): ") -- _t
+tDef(191, "no change") -- _t
 tDef(209, "Unlock all talent types (slow)") -- _t
 tDef(219, "Accept") -- _t
 tDef(220, "Cancel") -- _t
@@ -33905,12 +35246,14 @@ tDef(70, "#LIGHT_BLUE#God mode ON") -- log
 tDef(75, "#LIGHT_BLUE#Demi-God mode OFF") -- log
 tDef(78, "#LIGHT_BLUE#Demi-God mode ON") -- log
 tDef(83, "#LIGHT_BLUE#Revealing Map.") -- log
-tDef(99, "Zone: %s") -- tformat
 tDef(99, "Level 1-%s") -- tformat
-tDef(121, "Remove all (non-party) creatures or kill them for the player (awards experience and drops loot)?") -- _t
+tDef(99, "Zone: %s") -- tformat
 tDef(121, "Kill or Remove") -- _t
+tDef(121, "Remove all (non-party) creatures or kill them for the player (awards experience and drops loot)?") -- _t
 tDef(131, "#GREY#Removing [%s] %s at (%s, %s)") -- log
 tDef(134, "#GREY#Killing [%s] %s at (%s, %s)") -- log
+tDef(139, "Killed") -- _t
+tDef(139, "Removed") -- _t
 tDef(139, "#LIGHT_BLUE#%s %d creatures.") -- log
 tDef(141, "Kill") -- _t
 tDef(141, "Remove") -- _t
@@ -34008,16 +35351,33 @@ section "game/modules/tome/dialogs/debug/RandomObject.lua"
 tDef(44, "unknown") -- _t
 tDef(44, "#LIGHT_GREEN#(From %-10.60s, line: %s):#LAST#") -- tformat
 tDef(69, "None") -- _t
+tDef(69, "Don't apply a resolver") -- _t
 tDef(70, "Equipment") -- _t
+tDef(70, "Object will be equipped if possible, otherwise added to main inventory") -- _t
+tDef(84, "Object added to main inventory") -- _t
 tDef(85, "Drops") -- _t
+tDef(85, "Object added to main inventory (dropped on death)") -- _t
+tDef(86, "Tinker will be attached to a worn object") -- _t
 tDef(86, "Attach Tinker") -- _t
 tDef(87, "Drop Randart (auto data)") -- _t
+tDef(87, "Random Artifact (dropped on death) added to main inventory, uses the Base Object or Base Filter plus Randart Data as input") -- _t
 tDef(114, "Drop Randart") -- _t
+tDef(114, "Random Artifact (dropped on death) added to main inventory") -- _t
 tDef(154, "DEBUG -- Create Random Object") -- _t
+tDef(159, "Generate objects randomly subject to filters and create Random Artifacts.\
+Use \"Generate\" to create objects for preview and inspection.\
+Use \"Add Object\" to choose where to put the object and add it to the game.\
+(Mouse over controls for a preview of the generated object/working Actor. (Press #GOLD#'L'#LAST# to lua inspect.)\
+#SALMON#Resolvers#LAST# act on the working actor (default: player) to generate a SINGLE object.\
+They use the #LIGHT_GREEN#Random filter#LAST# as input unless noted otherwise and control object destination.\
+Filters are interpreted by ToME and engine entity/object generation functions (game.zone:checkFilter, etc.).\
+Interpretation of tables is within the _G environment (used by the Lua Console) using the current zone's #YELLOW_GREEN#object_list#LAST#.\
+Hotkeys: #GOLD#'F1'#LAST# :: context sensitive help, #GOLD#'C'#LAST# :: Working Character Sheet, #GOLD#'I'#LAST# :: Working Character Inventory.\
+") -- _t
 tDef(173, "The #LIGHT_GREEN#Random Filter#LAST# controls random generation of a normal object.") -- tformat
 tDef(184, "#GREY#None#LAST#") -- _t
-tDef(186, "Object") -- _t
 tDef(186, "%s: %s") -- tformat
+tDef(186, "Object") -- _t
 tDef(233, "#LIGHT_GREEN#Random Object#LAST#") -- _t
 tDef(239, "#LIGHT_GREEN#Random Filter:#LAST# ") -- _t
 tDef(254, "The #LIGHT_BLUE#Base Filter#LAST# is to generate a base object for building a Randart.") -- tformat
@@ -34049,8 +35409,8 @@ tDef(548, "#LIGHT_BLUE#Nothing to Lua inspect") -- log
 tDef(571, "table definition") -- _t
 tDef(571, "#LIGHT_BLUE#Bad %s: %s") -- log
 tDef(586, "#LIGHT_BLUE# Generate Random object using resolver: %s") -- log
-tDef(597, " (resolver: %s)") -- tformat
 tDef(597, "#LIGHT_BLUE# New random%s object: %s") -- log
+tDef(597, " (resolver: %s)") -- tformat
 tDef(600, "#LIGHT_BLUE#Could not generate a random object with filter: %s") -- log
 tDef(604, "#LIGHT_BLUE#ERROR generating random object with filter [%s].\
  Error: %s") -- log
@@ -34082,6 +35442,8 @@ tDef(119, "#LIGHT_BLUE#Actor [%s]%s already occupies (%d, %d)") -- log
 tDef(131, "#LIGHT_BLUE#Added %s[%s]%s at (%d, %d)") -- log
 tDef(155, "#YELLOW#Random Actor#LAST#") -- _t
 tDef(159, "#PINK#Test Dummy#LAST#") -- _t
+tDef(162, "Test Dummy") -- _t
+tDef(163, "Test dummy.") -- _t
 
 
 ------------------------------------------------
@@ -34273,6 +35635,92 @@ tDef(136, "Random spells") -- _t
 tDef(138, "Each time Arcane Combat is triggered, a random allowed spell will be used.") -- _t
 tDef(148, "All known spells that can be used with Arcane Combat.") -- _t
 tDef(148, "#{bold}#Choose a spell#{normal}#") -- _t
+
+
+------------------------------------------------
+section "game/modules/tome/init.lua"
+
+tDef(21, "Tales of Maj'Eyal: Age of Ascendancy") -- init.lua long_name
+tDef(27, "Welcome to Maj'Eyal.\
+\
+This is the Age of Ascendancy. After over ten thousand years of strife, pain and chaos the known world is at last at relative peace.\
+The last effects of the #FF0000#Spellblaze#WHITE# have been tamed. The land slowly heals itself and the civilisations rebuild themselves after the Age of Pyre.\
+\
+It has been one hundred and twenty-two years since the Allied Kingdoms were established under the rule of #14fffc#Toknor#ffffff# and his wife #14fffc#Mirvenia#ffffff#.\
+Together they ruled the kingdoms with fairness and brought prosperity to both Halflings and Humans.\
+The King died of old age fourteen years ago, and his son #14fffc#Tolak#ffffff# is now King.\
+\
+The Elven kingdoms are quiet. The Shaloren Elves in their home of Elvala are trying to make the world forget about their role in the Spellblaze and are living happy lives under the leadership of #14fffc#Aranion Gayaeil#ffffff#.\
+The Thaloren Elves keep to their ancient tradition of living in the woods, ruled as always by #14fffc#Nessilla Tantaelen#ffffff# the wise.\
+\
+The Dwarves of the Iron Throne have maintained a careful trade relationship with the Allied Kingdoms for nearly one hundred years, yet not much is known about them, not even their leader's name.\
+\
+While the people of Maj'Eyal know that the mages helped put an end to the terrors of the Spellblaze, they also did not forget that it was magic that started those events. As such, mages are still shunned from society, if not outright hunted down.\
+Still, this is a golden age. Civilisations are healing the wounds of thousands of years of conflict, and the Humans and the Halflings have made a lasting peace.\
+\
+You are an adventurer, set out to discover wonders, explore old places, and venture into the unknown for wealth and glory.\
+") -- init.lua description
+tDef(85, "Though magic is still shunned in Maj'Eyal, rumours abound of secret havens of mages.") -- init.lua load_tips
+tDef(86, "The Rush talent lets you close in on an enemy quickly and daze them, disabling them whilst you hack down their friends.") -- init.lua load_tips
+tDef(87, "Stunning an opponent slows down their movement and reduces their damage output, giving you the opportunity to tactically reposition or finish them off at less risk.") -- init.lua load_tips
+tDef(88, "Movement is key on the battlefield. A stationary fighter will become a dead fighter. One must always seek the position of greatest tactical advantage and continue to re-evaluate throughout the battle.") -- init.lua load_tips
+tDef(89, "In the Age of Pyre the orcs learned the secrets of magic, and with their newfound powers nearly overcame the whole of Maj'Eyal.") -- init.lua load_tips
+tDef(90, "The orcs once terrorised the whole continent. In the Age of Ascendancy they were rendered extinct, but rumours abound of hidden groups biding their time to return.") -- init.lua load_tips
+tDef(91, "Intense willpower lets wyrmics take on the natural powers of dragons.") -- init.lua load_tips
+tDef(92, "Alchemists can transmute gems to create fiery explosions, and are known to travel with a sturdy golem for extra protection.") -- init.lua load_tips
+tDef(93, "In the Age of Pyre the giant golem Atamathon was built with the sole purpose of stopping the orcish leader Garkul the Devourer. The golem was single-handedly destroyed by the orc, who then slaughtered an army of thousands before the demonic fighter was finally slain.") -- init.lua load_tips
+tDef(94, "None know what the Sher'Tul looked like, or what caused them all to disappear thousands of years ago. Their rare ruins are a source of mystery and terror.") -- init.lua load_tips
+tDef(95, "In deep places dark things dwell beyond description or understanding. None know the source of these hideous horrors.") -- init.lua load_tips
+tDef(96, "Who knows what dark thoughts drive people to necromancy? Its art is as old as magic itself, and its creations have plagued all the races since the earliest memories.") -- init.lua load_tips
+tDef(97, "Some say that in their early days the Shaloren kings experimented with necromancy to preserve their flesh after death, but with little success. The Shaloren vehemently deny this.") -- init.lua load_tips
+tDef(98, "120 years ago Toknor and Mirvenia united the human and halfling kingdoms and wiped out the orcish race, thus establishing the Age of Ascendancy.") -- init.lua load_tips
+tDef(99, "\"The Spellblaze tore Eyal apart and nearly brought about the end of all civilisation. Two thousand years on its shadow still hangs over many lands, and the prideful mages have never been forgiven their place in bringing it about.") -- init.lua load_tips
+tDef(100, "Some are cursed with mental powers beyond their full control, turning them to a dark life powered by hatred.") -- init.lua load_tips
+tDef(101, "Dreadfell has always been shunned for its haunted crypts, but of late rumours tell of a darker and more terrible power in residence.") -- init.lua load_tips
+tDef(102, "Some Sher'Tul artifacts can still be found in hidden places, but it is said they are not to be trifled with.") -- init.lua load_tips
+tDef(103, "Drakes and wyrms are the strongest natural creatures in the world, capable of powers far beyond most other beings.") -- init.lua load_tips
+tDef(104, "Giant worms tear open huge passageways through the deserts in the west. It is said great riches lie buried beneath the sand, still decorating the corpses of those who went there seeking great riches.") -- init.lua load_tips
+tDef(105, "Arcane Blades employ a fusion of melee and magical combat. Their training is harsh but the most dedicated rise to great powers.") -- init.lua load_tips
+tDef(106, "Wild infusions call upon the powers of nature to protect the flesh and rid oneself of afflictions.") -- init.lua load_tips
+tDef(107, "Shield runes act instantly, letting one protect oneself quickly whilst also preparing to flee or launch a counter attack.") -- init.lua load_tips
+tDef(108, "Greater training in the use of armour lets it be used more effectively, blocking more damage and reducing the chance of an enemy hitting a critical spot.") -- init.lua load_tips
+tDef(109, "The Thick Skin talent reduces all incoming damage, letting you survive for longer before needing to heal.") -- init.lua load_tips
+tDef(110, "Regeneration infusions act over several turns, letting you anticipate damage that will be taken and prepare for it.") -- init.lua load_tips
+tDef(111, "In the most dire circumstances teleportation can be the best escape, but is not without risk.") -- init.lua load_tips
+tDef(112, "The Ziguranth are an ancient order vehemently opposed to magic. Some have become so attuned to nature they can resist arcane forces with their will alone.") -- init.lua load_tips
+tDef(113, "Records say that giants once lived civilised lives, with mastery of many crafts and sciences. Now, though, they have adopted nomadic cultures, turning hostile against those that encroach on their lands.") -- init.lua load_tips
+tDef(114, "Zigur was founded by escapees of Conclave experiments during the Allure wars between humans and halflings.") -- init.lua load_tips
+tDef(115, "The Thaloren and Shaloren elves have never had good relations, and have been outright hostile since the Spellblaze devastated many Thaloren lands.") -- init.lua load_tips
+tDef(116, "The third elven race, the Naloren, were rendered extinct after a huge cataclysm swept the eastern side of Maj'Eyal into the sea.") -- init.lua load_tips
+tDef(117, "Trolls were once seen as little more than beasts or pests, but the orcs trained them up for use in war and they became much more intelligent and fearsome.") -- init.lua load_tips
+tDef(118, "Some say that the foot of a halfling is lucky to own. Halflings do not take well to those who enquire too forcefully.") -- init.lua load_tips
+tDef(119, "The Nargol empire was once the largest force in Maj'Eyal, but a combination of the Spellblaze and orcish attacks have dwindled it into insignificance.") -- init.lua load_tips
+tDef(120, "Some of the most powerful undead do not fall easily, and only through extreme persistence can they be put to rest.") -- init.lua load_tips
+tDef(121, "History says little of the ancient race of yeeks that lived in halfling territory, but vanished before the time of the Spellblaze.") -- init.lua load_tips
+tDef(122, "Dwarves are naturally a inquisitive people, but do not enjoy such inquisition turned on them. Most live secretive lives in their closed-off city, the Iron Throne.") -- init.lua load_tips
+tDef(123, "Alchemists can bind gems to armour to grant them magical effects, to protect the wearer or improve their powers. Some commercial alchemists can imbue gems into jewellery.") -- init.lua load_tips
+tDef(124, "The Spellblaze was followed by the Age of Dusk, when disease was rife and civilisation collapsed. Necromancers and fell sorcerers took advantage of the chaos to spread their vile deeds.") -- init.lua load_tips
+tDef(125, "After the Spellblaze came the Spellhunt, when the normal people rose against the arrogance of the mages and hunted them down like wolves. Some survived and went into hiding, but many innocents were killed.") -- init.lua load_tips
+tDef(126, "Demons are thought to come from another world, brought to Eyal by magical forces. Some are highly intelligent and follow their own ambitions. To what end, none know.") -- init.lua load_tips
+tDef(127, "The art of potion making fell into decline after the Spellhunt, and only a rare few now master the gift.") -- init.lua load_tips
+tDef(128, "It's said that some rare powers can save your soul from the edge of death.") -- init.lua load_tips
+tDef(129, "Rumours tell of a shadowy cult kidnapping women and performing strange rites. Their intentions are unknown, and they have so far evaded capture.") -- init.lua load_tips
+tDef(130, "Though slavery is illegal there is still a black market for it, and in some areas men are even used for blood sports.") -- init.lua load_tips
+tDef(131, "Maj'Eyal is the biggest continent in the world of Eyal. Though records suggest other continents and islands may exist it has not been possible to cross the wide and stormy oceans since the Spellblaze and the Cataclysm.") -- init.lua load_tips
+tDef(132, "The effects of the Spellblaze were not all instant, and many centuries later the Cataclysm tore the continent apart once more, devastating coastal areas the destroying all of the Naloren lands.") -- init.lua load_tips
+tDef(133, "Archers are fast and deadly, and with pinning shots can render their foes helpless as they swiftly dispatch them.") -- init.lua load_tips
+tDef(134, "Reavers are powerful fighters with corrupted blood, and the strength to wield a one-handed weapon in each arm.") -- init.lua load_tips
+tDef(135, "Corruptors feed off the essence of others, and can use their own corrupted blood to launch deadly magical attacks.") -- init.lua load_tips
+tDef(136, "Clever rogues can lay traps to damage or debilitate their foes without having to go near them.") -- init.lua load_tips
+tDef(137, "Rogues can move silently and stealthily, letting them approach foes unaware or avoid them entirely.") -- init.lua load_tips
+tDef(138, "A movement infusion can let you quickly approach a ranged opponent, or quickly escape a melee one.") -- init.lua load_tips
+tDef(139, "Invisibility lets you escape notice, giving you the freedom to move or recover your resources, but reduces your damage.") -- init.lua load_tips
+tDef(140, "Poison is the domain of assassins and master rogues, and its cunning use can cripple or kill enemies over a long fight.") -- init.lua load_tips
+tDef(141, "Summoners can call upon a variety of natural creatures to protect and support them, reducing the risk to their own flesh considerably.") -- init.lua load_tips
+tDef(142, "The highest sorcerers are known as archmages, and the masters amongst them are said to have the power to change the world. They are feared immensely.") -- init.lua load_tips
+tDef(143, "Bulwarks are defensive fighters that can take hits more readily than other warriors whilst preparing for the most effective counter attacks.") -- init.lua load_tips
+tDef(144, "Brawlers are trained in the use of their fists and mastery of their bodies. They can be as dangerous in combat as any swordsman.") -- init.lua load_tips
+tDef(145, "Lightning is a chaotic element that is hard to control. It is said that those most attuned to it are eventually driven insane.") -- init.lua load_tips
 
 
 ------------------------------------------------

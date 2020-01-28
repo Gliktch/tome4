@@ -730,12 +730,12 @@ function _M:canLearnTalent(t, offset, ignore_special)
 		if req.stat then
 			for s, v in pairs(req.stat) do
 				v = util.getval(v, tlev)
-				if self:getStat(s) < v then return nil, "not enough stat: "..s:upper() end
+				if self:getStat(s) < v then return nil, ("not enough stat: %s"):tformat(s:upper()) end
 			end
 		end
 		if req.level then
 			if self.level < util.getval(req.level, tlev) then
-				return nil, "not enough levels"
+				return nil, _t"not enough levels"
 			end
 		end
 		if req.special and not ignore_special then
@@ -757,28 +757,28 @@ function _M:canLearnTalent(t, offset, ignore_special)
 			for _, tid in ipairs(req.talent) do
 				if type(tid) == "table" then
 					if type(tid[2]) == "boolean" and tid[2] == false then
-						if self:knowTalent(tid[1]) then return nil, "missing dependency" end
+						if self:knowTalent(tid[1]) then return nil, _t"missing dependency" end
 					else
-						if self:getTalentLevelRaw(tid[1]) < tid[2] then return nil, "missing dependency" end
+						if self:getTalentLevelRaw(tid[1]) < tid[2] then return nil, _t"missing dependency" end
 					end
 				else
-					if not self:knowTalent(tid) then return nil, "missing dependency" end
+					if not self:knowTalent(tid) then return nil, _t"missing dependency" end
 				end
 			end
 		end
 		if req.birth_descriptors then
 			for _, d in ipairs(req.birth_descriptors) do
-				if not self.descriptor or self.descriptor[d[1]] ~= d[2] then return nil, ("is not %s"):format(d[2]) end
+				if not self.descriptor or self.descriptor[d[1]] ~= d[2] then return nil, ("is not %s"):tformat(d[2]) end
 			end
 		end
 	end
 
-	if not self:knowTalentType(t.type[1]) and not t.type_no_req then return nil, "unknown talent type" end
+	if not self:knowTalentType(t.type[1]) and not t.type_no_req then return nil, _t"unknown talent type" end
 
 	-- Check talent type
 	local known = self:numberKnownTalent(t.type[1], t.id, t.type[2])
 	if t.type[2] and known < t.type[2] - 1 then
-		return nil, "not enough talents of this type known"
+		return nil, _t"not enough talents of this type known"
 	end
 
 	-- Ok!

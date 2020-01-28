@@ -60,7 +60,7 @@ for i = 1, 3 do
 		who:runStop(_t"weird pedestal")
 		if self.pedestal_activated then return false end
 		require("engine.ui.Dialog"):yesnoPopup(_t"Weird Pedestal", _t"Do you wish to inspect the pedestal?", function(ret) if ret then
-			who:restInit(20, "inspecting", "inspected", function(cnt, max)
+			who:restInit(20, _t"inspecting", _t"inspected", function(cnt, max)
 				if cnt > max then
 					self.pedestal_activated = true
 					self.block_move = nil

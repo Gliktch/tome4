@@ -140,7 +140,7 @@ function win(self, how)
 
 	local p = game:getPlayer(true)
 	p.winner = how
-	game:registerDialog(require("engine.dialogs.ShowText").new("Winner", "win", {playername=p.name, how=how}, game.w * 0.6))
+	game:registerDialog(require("engine.dialogs.ShowText").new(_t"Winner", "win", {playername=p.name, how=how}, game.w * 0.6))
 
 	-- Save the winner, if alive
 	if not p.dead then

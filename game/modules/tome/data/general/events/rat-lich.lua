@@ -33,7 +33,7 @@ local changer = function(id)
 	local terrains = mod.class.Grid:loadList("/data/general/grids/basic.lua")
 	terrains.UP_WILDERNESS.change_level_shift_back = true
 	terrains.UP_WILDERNESS.change_zone_auto_stairs = true
-	terrains.UP_WILDERNESS.name = "way up to "..game.zone.name
+	terrains.UP_WILDERNESS.name = ("way up to %s"):tformat(game.zone.name)
 	terrains.UP_WILDERNESS.change_zone = game.zone.short_name
 	terrains.UP_WILDERNESS.change_level = 1
 	terrains.UP_WILDERNESS.change_level_check = function(self)
@@ -151,7 +151,7 @@ end
 local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
 g.name = _t"stairway leading downwards"
 g.always_remember = true
-g.desc = [[Stairs seem to lead into some kind of crypt.]]
+g.desc=_t[[Stairs seem to lead into some kind of crypt.]]
 g.show_tooltip = true
 g.display='>' g.color_r=0 g.color_g=0 g.color_b=255 g.notice = true
 g.change_level=1 g.change_zone=id g.glow=true
@@ -169,7 +169,7 @@ g.change_level_check = function(self)
 	self.change_level_check = nil
 	self.change_level = nil
 	self.name = "collapsed forsaken crypt"
-	self.desc = [[Stairs lead downwards into rubble.]]
+	self.desc=_t[[Stairs lead downwards into rubble.]]
 	self.autoexplore_ignore = true
 	self.special_minimap = colors.VIOLET
 	return true

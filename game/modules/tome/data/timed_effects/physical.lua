@@ -546,7 +546,7 @@ newEffect{
 		if core.fov.distance(self.x, self.y, eff.src.x, eff.src.y) > 1 or eff.src.dead or not game.level:hasEntity(eff.src) then
 			return true
 		end
-		self:suffocate(eff.power, eff.src, (" was constricted to death by %s."):tformat(eff.src.unique and eff.src.name or eff.src.name:a_an()))
+		self:suffocate(eff.power, eff.src, (" was constricted to death by %s."):tformat(eff.src.unique and eff.src.name or eff.src:getName():a_an()))
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("never_move", eff.tmpid)
@@ -1729,7 +1729,7 @@ newEffect{
 newEffect{
 	name = "WATERS_OF_LIFE", image = "talents/waters_of_life.png",
 	desc = _t"Waters of Life",
-	long_desc = function(self, eff) return ("The target purifies all diseases and poisons, turning them into healing effects.") end,
+	long_desc = function(self, eff) return (_t"The target purifies all diseases and poisons, turning them into healing effects.") end,
 	type = "physical",
 	subtype = { nature=true, heal=true },
 	status = "beneficial",
@@ -1801,7 +1801,7 @@ newEffect{
 	name = "HEALING_NEXUS", image = "talents/healing_nexus.png",
 	desc = _t"Healing Nexus Redirection",
 	long_desc = function(self, eff)
-		return ("All direct healing done to the target fails, and is instead redirected to %s at %d%% effectiveness."):tformat(eff.src.name, eff.pct * 100, eff.src.name)
+		return ("All direct healing done to the target fails, and is instead redirected to %s at %d%% effectiveness."):tformat(eff.src:getName(), eff.pct * 100, eff.src:getName())
 	end,
 	type = "physical",
 	subtype = { nature=true, heal=true },
@@ -1952,7 +1952,7 @@ newEffect{
 newEffect{
 	name = "OFFBALANCE",
 	desc = _t"Off-balance",
-	long_desc = function(self, eff) return ("Badly off balance. Global damage is reduced by 15%.") end,
+	long_desc = function(self, eff) return (_t"Badly off balance. Global damage is reduced by 15%.") end,
 	type = "physical",
 	subtype = { ["cross tier"]=true },
 	status = "detrimental",
@@ -1970,7 +1970,7 @@ newEffect{
 newEffect{
 	name = "OFFGUARD",
 	desc = _t"Off-guard", image = "talents/precise_strikes.png",
-	long_desc = function(self, eff) return ("Badly off guard. Attackers gain a 10% bonus to physical critical strike chance and physical critcal strike power.") end,
+	long_desc = function(self, eff) return (_t"Badly off guard. Attackers gain a 10% bonus to physical critical strike chance and physical critcal strike power.") end,
 	type = "physical",
 	subtype = { ["cross tier"]=true },
 	status = "detrimental",
@@ -2365,7 +2365,7 @@ newEffect{
 					if src:canBe("disarm") then
 						src:setEffect(src.EFF_DISARMED, 3, {apply_power=self:combatPhysicalpower()})
 					else
-						game.logSeen(src, "%s resists the disarming attempt!", src.name:capitalize())
+						game.logSeen(src, "%s resists the disarming attempt!", src:getName():capitalize())
 					end
 				end
 				if eff.properties.on_cs then
@@ -2670,7 +2670,7 @@ newEffect{
 newEffect{
 	name = "STEAMROLLER", image = "talents/steamroller.png",
 	desc = _t"Steamroller",
-	long_desc = function(self, eff) return ("Resets Rush cooldown if killed.") end,
+	long_desc = function(self, eff) return (_t"Resets Rush cooldown if killed.") end,
 	type = "physical",
 	subtype = { status=true },
 	status = "detrimental",
@@ -2709,7 +2709,7 @@ newEffect{
 newEffect{
 	name = "SPINE_OF_THE_WORLD", image = "talents/spine_of_the_world.png",
 	desc = _t"Spine of the World",
-	long_desc = function(self, eff) return ("Immune to physical effects.") end,
+	long_desc = function(self, eff) return (_t"Immune to physical effects.") end,
 	type = "physical",
 	subtype = { status=true },
 	status = "beneficial",
@@ -3238,15 +3238,15 @@ newEffect{
 	desc = _t"Garrote",
 	long_desc = function(self, eff)
 		local silence = eff.silence > 0 and eff.silenceid and ("  It is silenced for the next %d turn(s), preventing it from casting spells and using some vocal talents."):tformat(eff.silence) or ""
-		return ("The target is being garrotted by %s, rendering it unable to move and subject to an automatic unarmed attack (at %d%% damage) each turn.%s"):tformat(eff.src and eff.src.name or _t"something", eff.power*100, silence) 
+		return ("The target is being garrotted by %s, rendering it unable to move and subject to an automatic unarmed attack (at %d%% damage) each turn.%s"):tformat(eff.src and eff.src:getName() or _t"something", eff.power*100, silence) 
 	end,
 	type = "physical",
 	subtype = { grapple=true, pin=true },
 	status = "detrimental",
 	parameters = { power = 0.6, silence=0},
 	remove_on_clone = true,
-	on_gain = function(self, eff) return ("%s has garroted #Target#!"):tformat(eff.src and eff.src.name or _t"Something"), _t"+Garrote" end,
-	on_lose = function(self, eff) return ("#Target# is free from %s's garrote."):tformat(eff.src and eff.src.name or _t"something"), _t"-Garrote" end,
+	on_gain = function(self, eff) return ("%s has garroted #Target#!"):tformat(eff.src and eff.src:getName() or _t"Something"), _t"+Garrote" end,
+	on_lose = function(self, eff) return ("#Target# is free from %s's garrote."):tformat(eff.src and eff.src:getName() or _t"something"), _t"-Garrote" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "never_move", 1)
 		if eff.silence > 0 then eff.silenceid = self:addTemporaryValue("silence", 1) end
@@ -3698,7 +3698,7 @@ newEffect{
 newEffect{
 	name = "STONE_LINK", image = "talents/stone_link.png",
 	desc = _t"Stone Link",
-	long_desc = function(self, eff) return ("The target is protected by %s, redirecting all damage to it."):tformat(eff.src.name) end,
+	long_desc = function(self, eff) return ("The target is protected by %s, redirecting all damage to it."):tformat(eff.src:getName()) end,
 	type = "physical",
 	subtype = { earth=true, shield=true },
 	status = "beneficial",

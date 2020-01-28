@@ -128,7 +128,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as = "RIFT_SWORD",
 		physcrit = 8,
 		dammod = {str=0.9,mag=0.2},
 		convert_damage={[DamageType.TEMPORAL] = 20},
-		special_on_hit = {desc="inflicts bonus temporal damage and slows target", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"inflicts bonus temporal damage and slows target", fct=function(combat, who, target)
 			local dam = (20 + who:getMag()/2)
 			local slow = (10 + who:getMag()/5)/100
 			who:project({type="hit", range=1}, target.x, target.y, engine.DamageType.CHRONOSLOW, {dam=dam, slow=slow})
@@ -184,7 +184,7 @@ newEntity{ base = "BASE_BATTLEAXE",
 		physcrit = 8,
 		dammod = {str=1.2},
 		melee_project={[DamageType.SLIME] = 50, [DamageType.ACID] = 50},
-		special_on_crit = {desc="deal manaburn damage equal to your mindpower in a radius 3 cone", on_kill=1, fct=function(combat, who, target)
+		special_on_crit = {desc=_t"deal manaburn damage equal to your mindpower in a radius 3 cone", on_kill=1, fct=function(combat, who, target)
 			who.turn_procs.gaping_maw = (who.turn_procs.gaping_maw or 0) + 1
 			local tg = {type="cone", range=10, radius=3, force_target=target, selffire=false}
 			local grids = who:project(tg, target.x, target.y, engine.DamageType.MANABURN, who:combatMindpower() / (who.turn_procs.gaping_maw))

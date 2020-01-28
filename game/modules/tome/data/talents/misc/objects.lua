@@ -520,7 +520,7 @@ newTalent{
 		local wait = function()
 			local co = coroutine.running()
 			local ok = false
-			self:restInit(best.digspeed, "digging", "dug", function(cnt, max)
+			self:restInit(best.digspeed, _t"digging", _t"dug", function(cnt, max)
 				if cnt > max then ok = true end
 				coroutine.resume(co)
 			end)

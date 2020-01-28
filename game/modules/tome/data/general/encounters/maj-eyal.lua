@@ -102,7 +102,7 @@ newEntity{
 		game.paused = true
 		who:runStop()
 		local Chat = require "engine.Chat"
-		local chat = Chat.new("sage-kitty", mod.class.NPC.new{name="Lost Kitty", image="npc/sage_kitty.png"}, who)
+		local chat = Chat.new("sage-kitty", mod.class.NPC.new{name=_t"Lost Kitty", image="npc/sage_kitty.png"}, who)
 		chat:invoke()
 		return true
 	end,

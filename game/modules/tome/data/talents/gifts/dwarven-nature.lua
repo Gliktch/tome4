@@ -123,7 +123,7 @@ newTalent{
 				game.party:addMember(m, {
 					control="no",
 					type="dwarven nature crystaline half",
-					title="Crystaline Half",
+					title=_t"Crystaline Half",
 					orders = {target=true},
 				})
 			end
@@ -166,7 +166,7 @@ newTalent{
 				game.party:addMember(m, {
 					control="no",
 					type="dwarven nature stone half",
-					title="Stone Half",
+					title=_t"Stone Half",
 					orders = {target=true},
 				})
 			end

@@ -127,7 +127,7 @@ end
 
 I18N:loadLocale("/data/locales/zh_CN.lua")
 I18N:setLocale("zh_CN")
-config.settings.tome.fonts = {type="chinese", size="normal"} 
+config.settings.tome.fonts = {type="chinese", size="big"} 
 
 
 -- Default resolution as big as possible

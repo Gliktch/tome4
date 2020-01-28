@@ -471,7 +471,7 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m] = resolvers.talents{ [self.T_WILD_RITCH_FLAMESPITTER_BOLT]=self:getTalentLevelRaw(t) }
 		end
 		m.is_nature_summon = true
@@ -597,7 +597,7 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_LIGHTNING_SPIT_HYDRA]=self:getTalentLevelRaw(t) }
 			m[#m+1] = resolvers.talents{ [self.T_ACID_SPIT_HYDRA]=self:getTalentLevelRaw(t) }
 			m[#m+1] = resolvers.talents{ [self.T_POISON_SPIT_HYDRA]=self:getTalentLevelRaw(t) }
@@ -716,7 +716,7 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_WINTER_S_GRASP]=self:getTalentLevelRaw(t) }
 		end
 		m.is_nature_summon = true
@@ -879,7 +879,7 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_AURA_OF_SILENCE]=self:getTalentLevelRaw(t) }
 		end
 		m.is_nature_summon = true

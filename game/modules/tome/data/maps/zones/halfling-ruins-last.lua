@@ -24,7 +24,7 @@ defineTile('>', "DOOR")
 quickEntity('>', {
 	always_remember = true,
 	show_tooltip=true,
-	name="Long tunnel to the island of Rel",
+	name=_t"Long tunnel to the island of Rel",
 	display='>',
 	image = "terrain/marble_floor.png", add_displays = {mod.class.Grid.new{image="terrain/stair_down.png"}},
 	color=colors.VIOLET,

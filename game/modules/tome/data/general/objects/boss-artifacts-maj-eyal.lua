@@ -41,9 +41,9 @@ It is said the Conclave created this weapon for their warmaster during the dark 
 	special_desc = function(self)
 		local storm = self.winterStorm
 		if not storm or storm.duration <=0 then
-			return ("No Winter Storm Active")
+			return (_t"No Winter Storm Active")
 		else
-			return ("Winter Storm: " .. ((storm.duration and storm.radius) and ("radius %d (%d turns remaining)"):tformat(math.floor(storm.radius), storm.duration) or "None"))
+			return (_t"Winter Storm: " .. ((storm.duration and storm.radius) and ("radius %d (%d turns remaining)"):tformat(math.floor(storm.radius), storm.duration) or _t"None"))
 		end
 	end,
 	combat = {
@@ -136,7 +136,7 @@ It is said the Conclave created this weapon for their warmaster during the dark 
 		inc_damage = { [DamageType.COLD] = 20 },
 	},
 	max_power = 40, power_regen = 1,
-	use_power = { name ="precipitate ice walls (lasting 10 turns) within your Winter Storm's area", power = 30,
+	use_power = { name =_t"precipitate ice walls (lasting 10 turns) within your Winter Storm's area", power = 30,
 		use = function(self, who)
 
 			local Object = require "mod.class.Object"
@@ -531,7 +531,7 @@ newEntity{ base = "BASE_HELM",
 
 	set_list = { {"define_as","SET_GARKUL_TEETH"} },
 	set_desc = {
-		garkul = "Another of Garkul's heirlooms would bring out his spirit.",
+		garkul = _t"Another of Garkul's heirlooms would bring out his spirit.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd("skullcracker_mult", 1)
@@ -897,7 +897,7 @@ newEntity{ base = "BASE_AMULET",
 			type = "undead", subtype = "vampire",
 			display = "V", image = "npc/elder_vampire.png",
 			name = "elder vampire", color=colors.RED,
-			desc=[[A terrible robed undead figure, this creature has existed in its unlife for many centuries by stealing the life of others. It can summon the very shades of its victims from beyond the grave to come enslaved to its aid.]],
+			desc=_t[[A terrible robed undead figure, this creature has existed in its unlife for many centuries by stealing the life of others. It can summon the very shades of its victims from beyond the grave to come enslaved to its aid.]],
 
 			combat = { dam=resolvers.levelup(80, 1, 4), atk=10, apr=who.level / 2, damtype=engine.DamageType.DRAINLIFE, dammod={str=1.9} },
 			combat_atk = resolvers.levelup(1, 1, 4),
@@ -956,7 +956,7 @@ newEntity{ base = "BASE_AMULET",
 				control="no",
 				temporary_level = true,
 				type="minion",
-				title="Vampire",
+				title=_t"Vampire",
 			})
 		end
 		self.summoned_vampire = vampire
@@ -1715,7 +1715,7 @@ newEntity{ base = "BASE_MINDSTAR", define_as = "PSIONIC_FURY",
 	max_power = 40, power_regen = 1,
 	use_power = {
 		name = function(self, who) return ("release a wave of psionic power, dealing %0.2f mind damage (based on Willpower) to all within radius %d"):
-		format(who:damDesc(engine.DamageType.MIND, self.use_power.damage(self, who)), self.use_power.radius) end,
+		tformat(who:damDesc(engine.DamageType.MIND, self.use_power.damage(self, who)), self.use_power.radius) end,
 		power = 40,
 		radius = 5,
 		range = 0,

@@ -19,11 +19,11 @@
 
 --I18N-TODO it should be done in a i18n-friendly style
 local function remove_materials(npc, player)
-	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond")
+	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond", {raw_name=true})
 	player:removeObject(gem_inven_id, gem_item, false)
 	gem_o:removed()
 
-	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame")
+	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame", {raw_name=true})
 	player:removeObject(athame_inven_id, athame_item, false)
 	athame_o:removed()
 
@@ -31,8 +31,8 @@ local function remove_materials(npc, player)
 end
 
 local function check_materials(npc, player)
-	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond")
-	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame")
+	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond", {raw_name=true})
+	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame", {raw_name=true})
 	return gem_o and athame_o and player.money >= 100
 end
 

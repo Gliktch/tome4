@@ -46,7 +46,7 @@ local changer = function(id)
 	grid_list.UP_SUB_VAULT_BACK.change_level_shift_back = true
 	grid_list.UP_SUB_VAULT_BACK.change_zone_auto_stairs = true
 
-	grid_list.UP_SUB_VAULT_BACK.name = "way up ("..game.zone.name..")"
+	grid_list.UP_SUB_VAULT_BACK.name = ("way up (%s)"):tformat(game.zone.name)
 	grid_list.UP_SUB_VAULT_BACK.change_level_check = function(self)
 		if not self.change_level then
 			game.log("#VIOLET# The stairway collapses completely as you ascend!")
@@ -114,7 +114,7 @@ end
 local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
 g.name = _t"hidden vault"
 g.always_remember = true
-g.desc = [[Crumbling stairs lead down to something.]]
+g.desc = _t[[Crumbling stairs lead down to something.]]
 g.show_tooltip = true
 g.display='>' g.color_r=0 g.color_g=0 g.color_b=255 g.notice = true
 g.special_minimap = colors.VIOLET
@@ -130,14 +130,14 @@ g:initGlow()
 g.real_change = changer
 g.change_level_check = function(self) -- limit stair scumming
 	self._use_count = self._use_count - 1
-	self.name = "collapsing hidden vault"
+	self.name = _t"collapsing hidden vault"
 	if self._use_count < 1 then
 		self.change_level_check = nil
 		self.change_level = nil
-		self.name = "collapsed hidden vault"
-		self.desc = [[A collapsed stairway, leading down]]
+		self.name = _t"collapsed hidden vault"
+		self.desc = _t[[A collapsed stairway, leading down]]
 	elseif self._use_count < 2 then
-		self.name = "nearly collapsed hidden vault"
+		self.name = _t"nearly collapsed hidden vault"
 	end
 	game:changeLevel(1, self.real_change(self.change_zone), {temporary_zone_shift=true, direct_switch=true})
 	return true

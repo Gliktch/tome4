@@ -477,7 +477,7 @@ newEntity{
 	greater_ego = 1,
 	cost = 5,
 	special_combat = {
-		special_on_hit = {desc="reduce the cooldown of your ward talent by 1", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"reduce the cooldown of your ward talent by 1", fct=function(combat, who, target)
 		if who.talents_cd[who.T_WARD] then
 			who.talents_cd[who.T_WARD] = who.talents_cd[who.T_WARD] - 1
 		end
@@ -669,7 +669,7 @@ newEntity{
 	special_combat = {
 		dam = resolvers.mbonus_material(5, 5),
 		special_on_crit = {
-			desc="Smash the target reducing mind, spell, and combat action speeds by 30%", 
+			desc=_t"Smash the target reducing mind, spell, and combat action speeds by 30%", 
 			fct=function(combat, who, target)
 				target:setEffect(target.EFF_CRIPPLE, 4, {src=who, apply_power=who:combatAttack(combat)})
 			end

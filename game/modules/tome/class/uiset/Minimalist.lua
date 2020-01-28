@@ -1146,12 +1146,12 @@ function _M:handleEffect(player, eff_id, e, p, x, y, hs, bx, by, is_first, scale
 	if not self.tbuff[eff_id..":"..dur..":"..charges] then
 		local name = e.desc
 		local desc = nil
-		local eff_subtype = table.concat(table.keys(e.subtype), "/")
+		local eff_subtype = table.concat(table.ts(table.keys(e.subtype)), "/")
 		if e.display_desc then name = e.display_desc(self, p) end
 		if p.save_string and p.amount_decreased and p.maximum and p.total_dur then
-			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):format(name, e.type, eff_subtype)..e.long_desc(player, p).." "..("%s reduced the duration of this effect by %d turns, from %d to %d."):tformat(p.save_string, p.amount_decreased, p.maximum, p.total_dur)
+			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):format(name, _t(e.type), eff_subtype)..e.long_desc(player, p).." "..("%s reduced the duration of this effect by %d turns, from %d to %d."):tformat(p.save_string, p.amount_decreased, p.maximum, p.total_dur)
 		else
-			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):tformat(name, e.type, eff_subtype)..e.long_desc(player, p)
+			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):tformat(name, _t(e.type), eff_subtype)..e.long_desc(player, p)
 		end
 		if allow_remove then desc = desc.._t"\n---\nRight click to cancel early." end
 
@@ -1413,9 +1413,9 @@ function _M:displayParty(scale, bx, by)
 			if not self.party[a] then
 				local def = game.party.members[a]
 
-				local text = "#GOLD##{bold}#"..a.name.."\n#WHITE##{normal}#Life: "..math.floor(100 * a.life / a.max_life).."%\nLevel: "..a.level.."\n"..def.title
+				local text = ("#GOLD##{bold}#%s\n#WHITE##{normal}#Life: %d%%\nLevel: %d\n%s"):tformat(a:getName(), math.floor(100 * a.life / a.max_life), a.level, def.title)
 				if a.summon_time then
-					text = text.."\nTurns remaining: "..a.summon_time
+					text = text..("\nTurns remaining: %s"):tformat(a.summon_time)
 				end
 				local is_first = is_first
 				local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
@@ -1817,7 +1817,7 @@ function _M:displayHotkeys(scale, bx, by)
 						d:use({talent=hk[2], name=game.player:getTalentFromId(hk[2]).name}, "right")
 						return true
 					elseif button == "right" and hk and hk[1] == "inventory" then
-						Dialog:yesnoPopup("Unbind "..hk[2], "Remove this object from your hotkeys?", function(ret) if ret then
+						Dialog:yesnoPopup(("Unbind %s"):tformat(hk[2]), _t"Remove this object from your hotkeys?", function(ret) if ret then
 							for i = 1, 12 * game.player.nb_hotkey_pages do
 								if game.player.hotkey[i] and game.player.hotkey[i][1] == "inventory" and game.player.hotkey[i][2] == hk[2] then game.player.hotkey[i] = nil end
 							end
@@ -1898,7 +1898,7 @@ function _M:displayToolbar(scale, bx, by)
 			if event == "out" then self.tbbuttons.lore = 0.6 return else self.tbbuttons.lore = 1 end
 			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show quest log.\nRight mouse to show all known lore.")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("SHOW_QUESTS")
-			elseif button == "right" and not xrel and not yrel and event == "button" then game:registerDialog(require("mod.dialogs.ShowLore").new("Tales of Maj'Eyal Lore", game.party)) end
+			elseif button == "right" and not xrel and not yrel and event == "button" then game:registerDialog(require("mod.dialogs.ShowLore").new(_t"Tales of Maj'Eyal Lore", game.party)) end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_lore[6], tb_lore[7], desc_fct, nil, "tb_lore", true, scale)
 	end

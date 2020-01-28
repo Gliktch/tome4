@@ -48,7 +48,7 @@ newEntity{ base = "BASE_ROD",
 	max_power = 25, power_regen = 1,
 	use_power = {
 		name = function(self, who) return ("shoot a bolt of spydric poison out to range %d, dealing %0.2f nature damage (based on Magic) over %d turns while rendering the target unable to move"):
-			format(self.use_power.range, engine.interface.ActorTalents.damDesc(who, engine.DamageType.NATURE, self.use_power.damage(self, who)), self.use_power.duration)
+			tformat(self.use_power.range, engine.interface.ActorTalents.damDesc(who, engine.DamageType.NATURE, self.use_power.damage(self, who)), self.use_power.duration)
 		end,
 		power = 25,
 		damage = function(self, who) return 200 + who:getMag() * 4 end,

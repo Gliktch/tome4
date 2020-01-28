@@ -133,7 +133,7 @@ carrionworm = function(self, target, duration, x, y)
 			control=false,
 			temporary_level = true,
 			type="summon",
-			title="Summon",
+			title=_t"Summon",
 		})
 	end
 	return m

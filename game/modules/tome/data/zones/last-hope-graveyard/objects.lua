@@ -46,7 +46,7 @@ newEntity{ define_as = "CELIA_HEART",
 
 	max_power = 75, power_regen = 1,
 	use_sound = "talents/slime",
-	use_power = { name = "extract a tiny part of Celia's soul", power = 75, use = function(self, who)
+	use_power = { name = _t"extract a tiny part of Celia's soul", power = 75, use = function(self, who)
 		who:incSoul(1)
 		who.changed = true
 		game.logPlayer(who, "You squeeze Celia's heart in your hand, absorbing part of her soul into your necrotic aura.")

@@ -48,10 +48,10 @@ function makeAlchemistGolem(self)
 		body = { INVEN = 1000, QS_MAINHAND = 1, QS_OFFHAND = 1, MAINHAND = 1, OFFHAND = 1, BODY=1, GEM={max = 2, stack_limit = 1} },
 		canWearObjectCustom = function(self, o)
 			if o.type ~= "gem" then return end
-			if not self.summoner then return "Golem has no master" end
-			if not self.summoner:knowTalent(self.summoner.T_GEM_GOLEM) then return "Master must know the Gem Golem talent" end
-			if not o.material_level then return "impossible to use this gem" end
-			if o.material_level > self.summoner:getTalentLevelRaw(self.summoner.T_GEM_GOLEM) then return "Master's Gem Golem talent too low for this gem" end
+			if not self.summoner then return _t"Golem has no master" end
+			if not self.summoner:knowTalent(self.summoner.T_GEM_GOLEM) then return _t"Master must know the Gem Golem talent" end
+			if not o.material_level then return _t"impossible to use this gem" end
+			if o.material_level > self.summoner:getTalentLevelRaw(self.summoner.T_GEM_GOLEM) then return _t"Master's Gem Golem talent too low for this gem" end
 		end,
 		equipdoll = "alchemist_golem",
 		is_alchemist_golem = 1,
@@ -229,13 +229,13 @@ newTalent{
 		self.alchemy_golem = game.zone:finishEntity(game.level, "actor", makeAlchemistGolem(self))
 		if game.party:hasMember(self) then
 			game.party:addMember(self.alchemy_golem, {
-				control="full", type="golem", title="Golem", important=true,
+				control="full", type="golem", title=_t"Golem", important=true,
 				orders = {target=true, leash=true, anchor=true, talents=true, behavior=true},
 			})
 		end
 		if not self.alchemy_golem then return end
 		self.alchemy_golem.faction = self.faction
-		self.alchemy_golem.name = self.alchemy_golem.name.." (servant of "..self.name..")"
+		self.alchemy_golem.name = ("%s (servant of %s)"):tformat(_t(self.alchemy_golem.name),self:getName())
 		self.alchemy_golem.summoner = self
 		self.alchemy_golem.summoner_gain_exp = true
 
@@ -256,7 +256,7 @@ newTalent{
 		local wait = function()
 			local co = coroutine.running()
 			local ok = false
-			self:restInit(20, "refitting", "refitted", function(cnt, max)
+			self:restInit(20, _t"refitting", _t"refitted", function(cnt, max)
 				if cnt > max then ok = true end
 				coroutine.resume(co)
 			end)

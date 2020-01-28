@@ -317,8 +317,8 @@ summon_assassin = function(self, target, duration, x, y, scale )
 	local m = mod.class.NPC.new{
 		type = "humanoid", subtype = "human",
 		display = "p", color=colors.BLUE, image = "npc/humanoid_human_assassin.png", shader = "shadow_simulacrum",
-		name = "shadowy assassin", faction = self.faction,
-		desc = [[A shadowy figure, garbed all in black.]],
+		name = _t"shadowy assassin", faction = self.faction,
+		desc = _t[[A shadowy figure, garbed all in black.]],
 		autolevel = "rogue",
 		ai = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=5, },
 		stats = { str=8, dex=15, mag=6, cun=15, con=7 },
@@ -392,8 +392,8 @@ summon_bladestorm = function(self, target, duration, x, y, scale )
 	local m = mod.class.NPC.new{
 		type = "construct", subtype = "mechanical",
 		display = "^", color=colors.BROWN, image = "npc/trap_bladestorm_swish_01.png",
-		name = "bladestorm construct", faction = self.faction,
-		desc = [[A lethal contraption of whirling blades.]],
+		name = _t"bladestorm construct", faction = self.faction,
+		desc = _t[[A lethal contraption of whirling blades.]],
 		autolevel = "warrior",
 		ai = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=5, },
 		stats = { str=18, dex=15, mag=6, cun=6, con=7 },

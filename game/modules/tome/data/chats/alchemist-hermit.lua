@@ -234,19 +234,19 @@ newChat{ id="welcome",
 I LIVE WAY THE HELL OUT HERE FOR A REASON, YOU PIECE OF... OH. IT'S YOU.]],
 	answers = {
 		-- If not the final elixir:
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[1].cap_name), jump="complete",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[1].name):upper()), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 1) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
 			end,
 		},
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[2].cap_name), jump="complete",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[2].name):upper()), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 2) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
 			end,
 		},
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[3].cap_name), jump="complete",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[3].name):upper()), jump="complete",
 			cond = function(npc, player) return turn_in(npc, player, 3) end,
 			action = function(npc, player)
 				q:on_turnin(player, alch_picked, e_picked, false)
@@ -254,24 +254,24 @@ I LIVE WAY THE HELL OUT HERE FOR A REASON, YOU PIECE OF... OH. IT'S YOU.]],
 		},
 
 		-- If the final elixir:
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[1].cap_name), jump="totally-complete",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[1].name):upper()), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 1) end,
 		},
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[2].cap_name), jump="totally-complete",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[2].name):upper()), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 2) end,
 		},
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[3].cap_name), jump="totally-complete",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[3].name):upper()), jump="totally-complete",
 			cond = function(npc, player) return turn_in_final(npc, player, 3) end,
 		},
 
 		-- If the elixir got made while you were out:
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[1].cap_name), jump="poached",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[1].name):upper()), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 1) end,
 		},
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[2].cap_name), jump="poached",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[2].name):upper()), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 2) end,
 		},
-		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(e[3].cap_name), jump="poached",
+		{("I'VE RETURNED WITH THE INGREDIENTS FOR THE %s."):tformat(_t(e[3].name):upper()), jump="poached",
 			cond = function(npc, player) return turn_in_poached(npc, player, 3) end,
 		},
 

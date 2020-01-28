@@ -35,7 +35,7 @@ function _M:init(mode)
 
 	self.cart = {}
 
-	self.base_title_text = ("%s #GOLD#Purchased Options#LAST#"):tformat(game.__mod_info.long_name)
+	self.base_title_text = ("%s #GOLD#Purchased Options#LAST#"):tformat(_t(game.__mod_info.long_name))
 	Dialog.init(self, self.base_title_text, 600, game.h * 0.8)
 
 	self.categories_icons = {

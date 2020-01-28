@@ -602,7 +602,7 @@ function _M:actBase()
 	if air_level then
 		if not air_condition or not self.can_breath[air_condition] or self.can_breath[air_condition] <= 0 then
 			self.is_suffocating = true
-			self:suffocate(-air_level, self, air_condition == "water" and "drowned to death" or nil)
+			self:suffocate(-air_level, self, air_condition == "water" and _t"drowned to death" or nil)
 			self.force_suffocate = nil
 		end
 	end
@@ -2006,16 +2006,16 @@ function _M:tooltip(x, y, seen_by)
 	-- Avoid cluttering tooltip if resources aren't relevant (add menu option?)
 	if game.player:knowTalentType("wild-gift/antimagic") then
 		if self:knowTalent(self.T_MANA_POOL) then
-			ts:add(("\nMana:  "..self.resources_def.mana.color.."%d / %d#LAST#"):format(self.mana, self.max_mana, true))
+			ts:add(("\nMana:  %s%d / %d#LAST#"):tformat(self.resources_def.mana.color, self.mana, self.max_mana, true))
 		end
 		if self:knowTalent(self.T_VIM_POOL) then
-			ts:add(("\nVim:  "..self.resources_def.vim.color.."%d / %d#LAST#"):format(self.vim, self.max_vim, true))
+			ts:add(("\nVim:  %s%d / %d#LAST#"):tformat(self.resources_def.vim.color, self.vim, self.max_vim, true))
 		end
 		if self:knowTalent(self.T_POSITIVE_POOL) then
-			ts:add(("\nPositive:  "..self.resources_def.positive.color.."%d / %d#LAST#"):format(self.positive, self.max_positive, true))
+			ts:add(("\nPositive:  %s%d / %d#LAST#"):tformat(self.resources_def.positive.color, self.positive, self.max_positive, true))
 		end
 		if self:knowTalent(self.T_NEGATIVE_POOL) then
-			ts:add(("\nNegative:  "..self.resources_def.negative.color.."%d / %d#LAST#"):format(self.negative, self.max_negative, true))
+			ts:add(("\nNegative:  %s%d / %d#LAST#"):tformat(self.resources_def.negative.color,self.negative, self.max_negative, true))
 		end
 	end
 
@@ -2054,7 +2054,7 @@ function _M:tooltip(x, y, seen_by)
 	for t, _ in table.orderedPairs2(self.resists or {}, dt_order) do
 		local v = self:combatGetResist(t)
 		if t == "all" or t == "absolute" then
-			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(v)) .. "%", " ", {"color", "LAST"}, t..", ")
+			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(v)) .. "%", " ", {"color", "LAST"}, _t(t)..", ")
 		elseif type(t) == "string" and math.abs(v) >= 20 then
 			local res = tostring(math.floor(v)) .. "%"
 			if first then first = false else ts:add(", ") end
@@ -2176,7 +2176,7 @@ function _M:tooltip(x, y, seen_by)
 
 	if self.desc then ts:add(self.desc, true) end
 	if self.descriptor and self.descriptor.classes then
-		ts:add(_t"Classes: ", table.concat(self.descriptor.classes or {}, ","), true)
+		ts:add(_t"Classes: ", table.concat(table.ts(self.descriptor.classes or {}), ","), true)
 	end
 
 	if self.custom_tooltip then
@@ -3106,7 +3106,7 @@ function _M:die(src, death_note)
 		self:attr("self_resurrect", -1)
 		game.logSeen(self, self.self_resurrect_msg or "#LIGHT_RED#%s rises from the dead!", self:getName():capitalize()) -- src, not self as the source, to make sure the player knows his doom ;>
 		local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
-		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, "RESURRECT!", {255,120,0})
+		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"RESURRECT!", {255,120,0})
 
 		local effs = {}
 
@@ -3279,7 +3279,7 @@ function _M:die(src, death_note)
 	if src and src.summoner and src.summoner_hate_per_kill then
 		if src.summoner.knowTalent and src.summoner:knowTalent(src.summoner.T_HATE_POOL) then
 			src.summoner.hate = math.min(src.summoner.max_hate, src.summoner.hate + src.summoner_hate_per_kill)
-			game.logPlayer(src.summoner, "%s feeds you hate from its latest victim. (+%d hate)", src.name:capitalize(), src.summoner_hate_per_kill)
+			game.logPlayer(src.summoner, "%s feeds you hate from its latest victim. (+%d hate)", src:getName():capitalize(), src.summoner_hate_per_kill)
 		end
 	end
 
@@ -3990,7 +3990,7 @@ function _M:levelup()
 	-- Notify party levelups
 	if self.x and self.y and game.party:hasMember(self) and not self.silent_levelup then
 		local x, y = game.level.map:getTileToScreen(self.x, self.y, true)
-		game.flyers:add(x, y, 80, 0.5, -2, "LEVEL UP!", {0,255,255})
+		game.flyers:add(x, y, 80, 0.5, -2, _t"LEVEL UP!", {0,255,255})
 		game.log("#00ffff#Welcome to level %d [%s].", self.level, self:getName():capitalize())
 		local more = _t"Press p to use them."
 		if game.player ~= self then more = ("Select %s in the party list and press G to use them."):tformat(self.name) end
@@ -4961,7 +4961,7 @@ end
 --- Can we wear this item?
 function _M:canWearObject(o, try_slot)
 	if self:attr("forbid_arcane") and o.power_source and o.power_source.arcane then
-		return nil, "antimagic"
+		return nil, _t"antimagic"
 	end
 
 	local oldreq
@@ -6581,7 +6581,7 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 				cost = self:alterTalentCost(t, res_def.short_name, cost)
 				if cost ~= 0 then
 					cost = cost * (util.getval(res_def.cost_factor, self, t, false, cost) or 1)
-					d:add({"color",0x6f,0xff,0x83}, ("%s %s: "):format(res_def.name:capitalize(), cost >= 0 and _t"cost" or _t"gain"), res_def.color or {"color",0xff,0xa8,0xa8}, ""..math.round(math.abs(cost), .1), true)
+					d:add({"color",0x6f,0xff,0x83}, ("%s %s: "):tformat(res_def.name:capitalize(), cost >= 0 and _t"cost" or _t"gain"), res_def.color or {"color",0xff,0xa8,0xa8}, ""..math.round(math.abs(cost), .1), true)
 				end
 				-- list sustain cost
 				cost = t[res_def.sustain_prop] and util.getval(t[res_def.sustain_prop], self, t) or 0
@@ -6594,9 +6594,9 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 				cost = self:alterTalentCost(t, res_def.drain_prop, cost)
 				if cost ~= 0 then
 					if res_def.invert_values then
-						d:add({"color",0x6f,0xff,0x83}, ("%s %s: "):format(cost > 0 and _t"Generates" or _t"Removes", res_def.name:lower()), res_def.color or {"color",0xff,0xa8,0xa8}, ""..math.round(math.abs(cost), .1), true)
+						d:add({"color",0x6f,0xff,0x83}, ("%s %s: "):tformat(cost > 0 and _t"Generates" or _t"Removes", res_def.name:lower()), res_def.color or {"color",0xff,0xa8,0xa8}, ""..math.round(math.abs(cost), .1), true)
 					else
-						d:add({"color",0x6f,0xff,0x83}, ("%s %s: "):format(cost > 0 and _t"Drains" or _t"Replenishes", res_def.name:lower()), res_def.color or {"color",0xff,0xa8,0xa8}, ""..math.round(math.abs(cost), .1), true)
+						d:add({"color",0x6f,0xff,0x83}, ("%s %s: "):tformat(cost > 0 and _t"Drains" or _t"Replenishes", res_def.name:lower()), res_def.color or {"color",0xff,0xa8,0xa8}, ""..math.round(math.abs(cost), .1), true)
 					end
 				end
 			end
@@ -7472,9 +7472,9 @@ function _M:on_project_acquire(tx, ty, who, t, x, y, damtype, dam, particles, is
 
 		local dir = game.level.map:compassDirection(mods.x-x, mods.y-y)
 		if not dir then
-			dir = "but fumbles!"
+			dir = _t"but fumbles!"
 		else
-			dir = "to the "..dir.."!"
+			dir = ("to the %s!"):tformat(dir)
 		end
 		self:logCombat(who, "#Source# deflects the projectile from #Target# %s", dir)
 		return true

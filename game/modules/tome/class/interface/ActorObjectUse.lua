@@ -133,7 +133,7 @@ _M.useObjectBaseTalent ={
 	innate = true, -- make sure this talent can't be put on cooldown by other talents or effects
 	display_name = function(self, t)
 		local data = self.object_talent_data and self.object_talent_data[t.id]
-		if not (data and data.obj and data.obj:isIdentified()) then return "Activate an object" end
+		if not (data and data.obj and data.obj:isIdentified()) then return _t"Activate an object" end
 		local objname = data.obj:getName({no_add_name = true, do_color = true})
 		return ("Activate: %s"):tformat(objname)
 	end,

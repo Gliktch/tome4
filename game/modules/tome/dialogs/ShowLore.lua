@@ -44,9 +44,9 @@ function _M:init(title, actor)
 	self.c_search = Textbox.new{title=_t"Search: ", text="", chars=20, max_len=60, fct=function() end, on_change=function(text) self:search(text) end}
 
 	self.c_list = ListColumns.new{width=math.floor(self.iw / 2 - vsep.w / 2), height=self.ih - 10 - self.c_search.h, scrollbar=true, sortable=true, columns={
-		{name="", width={40,"fixed"}, display_prop="order", sort="order"},
-		{name="Lore", width=60, display_prop="name", sort="name"},
-		{name="Category", width=40, display_prop="cat", sort="cat"},
+		{name=_t"", width={40,"fixed"}, display_prop="order", sort="order"},
+		{name=_t"Lore", width=60, display_prop="name", sort="name"},
+		{name=_t"Category", width=40, display_prop="cat", sort="cat"},
 	}, list=self.list, fct=function(item) self:popup(item) end, select=function(item, sel) self:select(item) end}
 
 	self:loadUI{
@@ -82,7 +82,7 @@ function _M:generateList()
 	for id, _ in pairs(self.actor.lore_known) do
 		local l = self.actor:getLore(id)
 		if self:matchSearch(tostring(l.order)) or self:matchSearch(l.name) or self:matchSearch(l.category) then
-			list[#list+1] = { name=l.name, desc=util.getval(l.lore), cat=l.category, order=l.order, image=l.image, lore=l }
+			list[#list+1] = { name=l.name, desc=util.getval(l.lore), cat=_t(l.category), order=l.order, image=l.image, lore=l }
 		end
 	end
 	-- Add known artifacts

@@ -137,7 +137,7 @@ function _M:use(item)
 					end
 					count = count + 1
 				end
-				game.log("#LIGHT_BLUE#%s %d creatures.", remove_all and "Removed" or "Killed", count)
+				game.log("#LIGHT_BLUE#%s %d creatures.", remove_all and _t"Removed" or _t"Killed", count)
 			end
 		, _t"Remove", _t"Kill", _t"Cancel", false)
 	elseif act == "all-ingredients" then

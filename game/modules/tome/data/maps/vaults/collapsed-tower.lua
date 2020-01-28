@@ -63,7 +63,7 @@ end
 local stairs = function()
 	local terrains = mod.class.Grid:loadList("/data/general/grids/basic.lua")
 	return game.state:dynamicZoneEntry(terrains.UP, "collapsed-tower", {
-		name = "collapsed tower",
+		name = _t"collapsed tower",
 		level_range = {game.zone.base_level, game.zone.base_level},
 		__applied_difficulty = true, -- Difficulty already applied to parent zone
 		level_scheme = "player",
@@ -91,7 +91,7 @@ local stairs = function()
 		trap_list = {"/data/general/traps/natural_forest.lua"},
 	},
 	function(zone, goback)
-		goback("stairs back to %s", zone.grid_list.DOWN)
+		goback(_t"stairs back to %s", zone.grid_list.DOWN)
 	end)
 end
 

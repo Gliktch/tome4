@@ -131,7 +131,7 @@ newBirthDescriptor{
 	},
 	cosmetic_options = {
 		golem = {
-			{name="Golem becomes a Drolem", on_actor=function(actor) actor.alchemist_golem_is_drolem = true end, unlock="cosmetic_class_alchemist_drolem"},
+			{name=_t"Golem becomes a Drolem", on_actor=function(actor) actor.alchemist_golem_is_drolem = true end, unlock="cosmetic_class_alchemist_drolem"},
 		},
 	},
 }

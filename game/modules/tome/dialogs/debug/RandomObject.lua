@@ -67,8 +67,8 @@ lines, fname, lnum = DebugConsole:functionHelp(resolvers.resolveObject)
 _M.resolver_genObj_help = "#GOLD#resolvers.resolveObject#LAST# "..formatHelp(lines, fname, lnum)
 
 --- configure resolvers that can be used
-_M.resolver_choices = {{name=_t"None", resolver=nil, desc="Don't apply a resolver"},
-	{name=_t"Equipment", resolver="equip", desc="Object will be equipped if possible, otherwise added to main inventory",
+_M.resolver_choices = {{name=_t"None", resolver=nil, desc=_t"Don't apply a resolver"},
+	{name=_t"Equipment", resolver="equip", desc=_t"Object will be equipped if possible, otherwise added to main inventory",
 	generate=function(dialog) -- generate an object, forcing antimagic check
 		local res_input, ok, t
 		if dialog._random_filter then
@@ -82,10 +82,10 @@ _M.resolver_choices = {{name=_t"None", resolver=nil, desc="Don't apply a resolve
 		return resolvers.resolveObject(_M.actor, res_input, false, 5)
 	end,
 	},
-	{name=_t"Inventory", resolver="inventory", desc="Object added to main inventory"},
-	{name=_t"Drops", resolver="drops", desc="Object added to main inventory (dropped on death)"},
-	{name=_t"Attach Tinker", resolver="attachtinker", desc="Tinker will be attached to a worn object"},
-	{name=_t"Drop Randart (auto data)", resolver="drop_randart", desc="Random Artifact (dropped on death) added to main inventory, uses the Base Object or Base Filter plus Randart Data as input",
+	{name=_t"Inventory", resolver="inventory", desc=_t"Object added to main inventory"},
+	{name=_t"Drops", resolver="drops", desc=_t"Object added to main inventory (dropped on death)"},
+	{name=_t"Attach Tinker", resolver="attachtinker", desc=_t"Tinker will be attached to a worn object"},
+	{name=_t"Drop Randart (auto data)", resolver="drop_randart", desc=_t"Random Artifact (dropped on death) added to main inventory, uses the Base Object or Base Filter plus Randart Data as input",
 	generate=function(dialog) -- build input from Randart Data and the base object filter
 		local res_input, ok, t = {}
 		if dialog._randart_data then
@@ -112,7 +112,7 @@ _M.resolver_choices = {{name=_t"None", resolver=nil, desc="Don't apply a resolve
 		return resolvers.calc.drop_randart(res, dialog.actor)
 	end
 	},
-	{name=_t"Drop Randart", resolver="drop_randart", desc="Random Artifact (dropped on death) added to main inventory",
+	{name=_t"Drop Randart", resolver="drop_randart", desc=_t"Random Artifact (dropped on death) added to main inventory",
 	generate=function(dialog) -- drop_randart using the random filter as its input
 		local res_input, ok, t
 		if dialog._random_filter then
@@ -157,7 +157,7 @@ function _M:init(actor)
 	local tops={0} self.tops = tops
 	
 	local dialog_txt = Textzone.new{auto_width=true, auto_height=true, no_color_bleed=true, font=self.font,
-	text=([[Generate objects randomly subject to filters and create Random Artifacts.
+	text=(_t[[Generate objects randomly subject to filters and create Random Artifacts.
 Use "Generate" to create objects for preview and inspection.
 Use "Add Object" to choose where to put the object and add it to the game.
 (Mouse over controls for a preview of the generated object/working Actor. (Press #GOLD#'L'#LAST# to lua inspect.)

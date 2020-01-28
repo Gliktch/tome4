@@ -605,7 +605,7 @@ function _M:drawDialog(kind, actor_to_compare)
 		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptor and _t(player.descriptor.subrace)) or _t(player.type):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		local class_evo = ""
 		if player.descriptor and player.descriptor.class_evolution then class_evo = " ("..player.descriptor.class_evolution..")" end
-		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptor and _t(player.descriptor.subclass)) or _t(player.subtype):capitalize())..class_evo, w, h, 0, 200, 255, true)
+		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptor and _t(player.descriptor.subclass or "")) or _t(player.subtype):capitalize())..class_evo, w, h, 0, 200, 255, true)
 		if player:attr("forbid_arcane") then
 			local follow = (player.faction == "zigur" or player:attr("zigur_follower")) and _t"Zigur follower" or _t"Antimagic adherent"
 			self:mouseTooltip(self.TOOLTIP_ANTIMAGIC_USER, s:drawColorStringBlended(self.font, "#ORCHID#"..follow, w+200, h, 255, 255, 255, true))
@@ -620,7 +620,7 @@ function _M:drawDialog(kind, actor_to_compare)
 		h = h + self.font_h
 
 		s:drawColorStringBlended(self.font, _t"#LIGHT_BLUE#Resources:", w, h, 255, 255, 255, true) h = h + self.font_h
-		text = compare_fields(player, actor_to_compare, "max_life", "%d", "%+.0f max")
+		text = compare_fields(player, actor_to_compare, "max_life", "%d", _t"%+.0f max")
 		if player.die_at ~=  0 or (actor_to_compare and actor_to_compare.die_at ~=0) then 
 			text = text .. " #a08080#[" .. compare_fields(player, actor_to_compare, "die_at", "die:%+d","%+.0f", 1, true) .. "]"
 		end
@@ -636,7 +636,7 @@ function _M:drawDialog(kind, actor_to_compare)
 					val_text = status_text(player, actor_to_compare, compare_fields)
 				else -- generate std. status text
 					local show_min = not player[res_def.getMaxFunction](player) and player[res_def.getMinFunction](player)
-					text = compare_fields(player, actor_to_compare, function(act) return act[show_min and res_def.getMinFunction or res_def.getMaxFunction](act) or 0 end, "%d", "%+.0f "..(show_min and "min" or "max"), nil, show_min)
+					text = compare_fields(player, actor_to_compare, function(act) return act[show_min and res_def.getMinFunction or res_def.getMaxFunction](act) or 0 end, "%d", "%+.0f "..(show_min and _t"min" or _t"max"), nil, show_min)
 					val_text = ("%d/%s"):format(player[res_def.getFunction](player), text)
 				end
 				local tt = self["TOOLTIP_"..rname:upper()] or ([[#GOLD#%s#LAST#
@@ -836,7 +836,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 			self:mouseTooltip(self.TOOLTIP_ESP,  s:drawColorStringBlended(self.font, _t("Telepathy of: "), w, h, 255, 255, 255, true)) h = h + self.font_h
 			if not esps_compare["All"] or not esps_compare["All"][2] or esps_compare["All"][2] == 0 then
 				for type, v in pairs(esps_compare) do
-					self:mouseTooltip(self.TOOLTIP_ESP,  s:drawColorStringBlended(self.font, ("%s%s "):format(v[2] and (v[1] and "#GOLD#" or "#00ff00#") or "#ff0000#", type:capitalize()), w, h, 255, 255, 255, true)) h = h + self.font_h
+					self:mouseTooltip(self.TOOLTIP_ESP,  s:drawColorStringBlended(self.font, ("%s%s "):format(v[2] and (v[1] and "#GOLD#" or "#00ff00#") or "#ff0000#", string.tslash(type):capitalize()), w, h, 255, 255, 255, true)) h = h + self.font_h
 				end
 			else
 				self:mouseTooltip(self.TOOLTIP_ESP_ALL,  s:drawColorStringBlended(self.font, ("%sAll "):tformat(esps_compare["All"][2] and (esps_compare["All"][1] and "#GOLD#" or "#00ff00#") or "#ff0000#"), w, h, 255, 255, 255, true)) h = h + self.font_h
@@ -1012,7 +1012,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 				local valo = actor_to_compare and actor_to_compare.inc_damage_actor_type and actor_to_compare.inc_damage_actor_type[t] or 0
 				if valn~=0 or valo~=0 then
 					text = compare_fields(player, actor_to_compare, function(actor, ...) return actor == player and valn or actor == actor_to_compare and valo or 0 end, "%+3d%%", "%+.0f%%")
-					self:mouseTooltip(self.TOOLTIP_INC_DAMAGE_ACTOR, s:drawColorStringBlended(self.font, ("%s%-20s: #00ff00#%s"):format("#ORANGE#", _t"vs "..t:capitalize().."#LAST#", text), w, h, 255, 255, 255, true)) h = h + self.font_h
+					self:mouseTooltip(self.TOOLTIP_INC_DAMAGE_ACTOR, s:drawColorStringBlended(self.font, ("%s%-20s: #00ff00#%s"):format("#ORANGE#", _t"vs ".._t(t):capitalize().."#LAST#", text), w, h, 255, 255, 255, true)) h = h + self.font_h
 				end
 			end
 		end
@@ -1129,7 +1129,7 @@ Ability to reduce opponent resistances to your damage]]
 					local rdiff, capdiff = res-reso, cap-capo
 					change = ("(%s%+3.0f%%#LAST#/%s%+3.0f%%#LAST#)"):format(rdiff>0 and "#LIGHT_GREEN#" or rdiff<0 and "#RED#" or "#GREY#", rdiff, capdiff>0 and "#LIGHT_GREEN#" or capdiff<0 and "#RED#" or "#GREY#", capdiff)
 				end
-				self:mouseTooltip(self.TOOLTIP_RESIST_ALL, s:drawColorStringBlended(self.font, ("%-14s: #00ff00#%3d%% / %3.0f%% %s"):format("All", res, cap, change), w, h, 255, 255, 255, true)) h = h + self.font_h
+				self:mouseTooltip(self.TOOLTIP_RESIST_ALL, s:drawColorStringBlended(self.font, ("%-14s: #00ff00#%3d%% / %3.0f%% %s"):format(_t"All", res, cap, change), w, h, 255, 255, 255, true)) h = h + self.font_h
 			end
 		end
 		if player.resists.absolute or actor_to_compare and actor_to_compare.resists.absolute then
@@ -1203,7 +1203,7 @@ Ability to reduce opponent resistances to your damage]]
 						local capdiff = cap-capo
 						change = ("(%s%+.0f%%#LAST#/%s%+.0f%%#LAST#)"):format(rdiff>0 and "#LIGHT_GREEN#" or rdiff<0 and "#RED#" or "#GREY#", rdiff, capdiff>0 and "#LIGHT_GREEN#" or capdiff<0 and "#RED#" or "#GREY#", capdiff)
 					end
-					self:mouseTooltip(self.TOOLTIP_RESIST_DAMAGE_ACTOR, s:drawColorStringBlended(self.font, ("#ORANGE#vs %-11s#LAST#: #00ff00#%3s %s"):tformat(t:capitalize(), vals, change), w, h, 255, 255, 255, true)) h = h + self.font_h
+					self:mouseTooltip(self.TOOLTIP_RESIST_DAMAGE_ACTOR, s:drawColorStringBlended(self.font, ("#ORANGE#vs %-11s#LAST#: #00ff00#%3s %s"):tformat(_t(t):capitalize(), vals, change), w, h, 255, 255, 255, true)) h = h + self.font_h
 
 				end
 			end
@@ -1321,31 +1321,31 @@ Ability to reduce opponent resistances to your damage]]
 			local sort_rank, sort_rank_keys
 			-- set up talent sorting data and functions
 			if self.talent_sorting == 1 then -- Grouped by talent type, Racial/infusions first, then alphabetical order
-				sort_rank = {"race/.*", "Inscriptions", "Prodigies", "Item_Talents"}
+				sort_rank = {_t"race/.*", _t"Inscriptions", _t"Prodigies", _t"Item_Talents"}
 				get_group = function(t, tt)
 					if tt.type:match("inscriptions/.*") then
-						return "Inscriptions"
+						return _t"Inscriptions"
 					elseif tt.type:match("uber/.*") then
-						return "Prodigies"
+						return _t"Prodigies"
 					elseif tt.type:match(".*/objects") then
-						return "Item_Talents"
+						return _t"Item_Talents"
 					end
 					local mastery = player:getTalentTypeMastery(tt.type)
-					local cat = tt.type:gsub("/.*", ""):bookCapitalize()
+					local cat = _t(tt.type:gsub("/.*", "")):bookCapitalize()
 					return cat.."/"..(tt.name or ""):bookCapitalize().." ("..mastery..")"
 				end
 			elseif self.talent_sorting == 2 then -- Alphabetically, so no groups at all.
 				get_group = function(t, tt)
-					return "Talents"
+					return _t"Talents"
 				end
 			else --Group by usage type/speed:  instant > activated > sustained > passive > alphabetically
-				sort_rank = {"Instant", "Activated", "Sustained", "Passive" }
+				sort_rank = {_t"Instant", _t"Activated", _t"Sustained", _t"Passive" }
 				get_group = function(t, tt)
 					if t.mode == "activated" then
 						local no_energy = util.getval(t.no_energy, player, t)
-						return no_energy and "Instant" or "Activated"
+						return no_energy and _t"Instant" or _t"Activated"
 					else
-						return t.mode:bookCapitalize()
+						return _t(t.mode:bookCapitalize())
 					end
 				end
 			end

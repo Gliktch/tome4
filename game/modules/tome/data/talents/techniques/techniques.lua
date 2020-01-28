@@ -55,31 +55,31 @@ newTalentType{ allow_random=true, type="technique/sniper", min_lev = 10, name = 
 -- Skirmisher
 newTalentType {
   type = "technique/acrobatics",
-  name = "Acrobatics",
+  name = _t"Acrobatics",
   generic = true,
   allow_random = true,
-  description = "For light footed Rogues who prefer flight to fighting fair!",
+  description = _t"For light footed Rogues who prefer flight to fighting fair!",
 }
 
 newTalentType {
   type = "technique/buckler-training",
-  name = "Buckler Training",
+  name = _t"Buckler Training",
   allow_random = true,
-  description = "Mastery over their shields separates Skirmishers from Archers, and gives them an edge.",
+  description = _t"Mastery over their shields separates Skirmishers from Archers, and gives them an edge.",
 }
 
 newTalentType {
   type = "technique/skirmisher-slings",
-  name = "Skirmisher - Slings",
+  name = _t"Skirmisher - Slings",
   allow_random = true,
-  description = "Slings! Pow Pow!",
+  description = _t"Slings! Pow Pow!",
 }
 
 newTalentType {
   type = "technique/tireless-combatant",
-  name = "Tireless Combatant",
+  name = _t"Tireless Combatant",
   allow_random = true,
-  description = "Your will carries you through the most difficult struggles, allowing you to fight on when others would have collapsed from exhaustion.",
+  description = _t"Your will carries you through the most difficult struggles, allowing you to fight on when others would have collapsed from exhaustion.",
 }
 
 -- Unarmed Combat

@@ -62,7 +62,7 @@ newEntity{ define_as = "STAFF_ABSORPTION_AWAKENED", base="BASE_STAFF",
 	flavors = {magestaff=true},
 	name = "Awakened Staff of Absorption",
 --	identified=true,
-	unided_name = "ominous, dark runed staff",
+	unided_name = _t"ominous, dark runed staff",
 	force_lore_artifact=true,
 	display = "\\", color=colors.VIOLET, image = "object/artifact/staff_absorption.png",
 	moddable_tile = "special/%s_awaken_staff_of_absorbtion",
@@ -120,7 +120,7 @@ The Sorcerers seem to have awakened its power.
 
 	max_power = 200, power_regen = 1,
 	use_power = {
-		name = function(self, who) return ("absorb the essence (ignoring resistance and bypassing most defenses) of a target in range %d, draining 30%% of its life and increasing your own damage by 30%% for %d turns"):format(self.use_power.range, self.use_power.duration) end,
+		name = function(self, who) return ("absorb the essence (ignoring resistance and bypassing most defenses) of a target in range %d, draining 30%% of its life and increasing your own damage by 30%% for %d turns"):tformat(self.use_power.range, self.use_power.duration) end,
 		power = 200,
 		range = 8,
 		duration =7,
@@ -145,7 +145,7 @@ The Sorcerers seem to have awakened its power.
 			if bone_shield then bone_shield.nb = 0 end
 			who:attr("iceblock_pierce", 100)
 			who:attr("damage_shield_penetrate", 100)
-			_, x = target:takeHit(target.max_life * 0.3, who, {special_death_msg = "was absorbed by the ".. self.name.." held by "..who.name:capitalize()})
+			_, x = target:takeHit(target.max_life * 0.3, who, {special_death_msg = ("was absorbed by the %s held by %s"):tformat(self:getName(), who.name:capitalize())})
 			who:attr("damage_shield_penetrate", -100)
 			who:attr("iceblock_pierce", -100)
 			if bone_shield then bone_shield.nb = nb end

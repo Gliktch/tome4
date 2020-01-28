@@ -765,7 +765,7 @@ function _M:loadScreen(mod)
 				local i = core.display.loadImage(l.image)
 				if i then img = {i:glTexture()} end
 			end
-			local text = bfont:draw(l.text, dw - (img and img[6] or 0), 255, 255, 255)
+			local text = bfont:draw(_t(l.text), dw - (img and img[6] or 0), 255, 255, 255)
 			local text_h = #text * text[1].h
 
 			local Base = require "engine.ui.Base"
@@ -948,7 +948,7 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	I18N:loadLocale("/data/locales/zh_CN.lua")
 	I18N:setLocale("zh_CN")
 	I18N.setFlag("ego_always_prefix", true)
-	config.settings.tome.fonts = {type="chinese", size="normal"} 
+	config.settings.tome.fonts = {type="chinese", size="big"}
 
 	-- Load font packages
 	FontPackage:loadDefinition("/data/font/packages/default.lua")

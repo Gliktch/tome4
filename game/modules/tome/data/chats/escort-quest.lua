@@ -218,7 +218,7 @@ if quest.to_zigur and reward.antimagic then reward = reward.antimagic reward.is_
 
 game.player:registerEscorts(quest.to_zigur and "zigur" or "saved")
 
-local saves_name = { mental="mental", spell="spell", phys="physical"}
+local saves_name = { mental=_t"mental", spell=_t"spell", phys=_t"physical"}
 local saves_tooltips = { mental="MENTAL", spell="SPELL", phys="PHYS"}
 
 local function generate_rewards()

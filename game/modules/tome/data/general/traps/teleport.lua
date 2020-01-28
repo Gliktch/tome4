@@ -25,7 +25,7 @@ newEntity{ define_as = "TRAP_TELEPORT",
 
 newEntity{ base = "TRAP_TELEPORT",
 	name = "teleport trap", auto_id = true, image = "trap/trap_teleport_01.png",
-	desc = [[Teleports the victim away.  How does anyone get close enough to disarm this trap...?]],
+	desc=_t[[Teleports the victim away.  How does anyone get close enough to disarm this trap...?]],
 	detect_power = resolvers.mbonus(5, 40), disarm_power = resolvers.mbonus(10, 50),
 	rarity = 5, level_range = {5, nil},
 	color=colors.UMBER,

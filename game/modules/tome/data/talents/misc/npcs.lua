@@ -3550,7 +3550,7 @@ newTalent{
 			return
 		end
 
-		local m = self:cloneActor({name = "Shadow of "..self.name,
+		local m = self:cloneActor({name = ("Shadow of %s"):tformat(self.name),
 			desc = ([[A dark shadowy form in the shape of %s.]]):tformat(self.name),
 			summoner=self, summoner_gain_exp=true, exp_worth=0,
 			summon_time=t.getDuration(self, t),
@@ -3589,7 +3589,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="full",
 				type="shadow",
-				title="Shadow of "..self.name,
+				title=("Shadow of %s"):tformat(self.name),
 				temporary_level=1,
 				orders = {target=true},
 				on_control = function(self)

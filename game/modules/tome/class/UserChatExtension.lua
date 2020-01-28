@@ -82,7 +82,7 @@ function _M:event(e)
 		elseif data.kind == "talent-link" then
 			self.chat:addMessage("link", e.channel, e.login, {uname, color}, ("#ANTIQUE_WHITE#has linked a talent: #WHITE# %s"):tformat(data.name), {mode="tooltip", tooltip=data.desc})
 		elseif data.kind == "killer-link" then
-			self.chat:addMessage("death", e.channel, e.login, {uname, color}, ("#CRIMSON#%s#WHITE#%s"):tformat(data.msg, data.desc) and {mode="tooltip", tooltip=data.desc} or nil)
+			self.chat:addMessage("death", e.channel, e.login, {uname, color}, ("#CRIMSON#%s#WHITE#"):tformat(data.msg), data.desc and {mode="tooltip", tooltip=data.desc} or nil)
 		else
 			self:triggerHook{"UserChat:event", color=color, e=e, data=data}
 		end

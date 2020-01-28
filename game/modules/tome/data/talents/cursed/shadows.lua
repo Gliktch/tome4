@@ -436,7 +436,7 @@ newTalent{
 		shadow.no_points_on_levelup = true
 		if game.party:hasMember(self) then
 			shadow.remove_from_party_on_death = true
-			game.party:addMember(shadow, { control="no", type="summon", title="Summon"})
+			game.party:addMember(shadow, { control="no", type="summon", title=_t"Summon"})
 		end
 
 		game:playSoundNear(self, "talents/spell_generic")

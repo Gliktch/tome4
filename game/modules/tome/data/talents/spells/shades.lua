@@ -114,29 +114,29 @@ newTalent{
 				m.level = 1
 				local race = 5 -- rng.range(1, 5)
 				if race == 1 then
-					m.name = "human farmer"
+					m.name = _t"human farmer"
 					m.subtype = "human"
 					m.image = "npc/humanoid_human_human_farmer.png"
-					m.desc = [[A weather-worn human farmer, looking at a loss as to what's going on.]]
+					m.desc=_t[[A weather-worn human farmer, looking at a loss as to what's going on.]]
 				elseif race == 2 then
-					m.name = "halfling gardener"
+					m.name = _t"halfling gardener"
 					m.subtype = "halfling"
-					m.desc = [[A rugged halfling gardener, looking quite confused as to what he's doing here.]]
+					m.desc=_t[[A rugged halfling gardener, looking quite confused as to what he's doing here.]]
 					m.image = "npc/humanoid_halfling_halfling_gardener.png"
 				elseif race == 3 then
-					m.name = "shalore scribe"
+					m.name = _t"shalore scribe"
 					m.subtype = "shalore"
-					m.desc = [[A scrawny elven scribe, looking bewildered at his surroundings.]]
+					m.desc=_t[[A scrawny elven scribe, looking bewildered at his surroundings.]]
 					m.image = "npc/humanoid_shalore_shalore_rune_master.png"
 				elseif race == 4 then
-					m.name = "dwarven lumberjack"
+					m.name = _t"dwarven lumberjack"
 					m.subtype = "dwarf"
-					m.desc = [[A brawny dwarven lumberjack, looking a bit upset at his current situation.]]
+					m.desc=_t[[A brawny dwarven lumberjack, looking a bit upset at his current situation.]]
 					m.image = "npc/humanoid_dwarf_lumberjack.png"
 				elseif race == 5 then
-					m.name = "cute bunny"
+					m.name = _t"cute bunny"
 					m.type = "vermin" m.subtype = "rodent"
-					m.desc = [[It is so cute!]]
+					m.desc=_t[[It is so cute!]]
 					m.image = "npc/vermin_rodent_cute_little_bunny.png"
 				end
 				m.faction = self.faction
@@ -199,7 +199,7 @@ newTalent{
 			
 			ai_target = {actor=table.NIL_MERGE},
 			ai = "summoned", ai_real = "tactical",
-			name = ("Forgery of Haze (%s)"):tforamt(self:getName()),
+			name = ("Forgery of Haze (%s)"):tformat(self:getName()),
 			desc = ([[A dark shadowy shape whose form resembles %s.]]):tformat(self.name),
 		})
 
@@ -215,7 +215,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="no",
 				type="minion",
-				title="Forgery of Haze",
+				title=_t"Forgery of Haze",
 				orders = {target=true},
 			})
 		end

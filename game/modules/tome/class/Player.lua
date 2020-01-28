@@ -756,7 +756,7 @@ function _M:onTakeHit(value, src, death_note)
 	local ret = mod.class.Actor.onTakeHit(self, value, src, death_note)
 	if self.life < self.max_life * 0.3 then
 		local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
-		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, 2, "LOW HEALTH!", {255,0,0}, true)
+		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, 2, _t"LOW HEALTH!", {255,0,0}, true)
 	end
 
 	-- Hit direction warning
@@ -1164,7 +1164,7 @@ end
 -- Known traps aren't interesting.  We let the engine run around traps, or stop if it can't.
 -- 'ignore_memory' is only used when checking for paths around traps.  This ensures we don't remember items "obj_seen" that we aren't supposed to
 function _M:runCheck(ignore_memory)
-	if game:hasDialogUp(1) then return false, "dialog is displayed" end
+	if game:hasDialogUp(1) then return false, _t"dialog is displayed" end
 	local is_main_player = self == game:getPlayer(true)
 
 	local spotted = spotHostiles(self)

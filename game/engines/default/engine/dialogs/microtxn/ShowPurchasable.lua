@@ -48,7 +48,7 @@ function _M:init(mode)
 	self.cart = {}
 
 
-	self.base_title_text = game.__mod_info.long_name.." #GOLD#Online Store#LAST#"
+	self.base_title_text = ("%s #GOLD#Online Store#LAST#"):tformat(_t(game.__mod_info.long_name))
 	Dialog.init(self, self.base_title_text, game.w * 0.8, game.h * 0.8)
 
 	game.tooltip:generate()

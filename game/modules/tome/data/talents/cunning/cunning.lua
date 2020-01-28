@@ -37,9 +37,9 @@ newTalentType{ allow_random=true, type="cunning/tools", name = _t"tools", descri
 -- Skirmisher
 newTalentType {
   type = "cunning/called-shots",
-  name = "Called Shots",
+  name = _t"Called Shots",
   allow_random = true,
-  description = "Inflict maximum pain to specific places on your enemies.",
+  description = _t"Inflict maximum pain to specific places on your enemies.",
 }
 
 -- Generic requires for cunning based on talent level

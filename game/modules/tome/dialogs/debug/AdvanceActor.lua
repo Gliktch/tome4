@@ -164,7 +164,7 @@ The actor is backed up before changes are made.  (Use the "Restore" button to re
 		end
 	}
 	self.set_tl = set_tl
-	local tl_box = Numberbox.new{title=_t"Unlock & Learn all available talents to level: ", number="maximum allowed", max=1000, min=1, chars=20, fct=function(value)
+	local tl_box = Numberbox.new{title=_t"Unlock & Learn all available talents to level: ", number=_t"maximum allowed", max=1000, min=1, chars=20, fct=function(value)
 			self.tl_box:updateText(0)
 			self.inputs.talent_levelup = value
 			self:finish()
@@ -189,7 +189,7 @@ The actor is backed up before changes are made.  (Use the "Restore" button to re
 	}
 	self.force_tl = force_tl
 	
-	local mastery_box = Numberbox.new{title=_t"Force all talent mastery levels to (0.1-5.0): ", number="no change", max=5.0, min=0.1, chars=10, step=0.1, fct=function(value)
+	local mastery_box = Numberbox.new{title=_t"Force all talent mastery levels to (0.1-5.0): ", number=_t"no change", max=5.0, min=0.1, chars=10, step=0.1, fct=function(value)
 			local old = self.mastery_box.number
 			self.mastery_box:updateText(0)
 			self.inputs.set_mastery = value

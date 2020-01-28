@@ -128,14 +128,14 @@ local maker_list = function()
 			"voratun amulet",
 			"dwarven lantern",
 			"voratun pickaxe",
-			{"dragonbone wand", "dragonbone wand"},
-			{"dragonbone totem", "dragonbone totem"},
-			{"voratun torque", "voratun torque"},
+			{"dragonbone wand", _t"dragonbone wand"},
+			{"dragonbone totem", _t"dragonbone totem"},
+			{"voratun torque", _t"voratun torque"},
 		},
 	}
 	local l = {{_t"I've changed my mind.", jump = "welcome"}}
 	for kind, bases in pairs(mainbases) do
-		l[#l+1] = {kind:capitalize(), action=function(npc, player)
+		l[#l+1] = {_t(kind):capitalize(), action=function(npc, player)
 			local l = {{_t"I've changed my mind.", jump = "welcome"}}
 			newChat{ id="makereal",
 				text = _t[[Which kind of item would you like ?]],

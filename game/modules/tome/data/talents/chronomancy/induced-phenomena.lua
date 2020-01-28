@@ -178,7 +178,7 @@ newTalent{
 
 				local proj = require("mod.class.Projectile"):makeHoming(
 						self,
-						{particle="arrow", particle_args={tile=("particles_images/alt_temporal_bolt_0%d"):tformat(rng.range(1, 7)), proj_x=tx, proj_y=ty, src_x=self.x, src_y=self.y},  trail="trail_paradox"},
+						{particle="arrow", particle_args={tile=("particles_images/alt_temporal_bolt_0%d"):format(rng.range(1, 7)), proj_x=tx, proj_y=ty, src_x=self.x, src_y=self.y},  trail="trail_paradox"},
 						{speed=1, name="Polarity Bolt", dam=dam, movedam=dam},
 						target,
 						self:getTalentRadius(t),

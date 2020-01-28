@@ -92,7 +92,7 @@ end
 give_orb = function(self, player)
 	player:setQuestStatus(self.id, engine.Quest.COMPLETED, "gave-orb")
 
-	local orb_o, orb_item, orb_inven_id = player:findInAllInventories("Orb of Many Ways")
+	local orb_o, orb_item, orb_inven_id = player:findInAllInventories("Orb of Many Ways", {raw_name=true})
 	player:removeObject(orb_inven_id, orb_item, true)
 	orb_o:removed()
 end
@@ -102,13 +102,13 @@ withheld_orb = function(self, player)
 end
 
 remove_materials = function(self, player)
-	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond")
+	local gem_o, gem_item, gem_inven_id = player:findInAllInventories("Resonating Diamond", {raw_name=true})
 	if gem_o then
 		player:removeObject(gem_inven_id, gem_item, false)
 		gem_o:removed()
 	end
 
-	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame")
+	local athame_o, athame_item, athame_inven_id = player:findInAllInventories("Blood-Runed Athame", {raw_name=true})
 	if athame_o then
 		player:removeObject(athame_inven_id, athame_item, false)
 		athame_o:removed()
@@ -136,7 +136,7 @@ ask_east = function(self, player)
 	self:remove_materials(player)
 
 	-- Swap the orbs! Tricky bastard!
-	local orb_o, orb_item, orb_inven_id = player:findInAllInventories("Orb of Many Ways")
+	local orb_o, orb_item, orb_inven_id = player:findInAllInventories("Orb of Many Ways", {raw_name=true})
 	player:removeObject(orb_inven_id, orb_item, true)
 	orb_o:removed()
 
@@ -171,6 +171,7 @@ back_to_last_hope = function(self)
 	-- Add the mage
 	local g = mod.class.NPC.new{
 		name=_t"Meranas, Herald of Angolwen",
+		image="npc/humanoid_human_meranas__herald_of_angolwen.png",
 		type="humanoid", subtype="human", faction="angolwen",
 		display='p', color=colors.RED,
 	}

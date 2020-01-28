@@ -148,7 +148,7 @@ function setupSummon(self, m, x, y, no_control)
 		game.party:addMember(m, {
 			control=can_control and "full" or "no",
 			type="summon",
-			title="Summon",
+			title=_t"Summon",
 			orders = {target=true, leash=true, anchor=true, talents=true},
 		})
 	end

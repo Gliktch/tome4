@@ -465,7 +465,7 @@ newEntity{
 		ranged_project = { 
 			[DamageType.NATURE] = resolvers.mbonus_material(20, 5),
 		},
-		special_on_crit = {desc="silences the target", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"silences the target", fct=function(combat, who, target)
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, 2, {apply_power=who:combatAttack(), no_ct_effect=true})
 			end

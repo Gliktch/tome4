@@ -174,12 +174,12 @@ function _M:handleEffect(eff_id, e, p, ex, h)
 	local dur = p.dur + 1
 	local name = e.desc
 	local desc = nil
-	local eff_subtype = table.concat(table.keys(e.subtype), "/")
+	local eff_subtype = table.concat(table.ts(table.keys(e.subtype)), "/")
 	if e.display_desc then name = e.display_desc(self, p) end
 	if p.save_string and p.amount_decreased and p.maximum and p.total_dur then
-		desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):tformat(name, e.type, eff_subtype)..e.long_desc(player, p).." "..("%s reduced the duration of this effect by %d turns, from %d to %d."):tformat(p.save_string, p.amount_decreased, p.maximum, p.total_dur)
+		desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):tformat(name, _t(e.type), eff_subtype)..e.long_desc(player, p).." "..("%s reduced the duration of this effect by %d turns, from %d to %d."):tformat(p.save_string, p.amount_decreased, p.maximum, p.total_dur)
 	else
-		desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):tformat(name, e.type, eff_subtype)..e.long_desc(player, p)
+		desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):tformat(name, _t(e.type), eff_subtype)..e.long_desc(player, p)
 	end
 
 	local remove_fct = function(button) if button == "right" then

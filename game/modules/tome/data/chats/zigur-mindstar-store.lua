@@ -66,7 +66,7 @@ newChat{ id="training",
 			player:incMoney(-750)
 			player:learnTalentType("wild-gift/mindstar-mastery", true)
 			player:setTalentTypeMastery("wild-gift/mindstar-mastery", player:getTalentTypeMastery("wild-gift/mindstar-mastery") + 0.2)
-			game.logPlayer(player, ("The shopkeeper spends a great deal of time going over the finer details of channeling energy through mindstars with you%s."):format(player:getTalentTypeMastery("wild-gift/mindstar-mastery")>1 and ", and teaches you enhanced mental discipline needed to maintain powerful energy fields" or ""))
+			game.logPlayer(player, ("The shopkeeper spends a great deal of time going over the finer details of channeling energy through mindstars with you%s."):tformat(player:getTalentTypeMastery("wild-gift/mindstar-mastery")>1 and _t", and teaches you enhanced mental discipline needed to maintain powerful energy fields" or ""))
 			player.changed = true
 		end, cond=function(npc, player)
 			if player.money < 750 then return end

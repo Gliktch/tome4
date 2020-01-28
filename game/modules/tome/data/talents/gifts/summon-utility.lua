@@ -188,7 +188,7 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_BATTLE_CALL]=self:getTalentLevelRaw(t) }
 		end
 		m.is_nature_summon = true
@@ -304,7 +304,7 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.inscription("INFUSION:_INSIDIOUS_POISON", {cooldown=12, range=6, heal_factor=60, power=self:getTalentLevel(t) * 60})
 		end
 		m.is_nature_summon = true

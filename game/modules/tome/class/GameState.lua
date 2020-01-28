@@ -236,7 +236,7 @@ local randart_name_rules = {
 }
 
 --- Unided name possibilities for randarts
-local unided_names = {"glowing","scintillating","rune-covered","unblemished","jewel-encrusted","humming","gleaming","immaculate","flawless","crackling","glistening","plated","twisted","silvered","faceted","faded","sigiled","shadowy","laminated"}
+local unided_names = {_t"glowing",_t"scintillating",_t"rune-covered",_t"unblemished",_t"jewel-encrusted",_t"humming",_t"gleaming",_t"immaculate",_t"flawless",_t"crackling",_t"glistening",_t"plated",_t"twisted",_t"silvered",_t"faceted",_t"faded",_t"sigiled",_t"shadowy",_t"laminated"}
 
 --- defined power themes, affects equipment generation
 _M.power_themes = {
@@ -503,14 +503,14 @@ function _M:generateRandart(data)
 	if namescheme == 1 then
 		name = "%s '"..ngt:generate().."'"
 	elseif namescheme == 2 then
-		name = ngt:generate().." the %s"
+		name = ("%s the %s"):tformat(ngt:generate(),"%s")
 	elseif namescheme == 3 then
 		name = ngt:generate()
 	elseif namescheme == 4 then
-		name = ngd:generate().." the "..ngt:generate()
+		name = ("%s the %s"):tformat(ngd:generate(),ngt:generate())
 	end
 	o.unided_namescheme = rng.table(unided_names).." %s"
-	o.unided_name = o.unided_namescheme:format(o.unided_name or o.name)
+	o.unided_name = o.unided_namescheme:format(_t(o.unided_name) or _t(o.name))
 	o.namescheme = name
 	o.define_as = name:format(o.name):upper():gsub("[^A-Z]", "_")
 	o.unique = name:format(o.name)
@@ -2314,9 +2314,9 @@ function _M:createRandomBoss(base, data)
 		name = ngd:generate()
 	end
 	if data.name_scheme then
-		b.name = data.name_scheme:gsub("#rng#", name):gsub("#base#", b.name)
+		b.name = data.name_scheme:gsub("#rng#", name):gsub("#base#", _t(b.name))
 	else
-		b.name = name.." the "..b.name
+		b.name = ("%s the %s"):tformat(name,_t(b.name))
 	end
 	print("[createRandomBoss] Creating random boss ", b.name, data.level, "level", data.nb_classes, "classes")
 	if data.force_classes then print("  * force_classes:", (string.fromTable(data.force_classes))) end
@@ -2692,9 +2692,9 @@ function _M:createRandomBossNew(base, data)
 		name = ngd:generate()
 	end
 	if data.name_scheme then
-		b.name = data.name_scheme:gsub("#rng#", name):gsub("#base#", b.name)
+		b.name = data.name_scheme:gsub("#rng#", name):gsub("#base#", _t(b.name))
 	else
-		b.name = name.." the "..b.name
+		b.name = ("%s the %s"):tformat(name, _t(b.name))
 	end
 	print("Creating random boss ", b.name, data.level, "level", data.nb_classes, "classes")
 	if data.force_classes then print("  * force_classes:", (string.fromTable(data.force_classes))) end

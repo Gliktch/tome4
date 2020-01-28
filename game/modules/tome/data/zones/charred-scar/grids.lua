@@ -30,7 +30,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use.]],
+	desc = _t[[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use.]],
 	nice_editer = lava_editer,
 
 	orb_portal = {

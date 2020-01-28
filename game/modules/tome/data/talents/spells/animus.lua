@@ -172,7 +172,7 @@ newTalent{
 				game.party:addMember(m, {
 					control="full",
 					type="husk",
-					title="Lifeless Husk",
+					title=_t"Lifeless Husk",
 					orders = {leash=true, follow=true},
 					on_control = function(self)
 						self:hotkeyAutoTalents()

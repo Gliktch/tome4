@@ -89,6 +89,6 @@ newEntity{ define_as = "SHADE_OF_TELOS",
 	resolvers.inscriptions(1, {"manasurge rune"}),
 
 	on_die = function(self, who)
-		require("engine.ui.Dialog"):simpleLongPopup("Back and there again", 'As the shade dissipates, you see no sign of the text entitled "Inverted and Reverted Probabilistic Fields". You should go back to Tannen.', 400)
+		require("engine.ui.Dialog"):simpleLongPopup(_t"Back and there again", _t'As the shade dissipates, you see no sign of the text entitled "Inverted and Reverted Probabilistic Fields". You should go back to Tannen.', 400)
 	end,
 }

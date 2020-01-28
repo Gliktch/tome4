@@ -111,7 +111,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[A farportal is a way to travel incredible distances in the blink of an eye. They were left behind by the powerful Sher'tul race.
+	desc = _t[[A farportal is a way to travel incredible distances in the blink of an eye. They were left behind by the powerful Sher'tul race.
 This farportal is not connected to any other portal. It is made for exploration; you cannot know where it will send you.
 It should automatically create a portal back, but it might not be near your arrival zone.]],
 
@@ -227,7 +227,7 @@ newEntity{
 			local nb = 0
 			if profile.mod.lore then for lore, _ in pairs(profile.mod.lore.lore) do if game.party:isLoreShareable(lore) then nb = nb + 1 end end end
 
-			local popup = require("engine.ui.Dialog"):simpleWaiter("Yiilkgur's Library of Lost Mysteries", "Receiving the lost knowledge of the universe...", nil, nil, nb)
+			local popup = require("engine.ui.Dialog"):simpleWaiter(_t"Yiilkgur's Library of Lost Mysteries", _t"Receiving the lost knowledge of the universe...", nil, nil, nb)
 			core.wait.enableManualTick(true)
 			core.display.forceRedraw()
 
@@ -244,7 +244,7 @@ newEntity{
 
 			popup:done()
 
-			game:registerDialog(require("mod.dialogs.ShowLore").new("Yiilkgur's Library of Lost Mysteries", game.party))
+			game:registerDialog(require("mod.dialogs.ShowLore").new(_t"Yiilkgur's Library of Lost Mysteries", game.party))
 		end
 		return true
 	end,

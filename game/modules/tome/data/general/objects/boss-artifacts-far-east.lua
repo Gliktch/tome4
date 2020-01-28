@@ -268,7 +268,7 @@ newEntity{ base = "BASE_GREATSWORD",
 		apr = 19,
 		physcrit = 10,
 		dammod = {str=1.2},
-		special_on_hit = {desc="10% chance to send the wielder into a killing frenzy", on_kill=1, fct=function(combat, who)
+		special_on_hit = {desc=_t"10% chance to send the wielder into a killing frenzy", on_kill=1, fct=function(combat, who)
 			if not rng.percent(10) then return end
 			who:setEffect(who.EFF_FRENZY, 3, {crit=12, power=0.3, dieat=0.25})
 		end},
@@ -339,7 +339,7 @@ newEntity{ base = "BASE_LONGBOW",
 		local dam = (40+ who:getMag())
 		local dam2 = (40+ who:getMag()) * 2
 		return ("Automatically fires lightning bolts every game turn at nearby enemies dealing %d to %d lightning damage based on Magic with a chance to inflict Daze."):
-			format(dam, dam2)
+			tformat(dam, dam2)
 	end,
 	combat = {
 		range = 10,

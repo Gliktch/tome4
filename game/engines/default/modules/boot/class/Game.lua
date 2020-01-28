@@ -75,10 +75,11 @@ function _M:init()
 	end
 	
 	self:handleEvents()
+	local default_font, _ = FontPackage:getFont("default")
 	if not profile.connected then core.webview, core.webview_inactive = nil, core.webview end
-	if not core.webview then self.tooltip = Tooltip.new(nil, 14, nil, colors.DARK_GREY, 380) end
+	if not core.webview then self.tooltip = Tooltip.new(default_font, 14, nil, colors.DARK_GREY, 380) end
 
-	self.floating_tooltip = Tooltip.new(nil, 14, nil, colors.DARK_GREY, 467)
+	self.floating_tooltip = Tooltip.new(default_font, 14, nil, colors.DARK_GREY, 467)
 
 --	self.refuse_threads = true
 	self.normal_key = self.key
@@ -108,7 +109,8 @@ function _M:makeWebtooltip()
 	}
 	if self.webtooltip.unusable then
 		self.webtooltip = nil
-		self.tooltip = Tooltip.new(nil, 14, nil, colors.DARK_GREY, 380)
+		local default_font, _ = FontPackage:getFont("default")
+		self.tooltip = Tooltip.new(default_font, 14, nil, colors.DARK_GREY, 380)
 	end
 end
 
@@ -304,7 +306,7 @@ function _M:grabAddons()
 			local co co = coroutine.create(function()
 			for i, add in ipairs(update_list) do
 				if core.webview then
-					local d = Downloader.new{title="Updating addon: #LIGHT_GREEN#"..list[add.name].long_name, co=co, dest=add.file..".tmp", url=add.download_url, allow_downloads={addons=true}}
+					local d = Downloader.new{title=("Updating addon: #LIGHT_GREEN#%s"):tformat(list[add.name].long_name), co=co, dest=add.file..".tmp", url=add.download_url, allow_downloads={addons=true}}
 					local ok = d:start()
 					if ok then
 						local wdir = fs.getWritePath()

@@ -172,8 +172,8 @@ function _M:tooltip(x, y, seen_by)
 	local rank, rank_color = self:TextRank()
 
 	local ts = tstring{}
-	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self.name, {"color", "WHITE"}, true)
-	ts:add(self.type:capitalize(), " / ", self.subtype:capitalize(), true)
+	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self:getName(), {"color", "WHITE"}, true)
+	ts:add(_t(self.type):capitalize(), " / ", _t(self.subtype):capitalize(), true)
 	ts:add(_t"Rank: ") ts:merge(rank_color:toTString()) ts:add(rank, {"color", "WHITE"}, true)
 	ts:add(self.desc, true)
 	ts:add(_t"Faction: ") ts:merge(factcolor:toTString()) ts:add(("%s (%s, %d)"):format(Faction.factions[self.faction].name, factstate, factlevel), {"color", "WHITE"}, true)

@@ -107,7 +107,7 @@ newEntity{ base = "BASE_NPC_HORROR", define_as="WEIRDLING_BEAST",
 		game:onLevelLoad("wilderness-1", function(zone, level)
 			local g = mod.class.Grid.new{
 				show_tooltip=true, always_remember = true,
-				name="Teleportation portal to the Sher'Tul Fortress",
+				name=_t"Teleportation portal to the Sher'Tul Fortress",
 				display='>', color=colors.ANTIQUE_WHITE, image = "terrain/grass.png", add_mos = {{image = "terrain/maze_teleport.png"}},
 				notice = true,
 				change_level=1, change_zone="shertul-fortress",

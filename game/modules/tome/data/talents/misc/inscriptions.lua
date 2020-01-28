@@ -786,7 +786,7 @@ newInscription{
 		local data = self:getInscriptionData(t.short_name)
 		local str = ""
 		for k,v in pairs(data.wards) do
-			str = str .. ", " .. v .. " " .. k:lower()
+			str = str .. ", " .. v .. " " .. _t(k:lower())
 		end
 		str = string.sub(str, 2)
 		return ([[Activate the rune to create a shield for %d turns blocking several instances of damage of the following types:%s]]) -- color me
@@ -794,7 +794,7 @@ newInscription{
 	end,
 	short_info = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		local str = table.concat(table.ts(table.keys(data.wards)), ", ")
+		local str = table.concat(table.ts(table.lower(table.keys(data.wards))), ", ")
 		return ([[%d turns; %s]]):tformat(t.getDur(self, t), str:lower() )
 	end,
 }
@@ -882,7 +882,7 @@ newInscription{
 						game.party:addMember(image, {
 							control=false,
 							type="summon",
-							title="Summon",
+							title=_t"Summon",
 							temporary_level = true,
 							orders = {},
 						})

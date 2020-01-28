@@ -190,7 +190,7 @@ newEntity{
 				game.party:addMember(m, {
 					control=false,
 					type="summon",
-					title="Summon",
+					title=_t"Summon",
 				})
 			end
 			local stats = self.use_power.tentacleStats(self, who)

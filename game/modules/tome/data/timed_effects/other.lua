@@ -62,7 +62,7 @@ newEffect{
 newEffect{
 	name = "ELEMENTAL_SURGE_ARCANE", image = "talents/elemental_surge.png",
 	desc = _t"Elemental Surge: Arcane",
-	long_desc = function(self, eff) return ("Spell and mind speed increased by 30%") end,
+	long_desc = function(self, eff) return (_t"Spell and mind speed increased by 30%") end,
 	type = "other",
 	subtype = {elemental = true },
 	status = "beneficial",
@@ -76,7 +76,7 @@ newEffect{
 newEffect{
 	name = "ELEMENTAL_SURGE_PHYSICAL", image = "talents/elemental_surge.png",
 	desc = _t"Elemental Surge: Physical",
-	long_desc = function(self, eff) return ("Immune to detrimental physical effects") end,
+	long_desc = function(self, eff) return (_t"Immune to detrimental physical effects") end,
 	type = "other",
 	subtype = {elemental = true },
 	status = "beneficial",
@@ -89,7 +89,7 @@ newEffect{
 newEffect{
 	name = "ELEMENTAL_SURGE_NATURE", image = "talents/elemental_surge.png",
 	desc = _t"Elemental Surge: Nature",
-	long_desc = function(self, eff) return ("Immune to detrimental magical effects") end,
+	long_desc = function(self, eff) return (_t"Immune to detrimental magical effects") end,
 	type = "other",
 	subtype = {elemental = true },
 	status = "beneficial",
@@ -927,7 +927,7 @@ newEffect{
 	name = "ZERO_GRAVITY", image = "effects/zero_gravity.png",
 	desc = _t"Zero Gravity",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("There is no gravity here; you float in the air. Movement is three times as slow, and any melee or archery blows have a chance to knockback. Maximum encumbrance is greatly increased.") end,
+	long_desc = function(self, eff) return (_t"There is no gravity here; you float in the air. Movement is three times as slow, and any melee or archery blows have a chance to knockback. Maximum encumbrance is greatly increased.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { spacetime=true },
@@ -1052,7 +1052,7 @@ newEffect{
 		name = "walking corpse",
 		display = "z", color=colors.GREY, image="npc/undead_ghoul_ghoul.png",
 		type = "undead", subtype = "ghoul",
-		desc = [[This corpse was recently alive but moves as though it is just learning to use its body.]],
+		desc=_t[[This corpse was recently alive but moves as though it is just learning to use its body.]],
 		body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
 		no_drops = true,
 		autolevel = "ghoul",
@@ -1097,7 +1097,7 @@ newEffect{
 				-- Add to the party
 				if self.player then
 					m.remove_from_party_on_death = true
-					game.party:addMember(m, {control="no", type="summon", title="Summon"})
+					game.party:addMember(m, {control="no", type="summon", title=_t"Summon"})
 				end
 
 				game.level.map:particleEmitter(x, y, 1, "slime")
@@ -1685,7 +1685,7 @@ newEffect{
 						-- Add to the party
 						if e.src.player then
 							m.remove_from_party_on_death = true
-							game.party:addMember(m, {control="no", type="nightmare", title="Nightmare"})
+							game.party:addMember(m, {control="no", type="nightmare", title=_t"Nightmare"})
 						end
 
 						game.zone:addEntity(game.level, m, "actor", location[1], location[2])
@@ -2115,7 +2115,7 @@ newEffect{
 				game.party:addMember(m, {
 					control="full",
 					type="projection",
-					title="Dream Self",
+					title=_t"Dream Self",
 					orders = {target=true},
 				})
 				if eff.target == game.player then
@@ -2305,7 +2305,7 @@ newEffect{
 	name = "ZONE_AURA_FIRE",
 	desc = _t"Oil mist",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% fire damage, -10% fire resistance, -10% armour, -2 sight range.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% fire damage, -10% fire resistance, -10% armour, -2 sight range.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2326,7 +2326,7 @@ newEffect{
 	name = "ZONE_AURA_COLD",
 	desc = _t"Grave chill",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% cold damage, -10% cold resistance, -10% physical save, -20% confusion immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% cold damage, -10% cold resistance, -10% physical save, -20% confusion immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2347,7 +2347,7 @@ newEffect{
 	name = "ZONE_AURA_LIGHTNING",
 	desc = _t"Static discharge",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% lightning damage, -10% lightning resistance, -10% physical power, -20% stun immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% lightning damage, -10% lightning resistance, -10% physical power, -20% stun immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2368,7 +2368,7 @@ newEffect{
 	name = "ZONE_AURA_ACID",
 	desc = _t"Noxious fumes",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% acid damage, -10% acid resistance, -10% defense, -20% disarm immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% acid damage, -10% acid resistance, -10% defense, -20% disarm immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2389,7 +2389,7 @@ newEffect{
 	name = "ZONE_AURA_DARKNESS",
 	desc = _t"Echoes of the void",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% darkness damage, -10% darkness resistance, -10% mental save, -20% fear immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% darkness damage, -10% darkness resistance, -10% mental save, -20% fear immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2410,7 +2410,7 @@ newEffect{
 	name = "ZONE_AURA_MIND",
 	desc = _t"Eerie silence",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% mind damage, -10% mind resistance, -10% spellpower, -20% silence immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% mind damage, -10% mind resistance, -10% spellpower, -20% silence immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2431,7 +2431,7 @@ newEffect{
 	name = "ZONE_AURA_LIGHT",
 	desc = _t"Aura of light",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% light damage, -10% light resistance, -10% accuracy, -20% blind immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% light damage, -10% light resistance, -10% accuracy, -20% blind immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2452,7 +2452,7 @@ newEffect{
 	name = "ZONE_AURA_ARCANE",
 	desc = _t"Aether residue",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% arcane damage, -10% arcane resistance, -10% armour hardiness, -20% stoning immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% arcane damage, -10% arcane resistance, -10% armour hardiness, -20% stoning immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2473,7 +2473,7 @@ newEffect{
 	name = "ZONE_AURA_TEMPORAL",
 	desc = _t"Impossible geometries",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% temporal damage, -10% temporal resistance, -10% spell save, -20% pinning immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% temporal damage, -10% temporal resistance, -10% spell save, -20% pinning immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2494,7 +2494,7 @@ newEffect{
 	name = "ZONE_AURA_PHYSICAL",
 	desc = _t"Uncontrolled anger",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% physical damage, -10% physical resistance, -10% mindpower, -20% knockback immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% physical damage, -10% physical resistance, -10% mindpower, -20% knockback immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2515,7 +2515,7 @@ newEffect{
 	name = "ZONE_AURA_BLIGHT",
 	desc = _t"Miasma",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% blight damage, -10% blight resistance, -20% healing mod, -20% disease immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% blight damage, -10% blight resistance, -20% healing mod, -20% disease immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2536,7 +2536,7 @@ newEffect{
 	name = "ZONE_AURA_NATURE",
 	desc = _t"Slimy floor",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% nature damage, -10% nature resistance, -10% ranged defense, -20% poison immunity.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% nature damage, -10% nature resistance, -10% ranged defense, -20% poison immunity.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -2681,7 +2681,7 @@ newEffect{
 		-- Bypass all shields & such
 		local old = self.onTakeHit
 		self.onTakeHit = nil
-		mod.class.interface.ActorLife.takeHit(self, self.max_life * eff.dam / 100, self, {special_death_msg="suffocated to death"})
+		mod.class.interface.ActorLife.takeHit(self, self.max_life * eff.dam / 100, self, {special_death_msg=_t"suffocated to death"})
 		eff.dam = util.bound(eff.dam + 5, 20, 100)
 		self.onTakeHit = old
 	end,
@@ -3171,7 +3171,7 @@ newEffect{
 newEffect{
 	name = "WARDEN_S_TARGET", image = "talents/warden_s_focus.png",
 	desc = _t"Warden's Focus Target",
-	long_desc = function(self, eff) return ("%s is focusing on this target."):tformat(eff.src.name) end,
+	long_desc = function(self, eff) return ("%s is focusing on this target."):tformat(eff.src:getName()) end,
 	type = "other",
 	subtype = { tactic=true },
 	status = "detrimental",
@@ -3213,7 +3213,7 @@ newEffect{
 	name = "ZONE_AURA_GORBAT",
 	desc = _t"Natural Aura",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +20 mindpower, +2 life regen, -1 equilibrium per turn, -20% resistance penetration.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +20 mindpower, +2 life regen, -1 equilibrium per turn, -20% resistance penetration.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3234,7 +3234,7 @@ newEffect{
 	name = "ZONE_AURA_VOR",
 	desc = _t"Sorcerous Aura",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +20 magic, +2 mana regen, -20 accuracy, -20 stealth power.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +20 magic, +2 mana regen, -20 accuracy, -20 stealth power.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3255,7 +3255,7 @@ newEffect{
 	name = "ZONE_AURA_GRUSHNAK",
 	desc = _t"Disciplined Aura",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +20 defense, +20 all saves, -20 spell power.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +20 defense, +20 all saves, -20 spell power.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3277,7 +3277,7 @@ newEffect{
 	name = "ZONE_AURA_RAKSHOR",
 	desc = _t"Sinister Aura",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: +10% critical chance, +20% critical damage, -20% nature and blight resistance.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: +10% critical chance, +20% critical damage, -20% nature and blight resistance.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3299,7 +3299,7 @@ newEffect{
 	name = "ZONE_AURA_UNDERWATER",
 	desc = _t"Underwater Zone",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: Air decreases over time. If you run out of air you will start losing life. Look for bubbles to recover air. The water also reduces stun resistance by 10% and fire damage is reduced by 10%, however cold damage is increased by 10%.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: Air decreases over time. If you run out of air you will start losing life. Look for bubbles to recover air. The water also reduces stun resistance by 10% and fire damage is reduced by 10%, however cold damage is increased by 10%.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3318,7 +3318,7 @@ newEffect{
 	name = "ZONE_AURA_FEARSCAPE",
 	desc = _t"Fearscape Zone",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: The flames of the Fearscape increase all fire and blight damage by 10%, but the weird gravity reduces knockback resistance by 20%.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: The flames of the Fearscape increase all fire and blight damage by 10%, but the weird gravity reduces knockback resistance by 20%.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3337,7 +3337,7 @@ newEffect{
 	name = "ZONE_AURA_OUT_OF_TIME",
 	desc = _t"Out of Time Zone",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: You seem to be outside the normal spacetime continuum. +10% physical resistance, -10% temporal resistance and -20% teleport resistance.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: You seem to be outside the normal spacetime continuum. +10% physical resistance, -10% temporal resistance and -20% teleport resistance.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3356,7 +3356,7 @@ newEffect{
 	name = "ZONE_AURA_SPELLBLAZE",
 	desc = _t"Spellblaze Aura",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: The power of the Spellblaze still burns here. -10% resistance to fire, arcane and blight damage, but +10% cold resistance. WARNING: The powerful magic here reflects teleportation magic!") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: The power of the Spellblaze still burns here. -10% resistance to fire, arcane and blight damage, but +10% cold resistance. WARNING: The powerful magic here reflects teleportation magic!") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3374,7 +3374,7 @@ newEffect{
 	name = "ZONE_AURA_CALDERA",
 	desc = _t"Heady Scent",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: Strong scents fill the air and make you feel drowsy. If the timer reaches 0 you will fall into a dreaming sleep state. -10% mind resistance, -20% sleep resistance, +10% nature damage.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: Strong scents fill the air and make you feel drowsy. If the timer reaches 0 you will fall into a dreaming sleep state. -10% mind resistance, -20% sleep resistance, +10% nature damage.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3394,7 +3394,7 @@ newEffect{
 	name = "ZONE_AURA_THUNDERSTORM",
 	desc = _t"Thunderstorm",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: A huge thunderstorm rages above you. +10 lightning damage, -10% stun resistance.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: A huge thunderstorm rages above you. +10 lightning damage, -10% stun resistance.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3413,7 +3413,7 @@ newEffect{
 	name = "ZONE_AURA_ABASHED",
 	desc = _t"Abashed Expanse",
 	no_stop_enter_worlmap = true,
-	long_desc = function(self, eff) return ("Zone-wide effect: Your Phase Door spell is super easy to use here, allowing you to target it regardless of level. Any projectiles is slowed down by 80%.") end,
+	long_desc = function(self, eff) return (_t"Zone-wide effect: Your Phase Door spell is super easy to use here, allowing you to target it regardless of level. Any projectiles is slowed down by 80%.") end,
 	decrease = 0, no_remove = true,
 	type = "other",
 	subtype = { aura=true },
@@ -3920,7 +3920,7 @@ newEffect{
 newEffect{
 	name = "FED_UPON", image = "effects/fed_upon.png",
 	desc = _t"Fed Upon",
-	long_desc = function(self, eff) return ("%s is fed upon by %s."):tformat(self.name:capitalize(), eff.src.name) end,
+	long_desc = function(self, eff) return ("%s is fed upon by %s."):tformat(self.name:capitalize(), eff.src:getName()) end,
 	type = "other",
 	subtype = { psychic_drain=true },
 	status = "detrimental",
@@ -3979,7 +3979,7 @@ newEffect{
 
 newEffect{
 	name = "OMNIVISION", image = "talents/track.png",
-	desc = "Sensing Everything",
+	desc = _t"Sensing Everything",
 	long_desc = function(self, eff) return _t"Improves senses, allowing the detection of everything." end,
 	type = "other",
 	subtype = { sense=true },

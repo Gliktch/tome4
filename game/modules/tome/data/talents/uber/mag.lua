@@ -219,6 +219,7 @@ uberTalent{
 				who:learnTalent(who.T_BLOOD_SPRAY, true, 3, {no_unlearn=true})
 			elseif who.subtype == "plants" then
 				who:learnTalent(who.T_POISON_STORM, true, 3, {no_unlearn=true})
+			-- I18N this line of code should be fixed.
 			elseif who.name == "fire drake" or who.name == "fire drake (wild summon)" then
 				who:learnTalent(who.T_FLAME_OF_URH_ROK, true, 3, {no_unlearn=true}) who:forceUseTalent(who.T_FLAME_OF_URH_ROK, {ignore_energy=true})
 			elseif who.subtype == "turtle" then

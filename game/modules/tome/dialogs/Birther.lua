@@ -391,10 +391,10 @@ function _M:makeDefault()
 	self:setDescriptor("permadeath", "Adventure")
 	self:setDescriptor("race", "Human")
 	self:setDescriptor("subrace", "Cornac")
-	self:setDescriptor("class", "Mage")
-	self:setDescriptor("subclass", "Alchemist")
-	-- self:setDescriptor("class", "Warrior")
-	-- self:setDescriptor("subclass", "Berserker")
+	-- self:setDescriptor("class", "Mage")
+	-- self:setDescriptor("subclass", "Archmage")
+	self:setDescriptor("class", "Warrior")
+	self:setDescriptor("subclass", "Berserker")
 	__module_extra_info.no_birth_popup = true
 	self:atEnd("created")
 end
@@ -674,7 +674,7 @@ function _M:updateDescriptors()
 
 			if #clist > 0 then
 				table.sort(clist, function(a, b) return a.name < b.name end)
-				table.insert(self.cosmetic_options, {name=kind:gsub("_", " "):capitalize(), kind=kind, color=function() return colors.simple(colors.GOLD) end, nodes=clist})
+				table.insert(self.cosmetic_options, {name=_t(kind:gsub("_", " "):capitalize()), kind=kind, color=function() return colors.simple(colors.GOLD) end, nodes=clist})
 			end
 		end
 	end end
@@ -795,7 +795,7 @@ function _M:getLock(d)
 end
 
 function _M:generateCampaigns()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 	local list = {}
 
 	for i, d in ipairs(self.birth_descriptor_def.world) do
@@ -817,7 +817,7 @@ function _M:generateCampaigns()
 end
 
 function _M:generateDifficulties()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 	local list = {}
 
 	local oldsel = nil
@@ -849,7 +849,7 @@ function _M:generateDifficulties()
 end
 
 function _M:generatePermadeaths()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 	local list = {}
 
 	local oldsel = nil
@@ -881,7 +881,7 @@ function _M:generatePermadeaths()
 end
 
 function _M:generateRaces()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 
 	local oldtree = {}
 	for i, t in ipairs(self.all_races or {}) do oldtree[t.id] = t.shown end
@@ -935,7 +935,7 @@ function _M:generateRaces()
 end
 
 function _M:generateClasses()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 
 	local oldtree = {}
 	for i, t in ipairs(self.all_classes or {}) do oldtree[t.id] = t.shown end
@@ -949,7 +949,7 @@ function _M:generateClasses()
 				if (d.descriptor_choices.subclass[sd.name] == "allow" or d.descriptor_choices.subclass[sd.name] == "allow-nochange" or d.descriptor_choices.subclass[sd.name] == "nolore") and self:isDescriptorAllowed(sd, {subclass=true, class=true}) then
 					local locked = self:getLock(sd)
 					if locked == true then
-						nodes[#nodes+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}, id=sd.name, pid=d.name, locked=true, desc=util.getval(sd.locked_desc, self)..locktext }
+						nodes[#nodes+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}, id=sd.name, pid=d.name, locked=true, desc=util.getval(sd.locked_desc, self)..locktext }
 					elseif locked == false then
 						local old = self.descriptors_by_type.subclass
 						self.descriptors_by_type.subclass = nil
@@ -968,7 +968,7 @@ function _M:generateClasses()
 
 			local locked = self:getLock(d)
 			if locked == true then
-				tree[#tree+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}, id=d.name, shown=oldtree[d.name], nodes = nodes, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
+				tree[#tree+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}, id=d.name, shown=oldtree[d.name], nodes = nodes, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end

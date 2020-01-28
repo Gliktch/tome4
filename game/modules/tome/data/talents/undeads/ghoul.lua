@@ -218,7 +218,7 @@ newTalent{
 			game.party:addMember(ghoul, {
 				control="no",
 				type="minion",
-				title="Ghoulish Minion",
+				title=_t"Ghoulish Minion",
 				orders = {target=true},
 			})
 		end

@@ -32,6 +32,9 @@ local cur_unlocalized = {}
 local flags = {}
 
 _G._t = function(s, debugadd)
+	if not s then
+		return nil
+	end
 	if config.settings.cheat and not cur_locale[s] then
 		debugadd = debugadd or 0
 		local info = {}

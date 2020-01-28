@@ -59,29 +59,29 @@ newBirthDescriptor{
 	moddable_attachement_spots = "race_halfling",
 	cosmetic_options = {
 		skin = {
-			{name="Skin Color 1", file="base_01"},
-			{name="Skin Color 2", file="base_02"},
-			{name="Skin Color 3", file="base_03"},
-			{name="Skin Color 4", file="base_04"},
-			{name="Skin Color 5", file="base_05"},
-			{name="Skin Color 6", file="base_06"},
+			{name=_t"Skin Color 1", file="base_01"},
+			{name=_t"Skin Color 2", file="base_02"},
+			{name=_t"Skin Color 3", file="base_03"},
+			{name=_t"Skin Color 4", file="base_04"},
+			{name=_t"Skin Color 5", file="base_05"},
+			{name=_t"Skin Color 6", file="base_06"},
 		},
 		hairs = {
-			{name="Blond Hair 1", file="hair_blond_01"},
-			{name="Blond Hair 2", file="hair_blond_02"},
-			{name="Blond Hair 3", file="hair_blond_03"},
-			{name="Blond Hair 4", file="hair_blond_04"},
-			{name="Dark Hair 1", file="hair_black_01"},
-			{name="Dark Hair 2", file="hair_black_02"},
-			{name="Dark Hair 3", file="hair_black_03"},
-			{name="Dark Hair 4", file="hair_black_04"},
-			{name="Redhead 1", file="hair_redhead_01", unlock="cosmetic_race_human_redhead"},
-			{name="Redhead 2", file="hair_redhead_02", unlock="cosmetic_race_human_redhead"},
-			{name="Redhead 3", file="hair_redhead_03", unlock="cosmetic_race_human_redhead"},
-			{name="Redhead 4", file="hair_redhead_04", unlock="cosmetic_race_human_redhead"},
+			{name=_t"Blond Hair 1", file="hair_blond_01"},
+			{name=_t"Blond Hair 2", file="hair_blond_02"},
+			{name=_t"Blond Hair 3", file="hair_blond_03"},
+			{name=_t"Blond Hair 4", file="hair_blond_04"},
+			{name=_t"Dark Hair 1", file="hair_black_01"},
+			{name=_t"Dark Hair 2", file="hair_black_02"},
+			{name=_t"Dark Hair 3", file="hair_black_03"},
+			{name=_t"Dark Hair 4", file="hair_black_04"},
+			{name=_t"Redhead 1", file="hair_redhead_01", unlock="cosmetic_race_human_redhead"},
+			{name=_t"Redhead 2", file="hair_redhead_02", unlock="cosmetic_race_human_redhead"},
+			{name=_t"Redhead 3", file="hair_redhead_03", unlock="cosmetic_race_human_redhead"},
+			{name=_t"Redhead 4", file="hair_redhead_04", unlock="cosmetic_race_human_redhead"},
 		},
 		special = {
-			{name="Bikini / Mankini", birth_only=true, on_actor=function(actor, birther, last)
+			{name=_t"Bikini / Mankini", birth_only=true, on_actor=function(actor, birther, last)
 				if not last then local o = birther.obj_list_by_name[birther.descriptors_by_type.sex == 'Female' and 'Bikini' or 'Mankini'] if not o then print("No bikini/mankini found!") return end actor:getInven(actor.INVEN_BODY)[1] = o:cloneFull() actor.moddable_tile_nude = 1
 				else actor:registerOnBirthForceWear(birther.descriptors_by_type.sex == 'Female' and "FUN_BIKINI" or "FUN_MANKINI") end
 			end},
@@ -114,7 +114,7 @@ newBirthDescriptor
 	talents = {
 		[ActorTalents.T_HALFLING_LUCK]=1,
 	},
-	default_cosmetics = { {"hairs", "Dark Hair 1", only_for={sex="Male"}}, {"hairs", "Blond Hair 1", only_for={sex="Female"}} },
+	default_cosmetics = { {"hairs", _t"Dark Hair 1", only_for={sex="Male"}}, {"hairs", _t"Blond Hair 1", only_for={sex="Female"}} },
 	copy = {
 		moddable_tile = "halfling_#sex#",
 		random_name_def = "halfling_#sex#",

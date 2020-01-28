@@ -315,7 +315,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="no",
 				type="terror",
-				title="Night Terror",
+				title=_t"Night Terror",
 				orders = {target=true},
 			})
 		end

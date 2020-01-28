@@ -162,7 +162,7 @@ newTalent{
 		local _ _, x, y = self:canProject(tg, x, y)
 
 		local proj = throw(self, tg.range, 1, x, y, nil, nil, nil)
-		proj.name = "Throwing Knife"
+		proj.name = _t"Throwing Knife"
 
 		return true
 	end,
@@ -192,7 +192,7 @@ APR: %d
 Crit Chance: %+d%%
 Crit mult: %d%%
 Uses Stats: %s
-]]):tformat(t.range(self, t), dmg, dmg*damrange, atk, talented, apr, crit, crit_mult, stat_desc)
+]]):tformat(t.range(self, t), dmg, dmg*damrange, atk, _t(talented), apr, crit, crit_mult, stat_desc)
 	end,
 	info = function(self, t)
 		local nb = t.getNb(self,t)

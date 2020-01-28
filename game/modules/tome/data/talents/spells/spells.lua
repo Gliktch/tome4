@@ -188,7 +188,7 @@ function necroSetupSummon(self, m, x, y, level, no_control, no_decay)
 		game.party:addMember(m, {
 			control=can_control and "full" or "no",
 			type="minion",
-			title="Necrotic Minion",
+			title=_t"Necrotic Minion",
 			orders = {target=true},
 		})
 	end
@@ -232,7 +232,7 @@ function necroSetupSummon(self, m, x, y, level, no_control, no_decay)
 		if src:getTalentLevel(src.T_AURA_MASTERY) >= 3 and rng.percent(25) then
 			src:incSoul(1)
 			src.changed = true
-			game.logPlayer(src, "A soul returns to %s.", src.name)
+			game.logPlayer(src, "A soul returns to %s.", src:getName())
 		end
 	end
 

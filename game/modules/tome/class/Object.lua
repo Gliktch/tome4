@@ -411,8 +411,8 @@ function _M:descAttribute(attr)
 		for ttn, i in pairs(self.wielder.talents_types_mastery) do
 			local tt = Talents.talents_types_def[ttn]
 			local cat = tt.type:gsub("/.*", "")
-			local name = _t(cat):capitalize().." / "..tt.name:capitalize()
-			tms[#tms+1] = ("%0.2f %s"):format(i, name)
+			local name = _t(cat):capitalize().._t(" / ")..tt.name:capitalize()
+			tms[#tms+1] = ("%0.2f %s"):tformat(i, name)
 		end
 		return table.concat(tms, ",")
 	elseif attr == "STATBONUS" then
@@ -544,6 +544,10 @@ function _M:getName(t)
 	t = t or {}
 	local qty = self:getNumber()
 	local name = _t(self.name) or _t"object"
+
+	if t.raw_name then
+		return self.name or "object"
+	end
 
 	if not t.no_add_name and (self.been_reshaped or self.been_imbued) then
 		name = (type(self.been_reshaped) == "string" and self.been_reshaped or "") .. name .. (type(self.been_imbued) == "string" and self.been_imbued or "")
@@ -678,7 +682,7 @@ function _M:compareFields(item1, items, infield, field, outformat, text, mod, is
 			if added == 0 then
 				ret:add(" (")
 			elseif added > 1 then
-				ret:add(" / ")
+				ret:add(_t(" / "))
 			end
 			added = added + 1
 			add = true
@@ -734,9 +738,9 @@ function _M:compareTableFields(item1, items, infield, field, outformat, text, kf
 		if not filter or filter(k, v) then
 			local count = 0
 			if isinversed then
-				ret:add(("%s"):format((count1 > 0) and " / " or ""), (v[1] or 0) > 0 and {"color","RED"} or {"color","LIGHT_GREEN"}, outformat:format((v[1] or 0)), {"color","LAST"})
+				ret:add(("%s"):format((count1 > 0) and _t(" / ") or ""), (v[1] or 0) > 0 and {"color","RED"} or {"color","LIGHT_GREEN"}, outformat:format((v[1] or 0)), {"color","LAST"})
 			else
-				ret:add(("%s"):format((count1 > 0) and " / " or ""), (v[1] or 0) < 0 and {"color","RED"} or {"color","LIGHT_GREEN"}, outformat:format((v[1] or 0)), {"color","LAST"})
+				ret:add(("%s"):format((count1 > 0) and _t(" / ") or ""), (v[1] or 0) < 0 and {"color","RED"} or {"color","LIGHT_GREEN"}, outformat:format((v[1] or 0)), {"color","LAST"})
 			end
 			count1 = count1 + 1
 			if v[1] then
@@ -747,7 +751,7 @@ function _M:compareTableFields(item1, items, infield, field, outformat, text, kf
 					if count == 0 then
 						ret:add("(")
 					elseif count > 0 then
-						ret:add(" / ")
+						ret:add(_t(" / "))
 					end
 					if vv ~= (v[1] or 0) then
 						if isinversed then
@@ -798,7 +802,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	for stat, i in pairs(dammod) do
 		-- I18N Stats using display_short_name
 		local name = Stats.stats_def[stat].display_short_name:capitalize()
-		dm[#dm+1] = ("%d%% %s"):format(i * 100, name)
+		dm[#dm+1] = ("%d%% %s"):tformat(i * 100, name)
 	end
 	if #dm > 0 or combat.dam then
 		local diff_count = 0
@@ -820,7 +824,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 				end
 			end
 			if any_diff then
-				local s = ("Power: %3d%% (%s)  Range: %.1fx (%s)"):tformat(base_power * 100, table.concat(power_diff, " / "), base_range, table.concat(range_diff, " / "))
+				local s = ("Power: %3d%% (%s)  Range: %.1fx (%s)"):tformat(base_power * 100, table.concat(power_diff, _t(" / ")), base_range, table.concat(range_diff, _t(" / ")))
 				desc:merge(s:toTString())
 			else
 				desc:add(("Power: %3d%%  Range: %.1fx"):tformat(base_power * 100, base_range))
@@ -842,7 +846,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 			if any_diff == false then
 				power_diff = ""
 			else
-				power_diff = ("(%s)"):format(table.concat(power_diff, " / "))
+				power_diff = ("(%s)"):format(table.concat(power_diff, _t(" / ")))
 			end
 			desc:add(("Base power: %.1f - %.1f"):tformat((combat.dam or 0) + (add_table.dam or 0), ((combat.damrange or (1.1 - (add_table.damrange or 0))) + (add_table.damrange or 0)) * ((combat.dam or 0) + (add_table.dam or 0))))
 			desc:merge(power_diff:toTString())
@@ -1066,7 +1070,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	end
 
 	if combat.crushing_blow then
-		desc:add({"color", "YELLOW"}, "Crushing Blows: ", {"color", "LAST"}, _t"Damage dealt by this weapon is increased by half your critical multiplier, if doing so would kill the target.", true)
+		desc:add({"color", "YELLOW"}, _t"Crushing Blows: ", {"color", "LAST"}, _t"Damage dealt by this weapon is increased by half your critical multiplier, if doing so would kill the target.", true)
 	end
 
 	compare_fields(combat, compare_with, field, "travel_speed", "%+d%%", _t"Travel speed: ", 100, false, false, add_table)
@@ -1088,44 +1092,44 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 	end
 
 	compare_table_fields(
-		combat, compare_with, field, "melee_project", "%+d", "Damage (Melee): ",
+		combat, compare_with, field, "melee_project", "%+d", _t"Damage (Melee): ",
 		function(item)
 			local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-			return col[2], (" %s"):format(DamageType.dam_def[item].name),{"color","LAST"}
+			return col[2], (" %s"):tformat(DamageType.dam_def[item].name),{"color","LAST"}
 		end,
 		nil, nil,
 		function(k, v) return not DamageType.dam_def[k].tdesc end)
 
 	compare_table_fields(
-		combat, compare_with, field, "ranged_project", "%+d", "Damage (Ranged): ",
+		combat, compare_with, field, "ranged_project", "%+d", _t"Damage (Ranged): ",
 		function(item)
 			local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-			return col[2], (" %s"):format(DamageType.dam_def[item].name),{"color","LAST"}
+			return col[2], (" %s"):tformat(DamageType.dam_def[item].name),{"color","LAST"}
 		end,
 		nil, nil,
 		function(k, v) return not DamageType.dam_def[k].tdesc end)
 
 	compare_table_fields(combat, compare_with, field, "burst_on_hit", "%+d", _t"Damage (radius 1) on hit: ", function(item)
 			local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-			return col[2], (" %s"):format(DamageType.dam_def[item].name),{"color","LAST"}
+			return col[2], (" %s"):tformat(DamageType.dam_def[item].name),{"color","LAST"}
 		end)
 
 	compare_table_fields(combat, compare_with, field, "burst_on_crit", "%+d", _t"Damage (radius 2) on crit: ", function(item)
 			local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-			return col[2], (" %s"):format(DamageType.dam_def[item].name),{"color","LAST"}
+			return col[2], (" %s"):tformat(DamageType.dam_def[item].name),{"color","LAST"}
 		end)
 
 	compare_table_fields(combat, compare_with, field, "convert_damage", "%d%%", _t"Damage conversion: ", function(item)
 			local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-			return col[2], (" %s"):format(DamageType.dam_def[item].name),{"color","LAST"}
+			return col[2], (" %s"):tformat(DamageType.dam_def[item].name),{"color","LAST"}
 		end)
 
 	compare_table_fields(combat, compare_with, field, "inc_damage_type", "%+d%% ", _t"Damage against: ", function(item)
 			local _, _, t, st = item:find("^([^/]+)/?(.*)$")
 			if st and st ~= "" then
-				return st:capitalize()
+				return _t(st):capitalize()
 			else
-				return t:capitalize()
+				return _t(t):capitalize()
 			end
 		end)
 
@@ -1135,7 +1139,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 		function(item)
 			local res_def = ActorResource.resources_def[item]
 			local col = (res_def and res_def.color or "#SALMON#"):toTString()
-			return col[2], (" %s"):format(res_def and res_def.name or item:capitalize()),{"color","LAST"}
+			return col[2], (" %s"):tformat(res_def and res_def.name or item:capitalize()),{"color","LAST"}
 		end,
 		nil,
 		true)
@@ -1332,7 +1336,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 
 		compare_table_fields(combat2, compare_with, field, "melee_project", "%d", _t"Damage (Melee): ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2],(" %s"):format(DamageType.dam_def[item].name),{"color","LAST"}
+				return col[2],(" %s"):tformat(DamageType.dam_def[item].name),{"color","LAST"}
 			end)
 
 		if ranged_found then
@@ -1342,7 +1346,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 
 		compare_table_fields(ranged_combat, compare_with, field, "ranged_project", "%d", _t"Damage (Ranged): ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2],(" %s"):format(DamageType.dam_def[item].name),{"color","LAST"}
+				return col[2],(" %s"):tformat(DamageType.dam_def[item].name),{"color","LAST"}
 			end)
 
 		if found then
@@ -1352,7 +1356,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 
 		compare_table_fields(onhit_combat, compare_with, field, "on_melee_hit", "%d", _t"Damage when hit (Melee): ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2],(" %s"):format(DamageType.dam_def[item].name),{"color","LAST"}
+				return col[2],(" %s"):tformat(DamageType.dam_def[item].name),{"color","LAST"}
 			end)
 
 		-- get_items takes the object table and returns a table of items to print.
@@ -1455,68 +1459,68 @@ function _M:getTextualDesc(compare_with, use_actor)
 
 		compare_table_fields(w, compare_with, field, "inc_stats", "%+d", _t"Changes stats: ", function(item)
 			-- I18N Stats using display_short_name
-			return (" %s"):format(Stats.stats_def[item].display_short_name:capitalize())
+			return (" %s"):tformat(Stats.stats_def[item].display_short_name:capitalize())
 		end)
 		compare_table_fields(w, compare_with, field, "resists", "%+d%%", _t"Changes resistances: ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2], (" %s"):format(item == "all" and "all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
+				return col[2], (" %s"):tformat(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
 			end)
 
 		compare_table_fields(w, compare_with, field, "resists_cap", "%+d%%", _t"Changes resistances cap: ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2], (" %s"):format(item == "all" and "all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
+				return col[2], (" %s"):tformat(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
 			end)
 
 		compare_table_fields(w, compare_with, field, "flat_damage_armor", "%+d", _t"Reduce damage by fixed amount: ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2], (" %s"):format(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
+				return col[2], (" %s"):tformat(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
 			end)
 
 		compare_table_fields(w, compare_with, field, "wards", "%+d", _t"Maximum wards: ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2], (" %s"):format(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
+				return col[2], (" %s"):tformat(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
 			end)
 
 		compare_table_fields(w, compare_with, field, "resists_pen", "%+d%%", _t"Changes resistances penetration: ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2], (" %s"):format(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
+				return col[2], (" %s"):tformat(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
 			end)
 
 		compare_table_fields(w, compare_with, field, "inc_damage", "%+d%%", _t"Changes damage: ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2], (" %s"):format(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
+				return col[2], (" %s"):tformat(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
 			end)
 
 		compare_table_fields(w, compare_with, field, "inc_damage_actor_type", "%+d%% ", _t"Damage against: ", function(item)
 				local _, _, t, st = item:find("^([^/]+)/?(.*)$")
 				if st and st ~= "" then
-					return st:capitalize()
+					return _t(st):capitalize()
 				else
-					return t:capitalize()
+					return _t(t):capitalize()
 				end
 			end)
 
 		compare_table_fields(w, compare_with, field, "resists_actor_type", "%+d%% ", _t"Reduced damage from: ", function(item)
 		local _, _, t, st = item:find("^([^/]+)/?(.*)$")
 			if st and st ~= "" then
-				return st:capitalize()
+				return _t(st):capitalize()
 			else
-				return t:capitalize()
+				return _t(t):capitalize()
 			end
 		end)
 
 		compare_table_fields(w, compare_with, field, "talents_mastery_bonus", "+%0.2f ", _t"Talent category bonus: ", function(item)
 		local _, _, t, st = item:find("^([^/]+)/?(.*)$")
 			if st and st ~= "" then
-				return st:capitalize()
+				return _t(st):capitalize()
 			else
-				return t:capitalize()
+				return _t(t):capitalize()
 			end
 		end)
 
 		compare_table_fields(w, compare_with, field, "damage_affinity", "%+d%%", _t"Damage affinity(heal): ", function(item)
 				local col = (DamageType.dam_def[item] and DamageType.dam_def[item].text_color or "#WHITE#"):toTString()
-				return col[2], (" %s"):format(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
+				return col[2], (" %s"):tformat(item == "all" and _t"all" or (DamageType.dam_def[item] and DamageType.dam_def[item].name or "??")), {"color","LAST"}
 			end)
 
 		compare_fields(w, compare_with, field, "esp_range", "%+d", _t"Change telepathy range by : ")
@@ -1553,9 +1557,9 @@ function _M:getTextualDesc(compare_with, use_actor)
 		for type, i in pairs(w.esp or {}) do if i and i > 0 then
 			local _, _, t, st = type:find("^([^/]+)/?(.*)$")
 			if st and st ~= "" then
-				esps[#esps+1] = t:capitalize().."/"..st:capitalize()
+				esps[#esps+1] = _t(t):capitalize().."/".._t(st):capitalize()
 			else
-				esps[#esps+1] = t:capitalize()
+				esps[#esps+1] = _t(t):capitalize()
 			end
 			esps_compare[esps[#esps]] = esps_compare[esps[#esps]] or {}
 			esps_compare[esps[#esps]][2] = true
@@ -1590,12 +1594,12 @@ function _M:getTextualDesc(compare_with, use_actor)
 			any_mastery = any_mastery + 1
 		end
 		if any_mastery > 0 then
-			desc:add(("Talent master%s: "):tformat(any_mastery > 1 and "ies" or "y"))
+			desc:add(("Talent master%s: "):tformat(any_mastery > 1 and _t"ies" or _t"y"))
 			for ttn, ttid in pairs(masteries) do
 				local tt = Talents.talents_types_def[ttn]
 				if tt then
 					local cat = tt.type:gsub("/.*", "")
-					local name = _t(cat):capitalize().." / "..tt.name:capitalize()
+					local name = _t(cat):capitalize().._t(" / ")..tt.name:capitalize()
 					local diff = (ttid[2] or 0) - (ttid[1] or 0)
 					if diff ~= 0 then
 						if ttid[1] then
@@ -1699,9 +1703,9 @@ function _M:getTextualDesc(compare_with, use_actor)
 			desc:add(_t"Allows you to breathe in: ")
 			for what, isin in pairs(breaths) do
 				if isin[2] then
-					desc:add(isin[1] and {"color","WHITE"} or {"color","GREEN"}, ("%s "):format(what), {"color","LAST"})
+					desc:add(isin[1] and {"color","WHITE"} or {"color","GREEN"}, ("%s "):format(_t(what)), {"color","LAST"})
 				else
-					desc:add({"color","RED"}, ("%s "):format(what), {"color","LAST"})
+					desc:add({"color","RED"}, ("%s "):format(_t(what)), {"color","LAST"})
 				end
 			end
 			desc:add(true)
@@ -1767,7 +1771,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 		compare_fields(w, compare_with, field, "psi_per_kill", "+%0.2f", _t"Psi per kill: ")
 		compare_fields(w, compare_with, field, "vim_on_death", "%+.2f", _t"Vim per kill: ")
 
-		compare_fields(w, compare_with, field, "die_at", "%+.2f life", _t"Only die when reaching: ", 1, true, true)
+		compare_fields(w, compare_with, field, "die_at", _t"%+.2f life", _t"Only die when reaching: ", 1, true, true)
 		compare_fields(w, compare_with, field, "max_life", "%+.2f", _t"Maximum life: ")
 		compare_fields(w, compare_with, field, "max_mana", "%+.2f", _t"Maximum mana: ")
 		compare_fields(w, compare_with, field, "max_soul", "%+.2f", _t"Maximum souls: ")
@@ -1860,11 +1864,11 @@ function _M:getTextualDesc(compare_with, use_actor)
 		end
 
 		if w.blind_fight then
-			desc:add({"color", "YELLOW"}, "Blind-Fight: ", {"color", "LAST"}, _t"This item allows the wearer to attack unseen targets without any penalties.", true)
+			desc:add({"color", "YELLOW"}, _t"Blind-Fight: ", {"color", "LAST"}, _t"This item allows the wearer to attack unseen targets without any penalties.", true)
 		end
 
 		if w.lucid_dreamer then
-			desc:add({"color", "YELLOW"}, "Lucid Dreamer: ", {"color", "LAST"}, _t"This item allows the wearer to act while sleeping.", true)
+			desc:add({"color", "YELLOW"}, _t"Lucid Dreamer: ", {"color", "LAST"}, _t"This item allows the wearer to act while sleeping.", true)
 		end
 
 		if w.no_breath then
@@ -1872,11 +1876,11 @@ function _M:getTextualDesc(compare_with, use_actor)
 		end
 
 		if w.quick_weapon_swap then
-			desc:add({"color", "YELLOW"}, "Quick Weapon Swap:", {"color", "LAST"}, _t"This item allows the wearer to swap to their secondary weapon without spending a turn.", true)
+			desc:add({"color", "YELLOW"}, _t"Quick Weapon Swap:", {"color", "LAST"}, _t"This item allows the wearer to swap to their secondary weapon without spending a turn.", true)
 		end
 
 		if w.avoid_pressure_traps then
-			desc:add({"color", "YELLOW"}, "Avoid Pressure Traps: ", {"color", "LAST"}, _t"The wearer never triggers traps that require pressure.", true)
+			desc:add({"color", "YELLOW"}, _t"Avoid Pressure Traps: ", {"color", "LAST"}, _t"The wearer never triggers traps that require pressure.", true)
 		end
 
 		if w.speaks_shertul then
@@ -2202,15 +2206,18 @@ function _M:getDesc(name_param, compare_with, never_compare, use_actor)
 		desc:merge(reqs)
 	end
 
+	print("[DEBUG XXX power source]")
+	table.print(desc)
 	if self.power_source then
-		if self.power_source.arcane then desc:add((_t"Powered by #VIOLET#arcane forces#LAST#"):toTString(), true) end
-		if self.power_source.nature then desc:add((_t"Infused by #OLIVE_DRAB#nature#LAST#"):toTString(), true) end
-		if self.power_source.antimagic then desc:add((_t"Infused by #ORCHID#arcane disrupting forces#LAST#"):toTString(), true) end
-		if self.power_source.technique then desc:add((_t"Crafted by #LIGHT_UMBER#a master#LAST#"):toTString(), true) end
-		if self.power_source.psionic then desc:add((_t"Infused by #YELLOW#psionic forces#LAST#"):toTString(), true) end
-		if self.power_source.unknown then desc:add((_t"Powered by #CRIMSON#unknown forces#LAST#"):toTString(), true) end
+		if self.power_source.arcane then desc:merge((_t"Powered by #VIOLET#arcane forces#LAST#\n"):toTString()) end
+		if self.power_source.nature then desc:merge((_t"Infused by #OLIVE_DRAB#nature#LAST#\n"):toTString()) end
+		if self.power_source.antimagic then desc:merge((_t"Infused by #ORCHID#arcane disrupting forces#LAST#\n"):toTString()) end
+		if self.power_source.technique then desc:merge((_t"Crafted by #LIGHT_UMBER#a master#LAST#\n"):toTString()) end
+		if self.power_source.psionic then desc:merge((_t"Infused by #YELLOW#psionic forces#LAST#\n"):toTString()) end
+		if self.power_source.unknown then desc:merge((_t"Powered by #CRIMSON#unknown forces#LAST#\n"):toTString()) end
 		self:triggerHook{"Object:descPowerSource", desc=desc, object=self}
 	end
+	table.print(desc)
 
 	if self.encumber then
 		desc:add({"color",0x67,0xAD,0x00}, ("%0.2f Encumbrance."):tformat(self.encumber), {"color", "LAST"})
@@ -2236,7 +2243,8 @@ function _M:getDesc(name_param, compare_with, never_compare, use_actor)
 
 	if self.shimmer_moddable then
 		local oname = (self.shimmer_moddable.name or "???"):toTString()
-		desc:add(true, {"color", "OLIVE_DRAB"}, ("This object's appearance was changed to %s"):tformat(oname:toString()):toTString())
+		desc:add(true, {"color", "OLIVE_DRAB"})
+		desc:merge(("This object's appearance was changed to %s"):tformat(oname:toString()):toTString())
 		-- desc:merge(oname)
 		desc:add(_t".", {"color","LAST"}, true)
 	end

@@ -212,10 +212,10 @@ newEntity{
 			o.set_list = { {"define_as", "MS_EGO_SET_MITOTIC_SLIME"} }
 			o2.set_list = { {"define_as", "MS_EGO_SET_MITOTIC_ACID"} }
 			o.set_desc = {
-				mitotic = "This mindstar would symbiotize with another like it.",
+				mitotic = _t"This mindstar would symbiotize with another like it.",
 			}
 			o2.set_desc = {
-				mitotic = "This mindstar would symbiotize with another like it.",
+				mitotic = _t"This mindstar would symbiotize with another like it.",
 			}
 
 			o.on_set_complete = function(self, who)
@@ -464,7 +464,7 @@ newEntity{
 			desc=function(self, who, special)
 				local manaburn = special.manaburn(who)
 				return ("Deals #YELLOW#%d#LAST# Manaburn damage and puts 1 random spell talent on cooldown for #YELLOW#%d#LAST# turns (checks Confusion immunity)"):
-					format(manaburn or 0, 1 + math.ceil(who:combatMindpower() / 20))
+					tformat(manaburn or 0, 1 + math.ceil(who:combatMindpower() / 20))
 			end,
 			manaburn=function(who)
 				local dam = math.floor(who:combatStatScale(who:combatMindpower(), 1, 150))

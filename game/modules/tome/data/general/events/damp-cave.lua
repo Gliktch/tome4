@@ -31,10 +31,10 @@ local changer = function(id)
 	local terrains = mod.class.Grid:loadList("/data/general/grids/cave.lua")
 	terrains.CAVE_LADDER_UP_WILDERNESS.change_level_shift_back = true
 	terrains.CAVE_LADDER_UP_WILDERNESS.change_zone_auto_stairs = true
-	terrains.CAVE_LADDER_UP_WILDERNESS.name = "ladder back to "..game.zone.name
+	terrains.CAVE_LADDER_UP_WILDERNESS.name = ("ladder back to %s"):tformat(game.zone.name)
 	terrains.CAVE_LADDER_UP_WILDERNESS.change_zone = game.zone.short_name
 	local zone = mod.class.Zone.new(id, {
-		name = "Damp Cave",
+		name = _t"Damp Cave",
 		level_range = game.zone.actor_adjust_level and {math.floor(game.zone:actor_adjust_level(game.level, game.player)*1.05),
 			math.ceil(game.zone:actor_adjust_level(game.level, game.player)*1.15)} or {game.zone.base_level, game.zone.base_level}, -- 5-15% higher actor levels
 		__applied_difficulty = true, -- Difficulty already applied to parent zone

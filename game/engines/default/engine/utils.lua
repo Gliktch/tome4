@@ -368,6 +368,28 @@ function table.ts(t)
 	return tt
 end
 
+function table.lower(t)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = e:lower() end
+	return tt
+end
+
+function table.capitalize(t)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = e:capitalize() end
+	return tt
+end
+
+function string.tslash(str)
+	if str:find("/") then
+		local pos, _ = str:find("/")
+		return _t(str:sub(1, pos - 1)) .. "/" .. string.tslash(str:sub(pos + 1))
+	else
+		return _t(str)
+	end
+end
+
+
 function table.values(t)
 	local tt = {}
 	for k, e in pairs(t) do tt[#tt+1] = e end
@@ -813,17 +835,17 @@ end
 string.nextUTF = core.display.stringNextUTF
 
 function string.ordinal(number)
-	local suffix = "th"
+	local suffix = _t"%dth"
 	number = tonumber(number)
 	local base = number % 10
 	if base == 1 then
-		suffix = "st"
+		suffix = _t"%dst"
 	elseif base == 2 then
-		suffix = "nd"
+		suffix = _t"%dnd"
 	elseif base == 3 then
-		suffix = "rd"
+		suffix = _t"%drd"
 	end
-	return number..suffix
+	return (suffix):tformat(number)
 end
 
 function string.trim(str)

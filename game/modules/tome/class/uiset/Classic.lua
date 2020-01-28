@@ -29,6 +29,7 @@ local LogFlasher = require "engine.LogFlasher"
 local FlyingText = require "engine.FlyingText"
 local Tooltip = require "mod.class.Tooltip"
 local Dialog = require "engine.ui.Dialog"
+local FontPackage = require "engine.FontPackage"
 
 module(..., package.seeall, class.inherit(UISet))
 
@@ -38,17 +39,8 @@ end
 
 function _M:activate()
 	local size, size_mono, font, font_mono, font_mono_h, font_h
-	if config.settings.tome.fonts.type == "fantasy" then
-		size = ({normal=16, small=14, big=18})[config.settings.tome.fonts.size]
-		size_mono = ({normal=14, small=10, big=16})[config.settings.tome.fonts.size]
-		font = "/data/font/USENET_.ttf"
-		font_mono = "/data/font/SVBasicManual.ttf"
-	else
-		size = ({normal=12, small=10, big=14})[config.settings.tome.fonts.size]
-		size_mono = ({normal=12, small=10, big=14})[config.settings.tome.fonts.size]
-		font = "/data/font/Vera.ttf"
-		font_mono = "/data/font/VeraMono.ttf"
-	end
+	local font, size = FontPackage:getFont("classic")
+	local font_mono, size_mono = FontPackage:getFont("classic_mono")
 	local f = core.display.newFont(font, size)
 	font_h = f:lineSkip()
 	f = core.display.newFont(font_mono, size_mono)
@@ -379,7 +371,7 @@ function _M:setupMouse(mouse)
 					d:use({talent=hk[2], name=game.player:getTalentFromId(hk[2]).name}, "right")
 					return true
 				elseif button == "right" and hk and hk[1] == "inventory" then
-					Dialog:yesnoPopup("Unbind "..hk[2], "Remove this object from your hotkeys?", function(ret) if ret then
+					Dialog:yesnoPopup(("Unbind %s"):tformat(hk[2]), _t"Remove this object from your hotkeys?", function(ret) if ret then
 						for i = 1, 12 * game.player.nb_hotkey_pages do
 							if game.player.hotkey[i] and game.player.hotkey[i][1] == "inventory" and game.player.hotkey[i][2] == hk[2] then game.player.hotkey[i] = nil end
 						end
@@ -415,25 +407,25 @@ function _M:setupMouse(mouse)
 
 		local str = tstring{{"color","GOLD"}, {"font","bold"}, user.name, {"color","LAST"}, {"font","normal"}, true}
 		if user.donator and user.donator ~= "none" then
-			local text, color = "Donator", colors.WHITE
-			if user.status and user.status == 'dev' then text, color = "Developer", colors.CRIMSON
-			elseif user.status and user.status == 'mod' then text, color = "Moderator / Helper", colors.GOLD
-			elseif user.donator == "oneshot" then text, color = "Donator", colors.LIGHT_GREEN
-			elseif user.donator == "recurring" then text, color = "Recurring Donator", colors.LIGHT_BLUE end
+			local text, color = _t"Donator", colors.WHITE
+			if user.status and user.status == 'dev' then text, color = _t"Developer", colors.CRIMSON
+			elseif user.status and user.status == 'mod' then text, color = _t"Moderator / Helper", colors.GOLD
+			elseif user.donator == "oneshot" then text, color = _t"Donator", colors.LIGHT_GREEN
+			elseif user.donator == "recurring" then text, color = _t"Recurring Donator", colors.LIGHT_BLUE end
 			str:add({"color",unpack(colors.simple(color))}, text, {"color", "LAST"}, true)
 		end
-		str:add({"color","ANTIQUE_WHITE"}, "Playing: ", {"color", "LAST"}, user.current_char, true)
-		str:add({"color","ANTIQUE_WHITE"}, "Game: ", {"color", "LAST"}, user.module, "(", user.valid, ")",true)
+		str:add({"color","ANTIQUE_WHITE"}, _t"Playing: ", {"color", "LAST"}, user.current_char, true)
+		str:add({"color","ANTIQUE_WHITE"}, _t"Game: ", {"color", "LAST"}, user.module, "(", user.valid, ")",true)
 
 		local extra = {}
 		if item.extra_data and item.extra_data.mode == "tooltip" then
-			local rstr = tstring{item.extra_data.tooltip, true, "---", true, "Linked by: "}
+			local rstr = tstring{item.extra_data.tooltip, true, "---", true, _t"Linked by: "}
 			rstr:merge(str)
 			extra.log_str = rstr
 		else
 			extra.log_str = str
 			if button == "right" and event == "button" then
-				extra.add_map_action = { name="Show chat user", fct=function() profile.chat:showUserInfo(user.login) end }
+				extra.add_map_action = { name=_t"Show chat user", fct=function() profile.chat:showUserInfo(user.login) end }
 			end
 		end
 		game.mouse:delegate(button, mx, my, xrel, yrel, nil, nil, event, "playmap", extra)

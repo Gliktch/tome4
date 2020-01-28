@@ -1051,7 +1051,7 @@ It hums faintly, as if great power is locked within, yet alone it seems incomple
 	use_talent = { id = Talents.T_ARCANE_SUPREMACY, level = 3, power = 20 },
 	set_list = { {"define_as", "SET_HAT_CHANNELERS"} },
 	set_desc = {
-		channelers = "A true understanding of the arcane is needed to release its full power.",
+		channelers = _t"A true understanding of the arcane is needed to release its full power.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","max_mana"}, 100)
@@ -1087,7 +1087,7 @@ Touching the cloth you feel a sense of knowledge and power from bygone ages, yet
 	max_power = 40, power_regen = 1,
 	set_list = { {"define_as", "SET_STAFF_CHANNELERS"} },
 	set_desc = {
-		channelers = "Only supremacy of the arcane can release its full power.",
+		channelers = _t"Only supremacy of the arcane can release its full power.",
 	},
 	on_set_complete = function(self, who)
 		local Talents = require "engine.interface.ActorTalents"
@@ -1208,7 +1208,7 @@ newEntity{ base = "BASE_KNIFE", --Razakai's idea, slightly modified
 		apr = 9,
 		physcrit = 15,
 		dammod = {str=0.45, dex=0.55},
-		special_on_hit = {desc="deals 60 physical damage increased by 1% for each 1% life the target has lost", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"deals 60 physical damage increased by 1% for each 1% life the target has lost", fct=function(combat, who, target)
 			local tg = {type="ball", range=10, radius=0, selffire=false}
 			local bonus = 1 + (1 - target.life / target.max_life)
 			who:project(tg, target.x, target.y, engine.DamageType.PHYSICAL, 60*bonus)

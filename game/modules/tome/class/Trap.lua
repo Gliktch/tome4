@@ -224,7 +224,7 @@ function _M:onDisarm(x, y, who)
 			local dismantle = coroutine.create(function(self, who)
 				local wait = function()
 					local co = coroutine.running()
-					who:restInit(turns, "Dismantling", "dismantled", function(cnt, max)
+					who:restInit(turns, _t"Dismantling", _t"dismantled", function(cnt, max)
 						-- "resting" finished, undo the restCheck hack and check results
 						who.restCheck = oldrestCheck
 						if not success then

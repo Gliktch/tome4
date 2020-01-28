@@ -949,7 +949,7 @@ newEffect{
 newEffect{
 	name = "CURSE_HATE", image = "talents/curse_of_the_meek.png",
 	desc = _t"Curse of Hate",
-	long_desc = function(self, eff) return ("The target is cursed, force all foes in a radius of 5 to attack it.") end,
+	long_desc = function(self, eff) return (_t"The target is cursed, force all foes in a radius of 5 to attack it.") end,
 	type = "magical",
 	subtype = { curse=true },
 	status = "detrimental",
@@ -1473,7 +1473,7 @@ newEffect{
 newEffect{
 	name = "SANCTITY", image = "talents/circle_of_sanctity.png",
 	desc = _t"Sanctity",
-	long_desc = function(self, eff) return ("The target is protected from silence effects.") end,
+	long_desc = function(self, eff) return (_t"The target is protected from silence effects.") end,
 	type = "magical",
 	subtype = { circle=true },
 	status = "beneficial",
@@ -2381,7 +2381,7 @@ newEffect{
 newEffect{
 	name = "BLOODCASTING", image = "talents/bloodcasting.png",
 	desc = _t"Bloodcasting",
-	long_desc = function(self, eff) return ("Corruptions consume health instead of vim.") end,
+	long_desc = function(self, eff) return (_t"Corruptions consume health instead of vim.") end,
 	type = "magical",
 	subtype = {corruption=true},
 	status = "beneficial",
@@ -2680,7 +2680,7 @@ newEffect{
 newEffect{
 	name = "AETHER_AVATAR", image = "talents/aether_avatar.png",
 	desc = _t"Aether Avatar",
-	long_desc = function(self, eff) return ("Filled with pure aether forces!") end,
+	long_desc = function(self, eff) return (_t"Filled with pure aether forces!") end,
 	type = "magical",
 	subtype = { arcane=true },
 	status = "beneficial",
@@ -3648,7 +3648,7 @@ newEffect{
 		-- check negative life first incase the creature has healing
 		if self.life <= (self.die_at or 0) then
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
-			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), "Unravels!", {255,0,255})
+			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), _t"Unravels!", {255,0,255})
 			game.logSeen(self, "%s has unraveled!", self:getName():capitalize())
 			self:die(self)
 		end

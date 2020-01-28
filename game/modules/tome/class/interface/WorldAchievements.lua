@@ -45,7 +45,8 @@ end
 function _M:newAchievement(t)
 	t.id = t.id or t.name
 	t.id = t.id:upper():gsub("[ ]", "_")
-	t.category = t.category or "Maj'Eyal"
+	t.name = _t(t.name)
+	t.category = t.category or _t"Maj'Eyal"
 	findTile(t)
 
 	WA.newAchievement(self, t)

@@ -107,7 +107,7 @@ newEntity{ base = "BASE_SHIELD", define_as = "SHIELD_UNSETTING",
 	},
 	set_list = { {"define_as","SWORD_DAWN"} },
 	set_desc = {
-		dawn = "Glows brightly in the light of dawn.",
+		dawn = _t"Glows brightly in the light of dawn.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"wielder","life_regen"}, 5)
@@ -255,7 +255,7 @@ Now the broken fragments of Raasul's soul are trapped in this terrible artifact,
 		dammod = {str=1, mag=0.1},
 		convert_damage = {[DamageType.BLIGHT] = 50},
 		lifesteal=5,
-		special_on_hit = {desc="15% chance to animate a bleeding foe's blood", fct=function(combat, who, target)
+		special_on_hit = {desc=_t"15% chance to animate a bleeding foe's blood", fct=function(combat, who, target)
 			if not rng.percent(15) then return end
 			local cut = false
 
@@ -322,7 +322,7 @@ Now the broken fragments of Raasul's soul are trapped in this terrible artifact,
 			game.party:addMember(m, {
 				control=false,
 				type="summon",
-				title="Summon",
+				title=_t"Summon",
 				orders = {target=true, leash=true, anchor=true, talents=true},
 			})
 
@@ -409,7 +409,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as = "SWORD_DAWN",
 	
 	set_list = { {"define_as","SHIELD_UNSETTING"} },
 	set_desc = {
-		dawn = "If the sun doesn't set, dawn's power lasts forever.",
+		dawn = _t"If the sun doesn't set, dawn's power lasts forever.",
 	},
 	on_set_complete = function(self, who)
 		self:specialSetAdd({"combat","melee_project"}, {[engine.DamageType.LIGHT]=15, [engine.DamageType.FIRE]=15})
@@ -464,7 +464,7 @@ newEntity{ base = "BASE_KNIFE", define_as = "MANDIBLE_UNGOLMOR",
 		physcrit = 22,
 		dammod = {cun=0.30, str=0.35, dex=0.35},
 		convert_damage ={[DamageType.DARKNESS] = 30},
-		special_on_crit = {desc="inflicts spydric poison dealing 200 damage over 3 turns and pinning the target", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"inflicts spydric poison dealing 200 damage over 3 turns and pinning the target", fct=function(combat, who, target)
 			if target:canBe("poison") then
 				local tg = {type="hit", range=1}
 				who:project(tg, target.x, target.y, engine.DamageType.SPYDRIC_POISON, {src=who, dam=200, dur=3})

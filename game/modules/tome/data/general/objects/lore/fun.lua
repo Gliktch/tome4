@@ -43,7 +43,7 @@ newEntity{ base = "BASE_LORE_RANDOM",
 
 for i = 1, 4 do
 newEntity{ base = "BASE_LORE_RANDOM",
-	name = "how to become a necromancer, part "..i, lore="necromancer-primer-"..i, unique=true,
+	name = ("how to become a necromancer, part %d"):tformat(i), lore="necromancer-primer-"..i, unique=true,
 	desc = _t[[How to become a powerful Necromancer!]],
 	level_range = {15, 50},
 	rarity = 40,
@@ -59,14 +59,14 @@ newEntity{ base = "BASE_LORE_RANDOM",
 
 for i = 1, 5 do
 local who
-if i == 1 then who = "Rolf" nb = 1
-elseif i == 2 then who = "Weisman" nb = 1
-elseif i == 3 then who = "Rolf" nb = 2
-elseif i == 4 then who = "Weisman" nb = 2
-elseif i == 5 then who = "Weisman" nb = 3
+if i == 1 then who = _t"Rolf" nb = 1
+elseif i == 2 then who = _t"Weisman" nb = 1
+elseif i == 3 then who = _t"Rolf" nb = 2
+elseif i == 4 then who = _t"Weisman" nb = 2
+elseif i == 5 then who = _t"Weisman" nb = 3
 end
 newEntity{ base = "BASE_LORE_RANDOM",
-	name = "letter to "..who.."("..nb..")", lore="adventurer-letter-"..i, unique=true,
+	name = ("letter to %s (%d)"):tformat(who, nb), lore="adventurer-letter-"..i, unique=true,
 	desc = _t[[A part of the correspondence between two adventurers.]],
 	level_range = {1, 20},
 	rarity = 20,

@@ -192,9 +192,9 @@ function _M:generateList()
 				-- Pregenenerate icon with the Tiles instance that allows images
 				if t.display_entity and game.uiset.hotkeys_display_icons then t.display_entity:getMapObjects(game.uiset.hotkeys_display_icons.tiles, {}, 1) end
 				if self.on_player and not rt then
-					tals[#tals+1] = {name=e:getDisplayString()..t.name, dname=t.name, talent=t, action="talent", color=colors.simple(colors.GOLD)}
+					tals[#tals+1] = {name=e:getDisplayString()..tostring(player:getTalentDisplayName(t)), dname=t.name, talent=t, action="talent", color=colors.simple(colors.GOLD)}
 				elseif not self.on_player and rt then
-					tals[#tals+1] = {name=e:getDisplayString()..t.name, dname=t.name, talent=t, action="talent", set_target=tg or default_tg, color=colors.simple(colors.GOLD)}
+					tals[#tals+1] = {name=e:getDisplayString()..tostring(player:getTalentDisplayName(t)), dname=t.name, talent=t, action="talent", set_target=tg or default_tg, color=colors.simple(colors.GOLD)}
 				end
 			end
 		end

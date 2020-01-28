@@ -109,7 +109,7 @@ newEntity{
 	cost = 40,
 	combat = {
 		physcrit = resolvers.mbonus_material(10, 5),
-		special_on_crit = {desc="Cripple the target reducing mind, spell, and combat action speeds by 30%", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"Cripple the target reducing mind, spell, and combat action speeds by 30%", fct=function(combat, who, target)
 			target:setEffect(target.EFF_CRIPPLE, 4, {src=who, apply_power=who:combatAttack(combat)})
 		end},
 	},
@@ -308,10 +308,10 @@ newEntity{
 	combat = {
 		elemental_bonus = resolvers.mbonus_material(25, 5),  -- We can't use the wielder bonuses this ego normally gets, so give it a scaling bonus instead
 		elemental_element = resolvers.rngtable{
-			{engine.DamageType.FIRE, "flame", "fire"},
-			{engine.DamageType.COLD, "freeze", "cold"},
-			{engine.DamageType.LIGHTNING, "lightning_explosion", "lightning"},
-			{engine.DamageType.ACID, "acid", "acid"},
+			{engine.DamageType.FIRE, "flame", _t"fire"},
+			{engine.DamageType.COLD, "freeze", _t"cold"},
+			{engine.DamageType.LIGHTNING, "lightning_explosion", _t"lightning"},
+			{engine.DamageType.ACID, "acid", _t"acid"},
 		},
 		special_on_hit = {
 			desc=function(self, who, special)
@@ -574,7 +574,7 @@ newEntity{
 			desc=function(self, who, special)
 				local manaburn = special.manaburn(who)
 				return ("Deals #YELLOW#%d#LAST# Manaburn damage and puts 1 random spell talent on cooldown for #YELLOW#%d#LAST# turns (checks Confusion immunity)"):
-					format(manaburn or 0, 1 + math.ceil(who:combatMindpower() / 20))
+					tformat(manaburn or 0, 1 + math.ceil(who:combatMindpower() / 20))
 			end,
 			manaburn=function(who)
 				local dam = math.floor(who:combatStatScale(who:combatMindpower(), 1, 150))
@@ -744,7 +744,7 @@ newEntity{
 	cost = 30,
 	combat = {
 		special_on_hit = {
-			desc="#LIGHT_GREEN#20%#LAST# chance to stun, blind, pin, confuse, or silence the target for 3 turns", 
+			desc=_t"#LIGHT_GREEN#20%#LAST# chance to stun, blind, pin, confuse, or silence the target for 3 turns",
 			fct=function(combat, who, target, dam, special)
 				if not rng.percent(20) then return end
 				local eff = rng.table{"stun", "blind", "pin", "confusion", "silence",}

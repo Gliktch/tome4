@@ -222,7 +222,7 @@ function _M:deleteSave()
 			d.__showup = false
 			game:replaceDialog(self, d)
 		end
-	end, "Delete", "Cancel")
+	end, _t"Delete", _t"Cancel")
 end
 
 function _M:installOldGame(version_string)
