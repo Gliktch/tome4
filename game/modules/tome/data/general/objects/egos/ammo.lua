@@ -314,6 +314,7 @@ newEntity{
 			{engine.DamageType.ACID, "acid", "acid"},
 		},
 		special_on_hit = {
+			on_kill = 1,
 			desc=function(self, who, special)
 				local dam = special.explosion(self.combat, who)
 				return ("Create an explosion dealing #VIOLET#%d#LAST# %s damage (1/turn)"):format(dam, self.combat.elemental_element and self.combat.elemental_element[3] or "<random on generation>" )
