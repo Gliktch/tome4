@@ -163,7 +163,7 @@ It is said the Conclave created this weapon for their warmaster during the dark 
 					elseif not oe:check("block_move", x, y) then
 						local e = Object.new{
 							old_feat = oe,
-							name = "winter wall", image = "npc/iceblock.png",
+							name = _t"winter wall", image = "npc/iceblock.png",
 							_wintertide_ice_wall = true,
 							display = '#', color_r=255, color_g=255, color_b=255, back_color=colors.GREY,
 							desc = _t"a summoned wall of ice",
@@ -896,7 +896,7 @@ newEntity{ base = "BASE_AMULET",
 		local vampire = NPC.new{
 			type = "undead", subtype = "vampire",
 			display = "V", image = "npc/elder_vampire.png",
-			name = "elder vampire", color=colors.RED,
+			name = _t"elder vampire", color=colors.RED,
 			desc=_t[[A terrible robed undead figure, this creature has existed in its unlife for many centuries by stealing the life of others. It can summon the very shades of its victims from beyond the grave to come enslaved to its aid.]],
 
 			combat = { dam=resolvers.levelup(80, 1, 4), atk=10, apr=who.level / 2, damtype=engine.DamageType.DRAINLIFE, dammod={str=1.9} },
@@ -1122,7 +1122,7 @@ newEntity{ base = "BASE_GEM", define_as = "CRYSTAL_FOCUS",
 			local Entity = require("engine.Entity")
 			local ActorStats = require("engine.interface.ActorStats")
 			local crystalline_ego = Entity.new{
-				name = "crystalline weapon",
+				name = _t"crystalline weapon",
 				no_unique_lore = true,
 				is_crystalline_weapon = true,
 				power_source = {arcane=true},
@@ -1261,7 +1261,7 @@ newEntity{ base = "BASE_GEM", define_as = "CRYSTAL_HEART",
 			local Entity = require("engine.Entity")
 			local ActorStats = require("engine.interface.ActorStats")
 			local crystalline_ego = Entity.new{
-				name = "crystalline armour",
+				name = _t"crystalline armour",
 				no_unique_lore = true,
 				is_crystalline_armor = true,
 				power_source = {arcane=true},

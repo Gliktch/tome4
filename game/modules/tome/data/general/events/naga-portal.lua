@@ -32,7 +32,7 @@ local changer = function(id)
 	terrains.PORTAL_BACK = mod.class.Grid.new{
 		type = "floor", subtype = "underwater",
 		display = "&", color = colors.BLUE,
-		name = "coral invasion portal", -- TODO: this line is duplicated
+		name = _t"coral invasion portal", -- TODO: this line is duplicated
 		name = ("portal back to %s"):tformat(game.zone.name),
 		image = "terrain/underwater/subsea_floor_02.png",
 		add_displays = {mod.class.Grid.new{z=18, image="terrain/naga_portal.png", display_h=2, display_y=-1, embed_particles = {

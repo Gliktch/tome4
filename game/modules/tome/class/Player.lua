@@ -383,7 +383,7 @@ function _M:act()
 	if config.settings.tome.life_lost_warning and self.shader_old_life then
 		local perc = (self.shader_old_life - self.life) / self.max_life
 		if perc > (config.settings.tome.life_lost_warning / 100) then
-			game.bignews:say(100, "#LIGHT_RED#LIFE LOST WARNING!")
+			game.bignews:say(100, _t"#LIGHT_RED#LIFE LOST WARNING!")
 			game.key.disable_until = core.game.getTime() + 2000
 			game.mouse.disable_until = core.game.getTime() + 2000
 		end
@@ -1321,7 +1321,7 @@ function _M:hotkeyInventory(name)
 
 	local o, item, inven = find(name)
 	if not o then
-		Dialog:simplePopup("Item not found", "You do not have any "..name..".")
+		Dialog:simplePopup(_t"Item not found", ("You do not have any %s."):tformat(name))
 	else
 		-- Wear it ??
 		if o:wornInven() and not o.wielded and inven == self.INVEN_INVEN then

@@ -189,7 +189,7 @@ newEntity{
 	always_remember = true,
 	show_tooltip = true,
 	desc = _t[[This portal seems to connect to another part of this level.]],
-	change_level_check = function() game.bignews:say(60, "#GOLD#This portal looks like it reacts only to the Orb of Many Ways.") return true end,
+	change_level_check = function() game.bignews:say(60, _t"#GOLD#This portal looks like it reacts only to the Orb of Many Ways.") return true end,
 	change_level = 1,
 	orb_portal = {
 		nothing = true,

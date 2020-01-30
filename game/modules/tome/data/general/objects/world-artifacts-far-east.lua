@@ -277,7 +277,7 @@ Now the broken fragments of Raasul's soul are trapped in this terrible artifact,
 			local m = NPC.new{
 				type = "undead", subtype = "blood",
 				display = "L",
-				name = "animated blood", color=colors.RED,
+				name = _t"animated blood", color=colors.RED,
 				resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_horror_animated_blood.png", display_h=1, display_y=0}}},
 				desc = _t"A haze of blood, vibrant and pulsing through the air, possessed by a warped and cracked soul. Every now and then a scream or wail of agony garbles through it, telling of the mindless suffering undergone by its possessor.",
 				body = { INVEN = 10, MAINHAND=1, OFFHAND=1, },

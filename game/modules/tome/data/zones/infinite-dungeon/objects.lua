@@ -36,7 +36,7 @@ newEntity{
 	unique = true,
 	type = "potion", subtype="potion",
 	name = "Potion of Martial Prowess",
-	unided_name = "phial filled with metallic liquid",
+	unided_name = _t"phial filled with metallic liquid",
 	level_range = {1, 50},
 	display = '!', color=colors.VIOLET, image="object/elixir_of_stoneskin.png",
 	encumber = 0.4,
@@ -83,7 +83,7 @@ newEntity{
 	unique = true,
 	type = "potion", subtype="potion",
 	name = "Antimagic Wyrm Bile Extract",
-	unided_name = "phial filled with slimy liquid",
+	unided_name = _t"phial filled with slimy liquid",
 	level_range = {10, 50},
 	display = '!', color=colors.VIOLET, image="object/elixir_of_avoidance.png",
 	encumber = 0.4,
@@ -92,7 +92,7 @@ newEntity{
 	cost = 500,
 
 	use_simple = { name = "quaff the elixir", use = function(self, who, inven, item)
-		local d = require("engine.ui.Dialog"):yesnoLongPopup("Antimagic", [[Quaffing this potion will grant you access to the antimagic talents but at the cost of all access to runes, arcane items and spells.]], 500, function(ret)
+		local d = require("engine.ui.Dialog"):yesnoLongPopup(_t"Antimagic", _t[[Quaffing this potion will grant you access to the antimagic talents but at the cost of all access to runes, arcane items and spells.]], 500, function(ret)
 			if ret then
 				game.logSeen(who, "%s quaffs the %s!", who:getName():capitalize(), self:getName())
 

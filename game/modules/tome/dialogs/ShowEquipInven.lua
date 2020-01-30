@@ -207,7 +207,7 @@ end
 
 function _M:on_register()
 	if not self.inven_actor:getInven("INVEN") then
-		Dialog:simplePopup("No Inventory", self.inven_actor:getName():capitalize().." Has no defined main inventory")
+		Dialog:simplePopup(_t"No Inventory", ("%s Has no defined main inventory"):tformat(self.inven_actor:getName():capitalize()))
 		game:unregisterDialog(self)
 	else
 		game:onTickEnd(function() self.key:unicodeInput(true) end)

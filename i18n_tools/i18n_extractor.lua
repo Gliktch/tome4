@@ -4,7 +4,6 @@ local Parser = require 'luafish.parser'
 local p = Parser()
 
 local locales = {}
-
 function string.capitalize(str)
 	if #str > 1 then
 		return string.upper(str:sub(1, 1))..str:sub(2)
@@ -124,6 +123,25 @@ local function explore(file, ast)
 								locales[file][q[2][1]] = {line=p[2].nline, type="entity combat talented"}
 							end
 						end
+					elseif p[1] and p[2] and p.tag == "Field" and p[1][1] == "on_slot" then
+						if(p[2].tag == "String") then
+							print(colors("%{green}newEntity"), p[2][1])
+							locales[file] = locales[file] or {}
+							locales[file][p[2][1]] = {line=p[2].nline, type="entity on slot"}
+						end
+					end
+				end end
+			elseif e.tag == "Id" and e[1] == "newIngredient" then
+				local en = ast[i+1]
+				if en then for j, p in ipairs(en[1]) do
+					if p[1] and p[2] and p.tag == "Field" and p[1][1] == "name" then
+						print(colors("%{green}newIngredient"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="ingredient name"}
+					elseif p[1] and p[2] and p.tag == "Field" and p[1][1] == "type" then
+						print(colors("%{green}newIngredient"), p[2][1])
+						locales[file] = locales[file] or {}
+						locales[file][p[2][1]] = {line=p[2].nline, type="ingredient type"}
 					end
 				end end
 			elseif e.tag == "Id" and e[1] == "newAchievement" then

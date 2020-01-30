@@ -3428,7 +3428,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as="CORPUS",
 			local m = NPC.new{
 				type = "horror", subtype = "eldritch",
 				display = "h",
-				name = "Vilespawn", color=colors.GREEN,
+				name = _t"Vilespawn", color=colors.GREEN,
 				image="npc/horror_eldritch_oozing_horror.png",
 				desc = _t"This mass of putrid slime burst from Corpathus, and seems quite hungry.",
 				body = { INVEN = 10, MAINHAND=1, OFFHAND=1, },
@@ -4524,7 +4524,7 @@ newEntity{ base = "BASE_LITE", --Thanks Grayswandir!
 			local NPC = require "mod.class.NPC"
 			local Talents = require "engine.interface.ActorTalents"
 			local m = NPC.new{
-				name = "will o' the wisp",
+				name = _t"will o' the wisp",
 				desc = _t"A chilling, ghostly form that floats in the air.",
 				type = "undead", subtype = "ghost",
 				blood_color = colors.GREY,
@@ -4623,7 +4623,7 @@ newEntity{ base = "BASE_TOOL_MISC",
 			local NPC = require "mod.class.NPC"
 			local m = NPC.new{
 				resolvers.nice_tile{image="invis.png", add_mos = {{image="terrain/darkgreen_moonstone_01.png", display_h=2, display_y=-1}}},
-				name = "Stone Guardian",
+				name = _t"Stone Guardian",
 				type = "totem", subtype = "antimagic",
 				desc = _t"This massive stone pillar drips with a viscous slime. Nature's power flows through it, obliterating magic all around it...",
 				rank = 3,
@@ -6600,7 +6600,7 @@ newEntity{ base = "BASE_TOOL_MISC",
 			local NPC = require "mod.class.NPC"
 			local m = NPC.new{
 				resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_ghost_will_o__the_wisp.png", display_h=1, display_y=0}}},
-				name = "Lightbringer",
+				name = _t"Lightbringer",
 				type = "orb", subtype = "light",
 				desc = _t"A shining orb.",
 				rank = 1,

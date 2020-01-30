@@ -20,10 +20,10 @@
 return {
 	name = _t"Last Hope Graveyard",
 	display_name = function(x, y)
-		if game.level.level == 1 then return "Last Hope Graveyard"
-		elseif game.level.level == 2 then return "Mausoleum"
+		if game.level.level == 1 then return _t"Last Hope Graveyard"
+		elseif game.level.level == 2 then return _t"Mausoleum"
 		end
-		return "Last Hope Graveyard"
+		return _t"Last Hope Graveyard"
 	end,
 	level_range = {15, 25},
 	level_scheme = "player",
@@ -186,7 +186,7 @@ return {
 	on_enter = function(lev, old_lev, newzone)
 		local Dialog = require("engine.ui.Dialog")
 		if lev == 2 and not game.level.shown_warning then
-			Dialog:simpleLongPopup("Mausoleum", [[As you tread softly down the stairs a large stone slab slides into place behind you, blocking all retreat. The air is still and stuffy, and in this tight space you feel as if in a coffin, buried alive.
+			Dialog:simpleLongPopup(_t"Mausoleum", _t[[As you tread softly down the stairs a large stone slab slides into place behind you, blocking all retreat. The air is still and stuffy, and in this tight space you feel as if in a coffin, buried alive.
 
 Adding to your unease is a rising feeling of dread, overwhelming fear in fact. A hall of doors lies ahead, and behind each you sense a power of great malevolence and unholy horror. At the end of the corridor you see a faint light beneath a large black door, and you have a vague sense that the other doors are enslaved to this one - obedient, subservient, and waiting...
 

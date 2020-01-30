@@ -1852,5 +1852,5 @@ function _M:dump()
 
 	fff:close()
 
-	Dialog:simplePopup("Character dump complete", "File: "..fs.getRealPath(file))
+	Dialog:simplePopup(_t"Character dump complete", ("File: %s"):tformat(fs.getRealPath(file)))
 end

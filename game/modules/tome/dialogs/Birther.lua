@@ -222,7 +222,7 @@ function _M:checkNew(fct)
 		if fs.exists(("/save/%s/game.teag"):format(savename)) then
 			Dialog:yesnoPopup(_t"Overwrite character?", _t"There is already a character with this name, do you want to overwrite it?", function(ret)
 				if not ret then fct() end
-			end, "No", "Yes")
+			end, _t"No", _t"Yes")
 		else
 			fct()
 		end
@@ -1359,8 +1359,8 @@ function _M:applyCosmeticActor(last)
 end
 
 function _M:selectExplorationNoDonations()
-	Dialog:yesnoLongPopup("Exploration mode",
-	[[Exploration mode provides the characters using it with infinite lives.
+	Dialog:yesnoLongPopup(_t"Exploration mode",
+	_t[[Exploration mode provides the characters using it with infinite lives.
 Tales of Maj'Eyal is meant to be a very replayable game in which you get better by learning from mistakes (and thus from dying too).
 I realize this can not please everybody and after multiple requests I have decided to grant exploration mode to donators, because it will allow player that like the game to see it all if they wish.
 Beware though, infinite lives does not mean the difficulty is reduced, only that you can try as much as you want without restarting.

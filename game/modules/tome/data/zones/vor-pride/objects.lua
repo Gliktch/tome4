@@ -26,7 +26,7 @@ local Stats = require"engine.interface.ActorStats"
 -- Artifact, randomly dropped in Vor Pride, and only there
 newEntity{ base = "BASE_SCROLL", subtype="tome",
 	power_source = {arcane=true},
-	name = "Tome of Wildfire", unided_name = "burning book", unique=true, no_unique_lore=true, image = "object/artifact/tome_of_wildfire.png",
+	name = "Tome of Wildfire", unided_name = _t"burning book", unique=true, no_unique_lore=true, image = "object/artifact/tome_of_wildfire.png",
 	desc = _t"This huge book is covered in searing flames. Yet they do not harm you.",
 	color = colors.VIOLET,
 	level_range = {35, 45},

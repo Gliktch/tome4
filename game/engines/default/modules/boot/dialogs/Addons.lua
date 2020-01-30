@@ -60,7 +60,9 @@ function _M:init()
 	}, list=self.list, fct=function(item) end, select=function(item, sel) self:select(item) end}
 
 	self.c_adds = ListColumns.new{width=math.floor(self.iw * 2 / 3 - 10), height=self.ih - 10 - self.c_compat.h, scrollbar=true, columns={
-		{name=_t"Addon", width=50, display_prop="long_name"},
+		{name=_t"Addon", width=50, display_prop=function(item)
+			return _t(item.long_name)
+		end},
 		{name=_t"Active", width=20, display_prop=function(item)
 			if item.cheat_only and not config.settings.cheat then
 				return _t"#GREY#Developer tool"

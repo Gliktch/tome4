@@ -138,7 +138,7 @@ return {
 							if game.level.data.nb_yaech_killed >= 4 then
 								local melinda = game.party:findMember{type="Girlfriend"}
 								if melinda then
-									game.bignews:say(120, "#DARK_GREEN#Melinda begins to glow with an eerie aura!")
+									game.bignews:say(120, _t"#DARK_GREEN#Melinda begins to glow with an eerie aura!")
 									melinda.self_resurrect = 1
 									melinda.resists = {}									
 									game.zone.more_spawn()

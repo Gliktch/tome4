@@ -174,7 +174,7 @@ I know you think yourself "above" such "petty politics" like how vital this faci
 			g.on_move = function(self, x, y, who)
 				if not who or not who.player then return end
 				self.on_move = nil
-				require("engine.ui.Dialog"):simpleLongPopup("Conclave Vault", [[Arriving at the location given by the coordinates, you see an enormous crack in the ground; peering down, the gleam of exposed metal catches your eye, and you recognize it as a massive door.  It would seem that the Cataclysm's tectonic upheaval has carved a path right to one of its entrances, bypassing the ruined tunnels entirely. You climb down, just outside the door.]], 400)
+				require("engine.ui.Dialog"):simpleLongPopup(_t"Conclave Vault", _t[[Arriving at the location given by the coordinates, you see an enormous crack in the ground; peering down, the gleam of exposed metal catches your eye, and you recognize it as a massive door.  It would seem that the Cataclysm's tectonic upheaval has carved a path right to one of its entrances, bypassing the ruined tunnels entirely. You climb down, just outside the door.]], 400)
 			end
 			game.zone:addEntity(game.level, g, "terrain", spot.x, spot.y)
 			print("[WORLDMAP] conclave vault at", spot.x, spot.y)

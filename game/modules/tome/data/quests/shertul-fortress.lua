@@ -67,7 +67,7 @@ desc = function(self, who)
 		end
 	end
 	if self.shertul_energy > 0 then
-		desc[#desc+1] = ("\nThe fortress's current energy level is: #LIGHT_GREEN#%d#WHITE#."):format(self.shertul_energy)
+		desc[#desc+1] = ("\nThe fortress's current energy level is: #LIGHT_GREEN#%d#WHITE#."):tformat(self.shertul_energy)
 	end
 	return table.concat(desc, "\n")
 end

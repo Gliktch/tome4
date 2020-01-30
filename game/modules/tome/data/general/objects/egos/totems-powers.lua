@@ -136,7 +136,7 @@ newEntity{
 			local NPC = require "mod.class.NPC"
 			local m = NPC.new{
 				resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/horror_eldritch_grgglck_s_tentacle.png", display_h=1, display_y=0}}},
-				name = "Lashing Tentacle",
+				name = _t"Lashing Tentacle",
 				type = "horror", subtype = "tentacle",
 				desc = _t"A lashing tentacle.",
 				rank = 1,

@@ -168,7 +168,11 @@ function _M:eidolonPlane()
 	game:onTickEnd(function()
 		if not self.actor:attr("infinite_lifes") then
 			self.actor:attr("easy_mode_lifes", -1)
-			game.log("#LIGHT_RED#You have %s left.", (self.actor:attr("easy_mode_lifes") and self.actor:attr("easy_mode_lifes").._t" life(s)") or _t"no more lives")
+			local nb = self.actor:attr("easy_mode_lifes") and self.actor:attr("easy_mode_lifes") or 0
+			local style
+			if(nb > 0) then style = ("#LIGHT_RED#You have %d life(s) left."):tformat(nb)
+			else style = ("#LIGHT_RED#You have no more lives left."):tformat() end
+			game.log(style)
 		end
 
 		local is_exploration = game.permadeath == game.PERMADEATH_INFINITE

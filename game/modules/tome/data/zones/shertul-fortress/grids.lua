@@ -37,7 +37,7 @@ local energycount = function(self)
 		if not q:isCompleted("chat-energy") and q.shertul_energy <= 0 then return end
 		if not tex or lastenergy ~= q.shertul_energy then 
 			lastenergy = q.shertul_energy
-			local text = ("%0.2f Energy Stored"):format(q.shertul_energy)
+			local text = ("%0.2f Energy Stored"):tformat(q.shertul_energy)
 			tex, nblines, wline = font:draw(text, text:toTString():maxWidth(font), 0, 255, 128)
 		end
 

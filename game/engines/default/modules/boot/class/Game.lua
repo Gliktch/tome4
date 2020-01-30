@@ -224,7 +224,7 @@ A usual problem is shaders and thus should be your first target to disable.]], 7
 
 	local reboot_message = core.game.getRebootMessage()
 	if reboot_message then
-		Dialog:simpleLongPopup("Message", reboot_message, 700)
+		Dialog:simpleLongPopup(_t"Message", reboot_message, 700)
 	end
 
 	self:checkBootLoginRegister()

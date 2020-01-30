@@ -65,7 +65,7 @@ local changer = function(id)
 	basemap.required_rooms = nil
 
 	local zone = mod.class.Zone.new(id, {
-		name = "Hidden Vault - "..(game.old_zone_name or "???"),
+		name = ("Hidden Vault - %s"):tformat(game.old_zone_name or "???"),
 		level_range = {game.zone:level_adjust_level(game.level, game.zone, "actor"), game.zone:level_adjust_level(game.level, game.zone, "actor")},
 		level_scheme = "player",
 		max_level = 1,

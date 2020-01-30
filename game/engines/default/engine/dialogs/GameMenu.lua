@@ -85,7 +85,7 @@ function _M:generateList(actions)
 		-- 	local menu = require("engine.dialogs.ViewHighScores").new()
 		-- 	game:registerDialog(menu)
 		-- end },
-		steam = { _t"Steam", function()
+		steam = { "Steam", function()
 			game:unregisterDialog(self)
 			local menu = require("engine.dialogs.SteamOptions").new()
 			game:registerDialog(menu)

@@ -126,7 +126,7 @@ function _M:defineHotkey(id)
 	end
 
 	self.actor.hotkey[id] = {"talent", item.talent}
-	self:simplePopup("Hotkey "..id.." assigned", t.name:capitalize().." assigned to hotkey "..id)
+	self:simplePopup(("Hotkey %s assigned"):tformat(id), ("%s assigned to hotkey %s"):tformat(t.name:capitalize(), id))
 	self.c_list:drawTree()
 	self.actor.changed = true
 end

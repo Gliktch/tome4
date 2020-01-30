@@ -51,7 +51,7 @@ if tries < 100 then
 			return
 		end
 		local zone = mod.class.Zone.new(id, {
-			name = "Cavern beneath tombstones",
+			name = _t"Cavern beneath tombstones",
 			level_range = game.zone.actor_adjust_level and {math.floor(game.zone:actor_adjust_level(game.level, game.player)*1.05),
 			math.ceil(game.zone:actor_adjust_level(game.level, game.player)*1.15)} or {game.zone.base_level, game.zone.base_level}, -- 5-15% higher levels
 			__applied_difficulty = true, -- Difficulty already applied to parent zone

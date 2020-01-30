@@ -27,7 +27,7 @@ local function spare(npc, player)
 	player:setQuestStatus("high-peak", engine.Quest.COMPLETED, "spared-aeryn")
 	npc.die = nil
 	game.level:removeEntity(npc)
-	game.logPlayer(player, "%s grabs her amulet and disappears in a whirl of arcane energies.", npc.name:capitalize())
+	game.logPlayer(player, "%s grabs her amulet and disappears in a whirl of arcane energies.", npc:getName():capitalize())
 end
 
 newChat{ id="welcome",

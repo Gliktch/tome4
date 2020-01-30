@@ -82,10 +82,10 @@ function _M:okclick()
 	end
 	
 	local d = self:simpleWaiter(_t"Registering...", _t"Registering on https://te4.org/, please wait...") core.display.forceRedraw()
-	d:timeout(30, function() Dialog:simplePopup(_t"Steam", _t"Steam client not found.")	end)
+	d:timeout(30, function() Dialog:simplePopup("Steam", _t"Steam client not found.")	end)
 	core.steam.sessionTicket(function(ticket)
 		if not ticket then
-			Dialog:simplePopup(_t"Steam", _t"Steam client not found.")
+			Dialog:simplePopup("Steam", _t"Steam client not found.")
 			return
 		end
 

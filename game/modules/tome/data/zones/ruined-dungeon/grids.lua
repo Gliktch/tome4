@@ -100,21 +100,21 @@ newEntity{
 		end
 
 		local text = "???"
-		if self.portal_type == "water" then text = "The orb seems to drip water."
-		elseif self.portal_type == "earth" then text = "The orb is covered in dust."
-		elseif self.portal_type == "wind" then text = "The orb is floating in the air."
-		elseif self.portal_type == "nature" then text = "Small seeds seem to be growing inside the orb."
-		elseif self.portal_type == "arcane" then text = "The orb swirls with magical energies."
-		elseif self.portal_type == "fire" then text = "Flames burst out of the orb."
+		if self.portal_type == "water" then text = _t"The orb seems to drip water."
+		elseif self.portal_type == "earth" then text = _t"The orb is covered in dust."
+		elseif self.portal_type == "wind" then text = _t"The orb is floating in the air."
+		elseif self.portal_type == "nature" then text = _t"Small seeds seem to be growing inside the orb."
+		elseif self.portal_type == "arcane" then text = _t"The orb swirls with magical energies."
+		elseif self.portal_type == "fire" then text = _t"Flames burst out of the orb."
 
-		elseif self.portal_type == "darkness" then text = "The orb seems to absorb all light."
-		elseif self.portal_type == "blood" then text = "The orb is drips with thick blood."
-		elseif self.portal_type == "ice" then text = "The orb is icy to the touch."
-		elseif self.portal_type == "time" then text = "Time seems to slow down around the orb."
-		elseif self.portal_type == "mind" then text = "Your mind is filled with strange thoughts as you approach the orb."
-		elseif self.portal_type == "blight" then text = "The orb seems to corrupt all it touches."
+		elseif self.portal_type == "darkness" then text = _t"The orb seems to absorb all light."
+		elseif self.portal_type == "blood" then text = _t"The orb is drips with thick blood."
+		elseif self.portal_type == "ice" then text = _t"The orb is icy to the touch."
+		elseif self.portal_type == "time" then text = _t"Time seems to slow down around the orb."
+		elseif self.portal_type == "mind" then text = _t"Your mind is filled with strange thoughts as you approach the orb."
+		elseif self.portal_type == "blight" then text = _t"The orb seems to corrupt all it touches."
 		end
-		require("engine.ui.Dialog"):yesnoLongPopup("Strange Orb", text.."\nDo you touch it?", 400, function(ret)
+		require("engine.ui.Dialog"):yesnoLongPopup(_t"Strange Orb", text.._t"\nDo you touch it?", 400, function(ret)
 			if ret then
 				game.level.data.touch_orb(self.portal_type, x, y)
 			end

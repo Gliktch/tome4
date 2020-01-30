@@ -30,7 +30,7 @@ local orb_activate = function(self, x, y, who, act, couldpass)
 	if not orb then
 		require("engine.ui.Dialog"):simplePopup(_t"Strange Pedestal", _t"This pedestal looks old, you can see the shape of an orb carved on it.")
 	else
-		require("engine.ui.Dialog"):yesnoLongPopup("Strange Pedestal", ("The pedestal seems to react to something in your bag. After some tests you notice it is the %s.\nDo you wish to use the orb on the pedestal?"):tformat(tostring(orb:getName{do_color=true})), 400, function(ret)
+		require("engine.ui.Dialog"):yesnoLongPopup(_t"Strange Pedestal", ("The pedestal seems to react to something in your bag. After some tests you notice it is the %s.\nDo you wish to use the orb on the pedestal?"):tformat(tostring(orb:getName{do_color=true})), 400, function(ret)
 			if ret then game.player:useCommandOrb(orb, x, y) end
 		end)
 	end
@@ -141,7 +141,7 @@ newEntity{
 	notice = true,
 	change_level=1, change_zone="high-peak",
 	change_level_check = function()
-		require("engine.ui.Dialog"):yesnoLongPopup("High Peak", 'As you stand on the stairs you can feel this is a "do or die" one way trip. If you enter there will be no coming back.\nEnter?', 500, function(ret) if ret then
+		require("engine.ui.Dialog"):yesnoLongPopup(_t"High Peak", _t'As you stand on the stairs you can feel this is a "do or die" one way trip. If you enter there will be no coming back.\nEnter?', 500, function(ret) if ret then
 			game:changeLevel(1, "high-peak")
 		end end)
 		return true

@@ -40,7 +40,7 @@ end
 newEntity{ base = "BASE_ROD",
 	power_source = {nature=true},
 	define_as = "ROD_SPYDRIC_POISON",
-	unided_name = "poison dripping wand", image = "object/artifact/rod_of_spydric_poison.png",
+	unided_name = _t"poison dripping wand", image = "object/artifact/rod_of_spydric_poison.png",
 	name = "Rod of Spydric Poison", color=colors.LIGHT_GREEN, unique=true,
 	desc = _t[[This rod carved out of a giant spider fang continuously drips venom.]],
 	cost = 50,

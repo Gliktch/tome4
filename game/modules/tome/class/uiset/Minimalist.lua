@@ -2104,7 +2104,7 @@ function _M:setupMouse(mouse)
 				extra.add_map_action = {
 					{ name=_t"Show chat user", fct=function() profile.chat:showUserInfo(user.login) end },
 					{ name=_t"Whisper", fct=function() profile.chat:setCurrentTarget(false, user.login) profile.chat:talkBox() end },
-					{ name=_t"Ignore", fct=function() Dialog:yesnoPopup("Ignore user", ("Really ignore all messages from: %s"):tformat(user.login), function(ret) if ret then profile.chat:ignoreUser(user.login) end end) end },
+					{ name=_t"Ignore", fct=function() Dialog:yesnoPopup(_t"Ignore user", ("Really ignore all messages from: %s"):tformat(user.login), function(ret) if ret then profile.chat:ignoreUser(user.login) end end) end },
 					{ name=_t"Report user for bad behavior", fct=function()
 						game:registerDialog(require('engine.dialogs.GetText').new(("Reason to report: %s"):tformat(user.login), _t"Reason", 4, 500, function(text)
 							profile.chat:reportUser(user.login, text)

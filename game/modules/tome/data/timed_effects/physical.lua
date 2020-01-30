@@ -1244,7 +1244,7 @@ newEffect{
 	subtype = { nature=true, speed=true },
 	status = "beneficial",
 	parameters = {power=1000},
-	on_gain = function(self, err) return ("#Target# prepares %s!"):tformat(not self.player and self.ai_state.tactic == "escape" and "to escape" or "for the next kill"), _t"+Hunter" end,
+	on_gain = function(self, err) return ("#Target# prepares %s!"):tformat(not self.player and self.ai_state.tactic == "escape" and _t"to escape" or _t"for the next kill"), _t"+Hunter" end,
 	on_lose = function(self, err) return _t"#Target# slows down.", _t"-Hunter" end,
 	
 	on_timeout = function(self, eff)--make sure that NPC's that catch their target (or can't get away) can fight

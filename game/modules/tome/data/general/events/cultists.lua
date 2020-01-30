@@ -202,7 +202,7 @@ if not game.zone.cultist_event_on_turn then
 					define_as = "METEORIC_CROWN",
 					slot = "HEAD",
 					type = "armor", subtype="head",
-					name = "Crown of Burning Pain", image = "object/artifact/crown_of_burning_pain.png",
+					name = _t"Crown of Burning Pain", image = "object/artifact/crown_of_burning_pain.png",
 					unided_name = _t"burning crown",
 					desc = _t[[This crown of pure flames possesses a myriad of small molten rocks floating wildly above it. Each can be removed to throw as a true meteor.]],
 					add_name = " (#ARMOR#)",

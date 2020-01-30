@@ -2305,7 +2305,7 @@ do return end
 		end,
 
 		SHOW_MESSAGE_LOG = function()
-			self:registerDialog(require("mod.dialogs.ShowChatLog").new("Message Log", 0.6, self.uiset.logdisplay, profile.chat))
+			self:registerDialog(require("mod.dialogs.ShowChatLog").new(_t"Message Log", 0.6, self.uiset.logdisplay, profile.chat))
 		end,
 
 		-- Show time

@@ -27,7 +27,7 @@ local DamageType = require "engine.DamageType"
 newEntity{ base = "BASE_LITE",
 	power_source = {arcane=true},
 	define_as = "ELDRITCH_PEARL",
-	unided_name = "bright pearl",
+	unided_name = _t"bright pearl",
 	name = "Eldritch Pearl", unique=true, image = "object/artifact/eldritch_pearl.png",
 	display ='*', color = colors.AQUAMARINE,
 	desc = _t[[Thousands of years spent inside the temple of creation have infused this pearl with the fury of rushing water. It pulses light.]],
@@ -74,7 +74,7 @@ newEntity{ base = "BASE_LORE",
 newEntity{ base = "BASE_TRIDENT",
 	power_source = {nature=true, psionic=true},
 	define_as = "LEGACY_NALOREN",
-	unided_name = "ornate orichalcum trident",
+	unided_name = _t"ornate orichalcum trident",
 	name = "Legacy of the Naloren", unique=true, image = "object/artifact/legacy_of_the_naloren.png",
 	desc = _t[[This incredibly beautiful -- and powerful -- trident is made of the rare metal orichalcum. An amazing pearl is seated in head of the trident, as it spreads into three razor sharp prongs.
 It is imbued with the greatest strengths of all of the most powerful Naga warriors.

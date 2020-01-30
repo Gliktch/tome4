@@ -115,7 +115,7 @@ newEntity{ define_as = "LIMMIR",
 		if (self.last_took_hit_cry and game.turn < self.last_took_hit_cry + 100 and (not who or who.type ~= "demon")) or not game.level.turn_counter then return value end
 		self.last_took_hit_cry = game.turn
 
-		game.bignews:say(90, "#VIOLET#Limmir is attacked! Defend him!")
+		game.bignews:say(90, _t"#VIOLET#Limmir is attacked! Defend him!")
 
 		return value
 	end,

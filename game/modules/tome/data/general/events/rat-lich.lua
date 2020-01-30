@@ -48,7 +48,7 @@ local changer = function(id)
 		slot = "TOOL",
 		type = "tool", subtype="skull", image = "object/artifact/skull_of_the_rat_lich.png",
 		unided_name = _t"dusty rat skull",
-		name = "Skull of the Rat Lich",
+		name = _t"Skull of the Rat Lich",
 		display = "*", color=colors.BLACK,
 		level_range = {10, 25},
 		cost = 150,
@@ -99,7 +99,7 @@ local changer = function(id)
 	}
 
 	local zone = mod.class.Zone.new(id, {
-		name = "Forsaken Crypt",
+		name = _t"Forsaken Crypt",
 		level_range = game.zone.actor_adjust_level and {math.floor(game.zone:actor_adjust_level(game.level, game.player)*1.05),
 			math.ceil(game.zone:actor_adjust_level(game.level, game.player)*1.15)} or {game.zone.base_level, game.zone.base_level}, -- 5-15% higher levels
 		__applied_difficulty = true, --Difficulty already applied to parent zone

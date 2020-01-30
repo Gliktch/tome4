@@ -26,7 +26,7 @@ uberTalent{
 		if self.life - value < self.max_life * 0.3 and not self:isTalentCoolingDown(t) then
 			self:heal(self.max_life * 0.4, t)
 			self:startTalentCooldown(t)
-			game.logSeen(self,"%s's draconic body hardens and heals!",self.name)
+			game.logSeen(self,"%s's draconic body hardens and heals!",self:getName())
 		end
 	end,
 	info = function(self, t)
