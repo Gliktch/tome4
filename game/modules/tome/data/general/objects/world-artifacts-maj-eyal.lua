@@ -794,13 +794,13 @@ newEntity{ base = "BASE_GEM", define_as = "GEM_TELOS",
 	on_wear = function(self, who)
 		if who.is_alchemist_golem then
 			self.old_golem_name = who.name
-			who.name = "Telos Golem (reluctant follower of "..who.summoner.name..")"
+			who.name = ("Telos Golem (reluctant follower of %s)"):tformat(who.summoner:getName())
 			game.log("#ROYAL_BLUE#The golem decides to change it's name to #{bold}#%s#{normal}#.", who:getName())
 		end
 	end,
 	on_takeoff = function(self, who)
 		if who.is_alchemist_golem then
-			who.name = self.old_golem_name or "I feel lost!"
+			who.name = self.old_golem_name or _t"I feel lost!"
 		end
 	end,
 }

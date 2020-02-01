@@ -36,12 +36,12 @@ function table.print(src, offset, ret)
 end
 
 local log_alias = {
-	log = 1,
-	logSeen = 2,
-	logCombat = 2,
-	logPlayer = 2,
-	logMessage = 5,
-	delayedLogMessage = 4,
+	log = {1},
+	logSeen = {2, 3},
+	logCombat = {2, 3},
+	logPlayer = {2},
+	logMessage = {5},
+	delayedLogMessage = {4},
 }
 local newTalent_alias = {
 	newTalent = true,
@@ -269,20 +269,24 @@ local function explore(file, ast)
 			elseif e.tag == "Invoke" and log_alias[e[2][1] ] then
 				local en = e[3]
 				local log_type = e[2][1]
-				local order = log_alias[log_type]
-				if en and type(en) == "table" and en.tag == "ExpList" and type(en[order]) == "table" and en[order].tag == "String" then
-					print(colors("%{bright blue}"..log_type), en[order][1])
-					locales[file] = locales[file] or {}
-					locales[file][en[order][1]] = {line=en[order].nline, type=log_type}
+				local orders = log_alias[log_type]
+				for _, order in ipairs(orders) do
+					if en and type(en) == "table" and en.tag == "ExpList" and type(en[order]) == "table" and en[order].tag == "String" then
+						print(colors("%{bright blue}"..log_type), en[order][1])
+						locales[file] = locales[file] or {}
+						locales[file][en[order][1]] = {line=en[order].nline, type=log_type}
+					end
 				end
 			elseif e.tag == "Call" and e[1][2] and log_alias[e[1][2][1] ] then
 				local en = e[2]
 				local log_type = e[1][2][1]
-				local order = log_alias[log_type]
-				if en and type(en) == "table" and en.tag == "ExpList" and type(en[order]) == "table" and en[order].tag == "String" then
-					print(colors("%{bright blue}"..log_type), en[order][1])
-					locales[file] = locales[file] or {}
-					locales[file][en[order][1]] = {line=en[order].nline, type=log_type}
+				local orders = log_alias[log_type]
+				for _, order in ipairs(orders) do
+					if en and type(en) == "table" and en.tag == "ExpList" and type(en[order]) == "table" and en[order].tag == "String" then
+						print(colors("%{bright blue}"..log_type), en[order][1])
+						locales[file] = locales[file] or {}
+						locales[file][en[order][1]] = {line=en[order].nline, type=log_type}
+					end
 				end
 			elseif e.tag == "Invoke" and
 			    e[1] and e[1].tag == "Index" and e[1][1] and e[1][1][1] == "engine" and e[1][1].tag == "Id" and e[1][2][1] == "Faction" and e[1][2].tag == "String" and

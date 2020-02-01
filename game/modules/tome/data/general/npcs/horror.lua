@@ -655,7 +655,7 @@ newEntity{ base = "BASE_NPC_HORROR",
 -- Dream Horror
 newEntity{ base = "BASE_NPC_HORROR",
 	name = "dreaming horror", color=colors.ORCHID,
-	desc =[[A vaguely tentacled yet constantly changing form rests here apparently oblivious to your existence.
+	desc =_t[[A vaguely tentacled yet constantly changing form rests here apparently oblivious to your existence.
 With each slow breath it takes reality distorts around it.  Blue twirls into red, green twists into yellow, and the air sings softly before bursting into a myriad of pastel shapes and colors.]],
 	resolvers.nice_tile{tall=1},
 	shader = "shadow_simulacrum",
@@ -730,9 +730,9 @@ With each slow breath it takes reality distorts around it.  Blue twirls into red
 
 	custom_tooltip = function(self)
 		if self.dreamer_sleep_state then
-			return tstring{{"color", "LIGHT_BLUE"}, "It looks asleep and dreamy."}
+			return tstring{{"color", "LIGHT_BLUE"}, _t"It looks asleep and dreamy."}
 		else
-			return tstring{{"color", "LIGHT_RED"}, "It looks awake, beware!"}
+			return tstring{{"color", "LIGHT_RED"}, _t"It looks awake, beware!"}
 		end
 	end,
 

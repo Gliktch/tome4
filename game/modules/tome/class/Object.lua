@@ -403,7 +403,7 @@ function _M:descAttribute(attr)
 		if config.settings.tome.advanced_weapon_stats then
 			return ("%d%% power"):tformat(math.floor(game.player:combatDamagePower(self.combat)*100))
 		else
-			return ("%s-%s power"):tformat(c.dam, (c.dam*(c.damrange or 1.1)))
+			return ("%d-%d power"):tformat(c.dam, (c.dam*(c.damrange or 1.1)))
 		end
 	end
 	if attr == "MASTERY" then

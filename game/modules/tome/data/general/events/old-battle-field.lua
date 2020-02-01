@@ -157,7 +157,7 @@ if tries < 100 then
 				local ov = self.add_displays[#self.add_displays]
 				ov.image = "terrain/grave_opened_0"..rng.range(1, 3).."_64.png"
 			end
-			self.name = "opened grave"
+			self.name = _t"opened grave"
 			game.level.map:updateMap(self.x, self.y)
 			game.level.event_battlefield_entered = true
 			game:changeLevel(1, self.real_change(self.change_zone), {temporary_zone_shift=true, direct_switch=true})

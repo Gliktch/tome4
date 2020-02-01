@@ -4448,7 +4448,7 @@ function _M:quickSwitchWeapons(free_swap, message, silent)
 			end
 		end
 		-- Special Messages
-		if #names == 0 then names = "unarmed" end
+		if #names == 0 then names = _t"unarmed" end
 		if message == "warden" then
 			game.logSeen(self, "%s warps space-time to equip: %s.", self:getName():capitalize(), names)
 		else

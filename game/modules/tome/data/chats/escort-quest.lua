@@ -265,7 +265,7 @@ local function generate_rewards()
 			local t = npc:getTalentFromId(tid)
 			level = math.min(t.points - game.player:getTalentLevelRaw(tid), level)
 			if level > 0 then
-				local doit = function(npc, player) game.party:reward("Select the party member to receive the reward:", function(player)
+				local doit = function(npc, player) game.party:reward(_t"Select the party member to receive the reward:", function(player)
 					if game.player:knowTalentType(t.type[1]) == nil then player:setTalentTypeMastery(t.type[1], 1.0) end
 					player:learnTalent(tid, true, level, {no_unlearn=true})
 					if t.hide then player.__show_special_talents = player.__show_special_talents or {} player.__show_special_talents[tid] = true end

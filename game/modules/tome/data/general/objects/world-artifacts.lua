@@ -5410,7 +5410,7 @@ newEntity{ base = "BASE_TOOL_MISC", --Thanks Alex!
 			self.wielder.flat_damage_armor.all = 0
 			who:onWear(self, who.INVEN_TOOL, true)
 			game.logSeen(who, "%s flips %s %s over...", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}))
-			game.logPlayer(who, "#GOLD#The sands slowly begin falling towards %s.", self.direction > 0 and "stability" or "entropy")
+			game.logPlayer(who, "#GOLD#The sands slowly begin falling towards %s.", self.direction > 0 and _t"stability" or _t"entropy")
 			self.power = power
 			return {id=true, used=true, no_energy = true} -- effectively instant use without the AI priority boost
 		end

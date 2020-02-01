@@ -168,7 +168,7 @@ g.change_level_check = function(self)
 	require("engine.ui.Dialog"):simplePopup(_t"Forsaken Crypt", _t"You hear squeaks and the sounds of clicking bone echo around you... Pure death awaits. Flee!")
 	self.change_level_check = nil
 	self.change_level = nil
-	self.name = "collapsed forsaken crypt"
+	self.name = _t"collapsed forsaken crypt"
 	self.desc=_t[[Stairs lead downwards into rubble.]]
 	self.autoexplore_ignore = true
 	self.special_minimap = colors.VIOLET

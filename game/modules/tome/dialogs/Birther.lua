@@ -246,7 +246,7 @@ function _M:checkNew(fct)
 	if is_magic and is_antimagic then
 		Dialog:yesnoPopup(_t"Antimagic Magic combo", _t"The selected race/class has both magic and antimagic, this is unlikely to work. Continue?", function(ret) if not ret then
 			checkfct()
-		end end, "No", "Yes I'm sure")
+		end end, _t"No", _t"Yes I'm sure")
 	else
 		checkfct()
 	end
@@ -1373,7 +1373,7 @@ Donators will also gain access to the custom tiles for their characters.]], 400,
 		if not ret then
 			game:registerDialog(require("mod.dialogs.Donation").new("exploration-mode"))
 		end
-	end, "Later", "Donate!")
+	end, _t"Later", _t"Donate!")
 end
 
 function _M:selectTileNoDonations()

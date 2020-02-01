@@ -2240,8 +2240,8 @@ newEffect{
 				eff.target:takeHit(eff.target.max_life/10 * kills, self)
 				eff.target:setEffect(eff.target.EFF_BRAINLOCKED, kills, {})
 
-				local loss = "loss"
-				if kills >= 10 then loss = "potentially fatal loss" elseif kills >=8 then loss = "devastating loss" elseif kills >=6 then loss = "tremendous loss" elseif kills >=4 then loss = "terrible loss" end
+				local loss = _t"loss"
+				if kills >= 10 then loss = _t"potentially fatal loss" elseif kills >=8 then loss = _t"devastating loss" elseif kills >=6 then loss = _t"tremendous loss" elseif kills >=4 then loss = _t"terrible loss" end
 				game.logSeen(eff.target, "#LIGHT_RED#%s suffered a %s of self in the Dreamscape!", eff.target:getName():capitalize(), loss)
 			end
 		end)
@@ -3462,7 +3462,7 @@ newEffect{
 newEffect{
 	name = "THROWING_KNIVES", image = "talents/throwing_knives.png",
 	desc = _t"Throwing Knives",  decrease = 0,
-	display_desc = function(self, eff) return eff.stacks.." Knives" end,
+	display_desc = function(self, eff) return ("%d Knives"):tformat(eff.stacks) end,
 	long_desc = function(self, eff) return ("Has %d throwing knives prepared:\n\n%s"):tformat(eff.stacks, self:callTalent(self.T_THROWING_KNIVES, "knivesInfo")) end,
 	type = "other",
 	subtype = { tactic=true },

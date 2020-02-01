@@ -49,7 +49,7 @@ function _M:use(item)
 	game:unregisterDialog(self)
 
 	self.actor.ai_tactic = resolvers.calc.tactic({item.set}, self.actor)
-	game.logPlayer(game.player, "%s behavior set to %s.", self.actor:getName():capitalize(), item.set)
+	game.logPlayer(game.player, "%s behavior set to %s.", self.actor:getName():capitalize(), _t(item.set))
 end
 
 function _M:generateList()

@@ -78,7 +78,7 @@ return {
 		end
 
 		-- Pop guardians
-		local guardian_filter = {not_properties = {"unique"}, random_elite={name_scheme="#rng# the Guardian", on_die=function(self)
+		local guardian_filter = {not_properties = {"unique"}, random_elite={name_scheme=_t"#rng# the Guardian", on_die=function(self)
 			local spot = game.level:pickSpotRemove{type="portal", subtype="portal"}
 			if spot then
 				game.level.map(spot.x, spot.y, engine.Map.TERRAIN).orb_allowed = true

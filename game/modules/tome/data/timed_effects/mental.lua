@@ -2118,7 +2118,7 @@ newEffect{
 newEffect{
 	name = "PSIONIC_SHIELD", image = "talents/kinetic_shield.png",
 	desc = _t"Psionic Shield",
-	display_desc = function(self, eff) return eff.kind:capitalize().." Psionic Shield" end,
+	display_desc = function(self, eff) return ("%s Psionic Shield"):tformat(eff.kind:capitalize()) end,
 	long_desc = function(self, eff) return ("Reduces all incoming %s damage by %d."):tformat(eff.what, eff.power) end,
 	type = "mental",
 	subtype = { psionic=true, shield=true },

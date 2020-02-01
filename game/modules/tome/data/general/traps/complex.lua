@@ -71,7 +71,7 @@ newEntity{ base = "TRAP_COMPLEX",
 	unlock_talent_on_disarm = {tid = Talents.T_CATAPULT_TRAP, chance = 10},
 	triggered = function(self, x, y, who)
 		if not self.spawn_x then return end
-		local tg = {name="huge boulder", type="bolt", range=core.fov.distance(x, y, self.spawn_x, self.spawn_y), x=self.spawn_x, y=self.spawn_y, speed=2, display={image="trap/trap_big_boulder_01.png"}, blur_move=4}
+		local tg = {name=_t"huge boulder", type="bolt", range=core.fov.distance(x, y, self.spawn_x, self.spawn_y), x=self.spawn_x, y=self.spawn_y, speed=2, display={image="trap/trap_big_boulder_01.png"}, blur_move=4}
 		self:projectile(tg, x, y, engine.DamageType.PHYSKNOCKBACK, {dam=self.dam, dist=3, x=self.spawn_x, y=self.spawn_y})
 		return true
 	end,

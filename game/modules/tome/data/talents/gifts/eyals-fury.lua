@@ -155,7 +155,7 @@ newTalent{
 		)
 		eff.chance = t.getChance(self, t)
 		eff.removeEffect = t.removeEffect
-		eff.name = "Acidfire cloud"
+		eff.name = _t"Acidfire cloud"
 		game:playSoundNear(self, "talents/cloud")
 		return true
 	end,
@@ -220,7 +220,7 @@ newTalent{
 		)
 		eff.drain = t.getDrain(self, t)
 		eff.drainMagic = t.drainMagic
-		eff.name = "Eyal's Wrath"
+		eff.name = _t"Eyal's Wrath"
 		game:playSoundNear(self, "talents/thunderstorm")
 		return true
 	end,

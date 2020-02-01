@@ -294,7 +294,7 @@ local dcb = function(self)
 			local turns = (game.turn - data.start_turn) / 10
 			local text
 			if self.monitor_mode == "global" then
-				text = ("Turns: %d\nTotal Damage: %d\nDamage/turns: %d"):format(turns, data.total, data.total / turns)
+				text = ("Turns: %d\nTotal Damage: %d\nDamage/turns: %d"):tformat(turns, data.total, data.total / turns)
 				data.changed = false
 			else
 				text = {}

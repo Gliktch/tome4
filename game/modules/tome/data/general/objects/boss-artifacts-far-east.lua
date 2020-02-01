@@ -456,7 +456,7 @@ newEntity{ base = "BASE_CLOAK", define_as="GLACIAL_CLOAK",
 				end,
 				false
 			)
-			eff.name = "icy vapors"
+			eff.name = _t"icy vapors"
 			return {id=true, used=true}
 		end
 	},

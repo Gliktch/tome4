@@ -155,7 +155,7 @@ function _M:runReal()
 	-- Create the map scroll text overlay
 	local lfont = FontPackage:get("bignews", true)
 	lfont:setStyle("bold")
-	local s = core.display.drawStringBlendedNewSurface(lfont, "<Scroll mode, press direction keys to scroll, press again to exit>", unpack(colors.simple(colors.GOLD)))
+	local s = core.display.drawStringBlendedNewSurface(lfont, _t"<Scroll mode, press direction keys to scroll, press again to exit>", unpack(colors.simple(colors.GOLD)))
 	lfont:setStyle("normal")
 	self.caps_scroll = {s:glTexture()}
 	self.caps_scroll.w, self.caps_scroll.h = s:getSize()
@@ -1095,7 +1095,7 @@ function _M:changeLevelReal(lev, zone, params)
 			end
 		end
 	elseif params.temporary_zone_shift_back then -- We switch back
-		popup = Dialog:simpleWaiter("Loading level", "Please wait while loading the level...", nil, 10000)
+		popup = Dialog:simpleWaiter(_t"Loading level", _t"Please wait while loading the level...", nil, 10000)
 		core.display.forceRedraw()
 
 		if self.zone.zone_party then self.change_level_party_back = true end
@@ -1450,7 +1450,7 @@ end
 function _M:chronoClone(name)
 	self:getPlayer(true):attr("time_travel_times", 1)
 
-	local d = Dialog:simpleWaiter("Chronomancy", "Folding the space time structure...")
+	local d = Dialog:simpleWaiter(_t"Chronomancy", _t"Folding the space time structure...")
 
 	local to_reload = {}
 	for uid, e in pairs(self.level.entities) do
@@ -1482,7 +1482,7 @@ function _M:chronoRestore(name, remove)
 	else ngame = name end
 	if not ngame then return false end
 
-	local d = Dialog:simpleWaiter("Chronomancy", "Unfolding the space time structure...")
+	local d = Dialog:simpleWaiter(_t"Chronomancy", _t"Unfolding the space time structure...")
 
 	_G.game = ngame
 	ngame:cloneReloaded()

@@ -58,7 +58,7 @@ newEntity{
 		summon = {
 			base_list="mod.class.NPC:/data/general/npcs/multihued-drake.lua",
 			type="dragon", subtype="multihued", name="greater multi-hued wyrm",
-			random_boss = {name_scheme="#rng# the Fearsome", class_filter=function(d) return d.name == "Archmage" end},
+			random_boss = {name_scheme=_t"#rng# the Fearsome", class_filter=function(d) return d.name == "Archmage" end},
 			add_levels = 12,
 		},
 		special = orb_summon,
@@ -77,7 +77,7 @@ newEntity{
 		summon = {
 			base_list="mod.class.NPC:/data/general/npcs/lich.lua",
 			type="undead", subtype="lich", name="archlich",
-			random_boss = {name_scheme="#rng# the Neverdead", class_filter=function(d) return d.name == "Necromancer" end},
+			random_boss = {name_scheme=_t"#rng# the Neverdead", class_filter=function(d) return d.name == "Necromancer" end},
 			add_levels = 12,
 		},
 		special = orb_summon,
@@ -96,7 +96,7 @@ newEntity{
 		summon = {
 			base_list="mod.class.NPC:/data/general/npcs/gwelgoroth.lua",
 			type="elemental", subtype="air", name="ultimate gwelgoroth",
-			random_boss = {name_scheme="#rng# the Silent Death", class_filter=function(d) return d.name == "Shadowblade" end},
+			random_boss = {name_scheme=_t"#rng# the Silent Death", class_filter=function(d) return d.name == "Shadowblade" end},
 			add_levels = 12,
 		},
 		special = orb_summon,
@@ -115,7 +115,7 @@ newEntity{
 		summon = {
 			base_list="mod.class.NPC:/data/general/npcs/major-demon.lua",
 			type="demon", subtype="major", name="forge-giant",
-			random_boss = {name_scheme="#rng# the Crusher", class_filter=function(d) return d.name == "Corruptor" end},
+			random_boss = {name_scheme=_t"#rng# the Crusher", class_filter=function(d) return d.name == "Corruptor" end},
 			add_levels = 12,
 		},
 		special = orb_summon,

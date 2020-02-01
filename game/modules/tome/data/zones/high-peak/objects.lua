@@ -150,7 +150,7 @@ The Sorcerers seem to have awakened its power.
 			who:attr("iceblock_pierce", -100)
 			if bone_shield then bone_shield.nb = nb end
 			who:logCombat(target, "#Source# brandishes %s %s, absorbing the essence of #target#!", who:his_her(), self:getName({do_color=true, no_add_name=true}), target:getName():capitalize())
-			game:delayedLogDamage(who, target, x, ("#ORCHID# %d essence drain#LAST#"):format(x), false)
+			game:delayedLogDamage(who, target, x, ("#ORCHID# %d essence drain#LAST#"):tformat(x), false)
 			who:setEffect(who.EFF_POWER_OVERLOAD, self.use_power.duration, {power=30})
 			return {id=true, used=true}
 		end

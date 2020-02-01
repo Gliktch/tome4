@@ -295,7 +295,7 @@ newTalent{
 		self:setEffect(self.EFF_TELEPORT_ANGOLWEN, 40, {})
 		return true
 	end,
-	info = [[Allows a mage to teleport to the secret town of Angolwen.
+	info = _t[[Allows a mage to teleport to the secret town of Angolwen.
 	You have studied the magic arts there and have been granted a special portal spell to teleport there.
 	Nobody must learn about this spell and so it should never be used while seen by any creatures.
 	The spell will take time to activate. You must be out of sight of any creature when you cast it and when the teleportation takes effect.]]
@@ -338,7 +338,7 @@ newTalent{
 		self:attr("time_travel_times", 1)
 		return true
 	end,
-	info = [[Allows a chronomancer to timeport to Point Zero.
+	info = _t[[Allows a chronomancer to timeport to Point Zero.
 	You have studied the chronomancy there and have been granted a special portal spell to teleport back.
 	This spell must be kept secret; it should never be used within view of uninitiated witnesses.
 	The spell takes time (40 turns) to activate, and you must be out of sight of any other creature when you cast it and when the timeportation takes effect.]]
@@ -385,7 +385,7 @@ newTalent{
 	info = function(self, t)
 		local eff_desc = ""
 		for e_type, fn in pairs(self.save_for_effects) do
-			eff_desc = eff_desc .. ("\n%s effect durations -%d turns"):tformat(e_type:capitalize(), t.getReduction(self, t, e_type))
+			eff_desc = eff_desc .. ("\n%s effect durations -%d turns"):tformat(_t(e_type):capitalize(), t.getReduction(self, t, e_type))
 		end
 		return ([[Not the Master himself, nor all the orcs in fallen Reknor, nor even the terrifying unknown beyond Reknor's portal could slow your pursuit of the Staff of Absorption.
 		Children will hear of your relentlessness in song for years to come.
@@ -412,7 +412,7 @@ newTalent{
 		end)
 		return true
 	end,
-	info = [[Use the onboard short-range teleport of the Fortress to beam down to the surface.
+	info = _t[[Use the onboard short-range teleport of the Fortress to beam down to the surface.
 	Requires being in flight above the ground of a planet.]]
 }
 
@@ -443,7 +443,7 @@ newTalent{
 		game:playSoundNear(self, "talents/arcane")
 		return true
 	end,
-	info = [[Use 10 Fortress energy to send a powerful blast to the ground, directly below the Fortress, heavily damaging any creatures caught inside.
+	info = _t[[Use 10 Fortress energy to send a powerful blast to the ground, directly below the Fortress, heavily damaging any creatures caught inside.
 	Requires being in flight above the ground of a planet.]]
 }
 
@@ -462,6 +462,6 @@ newTalent{
 
 		return true
 	end,
-	info = [[Activate the powerful flight engines of the Fortress, propelling it fast into high planetary orbit.
+	info = _t[[Activate the powerful flight engines of the Fortress, propelling it fast into high planetary orbit.
 	Requires being in flight above the ground of a planet.]]
 }

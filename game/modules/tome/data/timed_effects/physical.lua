@@ -773,7 +773,7 @@ newEffect{
 			self.add_displays = { Entity.new{image='npc/iceblock.png', display=' ', display_on_seen=true } }
 			eff.added_display = true
 		end
-		eff.ice = mod.class.Object.new{name = "Iceblock", type = "wall", image='npc/iceblock.png', display = ' '} -- use type Object to facilitate the combat log
+		eff.ice = mod.class.Object.new{name = _t"Iceblock", type = "wall", image='npc/iceblock.png', display = ' '} -- use type Object to facilitate the combat log
 		self:removeAllMOs()
 		game.level.map:updateMap(self.x, self.y)
 
@@ -1590,7 +1590,7 @@ newEffect{
 newEffect{
 	name = "COMBO", image = "talents/combo_string.png",
 	desc = _t"Combo",
-	display_desc = function(self, eff) return eff.cur_power.." Combo" end,
+	display_desc = function(self, eff) return ("%d Combo"):tformat(eff.cur_power) end,
 	long_desc = function(self, eff) return ("The target is in the middle of a combo chain and has earned %d combo points."):tformat(eff.cur_power) end,
 	type = "physical",
 	subtype = { tactic=true },
@@ -3165,7 +3165,7 @@ newEffect{
 newEffect{
 	name = "PARASITIC_LEECHES", image = "talents/blood_suckers.png",
 	desc = _t"Parasitic Leeches",
-	display_desc = function(self, eff) return _t"Parasitic Leeches: "..eff.nb.." masses" end,
+	display_desc = function(self, eff) return ("Parasitic Leeches: %d masses"):tformat(eff.nb) end,
 	long_desc = function(self, eff)
 		local source = eff.src or self
 		return ("The target is being fed upon by %d masses of parasitic leeches for %0.2f physical and %0.2f acid damage each turn.  After a %d turn feeding period, one mass will drop off and multiply."):tformat(eff.nb,

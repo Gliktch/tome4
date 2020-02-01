@@ -28,6 +28,7 @@ newPackage{ id = "basic", name = "Basic", weight = 1,
 	resources_small = {font="/data/font/Vera.ttf", bold=true, normal=10},
 	classic = {font="/data/font/Vera.ttf", normal=12, small=10, big=14},
 	classic_mono = {font="/data/font/VeraMono.ttf", normal=12, small=10, big=14},
+	insular = {font="/data/font/INSULA__.ttf", normal=14, small=12, big=16},
 }
 
 newPackage{ id = "web", name = "Web", weight = 10,
@@ -43,6 +44,7 @@ newPackage{ id = "web", name = "Web", weight = 10,
 	resources_small = {font="/data/font/DroidSans.ttf", bold=true, normal=10},
 	classic = {font="/data/font/USENET_.ttf", normal=16, small=14, big=18},
 	classic_mono = {font="/data/font/SVBasicManual.ttf", normal=14, small=10, big=16},
+	insular = {font="/data/font/INSULA__.ttf", normal=14, small=12, big=16},
 }
 
 newPackage{ id = "fantasy", name = "Fantasy", weight = 100,
@@ -57,6 +59,7 @@ newPackage{ id = "fantasy", name = "Fantasy", weight = 100,
 	resources_small = {font="/data/font/Salsa-Regular.ttf", normal=12},
 	classic = {font="/data/font/USENET_.ttf", normal=16, small=14, big=18},
 	classic_mono = {font="/data/font/SVBasicManual.ttf", normal=14, small=10, big=16},
+	insular = {font="/data/font/INSULA__.ttf", normal=14, small=12, big=16},
 }
 
 

@@ -185,7 +185,7 @@ uberTalent{
 		if self:knowTalent(self.T_ENDLESS_WOES) then
 			for dt, _ in pairs(t.dts) do
 				local proc = self:hasProc("endless_woes_"..dt:lower())
-				if proc then cooldowns[#cooldowns+1] = (dt:lower()):capitalize()..": "..proc.turns end
+				if proc then cooldowns[#cooldowns+1] = DamageType:get(DamageType[dt]).name:capitalize()..": "..proc.turns end
 			end
 			str = _t"(Cooldowns)".."\n"..table.concat(cooldowns, "\n")
 		end
@@ -347,7 +347,7 @@ uberTalent{
 		if self:knowTalent(self.T_ELEMENTAL_SURGE) then
 			for dt, _ in pairs(t.dts) do
 				local proc = self:hasProc("elemental_surge_"..dt:lower())
-				if proc then cooldowns[#cooldowns+1] = (dt:lower()):capitalize()..": "..proc.turns end
+				if proc then cooldowns[#cooldowns+1] = DamageType:get(DamageType[dt]).name:capitalize()..": "..proc.turns end
 			end
 		str = _t"(Cooldowns)".."\n"..table.concat(cooldowns, "\n")
 		end

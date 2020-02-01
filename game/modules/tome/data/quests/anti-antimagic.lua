@@ -91,7 +91,7 @@ on_status_change = function(self, who, status, sub)
 		who:setQuestStatus(self.id, engine.Quest.DONE)
 		world:gainAchievement("ANTI_ANTIMAGIC", game.player)
 
-		game.party:reward("Select the party member to receive the hexes generic talent tree:", function(player)
+		game.party:reward(_t"Select the party member to receive the hexes generic talent tree:", function(player)
 			if who:knowTalentType("corruption/hexes") then
 				who:setTalentTypeMastery("corruption/hexes", who:getTalentTypeMastery("corruption/hexes") + 0.2)
 			elseif who:knowTalentType("corruption/hexes") == false then

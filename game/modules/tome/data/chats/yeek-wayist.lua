@@ -43,7 +43,7 @@ newChat{ id="what",
 	text = _t[[The Way is enlightenment, peace and protection. I am a Yeek. I came through this tunnel to explore this part of the world that was closed to us for centuries.]],
 	answers = {
 		{_t"Can you tell me more about the Way?", jump="way", action=function(npc, player)
-			game.party:reward("Select the party member to receive the mental shield:", function(player)
+			game.party:reward(_t"Select the party member to receive the mental shield:", function(player)
 				player.combat_mentalresist = player.combat_mentalresist + 15
 				player:attr("confusion_immune", 0.10)
 			end)

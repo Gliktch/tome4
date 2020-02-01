@@ -45,7 +45,7 @@ newEntity{
 					game:changeLevel(1, "tutorial")
 					game.logPlayer(who, "#VIOLET#You enter the swirling portal and in the blink of an eye you are back in the lobby.")
 				end
-			end, "Stay", "Enter")
+			end, _t"Stay", _t"Enter")
 		end
 	end,
 }
@@ -70,7 +70,7 @@ newEntity{
 					game:changeLevel(1, "tutorial")
 					game.logPlayer(who, "#VIOLET#You enter the swirling portal and in the blink of an eye you are back in the lobby.")
 				end
-			end, "Stay", "Enter")
+			end, _t"Stay", _t"Enter")
 		end
 	end,
 }
