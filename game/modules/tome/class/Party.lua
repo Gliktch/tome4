@@ -364,7 +364,7 @@ function _M:giveOrder(actor, order)
 	local def = self.members[actor]
 
 	if order == "leash" then
-		game:registerDialog(GetQuantity.new(("Set action radius: %d"):tformat(actor:getName()), _t"Set the maximum distance this creature can go from the party master", actor.ai_state.tactic_leash, actor.ai_state.tactic_leash_max or 100, function(qty)
+		game:registerDialog(GetQuantity.new(("Set action radius: %s"):tformat(actor:getName()), _t"Set the maximum distance this creature can go from the party master", actor.ai_state.tactic_leash, actor.ai_state.tactic_leash_max or 100, function(qty)
 			actor.ai_state.tactic_leash = util.bound(qty, 1, actor.ai_state.tactic_leash_max or 100)
 			game.logPlayer(game.player, "%s maximum action radius set to %d.", actor:getName():capitalize(), actor.ai_state.tactic_leash)
 		end), 1)

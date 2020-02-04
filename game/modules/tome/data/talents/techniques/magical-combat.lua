@@ -143,11 +143,11 @@ newTalent{
 		if self:isTalentActive(t.id) then
 			local talent = self:getTalentFromId(self:isTalentActive(t.id).talent)
 			if talent and talent.name then
-				talent_selected = [[
+				talent_selected = ([[
 				
-				Currently selected spell: ]] .. talent.name
+				Currently selected spell: %s]]):tformat(talent.name)
 			else
-				talent_selected = [[
+				talent_selected = _t[[
 				
 				Currently selected spell: Random]]
 			end

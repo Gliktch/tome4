@@ -326,13 +326,13 @@ archeryWeaponCheck = function(self, weapon, ammo, silent, weapon_type)
 		if not silent then
 			-- ammo contains error message
 			game.logPlayer(self, ({
-				["disarmed"] = "You are currently disarmed and cannot use this talent.",
-				["no shooter"] = ("You require a %s to use this talent."):tformat(weapon_type or "missile launcher"),
-				["no ammo"] = "You require ammo to use this talent.",
-				["bad ammo"] = "Your ammo cannot be used.",
-				["incompatible ammo"] = "Your ammo is incompatible with your missile launcher.",
-				["incompatible missile launcher"] = ("You require a %s to use this talent."):tformat(weapon_type or "bow"),
-			})[ammo] or "You require a missile launcher and ammo for this talent.")
+				["disarmed"] = _t"You are currently disarmed and cannot use this talent.",
+				["no shooter"] = ("You require a %s to use this talent."):tformat(weapon_type or _t"missile launcher"),
+				["no ammo"] = _t"You require ammo to use this talent.",
+				["bad ammo"] = _t"Your ammo cannot be used.",
+				["incompatible ammo"] = _t"Your ammo is incompatible with your missile launcher.",
+				["incompatible missile launcher"] = ("You require a %s to use this talent."):tformat(weapon_type or _t"bow"),
+			})[ammo] or _t"You require a missile launcher and ammo for this talent.")
 		end
 		return false
 	else

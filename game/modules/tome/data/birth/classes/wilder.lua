@@ -60,7 +60,7 @@ newBirthDescriptor{
 	power_source = {nature=true},
 	getStatDesc = function(stat, actor)
 		if stat == actor.STAT_CUN then
-			return "Max summons: "..math.floor(actor:getCun()/10)
+			return ("Max summons: %d"):tformat(math.floor(actor:getCun()/10))
 		end
 	end,
 	stats = { wil=5, cun=3, dex=1, },
@@ -194,7 +194,7 @@ newBirthDescriptor{
 	random_rarity = 3,
 	getStatDesc = function(stat, actor)
 		if stat == actor.STAT_CUN then
-			return "Max summons: "..math.floor(actor:getCun()/10)
+			return ("Max summons: %d"):tformat(math.floor(actor:getCun()/10))
 		end
 	end,
 	birth_example_particles = {

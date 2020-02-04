@@ -96,8 +96,8 @@ newTalent{
 				summon_time=t.getDuration(self, t),
 				ai_target={actor=nil},
 				ai="summoned", ai_real="tactical",
-				name="Crystaline Half ("..self.name..")",
-				desc=([[A crystaline structure that has taken the form of %s.]]):tformat(self.name),
+				name=("Crystaline Half (%s)"):tformat(self:getName()),
+				desc=([[A crystaline structure that has taken the form of %s.]]):tformat(self:getName()),
 			})
 			local tids = table.keys(m.talents)
 			for i, tid in ipairs(tids) do
@@ -139,8 +139,8 @@ newTalent{
 				summon_time=t.getDuration(self, t),
 				ai_target={actor=nil},
 				ai="summoned", ai_real="tactical",
-				name="Stone Half ("..self.name..")",
-				desc=([[A stone structure that has taken the form of %s.]]):tformat(self.name),
+				name=("Stone Half (%s)"):tformat(self:getName()),
+				desc=([[A stone structure that has taken the form of %s.]]):tformat(self:getName()),
 			})
 			local tids = table.keys(m.talents)
 			for i, tid in ipairs(tids) do

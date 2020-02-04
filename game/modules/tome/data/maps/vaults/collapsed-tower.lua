@@ -47,7 +47,7 @@ local turret = function(version)
 		level_range = {1, nil}, exp_worth = 1,
 		stats = { mag=16, con=22 },
 		size_category = 2,
-		name = "elemental crystal", color=colors.BLUE,
+		name = _t"elemental crystal", color=colors.BLUE,
 		combat = { dam=resolvers.rngavg(1,2), atk=2, apr=0, dammod={str=0.4} },
 		combat_armor = 10, combat_def = 0,
 		talent_cd_reduction={[Talents.T_ELEMENTAL_BOLT]=3, },

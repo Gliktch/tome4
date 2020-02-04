@@ -162,7 +162,7 @@ newTalent{
 		if not self:checkHit(self:combatAttackRanged(weapon, ammo), target:combatDefenseRanged()) or target:checkEvasion(self) then 
 			xatk, ret = -1e6, false
 		end
-		game.logSeen(self, "%s %s the attack!", self:getName():capitalize(), ret and "intercepts" or "fails to intercept")
+		game.logSeen(self, "%s %s the attack!", self:getName():capitalize(), ret and _t"intercepts" or _t"fails to intercept")
 		self:archeryShoot(targets, t, nil, {atk = xatk, mult=self:combatTalentWeaponDamage(t, 0.4, 0.9)})
 		return ret
 	end,

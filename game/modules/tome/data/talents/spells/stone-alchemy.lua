@@ -103,11 +103,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local material = ""
-		if self:getTalentLevelRaw(t) >=1 then material=material.."	-Iron\n" end
-		if self:getTalentLevelRaw(t) >=2 then material=material.."	-Steel\n" end
-		if self:getTalentLevelRaw(t) >=3 then material=material.."	-Dwarven-steel\n" end
-		if self:getTalentLevelRaw(t) >=4 then material=material.."	-Stralite\n" end
-		if self:getTalentLevelRaw(t) >=5 then material=material.."	-Voratun" end
+		if self:getTalentLevelRaw(t) >=1 then material=material.._t"	-Iron\n" end
+		if self:getTalentLevelRaw(t) >=2 then material=material.._t"	-Steel\n" end
+		if self:getTalentLevelRaw(t) >=3 then material=material.._t"	-Dwarven-steel\n" end
+		if self:getTalentLevelRaw(t) >=4 then material=material.._t"	-Stralite\n" end
+		if self:getTalentLevelRaw(t) >=5 then material=material.._t"	-Voratun" end
 		return ([[Extract magical gems from metal weapons and armours. At this skill level you can work with:
 		%s]]):tformat(material)
 	end,
@@ -123,8 +123,8 @@ newTalent{
 	no_npc_use = true,
 	no_unlearn_last = true,
 	action = function(self, t)
-		local ret = self:talentDialog(self:showInventory("Use which gem?", self:getInven("INVEN"), function(gem) return gem.type == "gem" and gem.imbue_powers and gem.material_level and gem.material_level <= self:getTalentLevelRaw(t) end, function(gem, gem_item)
-			local nd = self:showInventory("Imbue which armour?", self:getInven("INVEN"), function(o) return o.type == "armor" and (o.slot == "BODY" or (self:knowTalent(self.T_CRAFTY_HANDS) and (o.slot == "HEAD" or o.slot == "BELT"))) and not o.been_imbued end, function(o, item)
+		local ret = self:talentDialog(self:showInventory(_t"Use which gem?", self:getInven("INVEN"), function(gem) return gem.type == "gem" and gem.imbue_powers and gem.material_level and gem.material_level <= self:getTalentLevelRaw(t) end, function(gem, gem_item)
+			local nd = self:showInventory(_t"Imbue which armour?", self:getInven("INVEN"), function(o) return o.type == "armor" and (o.slot == "BODY" or (self:knowTalent(self.T_CRAFTY_HANDS) and (o.slot == "HEAD" or o.slot == "BELT"))) and not o.been_imbued end, function(o, item)
 				self:removeObject(self:getInven("INVEN"), gem_item)
 				-- create an ego
 				local Entity = require("engine.Entity")
@@ -150,7 +150,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Imbue %s with a gem (up to tier %d), granting it additional powers.
-		You can only imbue items once, and it is permanent.]]):tformat(self:knowTalent(self.T_CRAFTY_HANDS) and "body armour, a belt, or a head piece" or "a body armour", self:getTalentLevelRaw(t))
+		You can only imbue items once, and it is permanent.]]):tformat(self:knowTalent(self.T_CRAFTY_HANDS) and _t"body armour, a belt, or a head piece" or _t"a body armour", self:getTalentLevelRaw(t))
 	end,
 }
 newTalent{

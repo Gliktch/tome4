@@ -1109,7 +1109,7 @@ function _M:displayResources(scale, bx, by, a)
 			if not self.res.save or self.res.save.vc ~= p then
 				self.res.save = {
 					vc = p,
-					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("Saving... %d%%"):format(p * 100), 255, 255, 255):glTexture()},
+					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("Saving... %d%%"):tformat(p * 100), 255, 255, 255):glTexture()},
 				}
 			end
 			local dt = self.res.save.cur
@@ -1187,7 +1187,7 @@ function _M:handleEffect(player, eff_id, e, p, x, y, hs, bx, by, is_first, scale
 					p.dur = p.dur - 1
 				end
 			elseif allow_remove and event == "button" and button == "right" then
-				Dialog:yesnoPopup(name, "Really cancel "..name.."?", function(ret)
+				Dialog:yesnoPopup(name, ("Really cancel %s?"):tformat(name), function(ret)
 					if ret then
 						player:removeEffect(eff_id)
 					end
@@ -1560,7 +1560,7 @@ function _M:displayPlayer(scale, bx, by)
 	if not self.res.plevel or self.res.plevel.vc ~= player.level then
 		self.res.plevel = {
 			vc = player.level,
-			cur = {core.display.drawStringBlendedNewSurface(font_sha, "Lvl "..player.level, 255, 255, 255):glTexture()},
+			cur = {core.display.drawStringBlendedNewSurface(font_sha, ("Lvl %d"):tformat(player.level), 255, 255, 255):glTexture()},
 		}
 	end
 	local dt = self.res.plevel.cur

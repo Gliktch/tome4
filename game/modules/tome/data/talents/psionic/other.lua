@@ -29,7 +29,7 @@ newTalent{
 	filter = function(o) return (o.type == "weapon" or o.type == "gem") end,
 	action = function(self, t)
 		local inven = self:getInven("INVEN")
-		local ret = self:talentDialog(self:showInventory("Telekinetically grasp which item?", inven, t.filter, function(o, item)
+		local ret = self:talentDialog(self:showInventory(_t"Telekinetically grasp which item?", inven, t.filter, function(o, item)
 			local pf = self:getInven("PSIONIC_FOCUS")
 			if not pf then return end
 			-- Put back the old one in inventory

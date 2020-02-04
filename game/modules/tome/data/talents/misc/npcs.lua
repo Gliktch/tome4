@@ -1430,7 +1430,7 @@ newTalent{
 			if self.is_grgglck then
 				game.logSeen(self, "%s spawns one of its tentacles!", self:getName():capitalize())
 			else
-				m.name = ("%s's summoned tentacle"):tformat(self.name)
+				m.name = ("%s's summoned tentacle"):tformat(self:getName())
 				m.desc = _t"Ewwww.."
 				game.logSeen(self, "%s spawns a tentacle!", self:getName():capitalize())
 			end
@@ -3550,8 +3550,8 @@ newTalent{
 			return
 		end
 
-		local m = self:cloneActor({name = ("Shadow of %s"):tformat(self.name),
-			desc = ([[A dark shadowy form in the shape of %s.]]):tformat(self.name),
+		local m = self:cloneActor({name = ("Shadow of %s"):tformat(self:getName()),
+			desc = ([[A dark shadowy form in the shape of %s.]]):tformat(self:getName()),
 			summoner=self, summoner_gain_exp=true, exp_worth=0,
 			summon_time=t.getDuration(self, t),
 			ai_target={actor=nil}, ai="summoned", ai_real="tactical",
@@ -3589,7 +3589,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="full",
 				type="shadow",
-				title=("Shadow of %s"):tformat(self.name),
+				title=("Shadow of %s"):tformat(self:getName()),
 				temporary_level=1,
 				orders = {target=true},
 				on_control = function(self)

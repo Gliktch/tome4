@@ -328,10 +328,10 @@ newTalent{
 			sp_text = (" Increases your spell save by %d for that turn."):tformat(t.getBlockValue(self, t))
 		end
 		if properties.ref then
-			ref_text = " Reflects all blocked damage back to the source."
+			ref_text = _t" Reflects all blocked damage back to the source."
 		end
 		if properties.br then
-			br_text = " All blocked damage heals the wielder."
+			br_text = _t" All blocked damage heals the wielder."
 		end
 		local bt, bt_string = t.getBlockedTypes(self, t)
 		return ([[Raise your shield into blocking position for 2 turns reducing all non-Mind damage by %d. If you block all of an attack's damage, the attacker will be vulnerable to a deadly counterstrike (the next weapon attack will instead deal 200%% damage) for one turn.

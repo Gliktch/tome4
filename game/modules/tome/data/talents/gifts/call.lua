@@ -22,7 +22,7 @@ newTalent{
 	type = {"wild-gift/call", 1},
 	require = gifts_req1,
 	points = 5,
-	message = function(self, t) return self.sustain_talents[t.id] and "@Source@ interrupts @hisher@ #GREEN#meditation#LAST#." or "@Source@ #GREEN#meditates#LAST# on nature." end,
+	message = function(self, t) return self.sustain_talents[t.id] and _t"@Source@ interrupts @hisher@ #GREEN#meditation#LAST#." or _t"@Source@ #GREEN#meditates#LAST# on nature." end,
 	mode = "sustained",
 	cooldown = 20,
 	range = 10,

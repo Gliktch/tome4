@@ -163,11 +163,11 @@ newTalent{
 			if choose then
 				Dialog:yesnoLongPopup(
 					_t"Cursed Fate",
-					("The %s lying nearby catches your attention. What draws you to it is not the thing itself, but something burning inside you. You feel contempt for it and all worldly things. This feeling is not new but the power of it overwhelms you. You reach out to touch the object, to curse it, to defile it. And you notice it begin to change. The colors of it begin to fade and are replaced with an insatiable hate. For a moment you hesitate. You know you must choose to resist this manifestation of your curse now and forever, or fall further into your madness."):tformat(item.name),
+					("The %s lying nearby catches your attention. What draws you to it is not the thing itself, but something burning inside you. You feel contempt for it and all worldly things. This feeling is not new but the power of it overwhelms you. You reach out to touch the object, to curse it, to defile it. And you notice it begin to change. The colors of it begin to fade and are replaced with an insatiable hate. For a moment you hesitate. You know you must choose to resist this manifestation of your curse now and forever, or fall further into your madness."):tformat(item:getName()),
 					300,
 					function(ret)
 						if ret then
-							Dialog:simpleLongPopup(_t"Cursed Fate", ("The %s lies defiled at your feet. An aura of hatred surrounds you and you now feel truly cursed. You have gained the Cursed Aura talent tree and 1 point in Defiling Touch, but at the cost of 2 Willpower."):tformat(item.name), 300)
+							Dialog:simpleLongPopup(_t"Cursed Fate", ("The %s lies defiled at your feet. An aura of hatred surrounds you and you now feel truly cursed. You have gained the Cursed Aura talent tree and 1 point in Defiling Touch, but at the cost of 2 Willpower."):tformat(item:getName()), 300)
 							self:learnTalentType("cursed/cursed-aura", true)
 							self:learnTalent(self.T_DEFILING_TOUCH, true, 1, {no_unlearn=true})
 							self:incIncStat(Stats.STAT_WIL, -2)
@@ -356,7 +356,7 @@ newTalent{
 	action = function(self, t)
 		local ct = self:getTalentFromId(self.T_CURSED_SENTRY)
 		local inven = self:getInven("INVEN")
-		local d = self:showInventory("Which weapon will be your sentry?", inven, function(o) return ct.filterObject(self, ct, o) end, nil)
+		local d = self:showInventory(_t"Which weapon will be your sentry?", inven, function(o) return ct.filterObject(self, ct, o) end, nil)
 		d.action = function(o, item) self:talentDialogReturn(true, o, item) return false end
 		local ret, o, item = self:talentDialog(d)
 		if not ret then return nil end

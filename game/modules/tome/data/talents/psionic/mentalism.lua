@@ -179,7 +179,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="full",
 				type = m.type, subtype="ghost",
-				title=("Projection of %s"):tformat(self.name),
+				title=("Projection of %s"):tformat(self:getName()),
 				temporary_level=1,
 				orders = {target=true},
 				on_control = function(self)

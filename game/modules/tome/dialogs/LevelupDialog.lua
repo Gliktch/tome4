@@ -363,8 +363,8 @@ end
 function _M:learnTalent(t_id, v)
 	self.talents_learned[t_id] = self.talents_learned[t_id] or 0
 	local t = self.actor:getTalentFromId(t_id)
-	local t_type, t_index = "class", "unused_talents"
-	if t.generic then t_type, t_index = "generic", "unused_generics" end
+	local t_type, t_index = _t"class", "unused_talents"
+	if t.generic then t_type, t_index = _t"generic", "unused_generics" end
 	if v then
 		if self.actor[t_index] < 1 then
 			self:subtleMessage(("Not enough %s talent points"):tformat(t_type), ("You have no %s talent points left!"):tformat(t_type), subtleMessageErrorColor)

@@ -88,7 +88,7 @@ newTalent{
 		return ([[Stony spikes erupt from the ground in a radius %d cone.
 		Creatures caught in the area will be %scut for %0.1f Physical damage dealt over 6 turns.
 		The damage increases with your Spellpower, and the chance to apply the detrimental effect(s) improves with Spellpower or Physical Power, whichever is greater.]])
-		:tformat(self:getTalentRadius(t), xs ~="" and xs.." and " or "", damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		:tformat(self:getTalentRadius(t), xs ~="" and xs.._t" and " or "", damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
 	end,
 }
 

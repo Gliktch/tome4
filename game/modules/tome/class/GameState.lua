@@ -3251,7 +3251,7 @@ function _M:makeChallengeQuest(level, name, desc, data, alter_effect)
 	if p:hasQuest(qid) then return end -- sanity check
 	local q = {
 		id = qid,
-		name = "Infinite Dungeon Challenge (Level "..level.level.."): "..name,
+		name = ("Infinite Dungeon Challenge (Level %s): %s"):tformat(level.level, name),
 		use_ui = "quest-idchallenge",
 		challenge_desc = desc,
 		check_level = level, -- level the quest is granted for

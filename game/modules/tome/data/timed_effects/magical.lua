@@ -371,7 +371,7 @@ newEffect{
 	long_desc = function(self, eff)
 		local str = ""
 		for k,v in pairs(eff.wards) do
-			str = str .. ", " .. v .. " " .. k:lower()
+			str = str .. ", " .. v .. " " .. _t(k:lower())
 		end
 		str = string.sub(str, 2)
 		return ("The target is protected by a prismatic shield blocking many instances of damage.  Remaining:  %s"):tformat(str) -- add tooltip
@@ -673,7 +673,7 @@ newEffect{
 newEffect{
 	name = "DISPLACEMENT_SHIELD", image = "talents/displacement_shield.png",
 	desc = _t"Displacement Shield",
-	long_desc = function(self, eff) return ("The target is surrounded by a space distortion that randomly sends (%d%% chance) incoming damage to another target (%s). Absorbs %d/%d damage before it crumbles."):tformat(eff.chance, eff.target and eff.target.name or "unknown", self.displacement_shield, eff.power) end,
+	long_desc = function(self, eff) return ("The target is surrounded by a space distortion that randomly sends (%d%% chance) incoming damage to another target (%s). Absorbs %d/%d damage before it crumbles."):tformat(eff.chance, eff.target and eff.target:getName() or "unknown", self.displacement_shield, eff.power) end,
 	type = "magical",
 	subtype = { teleport=true, shield=true },
 	status = "beneficial",
@@ -3906,7 +3906,7 @@ newEffect{
 newEffect{
 	name = "ARROW_ECHOES", image = "talents/arrow_echoes.png",
 	desc = _t"Arrow Echoes",
-	long_desc = function(self, eff) return ("Each turn will fire an arrow at %s."):tformat(eff.target.name) end,
+	long_desc = function(self, eff) return ("Each turn will fire an arrow at %s."):tformat(eff.target:getName()) end,
 	type = "magical",
 	subtype = { time=true },
 	status = "beneficial",
@@ -3931,7 +3931,7 @@ newEffect{
 	name = "WARDEN_S_FOCUS", image = "talents/warden_s_focus.png",
 	desc = _t"Warden's Focus",
 	long_desc = function(self, eff)
-		return ("Focused on %s, +%d%% critical damage and +%d%% critical hit chance against this target."):tformat(eff.target.name, eff.power, eff.power)
+		return ("Focused on %s, +%d%% critical damage and +%d%% critical hit chance against this target."):tformat(eff.target:getName(), eff.power, eff.power)
 	end,
 	type = "magical",
 	subtype = { tactic=true },

@@ -134,7 +134,7 @@ newTalent{
 		return self:combatTalentMindDamage(t, 10, 40)
 	end,
 	action = function(self, t)
-		local ret = self:talentDialog(self:showInventory("Use which gem?", self:getInven("INVEN"), function(gem) return gem.type == "gem" and gem.material_level and not gem.unique end, function(gem, gem_item)
+		local ret = self:talentDialog(self:showInventory(_t"Use which gem?", self:getInven("INVEN"), function(gem) return gem.type == "gem" and gem.material_level and not gem.unique end, function(gem, gem_item)
 			self:removeObject(self:getInven("INVEN"), gem_item)
 			local amt = t.energy_per_turn(self, t)
 			local dur = 3 + 2*(gem.material_level or 0)

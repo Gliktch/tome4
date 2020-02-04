@@ -2040,7 +2040,7 @@ newEffect{
 newEffect{
 	name = "DREAMSCAPE", image = "talents/dreamscape.png",
 	desc = _t"Dreamscape",
-	long_desc = function(self, eff) return ("This target has invaded %s's dreams and has gained a %d%% bonus to all damage."):tformat(eff.target.name, eff.power) end,
+	long_desc = function(self, eff) return ("This target has invaded %s's dreams and has gained a %d%% bonus to all damage."):tformat(eff.target:getName(), eff.power) end,
 	type = "other",
 	subtype = { psionic=true },
 	status = "beneficial",
@@ -2612,7 +2612,7 @@ newEffect{
 		end
 		local dead, val = self:takeHit(eff.dam, self, {special_death_msg="burnt to death by cauterize"})
 
-		local srcname = self.x and self.y and game.level.map.seens(self.x, self.y) and self.name:capitalize() or _t"Something"
+		local srcname = self.x and self.y and game.level.map.seens(self.x, self.y) and self:getName():capitalize() or _t"Something"
 		game:delayedLogDamage(eff, self, val, ("%s%d %s#LAST#"):tformat(DamageType:get(DamageType.FIRE).text_color or "#aaaaaa#", math.ceil(val), DamageType:get(DamageType.FIRE).name), false)
 	end,
 }
@@ -3822,7 +3822,7 @@ newEffect{
 newEffect{
 	name = "FEED", image = "talents/feed.png",
 	desc = _t"Feeding",
-	long_desc = function(self, eff) return ("%s is feeding from %s."):tformat(self.name:capitalize(), eff.target.name) end,
+	long_desc = function(self, eff) return ("%s is feeding from %s."):tformat(self:getName():capitalize(), eff.target:getName()) end,
 	type = "other",
 	subtype = { },
 	no_stop_enter_worlmap = true, cancel_on_level_change = true,
@@ -3920,7 +3920,7 @@ newEffect{
 newEffect{
 	name = "FED_UPON", image = "effects/fed_upon.png",
 	desc = _t"Fed Upon",
-	long_desc = function(self, eff) return ("%s is fed upon by %s."):tformat(self.name:capitalize(), eff.src:getName()) end,
+	long_desc = function(self, eff) return ("%s is fed upon by %s."):tformat(self:getName():capitalize(), eff.src:getName()) end,
 	type = "other",
 	subtype = { psychic_drain=true },
 	status = "detrimental",

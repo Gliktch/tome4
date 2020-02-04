@@ -7091,7 +7091,7 @@ newEntity{ base = "BASE_GREATMAUL",
 					inc_damage = {FIRE = 3 * gem.material_level, DARKNESS = 3 * gem.material_level,},
 					resists_pen = {all = 2 * gem.material_level},},
 				true)
-			maul.gemdesc = _t"Demonic"
+			maul.gemDesc = _t"Demonic"
 		end,},
 	max_power = 10, power_regen = 1,
 	use_power = { name = _t"imbue the hammer with a gem of your choice", power = 10,
@@ -7161,14 +7161,14 @@ newEntity{ base = "BASE_GREATMAUL",
 							{inc_damage = {[gem.color_attributes.damage_type] = 4 * scalingFactor},},
 							true)
 						self.combat.burst_on_crit = {[gem.color_attributes.alt_damage_type] = 12 * scalingFactor,}
-						self.gemDesc = gem.color_attributes.desc or gem.color_attributes.damage_type:lower():capitalize()
+						self.gemDesc = gem.color_attributes.desc or _t(gem.color_attributes.damage_type:lower()):capitalize()
 					else -- Backup for weird artifacts.
 						table.mergeAdd(self.combat, {convert_damage = {[DamageType.COLD] = 25, [DamageType.FIRE] = 25, [DamageType.LIGHTNING] = 25, [DamageType.ARCANE] = 25,} }, true)
 						table.mergeAdd(self.wielder, {
 							inc_damage = { all = 2 * scalingFactor},
 							resists_pen = { all = 2 * scalingFactor},
 							}, true)
-							self.gemDesc = 'Unique'
+							self.gemDesc = _t'Unique'
 					end
 
 					game.logPlayer(who, "You imbue your %s with %s.", self:getName{do_colour=true, no_count=true}, gem:getName{do_colour=true, no_count=true})

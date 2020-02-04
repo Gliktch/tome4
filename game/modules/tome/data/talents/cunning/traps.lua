@@ -223,7 +223,7 @@ trapGetGrid = function(self, t, tg, defense)
 		end
 		local trap = game.level.map(x, y, Map.TRAP)
 		if trap then
-			game.logPlayer(self, trap:knownBy(self) and game.level.map.seens(x, y) and "There is already a trap there." or "You somehow fail to set the trap.") return nil 
+			game.logPlayer(self, trap:knownBy(self) and game.level.map.seens(x, y) and _t"There is already a trap there." or _t"You somehow fail to set the trap.") return nil 
 		end
 	end
 	print("Trap Placement for", self.name, t.id, x, y)
@@ -827,7 +827,7 @@ newTalent{
 			-- show only primable traps that are primed or that the player knows about
 			if tr and tr.allow_primed_trigger and tr.trap_mastery_level and (self:knowTalent(tid) or game.state:unlockTalentCheck(tid, player)) then
 				show_traps[#show_traps+1] = {tier=tr.trap_mastery_level, name=tr.name,
-				info = tr.short_info and tr.short_info(self, tr) or "#GREY#(see trap description)#LAST#"}
+				info = tr.short_info and tr.short_info(self, tr) or _t"#GREY#(see trap description)#LAST#"}
 				if tid == self.trap_primed then
 					show_traps[#show_traps].instant = true
 					instant = tr.name
@@ -927,7 +927,7 @@ newTalent{
 	info = function(self, t)
 		local dam = t.getDamage(self, t)
 		local power = t.getPower(self,t)
-		local instant = self.trap_primed == t.id and "\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
+		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		return ([[Lay a pressure triggered trap that explodes into a radius 2 wave of razor sharp wire, doing %0.2f physical damage. Those struck by the wire may be shredded, reducing accuracy, armor and defence by %d.
 		This trap can use a primed trigger and a high level lure can trigger it.%s]]):
 		tformat(damDesc(self, DamageType.PHYSICAL, dam), power, instant)
@@ -992,7 +992,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local dam = damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t))
-		local instant = self.trap_primed == t.id and "\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
+		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		return ([[Lay a pressure triggered bear trap that snaps onto the first creature passing over it.  Victims are dealt %0.2f physical damage and become snared (pinned and slowed 30%%) and wounded for %0.2f bleeding damage over 5 turns.  Creatures that avoid being snared still suffer bleeding damage.%s]]):tformat(dam, dam, instant)
 	end,
 }
@@ -1246,7 +1246,7 @@ newTalent{
 		return ([[Explodes (radius 2) for %0.2f physical damage, 50%% blind/daze for %d turns.]]):tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), t.getDuration(self, t))
 	end,
 	info = function(self, t)
-		local instant = self.trap_primed == t.id and "\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
+		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		return ([[Lay a trap that explodes in a radius of 2, dealing %0.2f physical damage and blinding and dazing (50%% chance of each) any creature caught inside for %d turns.
 		This trap can use a primed trigger and a high level lure can trigger it.%s]]):
 		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), t.getDuration(self, t), instant)
@@ -1457,7 +1457,7 @@ newTalent{
 		return ([[Releases a radius 3 poison gas cloud, poisoning for %0.2f nature damage over 5 turns with a 25%% for enhanced effects.]]):tformat(damDesc(self, DamageType.POISON, t.getDamage(self, t)))
 	end,
 	info = function(self, t)
-		local instant = self.trap_primed == t.id and "\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
+		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		return ([[Lay a trap that releases a radius 3 cloud of thick poisonous gas lasting 4 turns.
 		Each turn, the cloud poisons all within (%0.2f nature damage over 5 turns).   There is a 25%% chance the poison is enhanced with crippling, numbing or insidious effects.
 		This trap can use a primed trigger and a high level lure can trigger it.%s]]):
@@ -1545,7 +1545,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local dam = damDesc(self, DamageType.COLD, t.getDamage(self, t))
-		local instant = self.trap_primed == t.id and "\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
+		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		return ([[Lay a trap that explodes into a radius 2 cloud of freezing vapour when triggered.  Foes take %0.2f cold damage and are pinned for 3 turns.
 		The freezing vapour persists for 5 turns, dealing %0.2f cold damage each turn to foes with a 25%% chance to freeze.
 		This trap can use a primed trigger and a high level lure can trigger it.%s]]):
@@ -1639,7 +1639,7 @@ newTalent{
 		return ([[Explodes (radius 2): stuns and combusts for %0.2f fire damage per turn for 3 turns.  Area deflagrates (%0.2f fire damage) for 5 turns.]]):tformat(dam/3, dam/2)
 	end,
 	info = function(self, t)
-		local instant = self.trap_primed == t.id and "\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
+		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		dam = damDesc(self, DamageType.FIRE, t.getDamage(self, t))
 		return ([[Lay a pressure triggered trap that explodes in a radius 2 cloud of searing flames when triggered, stunning foes with the blast (%0.2f fire damage per turn) for 3 turns.
 		The deflagration persists in the area for 5 turns, burning foes for %0.2f fire damage each turn.
@@ -1953,7 +1953,7 @@ newTalent{
 		local negative = base / 4
 		local dur = t.getDuration(self,t)
 		local nb = t.getNb(self,t)
-		local instant = self.trap_primed == t.id and "\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
+		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		return ([[Lay a trap that releases a burst of antimagic energies (radius 2), draining up to %d mana, %d vim, %d positive and %d negative energies from affected targets, while inflicting up to %0.2f arcane damage based on the resources drained, silencing for %d turns, and removing up to %d beneficial magical effects or sustains.
 		The draining effect scales with your Willpower, and you must have 25 Willpower to prepare this trap.
 		This trap can use a primed trigger and a high level lure can trigger it.%s]]):
@@ -2029,7 +2029,7 @@ newTalent{
 		tformat(damDesc(self, DamageType.FIRE, t.getDamage(self, t)))
 	end,
 	info = function(self, t)
-		local instant = self.trap_primed == t.id and "\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
+		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		return ([[Lay a simple yet effective trap that explodes in a radius 2 on contact, setting those affected on fire for %0.2f fire damage over 3 turns.
 		This trap can use a primed trigger and a high level lure can trigger it.%s]]):
 		tformat(damDesc(self, DamageType.FIRE, t.getDamage(self, t)), instant)

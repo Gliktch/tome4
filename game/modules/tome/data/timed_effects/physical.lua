@@ -2771,7 +2771,7 @@ newEffect{
 		local t = self:getTalentFromId(self.T_CORROSIVE_NATURE)
 		eff.dur = t.getDuration(self, t)
 		if eff.bonus_level >=5 then return eff end
-		game.logSeen(self, "%s's corrosive nature intensifies!",self.name:capitalize())
+		game.logSeen(self, "%s's corrosive nature intensifies!",self:getName():capitalize())
 		eff.last_update = game.turn
 		eff.bonus_level = eff.bonus_level + 1
 		eff.power = t.getAcidDamage(self, t, eff.bonus_level)
@@ -2805,7 +2805,7 @@ newEffect{
 		local t = self:getTalentFromId(self.T_NATURAL_ACID)
 		eff.dur = t.getDuration(self, t)
 		if eff.bonus_level >=5 then return eff end
-		game.logSeen(self, "%s's natural acid becomes more concentrated!",self.name:capitalize())
+		game.logSeen(self, "%s's natural acid becomes more concentrated!",self:getName():capitalize())
 		eff.last_update = game.turn
 		eff.bonus_level = eff.bonus_level + 1
 		eff.power = t.getNatureDamage(self, t, eff.bonus_level)

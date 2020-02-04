@@ -209,9 +209,9 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 		if eff.survive_domination then
-			game.logSeen(self, "%s's mind recovers from the domination.",self.name:capitalize())
+			game.logSeen(self, "%s's mind recovers from the domination.",self:getName():capitalize())
 		else
-			game.logSeen(self, "%s collapses.",self.name:capitalize())
+			game.logSeen(self, "%s collapses.",self:getName():capitalize())
 			self:die(eff.src)
 		end
 	end,
@@ -708,7 +708,7 @@ newEffect{
 newEffect{
 	name = "AGONY", image = "talents/agony.png",
 	desc = _t"Agony",
-	long_desc = function(self, eff) return ("%s is writhing in agony, suffering from %d to %d damage over %d turns."):tformat(self.name:capitalize(), eff.damage / eff.duration, eff.damage, eff.duration) end,
+	long_desc = function(self, eff) return ("%s is writhing in agony, suffering from %d to %d damage over %d turns."):tformat(self:getName():capitalize(), eff.damage / eff.duration, eff.damage, eff.duration) end,
 	type = "mental",
 	subtype = { pain=true, psionic=true },
 	status = "detrimental",
@@ -744,7 +744,7 @@ newEffect{
 newEffect{
 	name = "HATEFUL_WHISPER", image = "talents/hateful_whisper.png",
 	desc = _t"Hateful Whisper",
-	long_desc = function(self, eff) return ("%s has heard the hateful whisper."):tformat(self.name:capitalize()) end,
+	long_desc = function(self, eff) return ("%s has heard the hateful whisper."):tformat(self:getName():capitalize()) end,
 	type = "mental",
 	subtype = { madness=true, psionic=true },
 	status = "detrimental",
@@ -1789,7 +1789,7 @@ newEffect{
 		eff.cur_regen = eff.regen
 		eff.life_regen_id = self:addTemporaryValue("life_regen", eff.regen)
 		eff.stamina_regen_id = self:addTemporaryValue("stamina_regen", eff.regen /5)
-		game.logSeen(self, "%s revels in the spilt blood and grows stronger!",self.name:capitalize())
+		game.logSeen(self, "%s revels in the spilt blood and grows stronger!",self:getName():capitalize())
 
 		if core.shader.active(4) then
 			eff.particle1 = self:addParticles(Particles.new("shader_shield", 1, {toback=true,  size_factor=1.5, y=-0.3, img="healarcane"}, {type="healing", time_factor=4000, noup=2.0, beamColor1={0xff/255, 0x22/255, 0x22/255, 1}, beamColor2={0xff/255, 0x60/255, 0x60/255, 1}, circleColor={0,0,0,0}, beamsCount=8}))
@@ -1805,7 +1805,7 @@ newEffect{
 		self:removeTemporaryValue("stamina_regen", eff.stamina_regen_id)
 
 		self:removeTemporaryValue("life",eff.templife_id) -- remove extra hps to prevent excessive heals at high level
-		game.logSeen(self, "%s no longer revels in blood quite so much.",self.name:capitalize())
+		game.logSeen(self, "%s no longer revels in blood quite so much.",self:getName():capitalize())
 	end,
 }
 

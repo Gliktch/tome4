@@ -43,7 +43,7 @@ for x, yy in pairs(grids) do for y, _ in pairs(yy) do
 	local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
 	g.on_stand = g.on_stand or on_stand
 	if g.on_stand == on_stand and g.type == "floor" then
-		g.name = g.name ..  " (spellblaze aura)"
+		g.name = ("%s (spellblaze aura)"):tformat(_t(g.name))
 		if not g.special_minimap then g.special_minimap = colors.VERY_DARK_RED end
 	end
 	g.always_remember = true

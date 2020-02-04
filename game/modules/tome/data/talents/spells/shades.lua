@@ -200,7 +200,7 @@ newTalent{
 			ai_target = {actor=table.NIL_MERGE},
 			ai = "summoned", ai_real = "tactical",
 			name = ("Forgery of Haze (%s)"):tformat(self:getName()),
-			desc = ([[A dark shadowy shape whose form resembles %s.]]):tformat(self.name),
+			desc = ([[A dark shadowy shape whose form resembles %s.]]):tformat(self:getName()),
 		})
 
 		m:removeTimedEffectsOnClone()

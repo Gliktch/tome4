@@ -473,9 +473,9 @@ newTalent{
 		local hardiness = t.getArmorHardiness(self, t)
 		local armor = t.getArmor(self, t)
 		local critreduce = t.getCriticalChanceReduction(self, t)
-		local dir = self:getTalentLevelRaw(t) >= 3 and "In" or "De"
+		local dir = self:getTalentLevelRaw(t) >= 3 and _t"Increases" or _t"Decreases"
 		return ([[The golem automatically reconfigures heavy mail and massive armours designed for living creatures to protect its own vital areas.
-	%screases armour value by %d, armour hardiness by %d%%, and provides %d%% critical hit reduction when wearing heavy mail or massive armour.]]):
+	%s armour value by %d, armour hardiness by %d%%, and provides %d%% critical hit reduction when wearing heavy mail or massive armour.]]):
 		tformat(dir, armor, hardiness, critreduce)
 	end,
 }

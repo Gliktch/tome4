@@ -28,7 +28,7 @@ newEntity{ define_as = "TRAP_TUTORIAL",
 	triggered = function(self, x, y, who)
 		if who.player then
 			game.player:runStop()
-			local d = require("engine.dialogs.ShowText").new("Tutorial: "..self.name, "tutorial/"..self.text)
+			local d = require("engine.dialogs.ShowText").new(("Tutorial: %s"):tformat(_t(self.name)), "tutorial/"..self.text)
 			game:registerDialog(d)
 		end
 		return false, false
@@ -44,7 +44,7 @@ newEntity{ define_as = "TRAP_TUTORIAL2",
 	triggered = function(self, x, y, who)
 		if who.player then
 			game.player:runStop()
-			local d = require("engine.dialogs.ShowText").new("Tutorial: "..self.name, "tutorial/stats/"..self.text)
+			local d = require("engine.dialogs.ShowText").new(("Tutorial: %s"):tformat(_t(self.name)), "tutorial/stats/"..self.text)
 			game:registerDialog(d)
 		end
 		return false, false
@@ -60,7 +60,7 @@ newEntity{ define_as = "TRAP_TUTORIAL3",
 	triggered = function(self, x, y, who)
 		if who.player then
 			game.player:runStop()
-			local d = require("engine.dialogs.ShowText").new("Tutorial: "..self.name, "tutorial/stats-scale/"..self.text)
+			local d = require("engine.dialogs.ShowText").new(("Tutorial: %s"):tformat(_t(self.name)), "tutorial/stats-scale/"..self.text)
 			game:registerDialog(d)
 		end
 		return false, false
@@ -76,7 +76,7 @@ newEntity{ define_as = "TRAP_TUTORIAL4",
 	triggered = function(self, x, y, who)
 		if who.player then
 			game.player:runStop()
-			local d = require("engine.dialogs.ShowText").new("Tutorial: "..self.name, "tutorial/stats-calc/"..self.text)
+			local d = require("engine.dialogs.ShowText").new(("Tutorial: %s"):tformat(_t(self.name)), "tutorial/stats-calc/"..self.text)
 			game:registerDialog(d)
 		end
 		return false, false
@@ -92,7 +92,7 @@ newEntity{ define_as = "TRAP_TUTORIAL5",
 	triggered = function(self, x, y, who)
 		if who.player then
 			game.player:runStop()
-			local d = require("engine.dialogs.ShowText").new("Tutorial: "..self.name, "tutorial/stats-timed/"..self.text)
+			local d = require("engine.dialogs.ShowText").new(("Tutorial: %s"):tformat(_t(self.name)), "tutorial/stats-timed/"..self.text)
 			game:registerDialog(d)
 		end
 		return false, false
@@ -108,7 +108,7 @@ newEntity{ define_as = "TRAP_TUTORIAL6",
 	triggered = function(self, x, y, who)
 		if who.player then
 			game.player:runStop()
-			local d = require("engine.dialogs.ShowText").new("Tutorial: "..self.name, "tutorial/stats-tier/"..self.text)
+			local d = require("engine.dialogs.ShowText").new(("Tutorial: %s"):tformat(_t(self.name)), "tutorial/stats-tier/"..self.text)
 			game:registerDialog(d)
 		end
 		return false, false

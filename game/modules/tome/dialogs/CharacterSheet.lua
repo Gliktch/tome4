@@ -622,7 +622,7 @@ function _M:drawDialog(kind, actor_to_compare)
 		s:drawColorStringBlended(self.font, _t"#LIGHT_BLUE#Resources:", w, h, 255, 255, 255, true) h = h + self.font_h
 		text = compare_fields(player, actor_to_compare, "max_life", "%d", _t"%+.0f max")
 		if player.die_at ~=  0 or (actor_to_compare and actor_to_compare.die_at ~=0) then 
-			text = text .. " #a08080#[" .. compare_fields(player, actor_to_compare, "die_at", "die:%+d","%+.0f", 1, true) .. "]"
+			text = text .. " #a08080#[" .. compare_fields(player, actor_to_compare, "die_at", _t"die:%+d","%+.0f", 1, true) .. "]"
 		end
 		self:mouseTooltip(self.TOOLTIP_LIFE, s:drawColorStringBlended(self.font, ("#c00000#Life    : #00ff00#%d/%s"):tformat(player.life, text), w, h, 255, 255, 255, true)) h = h + self.font_h
 

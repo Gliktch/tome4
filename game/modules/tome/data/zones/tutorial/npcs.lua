@@ -70,7 +70,7 @@ newEntity{ base = "BASE_NPC_CANINE", define_as = "TUTORIAL_NPC_LONE_WOLF",
 
 	on_die = function(self, who)
 		game.player:resolveSource():setQuestStatus("tutorial", engine.Quest.COMPLETED)
-		local d = require("engine.dialogs.ShowText").new("Tutorial: Finish", "tutorial/done")
+		local d = require("engine.dialogs.ShowText").new(_t"Tutorial: Finish", "tutorial/done")
 		game:registerDialog(d)
 	end,
 }
