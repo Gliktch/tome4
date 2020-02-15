@@ -329,7 +329,7 @@ newTalent{
 		-- Adding the entrance wormhole
 		local entrance = mod.class.Trap.new{
 			name = _t"wormhole",
-			type = "annoy", subtype="teleport", id_by_type=true, unided_name = "trap",
+			type = "annoy", subtype="teleport", id_by_type=true, unided_name = _t"trap",
 			image = "terrain/wormhole.png",
 			display = '&', color_r=255, color_g=255, color_b=255, back_color=colors.STEEL_BLUE,
 			message = _t"@Target@ moves onto the wormhole.",
@@ -1322,7 +1322,7 @@ newTalent{
 			local proj = require("mod.class.Projectile"):makeHoming(
 				self,
 				{particle="bolt_earth", trail="lightningtrail"},
-				{speed=2, name="Dust Storm", start_x=orig_x, start_y=orig_y, dam=dam, movedam=dam},
+				{speed=2, name=_t"Dust Storm", start_x=orig_x, start_y=orig_y, dam=dam, movedam=dam},
 				target,
 				self:getTalentRange(t),
 				function(self, src)
@@ -1383,7 +1383,7 @@ newTalent{
 			local proj = require("mod.class.Projectile"):makeHoming(
 				self,
 				{particle="inferno"},
-				{speed=1, name="Blazing Fire", start_x=orig_x, start_y=orig_y, dam=movedam, movedam=movedam},
+				{speed=1, name=_t"Blazing Fire", start_x=orig_x, start_y=orig_y, dam=movedam, movedam=movedam},
 				target,
 				self:getTalentRange(t),
 				function(self, src)
@@ -1683,7 +1683,7 @@ newTalent{
 		local proj = require("mod.class.Projectile"):makeHoming(
 			self,
 			{particle = "bolt_dark", trail = "darktrail"},
-			{speed=1, name="Sphere of Destruction", start_x=orig_x, start_y=orig_y, dam=movedam, movedam=movedam},
+			{speed=1, name=_t"Sphere of Destruction", start_x=orig_x, start_y=orig_y, dam=movedam, movedam=movedam},
 			target,
 			self:getTalentRange(t),
 			function(self, src)
@@ -1743,7 +1743,7 @@ newTalent{
 			local proj = require("mod.class.Projectile"):makeHoming(
 				self,
 				{particle="bolt_lightning", trail="lightningtrail"},
-				{speed=2, name="Tornado", dam=dam, movedam=movedam, start_x=orig_x, start_y=orig_y, apply=apply_power},
+				{speed=2, name=_t"Tornado", dam=dam, movedam=movedam, start_x=orig_x, start_y=orig_y, apply=apply_power},
 				target,
 				self:getTalentRange(t),
 				function(self, src)
@@ -1902,7 +1902,7 @@ newTalent{
 		local npcs = mod.class.NPC:loadList{"/data/general/npcs/horror_temporal.lua"}
 		local trap = Trap.new{
 			name = _t"Spacetime Tear",
-			type = "time", id_by_type=true, unided_name = "trap",
+			type = "time", id_by_type=true, unided_name = _t"trap",
 			display = '^', color=colors.GOLD, image = "object/temporal_instability.png",
 			npc_type = npcs,
 			canTrigger = function(self, x, y, who)

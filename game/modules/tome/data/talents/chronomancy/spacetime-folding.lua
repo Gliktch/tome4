@@ -32,7 +32,7 @@ makeWarpMine = function(self, t, x, y, type, dam)
 	-- Our Mines
 	local mine = Trap.new{
 		name = ("warp mine: %s"):tformat(type == "toward" and _t"toward" or _t"away"),
-		type = "temporal", id_by_type=true, unided_name = "trap",
+		type = "temporal", id_by_type=true, unided_name = _t"trap",
 		display = '^', color=colors.BLUE, image = ("trap/chronomine_%s_0%d.png"):format(type == "toward" and "blue" or "red", rng.avg(1, 4, 3)),
 		shader = "shadow_simulacrum", shader_args = { color = {0.2, 0.2, 0.2}, base = 0.8, time_factor = 1500 },
 		temporary = duration,

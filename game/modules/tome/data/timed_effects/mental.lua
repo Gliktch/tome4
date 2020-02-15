@@ -2118,7 +2118,7 @@ newEffect{
 newEffect{
 	name = "PSIONIC_SHIELD", image = "talents/kinetic_shield.png",
 	desc = _t"Psionic Shield",
-	display_desc = function(self, eff) return ("%s Psionic Shield"):tformat(eff.kind:capitalize()) end,
+	display_desc = function(self, eff) return ("%s Psionic Shield"):tformat(_t(eff.kind):capitalize()) end,
 	long_desc = function(self, eff) return ("Reduces all incoming %s damage by %d."):tformat(eff.what, eff.power) end,
 	type = "mental",
 	subtype = { psionic=true, shield=true },
@@ -2132,7 +2132,7 @@ newEffect{
 				[DamageType.NATURE] = eff.power,
 				[DamageType.TEMPORAL] = eff.power,
 			})
-			eff.what = "physical, nature, acid, temporal"
+			eff.what = _t"physical, nature, acid, temporal"
 		elseif eff.kind == "thermal" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				[DamageType.FIRE] = eff.power,
@@ -2140,7 +2140,7 @@ newEffect{
 				[DamageType.LIGHT] = eff.power,
 				[DamageType.ARCANE] = eff.power,
 				})
-			eff.what = "fire, cold, light, arcane"
+			eff.what = _t"fire, cold, light, arcane"
 		elseif eff.kind == "charged" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				[DamageType.LIGHTNING] = eff.power,
@@ -2148,12 +2148,12 @@ newEffect{
 				[DamageType.MIND] = eff.power,
 				[DamageType.DARKNESS] = eff.power,
 				})
-			eff.what = "lightning, blight, mind, darkness"
+			eff.what = _t"lightning, blight, mind, darkness"
 		elseif eff.kind == "all" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				all = eff.power,
 				})
-			eff.what = "all"
+			eff.what = _t"all"
 		end
 	end,
 	deactivate = function(self, eff)

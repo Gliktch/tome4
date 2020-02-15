@@ -1461,7 +1461,7 @@ newEffect{
 newEffect{
 	name = "GRAPPLED", image = "talents/grab.png",
 	desc = _t"Grappled",
-	long_desc = function(self, eff) return ("The target is grappled, unable to move, and limited in its offensive capabilities.\n#RED#%sPinned\n%s\n%s\n%s#LAST#"):tformat(eff.silence > 0 and "Silenced\n" or "", "Physical power reduced by " .. math.ceil(eff.reduce), "Slowed by " .. math.floor(eff.slow * 100).."%", "Damage per turn " .. math.ceil(eff.power) ) end,
+	long_desc = function(self, eff) return ("The target is grappled, unable to move, and limited in its offensive capabilities.\n#RED#%sPinned\n%s\n%s\n%s#LAST#"):tformat(eff.silence > 0 and _t"Silenced\n" or "", ("Physical power reduced by %d"):tformat(math.ceil(eff.reduce)), ("Slowed by %d%%"):tformat(math.floor(eff.slow * 100)), ("Damage per turn %d"):tformat(math.ceil(eff.power))) end,
 	type = "physical",
 	subtype = { grapple=true, pin=true },
 	status = "detrimental",

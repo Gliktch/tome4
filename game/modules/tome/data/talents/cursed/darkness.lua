@@ -24,7 +24,7 @@ local function createDarkTendrils(summoner, x, y, target, damage, duration, pinD
 	if not summoner:getTalentFromId(summoner.T_CREEPING_DARKNESS) then return end
 
 	local e = Object.new{
-		name = "dark tendril",
+		name = _t"dark tendril",
 		block_sight=false,
 		canAct = false,
 		x = x, y = y,

@@ -50,8 +50,8 @@ newChat{ id="welcome",
 	text = _t[[@playername@! My daughter's savior!]],
 	answers = {
 		{_t"Hi, I was just checking in to see if Melinda is all right.", jump="reward", cond=function(npc, player) return not npc.rewarded_for_saving_melinda end, action=function(npc, player) npc.rewarded_for_saving_melinda = true end},
-		{_t"Hi, I would like to talk to Melinda please.", jump="rewelcome", switch_npc={name="Melinda"}, cond=function(npc, player) return ql and not ql:isCompleted("moved-in") and not ql.inlove end},
-		{_t"Hi, I would like to talk to Melinda please.", jump="rewelcome-love", switch_npc={name="Melinda"}, cond=function(npc, player) return ql and not ql:isCompleted("moved-in") and ql.inlove end},
+		{_t"Hi, I would like to talk to Melinda please.", jump="rewelcome", switch_npc={name=_t"Melinda"}, cond=function(npc, player) return ql and not ql:isCompleted("moved-in") and not ql.inlove end},
+		{_t"Hi, I would like to talk to Melinda please.", jump="rewelcome-love", switch_npc={name=_t"Melinda"}, cond=function(npc, player) return ql and not ql:isCompleted("moved-in") and ql.inlove end},
 		{_t"Sorry, I have to go!"},
 	}
 }
@@ -59,7 +59,7 @@ newChat{ id="welcome",
 newChat{ id="reward",
 	text = _t[[Please take this. It is nothing compared to the life of my child. Oh, and she wanted to thank you in person; I will call her.]],
 	answers = {
-		{_t"Thank you.", jump="melinda", switch_npc={name="Melinda"}, action=function(npc, player)
+		{_t"Thank you.", jump="melinda", switch_npc={name=_t"Melinda"}, action=function(npc, player)
 			local ro = game.zone:makeEntity(game.level, "object", {unique=true, not_properties={"lore"}}, nil, true)
 			if ro then
 				ro:identify(true)

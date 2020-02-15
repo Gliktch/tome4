@@ -88,7 +88,7 @@ newEntity{ define_as="SUBJECT_Z",
 		if game:getPlayer(true) and game:getPlayer(true).starting_zone == "town-irkkk" then
 			require("engine.ui.Dialog"):yesnoLongPopup(_t"#LIGHT_RED#Intense fight", _t"As you approach you come upon an other Wayist and receive a very clear mental message:\n#{italic}##UMBER#RUN AWAY! I am done for but you can save yourself still!#{normal}#", 600, function(ret) if ret then
 				who:setEffect(who.EFF_RECALL, 5, {})
-				game.bignews:say(120, _t"#GOLD#You hastily activate your Rod of Recall, vowing to come back later!")
+				game.bignews:say(120, "#GOLD#You hastily activate your Rod of Recall, vowing to come back later!")
 				game.logPlayer(who, "Space around you starts to dissolve...")
 			end end, _t"Emergency recall", _t"Stay and fight!")
 		end

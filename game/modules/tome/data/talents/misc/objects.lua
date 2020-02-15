@@ -211,7 +211,7 @@ newTalent{
 	action = function(self, t)
 		local state = {}
 		local Chat = require("engine.Chat")
-		local chat = Chat.new("ward", {name="Ward"}, self, {version=self, state=state})
+		local chat = Chat.new("ward", {name=_t"Ward"}, self, {version=self, state=state})
 		local d = chat:invoke()
 		local co = coroutine.running()
 		--print("before d.unload, state.set_ward is ", state.set_ward)

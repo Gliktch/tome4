@@ -164,7 +164,7 @@ newTalent{
 		local function makeWormhole(x, y, dest_x, dest_y)
 			local wormhole = mod.class.Trap.new{
 				name = _t"wormhole",
-				type = "annoy", subtype="teleport", id_by_type=true, unided_name = "trap",
+				type = "annoy", subtype="teleport", id_by_type=true, unided_name = _t"trap",
 				image = "terrain/wormhole.png",
 				display = '&', color_r=255, color_g=255, color_b=255, back_color=colors.STEEL_BLUE,
 				message = _t"@Target@ moves onto the wormhole.",

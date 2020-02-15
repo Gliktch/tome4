@@ -155,7 +155,7 @@ newEffect{
 newEffect{
 	name = "SURGING_CIRCLES", image = "talents/celestial_surge.png",
 	desc = _t"Circle Surge",
-	long_desc = function(self, eff) return [[Residual power from the surge is emanating from the circles.
+	long_desc = function(self, eff) return _t[[Residual power from the surge is emanating from the circles.
 		Shifting Shadows: +1 negative.
 		Sanctity: +1 postive.
 		Warding: +0.5 postive and negative.]] end,
@@ -706,7 +706,7 @@ newEffect{
 				return
 		else
 				game._chronoworlds.see_threads_base = nil
-				local chat = Chat.new("chronomancy-see-threads", {name="See the Threads"}, self, {turns=eff.max_dur})
+				local chat = Chat.new("chronomancy-see-threads", {name=_t"See the Threads"}, self, {turns=eff.max_dur})
 				chat:invoke()
 			end
 		end)
@@ -1049,7 +1049,7 @@ newEffect{
 	end,
 	]]
 	npcWalkingCorpse = {
-		name = "walking corpse",
+		name = _t"walking corpse",
 		display = "z", color=colors.GREY, image="npc/undead_ghoul_ghoul.png",
 		type = "undead", subtype = "ghoul",
 		desc=_t[[This corpse was recently alive but moves as though it is just learning to use its body.]],

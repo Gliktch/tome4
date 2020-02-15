@@ -65,7 +65,7 @@ newEntity{
 		end
 		self:doEmote(_t"What..! Please lets run!", 120)
 		game.player:setQuestStatus("love-melinda", engine.Quest.COMPLETED, "saved-beach")
-		game.bignews:say(120, _t"#DARK_GREEN#As Melinda is about to die a powerful wave of blight emanates from her!")
+		game.bignews:say(120, "#DARK_GREEN#As Melinda is about to die a powerful wave of blight emanates from her!")
 	end,
 
 	on_die = function(self)

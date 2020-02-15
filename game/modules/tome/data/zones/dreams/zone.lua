@@ -20,9 +20,9 @@
 return {
 	name = _t"Dreams",
 	display_name = function(x, y)
-		if game.level.level == 1 then return "Dream of vulnerability" end
-		if game.level.level == 2 then return "Dream of loss" end
-		return "Dream ???"
+		if game.level.level == 1 then return _t"Dream of vulnerability" end
+		if game.level.level == 2 then return _t"Dream of loss" end
+		return _t"Dream ???"
 	end,
 	variable_zone_name = true,
 	level_range = {1, 1},

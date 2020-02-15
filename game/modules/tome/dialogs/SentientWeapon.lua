@@ -46,7 +46,7 @@ function _M:init(actor, on_finish)
 	self.actor_dup = actor.actor:clone()
 	self.unused_stats = self.o.unused_stats
 	--Dialog.init(self, self.o.name, 500, 300)
-	Dialog.init(self, self.o.name, 300, 200)
+	Dialog.init(self, _t(self.o.name), 300, 200)
 
 	self.sel = 1
 

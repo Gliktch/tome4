@@ -350,10 +350,10 @@ function _M:useTalentMessage(ab)
 	local _, _, target = self:getTarget()
 	local tname = _t"unknown"
 	if target then tname = target:getName() end
-	str = str:gsub("@Source@", self:getName():capitalize())
-	str = str:gsub("@source@", self:getName())
-	str = str:gsub("@target@", tname)
-	str = str:gsub("@Target@", tname:capitalize())
+	str = str:noun_sub("@Source@", self:getName():capitalize())
+	str = str:noun_sub("@source@", self:getName())
+	str = str:noun_sub("@target@", tname)
+	str = str:noun_sub("@Target@", tname:capitalize())
 	str = str:gsub("@hisher@", string.his_her(self))
 	return str
 end
@@ -768,7 +768,7 @@ function _M:canLearnTalent(t, offset, ignore_special)
 		end
 		if req.birth_descriptors then
 			for _, d in ipairs(req.birth_descriptors) do
-				if not self.descriptor or self.descriptor[d[1]] ~= d[2] then return nil, ("is not %s"):tformat(d[2]) end
+				if not self.descriptor or self.descriptor[d[1]] ~= d[2] then return nil, ("is not %s"):tformat(_t(d[2])) end
 			end
 		end
 	end
@@ -852,7 +852,7 @@ function _M:getTalentReqDesc(t_id, levmod)
 	if req.birth_descriptors then
 		for _, d in ipairs(req.birth_descriptors) do
 			local c = self.descriptor and self.descriptor[d[1]] == d[2] and {"color", 0x00,0xff,0x00} or {"color", 0xff,0x00,0x00}
-			str:add(c, ("- Is %s"):tformat(d[2]), true)
+			str:add(c, ("- Is %s"):tformat(_t(d[2])), true)
 		end
 	end
 

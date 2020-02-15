@@ -70,7 +70,7 @@ return {
 		elseif lev == 5 then
 			game.level.turn_counter = 20 * 10
 			game.level.max_turn_counter = 20 * 10
-			game.level.turn_counter_desc = "The cultists are about to sacrifice the woman. Stop them!"
+			game.level.turn_counter_desc = _t"The cultists are about to sacrifice the woman. Stop them!"
 			game.player:grantQuest("kryl-feijan-escape")
 			game.party:learnLore("kryl-feijan-altar")
 		end

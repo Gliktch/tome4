@@ -434,7 +434,7 @@ uberTalent{
 	on_learn = function(self, t, kind)
 		if not game.party:hasMember(self) then return end
 		local Chat = require "engine.Chat"
-		local chat = Chat.new("worldly-knowledge", {name="Worldly Knowledge"}, self)
+		local chat = Chat.new("worldly-knowledge", {name=_t"Worldly Knowledge"}, self)
 		chat:invoke()
 	end,
 	passives = function(self, t, tmptable)

@@ -86,7 +86,7 @@ cuns_req_high5 = {
 
 -- talents that require unlocking (specific poisons, traps)
 cuns_req_unlock = {
-	special = {desc="Talent not unlocked", fct=function(self, t, offset)
+	special = {desc=_t"Talent not unlocked", fct=function(self, t, offset)
 		return game.state:unlockTalentCheck(t.id, self)
 	end}
 }

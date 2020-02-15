@@ -50,7 +50,7 @@ newEntity{ base = "BASE_SCROLL", subtype="tome",
 -- Artifact, randomly dropped in Vor Pride, and only there
 newEntity{ base = "BASE_SCROLL", subtype="tome",
 	power_source = {arcane=true},
-	name = "Tome of Uttercold", unided_name = "frozen book", unique=true, no_unique_lore=true, image = "object/artifact/tome_of_uttercold.png",
+	name = "Tome of Uttercold", unided_name = _t"frozen book", unique=true, no_unique_lore=true, image = "object/artifact/tome_of_uttercold.png",
 	desc = _t"This huge book is covered in slowly shifting patterns of ice. Yet they do not harm you.",
 	color = colors.VIOLET,
 	level_range = {35, 45},

@@ -751,7 +751,7 @@ newEntity{ base = "BASE_GEM", define_as = "GEM_TELOS",
 
 	max_power = 1, power_regen = 1,
 	use_power = { name = _t"combine with a staff", power = 1, use = function(self, who, gem_inven, gem_item)
-		who:showInventory("Fuse with which staff?", who:getInven("INVEN"), function(o) return o.type == "weapon" and o.subtype == "staff" and not o.egoed and not o.unique end, function(o, item)
+		who:showInventory(_t"Fuse with which staff?", who:getInven("INVEN"), function(o) return o.type == "weapon" and o.subtype == "staff" and not o.egoed and not o.unique end, function(o, item)
 			local voice = game.zone:makeEntityByName(game.level, "object", "VOICE_TELOS")
 			if voice then
 				local oldname = o:getName{do_color=true}

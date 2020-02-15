@@ -189,7 +189,7 @@ newEntity{
 	always_remember = true,
 	show_tooltip = true,
 	desc = _t[[This portal seems to connect to another part of this level.]],
-	change_level_check = function() game.bignews:say(60, _t"#GOLD#This portal looks like it reacts only to the Orb of Many Ways.") return true end,
+	change_level_check = function() game.bignews:say(60, "#GOLD#This portal looks like it reacts only to the Orb of Many Ways.") return true end,
 	change_level = 1,
 	orb_portal = {
 		nothing = true,
@@ -198,7 +198,7 @@ newEntity{
 			game:changeLevel(11, nil, {direct_switch=true}) -- Special level, can not get to it any other way
 			if game.player:hasQuest("high-peak"):isCompleted("sanctum-chat") then return end
 			local Chat = require "engine.Chat"
-			local chat = Chat.new("sorcerer-fight", {name="Elandar"}, game.player)
+			local chat = Chat.new("sorcerer-fight", {name=_t"Elandar"}, game.player)
 			chat:invoke()
 			game.player:hasQuest("high-peak"):setStatus(engine.Quest.COMPLETED, "sanctum-chat")
 			game.player:hasQuest("high-peak"):start_end_combat()

@@ -36,8 +36,8 @@ function _M:init(player)
 	self:generateList()
 
 	self.c_list = ListColumns.new{columns={
-		{name="Name", width=80, display_prop="name", sort="sortname"},
-		{name="Active", width=20, display_prop="active", sort="active"},
+		{name=_t"Name", width=80, display_prop="name", sort="sortname"},
+		{name=_t"Active", width=20, display_prop="active", sort="active"},
 	}, hide_columns=true, scrollbar=true, width=300, height=self.ih - 5, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
 	local donatortext = ""
 	if not profile:isDonator(1) then donatortext = _t"\n#{italic}##CRIMSON#This cosmetic feature is only available to donators/buyers. You can only preview.#WHITE##{normal}#" end

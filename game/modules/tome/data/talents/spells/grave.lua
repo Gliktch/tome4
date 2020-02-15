@@ -85,6 +85,7 @@ newTalent{
 		if not killer or not killer.faction or (self:reactionToward(killer) >= 0 and not grave) or self.dead then return end
 		local minion = require("mod.class.NPC").new{
 			name = _t"will o' the wisp",
+			image = "npc/undead_ghost_will_o__the_wisp.png",
 			type = "undead", subtype = "ghost",
 			blood_color = colors.GREY,
 			display = "G", color=colors.WHITE,

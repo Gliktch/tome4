@@ -19,7 +19,7 @@
 
 return {
 	name = _t"Noxious Caldera",
-	display_name = function(x, y) return "Dogroth Caldera" end,
+	display_name = function(x, y) return _t"Dogroth Caldera" end,
 	variable_zone_name = true,
 	level_range = {25, 35},
 	level_scheme = "player",
@@ -135,7 +135,7 @@ return {
 
 		game.level.turn_counter = 60 * 10 * (game.level.level == 1 and 10 or 1)
 		game.level.max_turn_counter = 60 * 10 * (game.level.level == 1 and 10 or 1)
-		game.level.turn_counter_desc = "The noxious fumes of the caldera are slowly affecting you..."
+		game.level.turn_counter_desc = _t"The noxious fumes of the caldera are slowly affecting you..."
 	end,
 
 	on_turn = function(self)

@@ -145,7 +145,7 @@ newTalent{
 		local proj = require("mod.class.Projectile"):makeHoming(
 			self,
 			{particle="bolt_lightning", trail="lightningtrail"},
-			{speed=1, name="Tornado", dam=dam, movedam=movedam, rad=rad, dur=dur},
+			{speed=1, name=_t"Tornado", dam=dam, movedam=movedam, rad=rad, dur=dur},
 			target,
 			self:getTalentRange(t),
 			function(self, src)

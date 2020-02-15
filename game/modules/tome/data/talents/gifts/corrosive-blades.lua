@@ -82,7 +82,7 @@ newTalent{
 local basetrap = function(self, t, x, y, dur, add)
 	local Trap = require "mod.class.Trap"
 	local trap = {
-		id_by_type=true, unided_name = "trap",
+		id_by_type=true, unided_name = _t"trap",
 		display = '^',
 		faction = self.faction,
 		summoner = self, summoner_gain_exp = true,

@@ -27,7 +27,7 @@ newEntity{
 		if not x then return end
 
 		local g = mod.class.WorldNPC.new{
-			name="Novice mage",
+			name=_t"Novice mage",
 			type="humanoid", subtype="human", faction="angolwen",
 			display='@', color=colors.RED,
 			image = "npc/humanoid_human_apprentice_mage.png",
@@ -141,7 +141,7 @@ newEntity{
 		game.paused = true
 		who:runStop()
 		local Chat = require "engine.Chat"
-		local chat = Chat.new("lumberjack-quest", {name="Half-dead lumberjack"}, who)
+		local chat = Chat.new("lumberjack-quest", {name=_t"Half-dead lumberjack"}, who)
 		chat:invoke()
 		return true
 	end,
@@ -223,7 +223,8 @@ newEntity{
 		if not x then return end
 
 		local g = mod.class.WorldNPC.new{
-			name="Agrimley the Hermit",
+			name=_t"Agrimley the Hermit",
+			image = "npc/humanoid_halfling_agrimley_the_hermit.png",
 			type="humanoid", subtype="halfling", faction="neutral",
 			display='@', color=colors.BLUE,
 			can_talk = "alchemist-hermit",

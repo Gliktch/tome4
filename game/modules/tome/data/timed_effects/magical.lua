@@ -2086,7 +2086,7 @@ newEffect{
 newEffect{
 	name = "SPELLSHOCKED",
 	desc = _t"Spellshocked",
-	long_desc = function(self, eff) return string.format("Overwhelming magic has temporarily interfered with all damage resistances, lowering them by %d%%.", eff.power) end,
+	long_desc = function(self, eff) return ("Overwhelming magic has temporarily interfered with all damage resistances, lowering them by %d%%."):tformat(eff.power) end,
 	type = "magical",
 	subtype = { ["cross tier"]=true },
 	status = "detrimental",
@@ -2445,7 +2445,7 @@ newEffect{
 newEffect{
 	name = "WARD", image = "talents/ward.png",
 	desc = _t"Ward",
-	long_desc = function(self, eff) return ("Fully absorbs %d %s attack%s."):tformat(#eff.particles, DamageType.dam_def[eff.d_type].name, #eff.particles > 1 and "s" or "") end,
+	long_desc = function(self, eff) return ("Fully absorbs %d %s %s."):tformat(#eff.particles, DamageType.dam_def[eff.d_type].name, #eff.particles > 1 and _t"attacks" or _t"attack") end,
 	type = "magical",
 	subtype = { arcane=true },
 	status = "beneficial",
@@ -4247,7 +4247,7 @@ newEffect{
 		if eff.immune then
 			xs = (", %d%% bleeding, poison, disease, and stun immunity"):tformat(eff.immune*100)..xs
 		end
-		return ("The target has turned into a huge deeprock elemental.  It gains 2 size categories%s and +%d%% Physical damage and +%d%% Physical damage penetration.%s"):tformat(xs, eff.dam, eff.pen, eff.useResist and "  In addition, it uses its physical resistance against all damage." or "")
+		return ("The target has turned into a huge deeprock elemental.  It gains 2 size categories%s and +%d%% Physical damage and +%d%% Physical damage penetration.%s"):tformat(xs, eff.dam, eff.pen, eff.useResist and _t"  In addition, it uses its physical resistance against all damage." or "")
 	end,
 	type = "magical",
 	subtype = { earth=true, elemental=true },

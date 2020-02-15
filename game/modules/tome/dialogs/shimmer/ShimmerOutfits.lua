@@ -42,7 +42,7 @@ function _M:init(player)
 
 	self.c_search = Textbox.new{title=_t"Search: ", text="", chars=20, max_len=60, fct=function() end, on_change=function(text) self:search(text) end}
 
-	self.c_list = ListColumns.new{columns={{name="Name", width=100, display_prop="name", sort="sortname"}}, hide_columns=true, scrollbar=true, width=300, height=self.ih - 5 - self.c_search.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
+	self.c_list = ListColumns.new{columns={{name=_t"Name", width=100, display_prop="name", sort="sortname"}}, hide_columns=true, scrollbar=true, width=300, height=self.ih - 5 - self.c_search.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
 	local donatortext = ""
 	if not profile:isDonator(1) then donatortext = "\n#{italic}##CRIMSON#This cosmetic feature is only available to donators/buyers. You can only preview.#WHITE##{normal}#" end
 	local help = Textzone.new{width=math.floor(self.iw - self.c_list.w - 20), height=self.ih, no_color_bleed=true, auto_height=true, text=_t"You can switch your appearance to a saved set of shimmers.\n#{bold}#This is a purely cosmetic change.#{normal}#"..donatortext}

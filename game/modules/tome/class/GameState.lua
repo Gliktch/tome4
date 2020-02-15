@@ -372,6 +372,9 @@ function _M:updatePowers(forbid_ps, allow_ps, randthemes, force_themes)
 	return not_ps, yes_ps, themes
 end
 
+function _M:getRandartNameRule()
+	return _getFlagI18N("randart_name_rules") or randart_name_rules
+end
 --- Generate randarts for this state with optional parameters:
 -- @param data.base = base object to add powers to (base.randart_able must be defined) <random object>
 -- @param data.base_filter = filter passed to makeEntity when making base object
@@ -483,7 +486,7 @@ function _M:generateRandart(data)
 	for i = 1, nb_powers do
 		local p = game.zone:pickEntity(lst)
 		if p then
-			for t, _ in pairs(p.theme) do if themes[t] and randart_name_rules[t] then power_themes[t] = (power_themes[t] or 0) + 1 end end
+			for t, _ in pairs(p.theme) do if themes[t] and self:getRandartNameRule()[t] then power_themes[t] = (power_themes[t] or 0) + 1 end end
 			powers[#powers+1] = p:clone()
 		end
 	end
@@ -496,8 +499,8 @@ function _M:generateRandart(data)
 	-----------------------------------------------------------
 	local themename = power_themes[#power_themes]
 	themename = themename and themename[1] or nil
-	local ngd = NameGenerator.new(rng.chance(2) and randart_name_rules.default or randart_name_rules.default2)
-	local ngt = (themename and randart_name_rules[themename] and NameGenerator.new(randart_name_rules[themename])) or ngd
+	local ngd = NameGenerator.new(rng.chance(2) and self:getRandartNameRule().default or self:getRandartNameRule().default2)
+	local ngt = (themename and self:getRandartNameRule()[themename] and NameGenerator.new(self:getRandartNameRule()[themename])) or ngd
 	local name
 	local namescheme = data.namescheme or ((ngt ~= ngd) and rng.range(1, 4) or rng.range(1, 3))
 	if namescheme == 1 then
@@ -514,7 +517,7 @@ function _M:generateRandart(data)
 	o.namescheme = name
 	o.define_as = name:format(o.name):upper():gsub("[^A-Z]", "_")
 	o.unique = name:format(o.name)
-	o.name = name:format(o:getName())
+	o.name = name:format(o:getName{trans_only=true})
 	o.randart = true
 	o.no_unique_lore = true
 	o.rarity = rng.range(200, 290)
@@ -1975,7 +1978,7 @@ function _M:createRandomZone(zbase)
 	------------------------------------------------------------
 	-- Name
 	------------------------------------------------------------
-	local ngd = NameGenerator.new(randart_name_rules.default2)
+	local ngd = NameGenerator.new(self:getRandartNameRule().default2)
 	local name = ngd:generate()
 	local short_name = name:lower():gsub("[^a-z]", "_")
 
@@ -2310,7 +2313,7 @@ function _M:createRandomBoss(base, data)
 		ngd = NameGenerator2.new("/data/languages/names/"..base.random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
 		name = ngd:generate(nil, base.random_name_min_syllables, base.random_name_max_syllables)
 	else
-		ngd = NameGenerator.new(randart_name_rules.default)
+		ngd = NameGenerator.new(self:getRandartNameRule().default)
 		name = ngd:generate()
 	end
 	if data.name_scheme then
@@ -2688,7 +2691,7 @@ function _M:createRandomBossNew(base, data)
 		ngd = NameGenerator2.new("/data/languages/names/"..base.random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
 		name = ngd:generate(nil, base.random_name_min_syllables, base.random_name_max_syllables)
 	else
-		ngd = NameGenerator.new(randart_name_rules.default)
+		ngd = NameGenerator.new(self:getRandartNameRule().default)
 		name = ngd:generate()
 	end
 	if data.name_scheme then
@@ -3482,7 +3485,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 					self.ai = "tactical"
 					self:setTarget(p)
 					self:teleportRandom(p.x, p.y, 20, 10)
-					game.bignews:say(60, _t"#CRIMSON#The Fight Is Joined!")
+					game.bignews:say(60, "#CRIMSON#The Fight Is Joined!")
 				end end, _t"Refuse", _t"Accept", true)
 			end
 			a.on_die = function(self, who)
@@ -3531,7 +3534,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 				on_act_base = function(self, who)
 					if self.check_level == game.level then self.turns_left = self.turns_left - 1 end
 					if self.turns_left == 0 then
-						game.bignews:say(60, _t"#LIGHT_GREEN#Multiplicity: You have survived so far. Exit for your reward!")
+						game.bignews:say(60, "#LIGHT_GREEN#Multiplicity: You have survived so far. Exit for your reward!")
 						if game.level.turn_counter then game.level.turn_counter = nil end
 					end
 					if game.level.turn_counter then
@@ -3592,7 +3595,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 							if self:isEnded() then return end
 							if target.is_headhunter_npc then -- killed target spawn
 								self.nb_killed = self.nb_killed + 1
-								game.bignews:say(60, ("#ORCHID#You claim the head of %s, giving pause to all foes on the level."):tformat(target:getName()))
+								game.bignews:say(60, "#ORCHID#You claim the head of %s, giving pause to all foes on the level.", target:getName())
 								if self.nb_killed >= self.to_kill then
 									who:setQuestStatus(self.id, self.COMPLETED)
 								end
@@ -3696,7 +3699,7 @@ function _M:infiniteDungeonChallengeReward(quest, who)
 		nb = nb + 1
 	end
 	reward_name = table.concatNice(reward_name, ", ", _t" and ")
-	quest.popup_text[engine.Quest.DONE] = ("#OLIVE_DRAB#Reward%s: %s"):tformat((nb>0 and "s" or ""), reward_name)
+	quest.popup_text[engine.Quest.DONE] = ("#OLIVE_DRAB#%s: %s"):tformat((nb>0 and _t"Rewards" or _t"Reward"), reward_name)
 	game.log("#LIGHT_BLUE#%s has received: %s.", who:getName():capitalize(), reward_name)
 	return reward_name
 end

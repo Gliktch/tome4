@@ -203,7 +203,7 @@ newEntity{ base = "BASE_RING",
 				end,
 				false
 			)
-			wave.name = "tidal wave"
+			wave.name = _t"tidal wave"
 			game.logSeen(who, "%s brandishes %s, calling forth the might of the oceans!", who:getName():capitalize(), self:getName({no_add_name = true, do_color = true}))
 			return {id=true, used=true}
 		end
@@ -1895,7 +1895,7 @@ newEntity{ base = "BASE_MACE",
 
 			who:onTakeoff(o, inven_id, true)
 			local b = rng.table(o.ureslak_bonuses)
-			o.name = "Ureslak's "..b.name.." Femur"
+			o.name = ("Ureslak's %s Femur"):tformat(b.name)
 			o.combat.damtype = b.damtype
 			o.wielder = b.wielder
 			who:onWear(o, inven_id, true)
@@ -7100,7 +7100,7 @@ newEntity{ base = "BASE_GREATMAUL",
 			local DamageType = require "engine.DamageType"
 			local Stats = require "engine.interface.ActorStats"
 			local d
-			d = who:showInventory("Use which gem?", who:getInven("INVEN"), function(gem) return gem.type == "gem" and gem.imbue_powers and gem.material_level end, function(gem, gem_item)
+			d = who:showInventory(_t"Use which gem?", who:getInven("INVEN"), function(gem) return gem.type == "gem" and gem.imbue_powers and gem.material_level end, function(gem, gem_item)
 				local name_old=self.name
 				local old_hotkey
 				for i, v in pairs(who.hotkey) do
@@ -7661,7 +7661,7 @@ newEntity{ base = "BASE_LEATHER_BOOT",
 				false,
 				false
 			)
-			ef.name = "fire trail"
+			ef.name = _t"fire trail"
 		end
 		self.oldx=who.x
 		self.oldy=who.y

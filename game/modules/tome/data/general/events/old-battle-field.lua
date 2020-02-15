@@ -43,7 +43,7 @@ if tries < 100 then
 		terrains.CAVE_LADDER_UP_WILDERNESS.change_level_shift_back = true
 		terrains.CAVE_LADDER_UP_WILDERNESS.change_zone_auto_stairs = true
 		terrains.CAVE_LADDER_UP_WILDERNESS.change_level = 1
-		terrains.CAVE_LADDER_UP_WILDERNESS.name = "ramp up to "..game.zone.name
+		terrains.CAVE_LADDER_UP_WILDERNESS.name = ("ramp up to %s"):tformat(game.zone.name)
 		terrains.CAVE_LADDER_UP_WILDERNESS.change_zone = game.zone.short_name
 		terrains.CAVE_LADDER_UP_WILDERNESS.change_level_check = function(self, who)
 			game.log("#VIOLET# The ramp crumbles as you climb it, followed by the collapse of the cavern.")
@@ -79,7 +79,7 @@ if tries < 100 then
 			on_enter = function(lev)
 				game.level.turn_counter = 101 * 10
 				game.level.max_turn_counter = 101 * 10
-				game.level.turn_counter_desc = "Undead are rising from the ground! You must hold on!"
+				game.level.turn_counter_desc = _t"Undead are rising from the ground! You must hold on!"
 				game.level.nb_pop = 1
 			end,
 			on_turn = function(self)

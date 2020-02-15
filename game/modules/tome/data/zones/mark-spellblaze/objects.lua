@@ -31,7 +31,7 @@ newEntity{
 	power_source = {arcane=true},
 	define_as = "CORRUPTED_SANDQUEEN_HEART",
 	type = "corpse", subtype = "heart", image = "object/artifact/corrupted_queen_heart.png",
-	name = "Corrupted heart of the Sandworm Queen", unique=true, unided_name="pulsing organ",
+	name = "Corrupted heart of the Sandworm Queen", unique=true, unided_name=_t"pulsing organ",
 	display = "*", color=colors.VIOLET,
 	desc = _t[[The heart of the Sandworm Queen, ripped from her dead body and corrupted in the mark of the spellblaze altar. You could ... consume it, should you feel mad enough.]],
 	cost = 3000,

@@ -56,7 +56,7 @@ newTalent{
 			if not spot then break end
 			local trap = Trap.new{
 				name = _t"glyph of explosion",
-				type = "elemental", id_by_type=true, unided_name = "trap",
+				type = "elemental", id_by_type=true, unided_name = _t"trap",
 				display = '^', color=colors.GOLD, image = "trap/trap_glyph_explosion_02_64.png",
 				faction = self.faction,
 				dam = dam,
@@ -132,7 +132,7 @@ newTalent{
 		local dam = self:spellCrit(t.getDazeDuration(self, t))
 		local trap = Trap.new{
 			name = _t"glyph of paralysis",
-			type = "elemental", id_by_type=true, unided_name = "trap",
+			type = "elemental", id_by_type=true, unided_name = _t"trap",
 			display = '^', color=colors.GOLD, image = "trap/trap_glyph_paralysis_01_64.png",
 			faction = self.faction,
 			desc = function(self)
@@ -206,7 +206,7 @@ newTalent{
 		local sp = self:combatSpellpower()
 		local trap = Trap.new{
 			name = _t"glyph of repulsion",
-			type = "elemental", id_by_type=true, unided_name = "trap",
+			type = "elemental", id_by_type=true, unided_name = _t"trap",
 			display = '^', color=colors.GOLD, image = "trap/trap_glyph_repulsion_01_64.png",
 			faction = self.faction,
 			dam = dam,
@@ -296,7 +296,7 @@ newTalent{
 		
 		local trap = Trap.new{
 			name = _t"glyph of explosion",
-			type = "elemental", id_by_type=true, unided_name = "trap",
+			type = "elemental", id_by_type=true, unided_name = _t"trap",
 			display = '^', color=colors.GOLD, image = "trap/trap_glyph_explosion_02_64.png",
 			faction = self.faction,
 			dam = dam,
@@ -375,7 +375,7 @@ newTalent{
 		local dam = t.getSlow(self, t)
 		local trap = Trap.new{
 			name = _t"glyph of fatigue",
-			type = "elemental", id_by_type=true, unided_name = "trap",
+			type = "elemental", id_by_type=true, unided_name = _t"trap",
 			display = '^', color=colors.GOLD, image = "trap/trap_glyph_fatigue_01_64.png",
 			faction = self.faction,
 			dam = dam,

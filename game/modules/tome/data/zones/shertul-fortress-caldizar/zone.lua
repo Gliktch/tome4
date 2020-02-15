@@ -21,8 +21,8 @@ return {
 	name = _t"Unknown Sher'Tul Fortress",
 	display_name = function(x, y)
 		local zn = game.level.map.attrs(x or game.player.x, y or game.player.y, "zonename")
-		if zn then return "Unknown Sher'Tul Fortress ("..zn..")"
-		else return "Unknown the Sher'Tul Fortress" end
+		if zn then return ("Unknown Sher'Tul Fortress (%s)"):tformat(zn)
+		else return _t"Unknown the Sher'Tul Fortress" end
 	end,
 	variable_zone_name = true,
 	actor_adjust_level = function(zone, level, e) return zone.base_level + e:getRankLevelAdjust() + level.level-1 + rng.range(-1,2) end,

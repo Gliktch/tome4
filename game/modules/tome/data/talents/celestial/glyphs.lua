@@ -121,9 +121,9 @@ newTalent{
 ----------------------------------------------------------------
 local function makeSunGlyph()
 	local sun_glyph = Trap.new{
-		name = "glyph of sunlight",
+		name = _t"glyph of sunlight",
 		is_glyph = "sunlight",
-		type = "elemental", id_by_type=true, unided_name = "trap",
+		type = "elemental", id_by_type=true, unided_name = _t"trap",
 		display = '^', color=colors.GOLD, image = "trap/trap_glyph_explosion_02_64.png",
 		disarmable = false,
 		no_disarm_message = true,
@@ -181,9 +181,9 @@ end
 
 local function makeMoonGlyph()
 	local star_glyph = Trap.new{
-		name = "glyph of moonlight",
+		name = _t"glyph of moonlight",
 		is_glyph = "moonlight",
-		type = "elemental", id_by_type=true, unided_name = "trap",
+		type = "elemental", id_by_type=true, unided_name = _t"trap",
 		display = '^', color=colors.GOLD, image = "trap/trap_glyph_fatigue_01_64.png",
 		disarmable = false,
 		no_disarm_message = true,
@@ -243,9 +243,9 @@ end
 
 local function makeTwilightGlyph()
 	local twi_glyph = Trap.new{
-		name = "glyph of twilight",
+		name = _t"glyph of twilight",
 		is_glyph = "twilight",
-		type = "elemental", id_by_type=true, unided_name = "trap",
+		type = "elemental", id_by_type=true, unided_name = _t"trap",
 		display = '^', color=colors.GOLD, image = "trap/trap_glyph_repulsion_01_64.png",
 		disarmable = false,
 		no_disarm_message = true,

@@ -350,9 +350,9 @@ end
 function _M:switchLocked()
 	self.locked = not self.locked
 	if self.locked then
-		game.bignews:say(60, _t"#CRIMSON#Interface locked, mouse enabled on the map")
+		game.bignews:say(60, "#CRIMSON#Interface locked, mouse enabled on the map")
 	else
-		game.bignews:say(60, _t"#CRIMSON#Interface unlocked, mouse disabled on the map")
+		game.bignews:say(60, "#CRIMSON#Interface unlocked, mouse disabled on the map")
 	end
 end
 

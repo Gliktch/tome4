@@ -544,7 +544,9 @@ function _M:getName(t)
 	t = t or {}
 	local qty = self:getNumber()
 	local name = _t(self.name) or _t"object"
-
+	if t.trans_only then
+		return name
+	end
 	if t.raw_name then
 		return self.name or "object"
 	end
@@ -852,7 +854,7 @@ function _M:descCombat(use_actor, combat, compare_with, field, add_table, is_fak
 			desc:merge(power_diff:toTString())
 		end
 		desc:add(true)
-		desc:add(("Uses stat%s: %s"):tformat(#dm > 1 and "s" or "",table.concat(dm, ', ')), true)
+		desc:add(("Uses %s: %s"):tformat(#dm > 1 and _t"stats" or _t"stat",table.concat(dm, ', ')), true)
 		local col = (combat.damtype and DamageType:get(combat.damtype) and DamageType:get(combat.damtype).text_color or "#WHITE#"):toTString()
 		desc:add(_t"Damage type: ", col[2],DamageType:get(combat.damtype or DamageType.PHYSICAL).name:capitalize(),{"color","LAST"}, true)
 	end
@@ -1632,17 +1634,17 @@ function _M:getTextualDesc(compare_with, use_actor)
 			any_cd_reduction = any_cd_reduction + 1
 		end
 		if any_cd_reduction > 0 then
-			desc:add(("Talent%s cooldown:"):tformat(any_cd_reduction > 1 and "s" or ""))
+			desc:add(("%s cooldown:"):tformat(any_cd_reduction > 1 and _t"Talents" or _t"Talent"))
 			for tid, cds in pairs(cd_reductions) do
 				local diff = (cds[2] or 0) - (cds[1] or 0)
 				if diff ~= 0 then
 					if cds[1] then
-						desc:add((" %s ("):format(Talents.talents_def[tid].name), ("(%+d"):format(-(cds[2] or 0)), diff < 0 and {"color","RED"} or {"color","LIGHT_GREEN"}, ("(%+d) "):format(-diff), {"color","LAST"}, ("turn%s)"):tformat(((cds[2] or 0) > 1) and "s" or ""))
+						desc:add((" %s ("):format(Talents.talents_def[tid].name), ("(%+d"):format(-(cds[2] or 0)), diff < 0 and {"color","RED"} or {"color","LIGHT_GREEN"}, ("(%+d) "):format(-diff), {"color","LAST"}, ("%s)"):tformat(((cds[2] or 0) > 1) and _t"turns" or _t"turn"))
 					else
-						desc:add((" %s ("):format(Talents.talents_def[tid].name), {"color","LIGHT_GREEN"}, ("%+d"):format(-(cds[2] or 0)), {"color","LAST"}, (" turn%s)"):tformat((cds[2] > 1) and "s" or ""))
+						desc:add((" %s ("):format(Talents.talents_def[tid].name), {"color","LIGHT_GREEN"}, ("%+d"):format(-(cds[2] or 0)), {"color","LAST"}, (" %s)"):tformat((cds[2] > 1) and _t"turns" or _t"turn"))
 					end
 				else
-					desc:add({"color","WHITE"}, (" %s (%+d(-) turn%s)"):tformat(Talents.talents_def[tid].name, -(cds[2] or cds[1]), ((cds[2] or 0) > 1) and "s" or ""), {"color","LAST"})
+					desc:add({"color","WHITE"}, (" %s (%+d(-) %s)"):tformat(Talents.talents_def[tid].name, -(cds[2] or cds[1]), ((cds[2] or 0) > 1) and _t"turns" or _t"turn"), {"color","LAST"})
 				end
 			end
 			desc:add(true)
@@ -1666,7 +1668,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 			any_learn_talent = any_learn_talent + 1
 		end end
 		if any_learn_talent > 0 then
-			desc:add(("Talent%s granted: "):tformat(any_learn_talent > 1 and "s" or ""))
+			desc:add(("%s granted: "):tformat(any_learn_talent > 1 and _t"Talents" or _t"Talent"))
 			for tid, tl in pairs(learn_talents) do
 				local diff = (tl[2] or 0) - (tl[1] or 0)
 				local name = Talents.talents_def[tid].name

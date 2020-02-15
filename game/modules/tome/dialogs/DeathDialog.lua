@@ -319,13 +319,13 @@ function _M:generateList()
 			self.dont_show = true
 			return
 		end
-		if self.actor:attr("blood_life") and not self.actor:attr("undead") then list[#list+1] = {name="Resurrect with the Blood of Life", action="blood_life"} end
-		if self.actor:getTalentLevelRaw(self.actor.T_SKELETON_REASSEMBLE) >= 5 and not self.actor:attr("re-assembled") then list[#list+1] = {name="Re-assemble your bones and resurrect (Skeleton ability)", action="skeleton"} end
+		if self.actor:attr("blood_life") and not self.actor:attr("undead") then list[#list+1] = {name=_t"Resurrect with the Blood of Life", action="blood_life"} end
+		if self.actor:getTalentLevelRaw(self.actor.T_SKELETON_REASSEMBLE) >= 5 and not self.actor:attr("re-assembled") then list[#list+1] = {name=_t"Re-assemble your bones and resurrect (Skeleton ability)", action="skeleton"} end
 
 		local consumenb = 1
 		self.actor:inventoryApplyAll(function(inven, item, o)
 			if o.one_shot_life_saving and (not o.slot or inven.worn) then
-				list[#list+1] = {name="Resurrect by consuming "..o:getName{do_colour=true}, action="consume"..consumenb, inven=inven, item=item, object=o, is_consume=true}
+				list[#list+1] = {name=("Resurrect by consuming %s"):tformat(o:getName{do_colour=true}), action="consume"..consumenb, inven=inven, item=item, object=o, is_consume=true}
 				consumenb = consumenb + 1
 				self.possible_items.consume = true
 			end

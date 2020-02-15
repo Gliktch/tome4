@@ -42,6 +42,10 @@ local log_alias = {
 	logPlayer = {2},
 	logMessage = {5},
 	delayedLogMessage = {4},
+	say = {2},
+	saySimple = {2},
+	easing = {3},
+	easingSimple = {3},
 }
 local newTalent_alias = {
 	newTalent = true,

@@ -20,7 +20,7 @@
 local basetrap = function(self, t, x, y, dur, add)
 	local Trap = require "mod.class.Trap"
 	local trap = {
-		id_by_type=true, unided_name = "trap",
+		id_by_type=true, unided_name = _t"trap",
 		display = '^',
 		disarmable = false,
 		no_disarm_message = true,
@@ -69,7 +69,7 @@ newTalent{
 		if game.level.map:checkEntity(x, y, Map.TERRAIN, "block_move") then game.logPlayer(self, "You somehow fail to set the aether beam.") return nil end
 
 		local t = basetrap(self, t, x, y, 44, {
-			type = "aether", name = "aether beam", color=colors.VIOLET, image = "trap/aether_beam.png",
+			type = "aether", name = _t"aether beam", color=colors.VIOLET, image = "trap/aether_beam.png",
 			dam = self:spellCrit(t.getDamage(self, t)),
 			triggered = function(self, x, y, who) return true, true end,
 			combatSpellpower = function(self) return self.summoner:combatSpellpower() end,
@@ -237,7 +237,7 @@ newTalent{
 		local list = {}
 		for i = 1, 10 do if levels[i] then
 			table.sort(levels[i])
-			list[#list+1] = ("At level %d: #AQUAMARINE#%s#LAST#"):tformat(i, table.concatNice(levels[i], '#LAST#, #AQUAMARINE#', '#LAST# and #AQUAMARINE#'))
+			list[#list+1] = ("At level %d: #AQUAMARINE#%s#LAST#"):tformat(i, table.concatNice(levels[i], '#LAST#, #AQUAMARINE#', _t'#LAST# and #AQUAMARINE#'))
 		end end
 		return table.concat(list, "\n")
 	end,

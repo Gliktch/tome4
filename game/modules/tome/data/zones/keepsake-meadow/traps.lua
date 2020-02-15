@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 newEntity{
-	type = "event",	subtype = "event", id_by_type=false, unided_name = "trap",
+	type = "event",	subtype = "event", id_by_type=false, unided_name = _t"trap",
 	display = ' ', color=colors.WHITE,
 	name = "creeping darkness",
 	detect_power = 99999, disarm_power = 99999,
@@ -41,7 +41,7 @@ newEntity{
 }
 
 newEntity{
-	type = "event",	subtype = "event", id_by_type=false, unided_name = "trap",
+	type = "event",	subtype = "event", id_by_type=false, unided_name = _t"trap",
 	display = ' ', color=colors.WHITE,
 	name = "summon shadow",
 	detect_power = 99999, disarm_power = 99999,

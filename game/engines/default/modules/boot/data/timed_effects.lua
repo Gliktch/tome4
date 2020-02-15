@@ -22,7 +22,7 @@ local Particles = require "engine.Particles"
 
 newEffect{
 	name = "ACIDBURN",
-	desc = "Burning from acid",
+	desc = _t"Burning from acid",
 	type = "physical",
 	status = "detrimental",
 	parameters = { power=1 },
@@ -35,7 +35,7 @@ newEffect{
 
 newEffect{
 	name = "SUNSHIELD",
-	desc = "Sunshield",
+	desc = _t"Sunshield",
 	type = "magical",
 	status = "beneficial",
 	activate = function(self, eff)

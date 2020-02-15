@@ -195,7 +195,7 @@ newEntity{ base = "BASE_NPC_SLAVER",
 				if self.master and self.master:attr("dead") then
 					self.faction = "neutral"
 					self:removeAllEffects()
-					self:doEmote(rng.table{"I am free!", "At last, freedom!", "Thanks for this!", "The mental hold is gone!"}, 60)
+					self:doEmote(rng.table{_t"I am free!", _t"At last, freedom!", _t"Thanks for this!", _t"The mental hold is gone!"}, 60)
 					self.on_act = nil
 					self.master = nil
 					world:gainAchievement("RING_BLOOD_FREED", game:getPlayer(true))

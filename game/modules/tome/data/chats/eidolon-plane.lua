@@ -78,9 +78,9 @@ Are you sure?]],
 	answers = {
 		{_t"Just let me go please.", action=function(npc, player)
 			local src = game.player
-			game:getPlayer(true):die(game.player, {special_death_msg=("asked the Eidolon to let %s die in peace"):format(game.player.female and "her" or "him")})
+			game:getPlayer(true):die(game.player, {special_death_msg=("asked the Eidolon to let %s die in peace"):tformat(game.player.female and _t"her" or _t"him")})
 			while game.party:findSuitablePlayer() do
-				game.player:die(src, {special_death_msg="brought down by Eidolon"})
+				game.player:die(src, {special_death_msg=_t"brought down by Eidolon"})
 			end
 		end},
 		{_t"No actually, perhaps life is still worth it!"},

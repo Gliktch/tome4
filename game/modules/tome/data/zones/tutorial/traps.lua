@@ -20,7 +20,7 @@
 load("/data/general/traps/natural_forest.lua")
 
 newEntity{ define_as = "TRAP_TUTORIAL",
-	type = "tutorial", subtype="tutorial", id_by_type=true, unided_name = "tutorial",
+	type = "tutorial", subtype="tutorial", id_by_type=true, unided_name = _t"tutorial",
 	detect_power = 999999, disarm_power = 999999,
 	desc=_t[[A tutorial]],
 	display = ' ', color=colors.WHITE,

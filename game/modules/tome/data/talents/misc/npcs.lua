@@ -1058,7 +1058,7 @@ newTalent{
 	action = function(self, t)
 		local dur = t.getDuration(self,t)
 		local trap = mod.class.Trap.new{
-			type = "web", subtype="web", id_by_type=true, unided_name = "sticky web",
+			type = "web", subtype="web", id_by_type=true, unided_name = _t"sticky web",
 			display = '^', color=colors.YELLOW, image = "trap/trap_spiderweb_01_64.png",
 			name = _t"sticky web", auto_id = true,
 			detect_power = t.getDetect(self, t),

@@ -44,7 +44,7 @@ function _M:saySimple(time, txt, ...)
 end
 
 function _M:easingSimple(time, easing, txt, ...)
-	txt = txt:format(...)
+	txt = txt:tformat(...)
 	self.max_time = time or 60
 	self.list, self.max_lines, self.max_w = self.font:draw(txt:toString(), math.floor(game.w * 0.8), 255, 255, 255)
 

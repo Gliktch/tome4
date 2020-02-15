@@ -190,7 +190,7 @@ newTalent{
 		local tr = Trap.new{
 			type = "elemental",
 			id_by_type=true,
-			unided_name = "trap",
+			unided_name = _t"trap",
 			name = "cursed ground",
 			color={48,48,132},
 			display = '^',

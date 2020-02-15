@@ -55,7 +55,7 @@ function _M:onPartyDeath(src, death_note)
 		game.party:setPlayer(game.party:findMember{main=true}, true)
 		game.paused = true
 		game.player.energy.value = game.energy_to_act
-		src = src or {name="unknown"}
+		src = src or {name=_t"unknown"}
 		game.player.killedBy = src
 		game.player.died_times[#game.player.died_times+1] = {name=src.name, level=game.player.level, turn=game.turn}
 		game.player:registerDeath(game.player.killedBy)

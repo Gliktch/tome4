@@ -20,7 +20,7 @@
 return {
 	name = _t"Void between worlds",
 	display_name = function(x, y)
-		return "Void between worlds"
+		return _t"Void between worlds"
 	end,
 	variable_zone_name = true,
 	level_range = {100, 100},

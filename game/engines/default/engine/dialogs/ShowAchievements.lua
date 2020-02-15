@@ -120,7 +120,7 @@ function _M:select(item)
 		local track = self:getTrack(item.a)
 		local desc = ("#GOLD#Achieved on:#LAST# %s\n#GOLD#Achieved by:#LAST# %s\n%s\n#GOLD#Description:#LAST# %s"):tformat(item.when, item.who, also, item.desc):toTString()
 		if track then
-			desc:add(true, true, {"color","GOLD"}, "Progress: ", {"color","LAST"})
+			desc:add(true, true, {"color","GOLD"}, _t"Progress: ", {"color","LAST"})
 			desc:merge(track)
 		end
 		self.c_desc:switchItem(item, desc)

@@ -37,7 +37,7 @@ newEntity{ base = "TRAP_NATURAL_FOREST",
 	pressure_trap = true,
 	message = _t"@Target@ slides on a rock!",
 	unided_name = _t"slippery rock",
-	desc = "Stuns for 4 turns.",
+	desc = _t"Stuns for 4 turns.",
 	triggered = function(self, x, y, who)
 		if who:canBe("stun") then
 			who:setEffect(who.EFF_STUNNED, 4, {apply_power=self.disarm_power + 5})

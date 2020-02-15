@@ -64,11 +64,11 @@ Talents.newTalent = function(self, t)
 
 	if t.is_class_evolution then
 		t.short_name = (t.short_name or t.name):upper():gsub("[ ']", "_")
-		t.name = ("#LIGHT_STEEL_BLUE#%s (Class Evolution)"):tformat(t.name)
+		t.name = ("#LIGHT_STEEL_BLUE#%s (Class Evolution)"):tformat(_t(t.name))
 	end
 	if t.is_race_evolution then
 		t.short_name = (t.short_name or t.name):upper():gsub("[ ']", "_")
-		t.name = ("#SANDY_BROWN# (Race Evolution)"):tformat(t.name)
+		t.name = ("#SANDY_BROWN# (Race Evolution)"):tformat(_t(t.name))
 	end
 
 	return oldNewTalent(self, t)

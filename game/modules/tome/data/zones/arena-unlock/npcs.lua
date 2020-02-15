@@ -161,7 +161,7 @@ newEntity{ name = "arcane blade",
 	end,
 	on_die = function (self)
 		local Chat = require "engine.Chat"
-		local npc = {name="Cornac rogue"}
+		local npc = {name=_t"Cornac rogue"}
 		local chat = Chat.new("arena-unlock", npc, game.player, {npc=npc})
 		chat:invoke("win")
 	end

@@ -4135,7 +4135,7 @@ function _M:checkEncumbrance()
 
 		if self.x and self.y then
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
-			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), "+ENCUMBERED!", {255,0,0}, true)
+			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), _t"+ENCUMBERED!", {255,0,0}, true)
 		end
 	elseif self.encumbered and enc <= max then
 		self:removeTemporaryValue("never_move", self.encumbered)
@@ -4144,7 +4144,7 @@ function _M:checkEncumbrance()
 
 		if self.x and self.y then
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
-			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), "-ENCUMBERED!", {255,0,0}, true)
+			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), _t"-ENCUMBERED!", {255,0,0}, true)
 		end
 	end
 end
@@ -5890,7 +5890,7 @@ function _M:logTalentMessage(ab)
 			end
 			game.logSeen(self, color.."#{bold}#%s#{normal}##LAST#", self:useTalentMessage(ab))
 		elseif ab.mode == "sustained" then
-			game.logSeen(self, "%s %s #{bold}##ORANGE#%s#LAST#.", self:getName():capitalize(), self:isTalentActive(ab.id) and _t"deactivates" or _t"activates", ab.name)
+			game.logSeen(self, "%s %s #{bold}##ORANGE#%s#LAST#.#{normal}#", self:getName():capitalize(), self:isTalentActive(ab.id) and _t"deactivates" or _t"activates", ab.name)
 		elseif ab.is_spell then
 			if ab.is_inscription then color = "#GREEN#"
 			else color = "#PURPLE#"

@@ -33,7 +33,7 @@ newEntity{
 	power_source = {nature=true},
 	define_as = "SANDQUEEN_HEART",
 	type = "corpse", subtype = "heart", image = "object/artifact/queen_heart.png",
-	name = "Heart of the Sandworm Queen", unique=true, unided_name="pulsing organ",
+	name = "Heart of the Sandworm Queen", unique=true, unided_name=_t"pulsing organ",
 	display = "*", color=colors.VIOLET,
 	desc = _t[[The heart of the Sandworm Queen, ripped from her dead body.
 You could ... consume it, should you feel mad enough or you could try to corrupt it somewhere.]],
@@ -75,7 +75,7 @@ newEntity{
 	power_source = {nature=true},
 	define_as = "PUTRESCENT_POTION",
 	type = "corpse", subtype = "blood",
-	name = "Wyrm Bile", unique=true, unided_name="putrescent potion", image="object/artifact/vial_wyrm_bile.png",
+	name = "Wyrm Bile", unique=true, unided_name=_t"putrescent potion", image="object/artifact/vial_wyrm_bile.png",
 	display = "*", color=colors.VIOLET,
 	desc = _t[[A vial of thick, lumpy fluid. Who knows what this will do to you if you drink it?]],
 	cost = 3000,

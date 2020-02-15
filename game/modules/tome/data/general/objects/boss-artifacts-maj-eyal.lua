@@ -430,7 +430,7 @@ newEntity{ base = "BASE_LEATHER_BOOT",
 newEntity{ base = "BASE_HELM",
 	power_source = {technique=true},
 	define_as = "DRAGON_SKULL",
-	name = "Dragonskull Helm", unique=true, unided_name="skull helm", image = "object/artifact/dragonskull_helmet.png",
+	name = "Dragonskull Helm", unique=true, unided_name=_t"skull helm", image = "object/artifact/dragonskull_helmet.png",
 	desc = _t[[Traces of a dragon's power still remain in this bleached and cracked skull.]],
 	require = { stat = { wil=24 }, },
 	level_range = {45, 50},
@@ -1112,7 +1112,7 @@ newEntity{ base = "BASE_GEM", define_as = "CRYSTAL_FOCUS",
 
 	max_power = 1, power_regen = 1,
 	use_power = { name = _t"combine with a weapon (makes a non enchanted weapon into an artifact)", power = 1, use = function(self, who, gem_inven, gem_item)
-		who:showInventory("Fuse with which weapon?", who:getInven("INVEN"), function(o) return (o.type == "weapon" or o.subtype == "hands" or o.subtype == "shield") and o.subtype ~= "mindstar" and not o.egoed and not o.unique and not o.rare and not o.archery end, function(o, item)
+		who:showInventory(_t"Fuse with which weapon?", who:getInven("INVEN"), function(o) return (o.type == "weapon" or o.subtype == "hands" or o.subtype == "shield") and o.subtype ~= "mindstar" and not o.egoed and not o.unique and not o.rare and not o.archery end, function(o, item)
 			local oldname = o:getName{do_color=true}
 
 			-- Remove the gem
@@ -1152,9 +1152,9 @@ newEntity{ base = "BASE_GEM", define_as = "CRYSTAL_FOCUS",
 					game.logPlayer(wearer, "#GOLD#The humming from the crystalline artifacts fades as they are separated.")
 				end,
 				resolvers.generic(function(o)
-					o.name = "Crystalline "..o.name:capitalize()
+					o.name = ("Crystalline %s"):tformat(o:getName{trans_only=true}:capitalize())
 					o.unique = o.name
-					o.desc = (o.desc or "") .." Transformed with the power of the Spellblaze."
+					o.desc = (o.desc or "") .._t" Transformed with the power of the Spellblaze."
 					end),
 				resolvers.generic(function(o)
 					if o.combat and o.combat.dam then
@@ -1251,7 +1251,7 @@ newEntity{ base = "BASE_GEM", define_as = "CRYSTAL_HEART",
 	max_power = 1, power_regen = 1,
 	use_power = { name = _t"combine with a suit of body armor (makes a non enchanted armour into an artifact)", power = 1, use = function(self, who, gem_inven, gem_item)
 		-- Body armour only, can be cloth, light, heavy, or massive though. No clue if o.slot works for this.
-		who:showInventory("Fuse with which armor?", who:getInven("INVEN"), function(o) return o.type == "armor" and o.slot == "BODY" and not o.egoed and not o.unique and not o.rare end, function(o, item)
+		who:showInventory(_t"Fuse with which armor?", who:getInven("INVEN"), function(o) return o.type == "armor" and o.slot == "BODY" and not o.egoed and not o.unique and not o.rare end, function(o, item)
 			local oldname = o:getName{do_color=true}
 
 			-- Remove the gem
@@ -1283,9 +1283,9 @@ newEntity{ base = "BASE_GEM", define_as = "CRYSTAL_HEART",
 					self:specialSetAdd({"wielder","blind_immune"}, 0.5)
 				end,
 				resolvers.generic(function(o)
-					o.name = "Crystalline "..o.name:capitalize()
+					o.name = ("Crystalline %s"):tformat(o:getName{trans_only=true}:capitalize())
 					o.unique = o.name
-					o.desc = (o.desc or "") .." Transformed with the power of the Spellblaze."
+					o.desc = (o.desc or "") .._t" Transformed with the power of the Spellblaze."
 				end),
 				resolvers.generic(function(o)
 					-- This is supposed to add 1 def for crap cloth robes if for some reason you choose it instead of better robes, and then multiply by 1.25.
@@ -1531,7 +1531,7 @@ Though clearly a powerful piece, it must once have been much greater.]],
 newEntity{ base = "BASE_LEATHER_CAP", -- No armor training requirement
 	power_source = {psionic=true},
 	define_as = "ALETTA_DIADEM",
-	name = "Aletta's Diadem", unique=true, unided_name="jeweled diadem", image = "object/artifact/diadem_alettas_diadem.png",
+	name = "Aletta's Diadem", unique=true, unided_name=_t"jeweled diadem", image = "object/artifact/diadem_alettas_diadem.png",
 	moddable_tile = "special/diadem_alettas_diadem",
 	desc = _t[[A filigree of silver set with many small jewels, this diadem seems radiant - ethereal almost. But its touch seems to freeze your skin and brings wild thoughts to your mind. You want to drop it, throw it away, and yet you cannot resist thinking of what powers it might bring you.
 Is this temptation a weak will on your part, or some domination from the artifact itself...?]],

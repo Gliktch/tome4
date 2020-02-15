@@ -254,7 +254,7 @@ newTalent{
 				local tgt, id = rng.table(tgts)
 				if tgt then
 					local proj = throw(self, self:getTalentRadius(t), t.getDamage(self,t), tgt.act.x, tgt.act.y, nil, nil, 1)
-					proj.name = "Fan of Knives"
+					proj.name = _t"Fan of Knives"
 					tgt.cnt = tgt.cnt + 1
 					print(("Fan of Knives #%d: target:%s (%s, %s) = %d"):format(count, tgt.act.name, tgt.act.x, tgt.act.y, tgt.cnt))
 					count = count - 1
@@ -332,7 +332,7 @@ newTalent{
 		if #tgts <= 0 then return nil end
 		local a, id = rng.table(tgts)
 		local proj = throw(self, self:getTalentRange(t), 1, a.x, a.y, nil, nil, nil)
-		proj.name = "Quickdraw Knife"
+		proj.name = _t"Quickdraw Knife"
 		self.turn_procs.quickdraw = true
 	end,
 	info = function(self, t)
@@ -377,7 +377,7 @@ newTalent{
 		local dam = t2.getDamage(self,t2)
 
 		local proj = throw(self, self:getTalentRange(t), dam, x, y, DamageType.NATURE, 1, nil)
-		proj.name = "Venomous Throw"
+		proj.name = _t"Venomous Throw"
 		self.talents_cd[self.T_VENOMOUS_STRIKE] = 8
 
 		return true

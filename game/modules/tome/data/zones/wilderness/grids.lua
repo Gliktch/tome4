@@ -508,17 +508,17 @@ newEntity{ base="JUNGLE_PLAINS", define_as = "JUNGLE_TOWN", notice = true, chang
 
 newEntity{ base="TOWN", define_as = "TOWN_DERTH",
 	name = "Derth (Town)", add_mos = {{image="terrain/village_01.png"}},
-	desc = "A quiet town at the crossroads of the north",
+	desc = _t"A quiet town at the crossroads of the north",
 	change_zone="town-derth",
 }
 newEntity{ base="TOWN", define_as = "TOWN_LAST_HOPE",
 	name = "Last Hope (Town)", add_displays = {class.new{image="terrain/last_hope.png", display_w=2, display_x=-0.5, z=5}, class.new{image="terrain/last_hope_up.png", display_w=2, display_x=-0.5, display_h=2, display_y=-2, z=16}},
-	desc = "Capital city of the Allied Kingdoms ruled by King Tolak",
+	desc = _t"Capital city of the Allied Kingdoms ruled by King Tolak",
 	change_zone="town-last-hope",
 }
 newEntity{ base="TOWN", define_as = "TOWN_ANGOLWEN",
 	name = "Angolwen, the hidden city of magic", add_displays = {mod.class.Grid.new{z=5, image="terrain/town1.png"}},
-	desc = "Secret place of magic, set apart from the world to protect it.\nLead by the Supreme Archmage Linaniil.",
+	desc = _t"Secret place of magic, set apart from the world to protect it.\nLead by the Supreme Archmage Linaniil.",
 	change_zone="town-angolwen",
 }
 newEntity{ base="TOWN", define_as = "TOWN_ANGOLWEN_PORTAL",
@@ -530,28 +530,28 @@ newEntity{ base="TOWN", define_as = "TOWN_ANGOLWEN_PORTAL",
 }
 newEntity{ base="TOWN", define_as = "TOWN_SHATUR",
 	name = "Shatur (Town)", add_mos = {{image="terrain/town1.png"}},
-	desc = "Capital city of Thaloren lands, ruled by Nessilla Tantaelen",
+	desc = _t"Capital city of Thaloren lands, ruled by Nessilla Tantaelen",
 	change_zone="town-shatur",
 }
 newEntity{ base="TOWN", define_as = "TOWN_ELVALA",
 	name = "Elvala (Town)", add_mos = {{image="terrain/village_01.png"}},
-	desc = "Capital city of Shaloren lands, ruled by Aranion Gayaeil",
+	desc = _t"Capital city of Shaloren lands, ruled by Aranion Gayaeil",
 	change_zone="town-elvala",
 }
 newEntity{ base="TOWN", define_as = "TOWN_GATES_OF_MORNING",
 	name = "Gates of Morning (Town)",
-	desc = "A massive hole in the Sunwall.",
+	desc = _t"A massive hole in the Sunwall.",
 	add_displays = {class.new{image="terrain/golden_cave_entrance02.png", z=8}},
 	change_zone="town-gates-of-morning",
 }
 newEntity{ base="JUNGLE_TOWN", define_as = "TOWN_IRKKK",
 	name = "Irkkk (Town)", add_mos = {{image="terrain/village_01.png"}},
-	desc = "Yeek Wayist main village",
+	desc = _t"Yeek Wayist main village",
 	change_zone="town-irkkk",
 }
 newEntity{ base="TOWN", define_as = "TOWN_ZIGUR",
 	name = "Zigur (Town)", add_mos = {{image="terrain/village_01.png"}},
-	desc = "Ziguranth main training ground",
+	desc = _t"Ziguranth main training ground",
 	change_zone="town-zigur",
 	change_level_check = function()
 		local p = game.party:findMember{main=true}
@@ -568,7 +568,7 @@ newEntity{ base="TOWN", define_as = "TOWN_ZIGUR",
 newEntity{ base="TOWN", define_as = "TOWN_IRON_COUNCIL",
 	name = "Iron Council (Town)",
 	add_displays = {class.new{image="terrain/cave_entrance_closed02.png", z=5}},
-	desc = "Heart of the dwarven Empire",
+	desc = _t"Heart of the dwarven Empire",
 	change_zone="town-iron-council", change_zone_auto_stairs = true,
 }
 

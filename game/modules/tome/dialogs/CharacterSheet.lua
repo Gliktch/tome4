@@ -120,13 +120,13 @@ Mouse: Hover over stat for info
 	local seconds = game.total_playtime % 60
 
 	if days > 0 then
-		playtime = ("%i day%s %i hour%s %i minute%s %s second%s"):tformat(days, days > 1 and "s" or "", hours, hours > 1 and "s" or "", minutes, minutes > 1 and "s" or "", seconds, seconds > 1 and "s" or "")
+		playtime = ("%i %s %i %s %i %s %s %s"):tformat(days, days > 1 and _t"days" or _t"day", hours, hours > 1 and _t"hours" or _t"hour", minutes, minutes > 1 and _t"minutes" or _t"minute", seconds, seconds > 1 and _t"seconds" or _t"second")
 	elseif hours > 0 then
-		playtime = ("%i hour%s %i minute%s %s second%s"):tformat(hours, hours > 1 and "s" or "", minutes, minutes > 1 and "s" or "", seconds, seconds > 1 and "s" or "")
+		playtime = ("%i %s %i %s %s %s"):tformat(hours, hours > 1 and _t"hours" or _t"hour", minutes, minutes > 1 and _t"minutes" or _t"minute", seconds, seconds > 1 and _t"seconds" or _t"second")
 	elseif minutes > 0 then
-		playtime = ("%i minute%s %s second%s"):tformat(minutes, minutes > 1 and "s" or "", seconds, seconds > 1 and "s" or "")
+		playtime = ("%i %s %s %s"):tformat(minutes, minutes > 1 and _t"minutes" or _t"minute", seconds, seconds > 1 and _t"seconds" or _t"second")
 	else
-		playtime = ("%s second%s"):tformat(seconds, seconds > 1 and "s" or "")
+		playtime = ("%s %s"):tformat(seconds, seconds > 1 and _t"seconds" or _t"second")
 	end
 
 	local all_kills_kind = self.actor.all_kills_kind or {}

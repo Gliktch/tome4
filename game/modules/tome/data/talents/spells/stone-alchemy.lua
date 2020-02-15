@@ -40,7 +40,7 @@ newTalent{
 		return gem
 	end,
 	action = function(self, t)
-		local ret = self:talentDialog(self:showEquipInven("Use which gem?", function(o) return not o.unique and o.type == "gem" and not o.__tagged end, function(o, inven, item)
+		local ret = self:talentDialog(self:showEquipInven(_t"Use which gem?", function(o) return not o.unique and o.type == "gem" and not o.__tagged end, function(o, inven, item)
 			if not o then return end
 			local gem = t.make_gem(self, t, o.define_as)
 			if not gem then return end
@@ -98,7 +98,7 @@ newTalent{
 		return true
 	end,
 	action = function(self, t)
-		if not self:talentDialog(self:showEquipInven("Try to extract gems from which metallic item?", function(o) return t.filterGem(self, t, o) end, function(o, inven, item) return t.extractGem(self, t, o, inven, item, d) end)) then return nil end
+		if not self:talentDialog(self:showEquipInven(_t"Try to extract gems from which metallic item?", function(o) return t.filterGem(self, t, o) end, function(o, inven, item) return t.extractGem(self, t, o, inven, item, d) end)) then return nil end
 		return true
 	end,
 	info = function(self, t)
