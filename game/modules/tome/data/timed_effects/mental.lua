@@ -233,6 +233,7 @@ newEffect{
 		self.faction = eff.src.faction
 		self:effectTemporaryValue(eff, "never_anger", 1)
 		self:effectTemporaryValue(eff, "invulnerable", 1)
+		self:effectTemporaryValue(eff, "hostile_for_level_change", 1)
 	end,
 	deactivate = function(self, eff)
 		if eff.particle then self:removeParticles(eff.particle) end
