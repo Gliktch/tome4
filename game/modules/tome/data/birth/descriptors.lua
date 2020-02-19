@@ -235,8 +235,8 @@ newBirthDescriptor{
 		"#GOLD##{bold}#Insane mode#WHITE##{normal}#",
 		"Similar rules to Nightmare, but with more random bosses!",
 		"All zone levels increased by 50% + 1 by the time Player reaches level 10",
-		"All creature talent levels increased by 80%",
-		"Unique (fixed) bosses advance in bonus classes 80% faster",
+		"All creature talent levels increased by 70%",
+		"Unique (fixed) bosses advance in bonus classes 70% faster",
 		"Rare creatures are far more frequent and random bosses start to appear",
 		"Stairs can not be used for 5 turns after a kill.",
 		"Player can earn Insane version of achievements if also playing in Roguelike or Adventure permadeath mode.",
@@ -257,9 +257,9 @@ newBirthDescriptor{
 		difficulty_level_mult = 1.5,  -- Level multiplier for Zone.level_range, handled in Game.applyDifficulty
 		difficulty_level_add = 1,  -- Flat value added to Zone.level_range, handled in Game.applyDifficulty 
 
-		difficulty_talent_mult = 1.8,  -- Talent level multiplier for non-summoned NPC talents and base (non-autoclass) fixedboss talents, handled in NPC.addedToLevel
+		difficulty_talent_mult = 1.7,  -- Talent level multiplier for non-summoned NPC talents and base (non-autoclass) fixedboss talents, handled in NPC.addedToLevel
 		--difficulty_life_mult = 1.2,  -- Max life multiplier for hostile non-summoned NPCs, handled in NPC.addedToLevel
-		fixedboss_class_level_rate_mult = 1.8,  -- Multiplier for auto_classes level rates, handled in Actor.levelupClass
+		fixedboss_class_level_rate_mult = 1.7,  -- Multiplier for auto_classes level rates, handled in Actor.levelupClass
 	},
 }
 newBirthDescriptor{
