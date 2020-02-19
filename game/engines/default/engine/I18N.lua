@@ -32,9 +32,10 @@ local cur_locale_args = {}
 local cur_locale_special = {}
 local cur_unlocalized = {}
 local flags = {}
+local cur_flags = {}
 
 _G._getFlagI18N = function (flag)
-	return flags[flag] or nil
+	return cur_flags[flag] or nil
 end
 
 _G._t = function(s, debugadd)
@@ -87,6 +88,7 @@ function _M:setLocale(lc)
 	cur_locale = locales[lc] or {}
 	cur_locale_args = locales_args[lc] or {}
 	cur_locale_special = locales_special[lc] or {}
+	cur_flags = flags[lc] or {}
 end
 
 function _M:t(lc, src, dst, args_order, special)
@@ -124,7 +126,8 @@ end
 
 function _M.setFlag(flag, data)
 	if flag and data then
-		flags[flag] = data
+		flags[lc] = flags[lc] or {}
+		flags[lc][flag] = data
 	end
 end
 
