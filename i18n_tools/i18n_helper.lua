@@ -120,6 +120,9 @@ local function check_src_dst(src, dst, args_order)
             end
         end
     end
+    if #src_s ~= #dst_s then
+        checked = false
+    end
     if not checked then
         print("% MISMATCH:")
         print(src)
@@ -270,7 +273,7 @@ local function print_file(file_out, file_out_2, file_out_3, file_copy)
     local f = io.open(file_out, "w")
     local f2 = io.open(file_out_2, "w")
     local f3 = io.open(file_out_3, "w")
-    local fc = io.open(file_copy, "r")
+    local fc = io.open(file_copy, "rb")
     f3:write("locale \"" .. locale .. "\"\n")
     while true do
         local l = fc:read()
