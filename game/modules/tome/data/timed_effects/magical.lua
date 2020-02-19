@@ -4432,6 +4432,7 @@ newEffect{
 		self:setTarget() -- clear ai target
 		eff.olf_faction = self.faction
 		self.faction = eff.src.faction
+		self:effectTemporaryValue(eff, "hostile_for_level_change", 1)
 		if core.shader.active() then
 			local h1x, h1y = self:attachementSpot("head", true) if h1x then eff.particle = self:addParticles(Particles.new("circle", 1, {shader=true, oversize=1, a=225, appear=8, speed=0, img="domination_hex_debuff_aura", base_rot=0, radius=0, x=h1x, y=h1y})) end
 		end

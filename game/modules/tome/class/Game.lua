@@ -1390,7 +1390,7 @@ function _M:changeLevelReal(lev, zone, params)
 	if self.level.last_turn and self.level.last_turn < self.turn then
 		local perc = util.bound(math.floor((self.turn - self.level.last_turn) / 10), 0, 10)
 		for uid, target in pairs(self.level.entities) do
-			if target.life and target.max_life and self.player:reactionToward(target) < 0 then
+			if target.life and target.max_life and ((self.player:reactionToward(target) < 0) or target:attr("hostile_for_level_change")) then
 				target.life = util.bound(target.life + target.max_life * perc / 10, 0, target.max_life)
 				target.changed = true
 				target.talents_cd = {}
