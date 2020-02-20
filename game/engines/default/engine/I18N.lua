@@ -75,7 +75,7 @@ function _M:loadLocale(file)
 		section = function(s) end, -- Not used ingame
 		t = function(src, dst, args_order, special) self:t(lc, src, dst, args_order, special) end,
 		setFlag = function(flag, data) 
-			self.setFlag(flag, data)
+			self.setFlag(lc, flag, data)
 		end,
 	}, {__index=getfenv(2)})
 	local f, err = util.loadfilemods(file, env)
@@ -124,7 +124,7 @@ function _M:dumpUnknowns()
 	f:close()
 end
 
-function _M.setFlag(flag, data)
+function _M.setFlag(lc, flag, data)
 	if flag and data then
 		flags[lc] = flags[lc] or {}
 		flags[lc][flag] = data
