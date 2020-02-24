@@ -125,13 +125,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 
 		local ignore_direct_crits = target:attr 'ignore_direct_crits'
 		if crit_power > 1 and ignore_direct_crits then -- Reduce the post crit damage, we have to do this here since most crits are calculated before knowing their target
-			dam = dam / crit_power
-			local reduce = (crit_power - 1) * (util.bound(ignore_direct_crits, 0, 100) / 100)
-			crit_power = math.max(1, crit_power - reduce)
-			dam = dam * crit_power
-			print("[PROJECTOR] crit power reduce dam", dam)
-		end
-		if crit_power > 1 then
+
 			-- Add crit bonus power for being unseen (direct damage only, diminished with range)
 			local unseen_crit = src.__is_actor and target.__is_actor and not src.__project_source and src.unseen_critical_power
 			if unseen_crit and not target:canSee(src) and src:canSee(target) then
@@ -144,11 +138,16 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 					if target.unseen_crit_defense and target.unseen_crit_defense > 0 then
 						unseen_crit = math.max(0, unseen_crit*(1 - target.unseen_crit_defense))
 					end
-					dam = dam * (crit_power + unseen_crit)/crit_power
 					crit_power = crit_power + unseen_crit
 					print("[PROJECTOR] after unseen_critical_power type/dam/range/power", type, dam, d, unseen_crit, "::", crit_power - unseen_crit, "=>", crit_power)
 				end
-			end
+			end	
+
+			dam = dam / crit_power
+			local reduce = (crit_power - 1) * (util.bound(ignore_direct_crits, 0, 100) / 100)
+			crit_power = math.max(1, crit_power - reduce)
+			dam = dam * crit_power
+			print("[PROJECTOR] crit power reduce dam", dam)
 		end
 
 		local hd = {"DamageProjector:base", src=src, x=x, y=y, type=type, dam=dam, state=state}
