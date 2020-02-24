@@ -37,7 +37,7 @@ function _M:init(actor)
 
 	self:generateList()
 	if self.dont_show then return end
-	if not config.settings.cheat then game:saveGame() end
+	if not config.settings.cheat then game:onTickEnd(function() game:saveGame() end) end
 
 	local text = [[Death in #{bold}#Tales of Maj'Eyal#{normal}# is usually permanent, but if you have a means of resurrection it will be proposed in the menu below.
 You can dump your character data to a file to remember her/him forever, or you can exit and try once again to survive in the wilds!
@@ -187,7 +187,7 @@ function _M:eidolonPlane()
 
 		game.log("#LIGHT_RED#From the brink of death you seem to be yanked to another plane.")
 		game.player:updateMainShader()
-		if not config.settings.cheat then game:saveGame() end
+		if not config.settings.cheat then game:onTickEnd(function() game:saveGame() end) end
 
 		self.actor:checkTwoHandedPenalty()
 	end)
