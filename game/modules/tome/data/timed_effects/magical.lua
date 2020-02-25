@@ -2525,9 +2525,9 @@ newEffect{
 		eff.particle = self:addParticles(Particles.new("phantasm_shield", 1))
 	end,
 	on_merge = function(self, old_eff, new_eff)
-		old_eff.defense = math.min(40, math.max(old_eff.defense, new_eff.defense)) or 0
-		old_eff.resists = math.min(40, math.max(old_eff.resists, new_eff.resists)) or 0
-		old_eff.effect_reduction = math.min(40, math.max(old_eff.effect_reduction, new_eff.effect_reduction)) or 0
+		old_eff.defense = math.min(40, math.max(old_eff.defense, new_eff.defense + (self:attr("defense_on_teleport") or 0)))
+		old_eff.resists = math.min(40, math.max(old_eff.resists, new_eff.resists + (self:attr("resist_all_on_teleport") or 0)))
+		old_eff.effect_reduction = math.min(40, math.max(old_eff.effect_reduction, new_eff.effect_reduction + (self:attr("effect_reduction_on_teleport") or 0)))
 
 		self:removeTemporaryValue("combat_def", old_eff.defid)
 		self:removeTemporaryValue("resists", old_eff.resid)

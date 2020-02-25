@@ -6201,9 +6201,11 @@ function _M:postUseTalent(ab, ret, silent)
 		-- Free melee blow
 		if ab.is_spell and ab.mode ~= "sustained" and self:knowTalent(self.T_CORRUPTED_STRENGTH) and not self:attr("forbid_corrupted_strength_blow") and not self.turn_procs.corrupted_strength then
 			local tgts = {}
-			for _, c in pairs(util.adjacentCoords(self.x, self.y)) do
-				local target = game.level.map(c[1], c[2], Map.ACTOR)
-				if target and self:reactionToward(target) < 0 then tgts[#tgts+1] = target end
+			if game.level:hasEntity(self) and self.x and self.y then
+				for _, c in pairs(util.adjacentCoords(self.x, self.y)) do
+					local target = game.level.map(c[1], c[2], Map.ACTOR)
+					if target and self:reactionToward(target) < 0 then tgts[#tgts+1] = target end
+				end
 			end
 			if #tgts > 0 then
 				self.turn_procs.corrupted_strength = true
