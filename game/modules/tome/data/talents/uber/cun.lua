@@ -100,7 +100,7 @@ uberTalent{
 	getDarkness = function(self, t) return self:combatStatScale("cun", 1, 30, 0.75) end,
 	getAcid = function(self, t) return self:combatStatScale("cun", 10, 100, 0.75) end,
 	getTemporal = function(self, t) return self:combatStatScale("cun", 1, 40, 0.75) end,
-	getMind = function(self, t) return self:combatStatScale("cun", 1, 40, 0.75) end,
+	getMind = function(self, t) return util.bound(self:combatStatScale("cun", 1, 40, 0.75), 0, 50) end,
 	range = 10,
 	radius = 3,
 	dts = {TEMPORAL=true, BLIGHT=true, ACID=true, DARKNESS=true, MIND=true, PHYSICAL=true},
@@ -169,7 +169,7 @@ uberTalent{
 			elseif damtype == DamageType.MIND and not self:hasProc("endless_woes_mind") then
 				self:setProc("endless_woes_mind", true, 10)
 				game.logSeen(self, "You unleash a confusing blast of #YELLOW#mental#LAST# energy!", self.name:capitalize())
-				t.doProject(self, t, damtype, {id="EFF_CONFUSED", dur=5, params={power=50}, canbe="confusion"}, "starfall")
+				t.doProject(self, t, damtype, {id="EFF_CONFUSED", dur=5, params={power=t.getMind(self, t)}, canbe="confusion"}, "starfall")
 			elseif damtype == DamageType.PHYSICAL and not self:hasProc("endless_woes_physical") then
 				self:setProc("endless_woes_physical", true, 10)
 				game.logSeen(self, "You unleash a crippling blast of earthen energy!", self.name:capitalize())
