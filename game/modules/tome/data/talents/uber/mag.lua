@@ -318,8 +318,8 @@ uberTalent{
 	name = "Cauterize",
 	mode = "passive",
 	cooldown = 12,
-	require = { special={desc="Have received at least 7500 fire damage and have cast at least 1000 spells", fct=function(self) return
-		self.talent_kind_log and self.talent_kind_log.spell and self.talent_kind_log.spell >= 1000 and self.damage_intake_log and self.damage_intake_log[DamageType.FIRE] and self.damage_intake_log[DamageType.FIRE] >= 7500
+	require = { special={desc="Have received at least 3500 fire damage and have cast at least 1000 spells", fct=function(self) return
+		self.talent_kind_log and self.talent_kind_log.spell and self.talent_kind_log.spell >= 1000 and self.damage_intake_log and self.damage_intake_log[DamageType.FIRE] and self.damage_intake_log[DamageType.FIRE] >= 3500
 	end} },
 	trigger = function(self, t, value)
 		self:startTalentCooldown(t)
