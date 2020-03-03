@@ -1553,6 +1553,7 @@ newEntity{ base = "BASE_BATTLEAXE",
 	require = { stat = { str=50 }, },
 	level_range = {39, 46},
 	rarity = 300,
+	cost = math.random(400,650),
 	material_level = 4,
 	combat = {
 		dam = 68,
@@ -2017,6 +2018,7 @@ It is said the wielder will slowly grow mad. This, however, has never been prove
 	require = { stat = { str=42 }, },
 	level_range = {40, 50},
 	rarity = 250,
+	cost = math.random(400,650),
 	material_level = 5,
 	combat = {
 		dam = 38,
