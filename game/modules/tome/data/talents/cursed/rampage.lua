@@ -33,8 +33,8 @@ newTalent{
 		return 8
 	end,
 	getMovementSpeedChange = function(self, t) return self:combatTalentScale(t, 1.4, 3.13, 0.75) end, --Nerf this?
-	getCombatPhysSpeedChange = function(self, t) return self:combatTalentScale(t, 0.224, 0.5, 0.75) end,
-	getCombatMindSpeedChange = function(self, t) return self:combatTalentScale(t, 0.224, 0.5, 0.75) end,
+	getCombatPhysSpeedChange = function(self, t) return self:combatTalentScale(t, 0.224, 0.5) end,
+	getCombatMindSpeedChange = function(self, t) return self:combatTalentScale(t, 0.224, 0.5) end,
 	on_pre_use = function(self, t, silent)
 		if self:hasEffect(self.EFF_RAMPAGE) then 
 			if not silent then game.logPlayer(self, "You are already rampaging!") end

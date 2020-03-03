@@ -158,7 +158,7 @@ newTalent{
 		if target and core.fov.distance(self.x, self.y, target.x, target.y) <= 10 and self:hasLOS(target.x, target.y, "block_move") then return true end
 		return false
 	end,
-	getSpeed = function(self, t) return self:combatTalentScale(t, 0.14, 0.45, 0.75) end,
+	getSpeed = function(self, t) return self:combatTalentScale(t, 0.14, 0.45) end,
 	action = function(self, t)
 		self:setEffect(self.EFF_SPEED, 5, {power=t.getSpeed(self, t)})
 		return true
