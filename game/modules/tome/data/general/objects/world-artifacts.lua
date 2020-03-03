@@ -748,6 +748,7 @@ newEntity{
 	name = "Mummified Egg-sac of Ungolë", image = "object/artifact/mummified_eggsack.png",
 	level_range = {20, 35},
 	rarity = 190,
+	cost = 200,
 	display = "*", color=colors.DARK_GREY,
 	encumber = 2,
 	not_in_stores = true,
