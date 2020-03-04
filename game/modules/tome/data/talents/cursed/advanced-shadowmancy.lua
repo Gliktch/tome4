@@ -168,6 +168,7 @@ newTalent{
 		local _ _, x, y = self:canProject(tg, x, y)
 
 		-- Rushing time.
+		local dam = self:mindCrit(t.getDamage(self, t))
 		for i = 1, #shadows do
 			if #shadows <= 0 then break end
 			local a, id = rng.table(shadows)
@@ -179,7 +180,6 @@ newTalent{
 				game.level.map:particleEmitter(a.x, a.y, math.max(math.abs(x-a.x), math.abs(y-a.y)), "earth_beam", {tx=x-a.x, ty=y-a.y})
 				game.level.map:particleEmitter(a.x, a.y, math.max(math.abs(x-a.x), math.abs(y-a.y)), "shadow_beam", {tx=x-a.x, ty=y-a.y})
 
-				local dam = self:mindCrit(t.getDamage(self, t))
 				a:project(tg, x, y, DamageType.PHYSICAL, dam)
 
 				a:move(sx, sy, true)
@@ -231,7 +231,7 @@ newTalent{
 			return
 		end
 		
-		local damage = self:mindCrit(t.getDamage(self, t))
+		local damage = t.getDamage(self, t)
 		
 		local first = true
 		local failed = false
@@ -243,10 +243,13 @@ newTalent{
 				local x, y = self:getTarget(tg)
 				local _ _, x, y = a:canProject(tg, x, y)
 				if x and y then
+					if first == true then
+						damage = self:mindCrit(damage)
+						first = false
+					end
 					a:project(tg, x, y, DamageType.MIND, {dist=10, dam=damage})
 					game.level.map:particleEmitter(x, y, 1, "mind")
 					game:playSoundNear(a, "talents/cloud")
-					if first == true then first = false end
 				elseif first == true then
 					first = false
 					failed = true
