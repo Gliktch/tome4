@@ -2753,12 +2753,12 @@ newDamageType{
 		state = initState(state)
 		useImplicitCrit(src, state)
 		if _G.type(dam) == "number" then dam = {dam=dam} end
-		DamageType:get(DamageType.BLIGHT).projector(src, x, y, DamageType.BLIGHT, dam.dam, state)
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and target:canBe("disease") and rng.percent(dam.disease_chance or 20) then
 			local eff = rng.table{{target.EFF_ROTTING_DISEASE, "con"}, {target.EFF_DECREPITUDE_DISEASE, "dex"}, {target.EFF_WEAKNESS_DISEASE, "str"}}
 			target:setEffect(eff[1], dam.dur or 5, { src = src, [eff[2]] = dam.disease_power or 5, dam = dam.disease_dam or (dam.dam / 5) })
 		end
+		DamageType:get(DamageType.BLIGHT).projector(src, x, y, DamageType.BLIGHT, dam.dam, state)
 	end,
 }
 
