@@ -26,18 +26,18 @@ newTalent{
 	cooldown = 7,
 	stamina = 20,
 	range = 0,
-	radius = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
+	radius = function(self, t) return math.min(13, math.floor(self:combatTalentScale(t, 4, 8))) end,
 	target = function(self, t)
 		return {type="cone", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=false}
 	end,
 	requires_target = true,
 	tactical = { ATTACKAREA = { PHYSICAL = 2 } },
-	getdamage = function(self,t) return self:combatScale(self:getTalentLevel(t) * self:getStr(), 60, 10, 267, 500)  end,
+	getDamage = function(self,t) return self:combatTalentPhysicalDamage(t, 30, 320) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		self:project(tg, x, y, DamageType.PHYSICAL, self:physicalCrit(t.getdamage(self,t)))
+		self:project(tg, x, y, DamageType.PHYSICAL, self:physicalCrit(t.getDamage(self,t)))
 		if self:getTalentLevel(t) >= 5 then
 			self:project(tg, x, y, function(px, py)
 				local proj = game.level.map(px, py, Map.PROJECTILE)
@@ -55,7 +55,7 @@ newTalent{
 		return ([[Release a powerful shout, doing %0.2f physical damage in a radius %d cone in front of you.
 		At level 5 the shout is so strong it shatters all incomming projectiles caught inside.
 		The damage increases with your Strength.]])
-		:format(damDesc(self, DamageType.PHYSICAL, t.getdamage(self,t)), t.radius(self,t))
+		:format(damDesc(self, DamageType.PHYSICAL, t.getDamage(self,t)), t.radius(self,t))
 	end,
 }
 
