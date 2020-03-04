@@ -39,7 +39,7 @@ newTalent{
 	getReduction = function(self, t) return self:combatTalentScale(t, 10, 40) end,
 	on_pre_use = function(self, t) return game.level and self:callTalent(self.T_CALL_SHADOWS, "nbShadowsUp") > 0 end,
 	action = function(self, t)
-		local tg = {type="hit", range=self:getTalentRange(t), talent=t, first_target="friend"}
+		local tg = {type="hit", range=self:getTalentRange(t), talent=t, first_target="friend", pass_terrain=self:knowTalent(self.T_SHADOW_SENSES)}
 		local x, y, target = self:getTargetLimited(tg)
 		if x and y and target and target.summoner and target.summoner == self and target.is_doomed_shadow then
 			local tg2 = {type="hit", range=self:getTalentRange(t), start_x=x, start_y=y, source_actor=target, pass_terrain=true}
@@ -76,7 +76,7 @@ newTalent{
 	getDamage = function(self, t) return self:combatTalentMindDamage(t, 0, 280) end,
 	on_pre_use = function(self, t) return game.level and self:callTalent(self.T_CALL_SHADOWS, "nbShadowsUp") > 0 end,
 	action = function(self, t)
-		local tg = {type="hit", range=self:getTalentRange(t), talent=t, first_target="friend"}
+		local tg = {type="hit", range=self:getTalentRange(t), talent=t, first_target="friend", pass_terrain=self:knowTalent(self.T_SHADOW_SENSES)}
 		local x, y, target = self:getTargetLimited(tg)
 		if x and y and target and target.x == x and target.y == y and target.is_doomed_shadow and target.summoner and target.summoner == self then
 			local tg2 = {type="hit", range=self:getTalentRange(t), start_x=x, start_y=y, source_actor=target, friendlyblock=false, pass_terrain=true,}
