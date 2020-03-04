@@ -638,7 +638,7 @@ function _M:descAccuracyBonus(desc, weapon, use_actor)
 	elseif kind == "mace" then
 		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.2, m), {"color","LAST"}, " base dam (max 20%)", true)
 	elseif kind == "staff" then
-		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(2.5, m), {"color","LAST"}, " proc dam (max 200%)", true)
+		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(2.0, m), {"color","LAST"}, " proc dam (max 200%)", true)
 	elseif kind == "knife" then
 		desc:add("Accuracy bonus: ", {"color","LIGHT_GREEN"}, showpct(0.5, m), {"color","LAST"}, " APR (max 50%)", true)
 	end
