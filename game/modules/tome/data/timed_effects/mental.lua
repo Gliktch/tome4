@@ -2927,8 +2927,8 @@ newEffect{
 	image="talents/unseen_force.png",
 	long_desc = function(self, eff)
 		local hits = (eff.extrahit > 0 and "from "..eff.hits.." to "..(eff.hits + 1)) or ""..eff.hits
-		return ("An unseen force strikes %s targets in a range of 5 around this creature "..
-		"every turn, doing %d damage and knocking them back for %d tiles."):format(hits, eff.damage, eff.knockback) end,
+		return ("An unseen force strikes %s targets in a range of %d around this creature "..
+		"every turn, doing %d damage and knocking them back for %d tiles."):format(hits, eff.range, eff.damage, eff.knockback) end,
 	type = "mental",
 	subtype = {psionic=true},
 	status = "beneficial",
@@ -2942,8 +2942,7 @@ newEffect{
 	end,
 	on_timeout = function(self, eff)
 		local targets = {}
-		local tmp = {}
-		local grids = core.fov.circle_grids(self.x, self.y, 5, true)
+		local grids = core.fov.circle_grids(self.x, self.y, eff.range, true)
 		for x, yy in pairs(grids) do
 			for y, _ in pairs(grids[x]) do
 				local a = game.level.map(x, y, Map.ACTOR)
@@ -2961,7 +2960,7 @@ newEffect{
 			-- Randomly take targets
 			local sample = rng.tableSample(targets, hitCount)
 			for _, target in ipairs(sample) do
-				t.forceHit(self, t, target, target.x, target.y, eff.damage, eff.knockback, 7, 0.6, 10, tmp)
+				t.forceHit(self, t, target, target.x, target.y, eff.damage, eff.knockback, 7, 0.6, 10)
 			end
 		end
 	end,
