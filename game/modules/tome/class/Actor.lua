@@ -7218,7 +7218,7 @@ function _M:hasLOS(x, y, what, range, source_x, source_y)
 			break
 		end
 		last_x, last_y = lx, ly
-		if game.level.map:checkAllEntities(lx, ly, what) then break end
+		if game.level.map:checkAllEntities(lx, ly, what, self) then break end
 
 		lx, ly, is_corner_blocked = l:step()
 	end
