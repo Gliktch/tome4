@@ -969,7 +969,7 @@ newEffect{
 	on_timeout = function(self, eff)
 		local tInstillFear = self:getTalentFromId(self.T_INSTILL_FEAR)
 --		if tInstillFear.hasEffect(eff.src, tInstillFear, self) then
-			if core.fov.distance(self.x, self.y, eff.src.x, eff.src.y) <= eff.range and self:hasLOS(eff.src.x, eff.src.y) then
+			if core.fov.distance(self.x, self.y, eff.src.x, eff.src.y) <= eff.range and eff.src:hasLOS(self.x, self.y) then
 				eff.turns_left = eff.turns_left - 1
 			end
 			if eff.turns_left <= 0 then

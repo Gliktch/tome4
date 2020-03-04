@@ -228,7 +228,7 @@ newTalent{
 		local turnsUntilTrigger = t.getTurnsUntilTrigger(self, t)
 		local duration = tInstillFear.getDuration(self, tInstillFear)
 		local damage = t.getDamage(self, t)
-		return ([[Heighten the fears of those near to you. Any foe you attempt to inflict a fear upon and who remains in a radius of %d and in sight of you for %d (non-consecutive) turns, will take %0.2f mind and %0.2f darkness damage and gain a new fear that lasts for %d turns.
+		return ([[Heighten the fears of those near to you. Any foe you attempt to inflict a fear upon and who remains in a radius of %d and in your line of sight for %d (non-consecutive) turns, will take %0.2f mind and %0.2f darkness damage and gain a new fear that lasts for %d turns.
 			This effect completely ignores fear resistance, but can be saved against.]]):
 			format(range, turnsUntilTrigger, damDesc(self, DamageType.MIND, t.getDamage(self, t) / 2), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t) / 2 ), duration)
 	end,
