@@ -2283,7 +2283,7 @@ newDamageType{
 				parens = (" (#RED#%d%%#LAST#)"):format(diff)
 			end
 		end
-		local val = src and math.floor(src:combatStatScale(src:combatMindpower(), 20, 70))+10 or 0
+		local val = src and math.floor(src:combatStatScale(src:combatMindpower(), 15, 50))+10 or 0
 		return ("* #LIGHT_GREEN#%d%%#LAST# chance to slow global speed by #YELLOW#%d%%#LAST#%s")
 			:format(dam or 0, val, parens)
 	end,
@@ -2292,7 +2292,7 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and rng.percent(dam) then
-			local slow_power = math.floor(src:combatStatScale(src:combatMindpower(), 20, 70)+10) / 100
+			local slow_power = math.floor(src:combatStatScale(src:combatMindpower(), 15, 50)+10) / 100
 			target:setEffect(target.EFF_SLOW, 3, {power = slow_power, no_ct_effect=true})
 		end
 	end,
