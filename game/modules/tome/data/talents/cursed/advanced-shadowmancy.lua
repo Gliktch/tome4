@@ -17,6 +17,15 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
+function shadowWarriorMult(self)
+	if self:knowTalent(self.T_SHADOW_WARRIORS) then
+		t = self:getTalentFromId(self.T_SHADOW_WARRIORS)
+		return 1 + t.getIncDamage(self, t) / 100
+	else
+		return 1
+	end
+end
+
 newTalent{
 	name = "Merge",
 	type = {"cursed/advanced-shadowmancy", 1},
@@ -101,7 +110,7 @@ newTalent{
 		return ([[Target a nearby shadow, and force it to slam into a nearby enemy, dealing %0.1f Physical damage.
 		Your shadow will then set them as their target, and they will target your shadow.
 		Damage increases with your Mindpower.]]):
-		format(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		format(t.getDamage(self, t) * shadowWarriorMult(self))
 	end,
 }
 
@@ -186,7 +195,7 @@ newTalent{
 		return ([[Command all Shadows within sight to tele-dash to a target location, damaging any enemies they pass through for %0.1f Physical damage.
 		For the purpose of this talent, you force your shadows through any walls in their way.
 		Damage increases with your Mindpower.]]):
-		format(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		format(t.getDamage(self, t) * shadowWarriorMult(self))
 	end,
 }
 
@@ -251,6 +260,6 @@ newTalent{
 		return ([[Share your hatred with all shadows within sight range, gaining temporary full control. You then fire a blast of pure hatred from all affected shadows, dealing %0.1f Mind damage per blast.
 		You cannot cancel this talent once the first bolt is cast.
 		Damage increases with your Mindpower.]]):
-		format(damDesc(self, DamageType.MIND, t.getDamage(self, t)))
+		format(t.getDamage(self, t) * shadowWarriorMult(self))
 	end,
 }
