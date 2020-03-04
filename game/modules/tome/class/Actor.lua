@@ -2819,15 +2819,6 @@ function _M:onTakeHit(value, src, death_note)
 		end
 	end
 
-	if self:attr("unstoppable") then
-		if value > self.life - 1 then
-			game:delayedLogDamage(src, self, 0, ("#RED#(%d refused)#LAST#"):format(value - (self.life - 1)), false)
-			value = self.life - 1
-			if self.life <= 1 then value = 0 end
-			game:delayedLogMessage(self, nil, "unstoppable", "#RED##Source# is unstoppable!")
-		end
-	end
-
 	if value >= self.life then
 		local tal = self:isTalentActive(self.T_SECOND_LIFE)
 		if tal then
@@ -2996,6 +2987,16 @@ function _M:onTakeHit(value, src, death_note)
 	if self:knowTalent(self.T_DRACONIC_BODY) then
 		local t = self:getTalentFromId(self.T_DRACONIC_BODY)
 		t.trigger(self, t, value)
+	end
+
+	-- Needs to be done last, will break if any damage is taken between doing this and updating the actor's life
+	if self:attr("unstoppable") then
+		if value > self.life - 1 then
+			game:delayedLogDamage(src, self, 0, ("#RED#(%d refused)#LAST#"):format(value - (self.life - 1)), false)
+			value = self.life - 1
+			if self.life <= 1 then value = 0 end
+			game:delayedLogMessage(self, nil, "unstoppable", "#RED##Source# is unstoppable!")
+		end
 	end
 
 	return value
