@@ -59,7 +59,7 @@ newTalent{
 	tactical = { ATTACKAREA = {BLIGHT = 1}, DISABLE = 2 },
 	requires_target = true,
 	target = function(self, t)
-		return {type="ball", radius=self:getTalentRadius(t), range=self:getTalentRange(t), talent=t}
+		return {type="ball", radius=self:getTalentRadius(t), range=self:getTalentRange(t), selffire=false, talent=t}
 	end,
 	getRemoveCount = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5, "log")) end,  -- Oh for the love of god no, fix me
 	action = function(self, t)
