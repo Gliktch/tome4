@@ -138,7 +138,7 @@ newTalent{
 	type = {"psionic/absorption", 1},
 	require = psi_cun_req1,
 	rnd_boss_restrict = function(self, t, data) -- Flat damage reduction can be obnoxious early game
-		return data.level < 15
+		return data.level > 15
 	end,
 	mode = "sustained", no_sustain_autoreset = true,
 	points = 5,
@@ -201,7 +201,7 @@ newTalent{
 	type = {"psionic/absorption", 1},
 	require = psi_cun_req2,
 	rnd_boss_restrict = function(self, t, data) -- Flat damage reduction can be obnoxious early game
-		return data.level < 15
+		return data.level > 15
 	end,
 	mode = "sustained", no_sustain_autoreset = true,
 	points = 5,
@@ -266,7 +266,7 @@ newTalent{
 	type = {"psionic/absorption", 1},
 	require = psi_cun_req3,
 	rnd_boss_restrict = function(self, t, data) -- Flat damage reduction can be obnoxious early game
-		return data.level < 15
+		return data.level > 15
 	end,
 	mode = "sustained", no_sustain_autoreset = true,
 	points = 5,
