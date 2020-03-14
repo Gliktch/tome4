@@ -287,7 +287,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 		if src.attr and src:attr("encased_in_ice") then
 			local eff = src:hasEffect(src.EFF_FROZEN)
 			eff.hp = eff.hp - dam
-			local srcname = src.x and src.y and game.level.map.seens(src.x, src.y) and src.name:capitalize() or _t"Something"
+			local srcname = src.x and src.y and game.level.map.seens(src.x, src.y) and src:getName():capitalize() or _t"Something"
 			if eff.hp < 0 and not eff.begone then
 				game.logSeen(src, "%s forces the iceblock to shatter.", src:getName():capitalize())
 				game:onTickEnd(function() src:removeEffect(src.EFF_FROZEN) end)

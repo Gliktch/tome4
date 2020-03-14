@@ -25,6 +25,9 @@ local function count_string(str, pattern)
 end
 
 local function suitable_string(string)
+    if string == nil or string == "nil" then
+        return "nil"
+    end
     if string:find("\n") and string:sub(1, 1) ~= "\n" then
         return "[[" .. string .. "]]"
     else
@@ -75,8 +78,24 @@ function table.tostring( tbl )
       end
     end
     return "{" .. table.concat( result, "," ) .. "}"
-  end
-  
+end
+
+local function get(table, key, tag, value)
+    tag = tag or "nil"
+    table["nil"] = table["nil"] or {}
+    table[tag] = table[tag] or {}
+    if value == nil then
+        if table[tag][key] then
+            return table[tag][key]
+        else
+            return table["nil"][key]
+        end
+    else
+        table[tag][key] = value
+        table["nil"][key] = value
+    end
+end
+
 local function introduce_file(file_in)
     local env = setmetatable({
 		locale = function(s) end,
@@ -85,10 +104,11 @@ local function introduce_file(file_in)
             sections[#sections+1] = current_section
             locales_sections[current_section] = locales_sections[current_section] or {}
         end,
-        tDef = function(line, src) 
+        tDef = function(line, src, tag) 
             locales_sections[current_section][src] = {
                 line = line,
                 src = src,
+                tag = tag,
             }
         end,
     }, {__index=getfenv(2)})
@@ -131,7 +151,7 @@ local function check_src_dst(src, dst, args_order)
         print(table.tostring(dst_s))
     end
 end
-local function merge_file_t(src, dst, args_order, special) 
+local function merge_file_t(src, dst, tag, args_order, special) 
     if not dst or dst == "" then 
         return
     end
@@ -147,26 +167,20 @@ local function merge_file_t(src, dst, args_order, special)
         print(src)
         print(dst)
     end
-    if locales_trans[src] and locales_trans[src] ~= dst and locales_trans[src] ~= src then
-        print("CONFLICT: ", src)
-        print("OLD: ", locales_trans[src])
-        print("NEW: ", dst)
-    end
     if not locales_sections[current_section][src] then
-        -- print(src)
         locales_sections[current_section][src] = {
             line = 999,
             src = src,
-            bogus = true
+            bogus = true,
+            tag = tag,
         }
     end
-    locales_trans[src] = dst
-    if args_order then
-        locales_args[src] = args_order
-    end
-    if special then 
-        locales_special[src] = special
-    end
+    get(locales_trans, src, tag, dst)
+    get(locales_args, src, tag, args_order)
+    get(locales_special, src, tag, special)
+end
+local function merge_file_tt(src, dst, args_order, special)
+    return merge_file_t(src, dst, nil, args_order, special)
 end
 local function merge_file(file_merge)
     local env = setmetatable({
@@ -215,28 +229,32 @@ local function write_section(f, f2, f3, section)
     end
     for _, e in ipairs(list) do
         local src = e.src
+        local tag = e.tag or nil
 
         if section ~= "not_merged" then
             merged_src[src] = true
         end
 
         local print_str = ""
-        if locales_trans[src] then
+        local locale_tran = get(locales_trans, src, tag)
+        if locale_tran then
             if section ~= "always_merge" and e.bogus then
                 print_str = "t_old"
             else
                 print_str = "t"
             end
-            print_str = print_str .. "(" .. suitable_string(src) .. ", " .. suitable_string(locales_trans[src])
-            if locales_special[src] then
-            if locales_args[src] then
-                    print_str = print_str .. ", " .. table.tostring(locales_args[src])
+            print_str = print_str .. "(" .. suitable_string(src) .. ", " .. suitable_string(locale_tran) .. ", " .. suitable_string(tag)
+            local locale_special = get(locales_special, src, tag)
+            local locale_arg = get(locales_args, src, tag)
+            if locale_special then
+                if locale_arg then
+                    print_str = print_str .. ", " .. table.tostring(locale_arg)
                 else
                     print_str = print_str .. ", nil"
                 end
-                print_str = print_str .. ", " .. table.tostring(locales_special[src]) .. ")"
-            elseif locales_args[src] then
-                print_str = print_str .. ", " .. table.tostring(locales_args[src]) .. ")"
+                print_str = print_str .. ", " .. table.tostring(locale_special) .. ")"
+            elseif locale_arg then
+                print_str = print_str .. ", " .. table.tostring(locale_arg) .. ")"
             else
                 print_str = print_str .. ")"
             end
@@ -244,7 +262,7 @@ local function write_section(f, f2, f3, section)
                 f3:write(print_str .. "\n")
             end
         else
-            print_str = "t(" .. suitable_string(src) .. ", " .. suitable_string(src) .. ")"
+            print_str = "t(" .. suitable_string(src) .. ", " .. suitable_string(src) .. ", " .. suitable_string(tag) .. ")"
             -- f2:write(print_str .. "\n")
             f2_text = f2_text .. print_str .. "\n"
             f2_count = f2_count + 1
@@ -254,7 +272,7 @@ local function write_section(f, f2, f3, section)
         end
         if section ~= "not_merged" then
             all_entry = all_entry + 1
-            if locales_trans[src] then
+            if locale_tran then
                 translated = translated + 1
             end
         end

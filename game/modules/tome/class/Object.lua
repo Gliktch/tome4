@@ -599,7 +599,7 @@ function _M:getShortName(t)
 
 	local qty = self:getNumber()
 	local identified = t.force_id or self:isIdentified()
-	local name = _t(self.short_name) or _t"object"
+	local name = _t(self.short_name, "entity short_name") or _t"object"
 
 	if not identified then
 		local _, c = self:getDisplayColor(true)
@@ -613,7 +613,7 @@ function _M:getShortName(t)
 		local ks = table.keys(self.keywords)
 		local k = {}
 		for i, key in ipairs(ks) do
-			k[i] = _t(key)
+			k[i] = _t(key, "entity keyword")
 		end
 		table.sort(k)
 		name = name..", "..table.concat(k, ', ')
@@ -1166,7 +1166,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 		end
 	end
 
-	desc:add(("Type: %s / %s"):tformat(_t(tostring(rawget(self, 'type')) or _t"unknown"), _t(tostring(rawget(self, 'subtype')) or _t"unknown")))
+	desc:add(("Type: %s / %s"):tformat(_t(tostring(rawget(self, 'type')) or _t"unknown", "entity type"), _t(tostring(rawget(self, 'subtype') or _t"unknown"), "entity subtype")))
 	if self.material_level then desc:add(_t" ; tier ", tostring(self.material_level)) end
 	desc:add(true)
 	if self.slot_forbid == "OFFHAND" then desc:add(_t"It must be held with both hands.", true) end

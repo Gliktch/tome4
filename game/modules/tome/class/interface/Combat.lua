@@ -526,7 +526,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 		if target.knowTalent and target:hasEffect(target.EFF_GESTURE_OF_GUARDING) and not target:attr("encased_in_ice") then
 			local g_deflect = math.min(dam, target:callTalent(target.T_GESTURE_OF_GUARDING, "doGuard")) or 0
 			if g_deflect > 0 then
-				game:delayedLogDamage(self, target, 0, ("%s(%d gestured#LAST#)"):format(DamageType:get(damtype).text_color or "#aaaaaa#", g_deflect), false)
+				game:delayedLogDamage(self, target, 0, ("%s(%d gestured#LAST#)"):tformat(DamageType:get(damtype).text_color or "#aaaaaa#", g_deflect), false)
 				dam = dam - g_deflect; deflect = deflect + g_deflect
 			end
 			print("[ATTACK] after GESTURE_OF_GUARDING", dam)

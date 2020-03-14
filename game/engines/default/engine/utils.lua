@@ -362,9 +362,9 @@ function table.keys(t)
 	return tt
 end
 
-function table.ts(t)
+function table.ts(t, tag)
 	local tt = {}
-	for i, e in ipairs(t) do tt[i] = _t(e) end
+	for i, e in ipairs(t) do tt[i] = _t(e, tag) end
 	return tt
 end
 
@@ -380,12 +380,21 @@ function table.capitalize(t)
 	return tt
 end
 
-function string.tslash(str)
+function string.tslash(str, tag)
 	if str:find("/") then
 		local pos, _ = str:find("/")
-		return _t(str:sub(1, pos - 1)) .. "/" .. string.tslash(str:sub(pos + 1))
+		return _t(str:sub(1, pos - 1), tag) .. "/" .. string.tslash(str:sub(pos + 1), tag)
 	else
-		return _t(str)
+		return _t(str, tag)
+	end
+end
+
+function string.ttype(str, type)
+	if str:find("/") then
+		local pos, _ = str:find("/")
+		return _t(str:sub(1, pos - 1), type.. " type") .. "/" .. _t(str:sub(pos + 1), type.." subtype")
+	else
+		return _t(str, type.." type")
 	end
 end
 
