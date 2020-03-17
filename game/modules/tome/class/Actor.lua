@@ -2099,7 +2099,7 @@ function _M:tooltip(x, y, seen_by)
 			tst = tst:splitLines(game.tooltip.max-1, game.tooltip.font, 2)
 			tst = tst:extractLines(true)[1]
 			local stats = self:getCombatStats("mainhand", self.INVEN_MAINHAND, i )
-			tst:add(" (#RED#"..math.floor(stats.dmg).."#LAST#)")
+			if stats then tst:add(" (#RED#"..math.floor(stats.dmg).."#LAST#)") end
 			table.append(ts, tst)
 			ts:add(true)
 		end
@@ -2110,7 +2110,7 @@ function _M:tooltip(x, y, seen_by)
 			tst = tst:splitLines(game.tooltip.max-1, game.tooltip.font, 2)
 			tst = tst:extractLines(true)[1]			
 			local stats = self:getCombatStats("offhand", self.INVEN_OFFHAND, i)
-			tst:add(" (#RED#"..math.floor(stats.dmg).."#LAST#)")
+			if stats then tst:add(" (#RED#"..math.floor(stats.dmg).."#LAST#)") end
 			table.append(ts, tst)
 			ts:add(true)
 		end
@@ -2121,7 +2121,7 @@ function _M:tooltip(x, y, seen_by)
 			tst = tst:splitLines(game.tooltip.max-1, game.tooltip.font, 2)
 			tst = tst:extractLines(true)[1]
 			local stats = self:getCombatStats("psionic", self.INVEN_PSIONIC_FOCUS, i)
-			tst:add(" (#RED#"..math.floor(stats.dmg).."#LAST#)")
+			if stats then tst:add(" (#RED#"..math.floor(stats.dmg).."#LAST#)") end
 			table.append(ts, tst)
 			ts:add(true)
 		end
