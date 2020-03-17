@@ -97,6 +97,10 @@ function _M:loadLocale(file)
 		setFlag = function(flag, data) 
 			self.setFlag(lc, flag, data)
 		end,
+		forceFontPackage = function(id)
+			local FontPackage = require "engine.FontPackage"
+			FontPackage:forceId(id)
+		end,
 	}, {__index=getfenv(2)})
 	local f, err = util.loadfilemods(file, env)
 	if not f and err then error(err) end
@@ -150,7 +154,6 @@ function _M.setFlag(lc, flag, data)
 		flags[lc][flag] = data
 	end
 end
-
 
 function _M:test()
 	self:loadLocale("/data/locales/fr_FR.lua")

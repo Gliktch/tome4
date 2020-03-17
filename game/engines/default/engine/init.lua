@@ -127,7 +127,6 @@ end
 
 -- I18N:loadLocale("/data/locales/zh_hans.lua")
 -- I18N:setLocale("zh_hans")
--- config.settings.tome.fonts = {type="chinese", size="big"} 
 
 
 -- Default resolution as big as possible
