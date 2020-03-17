@@ -90,7 +90,7 @@ newTalent{
 	sustain_vim = 90,
 	cooldown = 30,
 	tactical = { DEFEND = 1, BUFF = 2 },
-	getSpeed = function(self, t) return self:combatTalentScale(t, 0.03, 0.15, 0.75) end,
+	getSpeed = function(self, t) return self:combatTalentScale(t, 0.03, 0.15) end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/flame")
 		self.__old_type = {self.type, self.subtype}

@@ -3789,6 +3789,7 @@ newEffect{
 	charges = function(self, eff) return math.round(eff.power) end,
 	type = "other",
 	subtype = { },
+	no_stop_enter_worlmap = true, cancel_on_level_change = true,
 	status = "detrimental",
 	on_gain = function(self, err) return _t"#Target#'s morale has been lowered.", _t"+Intimidated" end,
 	on_lose = function(self, err) return _t"#Target# has regained its confidence.", _t"-Intimidated" end,

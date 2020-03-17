@@ -3340,7 +3340,7 @@ newTalent{
 	require = techs_dex_req4,
 	tactical = { BUFF = 2 },
 	on_pre_use = function(self, t, silent) if self:hasArcheryWeapon() or not self:hasDualWeapon() then if not silent then game.logPlayer(self, "You require two melee weapons to use this talent.") end return false end return true end,
-	getSpeed = function(self, t) return self:combatTalentScale(t, 0.11, 0.40, 0.75) end,
+	getSpeed = function(self, t) return self:combatTalentScale(t, 0.11, 0.40) end,
 	activate = function(self, t)
 		local weapon, offweapon = self:hasDualWeapon()
 		if not weapon then
