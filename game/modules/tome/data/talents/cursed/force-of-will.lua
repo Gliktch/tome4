@@ -77,9 +77,9 @@ newTalent{
 							target:logCombat(nextTarget, "#Source# was blasted into #Target#!")
 						end
 					elseif knockbackCount > 0 then
-						game.logSeen(target, "%s was smashed back %d spaces!", target.name:capitalize(), knockbackCount)
+						game.logSeen(target, "%s was smashed back %d spaces!", target:getName():capitalize(), knockbackCount)
 					else
-						game.logSeen(target, "%s was smashed!", target.name:capitalize())
+						game.logSeen(target, "%s was smashed!", target:getName():capitalize())
 					end
 
 					-- take partial damage
@@ -104,7 +104,7 @@ newTalent{
 			end
 
 			if not blocked and knockbackCount > 0 then
-				game.logSeen(target, "%s was blasted back %d spaces!", target.name:capitalize(), knockbackCount)
+				game.logSeen(target, "%s was blasted back %d spaces!", target:getName():capitalize(), knockbackCount)
 			end
 
 			if not target.dead and (finalX ~= target.x or finalY ~= target.y) then
@@ -140,7 +140,7 @@ newTalent{
 		local knockback = t.getKnockback(self, t)
 		return ([[Focusing your hate, you strike your foe with unseen force for %d damage and %d knockback.
 		In addition, your ability to channel force with this talent increases all critical damage by %d%% (currently: %d%%)
-		Damage increases with your Mindpower.]]):format(damDesc(self, DamageType.PHYSICAL, damage), knockback, t.critpower(self, t), self.combat_critical_power or 0)
+		Damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.PHYSICAL, damage), knockback, t.critpower(self, t), self.combat_critical_power or 0)
 	end,
 }
 
@@ -159,7 +159,7 @@ newTalent{
 		return self:combatTalentMindDamage(t, 0, 400)
 	end,
 	getDisplayName = function(self, t, p)
-		return ("Deflection (%d)"):format(p.value)
+		return ("Deflection (%d)"):tformat(p.value)
 	end,
 	iconOverlay = function(self, t, p)
 		local val = p.value or 0
@@ -231,7 +231,7 @@ newTalent{
 		local recharge_rate = t.getRechargeRate(self, t)
 		return ([[Create a barrier that siphons hate from you at the rate of 0.2 a turn. The barrier will deflect 50%% of incoming damage with the force of your will, up to %d damage. The barrier charges at a rate of 1/%d of its maximum charge per turn.
 		In addition, your ability to channel force with this talent increases all critical damage by %d%% (currently: %d%%)
-		The maximum damage deflected increases with your Mindpower.]]):format(maxDamage, recharge_rate, t.critpower(self, t),self.combat_critical_power or 0)
+		The maximum damage deflected increases with your Mindpower.]]):tformat(maxDamage, recharge_rate, t.critpower(self, t),self.combat_critical_power or 0)
 	end,
 }
 
@@ -305,7 +305,7 @@ newTalent{
 		local dazeDuration = t.getDazeDuration(self, t)
 		return ([[You rage coalesces at a single point, and then explodes outward, blasting enemies within a radius of %d in all directions. The blast causes %d damage and %d knockback at the center, that decreases with distance. Anyone caught in the explosion will also be dazed for 3 turns.
 		In addition, your ability to channel force with this talent increases all critical damage by %d%% (currently: %d%%)
-		Damage increases with your Mindpower.]]):format(radius, damDesc(self, DamageType.PHYSICAL, damage), knockback, t.critpower(self, t), self.combat_critical_power or 0)
+		Damage increases with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, damage), knockback, t.critpower(self, t), self.combat_critical_power or 0)
 	end,
 }
 
@@ -358,6 +358,6 @@ newTalent{
 		local chance = secondHitChance - math.floor(secondHitChance/100)*100
 		return ([[Your fury becomes an unseen force that randomly lashes out at foes around you. For %d turns you strike %d (%d%% chance for %d) nearby target(s) within range 5 doing %d damage and %d knockback. The number of extra strikes increases at higher talent levels.
 		In addition, your ability to channel force with this talent increases all critical damage by %d%% (currently: %d%%)
-		Damage increases with your Mindpower.]]):format(duration, hits, chance, hits+1, damDesc(self, DamageType.PHYSICAL, damage), knockback, t.critpower(self, t), self.combat_critical_power or 0)
+		Damage increases with your Mindpower.]]):tformat(duration, hits, chance, hits+1, damDesc(self, DamageType.PHYSICAL, damage), knockback, t.critpower(self, t), self.combat_critical_power or 0)
 	end,
 }

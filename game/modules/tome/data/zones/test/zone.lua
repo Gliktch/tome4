@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "TestZone!",
+	name = _t"TestZone!",
 	level_range = {1, 50},
 	level_scheme = "player",
 	max_level = 4,

@@ -31,7 +31,7 @@ local Downloader = require "engine.dialogs.Downloader"
 module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init(force_compat)
-	Dialog.init(self, "Load Game", game.w * 0.8, game.h * 0.8)
+	Dialog.init(self, _t"Load Game", game.w * 0.8, game.h * 0.8)
 
 	self.c_compat = Checkbox.new{default=force_compat, width=math.floor(self.iw / 3 - 40), title=_t"Show older versions", on_change=function() self:switch() end}
 	self.c_force_addons = Checkbox.new{default=false, width=math.floor(self.iw / 3 - 40), title=_t"Ignore unloadable addons"}
@@ -222,7 +222,7 @@ function _M:deleteSave()
 			d.__showup = false
 			game:replaceDialog(self, d)
 		end
-	end, "Delete", "Cancel")
+	end, _t"Delete", _t"Cancel")
 end
 
 function _M:installOldGame(version_string)

@@ -25,38 +25,66 @@ module(..., package.seeall, class.make)
 
 local locales = {}
 local locales_args = {}
+local locales_special = {}
 local cur_locale_name = "en_US"
 local cur_locale = {}
 local cur_locale_args = {}
+local cur_locale_special = {}
 local cur_unlocalized = {}
+local flags = {}
+local cur_flags = {}
 
-_G._t = function(s, debugadd)
-	if config.settings.cheat and not cur_locale[s] then
-		debugadd = debugadd or 0
-		local info = {}
-		while not info.source do
-			info = debug.getinfo(2 + debugadd)
-			debugadd = debugadd + 1
-		end
-		cur_unlocalized[info.source] = cur_unlocalized[info.source] or {}
-		cur_unlocalized[info.source][s] = true
-	end
-	return cur_locale[s] or s
+_G._getFlagI18N = function (flag)
+	return cur_flags[flag] or nil
 end
 
-function string.tformat(s, ...)
-	if cur_locale_args[s] then
+local function get(table, key, tag)
+	tag = tag or "nil"
+	table["nil"] = table["nil"] or {}
+	table[tag] = table[tag] or {}
+	if table[tag][key] then
+		return table[tag][key]
+	else
+		return table["nil"][key]
+	end
+end
+
+local function set(table, key, tag, value)
+	tag = tag or "nil"
+	table["nil"] = table["nil"] or {}
+	table[tag] = table[tag] or {}
+	table[tag][key] = value
+	table["nil"][key] = value
+end
+
+_G._t = function(s, tag)
+	if not s then
+		return nil
+	end
+	return get(cur_locale, s, tag or "_t") or s
+end
+
+_G.default_tformat = function(s, tag, ...)
+	local args_order = get(cur_locale_args, s, tag)
+	if args_order then
 		local sargs = {...}
 		local args = {}
-		for sidx, didx in pairs(cur_locale_args[s]) do
-			args[didx] = sargs[sidx]
+		for sidx, didx in pairs(args_order) do
+			args[sidx] = sargs[didx]
 		end
-		s = _t(s)
+		s = _t(s, tag)
 		return s:format(unpack(args))
 	else
-		s = _t(s)
+		s = _t(s, tag)
 		return s:format(...)
 	end
+end
+function string.tformat(s, ...)
+	if cur_locale_special[s] then
+		local args_proc = _getFlagI18N("tformat_special") or default_tformat
+		return args_proc(s, "tformat", get(cur_locale_args, s, nil), get(cur_locale_special, s, "tformat"), ...)
+	end
+	return default_tformat(s, "tformat", ...)
 end
 
 function _M:loadLocale(file)
@@ -65,7 +93,10 @@ function _M:loadLocale(file)
 	local env = setmetatable({
 		locale = function(s) lc = s; locales[lc] = locales[lc] or {} locales_args[lc] = locales_args[lc] or {} end,
 		section = function(s) end, -- Not used ingame
-		t = function(src, dst, args_order) self:t(lc, src, dst, args_order) end,
+		t = function(src, dst, tag, args_order, special) self:t(lc, src, dst, tag, args_order, special) end,
+		setFlag = function(flag, data) 
+			self.setFlag(lc, flag, data)
+		end,
 	}, {__index=getfenv(2)})
 	local f, err = util.loadfilemods(file, env)
 	if not f and err then error(err) end
@@ -76,14 +107,20 @@ function _M:setLocale(lc)
 	cur_locale_name = lc
 	cur_locale = locales[lc] or {}
 	cur_locale_args = locales_args[lc] or {}
+	cur_locale_special = locales_special[lc] or {}
+	cur_flags = flags[lc] or {}
 end
 
-function _M:t(lc, src, dst, args_order)
+function _M:t(lc, src, dst, tag, args_order, special)
 	locales[lc] = locales[lc] or {}
-	locales[lc][src] = dst
+	set(locales[lc], src, tag, dst)
 	if args_order then
 		locales_args[lc] = locales_args[lc] or {}
-		locales_args[lc][src] = args_order
+		set(locales_args[lc], src, tag, args_order)
+	end
+	if special then
+		locales_special[lc] = locales_special[lc] or {}
+		set(locales_special[lc], src, tag, special)
 	end
 end
 
@@ -106,6 +143,14 @@ function _M:dumpUnknowns()
 	end
 	f:close()
 end
+
+function _M.setFlag(lc, flag, data)
+	if flag and data then
+		flags[lc] = flags[lc] or {}
+		flags[lc][flag] = data
+	end
+end
+
 
 function _M:test()
 	self:loadLocale("/data/locales/fr_FR.lua")

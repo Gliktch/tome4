@@ -103,10 +103,10 @@ function _M:generateList()
 					end
 				end
 				mod.version_txt = ("%d.%d.%d"):format(mod.version[1], mod.version[2], mod.version[3])
-				local tstr = tstring{{"font","bold"}, {"color","GOLD"}, mod.long_name, true, true}
+				local tstr = tstring{{"font","bold"}, {"color","GOLD"}, _t(mod.long_name), true, true}
 				if mod.incompatible then tstr:add({"font","bold"}, {"color","LIGHT_RED"}, _t"This game is not compatible with your version of T-Engine, you can still try it but it might break.", true, true) end
 				tstr:add({"font","normal"}, {"color","WHITE"})
-				tstr:merge(mod.description:toTString())
+				tstr:merge(_t(mod.description):toTString())
 				mod.zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=tstr}
 
 				if self.c_compat.checked or not mod.incompatible then

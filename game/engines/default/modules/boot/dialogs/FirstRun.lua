@@ -67,7 +67,7 @@ If you disable this option you can always re-activate it in the Online category 
 		game:saveSettings("disable_all_connectivity", ("disable_all_connectivity = true\n"))
 		game:saveSettings("firstrun_gdpr", ("firstrun_gdpr = true\n"))
 		util.showMainMenu()
-	end end, "Cancel", "#RED#Disable all!", true)
+	end end, _t"Cancel", _t"#RED#Disable all!", true)
 end
 
 function _M:doLater()

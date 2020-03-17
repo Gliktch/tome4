@@ -46,7 +46,7 @@ newTalent{
 		local heal = t.getHeal(self, t)
 		return ([[Crush and consume one of your captured souls, healing you for %d life and restoring %d mana.
 		The life and mana healed will increase with your Spellpower.]]):
-		format(heal, heal / 3)
+		tformat(heal, heal / 3)
 	end,
 }
 
@@ -66,7 +66,7 @@ newTalent{
 		local max, chance = t.getMax(self, t), t.getChance(self, t)
 		return ([[Your hunger for souls grows ever more. When you kill a creature you rip away its animus with great force, granting you a %d%% chance to gain one additional soul.
 		In addition you are able to store %d more souls.]]):
-		format(chance, max)
+		tformat(chance, max)
 	end,
 }
 
@@ -172,7 +172,7 @@ newTalent{
 				game.party:addMember(m, {
 					control="full",
 					type="husk",
-					title="Lifeless Husk",
+					title=_t"Lifeless Husk",
 					orders = {leash=true, follow=true},
 					on_control = function(self)
 						self:hotkeyAutoTalents()
@@ -196,7 +196,7 @@ newTalent{
 		Only one husk can be controlled at any time, if this spell is cast again it will dispell the previous husk, even if no new one is created.
 		Bosses, other undeads and summoned creatures can not be turned into husks.
 		The damage and chance will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.DARKNESS, damage), t.getMaxLife(self, t))
+		tformat(damDesc(self, DamageType.DARKNESS, damage), t.getMaxLife(self, t))
 	end,
 }
 
@@ -226,7 +226,7 @@ newTalent{
 		- Cold Flames: freeze chance increased to 100%%
 		- Freeze: becomes a ball of radius 2 and makes all targets wet
 		- Consume Soul: effect increased by 50%%]]):
-		format(nb)
+		tformat(nb)
 	end,
 }
 
@@ -261,6 +261,6 @@ newTalent{
 	info = function(self, t)
 		local rad = self:getTalentRadius(t)
 		return ([[The husk self-destructs, destroying itself and generating a blast of shadows in a radius of %d, doing %0.2f darkness damage.
-		This spell is only usable when the husk's master is dead.]]):format(rad, damDesc(self, DamageType.DARKNESS, 50 + 10 * self.level))
+		This spell is only usable when the husk's master is dead.]]):tformat(rad, damDesc(self, DamageType.DARKNESS, 50 + 10 * self.level))
 	end,
 }
