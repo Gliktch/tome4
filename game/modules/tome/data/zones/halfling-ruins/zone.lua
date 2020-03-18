@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Ruined halfling complex",
+	name = _t"Ruined halfling complex",
 	level_range = {10, 25},
 	level_scheme = "player",
 	max_level = 4,

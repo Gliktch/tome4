@@ -48,11 +48,22 @@ end
 
 --- Default font id, "default"
 local cur_id = "default"
+
+--- Forced id, usuly only needed by some translations
+local forced_id = nil
+
 --- Set default font to use
 -- @string id if it can't find it, then the font will be "basic"
 function _M:setDefaultId(id)
+	if forced_id then id = forced_id end
 	if not packages[id] then id = "basic" end
 	cur_id = id
+end
+
+--- Force all fonts to use this package, no matter what is actually requested
+function _M:forceId(id)
+	cur_id = id
+	forced_id = id
 end
 
 --- Resolves a font

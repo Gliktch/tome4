@@ -328,7 +328,7 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 		if eff and eff.parry_ranged then
 			deflect = target:callEffect(target.EFF_PARRY, "doDeflect", self) or 0
 			if deflect > 0 then
-				game:delayedLogDamage(self, target, 0, ("%s(%d parried#LAST#)"):format(DamageType:get(damtype).text_color or "#aaaaaa#", deflect), false)
+				game:delayedLogDamage(self, target, 0, ("%s(%d parried#LAST#)"):tformat(DamageType:get(damtype).text_color or "#aaaaaa#", deflect), false)
 				dam = math.max(dam - deflect , 0)
 				print("[ATTACK] after PARRY", dam)
 			end

@@ -46,9 +46,9 @@ defineTile('*', "BURNT_GROUND", {random_filter={add_levels=5, tome_mod="uvault"}
 
 defineTile('P', "LAVA_FLOOR", {random_filter={add_levels=25, tome_mod="uvault"}}, {random_filter={add_levels=22, name = "Phoenix"}})
 --fierce guardian being summoned--triple class ultimate faeros
-defineTile('F', "LAVA_FLOOR", {random_filter={add_levels=25, tome_mod="uvault"}}, {random_filter={add_levels=10, name = "ultimate faeros", random_boss={name_scheme="#rng# the Flamebringer", force_classes={Archmage=true}, nb_classes=2, class_filter=function(d) return d.power_source and (d.power_source.arcane and not d.power_source.technique) and d.name ~= "Archmage" end, ai_move="move_complex", rank=4}}})
+defineTile('F', "LAVA_FLOOR", {random_filter={add_levels=25, tome_mod="uvault"}}, {random_filter={add_levels=10, name = "ultimate faeros", random_boss={name_scheme=_t"#rng# the Flamebringer", force_classes={Archmage=true}, nb_classes=2, class_filter=function(d) return d.power_source and (d.power_source.arcane and not d.power_source.technique) and d.name ~= "Archmage" end, ai_move="move_complex", rank=4}}})
 defineTile('f', "BURNT_GROUND", nil, {random_filter={add_levels=5, name = "greater faeros"}} )
-defineTile('M', "BURNT_GROUND", {random_filter={add_levels=12, tome_mod="uvault"}}, {random_filter={add_levels=7, name = "orc high pyromancer", random_boss={name_scheme="#rng# the Invoker", nb_classes=0, loot_quality="store", loot_quantity=1, no_loot_randart=true, loot_unique=true, ai_move="move_complex", rank=3.5, force_classes={Archmage=true}}}})
+defineTile('M', "BURNT_GROUND", {random_filter={add_levels=12, tome_mod="uvault"}}, {random_filter={add_levels=7, name = "orc high pyromancer", random_boss={name_scheme=_t"#rng# the Invoker", nb_classes=0, loot_quality="store", loot_quantity=1, no_loot_randart=true, loot_unique=true, ai_move="move_complex", rank=3.5, force_classes={Archmage=true}}}})
 defineTile('m', "BURNT_GROUND", nil, {random_filter={add_levels=5, name = "orc pyromancer"}} )
 
 if rng.percent(7) then --rare phoenix-7% to show in here plus 35% this vault shows gives 2.5% chance per game for a phoenix from one of these

@@ -18,6 +18,7 @@
 -- darkgod@te4.org
 
 require "engine.class"
+local I18N = require "engine.I18N"
 local Savefile = require "engine.Savefile"
 local UIBase = require "engine.ui.Base"
 local FontPackage = require "engine.FontPackage"
@@ -764,7 +765,7 @@ function _M:loadScreen(mod)
 				local i = core.display.loadImage(l.image)
 				if i then img = {i:glTexture()} end
 			end
-			local text = bfont:draw(l.text, dw - (img and img[6] or 0), 255, 255, 255)
+			local text = bfont:draw(_t(l.text), dw - (img and img[6] or 0), 255, 255, 255)
 			local text_h = #text * text[1].h
 
 			local Base = require "engine.ui.Base"
@@ -919,7 +920,7 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	core.game.resetLocale()
 
 	-- Reset white space breaking
-	core.display.breakTextAllCharacter(false)
+	core.display.breakTextAllCharacter(true)
 
 	-- Turn based by default
 	core.game.setRealtime(0)
@@ -936,6 +937,16 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	-- Init the module directories
 	fs.mount(engine.homepath, "/")
 	mod.load("setup")
+
+	-- Load localizations
+	if mod.i18n_support then
+		local locale = config.settings.locale or "en_US"
+		I18N:setLocale(locale)
+		I18N:loadLocale("/data/i18n/"..locale..".lua")
+	end
+	
+	-- I18N:loadLocale("/data/locales/zh_hans.lua")
+	-- I18N:setLocale("zh_hans")
 
 	-- Load font packages
 	FontPackage:loadDefinition("/data/font/packages/default.lua")

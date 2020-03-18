@@ -31,7 +31,7 @@ basemap.required_rooms = nil
 
 local terrains = mod.class.Grid:loadList("/data/general/grids/basic.lua")
 local g = game.state:dynamicZoneEntry(terrains.DOWN, "sub-vault", {
-	name = ("Hidden Vault - %s"):format(zone.name),
+	name = ("Hidden Vault - %s"):tformat(zone.name),
 	level_range = {zone:level_adjust_level(level, zone, "actor"), zone:level_adjust_level(level, zone, "actor")},
 	level_scheme = "player",
 	max_level = 1,
@@ -74,12 +74,12 @@ local g = game.state:dynamicZoneEntry(terrains.DOWN, "sub-vault", {
 	trap_list = args.trap_list or {"/data/general/traps/complex.lua", "/data/general/traps/annoy.lua", "/data/general/traps/alarm.lua"},
 },
 function(zone, goback)
-	goback("stairs back to %s", zone.grid_list.UP)
+	goback(_t"stairs back to %s", zone.grid_list.UP)
 end)
 
-g.name = "hidden vault"
+g.name = _t"hidden vault"
 g.always_remember = true
-g.desc = [[Crumbling stairs lead down to something.]]
+g.desc = _t[[Crumbling stairs lead down to something.]]
 g.show_tooltip = true
 g.color_r=0 g.color_g=0 g.color_b=255 g.notice = true
 g.special_minimap = colors.VIOLET
@@ -88,15 +88,15 @@ g:altered()
 g:initGlow()
 g.change_level_check = function(self) -- limit stair scumming
 	self._use_count = self._use_count - 1
-	self.name = "collapsing hidden vault"
+	self.name = _t"collapsing hidden vault"
 	if self._use_count < 1 then
 		self.change_level_check = nil
 		self.change_level = nil
-		self.name = "collapsed hidden vault"
-		self.desc = [[It is fully collapsed, no way down.]]
+		self.name = _t"collapsed hidden vault"
+		self.desc = _t[[It is fully collapsed, no way down.]]
 		game.log("#VIOLET# The stairway is about to collapses completely, you may still go back but it will be the last time!")
 	elseif self._use_count < 2 then
-		self.name = "nearly collapsed hidden vault"
+		self.name = _t"nearly collapsed hidden vault"
 		game.log("#VIOLET# The decrepit stairs crumble some more as you climb them.")
 	end
 	game:changeLevel(1, self:real_change(), {temporary_zone_shift=true, direct_switch=true})

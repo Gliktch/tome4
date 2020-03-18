@@ -48,7 +48,7 @@ newTalent{
 		return ([[Inflicting pain and death invigorates you.
 		Each time you deal a critical strike you gain %d life (this effect can only happen once per turn).
 		Each time you kill a creature you gain %d life (this effect can only happen once per turn).]]):
-		format(t.heal(self, t), t.heal(self, t))
+		tformat(t.heal(self, t), t.heal(self, t))
 	end,
 }
 
@@ -115,7 +115,7 @@ newTalent{
 		- Nature: %d%% slow for 4 turns
 		This effect can only happen once every 10 turns per damage type.
 		The damage will increase with your Spellpower.]]):
-		format(
+		tformat(
 			damDesc(self, DamageType.FIRE, t.getFire(self, t)),
 			t.getCold(self, t),
 			t.getAcid(self, t),
@@ -154,7 +154,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You manipulate the vim of enemies in radius %d to temporarily invert all healing done to them (but not natural regeneration).
 		For 5 turns all healing will instead damage them for %d%% of the healing done as blight.
-		The effect will increase with your Spellpower.]]):format(self:getTalentRadius(t), t.getPower(self,t))
+		The effect will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), t.getPower(self,t))
 	end,
 }
 
@@ -196,7 +196,7 @@ newTalent{
 				self:cloneEffect(eff_id, target, {apply_power = self:combatSpellpower()})
 				if target:hasEffect(eff_id) then
 					self:removeEffect(eff_id)
-					game:delayedLogMessage(self, target, "vile_transplant"..e.desc, ("#CRIMSON##Source# transfers an effect (%s) to #Target#!"):format(e.desc))
+					game:delayedLogMessage(self, target, "vile_transplant"..e.desc, ("#CRIMSON##Source# transfers an effect (%s) to #Target#!"):tformat(e.desc))
 					self:incVim(-t.getVim(self, t))  -- Vim costs life if there isn't enough so no need to check total
 				end
 			end
@@ -211,6 +211,6 @@ newTalent{
 		return ([[You transfer up to %d physical or magical detrimental effects currently affecting you to a nearby creature at a cost of %d vim per effect.
 		Specific effect immunities will not prevent the transfer.
 		The chance to transfer each effect increases with your Spellpower.]]):
-		format(t.getNb(self, t), t.getVim(self, t))
+		tformat(t.getNb(self, t), t.getVim(self, t))
 	end,
 }

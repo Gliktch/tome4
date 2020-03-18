@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Unknown tunnels",
+	name = _t"Unknown tunnels",
 	level_range = {14, 28},
 	level_scheme = "player",
 	max_level = 2,

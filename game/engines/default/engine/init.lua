@@ -27,6 +27,7 @@ dofile("/engine/colors.lua")
 dofile("/engine/resolvers.lua")
 
 require "config"
+local I18N = require "engine.I18N"
 require "engine.Game"
 require "engine.version"
 require "engine.interface.GameMusic"
@@ -124,6 +125,10 @@ if core.display.safeMode() then
 	config.settings.window = {size='800x600 Windowed'}
 end
 
+-- I18N:loadLocale("/data/locales/zh_hans.lua")
+-- I18N:setLocale("zh_hans")
+
+
 -- Default resolution as big as possible
 if not config.settings.window or not config.settings.window.size then
 	local list = core.display.getModesList()
@@ -196,5 +201,6 @@ core.game.setFPS(config.settings.display_fps)
 if config.settings.disable_discord then core.discord = nil end
 if core.discord then core.discord.init() end
 
-util.showMainMenu(true)
+-- I18N:test()
 
+util.showMainMenu(true)

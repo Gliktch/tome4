@@ -26,5 +26,8 @@ game/engines/default/modules/boot/data/gfx/ts-gfx*
 debug-recompile.sh
 profiling-recompile.sh
 recompile.sh
-
+*.exe
+*.dll
+te4_log.txt
+debug.log
 /.idea/
