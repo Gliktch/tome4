@@ -5344,8 +5344,9 @@ function _M:paradoxDoAnomaly(chance, paradox, def)
 							game.bignews:saySimple(180, "#STEEL_BLUE#Targeting %s", anom.name)
 						end
 
-						-- targeted talents don't work well with no_energy, so we call the action directly
-						anom.action(self, anom)
+						-- Targeted talents don't work well with no_energy, so we call the action directly.
+						-- In addition, prevent targeting from being cancelled by the player.
+						anom.doAction(self, anom, false)
 					elseif def.ignore_energy then
 						self:forceUseTalent(anom, {force_target=def.target or self, ignore_energy=true})
 					elseif self:knowTalent(self.T_TWIST_FATE) and not self:isTalentCoolingDown(self.T_TWIST_FATE) then
