@@ -1957,7 +1957,7 @@ function _M:physicalCrit(dam, weapon, target, atk, def, add_chance, crit_power_a
 		end
 
 		if self:isAccuracyEffect(weapon, "sword") then
-			local bonus = self:getAccuracyEffect(weapon, atk, def, 0.004, 0.5)  -- +50% crit power at 100 accuracy
+			local bonus = self:getAccuracyEffect(weapon, atk, def, 0.004, 0.4)  -- +40% crit power at 100 accuracy
 			print("[PHYS CRIT %] sword accuracy bonus", atk, def, "=", bonus)
 			crit_power_add = crit_power_add + bonus
 		end
