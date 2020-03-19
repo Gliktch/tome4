@@ -61,7 +61,7 @@ teams = {
 
 i18n_support = true
 show_funfacts = true
-loading_wait_ticks = 260
+loading_wait_ticks = 280
 profile_stats_fields = {"artifacts", "characters", "deaths", "uniques", "scores", "lore", "escorts"}
 allow_userchat = true -- We can talk to the online community
 no_get_name = true -- Name setting for new characters is done by the module itself

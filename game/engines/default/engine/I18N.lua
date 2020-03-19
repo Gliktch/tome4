@@ -103,12 +103,24 @@ function _M:loadLocale(file)
 		end,
 	}, {__index=getfenv(2)})
 	local f, err = util.loadfilemods(file, env)
-	if not f and err then error(err) end
+	if not f and err then
+		if config.settings.cheat then
+			error(err)
+		else
+			print("[I18N] ERROR, localization file ", file, "not loaded due to error:", err)
+			return
+		end
+	end
 	f()
+	print("[I18N] Loaded locale file:", file)
 end
 
 function _M:setLocale(lc)
 	cur_locale_name = lc
+	if not locales[lc] then locales[lc] = {} end
+	if not locales_args[lc] then locales_args[lc] = {} end
+	if not locales_special[lc] then locales_special[lc] = {} end
+	if not flags[lc] then flags[lc] = {} end
 	cur_locale = locales[lc] or {}
 	cur_locale_args = locales_args[lc] or {}
 	cur_locale_special = locales_special[lc] or {}
@@ -153,6 +165,10 @@ function _M.setFlag(lc, flag, data)
 		flags[lc] = flags[lc] or {}
 		flags[lc][flag] = data
 	end
+end
+
+function _M:getLocalesData()
+	return cur_locale_name, cur_locale, cur_locale_args, cur_locale_special, cur_flags, "::", locales, locales_args, locales_special, flags
 end
 
 function _M:test()

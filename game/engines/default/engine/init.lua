@@ -125,9 +125,10 @@ if core.display.safeMode() then
 	config.settings.window = {size='800x600 Windowed'}
 end
 
--- I18N:loadLocale("/data/locales/zh_hans.lua")
--- I18N:setLocale("zh_hans")
-
+if config.settings.locale then
+	I18N:loadLocale("/data/locales/engine/"..config.settings.locale..".lua")
+	I18N:setLocale(config.settings.locale)
+end
 
 -- Default resolution as big as possible
 if not config.settings.window or not config.settings.window.size then
