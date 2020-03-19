@@ -7,6 +7,10 @@ divx2pass.log
 game/addons/**
 game/dlcs/**
 obj/**
+/lib64
+/t-engine64
+/tmp
+/diff.diff
 out.avi
 out.ogv
 te4_log_web.txt
@@ -28,6 +32,8 @@ profiling-recompile.sh
 recompile.sh
 *.exe
 *.dll
+/*.so
 te4_log.txt
 debug.log
 /.idea/
+/*.log
