@@ -71,8 +71,8 @@ end
 -- @string orname
 -- @return font object
 -- @return size
-function _M:resolveFont(name, orname)
-	local font = packages[cur_id]
+function _M:resolveFont(name, orname, package_id)
+	local font = packages[package_id or cur_id]
 	local size = cur_size
 	if not font[name] then name = orname end
 	if not font[name] then name = "default" end
@@ -86,16 +86,16 @@ end
 -- @string orname
 -- @return font
 -- @return size
-function _M:getFont(name, orname)
-	local font, size = self:resolveFont(name, orname)
+function _M:getFont(name, orname, package_id)
+	local font, size = self:resolveFont(name, orname, package_id)
 	return font.font, math.ceil(font[size] * config.settings.font_scale / 100)
 end
 
 --- Get by name. 
 -- @string name
 -- @param[type=?boolean] force make a font bold no matter what
-function _M:get(name, force)
-	local font, size = self:resolveFont(name)
+function _M:get(name, force, package_id)
+	local font, size = self:resolveFont(name, nil, package_id)
 	local f = core.display.newFont(font.font, math.ceil(font[size] * config.settings.font_scale / 100), font.bold or force)
 	if font.bold then f:setStyle("bold") end
 	return f
