@@ -348,7 +348,7 @@ local function check_section(section, result)
         output_content[shortname] = output_content[shortname] .. result
     end
 end
-local function print_file(file_out, file_out_2, file_out_3, file_copy)
+local function print_file(file_out, file_out_2)
     local f = io.open(file_out, "w")
     local f2 = io.open(file_out_2, "w")
     table.sort(sections)
@@ -371,15 +371,14 @@ local function print_file(file_out, file_out_2, file_out_3, file_copy)
     end
     print(("%d / %d entries translated"):format(translated, all_entry))
 end
-local function extract(file_in, file_merge, file_out, file_out_2, file_out_3, file_copy)
-    local file_in = file_in or "i18n_list.lua"
-    local file_merge = file_merge or "merge_translation.lua"
-    local file_out = file_out or "output_translation.lua"
-    local file_out_2 = file_out_2 or "untranslated.lua"
-    local file_out_3 = file_out_3 or "../game/engines/default/data/locales/" .. locale .. ".lua"
-    local file_copy = file_copy or locale .. ".copy.lua"
+local function extract(set_locale)
+    local file_in = "i18n_list.lua"
+    locale = set_locale or locale
+    local file_merge = "merge_translation." .. locale .. ".lua"
+    local file_out = "output_translation." .. locale .. ".lua"
+    local file_out_2 = "untranslated." .. locale .. ".lua"
     introduce_file(file_in)
     merge_file(file_merge)
-    print_file(file_out, file_out_2, file_out_3, file_copy)
+    print_file(file_out, file_out_2)
 end
 extract(...)
