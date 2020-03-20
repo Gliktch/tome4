@@ -4281,3 +4281,15 @@ newDamageType{
 		return (realdam1 or 0) + (realdam2 or 0)
 	end,
 }
+
+-- Cold/Darkness damage
+newDamageType{
+	name = "frostdusk", type = "FROSTDUSK", text_color = "#BLUE#",
+	damdesc_split = { {DamageType.TEMPORAL, 0.5}, {DamageType.DARKNESS, 0.5} },
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		DamageType:get(DamageType.TEMPORAL).projector(src, x, y, DamageType.COLD, dam / 2, state)
+		DamageType:get(DamageType.DARKNESS).projector(src, x, y, DamageType.DARKNESS, dam / 2, state)
+	end,
+}
