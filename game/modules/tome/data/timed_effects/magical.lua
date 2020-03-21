@@ -4555,8 +4555,8 @@ newEffect{
 
 newEffect{
 	name = "LICH_RESISTED", image = "talents/lichform.png",
-	desc = "Immune to Frightening Presence",
-	long_desc = function(self, eff) return ("You resisted a Lich and are immune to its frightening presence.") end,
+	desc = _t"Immune to Frightening Presence",
+	long_desc = function(self, eff) return (_t"You resisted a Lich and are immune to its frightening presence.") end,
 	type = "magical",
 	subtype = { lich=true, fear=true},
 	status = "beneficial",
@@ -4570,8 +4570,8 @@ newEffect{
 
 newEffect{
 	name = "LICH_FEAR", image = "talents/lichform.png",
-	desc = "Frightening Presence",
-	long_desc = function(self, eff) return ("The mere sight of a Lich sent you into a frightened state, reducing all saves by %d, all damage by %d%% and movement speed by %d%%."):format(eff.saves, eff.dam, eff.speed) end,
+	desc = _t"Frightening Presence",
+	long_desc = function(self, eff) return ("The mere sight of a Lich sent you into a frightened state, reducing all saves by %d, all damage by %d%% and movement speed by %d%%."):tformat(eff.saves, eff.dam, eff.speed) end,
 	type = "magical",
 	subtype = { lich=true, fear=true},
 	status = "detrimental",
@@ -4589,8 +4589,8 @@ newEffect{
 
 newEffect{
 	name = "COMMANDER_OF_THE_DEAD", image = "talents/commander_of_the_dead.png",
-	desc = "Commander of the Dead",
-	long_desc = function(self, eff) return ("Physical power, spellpower and all saves increased by %d."):format(eff.power) end,
+	desc = _t"Commander of the Dead",
+	long_desc = function(self, eff) return ("Physical power, spellpower and all saves increased by %d."):tformat(eff.power) end,
 	type = "magical",
 	subtype = { lich=true, power=true },
 	status = "beneficial",
