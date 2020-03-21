@@ -232,6 +232,14 @@ function _M:display()
 				if o and o.wielded then
 					frame = "sustain"
 				end
+				if o and o.wielded and o.use_talent and o.use_talent.id then
+					local t = a:getTalentFromId(o.use_talent.id)
+					if not a:preUseTalent(t, true, true) then
+						angle = 0
+						color = {190,190,190}
+						frame = "disabled"
+					end
+				end
 			end
 
 			self.font:setStyle("bold")
@@ -407,7 +415,7 @@ function _M:onMouse(button, mx, my, click, on_over, on_click)
 						if t then
 							text = tstring{{"color","GOLD"}, {"font", "bold"}, t.name .. (config.settings.cheat and " ("..t.id..")" or ""), {"font", "normal"}, {"color", "LAST"}, true}
 							text:merge(self.actor:getTalentFullDescription(t))
-						else text = "Unknown!" end
+						else text = _t"Unknown!" end
 					elseif a.hotkey[i] and a.hotkey[i][1] == "inventory" then
 						local o = a:findInAllInventories(a.hotkey[i][2], {no_add_name=true, force_id=true, no_count=true})
 						if o then
