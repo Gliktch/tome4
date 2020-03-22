@@ -468,6 +468,7 @@ newEffect{
 	type = "mental",
 	subtype = { veil=true },
 	status = "detrimental",
+	no_stop_enter_worlmap = true, cancel_on_level_change = true,
 	parameters = {},
 	activate = function(self, eff)
 		local effStalker = eff.src:hasEffect(eff.src.EFF_STALKER)
