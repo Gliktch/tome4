@@ -698,7 +698,6 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 	end
 
 	if self:attr("unharmed_attack_on_hit") then
-		game.log("unharmed_attack_on_hit")
 		local v = self:attr("unharmed_attack_on_hit")
 		self:attr("unharmed_attack_on_hit", -v)
 		if rng.percent(50) then self:attackTarget(target, nil, 1, true, true) end
