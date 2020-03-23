@@ -131,7 +131,7 @@ newEffect{
 	subtype = { confusion=true },
 	status = "detrimental",
 	parameters = { power=30 },
-	on_gain = function(self, err) return _t"#Target# wanders around!.", _t"+Confused" end,
+	on_gain = function(self, err) return _t"#Target# wanders around!", _t"+Confused" end,
 	on_lose = function(self, err) return _t"#Target# seems more focused.", _t"-Confused" end,
 	activate = function(self, eff)
 		eff.power = math.floor(util.bound(eff.power, 0, 50))

@@ -1265,7 +1265,7 @@ newEffect{
 	subtype = { speed=true, tactic=true },
 	status = "beneficial",
 	parameters = {power=1000},
-	on_gain = function(self, err) return _t"#Target# prepares for the next kill!.", _t"+Step Up" end,
+	on_gain = function(self, err) return _t"#Target# prepares for the next kill!", _t"+Step Up" end,
 	on_lose = function(self, err) return _t"#Target# slows down.", _t"-Step Up" end,
 	get_fractional_percent = function(self, eff)
 		local d = game.turn - eff.start_turn
@@ -1295,7 +1295,7 @@ newEffect{
 	subtype = { lightning=true, speed=true },
 	status = "beneficial",
 	parameters = {},
-	on_gain = function(self, err) return _t"#Target# turns into pure lightning!.", _t"+Lightning Speed" end,
+	on_gain = function(self, err) return _t"#Target# turns into pure lightning!", _t"+Lightning Speed" end,
 	on_lose = function(self, err) return _t"#Target# is back to normal.", _t"-Lightning Speed" end,
 	get_fractional_percent = function(self, eff)
 		local d = game.turn - eff.start_turn
@@ -3819,7 +3819,7 @@ newEffect{
 	subtype = { tactic=true, speed=true },
 	status = "beneficial",
 	parameters = {power=1000},
-	on_gain = function(self, err) return _t"#Target# enters an evasive stance!.", _t"+Escape!" end,
+	on_gain = function(self, err) return _t"#Target# enters an evasive stance!", _t"+Escape!" end,
 	on_lose = function(self, err) return _t"#Target# slows down.", _t"-Escape" end,
 	get_fractional_percent = function(self, eff)
 		local d = game.turn - eff.start_turn

@@ -495,7 +495,7 @@ newEffect{
 	subtype = { miscellaneous=true },
 	status = "detrimental",
 	parameters = { },
-	on_gain = function(self, err) return _t"#LIGHT_RED##Target# is out of sight of its master; direct control will break!.", _t"+Out of sight" end,
+	on_gain = function(self, err) return _t"#LIGHT_RED##Target# is out of sight of its master; direct control will break!", _t"+Out of sight" end,
 	activate = function(self, eff)
 	end,
 	deactivate = function(self, eff)
@@ -522,7 +522,7 @@ newEffect{
 	subtype = { miscellaneous=true },
 	status = "detrimental",
 	parameters = { },
-	on_gain = function(self, err) return _t"#LIGHT_RED##Target# is out of sight of its master; direct control will break!.", _t"+Out of sight" end,
+	on_gain = function(self, err) return _t"#LIGHT_RED##Target# is out of sight of its master; direct control will break!", _t"+Out of sight" end,
 	activate = function(self, eff)
 	end,
 	deactivate = function(self, eff)
@@ -549,7 +549,7 @@ newEffect{
 	subtype = { miscellaneous=true },
 	status = "detrimental",
 	parameters = { },
-	on_gain = function(self, err) return _t"#LIGHT_RED##Target# is out of sight of its master; direct control will break!.", _t"+Out of sight" end,
+	on_gain = function(self, err) return _t"#LIGHT_RED##Target# is out of sight of its master; direct control will break!", _t"+Out of sight" end,
 	activate = function(self, eff)
 	end,
 	deactivate = function(self, eff)
