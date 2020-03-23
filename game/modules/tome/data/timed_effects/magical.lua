@@ -696,8 +696,8 @@ newEffect{
 		end
 	end,
 	activate = function(self, eff)
-		if self:attr("shield_factor") then eff.power = eff.power * (100 + self:attr("shield_factor")) / 100 end
-		if self:attr("shield_dur") then eff.dur = eff.dur + self:attr("shield_dur") end
+		eff.power = self:getShieldAmount(eff.power)
+		eff.dur = self:getShieldDuration(eff.dur)
 		self.displacement_shield = eff.power
 		self.displacement_shield_max = eff.power
 		self.displacement_shield_chance = eff.chance
@@ -737,16 +737,8 @@ newEffect{
 	on_lose = function(self, err) return _t"The shield around #target# crumbles.", _t"-Shield" end,
 	on_merge = function(self, old_eff, new_eff)
 		local new_eff_adj = {} -- Adjust for shield modifiers
-		if self:attr("shield_factor") then
-			new_eff_adj.power = new_eff.power * (100 + self:attr("shield_factor")) / 100
-		else
-			new_eff_adj.power = new_eff.power
-		end
-		if self:attr("shield_dur") then
-			new_eff_adj.dur = new_eff.dur + self:attr("shield_dur")
-		else
-			new_eff_adj.dur = new_eff.dur
-		end
+		new_eff_adj.power = self:getShieldAmount(new_eff.power)
+		new_eff_adj.dur = self:getShieldDuration(new_eff_adj.dur)
 		-- If the new shield would be stronger than the existing one, just replace it
 		if old_eff.dur > new_eff_adj.dur then return old_eff end
 		if math.max(self.damage_shield_absorb, self.damage_shield_absorb_max) <= new_eff_adj.power then
@@ -802,8 +794,8 @@ newEffect{
 	end,
 	activate = function(self, eff)
 		self:removeEffect(self.EFF_PSI_DAMAGE_SHIELD)
-		if self:attr("shield_factor") then eff.power = eff.power * (100 + self:attr("shield_factor")) / 100 end
-		if self:attr("shield_dur") then eff.dur = eff.dur + self:attr("shield_dur") end
+		eff.power = self:getShieldAmount(eff.power)
+		eff.dur = self:getShieldDuration(eff.dur)
 		eff.tmpid = self:addTemporaryValue("damage_shield", eff.power)
 		if eff.reflect then eff.refid = self:addTemporaryValue("damage_shield_reflect", eff.reflect) end
 		--- Warning there can be only one time shield active at once for an actor
@@ -4210,8 +4202,8 @@ newEffect{
 		end
 	end,
 	activate = function(self, eff)
-		if self:attr("shield_factor") then eff.power = eff.power * (100 + self:attr("shield_factor")) / 100 end
-		if self:attr("shield_dur") then eff.dur = eff.dur + self:attr("shield_dur") end
+		eff.power = self:getShieldAmount(eff.power)
+		eff.dur = self:getShieldDuration(eff.dur)
 		eff.max = eff.power
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.3, img="runicshield_stonewarden"}, {type="runicshield", shieldIntensity=0.2, oscillationSpeed=4, ellipsoidalFactor=1.3, time_factor=9000, auraColor={0x61/255, 0xff/255, 0x6a/255, 0}}))
