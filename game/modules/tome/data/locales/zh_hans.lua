@@ -30741,6 +30741,17 @@ t([[Your inner flame is strong. Each time that you receive a blow that would kil
 		圣焰会修复伤口，完全吸收此次攻击伤害，但是它们将会继续燃烧，持续 8 回合。 
 		每回合圣焰会对你造成 10%% 刚才吸收的伤害（此伤害会自动忽略护甲和抵抗）。 
 		警告：此技能有冷却时间。]], "tformat")
+t("Lich", "巫妖", "talent name")
+t("#GREY#As you turn into a powerful undead you feel your body violently rejecting the Blood of Life.", "#GREY#当你成为强大的不死生物你感到你的身体强烈的对抗着生命之血。", "log")
+t([[#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!
+
+#{italic}#You may now choose to customize the appearance of your Lich, this can not be changed afterwards.]], [[#GREY#你觉得你的生命在不断流失，取而代之的是纯粹的奥术力量！肉体腐烂的只剩骨头，眼睛也崩落不见，你终于转生成了巫妖！
+
+#{italic}#你可以现在选择自定义你巫妖的外形，这一外形之后无法改变。]], "_t")
+t("Customize Appearance", "自定义外形", "_t")
+t("Use Default", "使用默认", "_t")
+t("#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!", "#GREY#你觉得你的生命在不断流失，取而代之的是纯粹的奥术力量！肉体腐烂的只剩骨头，眼睛也崩落不见，你终于转生成了巫妖！", "_t")
+t("Lichform", "巫妖转生", "_t")
 
 
 ------------------------------------------------
@@ -30908,6 +30919,14 @@ t([[Gnaw your target for %d%% damage.  If your attack hits, the target may be in
 		目标被杀死时会变成你的可以完全控制的食尸鬼傀儡。 
 		食尸鬼傀儡持续 %d 回合，可以使用侵蚀、定向跳跃、震慑、腐烂疫病。
 		受体质影响，枯萎伤害按比例加成。]], "tformat")
+
+
+------------------------------------------------
+section "game/modules/tome/data/talents/undeads/lich.lua"
+
+t([[Bathes the target in flames doing %0.2f damage
+		The damage will increase with the Magic stat]], [[用火焰灼烧你的目标造成 %0.2f 伤害。 
+		受魔法影响，伤害有额外加成。]], "tformat")
 
 
 ------------------------------------------------
@@ -34740,6 +34759,9 @@ t("-Draining Moonlight", "-吸能月光", "_t")
 t("Auger of Destruction", "粉碎之力", "_t")
 t("Physical damage increased by %d%%.", "物理伤害增加 %d%% 。", "tformat")
 t("physical", "物理", "effect subtype")
+t("fear", "恐惧", "effect subtype")
+t("lich", "巫妖", "effect subtype")
+t("power", "能量", "effect subtype")
 
 
 ------------------------------------------------
@@ -35235,6 +35257,7 @@ t("A psionic shield forms around #target#.", "#Target#周围形成一层灵能�
 t("-Shield", "-护盾", "_t")
 t("The psionic shield around #target# crumbles.", "#Target#周围的灵能护盾破碎了。", "_t")
 t("Unseen Force", "无形之力", "_t")
+t("from %d to %d", "%d 到 %d", "tformat")
 t("An unseen force begins to swirl around %s!", "一股无形的力量开始围绕%s旋转！", "logSeen")
 t("The unseen force around %s subsides.", "围绕%s旋转的无形力量消失了。", "logSeen")
 t("Psionic Maelstrom", "灵能风暴", "_t")
@@ -35743,6 +35766,7 @@ t("%s is feeding from %s.", "%s正在从%s身上吸食精华。", "tformat")
 t("Fed Upon", "被吞食", "_t")
 t("%s is fed upon by %s.", "%s被%s吸食精华。", "tformat")
 t("psychic_drain", "超能力吸收", "effect subtype")
+t("lich", "巫妖", "effect subtype")
 t("Sensing Everything", "感知一切", "_t")
 t("Improves senses, allowing the detection of everything.", "强化感知，可以侦测一切事物。", "_t")
 t("sense", "感知", "effect subtype")

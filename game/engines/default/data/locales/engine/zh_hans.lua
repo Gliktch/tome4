@@ -1,4 +1,4 @@
-locale "zh_hans"-- COPYforceFontPackage("chinese")
+locale "zh_hans"-- COPYforceFontPackage("chinese")setFlag("break_text_all_character", true)
 ------------------------------------------------
 section "always_merge"
 
