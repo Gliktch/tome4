@@ -59,7 +59,7 @@ newTalent{
 		local dam = t.getDamage(self, t)
 		return ([[Creates a globe of pure light within a radius of %d that illuminates the area and deals %0.2f damage to all creatures.
 		At level 3, it also blinds all who see it (except the caster) for %d turns.]]):
-		format(radius, damDesc(self, DamageType.LIGHT, dam), turn)
+		tformat(radius, damDesc(self, DamageType.LIGHT, dam), turn)
 	end,
 }
 
@@ -116,7 +116,7 @@ newTalent{
 		Whenever you would take damage there is %d%% chance to become ethereal for an instant and fully ignore it.
 		If you do get it, the shield glow brightly, sending triggering a flash of light on the attacker, dealing %0.2f light damage in radius %d around it and dazzling any affected creature (deal 10%% less damage) for 5 turns. This can only happen every %d turns.
 		The damage and ignore chance will increase with your Spellpower.]]):
-		format(t.getEvade(self, t), damDesc(self, DamageType.LIGHT, damage), self:getTalentRadius(t), t.getDur(self, t))
+		tformat(t.getEvade(self, t), damDesc(self, DamageType.LIGHT, damage), self:getTalentRadius(t), t.getDur(self, t))
 	end,
 }
 
@@ -139,7 +139,7 @@ newTalent{
 		return ([[Weave a net of arcane disturbances around your body, removing yourself from the sight of all, granting %d bonus to invisibility for 7 turns.
 		While invisible all damage you deal against blinded or dazzled foes is increased by %d%% (additive with other damage increases).
 		The invisibility bonus will increase with your Spellpower.]]):
-		format(t.getInvisibilityPower(self, t), t.getDamPower(self, t))
+		tformat(t.getInvisibilityPower(self, t), t.getDamPower(self, t))
 	end,
 }
 
@@ -244,7 +244,7 @@ newTalent{
 		At level 5 if the target element has less resistance penetration, it gets increased to match the one of the source element.
 
 		Current elements selected: %s#LAST# and %s]]):
-		format(t.getBonus(self, t), e1, e2)
+		tformat(t.getBonus(self, t), e1, e2)
 	end,
 }
 
@@ -262,6 +262,6 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Change your choice of elements for Elemental Mirage.]])
+		return _t[[Change your choice of elements for Elemental Mirage.]]
 	end,
 }

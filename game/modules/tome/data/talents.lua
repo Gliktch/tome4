@@ -64,11 +64,11 @@ Talents.newTalent = function(self, t)
 
 	if t.is_class_evolution then
 		t.short_name = (t.short_name or t.name):upper():gsub("[ ']", "_")
-		t.name = "#LIGHT_STEEL_BLUE#"..t.name.." (Class Evolution)"
+		t.name = ("#LIGHT_STEEL_BLUE#%s (Class Evolution)"):tformat(_t(t.name))
 	end
 	if t.is_race_evolution then
 		t.short_name = (t.short_name or t.name):upper():gsub("[ ']", "_")
-		t.name = "#SANDY_BROWN#"..t.name.." (Race Evolution)"
+		t.name = ("#SANDY_BROWN# (Race Evolution)"):tformat(_t(t.name))
 	end
 
 	return oldNewTalent(self, t)
@@ -93,20 +93,39 @@ damDesc = function(self, type, dam)
 
 	-- Increases damage
 	if self.inc_damage then
-		local inc = self:combatGetDamageIncrease(type)
-		dam = dam + (dam * inc / 100)
+		if _G.type(type) == "string" then
+			local dt = DamageType:get(type)
+			if dt.damdesc_split then
+				if _G.type(dt.damdesc_split) == "function" then
+					type = dt.damdesc_split(self, type, dam)
+				else
+					type = dt.damdesc_split
+				end
+			end
+		end
+
+		if _G.type(type) == "table" then
+			local basedam = dam
+			for _, ds in ipairs(type) do
+				local inc = self:combatGetDamageIncrease(ds[1])
+				dam = dam + (basedam * inc / 100) * ds[2]
+			end
+		else
+			local inc = self:combatGetDamageIncrease(type)
+			dam = dam + (dam * inc / 100)
+		end
 	end
 	return dam
 end
 
 Talents.is_a_type = {
-	is_spell = "a spell",
-	is_mind = "a mind power",
-	is_nature = "a nature gift",
-	is_antimagic = "an antimagic ability",
-	is_summon = "a summon power",
-	is_necromancy = "necromancy",
-	use_only_arcane = "usable during Aether Avatar",
+	is_spell = _t"a spell",
+	is_mind = _t"a mind power",
+	is_nature = _t"a nature gift",
+	is_antimagic = _t"an antimagic ability",
+	is_summon = _t"a summon power",
+	is_necromancy = _t"necromancy",
+	use_only_arcane = _t"usable during Aether Avatar",
 }
 
 Talents.damDesc = damDesc

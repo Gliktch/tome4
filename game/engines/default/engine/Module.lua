@@ -18,6 +18,7 @@
 -- darkgod@te4.org
 
 require "engine.class"
+local I18N = require "engine.I18N"
 local Savefile = require "engine.Savefile"
 local UIBase = require "engine.ui.Base"
 local FontPackage = require "engine.FontPackage"
@@ -500,6 +501,11 @@ function _M:loadAddon(mod, add, hashlist, hooks_list)
 		elseif add.teaa then fs.mount("subdir:/data/|"..fs.getRealPath(add.teaa), "/data-"..add.short_name, true)
 		else fs.mount(base.."/data", "/data-"..add.short_name, true)
 		end
+
+		-- Load localizations, addons just need to provide the file and it's autoloaded
+		if mod.i18n_support and config.settings.locale then
+			I18N:loadLocale("/data-"..add.short_name.."/locales/"..config.settings.locale..".lua")
+		end
 	end
 	if add.superload then 
 		print(" * with superload")
@@ -764,7 +770,7 @@ function _M:loadScreen(mod)
 				local i = core.display.loadImage(l.image)
 				if i then img = {i:glTexture()} end
 			end
-			local text = bfont:draw(l.text, dw - (img and img[6] or 0), 255, 255, 255)
+			local text = bfont:draw(_t(l.text), dw - (img and img[6] or 0), 255, 255, 255)
 			local text_h = #text * text[1].h
 
 			local Base = require "engine.ui.Base"
@@ -936,6 +942,12 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	-- Init the module directories
 	fs.mount(engine.homepath, "/")
 	mod.load("setup")
+
+	-- Load localizations
+	if mod.i18n_support and config.settings.locale then
+		I18N:loadLocale("/data/locales/"..config.settings.locale..".lua")
+		I18N:resetBreakTextAllCharacter()
+	end
 
 	-- Load font packages
 	FontPackage:loadDefinition("/data/font/packages/default.lua")

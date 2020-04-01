@@ -31,20 +31,20 @@ module(..., package.seeall, class.inherit(Dialog))
 function _M:init(actor)
 	self.actor = actor
 	self.ui = "deathbox"
-	Dialog.init(self, "You have #LIGHT_RED#died#LAST#!", 500, 600)
+	Dialog.init(self, _t"You have #LIGHT_RED#died#LAST#!", 500, 600)
 
 	actor:saveUUID()
 
 	self:generateList()
 	if self.dont_show then return end
-	if not config.settings.cheat then game:saveGame() end
+	if not config.settings.cheat then game:onTickEnd(function() game:saveGame() end) end
 
-	local text = [[Death in #{bold}#Tales of Maj'Eyal#{normal}# is usually permanent, but if you have a means of resurrection it will be proposed in the menu below.
+	local text = _t[[Death in #{bold}#Tales of Maj'Eyal#{normal}# is usually permanent, but if you have a means of resurrection it will be proposed in the menu below.
 You can dump your character data to a file to remember her/him forever, or you can exit and try once again to survive in the wilds!
 ]]
 
 	if #game.party.on_death_show_achieved > 0 then
-		self.c_achv = Textzone.new{width=self.iw, scrollbar=true, height=100, text="#LIGHT_GREEN#During your game you#WHITE#:\n* "..table.concat(game.party.on_death_show_achieved, "\n* ")}
+		self.c_achv = Textzone.new{width=self.iw, scrollbar=true, height=100, text=("#LIGHT_GREEN#During your game you#WHITE#:\n* %s"):tformat(table.concat(game.party.on_death_show_achieved, "\n* "))}
 	end
 
 	self:setTitleShadowShader(Shader.default.textoutline and Shader.default.textoutline.shad, 1.5)
@@ -168,7 +168,11 @@ function _M:eidolonPlane()
 	game:onTickEnd(function()
 		if not self.actor:attr("infinite_lifes") then
 			self.actor:attr("easy_mode_lifes", -1)
-			game.log("#LIGHT_RED#You have %s left.", (self.actor:attr("easy_mode_lifes") and self.actor:attr("easy_mode_lifes").." life(s)") or "no more lives")
+			local nb = self.actor:attr("easy_mode_lifes") and self.actor:attr("easy_mode_lifes") or 0
+			local style
+			if(nb > 0) then style = ("#LIGHT_RED#You have %d life(s) left."):tformat(nb)
+			else style = ("#LIGHT_RED#You have no more lives left."):tformat() end
+			game.log(style)
 		end
 
 		local is_exploration = game.permadeath == game.PERMADEATH_INFINITE
@@ -187,7 +191,7 @@ function _M:eidolonPlane()
 
 		game.log("#LIGHT_RED#From the brink of death you seem to be yanked to another plane.")
 		game.player:updateMainShader()
-		if not config.settings.cheat then game:saveGame() end
+		if not config.settings.cheat then game:onTickEnd(function() game:saveGame() end) end
 
 		self.actor:checkTwoHandedPenalty()
 	end)
@@ -213,7 +217,7 @@ function _M:use(item)
 	elseif act == "dump" then
 		game:registerDialog(require("mod.dialogs.CharacterSheet").new(self.actor))
 	elseif act == "log" then
-		game:registerDialog(require("mod.dialogs.ShowChatLog").new("Message Log", 0.6, game.uiset.logdisplay, profile.chat))
+		game:registerDialog(require("mod.dialogs.ShowChatLog").new(_t"Message Log", 0.6, game.uiset.logdisplay, profile.chat))
 	elseif act == "cheat" then
 		game.logPlayer(self.actor, "#LIGHT_BLUE#You resurrect! CHEATER!")
 
@@ -232,18 +236,6 @@ function _M:use(item)
 		world:gainAchievement("UNSTOPPABLE", actor)
 		self.actor:check("on_resurrect", "blood_life")
 		self.actor:triggerHook{"Actor:resurrect", reason="blood_life"}
-		game:saveGame()
-	elseif act == "lichform" then
-		local t = self.actor:getTalentFromId(self.actor.T_LICHFORM)
-
-		self:cleanActor(self.actor)
-		self:resurrectBasic(self.actor)
-		self:restoreResources(self.actor)
-		world:gainAchievement("LICHFORM", actor)
-		t.becomeLich(self.actor, t)
-		self.actor:updateModdableTile()
-		self.actor:check("on_resurrect", "lichform")
-		self.actor:triggerHook{"Actor:resurrect", reason="lichform"}
 		game:saveGame()
 	elseif act == "threads" then
 		game:chronoRestore("see_threads_base", true)
@@ -298,43 +290,39 @@ function _M:generateList()
 		allow_res = false
 	end
 
-	if config.settings.cheat then list[#list+1] = {name="Resurrect by cheating", action="cheat"} end
+	if config.settings.cheat then list[#list+1] = {name=_t"Resurrect by cheating", action="cheat"} end
 	if not self.actor.no_resurrect and allow_res then
 		if self.actor:hasEffect(self.actor.EFF_SEE_THREADS) and game._chronoworlds then
 			self:use{action="threads"}
 			self.dont_show =true
 			return
 		end
-		if self.actor:isTalentActive(self.actor.T_LICHFORM) then
-			self:use{action="lichform"}
-			self.dont_show = true
-			return
-		end
+		
+		if self.actor:fireTalentCheck("callbackOnDeathbox", self, list) then return end
+
 		if self.actor:attr("easy_mode_lifes") or self.actor:attr("infinite_lifes") then
 			self:use{action="easy_mode"}
 			self.dont_show = true
 			return
 		end
-		if self.actor:attr("blood_life") and not self.actor:attr("undead") then list[#list+1] = {name="Resurrect with the Blood of Life", action="blood_life"} end
-		if self.actor:getTalentLevelRaw(self.actor.T_SKELETON_REASSEMBLE) >= 5 and not self.actor:attr("re-assembled") then list[#list+1] = {name="Re-assemble your bones and resurrect (Skeleton ability)", action="skeleton"} end
+		if self.actor:attr("blood_life") and not self.actor:attr("undead") then list[#list+1] = {name=_t"Resurrect with the Blood of Life", action="blood_life"} end
+		if self.actor:getTalentLevelRaw(self.actor.T_SKELETON_REASSEMBLE) >= 5 and not self.actor:attr("re-assembled") then list[#list+1] = {name=_t"Re-assemble your bones and resurrect (Skeleton ability)", action="skeleton"} end
 
 		local consumenb = 1
 		self.actor:inventoryApplyAll(function(inven, item, o)
 			if o.one_shot_life_saving and (not o.slot or inven.worn) then
-				list[#list+1] = {name="Resurrect by consuming "..o:getName{do_colour=true}, action="consume"..consumenb, inven=inven, item=item, object=o, is_consume=true}
+				list[#list+1] = {name=("Resurrect by consuming %s"):tformat(o:getName{do_colour=true}), action="consume"..consumenb, inven=inven, item=item, object=o, is_consume=true}
 				consumenb = consumenb + 1
 				self.possible_items.consume = true
 			end
 		end)
-
-		self.actor:fireTalentCheck("callbackOnDeathbox", self, list)
 	end
 
-	list[#list+1] = {name=(not profile.auth and "Message Log" or "Message/Chat log (allows to talk)"), action="log"}
-	list[#list+1] = {name="Character dump", action="dump"}
-	list[#list+1] = {name="Restart the same character", action="exit", subaction="restart"}
-	list[#list+1] = {name="Restart with a new character", action="exit", subaction="restart-new"}
-	list[#list+1] = {name="Exit to main menu", action="exit", subaction="none"}
+	list[#list+1] = {name=(not profile.auth and _t"Message Log" or _t"Message/Chat log (allows to talk)"), action="log"}
+	list[#list+1] = {name=_t"Character dump", action="dump"}
+	list[#list+1] = {name=_t"Restart the same character", action="exit", subaction="restart"}
+	list[#list+1] = {name=_t"Restart with a new character", action="exit", subaction="restart-new"}
+	list[#list+1] = {name=_t"Exit to main menu", action="exit", subaction="none"}
 
 	self.list = list
 	for _, item in ipairs(list) do self.possible_items[item.action] = true end

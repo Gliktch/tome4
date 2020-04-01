@@ -362,6 +362,43 @@ function table.keys(t)
 	return tt
 end
 
+function table.ts(t, tag)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = _t(e, tag) end
+	return tt
+end
+
+function table.lower(t)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = e:lower() end
+	return tt
+end
+
+function table.capitalize(t)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = e:capitalize() end
+	return tt
+end
+
+function string.tslash(str, tag)
+	if str:find("/") then
+		local pos, _ = str:find("/")
+		return _t(str:sub(1, pos - 1), tag) .. "/" .. string.tslash(str:sub(pos + 1), tag)
+	else
+		return _t(str, tag)
+	end
+end
+
+function string.ttype(str, type)
+	if str:find("/") then
+		local pos, _ = str:find("/")
+		return _t(str:sub(1, pos - 1), type.. " type") .. "/" .. _t(str:sub(pos + 1), type.." subtype")
+	else
+		return _t(str, type.." type")
+	end
+end
+
+
 function table.values(t)
 	local tt = {}
 	for k, e in pairs(t) do tt[#tt+1] = e end
@@ -807,17 +844,17 @@ end
 string.nextUTF = core.display.stringNextUTF
 
 function string.ordinal(number)
-	local suffix = "th"
+	local suffix = _t"%dth"
 	number = tonumber(number)
 	local base = number % 10
 	if base == 1 then
-		suffix = "st"
+		suffix = _t"%dst"
 	elseif base == 2 then
-		suffix = "nd"
+		suffix = _t"%dnd"
 	elseif base == 3 then
-		suffix = "rd"
+		suffix = _t"%drd"
 	end
-	return number..suffix
+	return (suffix):tformat(number)
 end
 
 function string.trim(str)
@@ -826,35 +863,35 @@ end
 
 function string.a_an(str)
 	local first = str:sub(1, 1)
-	if first == "a" or first == "e" or first == "i" or first == "o" or first == "u" or first == "y" then return "an "..str
-	else return "a "..str end
+	if first == "a" or first == "e" or first == "i" or first == "o" or first == "u" or first == "y" then return _t"an "..str
+	else return _t"a "..str end
 end
 
 function string.he_she(actor)
-	if actor.female then return "she"
-	elseif actor.neuter then return "it"
-	else return "he"
+	if actor.female then return _t"she"
+	elseif actor.neuter then return _t"it"
+	else return _t"he"
 	end
 end
 
 function string.his_her(actor)
-	if actor.female then return "her"
-	elseif actor.neuter then return "its"
-	else return "his"
+	if actor.female then return _t"her"
+	elseif actor.neuter then return _t"its"
+	else return _t"his"
 	end
 end
 
 function string.him_her(actor)
-	if actor.female then return "her"
-	elseif actor.neuter then return "it"
-	else return "him"
+	if actor.female then return _t"her"
+	elseif actor.neuter then return _t"it"
+	else return _t"him"
 	end
 end
 
 function string.his_her_self(actor)
-	if actor.female then return "herself"
-	elseif actor.neuter then return "itself"
-	else return "himself"
+	if actor.female then return _t"herself"
+	elseif actor.neuter then return _t"itself"
+	else return _t"himself"
 	end
 end
 
@@ -886,6 +923,14 @@ function string.bookCapitalize(str)
 	end
 
 	return table.concat(words, " ")
+end
+
+local function default_noun_sub(str, type, noun)
+	return str:gsub(type, noun)
+end
+function string.noun_sub(str, type, noun)
+	local proc = _getFlagI18N("noun_target_sub") or default_noun_sub
+	return proc(str, type, noun)
 end
 
 function string.lpegSub(s, patt, repl)
@@ -1118,7 +1163,7 @@ function string.fromValue(v, recurse, offset, prefix, suffix)
 			local abv = {}
 			if v.__CLASSNAME then abv[#abv+1] = "__CLASSNAME="..tostring(v.__CLASSNAME) end
 			if v.__ATOMIC then abv[#abv+1] = "ATOMIC" end
-			vs = ("%s\"%s%s%s\"%s"):format(prefix, v, v.__CLASSNAME and ", __CLASSNAME="..tostring(v.__CLASSNAME) or "", v.__ATOMIC and ", ATOMIC" or "", suffix)
+			vs = ("%s\"%s%s%s\"%s"):format(prefix, v, v.__CLASSNAME and ", __CLASSname=_t"..tostring(v.__CLASSNAME) or "", v.__ATOMIC and ", ATOMIC" or "", suffix)
 		elseif recurse > 0 then -- get recursive string
 			vs = string.fromTable(v, recurse - 1, offset, prefix, suffix)
 		else vs = prefix.."\""..tostring(v).."\""..suffix
@@ -1163,6 +1208,48 @@ function string.fromTable(src, recurse, offset, prefix, suffix, sort, key_recurs
 	if sort then table.sort(tt, sort) end
 	-- could sort here if desired
 	return prefix..table.concat(tt, offset)..suffix, tt
+end
+
+--- Returns the Levenshtein distance between the two given strings
+function string.levenshtein_distance(str1, str2)
+	local len1 = string.len(str1)
+	local len2 = string.len(str2)
+	local matrix = {}
+	local cost = 0
+	
+        -- quick cut-offs to save time
+	if (len1 == 0) then
+		return len2
+	elseif (len2 == 0) then
+		return len1
+	elseif (str1 == str2) then
+		return 0
+	end
+	
+        -- initialise the base matrix values
+	for i = 0, len1, 1 do
+		matrix[i] = {}
+		matrix[i][0] = i
+	end
+	for j = 0, len2, 1 do
+		matrix[0][j] = j
+	end
+	
+        -- actual Levenshtein algorithm
+	for i = 1, len1, 1 do
+		for j = 1, len2, 1 do
+			if (str1:byte(i) == str2:byte(j)) then
+				cost = 0
+			else
+				cost = 1
+			end
+			
+			matrix[i][j] = math.min(matrix[i-1][j] + 1, matrix[i][j-1] + 1, matrix[i-1][j-1] + cost)
+		end
+	end
+	
+        -- return the last value - this is the Levenshtein distance
+	return matrix[len1][len2]
 end
 
 -- Split a string by the given character(s)

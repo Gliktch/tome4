@@ -222,7 +222,7 @@ newEntity{
 		},
 	},
 	combat = {
-		talent_on_hit = { [Talents.T_ARCANE_VORTEX] = {level=3, chance=10} },
+		talent_on_hit = { [Talents.T_ARCANE_VORTEX] = {level=resolvers.genericlast(function(e) return e.material_level end), chance=10}, },
 	}
 }
 
@@ -288,9 +288,9 @@ newEntity{
 	},
 	charm_power = resolvers.mbonus_material(100, 5),
 	charm_power_def = {add=50, max=200, floor=true},
-	resolvers.charm("regenerate %d life over 5 turns", 20,
+	resolvers.charm(_t"regenerate %d life over 5 turns", 20,
 		function(self, who)
-			game.logSeen(who, "%s uses %s %s!", who.name:capitalize(), who:his_her(), self:getName{no_add_name=true, do_color=true})
+			game.logSeen(who, "%s uses %s %s!", who:getName():capitalize(), who:his_her(), self:getName{no_add_name=true, do_color=true})
 			who:setEffect(who.EFF_REGENERATION, 5, {power=self:getCharmPower(who)/5})
 			return {id=true, used=true}
 		end,
@@ -465,7 +465,7 @@ newEntity{
 		ranged_project = { 
 			[DamageType.NATURE] = resolvers.mbonus_material(20, 5),
 		},
-		special_on_crit = {desc="silences the target", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"silences the target", fct=function(combat, who, target)
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, 2, {apply_power=who:combatAttack(), no_ct_effect=true})
 			end

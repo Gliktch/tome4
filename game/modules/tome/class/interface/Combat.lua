@@ -100,7 +100,7 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 			self:useEnergy(game.energy_to_act)
 			self.did_energy = true
 		end
-		game.logSeen(self, "%s is too afraid to attack.", self.name:capitalize())
+		game.logSeen(self, "%s is too afraid to attack.", self:getName():capitalize())
 		return false
 	end
 
@@ -109,7 +109,7 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 			self:useEnergy(game.energy_to_act)
 			self.did_energy = true
 		end
-		game.logSeen(self, "%s is too terrified to attack.", self.name:capitalize())
+		game.logSeen(self, "%s is too terrified to attack.", self:getName():capitalize())
 		return false
 	end
 
@@ -170,6 +170,8 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 		break_stealth = true
 	end
 
+	local totaldam = 0
+
 	if not speed and not self:attr("disarmed") and not self:isUnarmed() and not force_unarmed then
 		local double_weapon
 		-- All weapons in main hands
@@ -179,7 +181,8 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 				if combat and not o.archery then
 					if o.double_weapon and not double_weapon then double_weapon = o end
 					print("[ATTACK] attacking with (mainhand)", o.name)
-					local s, h = self:attackTargetWith(target, combat, damtype, mult)
+					local s, h, _curdam = self:attackTargetWith(target, combat, damtype, mult)
+					if _curdam then totaldam = totaldam + _curdam end
 					speed = math.max(speed or 0, s)
 					hit = hit or h
 					if hit and not sound then sound = combat.sound
@@ -205,7 +208,8 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 				else
 					offhand = true
 					print("[ATTACK] attacking with (offhand)", o.name)
-					local s, h = self:attackTargetWith(target, combat, damtype, offmult)
+					local s, h, _curdam = self:attackTargetWith(target, combat, damtype, offmult)
+					if _curdam then totaldam = totaldam + _curdam end
 					speed = math.max(speed or 0, s)
 					hit = hit or h
 					if hit and not sound then sound = combat.sound
@@ -220,7 +224,8 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 	if not speed and self.combat then
 		print("[ATTACK] attacking with innate combat")
 		local combat = self:getObjectCombat(nil, "barehand")
-		local s, h = self:attackTargetWith(target, combat, damtype, mult)
+		local s, h, _curdam = self:attackTargetWith(target, combat, damtype, mult)
+		if _curdam then totaldam = totaldam + _curdam end
 		speed = math.max(speed or 0, s)
 		hit = hit or h
 		if hit and not sound then sound = combat.sound
@@ -249,7 +254,7 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 	-- Cancel stealth!
 	if break_stealth then self:breakStealth() end
 	self:breakLightningSpeed()
-	return hit
+	return hit, totaldam
 end
 
 --- Determines the combat field to use for this item
@@ -454,7 +459,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 	if target:knowTalent(target.T_SKIRMISHER_BUCKLER_EXPERTISE) then
 		local t = target:getTalentFromId(target.T_SKIRMISHER_BUCKLER_EXPERTISE)
 		if t.shouldEvade(target, t) then
-			game.logSeen(target, "#ORCHID#%s cleverly deflects the attack with %s shield!#LAST#", target.name:capitalize(), string.his_her(target))
+			game.logSeen(target, "#ORCHID#%s cleverly deflects the attack with %s shield!#LAST#", target:getName():capitalize(), string.his_her(target))
 			t.onEvade(target, t, self)
 			repelled = true
 		end
@@ -470,7 +475,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 	if target:knowTalent(target.T_BLADE_WARD) and target:hasDualWeapon() then
 		local chance = target:callTalent(target.T_BLADE_WARD, "getChance")
 		if rng.percent(chance) then
-			game.logSeen(target, "#ORCHID#%s parries the attack with %s dual weapons!#LAST#", target.name:capitalize(), string.his_her(target))
+			game.logSeen(target, "#ORCHID#%s parries the attack with %s dual weapons!#LAST#", target:getName():capitalize(), string.his_her(target))
 			repelled = true
 		end
 	end
@@ -482,7 +487,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 
 	-- Dwarves stoneskin
 	if target:attr("auto_stoneskin") and rng.percent(15) then
-		game.logSeen(target, "#ORCHID#%s instinctively hardens %s skin and ignores the attack!#LAST#", target.name:capitalize(), string.his_her(target))
+		game.logSeen(target, "#ORCHID#%s instinctively hardens %s skin and ignores the attack!#LAST#", target:getName():capitalize(), string.his_her(target))
 		target:setEffect(target.EFF_STONE_SKIN, 5, {power=target:attr("auto_stoneskin")})
 		repelled = true
 	end
@@ -512,7 +517,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 		if eff then
 			deflect = target:callEffect(target.EFF_PARRY, "doDeflect", self) or 0
 			if deflect > 0 then
-				game:delayedLogDamage(self, target, 0, ("%s(%d parried#LAST#)"):format(DamageType:get(damtype).text_color or "#aaaaaa#", deflect), false)
+				game:delayedLogDamage(self, target, 0, ("%s(%d parried#LAST#)"):tformat(DamageType:get(damtype).text_color or "#aaaaaa#", deflect), false)
 				dam = math.max(dam - deflect , 0)
 				print("[ATTACK] after PARRY", dam)
 			end
@@ -521,7 +526,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 		if target.knowTalent and target:hasEffect(target.EFF_GESTURE_OF_GUARDING) and not target:attr("encased_in_ice") then
 			local g_deflect = math.min(dam, target:callTalent(target.T_GESTURE_OF_GUARDING, "doGuard")) or 0
 			if g_deflect > 0 then
-				game:delayedLogDamage(self, target, 0, ("%s(%d gestured#LAST#)"):format(DamageType:get(damtype).text_color or "#aaaaaa#", g_deflect), false)
+				game:delayedLogDamage(self, target, 0, ("%s(%d gestured#LAST#)"):tformat(DamageType:get(damtype).text_color or "#aaaaaa#", g_deflect), false)
 				dam = dam - g_deflect; deflect = deflect + g_deflect
 			end
 			print("[ATTACK] after GESTURE_OF_GUARDING", dam)
@@ -1246,6 +1251,7 @@ end
 
 --- Gets the defense ranged
 function _M:combatDefense(fake, add)
+	if self.combat_precomputed_defense then return self.combat_precomputed_defense end
 	local base_defense = self:combatDefenseBase(true)
 	if not fake then base_defense = self:combatDefenseBase() end
 	local d = math.max(0, base_defense + (add or 0))
@@ -1255,6 +1261,7 @@ end
 
 --- Gets the defense ranged
 function _M:combatDefenseRanged(fake, add)
+	if self.combat_precomputed_defense then return self.combat_precomputed_defense end
 	local base_defense = self:combatDefenseBase(true)
 	if not fake then base_defense = self:combatDefenseBase() end
 	local d = math.max(0, base_defense + (self.combat_def_ranged or 0) + (add or 0))
@@ -1341,6 +1348,7 @@ function _M:combatAttackBase(weapon, ammo)
 	return atk
 end
 function _M:combatAttack(weapon, ammo)
+	if self.combat_precomputed_accuracy then return self.combat_precomputed_accuracy end
 	local stats
 	if self:attr("use_psi_combat") then stats = (self:getCun(100, true) - 10) * (0.6 + self:callTalent(self.T_RESONANT_FOCUS, "bonus")/100)
 	elseif weapon and weapon.wil_attack then stats = self:getWil(100, true) - 10
@@ -1357,6 +1365,7 @@ function _M:combatAttack(weapon, ammo)
 end
 
 function _M:combatAttackRanged(weapon, ammo)
+	if self.combat_precomputed_accuracy then return self.combat_precomputed_accuracy end
 	local stats
 	if self:attr("use_psi_combat") then stats = (self:getCun(100, true) - 10) * (0.6 + self:callTalent(self.T_RESONANT_FOCUS, "bonus")/100)
 	elseif weapon and weapon.wil_attack then stats = self:getWil(100, true) - 10
@@ -1689,6 +1698,7 @@ function _M:combatDamagePower(weapon_combat, add)
 end
 
 function _M:combatPhysicalpower(mod, weapon, add)
+	if self.combat_precomputed_physpower then return self.combat_precomputed_physpower end
 	mod = mod or 1
 	add = add or 0
 
@@ -1744,6 +1754,7 @@ end
 
 --- Gets spellpower
 function _M:combatSpellpower(mod, add)
+	if self.combat_precomputed_spellpower then return self.combat_precomputed_spellpower end
 	mod = mod or 1
 	add = add or 0
 
@@ -1946,7 +1957,7 @@ function _M:physicalCrit(dam, weapon, target, atk, def, add_chance, crit_power_a
 		end
 
 		if self:isAccuracyEffect(weapon, "sword") then
-			local bonus = self:getAccuracyEffect(weapon, atk, def, 0.004, 0.5)  -- +50% crit power at 100 accuracy
+			local bonus = self:getAccuracyEffect(weapon, atk, def, 0.004, 0.4)  -- +40% crit power at 100 accuracy
 			print("[PHYS CRIT %] sword accuracy bonus", atk, def, "=", bonus)
 			crit_power_add = crit_power_add + bonus
 		end
@@ -1984,7 +1995,7 @@ function _M:spellCrit(dam, add_chance, crit_power_add)
 		self.turn_procs.crit_power = (1.5 + crit_power_add + (self.combat_critical_power or 0) / 100)
 		dam = dam * (1.5 + crit_power_add + (self.combat_critical_power or 0) / 100)
 		crit = true
-		game.logSeen(self, "#{bold}#%s's spell attains critical power!#{normal}#", self.name:capitalize())
+		game.logSeen(self, "#{bold}#%s's spell attains critical power!#{normal}#", self:getName():capitalize())
 
 		if self:attr("mana_on_crit") then self:incMana(self:attr("mana_on_crit")) end
 		if self:attr("vim_on_crit") then self:incVim(self:attr("vim_on_crit")) end
@@ -2032,7 +2043,7 @@ function _M:mindCrit(dam, add_chance, crit_power_add)
 		self.turn_procs.crit_power = (1.5 + crit_power_add + (self.combat_critical_power or 0) / 100)
 		dam = dam * (1.5 + crit_power_add + (self.combat_critical_power or 0) / 100)
 		crit = true
-		game.logSeen(self, "#{bold}#%s's mind surges with critical power!#{normal}#", self.name:capitalize())
+		game.logSeen(self, "#{bold}#%s's mind surges with critical power!#{normal}#", self:getName():capitalize())
 
 		if self:attr("hate_on_crit") then self:incHate(self:attr("hate_on_crit")) end
 		if self:attr("psi_on_crit") then self:incPsi(self:attr("psi_on_crit")) end
@@ -2059,6 +2070,8 @@ end
 
 --- Gets mindpower
 function _M:combatMindpower(mod, add)
+	if self.combat_precomputed_mindpower then return self.combat_precomputed_mindpower end
+
 	mod = mod or 1
 	add = add or 0
 
@@ -2748,14 +2761,14 @@ function _M:startGrapple(target)
 		self:setEffect(self.EFF_GRAPPLING, duration, grappleParam)
 		return true
 	else
-		game.logSeen(target, "%s resists the grapple!", target.name:capitalize())
+		game.logSeen(target, "%s resists the grapple!", target:getName():capitalize())
 		return false
 	end
 end
 
 -- Display Combat log messages, highlighting the player and taking LOS and visibility into account
--- #source#|#Source# -> <displayString> self.name|self.name:capitalize()
--- #target#|#Target# -> target.name|target.name:capitalize()
+-- #source#|#Source# -> <displayString> self.name|self:getName():capitalize()
+-- #target#|#Target# -> target.name|target:getName():capitalize()
 function _M:logCombat(target, style, ...)
 	if not game.uiset or not game.uiset.logdisplay then return end
 	local src = self.__project_source or self

@@ -43,7 +43,7 @@ newTalent{
 		return ([[Spit slime at your target doing %0.1f nature damage and slowing it down by 30%% for 3 turns.
 		The slime can bounce from foe to foe, hitting up to a total of %d target(s).
 		Additional targets must be within 6 tiles of each other and the slime loses %0.1f%% damage per bounce.
-		The damage will increase with your Mindpower]]):format(damDesc(self, DamageType.NATURE, self:combatTalentMindDamage(t, 30, 250)), t.getTargetCount(self, t), 100-t.bouncePercent(self, t))
+		The damage will increase with your Mindpower]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentMindDamage(t, 30, 250)), t.getTargetCount(self, t), 100-t.bouncePercent(self, t))
 	end,
 }
 
@@ -53,7 +53,7 @@ newTalent{
 	require = gifts_req2,
 	random_ego = "attack",
 	points = 5,
-	message = "@Source@ releases poisonous spores at @target@.",
+	message = _t"@Source@ releases poisonous spores at @target@.",
 	equilibrium = 2,
 	cooldown = 10,
 	range = 10,
@@ -70,7 +70,8 @@ newTalent{
 		self:project(tg, x, y, function(px, py)
 			local target = game.level.map(px, py, Map.ACTOR)
 			if target and self:reactionToward(target) < 0 and target:canBe("poison") then
-				local poison = rng.table{target.EFF_SPYDRIC_POISON, target.EFF_INSIDIOUS_POISON, target.EFF_CRIPPLING_POISON, target.EFF_NUMBING_POISON}
+				local defaults = {target.EFF_SPYDRIC_POISON, target.EFF_INSIDIOUS_POISON, target.EFF_CRIPPLING_POISON, target.EFF_NUMBING_POISON}
+				local poison = rng.table(self.poisonous_spores_list or defaults)
 				target:setEffect(poison, 10, {src=self, power=dam/10, 
 				reduce=self:combatTalentLimit(t, 100, 12, 20), 
 				fail=math.ceil(self:combatTalentLimit(t, 100, 6, 10)),
@@ -84,7 +85,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Releases poisonous spores at an area of radius %d, infecting the foes inside with a random poison doing %0.1f Nature damage over 10 turns.
 		This attack can crit and deals %d%% additional critical damage.
-		The damage and critical bonus increase with your Mindpower.]]):format(self:getTalentRadius(t), damDesc(self, DamageType.NATURE, t.getDamage(self, t)), t.critPower(self, t))
+		The damage and critical bonus increase with your Mindpower.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.NATURE, t.getDamage(self, t)), t.critPower(self, t))
 	end,
 }
 
@@ -96,7 +97,7 @@ newTalent{
 	require = gifts_req3,
 	points = 5,
 	mode = "sustained",
-	message = "The skin of @Source@ starts dripping acid.",
+	message = _t"The skin of @Source@ starts dripping acid.",
 	sustain_equilibrium = 3,
 	cooldown = 30,
 	range = 1,
@@ -117,7 +118,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your skin drips with acid, damaging all that hit you for %0.1f disarming acid damage.
-		The damage increases with your Mindpower.]]):format(damDesc(self, DamageType.ACID, t.getDamage(self, t)))
+		The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.ACID, t.getDamage(self, t)))
 	end,
 }
 
@@ -177,7 +178,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local talents = t.getNbTalents(self, t)
 		return ([[You extend slimy roots into the ground, follow them, and re-appear somewhere else in a range of %d with error margin of %d.
-		Doing so changes your internal structure slightly, taking %d random talent(s) off cooldown.]]):format(range, radius, talents)
+		Doing so changes your internal structure slightly, taking %d random talent(s) off cooldown.]]):tformat(range, radius, talents)
 	end,
 }
 
