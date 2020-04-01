@@ -3776,6 +3776,6 @@ newTalent{
 		local defence = t.getDefense(self, t)
 		return ([[The caster's image blurs, granting a %d bonus to Defense.
 		The bonus will increase with your Spellpower.]]):
-		format(defence)
+		tformat(defence)
 	end,
 }

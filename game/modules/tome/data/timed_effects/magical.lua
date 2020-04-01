@@ -255,14 +255,14 @@ newEffect{
 
 newEffect{
 	name = "GREATER_INVISIBILITY", image = "effects/invisibility.png",
-	desc = "Invisibility",
-	long_desc = function(self, eff) return ("Improves/gives invisibility (power %d), and increases damage dealt to blind or dazzled creatures by %d%%."):format(eff.power, eff.dam) end,
+	desc = _t"Invisibility",
+	long_desc = function(self, eff) return ("Improves/gives invisibility (power %d), and increases damage dealt to blind or dazzled creatures by %d%%."):tformat(eff.power, eff.dam) end,
 	type = "magical",
 	subtype = { phantasm=true, invisibility=true },
 	status = "beneficial",
 	parameters = { power=10, dam=10 },
-	on_gain = function(self, err) return "#Target# vanishes from sight.", "+Invis" end,
-	on_lose = function(self, err) return "#Target# is no longer invisible.", "-Invis" end,
+	on_gain = function(self, err) return _t"#Target# vanishes from sight.", _t"+Invis" end,
+	on_lose = function(self, err) return _t"#Target# is no longer invisible.", _t"-Invis" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "invisible", eff.power)
 		self:effectTemporaryValue(eff, "blind_inc_damage", eff.dam)
@@ -4585,8 +4585,8 @@ newEffect{
 
 newEffect{
 	name = "DAZZLED",
-	desc = "Dazzled",
-	long_desc = function(self, eff) return ("All damage decreased by %d%%."):format(eff.power) end,
+	desc = _t"Dazzled",
+	long_desc = function(self, eff) return ("All damage decreased by %d%%."):tformat(eff.power) end,
 	type = "magical",
 	subtype = { stun=true,},
 	status = "detrimental",
@@ -4615,8 +4615,8 @@ newEffect{
 
 newEffect{
 	name = "ELEMENTAL_MIRAGE1", image = "talents/blur_sight.png",
-	desc = "Elemental Mirage (First Element)",
-	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):format(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
+	desc = _t"Elemental Mirage (First Element)",
+	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):tformat(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
 	type = "magical",
 	subtype = { phantasm=true,},
 	status = "beneficial",
@@ -4650,8 +4650,8 @@ newEffect{
 
 newEffect{
 	name = "ELEMENTAL_MIRAGE2", image = "talents/alter_mirage.png",
-	desc = "Elemental Mirage (Second Element)",
-	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):format(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
+	desc = _t"Elemental Mirage (Second Element)",
+	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):tformat(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
 	type = "magical",
 	subtype = { phantasm=true,},
 	status = "beneficial",
