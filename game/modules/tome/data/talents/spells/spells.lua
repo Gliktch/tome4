@@ -20,8 +20,6 @@
 -- Archmage spells
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/arcane", name = _t"arcane", description = _t"Arcane studies manipulate the raw magic energies to shape them into both offensive and defensive spells." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/aether", name = _t"aether", description = _t"Tap on the core arcane forces of the aether, unleashing devastating effects on your foes." }
-
--- Elemental spells
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/fire", name = _t"fire", description = _t"Harness the power of fire to burn your foes to ashes." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/wildfire", name = _t"wildfire", min_lev = 10, description = _t"Harness the power of wildfire to burn your foes to ashes." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/earth", name = _t"earth", description = _t"Harness the power of the earth to protect and destroy." }
@@ -30,8 +28,6 @@ newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=tru
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/ice", name = _t"ice", min_lev = 10, description = _t"Harness the power of ice to freeze and shatter your foes." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/air", name = _t"air", description = _t"Harness the power of the air to fry your foes." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/storm", name = _t"storm", min_lev = 10, description = _t"Harness the power of the storm to incinerate your foes." }
-
--- Various other magic schools
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/meta", name = _t"meta", description = _t"Meta spells alter the working of magic itself." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/temporal", name = _t"temporal", description = _t"The school of time manipulation." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/phantasm", name = _t"phantasm", description = _t"Control the power of tricks and illusions." }
@@ -60,14 +56,22 @@ newTalentType{ type="golem/golem", name = _t"golem", description = _t"Golem basi
 newTalentType{ type="golem/drolem", name = _t"drolem", description = _t"Drolem basic capacity." }
 
 -- Necromancer spells
-newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/necrotic-minions", name = _t"necrotic minions", description = _t"Create and empower dumb undead minions." }
-newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/advanced-necrotic-minions", name = _t"advanced necrotic minions", min_lev = 10, description = _t"Create and empower powerful undead minions." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/master-of-bones", name = _t"master of bones", description = _t"Become of the master of bones, creating skeletal minions to do your bidding." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/master-of-flesh", name = _t"master of flesh", description = _t"Become of the master of flesh, creating ghoul minions to do your bidding" }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/master-necromancer", name = _t"master necromancer", min_lev = 10, description = _t"Full and total control over your undead army." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/nightfall", name = _t"nightfall", description = _t"Manipulate darkness itself to slaughter your foes." }
-newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/shades", name = _t"shades", min_lev = 10, description = _t"Invoke and control shades." }
-newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/necrosis", name = _t"necrosis", description = _t"Gain control over death, eventually turning into a lich." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/dreadmaster", name = _t"dreadmaster", description = _t"Summon an undead minion of pure darkness to harass your foes." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/age-of-dusk", name = _t"age of dusk", min_lev = 10, description = _t"Recall the glorious days of the Age of Dusk when necromancers reigned supreme." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/grave", name = _t"grave", description = _t"Use the rotting cold doom of the tomb to fell your foes." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/glacial-waste", name = _t"glacial waste", description = _t"Wither the land into a cold, dead ground to protect yourself." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/rime-wraith", name = _t"rime wraith", min_lev = 10, description = _t"Summon an undead minion of pure cold to harass your foes." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/death", name = _t"death", description = _t"Learn to fasten your foes way into the grave." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/animus", name = _t"animus", description = _t"Crush the souls of your foes to improve yourself." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/eradication", name = _t"eradication", min_lev = 10, description = _t"Doom to all your foes. Crush them." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/necrosis", name = _t"necrosis", generic = true, description = _t"Gain control over death, by unnaturally expanding your life." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/spectre", name = _t"spectre", generic = true, description = _t"Turn into a spectre to move around the battlefield." }
 
+-- Stone Warden spells
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/eldritch-shield", name = _t"eldritch shield", description = _t"Infuse arcane forces into your shield." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/eldritch-stone", name = _t"eldritch stone", description = _t"Summon stony spikes imbued with various powers." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/deeprock", name = _t"deeprock", description = _t"Harness the power of the world to turn into a Deeprock Form." }
@@ -250,6 +254,17 @@ function necroEssenceDead(self, checkonly)
 		if eff.nb <= 0 then self:removeEffect(self.EFF_ESSENCE_OF_THE_DEAD, true) end
 	end
 end
+
+function checkLifeThreshold(val, fct)
+	return function(self, t)
+		local checkid = "__check_threshold_"..t.id
+		if not self[checkid] then self[checkid] = self.life end
+		if (self[checkid] >= val and self.life < val) or (self[checkid] < val and self.life >= val) then
+			fct(self, t)
+		end
+		self[checkid] = self.life
+	end
+end
 -------------------------------------------
 
 load("/data/talents/spells/arcane.lua")
@@ -282,13 +297,9 @@ load("/data/talents/spells/energy-alchemy.lua")
 load("/data/talents/spells/stone-alchemy.lua")
 load("/data/talents/spells/golem.lua")
 
-load("/data/talents/spells/necrotic-minions.lua")
-load("/data/talents/spells/advanced-necrotic-minions.lua")
-load("/data/talents/spells/nightfall.lua")
-load("/data/talents/spells/shades.lua")
-load("/data/talents/spells/necrosis.lua")
-load("/data/talents/spells/grave.lua")
 load("/data/talents/spells/animus.lua")
+load("/data/talents/spells/necrosis.lua")
+load("/data/talents/spells/spectre.lua")
 
 load("/data/talents/spells/eldritch-shield.lua")
 load("/data/talents/spells/eldritch-stone.lua")

@@ -5064,11 +5064,13 @@ function _M:learnTalent(t_id, force, nb, extra)
 	end
 
 	-- Simulate calling the talent's close method if we were not learnt from the levelup dialog
+	local lvl = self:getTalentLevel(t_id)
+	local lvl_raw = self:getTalentLevelRaw(t_id)
 	if t.on_levelup_close and not self.is_dialog_talent_leveling then
-		local lvl = self:getTalentLevel(t_id)
-		local lvl_raw = self:getTalentLevelRaw(t_id)
 		t.on_levelup_close(self, t, lvl, old_lvl, lvl_raw, old_lvl_raw, false)
 	end
+
+	self:fireTalentCheck("callbackOnTalentChange", t_id, "learn", lvl_raw - old_lvl_raw)
 
 	return true
 end
@@ -5187,6 +5189,7 @@ function _M:unlearnTalent(t_id, nb, no_unsustain, extra)
 	nb = math.max(0, oldnb - (self.talents[t_id] or 0))
 
 	local t = _M.talents_def[t_id]
+	local old_lvl_raw = self:getTalentLevelRaw(t_id)
 
 	if not self:knowTalent(t_id) and (t.mode ~= "sustained" or t.passive_callbacks) then
 		self:unregisterCallbacks(t, t_id)
@@ -5241,6 +5244,9 @@ function _M:unlearnTalent(t_id, nb, no_unsustain, extra)
 			focusremove(self.INVEN_QS_PSIONIC_FOCUS)
 		end
 	end
+
+	local lvl_raw = self:getTalentLevelRaw(t_id)
+	self:fireTalentCheck("callbackOnTalentChange", t_id, "unlearn", lvl_raw - old_lvl_raw)
 
 	return true
 end
@@ -5947,6 +5953,7 @@ local sustainCallbackCheck = {
 	callbackOnTakeoffTinker = "talents_on_takeoff_tinker",
 	callbackOnWear = "talents_on_wear",
 	callbackOnTakeoff = "talents_on_takeoff",
+	callbackOnTalentChange = "talents_on_talent_change",
 	callbackOnTalentPost = "talents_on_talent_post",
 	callbackOnTemporaryEffect = "talents_on_tmp",
 	callbackOnTemporaryEffectRemove = "talents_on_tmp_remove",

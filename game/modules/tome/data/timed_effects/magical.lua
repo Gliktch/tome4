@@ -4585,7 +4585,7 @@ newEffect{
 
 newEffect{
 	name = "DAZZLED",
-	desc = "Dazzled",
+	desc = _t"Dazzled",
 	long_desc = function(self, eff) return ("All damage decreased by %d%%."):format(eff.power) end,
 	type = "magical",
 	subtype = { stun=true,},
@@ -4600,8 +4600,8 @@ newEffect{
 
 newEffect{
 	name = "LICH_RESISTED", image = "talents/lichform.png",
-	desc = "Immune to Frightening Presence",
-	long_desc = function(self, eff) return ("You resisted a Lich and are immune to its frightening presence.") end,
+	desc = _t"Immune to Frightening Presence",
+	long_desc = function(self, eff) return _t"You resisted a Lich and are immune to its frightening presence." end,
 	type = "magical",
 	subtype = { lich=true, fear=true},
 	status = "beneficial",
@@ -4615,8 +4615,8 @@ newEffect{
 
 newEffect{
 	name = "ELEMENTAL_MIRAGE1", image = "talents/blur_sight.png",
-	desc = "Elemental Mirage (First Element)",
-	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):format(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
+	desc = _t"Elemental Mirage (First Element)",
+	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):tformat(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
 	type = "magical",
 	subtype = { phantasm=true,},
 	status = "beneficial",
@@ -4631,8 +4631,8 @@ newEffect{
 
 newEffect{
 	name = "LICH_FEAR", image = "talents/lichform.png",
-	desc = "Frightening Presence",
-	long_desc = function(self, eff) return ("The mere sight of a Lich sent you into a frightened state, reducing all saves by %d, all damage by %d%% and movement speed by %d%%."):format(eff.saves, eff.dam, eff.speed) end,
+	desc = _t"Frightening Presence",
+	long_desc = function(self, eff) return ("The mere sight of a Lich sent you into a frightened state, reducing all saves by %d, all damage by %d%% and movement speed by %d%%."):tformat(eff.saves, eff.dam, eff.speed) end,
 	type = "magical",
 	subtype = { lich=true, fear=true},
 	status = "detrimental",
@@ -4650,8 +4650,8 @@ newEffect{
 
 newEffect{
 	name = "ELEMENTAL_MIRAGE2", image = "talents/alter_mirage.png",
-	desc = "Elemental Mirage (Second Element)",
-	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):format(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
+	desc = _t"Elemental Mirage (Second Element)",
+	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):tformat(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
 	type = "magical",
 	subtype = { phantasm=true,},
 	status = "beneficial",
@@ -4666,8 +4666,8 @@ newEffect{
 
 newEffect{
 	name = "COMMANDER_OF_THE_DEAD", image = "talents/commander_of_the_dead.png",
-	desc = "Commander of the Dead",
-	long_desc = function(self, eff) return ("Physical power, spellpower and all saves increased by %d."):format(eff.power) end,
+	desc = _t"Commander of the Dead",
+	long_desc = function(self, eff) return ("Physical power, spellpower and all saves increased by %d."):tformat(eff.power) end,
 	type = "magical",
 	subtype = { lich=true, power=true },
 	status = "beneficial",
@@ -4679,5 +4679,51 @@ newEffect{
 		self:effectTemporaryValue(eff, "combat_physresist", eff.power)
 		self:effectTemporaryValue(eff, "combat_spellresist", eff.power)
 		self:effectTemporaryValue(eff, "combat_generic_power", eff.power)
+	end,
+}
+
+newEffect{
+	name = "CONSUME_SOUL", image = "talents/consume_soul.png",
+	desc = _t"Consume Soul",
+	long_desc = function(self, eff) return ("Spellpower increased by %d."):tformat(eff.power) end,
+	type = "magical",
+	subtype = { necrotic=true },
+	status = "beneficial",
+	parameters = {power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "combat_spellpower", eff.power)
+	end,
+}
+
+newEffect{
+	name = "SPIKE_OF_DECREPITUDE", image = "talents/spikes_of_decrepitude.png",
+	desc = _t"Spike of Decrepitude",
+	long_desc = function(self, eff) return ("Damage reduced by %d%%."):tformat(eff.power) end,
+	type = "magical",
+	subtype = { necrotic=true,},
+	status = "detrimental",
+	parameters = {power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "inc_damage", {all = -eff.power})
+	end,
+}
+
+newEffect{
+	name = "SOUL_LEECH", image = "talents/soul_leech.png",
+	desc = _t"Soul Leech",
+	long_desc = function(self, eff) return _t"Soul absorbed upon death." end,
+	type = "magical",
+	subtype = { necrotic=true,},
+	status = "detrimental",
+	parameters = {},
+	callbackOnDeath = function(self, eff)
+		if eff.src then eff.src:incSoul(1) end
+	end,
+	deactivate = function(self, eff)
+		if eff.src and eff.powerful then eff.src:incSoul(1) end
 	end,
 }
