@@ -254,6 +254,36 @@ newEffect{
 }
 
 newEffect{
+	name = "GREATER_INVISIBILITY", image = "effects/invisibility.png",
+	desc = "Invisibility",
+	long_desc = function(self, eff) return ("Improves/gives invisibility (power %d), and increases damage dealt to blind or dazzled creatures by %d%%."):format(eff.power, eff.dam) end,
+	type = "magical",
+	subtype = { phantasm=true, invisibility=true },
+	status = "beneficial",
+	parameters = { power=10, dam=10 },
+	on_gain = function(self, err) return "#Target# vanishes from sight.", "+Invis" end,
+	on_lose = function(self, err) return "#Target# is no longer invisible.", "-Invis" end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "invisible", eff.power)
+		self:effectTemporaryValue(eff, "blind_inc_damage", eff.dam)
+		if not self.shader then
+			eff.set_shader = true
+			self.shader = "invis_edge"
+			self:removeAllMOs()
+			game.level.map:updateMap(self.x, self.y)
+		end
+	end,
+	deactivate = function(self, eff)
+		if eff.set_shader then
+			self.shader = nil
+			self:removeAllMOs()
+			game.level.map:updateMap(self.x, self.y)
+		end
+		self:resetCanSeeCacheOf()
+	end,
+}
+
+newEffect{
 	name = "INVISIBILITY", image = "effects/invisibility.png",
 	desc = _t"Invisibility",
 	long_desc = function(self, eff) return ("Improves/gives invisibility (power %d), reducing damage dealt by %d%%%s."):tformat(eff.power, eff.penalty*100, eff.regen and _t" and preventing healing and life regeneration" or "") end,
@@ -4554,6 +4584,21 @@ newEffect{
 }
 
 newEffect{
+	name = "DAZZLED",
+	desc = "Dazzled",
+	long_desc = function(self, eff) return ("All damage decreased by %d%%."):format(eff.power) end,
+	type = "magical",
+	subtype = { stun=true,},
+	status = "detrimental",
+	parameters = {power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "generic_damage_penalty", eff.power)
+	end,
+}
+
+newEffect{
 	name = "LICH_RESISTED", image = "talents/lichform.png",
 	desc = _t"Immune to Frightening Presence",
 	long_desc = function(self, eff) return (_t"You resisted a Lich and are immune to its frightening presence.") end,
@@ -4565,6 +4610,22 @@ newEffect{
 	on_lose = function(self, err) return nil, true end,
 	activate = function(self, eff)
 		game:onTickEnd(function() self:removeEffect(self.EFF_LICH_FEAR) end)
+	end,
+}
+
+newEffect{
+	name = "ELEMENTAL_MIRAGE1", image = "talents/blur_sight.png",
+	desc = "Elemental Mirage (First Element)",
+	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):format(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
+	type = "magical",
+	subtype = { phantasm=true,},
+	status = "beneficial",
+	parameters = {dt=DamageType.ARCANE, power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "inc_damage", {[eff.dt] = eff.power})
+		if eff.pen then self:effectTemporaryValue(eff, "resists_pen", {[eff.dt] = eff.pen}) end
 	end,
 }
 
@@ -4584,6 +4645,22 @@ newEffect{
 		self:effectTemporaryValue(eff, "combat_physresist", -eff.saves)
 		self:effectTemporaryValue(eff, "combat_spellresist", -eff.saves)
 		self:effectTemporaryValue(eff, "movement_speed", -eff.speed / 100)
+	end,
+}
+
+newEffect{
+	name = "ELEMENTAL_MIRAGE2", image = "talents/alter_mirage.png",
+	desc = "Elemental Mirage (Second Element)",
+	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):format(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
+	type = "magical",
+	subtype = { phantasm=true,},
+	status = "beneficial",
+	parameters = {dt=DamageType.FIRE, power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "inc_damage", {[eff.dt] = eff.power})
+		if eff.pen then self:effectTemporaryValue(eff, "resists_pen", {[eff.dt] = eff.pen}) end
 	end,
 }
 
