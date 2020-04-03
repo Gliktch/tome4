@@ -141,9 +141,11 @@ newTalent{
 	name = "Spikes of Decrepitude",
 	type = {"spell/necrosis",4},
 	require = spells_req4,
-	mode = "passive",
+	mode = "sustained",
 	points = 5,
 	radius = 10,
+	sustain_mana = 10,
+	cooldown = 10,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 5, 70) end,
 	getReduce = function(self, t) return self:combatTalentLimit(t, 50, 8, 25) end,
 	callbackOnActBase = function(self, t)
@@ -160,6 +162,12 @@ newTalent{
 				target:setEffect(target.EFF_SPIKE_OF_DECREPITUDE, 2, {apply_power=self:combatSpellpower(), power=reduce})
 			end
 		end
+	end,
+	activate = function(self, t)
+		return {}
+	end,
+	deactivate = function(self, t, p)
+		return true
 	end,
 	info = function(self, t)
 		return ([[Each turn you unleash dark powers through your runeskin.

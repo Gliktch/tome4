@@ -4698,6 +4698,59 @@ newEffect{
 }
 
 newEffect{
+	name = "NECROTIC_AURA", image = "talents/necrotic_aura.png",
+	desc = _t"Necrotic Aura",
+	long_desc = function(self, eff) return ("All resistances increased by %d."):tformat(eff.power) end,
+	type = "magical",
+	subtype = { necrotic=true },
+	status = "beneficial",
+	parameters = {power=10},
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "resists", {all=eff.power})
+	end,
+}
+
+newEffect{
+	name = "LORD_OF_SKULLS", image = "talents/lord_of_skulls.png",
+	desc = _t"Lord of Skulls",
+	long_desc = function(self, eff) return ("Maximum life increased by %d."):tformat(eff.life) end,
+	type = "magical",
+	subtype = { necrotic=true, ["lord of skulls"]=true },
+	status = "beneficial", decrease = 0,
+	parameters = {power=10},
+	on_gain = function(self, err) return _t"#Target# becomes the Lord of Skulls!", true end,
+	on_lose = function(self, err) return _t"#Target# is no more the Lord of Skulls.", true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "max_life", eff.life)
+		self:heal(self.max_life, self)
+
+		self.lord_of_skulls = true
+		self.old_los_name = self.name
+		if self.skeleton_minion == "warrior" then self.name = _t"Lord of Skulls (warrior)"
+		elseif self.skeleton_minion == "archer" then self.name = _t"Lord of Skulls (archer)"
+		elseif self.skeleton_minion == "mage" then self.name = _t"Lord of Skulls (mage)"
+		end
+
+		if eff.talents then
+			if self.skeleton_minion == "warrior" then self:learnTalent(self.T_GIANT_LEAP, true)
+			elseif self.skeleton_minion == "archer" then self:learnTalent(self.T_VITAL_SHOT, true)
+			elseif self.skeleton_minion == "mage" then self:learnTalent(self.T_METEORIC_CRASH, true)
+			end
+		end
+	end,
+	deactivate = function(self, eff)
+		self.lord_of_skulls = false
+		if eff.talents then
+			if self.skeleton_minion == "warrior" then self:unlearnTalent(self.T_GIANT_LEAP, 1)
+			elseif self.skeleton_minion == "archer" then self:unlearnTalent(self.T_VITAL_SHOT, 1)
+			elseif self.skeleton_minion == "mage" then self:unlearnTalent(self.T_METEORIC_CRASH, 1)
+			end
+		end
+		self.name = self.old_los_name
+	end,
+}
+
+newEffect{
 	name = "SPIKE_OF_DECREPITUDE", image = "talents/spikes_of_decrepitude.png",
 	desc = _t"Spike of Decrepitude",
 	long_desc = function(self, eff) return ("Damage reduced by %d%%."):tformat(eff.power) end,
@@ -4721,9 +4774,9 @@ newEffect{
 	status = "detrimental",
 	parameters = {},
 	callbackOnDeath = function(self, eff)
-		if eff.src then eff.src:incSoul(1) end
+		if eff.src then eff.src:resolveSource():incSoul(1) end
 	end,
 	deactivate = function(self, eff)
-		if eff.src and eff.powerful then eff.src:incSoul(1) end
+		if eff.src and eff.powerful then eff.src:resolveSource():incSoul(1) end
 	end,
 }

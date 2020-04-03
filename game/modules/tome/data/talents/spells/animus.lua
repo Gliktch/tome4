@@ -27,7 +27,8 @@ newTalent{
 	getTurns = function(self, t) return self:combatTalentLimit(t, 1, 10, 3) end,
 	getTurnsByRank = function(self, t, target)
 		local base = t.getTurns(self, t)
-		if target.rank == 3.2 then return math.ceil(base * 3), true
+		if target.innate_player then return math.ceil(base), true -- Player is like a boss for NPCs
+		elseif target.rank == 3.2 then return math.ceil(base * 3), true
 		elseif target.rank == 3.5 then return math.ceil(base * 2.2), true
 		elseif target.rank == 4 then return math.ceil(base * 1.3), true
 		elseif target.rank == 5 then return math.ceil(base), true
@@ -37,7 +38,7 @@ newTalent{
 	end,
 	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
 		if dead then
-			self:incSoul(1)
+			self:resolveSource():incSoul(1)
 		else
 			if target:hasEffect(target.EFF_SOUL_LEECH) then return end -- Dont reset, we want it to exprei to leech
 			local turns, powerful = t.getTurnsByRank(self, t, target)
@@ -51,7 +52,7 @@ newTalent{
 		npc.rank = 4 local _, c_boss = npc:TextRank()
 		npc.rank = 5 local _, c_eboss = npc:TextRank()
 
-		return ([[Each time you deal damage to a creature you apply Soul Leech to them.
+		return ([[Each time you or your undead minions deal damage to a creature you apply Soul Leech to them.
 		If a creature dies with this effect active, you steal its soul.
 		Strong creatures and bosses are so overflowing with soul power that you steal a fragment of their soul every few turns:
 		%s- rare: at most every %d turns
@@ -130,6 +131,7 @@ newTalent{
 	require = spells_req4,
 	points = 5,
 	mode = "sustained",
+	cooldown = 30,
 	sustain_mana = 30,
 	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 2, 8)) end,
 	getMana = function(self, t) return math.floor(self:combatTalentScale(t, 5, 30)) / 10 end,

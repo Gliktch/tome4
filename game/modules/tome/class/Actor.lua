@@ -3261,15 +3261,6 @@ function _M:die(src, death_note)
 		src.blood_frenzy = src.blood_frenzy + src:callTalent(src.T_BLOOD_FRENZY,"bonuspower")
 	end
 
-	-- Increases necrotic aura count
-	if src and src.resolveSource and src:resolveSource().isTalentActive and src:resolveSource():isTalentActive(src.T_NECROTIC_AURA) and not self.necrotic_minion and not self.no_necrotic_soul then
-		local rsrc = src:resolveSource()
-		local p = rsrc:isTalentActive(src.T_NECROTIC_AURA)
-		if self.x and self.y and src.x and src.y and core.fov.distance(self.x, self.y, rsrc.x, rsrc.y) <= rsrc.necrotic_aura_radius then
-			rsrc:callTalent(rsrc.T_NECROTIC_AURA, "absorbSoul", self)
-		end
-	end
-
 	-- handle hate changes on kill
 	if src and src.knowTalent and src:knowTalent(src.T_HATE_POOL) then
 		local t = src:getTalentFromId(src.T_HATE_POOL)

@@ -229,6 +229,7 @@ function _M:newGame()
 			self.zone.object_list[#self.zone.object_list+1] = o
 		end
 
+		self.player.innate_player = true
 		if config.settings.cheat then self.player.__cheated = true end
 
 		if game.__mod_info then
