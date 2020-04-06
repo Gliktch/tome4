@@ -272,10 +272,13 @@ newTalent{
 		self:project(tg, x, y, function(px, py, tg, self)
 			local oe = game.level.map(px, py, Map.TERRAIN)
 			if not oe or oe.special then return end
-			if not oe or oe:attr("temporary") or game.level.map:checkAllEntities(px, py, "block_move") then return end
+			if not oe or oe:attr("temporary") or game.level.map:checkAllEntities(px, py, "block_move") or oe.special then return end
 			local e = mod.class.Object.new{
 				old_feat = oe,
-				name = _t"bone wall", image = "npc/iceblock.png",
+				name = _t"bone wall",
+				image = oe.image,
+				add_mos = table.clone(oe.add_mos or {}, true),
+				add_displays = table.clone(oe.add_displays or {}),
 				desc = _t"a summoned wall of bones",
 				type = "wall",
 				display = '#', color=colors.GREY, back_color=colors.BLUE,
@@ -321,6 +324,7 @@ newTalent{
 				summoner_gain_exp = true,
 				summoner = self,
 			}
+			e.add_displays[#e.add_displays+1] = mod.class.Grid.new{image="terrain/bone_wall_0"..rng.range(1,4)..".png", z=19}
 			e.tooltip = mod.class.Grid.tooltip
 			game.level:addEntity(e)
 			game.level.map(px, py, Map.TERRAIN, e)
