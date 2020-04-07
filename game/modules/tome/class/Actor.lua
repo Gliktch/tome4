@@ -2968,8 +2968,10 @@ function _M:onTakeHit(value, src, death_note)
 	end
 
 	local cb = {value=value}
-	if self:fireTalentCheck("callbackOnHit", cb, src, death_note) then
-		value = cb.value
+	if self:fireTalentCheck("callbackOnHit", cb, src, death_note) then value = cb.value end
+	if self.summoner then
+		cb = {value=value}
+		if self.summoner:fireTalentCheck("callbackOnSummonHit", cb, self, src, death_note) then value = cb.value end
 	end
 
 	local hd = {"Actor:takeHit", value=value, src=src, death_note=death_note}
@@ -5912,6 +5914,7 @@ local sustainCallbackCheck = {
 	callbackOnTeleport = "talents_on_teleport",
 	callbackOnDealDamage = "talents_on_deal_damage",
 	callbackOnHit = "talents_on_hit",
+	callbackOnSummonHit = "talents_on_summon_hit",
 	callbackOnAct = "talents_on_act",
 	callbackOnActBase = "talents_on_act_base",
 	callbackOnActEnd = "talents_on_act_end",

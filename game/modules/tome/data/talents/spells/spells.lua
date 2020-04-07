@@ -145,13 +145,14 @@ function necroArmyStats(self)
 	return stats
 end
 
-function necroSetupSummon(self, def, x, y, level, no_control)
+function necroSetupSummon(self, def, x, y, level, turns, no_control)
 	local m = require("mod.class.NPC").new(def)
 	m.necrotic_minion = true
 	m.creation_turn = game.turn
 	m.faction = self.faction
 	m.summoner = self
 	m.summoner_gain_exp = true
+	if turns then m.summon_time = turns end
 	m.exp_worth = 0
 	m.life_regen = 0
 	m.unused_stats = 0
@@ -241,10 +242,19 @@ function necroSetupSummon(self, def, x, y, level, no_control)
 	game.zone:addEntity(game.level, m, "actor", x, y)
 	game.level.map:particleEmitter(x, y, 1, "summon")
 
-	-- m.on_die = function(self, killer)
-	-- 	if self.on_die_necrotic_minion then self:on_die_necrotic_minion(killer) end
-	-- 	local src = self.summoner
-	-- end
+	if m.ghoul_minion and self:knowTalent(self.T_PUTRESCENT_LIQUEFACTION) then
+		m.on_die = function(self, killer)
+			if not self.x or not game.level then return end
+			local src = self:resolveSource()
+			for i, e in ipairs(game.level.map.effects) do
+				if e.src == src and e.damtype == engine.DamageType.PUTRESCENT_LIQUEFACTION and e.grids[self.x] and e.grids[self.x][self.y] and src:isTalentActive(src.T_PUTRESCENT_LIQUEFACTION) then
+					local p = src:isTalentActive(src.T_PUTRESCENT_LIQUEFACTION)
+					p.dur = p.dur + src:callTalent(src.T_PUTRESCENT_LIQUEFACTION, "getIncrease")
+					game.logSeen(self, "#GREY#%s dissolves into the cloud of gore.", self:getName():capitalize())
+				end
+			end
+		end
+	end
 
 	-- Summons never flee
 	m.ai_tactic = m.ai_tactic or {}
@@ -294,6 +304,7 @@ load("/data/talents/spells/stone-alchemy.lua")
 load("/data/talents/spells/golem.lua")
 
 load("/data/talents/spells/master-of-bones.lua")
+load("/data/talents/spells/master-of-flesh.lua")
 load("/data/talents/spells/master-necromancer.lua")
 load("/data/talents/spells/animus.lua")
 load("/data/talents/spells/necrosis.lua")

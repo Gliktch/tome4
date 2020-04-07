@@ -178,7 +178,7 @@ newTalent{
 	radius = function(self, t) return self:getTalentRadius(self:getTalentFromId(self.T_NECROTIC_AURA)) end,
 	target = function(self, t) return {type="cone", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=false, talent=t} end,
 	getNb = function(self, t, ignore)
-		return math.max(1, math.floor(self:combatTalentScale(t, 1, 3, "log")))
+		return math.max(1, math.floor(self:combatTalentScale(t, 1, 2, "log")))
 	end,
 	getMax = function(self, t, ignore)
 		local max = math.max(1, math.floor(self:combatTalentScale(t, 1, 7)))
@@ -211,13 +211,13 @@ newTalent{
 			local pos = rng.tableRemove(possible_spots)
 			if pos then
 				if use_ressource then self:incSoul(-1) end
-				necroSetupSummon(self, self:getTalentLevel(t) >= 3 and t.minions_list.a_skel_warrior or t.minions_list.skel_warrior, pos.x, pos.y, lev, true)
+				necroSetupSummon(self, self:getTalentLevel(t) >= 3 and t.minions_list.a_skel_warrior or t.minions_list.skel_warrior, pos.x, pos.y, lev, nil, true)
 				self.__call_crypt_count = (self.__call_crypt_count or 0) + 1
 				if self.__call_crypt_count == 3 then
 					self.__call_crypt_count = 0
 					if self:getTalentLevel(t) >= 5 then
 						local pos = rng.tableRemove(possible_spots)
-						if pos then necroSetupSummon(self, rng.percent(50) and t.minions_list.skel_mage or t.minions_list.skel_m_archer, pos.x, pos.y, lev, true) end
+						if pos then necroSetupSummon(self, rng.percent(50) and t.minions_list.skel_mage or t.minions_list.skel_m_archer, pos.x, pos.y, lev, nil, true) end
 					end
 				end
 			end
@@ -228,10 +228,12 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Call upon the battlefields of all to collect bones and fuse them with souls, combining them to create skeletal minions to do your bidding.
+		return ([[Call upon the battle fields of old to collect bones and fuse them with souls, combining them to create skeletal minions to do your bidding.
 		Up to %d skeleton warriors of level %d are summoned. Up to %d skeletons can be controlled at once.
 		At level 3 the summons become armoured skeletons warriors.
 		At level 5 every 3 summoned warriors a free skeleton mage or skeleton archer is also created (without costing a soul).
+
+		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generaly more durable.#{normal}#
 		]]):tformat(t:_getNb(self), math.max(1, self.level + t:_getLevel(self)), t:_getMax(self, true))
 	end,
 }
@@ -251,12 +253,17 @@ newTalent{
 		local block = function(_, lx, ly)
 			return game.level.map:checkAllEntities(lx, ly, "block_move")
 		end
-		return {type="wall", range=self:getTalentRange(t), halflength=halflength, talent=t, halfmax_spots=halflength+1, block_radius=block} 
+		return {
+			type="wall", range=self:getTalentRange(t), halflength=halflength, talent=t, halfmax_spots=halflength+1, block_radius=block,
+			nowarning=true, first_target="friend", custom_scan_filter=function(target)
+				return target.summoner == self and target.necrotic_minion and target.skeleton_minion
+			end,
+		}
 	end,
 	getChance = function(self, t) return math.floor(self:combatTalentScale(t, 20, 50)) end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
 	getLength = function(self, t) return 1 + math.floor(self:combatTalentScale(t, 3, 7)/2)*2 end,
-	getDamage = function(self, t) return self:combatTalentMindDamage(t, 3, 15) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 3, 15) end,
 	on_pre_use = function(self, t) return necroArmyStats(self).nb_skeleton > 0 end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -491,7 +498,7 @@ newTalent{
 		elseif self:getTalentLevel(t) >= 3 then def = t.minions_list.h_bone_giant
 		end
 
-		necroSetupSummon(self, def, pos.x, pos.y, lev, true)
+		necroSetupSummon(self, def, pos.x, pos.y, lev, nil, true)
 
 		game:playSoundNear(self, "talents/spell_generic2")
 		return true

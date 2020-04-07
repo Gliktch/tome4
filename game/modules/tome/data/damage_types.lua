@@ -4298,3 +4298,13 @@ newDamageType{
 		return (realdam1 or 0) + (realdam2 or 0)
 	end,
 }
+
+newDamageType{
+	name = _t"putrescent liquefaction", type = "PUTRESCENT_LIQUEFACTION", text_color = "#OLIVE_DRAB#",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local realdam = DamageType:get(DamageType.FROSTDUSK).projector(src, x, y, DamageType.FROSTDUSK, dam, state)
+		return realdam or 0
+	end,
+}

@@ -4780,3 +4780,48 @@ newEffect{
 		if eff.src and eff.powerful then eff.src:resolveSource():incSoul(1) end
 	end,
 }
+
+newEffect{
+	name = "CORPSE_EXPLOSION", image = "talents/corpse_explosion.png",
+	desc = _t"Corpse Explosion",
+	long_desc = function(self, eff) return ("When a ghoul is hit or dies, it explodes, doing %0.2f frostdusk damage."):tformat(eff.damage) end,
+	type = "magical",
+	subtype = { necrotic=true, ghoul=true },
+	status = "beneficial",
+	parameters = {damage=10, disease=5, radius=1},
+	callbackPriorities={callbackOnSummonDeath = 100, callbackOnSummonHit = 100}, -- trigger after most others
+	callbackOnSummonDeath = function(self, eff, minion, killer, death_note)
+		local ed = self:getEffectFromId(self.EFF_CORPSE_EXPLOSION)
+		ed.registerHit(self, eff, minion)
+	end,
+	callbackOnSummonHit = function(self, eff, cb, minion, src, death_note)
+		if cb.value <= 0 then return end
+		local ed = self:getEffectFromId(self.EFF_CORPSE_EXPLOSION)
+		ed.registerHit(self, eff, minion)
+	end,
+	callbackOnActBase = function(self, eff)
+		if #eff.turn_list == 0 then return end
+		table.sort(eff.turn_list, function(a, b) return a.creation_turn < b.creation_turn end)
+		local m = eff.turn_list[1]
+		if m.x then
+			if not m.dead then m:die(self) end
+			game.logSeen(m, "#GREY#%s explodes in a blast of gore!", m:getName():capitalize())
+			game.level.map:particleEmitter(m.x, m.y, eff.radius, "pustulent_fulmination", {radius=eff.radius})
+			game:playSoundNear(m, "talents/slime")
+			m:project({type="ball", radius=eff.radius, friendlyfire=false}, m.x, m.y, DamageType.FROSTDUSK, self:spellCrit(eff.damage))
+			local diseases = {{self.EFF_WEAKNESS_DISEASE, "str"}, {self.EFF_ROTTING_DISEASE, "con"}, {self.EFF_DECREPITUDE_DISEASE, "dex"}}
+			m:projectApply({type="ball", radius=eff.radius, friendlyfire=false}, m.x, m.y, Map.ACTOR, function(target)
+				local disease = rng.table(diseases)
+				game.log("============== %s", disease[1])
+				target:setEffect(disease[1], 6, {src=self, dam=eff.damage / 6, [disease[2]]=eff.disease, apply_power=self:combatSpellpower()})
+			end)
+		end
+		eff.turn_list = {}
+	end,
+	registerHit = function(self, eff, minion)
+		eff.turn_list[#eff.turn_list+1] = minion
+	end,
+	activate = function(self, eff)
+		eff.turn_list = {}
+	end,
+}
