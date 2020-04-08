@@ -6772,6 +6772,15 @@ function _M:startTalentCooldown(t, v)
 	if t.cooldownStart then t.cooldownStart(self, t) end
 end
 
+--- Called if a talent level is > 0
+function _M:alterTalentLevelRaw(t, lvl)
+	if self.talents_add_levels and self.talents_add_levels[id] then lvl = lvl + self.talents_add_levels[id] end
+	if self:attr("spells_bonus_level") and t.is_spell then lvl = lvl + self:attr("spells_bonus_level") end
+	-- if self:attr("mind_bonus_level") and t.is_mind then lvl = lvl + self:attr("mind_bonus_level") end
+	-- if self:attr("nature_bonus_level") and t.is_nature then lvl = lvl + self:attr("nature_bonus_level") end
+	return lvl
+end
+
 --- Alter the remanining cooldown of a talent
 -- @param t the talent affect cooldown
 -- @param v the value to add/remove to the cooldown

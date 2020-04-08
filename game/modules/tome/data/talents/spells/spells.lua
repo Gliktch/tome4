@@ -307,6 +307,7 @@ load("/data/talents/spells/master-of-bones.lua")
 load("/data/talents/spells/master-of-flesh.lua")
 load("/data/talents/spells/master-necromancer.lua")
 load("/data/talents/spells/animus.lua")
+load("/data/talents/spells/death.lua")
 load("/data/talents/spells/necrosis.lua")
 load("/data/talents/spells/spectre.lua")
 
