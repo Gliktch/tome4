@@ -205,7 +205,7 @@ newTalent{
 		end
 
 		if use_ressource then self:incMana(-util.getval(t.mana, self, t) * (100 + 2 * self:combatFatigue()) / 100) end
-		game:playSoundNear(self, "talents/spell_generic2")
+		game:playSoundNear(self, "talents/ghoul")
 		return true
 	end,
 	info = function(self, t)
@@ -349,46 +349,52 @@ newTalent{
 	type = {"spell/master-of-flesh", 4},
 	require = spells_req4,
 	points = 5,
-	soul = function(self, t) return self:getTalentLevel(t) < 6 and 1 or 3 end,
-	mana = 50,
-	cooldown = 30,
-	tactical = { SPECIAL=10 },
-	getLife = function(self, t) return self:combatTalentScale(t, 30, 80) end,
+	mode = "sustained",
+	sustain_mana = 40,
+	soul = 1,
+	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 15, 40, 20)) end,
+	tactical = { CURE = 1 },
 	range = 10,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
-	ai_outside_combat = true,
-	onAIGetTarget = function(self, t)
-		local targets = {}
-		for _, act in pairs(game.level.entities) do
-			if act.summoner == self and act.necrotic_minion and act.skeleton_minion and self:hasLOS(act.x, act.y) and core.fov.distance(self.x, self.y, act.x, act.y) <= self:getTalentRange(t) then
-			targets[#targets+1] = act
-		end end
-		if #targets == 0 then return nil end
-		local tgt = rng.table(targets)
-		return tgt.x, tgt.y, tgt
+	on_pre_use = function(self, t) return necroArmyStats(self).nb_ghoul > 0 end,
+	callbackOnActBase = function(self, t)
+		if necroArmyStats(self).nb_ghoul == 0 then
+			self:forceUseTalent(t.id, {ignore_energy=true})
+		end
 	end,
-	on_pre_use = function(self, t) return necroArmyStats(self).nb_skeleton > 0 end,
-	action = function(self, t, p)
-		local tg = self:getTalentTarget(t)
-		local x, y, target = self:getTargetLimited(tg)
-		if not x or not y or not target then return nil end
-		if not target.skeleton_minion or target.summoner ~= self then return nil end
-
+	callbackOnTemporaryEffect = function(self, t, eff_id, e, p)
+		if e.status ~= "detrimental" then return end
+		if self.life < 1 then
+			if e.type == "other" then return end
+		else
+			if e.type ~= "physical" then return end
+		end
 		local stats = necroArmyStats(self)
-		if stats.lord_of_skulls then stats.lord_of_skulls:removeEffect(stats.lord_of_skulls.EFF_LORD_OF_SKULLS, false, true) end
+		if stats.nb_ghoul == 0 then return end
 
-		target:setEffect(target.EFF_LORD_OF_SKULLS, 1, {life=t:_getLife(self), talents=self:getTalentLevel(t) >= 6})
+		local list = {}
+		for _, m in ipairs(stats.list) do if m.ghoul_minion then list[#list+1] = m end end
+		local m = rng.table(list)
+		game.logSeen(self, "%s sacrifice a ghoul to avoid being affected by %s!", self:getName():capitalize(), self:getEffectFromId(eff_id).desc)
+		m:die(self)		
+
+		if stats.nb_ghoul == 1 then self:forceUseTalent(t.id, {ignore_energy=true}) end
+		return true
+	end,
+	activate = function(self, t)
+		local ret = {}
+		return ret
+	end,	
+	deactivate = function(self, t, p)
 		return true
 	end,	
 	info = function(self, t)
-		return ([[Consume a soul to empower one of your skeleton, making it into a Lord of Skulls.
-		The Lord of Skulls gain %d%% more life, is instantly healed to full.
-		There can be only one active Lord of Skulls, casting this spell on an other skeleton removes the effect from the current one.
-		At level 6 it also gains a new talent:
-		- Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes and impact and frees the skeleton from any stun, daze and pin effects they may have
-		- Archers learn Vital Shot, a devastating attack that can stun and cripple their foes
-		- Mages learn Meteoric Crash, a destructive spell that crushes and burns foes in a big radius for multiple turns
+		return ([[Whenever you would be affected by a detrimental physical effect you instead transfer it instantly to one of your ghoul.
+		The ghoul dies from the process.
+		While under 1 life it also affects magical and mental effects.
+		Cross-tier effects are never affected.
+		This spell will automatically unsustain if you have no more ghouls.
 		]]):
-		tformat(t:_getLife(self))
+		tformat()
 	end,
 }

@@ -4812,7 +4812,6 @@ newEffect{
 			local diseases = {{self.EFF_WEAKNESS_DISEASE, "str"}, {self.EFF_ROTTING_DISEASE, "con"}, {self.EFF_DECREPITUDE_DISEASE, "dex"}}
 			m:projectApply({type="ball", radius=eff.radius, friendlyfire=false}, m.x, m.y, Map.ACTOR, function(target)
 				local disease = rng.table(diseases)
-				game.log("============== %s", disease[1])
 				target:setEffect(disease[1], 6, {src=self, dam=eff.damage / 6, [disease[2]]=eff.disease, apply_power=self:combatSpellpower()})
 			end)
 		end
