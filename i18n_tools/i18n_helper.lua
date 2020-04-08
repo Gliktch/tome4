@@ -361,13 +361,17 @@ local function print_file(file_out, file_out_2)
         lfs.mkdir("outputs")
         local fn = "outputs/" .. shortname .. "." .. locale .. ".lua"
         local ff = io.open(fn, "w")
-        ff:write(content)
-        ff:close()
+        if ff then 
+            ff:write(content)
+            ff:close()
+        end
         fn = output_filename[shortname]
         print(fn)
         ff = io.open(fn, "w")
-        ff:write(content)
-        ff:close()
+        if ff then 
+            ff:write(content)
+            ff:close()
+        end
     end
     print(("%d / %d entries translated"):format(translated, all_entry))
 end
