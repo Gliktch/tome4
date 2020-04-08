@@ -292,13 +292,13 @@ end
 local output_filename ={}
 local output_content = {}
 local function copy_file(filename)
-    local fc = io.open(filename, "rb")
-    local result = 'locale "' .. locale .. '"'
+    local fc = io.open(filename, "r")
+    local result = 'locale "' .. locale .. '"\n'
     if fc then
         while true do
             local l = fc:read()
             if not l then break end
-            result = result .. l
+            result = result .. l .. "\n"
         end
     end
     return result .. "\n"
