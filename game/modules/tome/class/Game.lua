@@ -2901,10 +2901,6 @@ unlocks_list = {
 	race_ogre = "Race: Ogre",
 
 	mage = "Class: Archmage",
-	mage_tempest = "Class tree: Storm",
-	mage_geomancer = "Class tree: Stone",
-	mage_pyromancer = "Class tree: Wildfire",
-	mage_cryomancer = "Class tree: Uttercold",
 	mage_necromancer = "Class: Necromancer",
 	cosmetic_class_alchemist_drolem = "Class feature: Alchemist's Drolem",
 
