@@ -25,9 +25,10 @@ newTalent{
 	soul = 1,
 	mana = 10,
 	range = 10,
+	cooldown = 15,
 	tactical = { ATTACK = { COLD=1, DARK=1 }, DISABLE = 1 },
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 300) end,
-	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5)) end,
+	getMax = function(self, t) return math.floor(self:combatTalentScale(t, 1, 9)) end,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t), talent=t} end,
 	on_pre_use_ai = function(self, t)
 		local target = self.ai_target.actor
@@ -35,12 +36,24 @@ newTalent{
 
 		return true
 	end,
-	active = function(self, t)
+	action = function(self, t)
 		local tg = self:getTalentTarget(t)
-		local x, y, target = self:getTargetLimited(tg)
-		if not target then return end
+		local x, y = self:getTarget(tg)
+		if not x then return end
 
-		local mult = 1 + math.log10(nb) * 1.5
+		self:projectApply(tg, x, y, Map.ACTOR, function(target)
+			local nb = #target:effectsFilter({status="detrimental", ignore_crosstier=true}, 999)
+			if nb == 0 then return end
+			local mult = 1 + math.log10(nb) * 1.5
+			local dam = self:spellCrit(mult * t:_getDamage(self))
+			if DamageType:get(DamageType.FROSTDUSK).projector(self, target.x, target.y, DamageType.FROSTDUSK, dam) > 0 then
+				if target:canBe("slow") then
+					target:setEffect(target.EFF_RIGOR_MORTIS, util.bound(nb, 1, t:_getMax(self)), {power=0.25, apply_power=self:combatSpellpower()})
+				else
+					game.logSeen(target, "%s resists the Rigor Mortis!", target:getName():capitalize())
+				end
+			end
+		end, nil, {type="dark"})
 
 		return true
 	end,
@@ -56,27 +69,80 @@ newTalent{
 	type = {"spell/death", 2},
 	require = spells_req2,
 	points = 5,
-	soul = 1,
 	cooldown = 15,
-	getHeal = function(self, t) return 20 + self:combatTalentSpellDamage(t, 40, 450) end,
-	getMana = function(self, t) return 10 + self:combatTalentSpellDamage(t, 40, 180) end,
-	getSpellpower = function(self, t) return self:combatTalentScale(t, 15, 50) end,
-	tactical = { MANA=1, HEAL=2, BUFF=function(self) return self.life < 1 and 2 or 0 end},
-	action = function(self, t, p)
-		if self.life < 1 then
-			self:setEffect(self.EFF_CONSUME_SOUL, 10, {power=t.getSpellpower(self, t)})
+	no_energy = true,
+	no_npc_use = true,
+	mana = 15,
+	getTurns = function(self, t) return math.ceil(self:combatTalentScale(t, 2, 6)) end,
+	on_learn = function(self, t)
+		self.__drawn_to_death_portals = self.__drawn_to_death_portals or { portals = {} }
+	end,
+	registerPortal = function(self, t, x, y)
+		local p = self.__drawn_to_death_portals
+		if not p then return end
+		table.insert(p.portals, {
+			x = x, y = y,
+			dur = t:_getTurns(self)
+		})
+	end,
+	callbackOnChangeLevel = function(self, t, what)
+		local p = self.__drawn_to_death_portals
+		if not p then return end
+		if what ~= "leave" then return end
+		p.portals = {}
+	end,
+	callbackOnActBase = function(self, t)
+		local p = self.__drawn_to_death_portals
+		if not p then return end
+
+		for i, portal in ripairs(p.portals) do
+			portal.dur = portal.dur - 1
+			if portal.dur <= 0 then table.remove(p.portals, i) end
 		end
-		self:attr("allow_on_heal", 1)
-		self:heal(self:spellCrit(t.getHeal(self, t)), self)
-		self:attr("allow_on_heal", -1)
-		self:incMana(t.getMana(self, t))
-		return true
+	end,
+	callbackOnKill = function(self, t, target, death_note)
+		if target.x then t:_registerPortal(self, target.x, target.y) end
+	end,
+	callbackOnSummonKill = function(self, t, minion, target, death_note)
+		if target.x then t:_registerPortal(self, target.x, target.y) end
+	end,
+	requires_target = true,
+	direct_hit = true,
+	range = 10,
+	target = function(self, t) return {type="hit", nolock=true, range=self:getTalentRange(t)} end,
+	on_pre_use = function(self, t) return self.__drawn_to_death_portals and #self.__drawn_to_death_portals.portals > 0 end,
+	action = function(self, t, p)
+		local p = self.__drawn_to_death_portals
+		if not p then return end
+
+		local tg = self:getTalentTarget(t)
+
+		-- Ok this is a bit weird, we add map effects before target and remove them afterwards
+		-- this way the player will see the portals, but only while casting
+		local list = {}
+		for _, portal in ipairs(p.portals) do list[#list+1] = game.level.map:particleEmitter(portal.x, portal.y, 1, "death_door", {}) end
+		local x, y = self:getTargetLimited(tg)
+		for _, e in ipairs(list) do game.level.map:removeParticleEmitter(e) end
+		if not x then return end
+		
+		for _, portal in ipairs(p.portals) do if portal.x == x and portal.y == y then
+			if game.level.map(x, y, Map.ACTOR) then
+				game.logPlayer("#LIGHT_RED#There already is a creature there! Kill it!")
+				return false
+			else
+				local ox, oy = self.x, self.y
+				game.level.map:particleEmitter(self.x, self.y, 1, "demon_teleport")
+				self:teleportRandom(x, y, 0)
+				game.level.map:particleEmitter(self.x, self.y, 1, "demon_teleport")
+			end
+			return true
+		end end
+		return nil
 	end,	
 	info = function(self, t)
-		return ([[Consume a soul whole to rebuild your body, healing you by %d and generating %d mana.
-		If used below 1 life the surge increases your spellpower by %d for 10 turns.
-		The heal and mana increases with your Spellpower.]]):
-		tformat(t.getHeal(self, t), t.getMana(self, t), t.getSpellpower(self, t))
+		return ([[Everytime you or one of your minions kills a creature you create a temporary link to the place of death.
+		For %d turns afterwards you can instantly and accurately teleport to it (if it is in sight).
+		]]):tformat(t:_getTurns(self))
 	end,
 }
 
@@ -85,31 +151,49 @@ newTalent{
 	type = {"spell/death", 3},
 	require = spells_req3,
 	points = 5,
-	mana = 25,
-	cooldown = 18,
-	tactical = { ATTACKAREA = { COLD=1, DARK=1 }, SOUL=2 },
-	radius = 10,
+	mode = "sustained",
+	sustain_mana = 35,
+	cooldown = 30,
+	tactical = { BUFF=3 },
 	range = 0,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 300) end,
-	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5)) end,
-	target = function(self, t) return {type="ball", radius=self:getTalentRadius(t), talent=t} end,
-	action = function(self, t)
-		local dam = self:spellCrit(t.getDamage(self, t))
-		local nb = 0
-		self:projectApply(self:getTalentTarget(t), self.x, self.y, Map.ACTOR, function(target)
-			if not target:hasEffect(target.EFF_SOUL_LEECH) then return end
-			if DamageType:get(DamageType.FROSTDUSK).projector(self, target.x, target.y, DamageType.FROSTDUSK, dam) > 0 then
-				nb = nb + 1
-			end
-		end, "hostile")
-		self:incSoul(math.min(nb, t.getNb(self, t)))
+	radius = function(self, t) return math.floor(self:combatTalentLimit(t, 10, 1, 3)) end,
+	target = function(self, t) return {type="ball", radius=self:getTalentRadius(t), friendlyfire=false, talent=t} end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 180) end,
+	getResist = function(self, t) return math.floor(self:combatTalentScale(t, 10, 25)) end,
+	getArmor = function(self, t) return math.floor(self:combatTalentScale(t, 5, 30)) end,
+	getDef = function(self, t) return math.floor(self:combatTalentScale(t, 5, 30)) end,
+	onSoulGain = function(self, t)
+		if self.turn_procs.grim_shadow then return end
+		if self:getSoul() == self:getMaxSoul() then return end
+		self.turn_procs.grim_shadow = true
+
+		game.logSeen(self, "#GREY#Darkness pulsates around %s!", self:getName())
+		local tg = self:getTalentTarget(t)
+		self:project(tg, self.x, self.y, DamageType.FROSTDUSK, t:_getDamage(self))
+		local list = table.listify(self:projectCollect(tg, self.x, self.y, Map.ACTOR))
+		table.sort(list, function(a, b) return a[2].dist > b[2].dist end)
+		for _, i in ipairs(list) do
+			local target = i[1]
+			if target:canBe("knockback") then target:knockback(self.x, self.y, 3) end
+		end
+		game.level.map:particleEmitter(self.x, self.y, tg.radius, "ball_darkness", {radius=tg.radius})
+	end,
+	activate = function(self, t)
+		local ret = {}
+		self:talentTemporaryValue(ret, "combat_armor", t:_getArmor(self))
+		self:talentTemporaryValue(ret, "combat_def", t:_getDef(self))
+		self:talentTemporaryValue(ret, "resists", {[DamageType.DARKNESS]=t:_getResist(self)})
+		return ret
+	end,
+	deactivate = function(self, t, p)
 		return true
 	end,
 	info = function(self, t)
-		return ([[Unleash dark forces to all foes in sight that are afflicted by Soul Leech, dealing %0.2f frostdusk damage to them and tearing apart their souls.
-		This returns up to %d souls toyou (based on number of foes hit).
+		return ([[Your body starts to radiate shadows, increasing your darkness resistance by %d%%, armour by %d and defence by %d.
+		Any time you absorb a soul the shadows pulse outward, dealing %0.2f frostdusk damage to all foes in range %d and knocking them back 3 tiles away.
+		This can only happen once per turn.
 		The damage increases with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.FROSTDUSK, t.getDamage(self, t)), t.getNb(self, t))
+		tformat(t:_getResist(self), t:_getArmor(self), t:_getDef(self), damDesc(self, DamageType.FROSTDUSK, t.getDamage(self, t)), self:getTalentRadius(t))
 	end,
 }
 

@@ -2023,18 +2023,15 @@ newEffect{
 newEffect{
 	name = "RIGOR_MORTIS", image = "talents/rigor_mortis.png",
 	desc = _t"Rigor Mortis",
-	long_desc = function(self, eff) return ("The target takes %d%% more damage from necrotic minions."):tformat(eff.power) end,
+	long_desc = function(self, eff) return ("The target is slowed by %d%%."):tformat(eff.power*100) end,
 	type = "magical",
-	subtype = { arcane=true },
+	subtype = { necrotic=true },
 	status = "detrimental",
-	parameters = {power=20},
+	parameters = {power=0.25},
 	on_gain = function(self, err) return _t"#Target# feels death coming!", _t"+Rigor Mortis" end,
 	on_lose = function(self, err) return _t"#Target# is freed from the rigor mortis.", _t"-Rigor Mortis" end,
 	activate = function(self, eff)
-		eff.tmpid = self:addTemporaryValue("inc_necrotic_minions", eff.power)
-	end,
-	deactivate = function(self, eff)
-		self:removeTemporaryValue("inc_necrotic_minions", eff.tmpid)
+		self:effectTemporaryValue(eff, "global_speed_add", -eff.power)
 	end,
 }
 

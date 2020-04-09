@@ -444,7 +444,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 	-- melee attack bonus hooks/callbacks  Note: These are post rescaleCombatStats
 	local hd = {"Combat:attackTargetWith:attackerBonuses", target=target, weapon=weapon, damtype=damtype, mult=mult, dam=dam, apr=apr, atk=atk, def=def, armor=armor}
 	self:triggerHook(hd)
-	self:fireTalentCheck("callbackOMeleeAttackBonuses", hd)
+	self:fireTalentCheck("callbackOnMeleeAttackBonuses", hd)
 	target, weapon, damtype, mult, dam, apr, atk, def, armor = hd.target, hd.weapon, hd.damtype, hd.mult, hd.dam, hd.apr, hd.atk, hd.def, hd.armor
 	if hd.stop then return end
 	print("[ATTACK] after melee attack bonus hooks & callbacks::", dam, apr, atk, mult, "vs. armor/def", armor, def)

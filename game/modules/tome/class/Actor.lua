@@ -3434,6 +3434,7 @@ function _M:die(src, death_note)
 	if self.sound_die and (self.unique or rng.chance(5)) then game:playSoundNear(self, self.sound_die) end
 
 	if src and src.fireTalentCheck then src:fireTalentCheck("callbackOnKill", self, death_note) end
+	if src and src.summoner and src.summoner.fireTalentCheck then src.summoner:fireTalentCheck("callbackOnSummonKill", src, self, death_note) end
 
 	return true
 end
@@ -5403,6 +5404,16 @@ function _M:incMana(mana)
 	return previous_incMana(self, mana)
 end
 
+-- Overwrite incMana for grim shadow
+local previous_incSoul = _M.incSoul
+function _M:incSoul(soul)
+	if soul > 0 and self:isTalentActive(self.T_GRIM_SHADOW) then
+		self:callTalent(self.T_GRIM_SHADOW, "onSoulGain", soul)
+	end
+
+	return previous_incSoul(self, soul)
+end
+
 -- Overwrite incParadox to set up threshold log messages
 local previous_incParadox = _M.incParadox
 
@@ -5929,8 +5940,9 @@ local sustainCallbackCheck = {
 	callbackOnSummonDeath = "talents_on_summon_death",
 	callbackOnDie = "talents_on_die",
 	callbackOnKill = "talents_on_kill",
+	callbackOnSummonKill = "talents_on_summon_kill",
 	callbackOnCombatAttack = "talents_on_combat_attack",
-	callbackOMeleeAttackBonuses = "talents_on_melee_attack_bonus",
+	callbackOnMeleeAttackBonuses = "talents_on_melee_attack_bonus",
 	callbackOnMeleeAttack = "talents_on_melee_attack",
 	callbackOnMeleeHit = "talents_on_melee_hit",
 	callbackOnMeleeMiss = "talents_on_melee_miss",
