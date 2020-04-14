@@ -1,1 +1,0 @@
-start t-engine.exe --flush-stdout  -Mtome -n
