@@ -206,6 +206,7 @@ function _M:useObject(who, ...)
 	if not game:hasEntity(self) then game:addEntity(self) end
 
 	local reduce = 100 - util.bound(who:attr("use_object_cooldown_reduce") or 0, 0, 100)
+	if self:attr("unaffected_device_mastery") then reduce = 100 end
 	local usepower = function(power) return math.ceil(power * reduce / 100) end
 
 	if self.use_power then

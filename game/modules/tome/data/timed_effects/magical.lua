@@ -512,7 +512,9 @@ newEffect{
 	on_gain = function(self, err) return _t"#Target# loses sight!", _t"+Blind" end,
 	on_lose = function(self, err) return _t"#Target# recovers sight.", _t"-Blind" end,
 	on_timeout = function(self, eff)
+		self.turn_procs.doing_bane_damage = true
 		DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, eff.dam)
+		self.turn_procs.doing_bane_damage = false
 	end,
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("blind", 1)
@@ -542,7 +544,9 @@ newEffect{
 	on_gain = function(self, err) return _t"#Target# wanders around!.", _t"+Confused" end,
 	on_lose = function(self, err) return _t"#Target# seems more focused.", _t"-Confused" end,
 	on_timeout = function(self, eff)
+		self.turn_procs.doing_bane_damage = true
 		DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, eff.dam)
+		self.turn_procs.doing_bane_damage = false
 	end,
 	activate = function(self, eff)
 		eff.power = math.floor(util.bound(eff.power, 0, 50))
