@@ -132,13 +132,13 @@ newTalent{
 	summonGhoul = function(self, t, possible_spots, def)
 		local pos = table.remove(possible_spots, 1)
 		if pos then
-			necroSetupSummon(self, def, pos.x, pos.y, lev, t:_getTurns(self), true)
+			necroSetupSummon(self, def, pos.x, pos.y, t.getLevel(self, t), t:_getTurns(self), true)
 			self.__call_mausoleum_count = (self.__call_mausoleum_count or 0) + 1
 			if self.__call_mausoleum_count == 4 then
 				self.__call_mausoleum_count = 0
 				if self:getTalentLevel(t) >= 5 then
 					local pos = table.remove(possible_spots, 1)
-					if pos then necroSetupSummon(self, t.minions_list.ghoulking, pos.x, pos.y, lev, t:_getTurns(self), true) end
+					if pos then necroSetupSummon(self, t.minions_list.ghoulking, pos.x, pos.y, t.getLevel(self, t), t:_getTurns(self), true) end
 				end
 			end
 			return true

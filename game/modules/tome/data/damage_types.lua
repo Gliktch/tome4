@@ -4308,3 +4308,19 @@ newDamageType{
 		return realdam or 0
 	end,
 }
+
+newDamageType{
+	name = _t"boneyard", type = "BONEYARD", text_color = "#GREY#",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local target = game.level.map(x, y, Map.ACTOR)
+		if not target then return end
+
+		if src:reactionToward(target) < 0 then
+			target:setEffect(target.EFF_BRITTLE_BONES, 1, {apply_power=src:combatSpellpower(), resist=dam.resist, cooldown=dam.cooldown})
+		elseif target.summoner == src and target.necrotic_minion then
+			target:setEffect(target.EFF_BONEYARD, 1, {power=dam.power})
+		end
+	end,
+}

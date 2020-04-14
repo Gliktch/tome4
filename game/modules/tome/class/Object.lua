@@ -2055,6 +2055,18 @@ function _M:getTextualDesc(compare_with, use_actor)
 		use_actor.__inscription_data_fake = nil
 	end
 
+	if self.wielder and self.wielder.talents_add_levels then
+		for tid, lvl in pairs(self.wielder.talents_add_levels) do
+			local t = use_actor:getTalentFromId(tid)
+			desc:add(lvl < 0 and {"color","FIREBRICK"} or {"color","OLIVE_DRAB"}, ("Talent level: %+d %s."):tformat(lvl, t and t.name or "???"), {"color","LAST"}, true)
+		end
+	end
+	if self.talents_add_levels_filters then
+		for _, data in ipairs(self.talents_add_levels_filters) do
+			desc:add(data.detrimental and {"color","FIREBRICK"} or {"color","OLIVE_DRAB"}, ("Talent level: %s."):tformat(data.desc), {"color","LAST"}, true)
+		end
+	end
+
 	local talents = {}
 	if self.talent_on_spell then
 		for _, data in ipairs(self.talent_on_spell) do if data.talent then

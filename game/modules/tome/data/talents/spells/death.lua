@@ -204,37 +204,30 @@ newTalent{
 	points = 5,
 	mode = "sustained",
 	cooldown = 30,
-	sustain_mana = 30,
-	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 2, 8)) end,
-	getMana = function(self, t) return math.floor(self:combatTalentScale(t, 5, 30)) / 10 end,
-	getSpellpower = function(self, t) return math.floor(self:combatTalentScale(t, 10, 40)) end,
-	getResists = function(self, t) return math.floor(self:combatTalentLimit(t, 20, 5, 10)) end,
-	callbackOnActBase = function(self, t)
-		if not self.__old_reaping_souls then self.__old_reaping_souls = self:getSoul() end
-		if self.__old_reaping_souls == self:getSoul() then return end
-		self:updateTalentPassives(t)
+	sustain_mana = 15,
+	getMana = function(self, t) return math.floor(self:combatTalentScale(t, 10, 27)) end,
+	getDur = function(self, t) return math.floor(self:combatTalentScale(t, 2, 6)) end,
+	trigger = function(self, t)
+		self:incMana(t:_getMana(self))
+		if self:getTalentLevel(t) >= 3 then
+			self:setEffect(self.EFF_DEATH_RUSH, t:_getDur(self), {power=0.5})
+		end
 	end,
-	passives = function(self, t, p)
-		if not self:isTalentActive(t.id) then return end
-		local s = self:getSoul()
-		if s >= 2 then self:talentTemporaryValue(p, "mana_regen", t.getMana(self, t)) end
-		if s >= 5 then self:talentTemporaryValue(p, "combat_spellpower", t.getSpellpower(self, t)) end
-		if s >= 8 then self:talentTemporaryValue(p, "resists", {all=t.getResists(self, t)}) end
-		self:talentTemporaryValue(p, "max_soul", t.getNb(self, t))
+	callbackOnKill = function(self, t, target, death_note)
+		t:_trigger(self)
+	end,
+	callbackOnSummonKill = function(self, t, minion, target, death_note)
+		t:_trigger(self)
 	end,
 	activate = function(self, t)
-		game:onTickEnd(function() self:updateTalentPassives(t) end)
 		return {}
 	end,
 	deactivate = function(self, t)
 		return true
 	end,
 	info = function(self, t)
-		return ([[You draw constant power from the souls you hold within your grasp.
-		If you hold at least 2, your mana regeneration is increased by %0.1f per turn.
-		If you hold at least 5, your spellpower is increased by %d.
-		If you hold at least 8, all your resistances are increased by %d.
-		Also increases your maximum souls capacity by %d.]]):
-		tformat(t.getMana(self, t), t.getSpellpower(self, t), t.getResists(self, t), t.getNb(self, t))
+		return ([[Whenever a creature is killed by yourself or a minion you feast on its essence, gaining %0.1f mana.
+		At level 3 the thrill of the death invigorates you, granting a movement sped bonus of 50%% for %d turns.]]):
+		tformat(t.getMana(self, t), t.getDur(self, t))
 	end,
 }

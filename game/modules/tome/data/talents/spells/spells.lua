@@ -152,7 +152,10 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 	m.faction = self.faction
 	m.summoner = self
 	m.summoner_gain_exp = true
-	if turns then m.summon_time = turns end
+	if turns then
+		m.summon_time_max = turns
+		m.summon_time = turns
+	end
 	m.exp_worth = 0
 	m.life_regen = 0
 	m.unused_stats = 0
@@ -308,6 +311,7 @@ load("/data/talents/spells/master-of-flesh.lua")
 load("/data/talents/spells/master-necromancer.lua")
 load("/data/talents/spells/animus.lua")
 load("/data/talents/spells/death.lua")
+load("/data/talents/spells/eradication.lua")
 load("/data/talents/spells/necrosis.lua")
 load("/data/talents/spells/spectre.lua")
 
