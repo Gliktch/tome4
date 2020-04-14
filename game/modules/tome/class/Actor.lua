@@ -2968,8 +2968,10 @@ function _M:onTakeHit(value, src, death_note)
 	end
 
 	local cb = {value=value}
-	if self:fireTalentCheck("callbackOnHit", cb, src, death_note) then
-		value = cb.value
+	if self:fireTalentCheck("callbackOnHit", cb, src, death_note) then value = cb.value end
+	if self.summoner then
+		cb = {value=value}
+		if self.summoner:fireTalentCheck("callbackOnSummonHit", cb, self, src, death_note) then value = cb.value end
 	end
 
 	local hd = {"Actor:takeHit", value=value, src=src, death_note=death_note}
@@ -3261,15 +3263,6 @@ function _M:die(src, death_note)
 		src.blood_frenzy = src.blood_frenzy + src:callTalent(src.T_BLOOD_FRENZY,"bonuspower")
 	end
 
-	-- Increases necrotic aura count
-	if src and src.resolveSource and src:resolveSource().isTalentActive and src:resolveSource():isTalentActive(src.T_NECROTIC_AURA) and not self.necrotic_minion and not self.no_necrotic_soul then
-		local rsrc = src:resolveSource()
-		local p = rsrc:isTalentActive(src.T_NECROTIC_AURA)
-		if self.x and self.y and src.x and src.y and core.fov.distance(self.x, self.y, rsrc.x, rsrc.y) <= rsrc.necrotic_aura_radius then
-			rsrc:callTalent(rsrc.T_NECROTIC_AURA, "absorbSoul", self)
-		end
-	end
-
 	-- handle hate changes on kill
 	if src and src.knowTalent and src:knowTalent(src.T_HATE_POOL) then
 		local t = src:getTalentFromId(src.T_HATE_POOL)
@@ -3441,6 +3434,7 @@ function _M:die(src, death_note)
 	if self.sound_die and (self.unique or rng.chance(5)) then game:playSoundNear(self, self.sound_die) end
 
 	if src and src.fireTalentCheck then src:fireTalentCheck("callbackOnKill", self, death_note) end
+	if src and src.summoner and src.summoner.fireTalentCheck then src.summoner:fireTalentCheck("callbackOnSummonKill", src, self, death_note) end
 
 	return true
 end
@@ -5064,11 +5058,13 @@ function _M:learnTalent(t_id, force, nb, extra)
 	end
 
 	-- Simulate calling the talent's close method if we were not learnt from the levelup dialog
+	local lvl = self:getTalentLevel(t_id)
+	local lvl_raw = self:getTalentLevelRaw(t_id)
 	if t.on_levelup_close and not self.is_dialog_talent_leveling then
-		local lvl = self:getTalentLevel(t_id)
-		local lvl_raw = self:getTalentLevelRaw(t_id)
 		t.on_levelup_close(self, t, lvl, old_lvl, lvl_raw, old_lvl_raw, false)
 	end
+
+	self:fireTalentCheck("callbackOnTalentChange", t_id, "learn", lvl_raw - old_lvl_raw)
 
 	return true
 end
@@ -5187,6 +5183,7 @@ function _M:unlearnTalent(t_id, nb, no_unsustain, extra)
 	nb = math.max(0, oldnb - (self.talents[t_id] or 0))
 
 	local t = _M.talents_def[t_id]
+	local old_lvl_raw = self:getTalentLevelRaw(t_id)
 
 	if not self:knowTalent(t_id) and (t.mode ~= "sustained" or t.passive_callbacks) then
 		self:unregisterCallbacks(t, t_id)
@@ -5241,6 +5238,9 @@ function _M:unlearnTalent(t_id, nb, no_unsustain, extra)
 			focusremove(self.INVEN_QS_PSIONIC_FOCUS)
 		end
 	end
+
+	local lvl_raw = self:getTalentLevelRaw(t_id)
+	self:fireTalentCheck("callbackOnTalentChange", t_id, "unlearn", lvl_raw - old_lvl_raw)
 
 	return true
 end
@@ -5402,6 +5402,16 @@ function _M:incMana(mana)
 	end
 
 	return previous_incMana(self, mana)
+end
+
+-- Overwrite incMana for grim shadow
+local previous_incSoul = _M.incSoul
+function _M:incSoul(soul)
+	if soul > 0 and self:isTalentActive(self.T_GRIM_SHADOW) then
+		self:callTalent(self.T_GRIM_SHADOW, "onSoulGain", soul)
+	end
+
+	return previous_incSoul(self, soul)
 end
 
 -- Overwrite incParadox to set up threshold log messages
@@ -5915,6 +5925,7 @@ local sustainCallbackCheck = {
 	callbackOnTeleport = "talents_on_teleport",
 	callbackOnDealDamage = "talents_on_deal_damage",
 	callbackOnHit = "talents_on_hit",
+	callbackOnSummonHit = "talents_on_summon_hit",
 	callbackOnAct = "talents_on_act",
 	callbackOnActBase = "talents_on_act_base",
 	callbackOnActEnd = "talents_on_act_end",
@@ -5929,8 +5940,9 @@ local sustainCallbackCheck = {
 	callbackOnSummonDeath = "talents_on_summon_death",
 	callbackOnDie = "talents_on_die",
 	callbackOnKill = "talents_on_kill",
+	callbackOnSummonKill = "talents_on_summon_kill",
 	callbackOnCombatAttack = "talents_on_combat_attack",
-	callbackOMeleeAttackBonuses = "talents_on_melee_attack_bonus",
+	callbackOnMeleeAttackBonuses = "talents_on_melee_attack_bonus",
 	callbackOnMeleeAttack = "talents_on_melee_attack",
 	callbackOnMeleeHit = "talents_on_melee_hit",
 	callbackOnMeleeMiss = "talents_on_melee_miss",
@@ -5947,6 +5959,7 @@ local sustainCallbackCheck = {
 	callbackOnTakeoffTinker = "talents_on_takeoff_tinker",
 	callbackOnWear = "talents_on_wear",
 	callbackOnTakeoff = "talents_on_takeoff",
+	callbackOnTalentChange = "talents_on_talent_change",
 	callbackOnTalentPost = "talents_on_talent_post",
 	callbackOnTemporaryEffect = "talents_on_tmp",
 	callbackOnTemporaryEffectRemove = "talents_on_tmp_remove",
@@ -6769,6 +6782,15 @@ function _M:startTalentCooldown(t, v)
 	if self.talents_cd[t.id] <= 0 then self.talents_cd[t.id] = nil end
 	self.changed = true
 	if t.cooldownStart then t.cooldownStart(self, t) end
+end
+
+--- Called if a talent level is > 0
+function _M:alterTalentLevelRaw(t, lvl)
+	if self.talents_add_levels and self.talents_add_levels[id] then lvl = lvl + self.talents_add_levels[id] end
+	if self:attr("spells_bonus_level") and t.is_spell then lvl = lvl + self:attr("spells_bonus_level") end
+	-- if self:attr("mind_bonus_level") and t.is_mind then lvl = lvl + self:attr("mind_bonus_level") end
+	-- if self:attr("nature_bonus_level") and t.is_nature then lvl = lvl + self:attr("nature_bonus_level") end
+	return lvl
 end
 
 --- Alter the remanining cooldown of a talent

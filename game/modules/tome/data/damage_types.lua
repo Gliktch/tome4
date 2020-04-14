@@ -4262,17 +4262,20 @@ newDamageType{
 -- Light + Darkness
 newDamageType{
 	name = _t"dark light", type = "DARKLIGHT", text_color = "#9D9DC9#",
+	damdesc_split = { {DamageType.DARKNESS, 0.5}, {DamageType.LIGHT, 0.5} },
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
-		DamageType:get(DamageType.DARKNESS).projector(src, x, y, DamageType.DARKNESS, dam / 2, state)
-		DamageType:get(DamageType.LIGHT).projector(src, x, y, DamageType.LIGHT, dam / 2, state)
+		local realdam1 = DamageType:get(DamageType.DARKNESS).projector(src, x, y, DamageType.DARKNESS, dam / 2, state)
+		local realdam2 = DamageType:get(DamageType.LIGHT).projector(src, x, y, DamageType.LIGHT, dam / 2, state)
+		return (realdam1 or 0) + (realdam2 or 0)
 	end,
 }
 
 -- Fire + Physical
 newDamageType{
-	name = "meteor", type = "METEOR", text_color = "#CRIMSON#",
+	name = _t"meteor", type = "METEOR", text_color = "#CRIMSON#",
+	damdesc_split = { {DamageType.PHYSICAL, 0.5}, {DamageType.FIRE, 0.5} },
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4285,12 +4288,23 @@ newDamageType{
 
 -- Cold/Darkness damage
 newDamageType{
-	name = "frostdusk", type = "FROSTDUSK", text_color = "#BLUE#",
-	damdesc_split = { {DamageType.TEMPORAL, 0.5}, {DamageType.DARKNESS, 0.5} },
+	name = _t"frostdusk", type = "FROSTDUSK", text_color = "#DARK_BLUE#",
+	damdesc_split = { {DamageType.COLD, 0.5}, {DamageType.DARKNESS, 0.5} },
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
-		DamageType:get(DamageType.TEMPORAL).projector(src, x, y, DamageType.COLD, dam / 2, state)
-		DamageType:get(DamageType.DARKNESS).projector(src, x, y, DamageType.DARKNESS, dam / 2, state)
+		local realdam1 = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam / 2, state)
+		local realdam2 = DamageType:get(DamageType.DARKNESS).projector(src, x, y, DamageType.DARKNESS, dam / 2, state)
+		return (realdam1 or 0) + (realdam2 or 0)
+	end,
+}
+
+newDamageType{
+	name = _t"putrescent liquefaction", type = "PUTRESCENT_LIQUEFACTION", text_color = "#OLIVE_DRAB#",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local realdam = DamageType:get(DamageType.FROSTDUSK).projector(src, x, y, DamageType.FROSTDUSK, dam, state)
+		return realdam or 0
 	end,
 }

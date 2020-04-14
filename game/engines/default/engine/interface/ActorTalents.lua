@@ -108,6 +108,7 @@ function _M:init(t)
 	self.talents_auto = self.talents_auto or {}
 	self.talents_confirm_use = self.talents_confirm_use or {}
 	self.talents_learn_vals = t.talents_learn_vals or {}
+	self.talents_add_levels = {}
 end
 
 --- Resolve leveling talents
@@ -876,10 +877,18 @@ function _M:knowTalent(id)
 	return (self:getTalentLevelRaw(id) > 0) and true or false
 end
 
+--- Called if a talent level is > 0
+function _M:alterTalentLevelRaw(t, lvl)
+	if self.talents_add_levels and self.talents_add_levels[id] then lvl = lvl + self.talents_add_levels[id] end
+	return lvl
+end
+
 --- Talent level, 0 if not known
 function _M:getTalentLevelRaw(id)
 	if type(id) == "table" then id = id.id end
-	return self.talents[id] or 0
+	local lvl = self.talents[id] or 0
+	if lvl > 0 and not self.disable_talents_add_levels then lvl = self:alterTalentLevelRaw(_M.talents_def[id], lvl) end
+	return lvl
 end
 
 --- Talent level, 0 if not known

@@ -1,4 +1,51 @@
-locale "zh_hans"-- COPYsetFlag("ego_always_prefix", true)setFlag("randart_name_rules", {	default2 = {		syllablesStart = "华美, 精致, 神奇, 诡异, 梦幻, 瑰丽, 闪耀, 安静, 命运, 恶意, 和蔼, 生活, 梦境, 魔幻, 呼唤, 奇迹, 强大, 力量, 威严, 破碎, 幸运, 先知, 黑暗, 希望, 漆黑, 未来, 魔力, 地狱, 试炼, 考验, 失败者, 弑神, 无名, 未知, 神经病, 诱人, 迷宫, 长袍, 猎物, 饥饿, 奇葩, 懦弱, 快乐, 冷酷, 炼金 ",		syllablesMiddle = "的",		syllablesEnd = "泪水, 希望, 杀戮者, 叛徒, 明星, 前奏, 祈愿, 伤悲, 幸福, 支架, 符文, 先知者, 预言, 雨滴, 月华, 旅者, 家乡, 思念, 时光, 天才, 自言自语, 热血, 吸血鬼, 增殖, 旧梦, 蝴蝶, 高手, 汗水, 路障, 辘轳, 墨鱼, 青草, 使命, 伤害, 傀儡, 骷髅, 欺骗, 安静, 下盘, 模拟, 强力, 织梦, 护符, 许愿者, 群星, 天堂, 诗人, 哲学家, 神, 空瓶, 灯火, 赞歌, 霜雪, 墨汁, 契约, 太阳, 奥术, 赢家, 尸骨, 芦苇, 蘑菇, 太空, 朱雀, 菊花, 游客, 路口, 枪炮, 符文, 酒杯, 港口, 灾难, 祭坛, 群魔",		rules = "$s$50m$e",	},	default = {		syllablesStart = "华美, 精致, 神奇, 诡异, 梦幻, 瑰丽, 闪耀, 安静, 命运, 恶意, 和蔼, 生活, 梦境, 魔幻, 呼唤, 奇迹, 强大, 力量, 威严, 破碎, 幸运, 先知, 黑暗, 希望, 漆黑, 未来, 魔力, 地狱, 试炼, 考验, 失败者, 弑神, 无名, 未知, 神经病, 诱人, 迷宫, 长袍, 猎物, 饥饿, 奇葩, 懦弱, 快乐, 冷酷, 炼金",		syllablesMiddle = "的",		syllablesEnd = "泪水, 希望, 杀戮者, 叛徒, 明星, 前奏, 祈愿, 伤悲, 幸福, 支架, 符文, 先知者, 预言, 雨滴, 月华, 旅者, 家乡, 思念, 时光, 天才, 自言自语, 热血, 吸血鬼, 增殖, 旧梦, 蝴蝶, 高手, 汗水, 路障, 辘轳, 墨鱼, 青草, 使命, 伤害, 傀儡, 骷髅, 欺骗, 安静, 下盘, 模拟, 强力, 织梦, 护符, 许愿者, 群星, 天堂, 诗人, 哲学家, 神, 空瓶, 灯火, 赞歌, 霜雪, 墨汁, 契约, 太阳, 奥术, 赢家, 尸骨, 芦苇, 蘑菇, 太空, 朱雀, 菊花, 游客, 路口, 枪炮, 符文, 酒杯, 港口, 灾难, 祭坛, 群魔",		rules = "$s$50m$e",	},	fire = {		syllablesStart = "凤凰, 火灾, 大火, 燃烧, 明亮, 枯萎, 灼热, 烫伤, 地狱, 熔岩, 柴堆, 烧焦, 火焰, 闪光, 阴燃, 火炬, 灰烬, 深渊, 太阳, 岩浆, 火炬, 小火龙",		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 		rules = "$s$e", 	},	cold = {		syllablesStart ="霜雪, 冰冻, 雨雪, 冻结, 寒冷, 战栗, 冬季, 暴雪, 冰川, 冻土, 浮冰, 冰雹, 严寒, 雾凇, 云雾, 细雨, 寒潮, 淬火, 杰尼龟", 		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 		rules = "$s$e",	},	lightning = {		syllablesStart = "风暴, 暴风雨, 闪电, 电弧, 震撼, 雷电, 电荷, 雷云, 狂风, 大风, 裂纹, 闪光, 火花, 火焰, 爆炸, 天空, 皮卡丘",  		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 		rules = "$s$e",  	},	light = {		syllablesStart = "光明, 照耀, 天空, 太阳, 黎明, 晨星, 闪耀, 明亮, 棱镜, 眩光, 闪烁, 中午, 眩光,  致盲, 闪烁, 光彩,  光泽",  		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 		rules = "$s$e",	},	dark = {		syllablesStart = "本影, 空虚, 黑暗, 灾祸, 阴沉, 阴影, 黄昏, 黑暗, 烟尘, 沥青, 雾霭, 黑色, 乌木, 阴影, 黑曜石, 乌鸦, 恶魔, 暗淡, 日食, 目盲, 深渊", 		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 		rules = "$s$e",	},	nature = {		syllablesStart = "自然, 绿色, 壤土, 地球, 医治, 根系, 生长, 开花, 树皮, 野生, 纯净, 治愈, 洁净, 森林, 微风, 橡木, 柳树, 树, 花, 平衡, 肮脏, 污点, 不死, 邪恶, 哭泣, 瘟疫, 腐败, 污秽, 淤泥, 溃烂, 毒素, 蝎子, 眼镜蛇, 淤泥, 可怜虫, 腐烂, 沼泽, 蜘蛛, 粘液, 病, 黑暗, 囊肿, 可达鸭",		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 命令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 		rules = "$s$e",	},})
+locale "zh_hans"
+-- COPY
+setFlag("ego_always_prefix", true)
+setFlag("randart_name_rules", {
+	default2 = {
+		syllablesStart = "华美, 精致, 神奇, 诡异, 梦幻, 瑰丽, 闪耀, 安静, 命运, 恶意, 和蔼, 生活, 梦境, 魔幻, 呼唤, 奇迹, 强大, 力量, 威严, 破碎, 幸运, 先知, 黑暗, 希望, 漆黑, 未来, 魔力, 地狱, 试炼, 考验, 失败者, 弑神, 无名, 未知, 神经病, 诱人, 迷宫, 长袍, 猎物, 饥饿, 奇葩, 懦弱, 快乐, 冷酷, 炼金 ",
+		syllablesMiddle = "的",
+		syllablesEnd = "泪水, 希望, 杀戮者, 叛徒, 明星, 前奏, 祈愿, 伤悲, 幸福, 支架, 符文, 先知者, 预言, 雨滴, 月华, 旅者, 家乡, 思念, 时光, 天才, 自言自语, 热血, 吸血鬼, 增殖, 旧梦, 蝴蝶, 高手, 汗水, 路障, 辘轳, 墨鱼, 青草, 使命, 伤害, 傀儡, 骷髅, 欺骗, 安静, 下盘, 模拟, 强力, 织梦, 护符, 许愿者, 群星, 天堂, 诗人, 哲学家, 神, 空瓶, 灯火, 赞歌, 霜雪, 墨汁, 契约, 太阳, 奥术, 赢家, 尸骨, 芦苇, 蘑菇, 太空, 朱雀, 菊花, 游客, 路口, 枪炮, 符文, 酒杯, 港口, 灾难, 祭坛, 群魔",
+		rules = "$s$50m$e",
+	},
+	default = {
+		syllablesStart = "华美, 精致, 神奇, 诡异, 梦幻, 瑰丽, 闪耀, 安静, 命运, 恶意, 和蔼, 生活, 梦境, 魔幻, 呼唤, 奇迹, 强大, 力量, 威严, 破碎, 幸运, 先知, 黑暗, 希望, 漆黑, 未来, 魔力, 地狱, 试炼, 考验, 失败者, 弑神, 无名, 未知, 神经病, 诱人, 迷宫, 长袍, 猎物, 饥饿, 奇葩, 懦弱, 快乐, 冷酷, 炼金",
+		syllablesMiddle = "的",
+		syllablesEnd = "泪水, 希望, 杀戮者, 叛徒, 明星, 前奏, 祈愿, 伤悲, 幸福, 支架, 符文, 先知者, 预言, 雨滴, 月华, 旅者, 家乡, 思念, 时光, 天才, 自言自语, 热血, 吸血鬼, 增殖, 旧梦, 蝴蝶, 高手, 汗水, 路障, 辘轳, 墨鱼, 青草, 使命, 伤害, 傀儡, 骷髅, 欺骗, 安静, 下盘, 模拟, 强力, 织梦, 护符, 许愿者, 群星, 天堂, 诗人, 哲学家, 神, 空瓶, 灯火, 赞歌, 霜雪, 墨汁, 契约, 太阳, 奥术, 赢家, 尸骨, 芦苇, 蘑菇, 太空, 朱雀, 菊花, 游客, 路口, 枪炮, 符文, 酒杯, 港口, 灾难, 祭坛, 群魔",
+		rules = "$s$50m$e",
+	},
+	fire = {
+		syllablesStart = "凤凰, 火灾, 大火, 燃烧, 明亮, 枯萎, 灼热, 烫伤, 地狱, 熔岩, 柴堆, 烧焦, 火焰, 闪光, 阴燃, 火炬, 灰烬, 深渊, 太阳, 岩浆, 火炬, 小火龙",
+		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 
+		rules = "$s$e", 
+	},
+	cold = {
+		syllablesStart ="霜雪, 冰冻, 雨雪, 冻结, 寒冷, 战栗, 冬季, 暴雪, 冰川, 冻土, 浮冰, 冰雹, 严寒, 雾凇, 云雾, 细雨, 寒潮, 淬火, 杰尼龟", 
+		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 
+		rules = "$s$e",
+	},
+	lightning = {
+		syllablesStart = "风暴, 暴风雨, 闪电, 电弧, 震撼, 雷电, 电荷, 雷云, 狂风, 大风, 裂纹, 闪光, 火花, 火焰, 爆炸, 天空, 皮卡丘",  
+		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 
+		rules = "$s$e",  
+	},
+	light = {
+		syllablesStart = "光明, 照耀, 天空, 太阳, 黎明, 晨星, 闪耀, 明亮, 棱镜, 眩光, 闪烁, 中午, 眩光,  致盲, 闪烁, 光彩,  光泽",  
+		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 
+		rules = "$s$e",
+	},
+	dark = {
+		syllablesStart = "本影, 空虚, 黑暗, 灾祸, 阴沉, 阴影, 黄昏, 黑暗, 烟尘, 沥青, 雾霭, 黑色, 乌木, 阴影, 黑曜石, 乌鸦, 恶魔, 暗淡, 日食, 目盲, 深渊", 
+		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 
+		rules = "$s$e",
+	},
+	nature = {
+		syllablesStart = "自然, 绿色, 壤土, 地球, 医治, 根系, 生长, 开花, 树皮, 野生, 纯净, 治愈, 洁净, 森林, 微风, 橡木, 柳树, 树, 花, 平衡, 肮脏, 污点, 不死, 邪恶, 哭泣, 瘟疫, 腐败, 污秽, 淤泥, 溃烂, 毒素, 蝎子, 眼镜蛇, 淤泥, 可怜虫, 腐烂, 沼泽, 蜘蛛, 粘液, 病, 黑暗, 囊肿, 可达鸭",
+		syllablesEnd = "电弧, 毒药, 诱饵, 胆汁, 咬噬, 爆炸, 幸福, 血, 盛开, 屠夫, 模糊, 螺栓, 骨, 孔, 支架, 编织, 钎焊, 开道, 断路, 微风, 爆裂, 使者, 承载, 曲折, 疫病, 破碎, 出世, 黑暗, 明亮, 地穴, 裂纹, 冲突, 骚动, 切割, 铸造, 机械, 疏通, 短跑, 梦想, 勇气, 死亡, 边缘, 嫉妒, 愤怒, 恐惧, 名声, 敌人, 恶魔, 拳头, 戈尔, 伤口, 研磨, 研磨机, 狡诈, 砂砾, 收集, 荣耀, 魅力, 黑客, 黑客, 哈希, 色调, 饥饿, 打猎, 猎手, 愤怒, 偶像, 不朽, 正义, 嘲笑, 果酱, 杀死, 杀手, 亲吻, 业力, 亲属, 国王, 骑士, 武士, 主, 传说, 睫毛, 花边, 夫人, 致残, 标记, 月亮, 主人, 沼泽, 怪物, 可能性, 骨髓, 凡人, 部长, 恶意, 零, 中午, 晚上, 指甲, 近了, 誓言, 秩序, 布泽, 拜, 遗忘, 猛攻, 黑曜石, 珍珠, 帕里, 电力, 先知, 痛苦, 激情, 皮尔斯, 穿孔, 骄傲, 粉碎机, 恐慌, 痛苦, 惩罚, 鲍尔, 淬火, 淬火, 地震, 采石场, 皇后, 平息, 校长, 快速, 羽毛, 劫掠, 蹂躏, 夷为平地, 剃刀, 咆哮, 愤怒, 种族, 辐射, 掠袭者, 雨, 腐, 赎金, 符文, 统治, 破裂, 命令, 反叛, 乌鸦, 河, 开膛手, 开膛手, 岩石, 臭气, 里夫, 解决, 严谨, 撕裂, 猛禽, 光泽, 切片, 切片机, 桅杆, 产卵, 产卵, 幼鹿, 钢, 斯托克, 蛇, 悲伤, 鼠尾草, 股权, 蛇, 剪切, 罪恶, 尖顶, 潜行者, 整形, 鬼魂, 条纹, 裸奔, 看见, 瘢痕, 分裂, 星星, 条纹, 刺, 罢工, 前锋, 眩晕, 太阳, 扫除, 清扫, 斯威夫特, 石材, 接缝, 断绝, 粉碎, 粉碎者, 穗, 主攻手, 刺, 恐怖, 触摸, 潮汐, 激流, 审判, 台风, 泰坦, 记事本, 齿, 叛逆, 挖沟, 污点, 本影, 勇气, 流浪的, 邪恶的, 静脉, 面纱, 毒液, 毒蛇, 跳马, 复仇, 海藻, 沃克, 醒来, 醒来, 战争, 病房, 监狱长, 黄蜂, 哭泣者, 楔形, 行走, 耳语, 野生, 怀尔德, 意志, 风, 翼, 冬天, 线, 一缕, 希望, 女巫, 狼, 灾祸, 枯萎, 凋亡, 蠕虫, 花圈, 值得, 沉船, 夺取, 作家, 命运, 热情, 和风", 
+		rules = "$s$e",
+	},
+})
+
 ------------------------------------------------
 section "game/modules/tome/ai/escort.lua"
 
@@ -23751,6 +23798,11 @@ t([[You rage coalesces at a single point, and then explodes outward, blasting en
 		你灌注力量的能力使你每点增加 %d%% 所有暴击伤害。（当前： %d%% ） 
 		受精神强度影响，伤害有额外加成。]], "tformat")
 t("Unseen Force", "无形之力", "talent name")
+t([[Your fury becomes an unseen force that randomly lashes out at foes around you. For %d turns you strike %d (%d%% chance for %d) nearby target(s) within range %d doing %d damage and %d knockback. The number of extra strikes increases at higher talent levels.
+		In addition, your ability to channel force with this talent increases all critical damage by %d%% (currently: %d%%)
+		Damage increases with your Mindpower.]], [[你的愤怒变成一股无形之力，猛烈鞭笞你附近的随机敌人。在 %d 回合内，你将攻击 %d （ %d%% 概率攻击 %d ）个半径 %d 以内的敌人，造成 %d 点伤害并击退 %d 码。额外攻击的数目随技能等级增长。 
+		你灌注力量的能力使你增加 %d%% 所有暴击伤害。（当前： %d%% ） 
+		受精神强度影响，伤害有额外加成。]], "tformat")
 
 
 ------------------------------------------------
@@ -26122,6 +26174,10 @@ t([[Creates a circle of radius %d at your feet; the circle lights up affected ti
 		The damage will increase with your Spellpower.]], [[在你的脚下制造一个 %d 码半径的法阵，它会照亮范围区域，每回合增加 %d 正能量并造成 %0.2f 光系伤害和 %0.2f 火焰伤害。 
 		阵法持续 %d 回合。 
 		受法术强度影响，伤害有额外加成。]], "tformat")
+t("Blur Sight", "模糊视觉", "talent name")
+t([[The caster's image blurs, granting a %d bonus to Defense.
+		The bonus will increase with your Spellpower.]], [[施法者的形象变的模糊不清，增加 %d 点闪避。 
+		受法术强度影响，闪避有额外加成。]], "tformat")
 
 
 ------------------------------------------------
@@ -26343,6 +26399,11 @@ t([[Summons your lust for blood and destruction; especially when the odds are ag
 		受体质影响，增益有额外加成。]], "tformat")
 t("Hold the Ground", "兽族忍耐", "talent name")
 t("#CRIMSON#%s roars with rage shaking off %d mental debuffs!", "#CRIMSON#%s愤怒地咆哮，摆脱了%d项精神负面效果！", "logSeen")
+t([[Orcs have been the prey of the other races for thousands of years, with or without justification. They have learnt to withstand things that would break weaker races.
+		When your life goes below 50%% your sheer determination cleanses you of %d mental debuff(s) based on talent level and Willpower.  This can only happen once every %d turns.
+		Also increases physical save by %d.]], [[其他种族对兽族的猎杀持续了上千年，不管是否正义。你们已经学会忍受那些会摧毁弱小种族的灾难。 
+		当你的生命值降低到 50%% 以下，你强大的意志移除你身上最多 %d 个精神状态（基于技能等级和意志）。该效果每 %d 回合最多触发一次。
+		额外增加 %d 物理豁免。]], "tformat")
 t("Skirmisher", "散兵", "talent name")
 t([[Orcs have seen countless battles, and won many of them.
 		You revel in the defeat of your foes, gaining %d%% damage resistance for 2 turns each time you kill an enemy.
@@ -28625,29 +28686,39 @@ t([[Invoke a ball of darkness that deals %0.2f darkness damage in a radius of %d
 section "game/modules/tome/data/talents/spells/phantasm.lua"
 
 t("Illuminate", "照明术", "talent name")
-t([[Creates a globe of pure light within a radius of %d that illuminates the area.
-		At level 3, it also blinds all who see it (except the caster) for %d turns.
-		At level 4, it also deals %0.2f light damage.]], [[制造一个发光的球体，照亮 %d 码半径范围区域。 
-		在等级 3 时，它同时可以致盲看到它的人（施法者除外） %d 回合。 
-		在等级 4 时，它会造成 %0.2f 点光系伤害。]], "tformat")
-t("Blur Sight", "模糊视觉", "talent name")
-t([[The caster's image blurs, granting a %d bonus to Defense.
-		The bonus will increase with your Spellpower.]], [[施法者的形象变的模糊不清，增加 %d 点闪避。 
-		受法术强度影响，闪避有额外加成。]], "tformat")
+t([[Creates a globe of pure light within a radius of %d that illuminates the area and deals %0.2f damage to all creatures.
+		At level 3, it also blinds all who see it (except the caster) for %d turns.]], [[制造一个发光的球体，照亮 %d 码半径范围区域，并对所有生物造成 %0.2f 点光系伤害。
+		在等级 3 时，它同时可以致盲看到它的人（施法者除外） %d 回合。 ]], "tformat")
 t("Phantasmal Shield", "幻象护盾", "talent name")
-t([[The caster is surrounded by a phantasmal shield granting 10%% chance to evade weapon attacks. If hit in melee, the shield will deal %d light damage to the attacker.
-		The damage will increase with your Spellpower.]], [[施法者被幻象护盾所包围，有10%% 几率闪避武器攻击。若你受到近战打击，此护盾会对攻击者造成 %d 点光系伤害。 
-		受法术强度影响，伤害有额外加成。]], "tformat")
+t([[Surround yourself with a phantasmal shield of pure light.
+		Whenever you would take damage there is %d%% chance to become ethereal for an instant and fully ignore it.
+		If you do get it, the shield glow brightly, sending triggering a flash of light on the attacker, dealing %0.2f light damage in radius %d around it and dazzling any affected creature (deal 10%% less damage) for 5 turns. This can only happen every %d turns.
+		The damage and ignore chance will increase with your Spellpower.]], [[使用纯净的光构成幻象护盾，保护你自己。
+		每当你受到伤害时，你有 %d%% 的几率瞬间变得虚无，完全无视这一伤害。
+		如果你触发了这一效果，护盾会向攻击你的敌人发出明亮的闪光，在其周围 %d 码范围内造成 %0.2f 光系伤害，并炫目所有受到伤害的敌人（减少 10%% 的伤害），持续 5 回合。这一效果最多每 %d 回合触发一次。
+		光系伤害和无视伤害几率受法术强度加成。]], "tformat", {1,3,2,4})
 t("Invisibility", "隐形", "talent name")
-t([[The caster fades from sight, granting %d bonus to invisibility.
-		Beware -- you should take off your light, or you will still be easily spotted.
-		As you become invisible, you fade out of phase with reality. All your damage is reduced by 70%%.
-		This powerful spell constantly drains your mana (2 per turn) while active.
-		The invisibility bonus will increase with your Spellpower.]], [[施法者从视线中淡出，额外增加 %d 点隐形强度。 
-		注意：你必须取下装备中的灯具，否则你仍然会被轻易发现。 
-		由于你变的不可见，你脱离了相位现实。你的所有攻击降低 70%% 伤害。 
-		当此技能激活时，它会持续消耗你的法力（ 2 法力/回合）。
-		受法术强度影响，隐形强度有额外加成。]], "tformat")
+t([[Weave a net of arcane disturbances around your body, removing yourself from the sight of all, granting %d bonus to invisibility for 7 turns.
+		While invisible all damage you deal against blinded or dazzled foes is increased by %d%% (additive with other damage increases).
+		The invisibility bonus will increase with your Spellpower.]], [[你在身体周围编织一个奥术能量的干扰网，让你消失在敌人的视野中，获得 %d 强度的隐形效果，持续 7 回合。
+		当隐形时，你对致盲或炫目的敌人造成的伤害增加 %d%% （与其他伤害加成效果加法叠加）
+		隐形强度随法术强度提升。]], "tformat")
+t("Elemental Mirage", "元素幻影", "talent name")
+t([[Your mastery of both illusion and elements knows no bound.
+		Upon first sustaining this spell you may select two elements. You may later change them with the Alter Mirage spell, provided automatically upon learning this one.
+
+		Any time you deal damage with one of those elements, the other gets a bonus of %d%% damage for 3 turns.
+		At level 5 if the target element has less resistance penetration, it gets increased to match the one of the source element.
+
+		Current elements selected: %s#LAST# and %s]], [[你对幻术和元素的掌握无人能比。
+		在第一次释放这一法术时，你可以选择两个元素。你可以在以后使用“改变幻影”技能来改变你选择的元素，这是在你学习这个法术时自动习得的。
+
+		当你使用其中一个元素造成伤害时，另一个元素在 3 回合内获得 %d%% 的伤害加成。
+		等级5时，如果目标元素的抗性穿透较低，它会获得另一个元素的抗性穿透。
+		
+		当前选定的元素：%s#LAST#和%s]], "tformat")
+t("Alter Mirage", "改变幻影", "talent name")
+t("Change your choice of elements for Elemental Mirage.", "选择你元素幻影技能的加成元素。", "_t")
 
 
 ------------------------------------------------
@@ -30419,6 +30490,7 @@ t([[Fungal spores have colonized your blood, so that each time you use an infusi
 		真菌之力保存 6 回合，每回合减少 10 点或 10%% 。 
 		受体质影响，真菌能量的保存数量和治疗上限有额外加成。]], "tformat")
 t("Corrupted Shell", "堕落之壳", "talent name")
+t("Have received at least 3500 blight damage and destroyed Zigur with the Grand Corruptor.", "承受过至少 3500 点枯萎伤害并和大堕落者一起摧毁伊格。", "_t")
 t([[Thanks to your newfound knowledge of corruption, you've learned some tricks for toughening your body... but only if you are healthy enough to withstand the strain from the changes.
 		Improves your life by 500, your defense by %d, your armour by %d, your armour hardiness by 20%% and your saves by %d as your natural toughness and reflexes are pushed beyond their normal limits.
 		Your saves armour and defense will improve with your Constitution.]], [[多亏了你在堕落能量上的新发现，你学到一些方法来增强你的体质。但是只有当你有一副强壮的体魄时方能承受这剧烈的变化。 
@@ -30734,6 +30806,7 @@ t([[You can now control the recent past. Upon using this prodigy you gain a temp
 t("Unfold History", "改写历史", "talent name")
 t("Rewrite the recent past to go back to when you cast Revisionist History.", "改写历史，返回到修正历史施法点。", "tformat")
 t("Cauterize", "灼烧", "talent name")
+t("Have received at least 3500 fire damage and have cast at least 1000 spells", "曾承受过至少 3500 点火焰伤害，并且至少曾释放过 1000 次法术。", "_t")
 t([[Your inner flame is strong. Each time that you receive a blow that would kill you, your body is wreathed in flames.
 		The flames will cauterize the wound, fully absorbing all damage done this turn, but they will continue to burn for 8 turns.
 		Each turn 10%% of the damage absorbed will be dealt by the flames. This will bypass resistance and affinity.
@@ -30752,6 +30825,27 @@ t("Customize Appearance", "自定义外形", "_t")
 t("Use Default", "使用默认", "_t")
 t("#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!", "#GREY#你觉得你的生命在不断流失，取而代之的是纯粹的奥术力量！肉体腐烂的只剩骨头，眼睛也崩落不见，你终于转生成了巫妖！", "_t")
 t("Lichform", "巫妖转生", "_t")
+t([[This is your true goal and the purpose of all necromancy - to become a powerful and everliving Lich!
+		Once learnt, the next time you are killed, the arcane forces you unleash will be able to rebuild your body into the desired Lichform.
+		Liches are immune to poisons, diseases, fear, cuts, stuns, do not need to breath and are 20%% resistant to cold and darkness.
+		Liches also gain +12 Magic, Willpower and Cunning, 60%% chance to ignore critical hits, +4 life rating (not retroactive), +35 spell and mental saves, all resistance caps raised by 15%% and 7 mana regeneration.
+
+		Liches gain a new racial tree with the following talents:
+		- Neverending Unlife: A Lich body is extremely resilient, being able to go into negative life and when destroyed it can regenerate itself.
+		- Frightening Presence: Your mere presence is enough to shatter the resolve of most, reducing their saves, damage and movement speed.
+		- Doomed for Eternity: As a creature of doom and despair you now constantly spawn undead shadows around you.
+		- Commander of the Dead: You are able to infuse all undead party members (including yourself) with un-natural power, increasing your physical and spellpower.
+		]], [[这是你学习死灵法术的最终目标——成为强大而不死的巫妖！
+		当你学习这一技能后，在你下一次被杀死的时候，你体内强大的奥术力量会重建你的身体，让你成为你梦寐以求的巫妖。
+		巫妖免疫毒素、疾病、恐惧、流血、震慑，不需要呼吸，并获得 20%% 寒冷和黑暗抗性。
+		巫妖同时获得 +12 魔力，意志和灵巧， 60%% 暴击无视， +4 生命成长（不追加前面等级的生命值），+35 法术和精神豁免，所有伤害抗性上限增加 15%% ，获得 7 法力值恢复。
+
+		巫妖会获得新的种族技能树，包含以下技能：
+		- 不死之躯：巫妖的身体是极其难以摧毁的，它们的生命值可以降低到负数以下，且即使被杀死之后仍然可以复活。
+		- 恐怖存在：你的恐怖存在足以粉碎大多数人的勇气，降低他们的豁免，伤害和移动速度。
+		- 永恒毁灭：作为毁灭和绝望的使者，你现在不断地在你周围制造不死阴影。
+		- 亡者领袖：你可以给所有不死族队友（包括你自己）注入非自然力量，增加它们的物理和法术强度。
+		]], "tformat")
 
 
 ------------------------------------------------
@@ -30924,9 +31018,38 @@ t([[Gnaw your target for %d%% damage.  If your attack hits, the target may be in
 ------------------------------------------------
 section "game/modules/tome/data/talents/undeads/lich.lua"
 
+t("Neverending Unlife", "不死之躯", "talent name")
+t("Lich Regeneration (%d turns)", "巫妖复活 (%d 回合)", "tformat")
+t([[A Lich's body is extremely hard to fully destroy. You only die with your life reaches -%d.
+		In addition even when destroyed your body regenerates to full life.
+		The first time this happens, your transformation into a Lich is completed, granting you all the powers of Lichdom.
+		Any further death will still regenerate you but you will need to consume the essence of a creature of unique/boss/elite boss or more rank within %d turns to sustain yourself.
+		If you have not killed one when the duration expires or if you are killed again in this duration, you die permanently.
+		If this happens this power can never re-activate, even if you managed to resurrect by other means.]], [[巫妖的身体很难被完全摧毁。只有当你的生命值达到-%d时，你才会死去。
+		此外，即使你的身体被摧毁，你也会立刻复活。
+		第一次发生这种情况时，你转化成巫妖的过程就完成了，这将给予你巫妖的所有力量。
+		之后你死亡的时候，你仍然可以重生，但是你需要在%d回合吞噬一个内拥有史诗/Boss/精英Boss或更高等级的生物的精华来维持你自己。
+		如果你在持续时间时没能杀死一个这样的Boss，或者在这段时间内再次被杀死，你将永远死去。
+		如果发生这种情况，即使你设法通过其他方式复活，这种复活能力也永远无法重新激活了。]], "tformat")
+t("Frightening Presence", "恐怖存在", "talent name")
+t([[Your mere presence is terrying to any foes that dare stand against you.
+		Every turn all foes in radius %d must make a metal save against your spellpower/physical power (whichever is highest) or become frightened (bypassing fear immunity), reducing all their saves by %d, all damage by %d%% and movement speed by %d%%.
+		If they successfully resist, they are immune for %d turns.]], [[你的存在让任何胆敢对抗你的敌人的心中充满畏惧。
+		每回合，半径 %d 码内的所有敌人必须使用精神豁免对抗你的法术强度/物理强度（取最高者），否则会被惊吓（无视恐惧免疫），他们的所有豁免降低 %d ，所有伤害降低 %d%% ，移动速度降低 %d%% 。
+		如果他们成功抵抗，他们可以免疫这一效果 %d 回合。]], "tformat")
+t("Shadow Invoke Darkness", "阴影黑夜降临", "talent name")
+t("Shadow Cold Touch", "阴影冰冷之触", "talent name")
 t([[Bathes the target in flames doing %0.2f damage
 		The damage will increase with the Magic stat]], [[用火焰灼烧你的目标造成 %0.2f 伤害。 
 		受魔法影响，伤害有额外加成。]], "tformat")
+t("Doomed For Eternity", "永恒毁灭", "talent name")
+t([[While this ability is active, you will continually call up to %d level %d shadows to aid you in battle. Shadows are weak combatants that can: Use Arcane Reconstruction to heal themselves (level %d), Blindside their opponents (level %d), and Phase Door from place to place.
+		Shadows ignore %d%% of the damage dealt to them by their master.]], [[当这一技能启用的时候，你会不断召唤 %d 个等级为 %d 的阴影来协助你战斗。阴影是脆弱的展示，可以使用以下能力：使用奥术重组治疗自己（等级 %d ），使用闪电突袭攻击敌人（等级 %d ），使用相位之门移动。
+		主人对阴影造成的伤害降低 %d%%。]], "tformat")
+t("Commander of the Dead", "亡者领袖", "talent name")
+t([[You are so full with power that it overflows out of you whenever you cast a spell.
+		Upon spell cast you have %d%% chances to boost the physical power, spellpower, mindpower and all saves of all friendly undeads in sight (including yourself) by %d for 4 turns.]], [[你的力量如此强大，每当你释放法术的时候，你的力量会喷涌而出。
+		使用法术时，你有 %d%% 几率强化周围所有可见的不死生物（包括你自己），物理强度、法术强度、精神强度，所有豁免提升 %d ，持续 4 回合。]], "tformat")
 
 
 ------------------------------------------------
@@ -33969,7 +34092,6 @@ t("-Mana Overflow", "-法力溢出", "_t")
 t("Stoned", "石化", "_t")
 t("The target has been turned to stone: it is rooted in place, unable to act, and may be shattered by a single blow dealing more than 30% of its maximum life.  It's new form makes it immune to being poisoned or cut, and grants improved physical(+20%), fire(+80%) and lightning(+50%) resistances.", "目标被石化：被定身在此位置，无法行动，在受到超过 30% 最大生命的伤害将被击碎，但提高物理抵抗（ +20% ）火焰抵抗（ + 80% ）和闪电抵抗（ + 50% ）。", "_t")
 t("stone", "石", "effect subtype")
-t("stun", "震慑", "effect subtype")
 t("#Target# turns to #GREY#STONE#LAST#!", "#Target#变成了#GREY#石头#LAST#!", "_t")
 t("+Stoned", "+石化", "_t")
 t("#Target# is no longer a #GREY#statue#LAST#.", "#Target#不再是#GREY#石头#LAST#了.", "_t")
@@ -33994,6 +34116,8 @@ t("#Target#'s skin returns to normal.", "#Target#的皮肤恢复了正常状态�
 t("-Reflective Skin", "-反射皮肤", "_t")
 t("Vimsense", "活力感知", "_t")
 t("Reduces blight resistance by %d%% and all saves by %d.", "降低枯萎抵抗 %d%% ，所有豁免 %d 。", "tformat")
+t("Improves/gives invisibility (power %d), and increases damage dealt to blind or dazzled creatures by %d%%.", "提升/获得隐形（强度 %d ），并增加对致盲和炫目敌人伤害 %d%%。", "tformat")
+t("invisibility", "隐形", "effect subtype")
 t("Invisibility", "隐形", "_t")
 t(" and preventing healing and life regeneration", "并阻止治疗和生命回复效果", "_t")
 t("Improves/gives invisibility (power %d), reducing damage dealt by %d%%%s.", "提升/获得隐形状态（ %d 隐形等级），减少其所造成的伤害%d%%%s。", "tformat")
@@ -34003,7 +34127,6 @@ t("#Target# is no longer invisible.", "#Target#不再隐形。", "_t")
 t("-Invis", "-隐身", "_t")
 t("Ethereal", "虚幻形态", "_t")
 t("Invisible (power %d), damage dealt reduced by %d%%, all resistances increased by %d%%, movement speed increased by %d%%.", "隐形 ( 隐形等级 %d), 造成的伤害减少 %d%%, 所有抗性增加 %d%%, 移动速度增加 %d%%.", "tformat")
-t("phantasm", "幻术", "effect subtype")
 t("#Target# becomes ethereal.", "#Target#变得虚幻。", "_t")
 t("+Ethereal", "+虚幻形态", "_t")
 t("#Target# is no longer ethereal.", "#Target#变得不再虚幻。", "_t")
@@ -34759,7 +34882,20 @@ t("-Draining Moonlight", "-吸能月光", "_t")
 t("Auger of Destruction", "粉碎之力", "_t")
 t("Physical damage increased by %d%%.", "物理伤害增加 %d%% 。", "tformat")
 t("physical", "物理", "effect subtype")
+t("Dazzled", "炫目", "_t")
+t("All damage decreased by %d%%.", "所有伤害降低 %d%% 。", "tformat")
+t("stun", "震慑", "effect subtype")
+t("Immune to Frightening Presence", "免疫恐怖存在", "_t")
+t("You resisted a Lich and are immune to its frightening presence.", "你抵抗了一个巫妖的强大意志，免疫它的恐怖存在效果。", "_t")
+t("Elemental Mirage (First Element)", "元素幻影 (第一个元素)", "_t")
+t("Frightening Presence", "恐怖存在", "_t")
+t("The mere sight of a Lich sent you into a frightened state, reducing all saves by %d, all damage by %d%% and movement speed by %d%%.", "巫妖的恐怖存在让你陷入深度恐惧之中，所有豁免降低 %d， 所有伤害减少 %d%% ，移动速度降低 %d%% 。", "tformat")
 t("fear", "恐惧", "effect subtype")
+t("Elemental Mirage (Second Element)", "元素幻影 (第二个元素)", "_t")
+t("%s damage increased by %d%% and resistance penetration by %d%%.", "%s 伤害增加 %d%% ，抗性穿透增加 %d%% 。", "tformat")
+t("phantasm", "幻术", "effect subtype")
+t("Commander of the Dead", "亡者领袖", "_t")
+t("Physical power, spellpower and all saves increased by %d.", "物理强度，法术强度和全体豁免增加 %d 。", "tformat")
 t("lich", "巫妖", "effect subtype")
 t("power", "能量", "effect subtype")
 
@@ -35258,6 +35394,7 @@ t("-Shield", "-护盾", "_t")
 t("The psionic shield around #target# crumbles.", "#Target#周围的灵能护盾破碎了。", "_t")
 t("Unseen Force", "无形之力", "_t")
 t("from %d to %d", "%d 到 %d", "tformat")
+t("An unseen force strikes %s targets in a range of %d around this creature every turn, doing %d damage and knocking them back for %d tiles.", "不可见的力量每回合打击该生物周围%d码的%s个目标，造成%d伤害，并将其击退%d码。", "tformat", {2,1,3,4})
 t("An unseen force begins to swirl around %s!", "一股无形的力量开始围绕%s旋转！", "logSeen")
 t("The unseen force around %s subsides.", "围绕%s旋转的无形力量消失了。", "logSeen")
 t("Psionic Maelstrom", "灵能风暴", "_t")
@@ -40805,6 +40942,8 @@ t("When you do a mouse gesture (right click + drag) a color coded trail is displ
 t("#GOLD##{bold}#Display mouse gesture trails#WHITE##{normal}#", "#GOLD##{bold}#显示鼠标手势轨迹#WHITE##{normal}#", "_t")
 t("If enabled new quests and quests updates will display a big popup, if not a simple line of text will fly on the screen.#WHITE#", "如果开启，任何任务信息变化都将以更明显的方式显示在屏幕上。#WHITE#", "_t")
 t("#GOLD##{bold}#Big Quest Popups#WHITE##{normal}#", "#GOLD##{bold}#大号任务提示#WHITE##{normal}#", "_t")
+t("Enable the WASD movement keys. Can be used to move diagonaly by pressing two directions at once.#WHITE#", "启用WASD键移动。当你同时按两个键的时候，可以实现对角线移动。#WHITE#", "_t")
+t("#GOLD##{bold}#Enable WASD movement keys#WHITE##{normal}#", "#GOLD##{bold}#启用 WASD 键移动#WHITE##{normal}#", "_t")
 t("Sharpen Visuals, set to 0 to disable.#WHITE#", "锐化视觉，设为0关闭#WHITE#", "_t")
 t("#GOLD##{bold}#Sharpen Visuals#WHITE##{normal}#", "#GOLD##{bold}#锐化视觉#WHITE##{normal}#", "_t")
 t("Enter Sharpen Power", "输入锐化强度", "_t")

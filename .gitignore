@@ -37,4 +37,8 @@ te4_log.txt
 debug.log
 /.idea/
 /*.log
+<<<<<<< HEAD
 .vscode
+=======
+__autosave__.pc
+>>>>>>> upstream/master

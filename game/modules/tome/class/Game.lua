@@ -229,6 +229,7 @@ function _M:newGame()
 			self.zone.object_list[#self.zone.object_list+1] = o
 		end
 
+		self.player.innate_player = true
 		if config.settings.cheat then self.player.__cheated = true end
 
 		if game.__mod_info then
@@ -2021,14 +2022,14 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			game.player:takeHit(100, game.player)
+do return end
 			self:changeLevel(game.level.level + 1)
 do return end
 			local f, err = loadfile("/data/general/events/weird-pedestals.lua")
 			print(f, err)
 			setfenv(f, setmetatable({level=self.level, zone=self.zone}, {__index=_G}))
 			print(pcall(f))
-do return end
-			game.player:takeHit(100, game.player)
 do return end
 			package.loaded["mod.dialogs.shimmer.ShimmerDemo"] = nil
 			self:registerDialog(require("mod.dialogs.shimmer.ShimmerDemo").new(game.player, "iron throne couture: "))
@@ -2900,10 +2901,6 @@ unlocks_list = {
 	race_ogre = "Race: Ogre",
 
 	mage = "Class: Archmage",
-	mage_tempest = "Class tree: Storm",
-	mage_geomancer = "Class tree: Stone",
-	mage_pyromancer = "Class tree: Wildfire",
-	mage_cryomancer = "Class tree: Uttercold",
 	mage_necromancer = "Class: Necromancer",
 	cosmetic_class_alchemist_drolem = "Class feature: Alchemist's Drolem",
 
