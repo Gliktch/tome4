@@ -512,7 +512,9 @@ newEffect{
 	on_gain = function(self, err) return _t"#Target# loses sight!", _t"+Blind" end,
 	on_lose = function(self, err) return _t"#Target# recovers sight.", _t"-Blind" end,
 	on_timeout = function(self, eff)
+		self.turn_procs.doing_bane_damage = true
 		DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, eff.dam)
+		self.turn_procs.doing_bane_damage = false
 	end,
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("blind", 1)
@@ -542,7 +544,9 @@ newEffect{
 	on_gain = function(self, err) return _t"#Target# wanders around!.", _t"+Confused" end,
 	on_lose = function(self, err) return _t"#Target# seems more focused.", _t"-Confused" end,
 	on_timeout = function(self, eff)
+		self.turn_procs.doing_bane_damage = true
 		DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, eff.dam)
+		self.turn_procs.doing_bane_damage = false
 	end,
 	activate = function(self, eff)
 		eff.power = math.floor(util.bound(eff.power, 0, 50))
@@ -2001,7 +2005,7 @@ newEffect{
 newEffect{
 	name = "IMPENDING_DOOM", image = "talents/impending_doom.png",
 	desc = _t"Impending Doom",
-	long_desc = function(self, eff) return ("The target's final doom is drawing near, reducing healing factor by 80%% and dealing %0.2f arcane damage per turn. The effect will stop if the caster dies."):tformat(eff.dam) end,
+	long_desc = function(self, eff) return ("The target's final doom is drawing near, reducing healing factor by 80%% and dealing %0.2f frostdusk damage per turn. The effect will stop if the caster dies."):tformat(eff.dam) end,
 	type = "magical",
 	subtype = { arcane=true },
 	status = "detrimental",
@@ -2010,10 +2014,16 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# is freed from the impending doom.", _t"-Doomed" end,
 	activate = function(self, eff)
 		eff.healid = self:addTemporaryValue("healing_factor", -0.8)
+		eff.soul_turn = false
 	end,
 	on_timeout = function(self, eff)
 		if eff.src.dead or not game.level:hasEntity(eff.src) then return true end
-		DamageType:get(DamageType.ARCANE).projector(eff.src, self.x, self.y, DamageType.ARCANE, eff.dam)
+		DamageType:get(DamageType.FROSTDUSK).projector(eff.src, self.x, self.y, DamageType.FROSTDUSK, eff.dam)
+		eff.soul_turn = not eff.soul_turn
+		if eff.soul_turn then
+			eff.src:incSoul(1)
+			game.logSeen(self, "#CRIMSON#A piece of the soul of %s is torn apart by Impending Doom!", self:getName())
+		end
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("healing_factor", eff.healid)
@@ -2032,6 +2042,21 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# is freed from the rigor mortis.", _t"-Rigor Mortis" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "global_speed_add", -eff.power)
+	end,
+}
+
+newEffect{
+	name = "DEATH_RUSH", image = "talents/utterly_destroyed.png",
+	desc = _t"DEATH_RUSH",
+	long_desc = function(self, eff) return ("Movement speed increased by %d%%."):tformat(eff.power*100) end,
+	type = "magical",
+	subtype = { necrotic=true },
+	status = "beneficial",
+	parameters = {power=0.5},
+	on_gain = function(self, err) return _t"#Target# is invogorated by death!", true end,
+	on_lose = function(self, err) return _t"#Target# is less fast.", true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "movement_speed", eff.power)
 	end,
 }
 
@@ -4738,6 +4763,18 @@ newEffect{
 			elseif self.skeleton_minion == "mage" then self:learnTalent(self.T_METEORIC_CRASH, true)
 			end
 		end
+
+		local image
+		if self.skeleton_minion == "warrior" then image = "npc/lord_of_skulls_warrior.png"
+		elseif self.skeleton_minion == "archer" then image = "npc/lord_of_skulls_archer.png"
+		elseif self.skeleton_minion == "mage" then image = "npc/lord_of_skulls_magus.png"
+		end
+
+		self.replace_display = mod.class.Actor.new{
+			image = image, display_y = -1, display_h = 2
+		}
+		self:removeAllMOs()
+		game.level.map:updateMap(self.x, self.y)
 	end,
 	deactivate = function(self, eff)
 		self.lord_of_skulls = false
@@ -4748,6 +4785,9 @@ newEffect{
 			end
 		end
 		self.name = self.old_los_name
+		self.replace_display = nil
+		self:removeAllMOs()
+		game.level.map:updateMap(self.x, self.y)
 	end,
 }
 
@@ -4823,5 +4863,37 @@ newEffect{
 	end,
 	activate = function(self, eff)
 		eff.turn_list = {}
+	end,
+}
+
+newEffect{
+	name = "BRITTLE_BONES", image = "talents/boneyard.png",
+	desc = _t"Brittle Bones",
+	long_desc = function(self, eff) return ("Physical resistance reduced by %d%% and talents cooldowns increased by %d%%."):tformat(eff.resist, eff.cooldown) end,
+	type = "magical",
+	subtype = { necrotic=true, resistance=true, cooldown=true },
+	status = "detrimental",
+	parameters = {resist=10, cooldown=20},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "resists", {[DamageType.PHYSICAL] = -eff.resist})
+		self:effectTemporaryValue(eff, "talent_cd_reduction", {allpct = -eff.cooldown/100})
+	end,
+}
+
+newEffect{
+	name = "BONEYARD", image = "talents/boneyard.png",
+	desc = _t"Boneyard",
+	long_desc = function(self, eff) return ("Spellpower and physical power increased by %d."):tformat(eff.power) end,
+	type = "magical",
+	subtype = { necrotic=true, power=true },
+	status = "beneficial",
+	parameters = {power=10},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "combat_spellpower", eff.power)
+		self:effectTemporaryValue(eff, "combat_dam", eff.power)
 	end,
 }

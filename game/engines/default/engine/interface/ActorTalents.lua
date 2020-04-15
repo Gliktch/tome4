@@ -1140,9 +1140,13 @@ end
 function _M:talentParticles(p, ...)
 	local Particles = require "engine.Particles"
 	if not p.__tmpparticles then p.__tmpparticles = {} end
+	local ret = {}
 	for _, ps in ipairs{...} do
-		p.__tmpparticles[#p.__tmpparticles+1] = self:addParticles(Particles.new(ps.type, 1, ps.args, ps.shader))
+		local pp = self:addParticles(Particles.new(ps.type, 1, ps.args, ps.shader))
+		p.__tmpparticles[#p.__tmpparticles+1] = pp
+		ret[#ret+1] = pp
 	end
+	return unpack(ret)
 end
 
 --- Trigger a talent method
