@@ -4623,11 +4623,7 @@ newEffect{
 newEffect{
 	name = "LICH_RESISTED", image = "talents/lichform.png",
 	desc = _t"Immune to Frightening Presence",
-<<<<<<< HEAD
-	long_desc = function(self, eff) return (_t"You resisted a Lich and are immune to its frightening presence.") end,
-=======
 	long_desc = function(self, eff) return _t"You resisted a Lich and are immune to its frightening presence." end,
->>>>>>> upstream/master
 	type = "magical",
 	subtype = { lich=true, fear=true},
 	status = "beneficial",
