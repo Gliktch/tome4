@@ -31,8 +31,8 @@ newTalent{
 	requires_target = true,
 	direct_hit = true,
 	target = function(self, t)
-		local tg = {type="bolt", range=self:getTalentRange(t), selffire=false, talent=t}
-		if self:getTalentLevel(t) >= 5 then tg = {type="widebeam", radius=1, range=self:getTalentRange(t), selffire=false, talent=t} end
+		local tg = {type="beam", range=self:getTalentRange(t), friendlyfire=false, talent=t}
+		if self:getTalentLevel(t) >= 5 then tg = {type="widebeam", radius=1, range=self:getTalentRange(t), friendlyfire=false, talent=t} end
 		return tg
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 25, 220) end,
