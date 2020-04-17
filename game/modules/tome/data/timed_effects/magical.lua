@@ -730,8 +730,8 @@ newEffect{
 		end
 	end,
 	activate = function(self, eff)
-		if self:attr("shield_factor") then eff.power = eff.power * (100 + self:attr("shield_factor")) / 100 end
-		if self:attr("shield_dur") then eff.dur = eff.dur + self:attr("shield_dur") end
+		eff.power = self:getShieldAmount(eff.power)
+		eff.dur = self:getShieldDuration(eff.dur)
 		self.displacement_shield = eff.power
 		self.displacement_shield_max = eff.power
 		self.displacement_shield_chance = eff.chance
@@ -771,16 +771,8 @@ newEffect{
 	on_lose = function(self, err) return _t"The shield around #target# crumbles.", _t"-Shield" end,
 	on_merge = function(self, old_eff, new_eff)
 		local new_eff_adj = {} -- Adjust for shield modifiers
-		if self:attr("shield_factor") then
-			new_eff_adj.power = new_eff.power * (100 + self:attr("shield_factor")) / 100
-		else
-			new_eff_adj.power = new_eff.power
-		end
-		if self:attr("shield_dur") then
-			new_eff_adj.dur = new_eff.dur + self:attr("shield_dur")
-		else
-			new_eff_adj.dur = new_eff.dur
-		end
+		new_eff_adj.power = self:getShieldAmount(new_eff.power)
+		new_eff_adj.dur = self:getShieldDuration(new_eff_adj.dur)
 		-- If the new shield would be stronger than the existing one, just replace it
 		if old_eff.dur > new_eff_adj.dur then return old_eff end
 		if math.max(self.damage_shield_absorb, self.damage_shield_absorb_max) <= new_eff_adj.power then
@@ -836,8 +828,8 @@ newEffect{
 	end,
 	activate = function(self, eff)
 		self:removeEffect(self.EFF_PSI_DAMAGE_SHIELD)
-		if self:attr("shield_factor") then eff.power = eff.power * (100 + self:attr("shield_factor")) / 100 end
-		if self:attr("shield_dur") then eff.dur = eff.dur + self:attr("shield_dur") end
+		eff.power = self:getShieldAmount(eff.power)
+		eff.dur = self:getShieldDuration(eff.dur)
 		eff.tmpid = self:addTemporaryValue("damage_shield", eff.power)
 		if eff.reflect then eff.refid = self:addTemporaryValue("damage_shield_reflect", eff.reflect) end
 		--- Warning there can be only one time shield active at once for an actor
@@ -4262,8 +4254,8 @@ newEffect{
 		end
 	end,
 	activate = function(self, eff)
-		if self:attr("shield_factor") then eff.power = eff.power * (100 + self:attr("shield_factor")) / 100 end
-		if self:attr("shield_dur") then eff.dur = eff.dur + self:attr("shield_dur") end
+		eff.power = self:getShieldAmount(eff.power)
+		eff.dur = self:getShieldDuration(eff.dur)
 		eff.max = eff.power
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.3, img="runicshield_stonewarden"}, {type="runicshield", shieldIntensity=0.2, oscillationSpeed=4, ellipsoidalFactor=1.3, time_factor=9000, auraColor={0x61/255, 0xff/255, 0x6a/255, 0}}))
@@ -4891,5 +4883,91 @@ newEffect{
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "combat_spellpower", eff.power)
 		self:effectTemporaryValue(eff, "combat_dam", eff.power)
+	end,
+}
+
+newEffect{
+	name = "NEVERENDING_PERIL", image = "talents/neverending_peril.png",
+	desc = _t"Neverending Peril",
+	long_desc = function(self, eff) return _t"Invulnerable." end,
+	type = "magical",
+	subtype = { necrotic=true, invulnerable=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "invulnerable", 1)
+	end,
+}
+
+newEffect{
+	name = "GOLDEN_AGE_OF_NECROMANCY", image = "talents/golden_age_of_necromancy.png",
+	desc = _t"Golden Age of Necromancy",
+	long_desc = function(self, eff) return _t"Invulnerable." end,
+	type = "magical",
+	subtype = { necrotic=true, invulnerable=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "invulnerable", 1)
+	end,
+}
+
+newEffect{
+	name = "CREPUSCULE", image = "talents/crepuscule.png",
+	desc = _t"Crepuscule",
+	long_desc = function(self, eff) return _t"Bring the night!" end,
+	type = "magical",
+	subtype = { necrotic=true, darkness=true, blind=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return _t"#Target# calls the night!", true end,
+	on_lose = function(self, err) return _t"The eerie night around #target# fades away.", true end,
+	on_timeout = function(self, eff)
+		self:callTalent(self.T_CREPUSCULE, "trigger")
+	end,
+}
+
+newEffect{
+	name = "DIRE_PLAGUE", image = "talents/dire_plague.png",
+	desc = _t"Dire Plague",
+	long_desc = function(self, eff) return ("The target is infected by a plague, doing %0.2f darkness damage per turn with a %d%% chance to rip apart the soul."):tformat(eff.dam, eff.chance) end,
+	type = "magical",
+	subtype = {disease=true, darkness=true},
+	status = "detrimental",
+	parameters = {dam=10, chance=2},
+	on_gain = function(self, err) return _t"#Target# is afflicted by a dire plague!" end,
+	on_lose = function(self, err) return _t"#Target# is free from the dire plague." end,
+	on_timeout = function(self, eff)
+		if self:attr("purify_disease") then self:heal(eff.dam, eff.src)
+		else if eff.dam > 0 then
+			local dam = eff.dam
+			if rng.percent(eff.chance) then
+				eff.src:incSoul(1)
+				game.logSeen(self, "Dire Plague rips out a piece of %s soul!", self:getName())
+
+				if eff.src:knowTalent(eff.src.T_THE_END_OF_ALL_HOPE) then
+					local t_eah = eff.src:getTalentFromId(eff.src.T_THE_END_OF_ALL_HOPE)
+					-- Force a crit
+					dam = eff.src:spellCrit(dam, 100)
+
+					-- Increase durations
+					if not eff.src.turn_procs.end_of_all_hope_trigger then
+						eff.src.turn_procs.end_of_all_hope_trigger = true
+						self:projectApply({type="ball", radius=eff.src:getTalentRadius(t_eah)}, self.x, self.y, Map.ACTOR, function(target)
+							local tareff = target:hasEffect(target.EFF_DIRE_PLAGUE)
+							if tareff then tareff.dur = tareff.dur + t_eah:_getDur(eff.src) end
+						end)
+					end
+
+					-- Trigger a crepuscule beam
+					if eff.src:hasEffect(eff.src.EFF_CREPUSCULE) then eff.src:callTalent(eff.src.T_CREPUSCULE, "trigger", self) end
+				end
+			end
+			DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, dam, {from_disease=true})
+		end end
 	end,
 }

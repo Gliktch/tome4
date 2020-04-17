@@ -145,6 +145,7 @@ newTalent{
 	points = 5,
 	radius = 10,
 	sustain_mana = 10,
+	sustain_soul = 2,
 	cooldown = 10,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 5, 70) end,
 	getReduce = function(self, t) return self:combatTalentLimit(t, 50, 8, 25) end,
@@ -158,6 +159,7 @@ newTalent{
 			local target = rng.tableRemove(targets)
 			runes = runes - 1
 			DamageType:get(DamageType.FROSTDUSK).projector(self, target.x, target.y, DamageType.FROSTDUSK, dam)
+			game.level.map:particleEmitter(target.x, target.y, 1, "spike_decrepitude", {})
 			if self.life < 1 then
 				target:setEffect(target.EFF_SPIKE_OF_DECREPITUDE, 2, {apply_power=self:combatSpellpower(), power=reduce})
 			end
