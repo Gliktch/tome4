@@ -660,7 +660,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 		self:attr("silent_heal", -1)
 	end
 
-	if self.__attacktargetwith_recursing or (weapon and weapon.attack_recurse) then
+	if weapon and weapon.attack_recurse then
 		if self.__attacktargetwith_recursing then
 			self.__attacktargetwith_recursing = self.__attacktargetwith_recursing - 1
 		else
