@@ -35,7 +35,7 @@ newTalent{
 	getPower = function(self, t) return math.floor(self:combatTalentScale(t, 10, 55)) end,
 	getResurrect = function(self, t) return math.floor(self:combatTalentScale(t, 1, 9)) end,
 	callbackOnSummonDeath = function(self, t, summon, src, death_note)
-		if summon.summoner ~= self or not summon.necrotic_minion or summon.boneyard_resurrected then return end
+		if summon.summoner ~= self or not summon.necrotic_minion or summon.boneyard_resurrected or summon.no_boneyard_resurrect then return end
 		local ok = false
 		for i, e in ipairs(game.level.map.effects) do
 			if e.damtype == DamageType.BONEYARD and e.src == self and e.grids[summon.x] and e.grids[summon.x][summon.y] then ok = true break end
@@ -53,7 +53,7 @@ newTalent{
 			DamageType.BONEYARD, {resist=t:_getResist(self), cooldown=t:_getCooldown(self), power=t:_getPower(self), resurrect=t:_getResurrect(self)},
 			self:getTalentRadius(t),
 			5, nil,
-			{type="vapour"},
+			MapEffect.new{zdepth=3, color_br=255, color_bg=255, color_bb=255, effect_shader="shader_images/boneyard_ground_gfx_3.png"},
 			nil,
 			true, true
 		)

@@ -4893,3 +4893,89 @@ newEffect{
 		self:effectTemporaryValue(eff, "combat_dam", eff.power)
 	end,
 }
+
+newEffect{
+	name = "NEVERENDING_PERIL", image = "talents/neverending_peril.png",
+	desc = _t"Neverending Peril",
+	long_desc = function(self, eff) return _t"Invulnerable." end,
+	type = "magical",
+	subtype = { necrotic=true, invulnerable=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "invulnerable", 1)
+	end,
+}
+
+newEffect{
+	name = "GOLDEN_AGE_OF_NECROMANCY", image = "talents/golden_age_of_necromancy.png",
+	desc = _t"Golden Age of Necromancy",
+	long_desc = function(self, eff) return _t"Invulnerable." end,
+	type = "magical",
+	subtype = { necrotic=true, invulnerable=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "invulnerable", 1)
+	end,
+}
+
+newEffect{
+	name = "CREPUSCULE", image = "talents/crepuscule.png",
+	desc = _t"Crepuscule",
+	long_desc = function(self, eff) return _t"Bring the night!" end,
+	type = "magical",
+	subtype = { necrotic=true, darkness=true, blind=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return _t"#Target# calls the night!", true end,
+	on_lose = function(self, err) return _t"The eerie night around #target# fades away.", true end,
+	on_timeout = function(self, eff)
+		self:callTalent(self.T_CREPUSCULE, "trigger")
+	end,
+}
+
+newEffect{
+	name = "DIRE_PLAGUE", image = "talents/dire_plague.png",
+	desc = _t"Dire Plague",
+	long_desc = function(self, eff) return ("The target is infected by a plague, doing %0.2f darkness damage per turn with a %d%% chance to rip apart the soul."):tformat(eff.dam, eff.chance) end,
+	type = "magical",
+	subtype = {disease=true, darkness=true},
+	status = "detrimental",
+	parameters = {dam=10, chance=2},
+	on_gain = function(self, err) return _t"#Target# is afflicted by a dire plague!" end,
+	on_lose = function(self, err) return _t"#Target# is free from the dire plague." end,
+	on_timeout = function(self, eff)
+		if self:attr("purify_disease") then self:heal(eff.dam, eff.src)
+		else if eff.dam > 0 then
+			local dam = eff.dam
+			if rng.percent(eff.chance) then
+				eff.src:incSoul(1)
+				game.logSeen(self, "Dire Plague rips out a piece of %s soul!", self:getName())
+
+				if eff.src:knowTalent(eff.src.T_THE_END_OF_ALL_HOPE) then
+					local t_eah = eff.src:getTalentFromId(eff.src.T_THE_END_OF_ALL_HOPE)
+					-- Force a crit
+					dam = eff.src:spellCrit(dam, 100)
+
+					-- Increase durations
+					if not eff.src.turn_procs.end_of_all_hope_trigger then
+						eff.src.turn_procs.end_of_all_hope_trigger = true
+						self:projectApply({type="ball", radius=eff.src:getTalentRadius(t_eah)}, self.x, self.y, Map.ACTOR, function(target)
+							local tareff = target:hasEffect(target.EFF_DIRE_PLAGUE)
+							if tareff then tareff.dur = tareff.dur + t_eah:_getDur(eff.src) end
+						end)
+					end
+
+					-- Trigger a crepuscule beam
+					if eff.src:hasEffect(eff.src.EFF_CREPUSCULE) then eff.src:callTalent(eff.src.T_CREPUSCULE, "trigger", self) end
+				end
+			end
+			DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, dam, {from_disease=true})
+		end end
+	end,
+}
