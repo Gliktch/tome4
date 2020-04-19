@@ -772,7 +772,7 @@ newEffect{
 	on_merge = function(self, old_eff, new_eff)
 		local new_eff_adj = {} -- Adjust for shield modifiers
 		new_eff_adj.power = self:getShieldAmount(new_eff.power)
-		new_eff_adj.dur = self:getShieldDuration(new_eff_adj.dur)
+		new_eff_adj.dur = self:getShieldDuration(new_eff.dur)
 		-- If the new shield would be stronger than the existing one, just replace it
 		if old_eff.dur > new_eff_adj.dur then return old_eff end
 		if math.max(self.damage_shield_absorb, self.damage_shield_absorb_max) <= new_eff_adj.power then
