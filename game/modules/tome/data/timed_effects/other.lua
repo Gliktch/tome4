@@ -435,8 +435,8 @@ newEffect{
 		end
 	end,
 	activate = function(self, eff)
-		if self:attr("shield_factor") then eff.power = eff.power * (100 + self:attr("shield_factor")) / 100 end
-		if self:attr("shield_dur") then eff.dur = eff.dur + self:attr("shield_dur") end
+		eff.power = self:getShieldAmount(eff.power)
+		eff.dur = self:getShieldDuration(eff.dur)
 		eff.durid = self:addTemporaryValue("reduce_detrimental_status_effects_time", eff.time_reducer)
 		eff.tmpid = self:addTemporaryValue("time_shield", eff.power)
 		--- Warning there can be only one time shield active at once for an actor
@@ -3975,6 +3975,28 @@ newEffect{
 		if eff.dur <= 0 or eff.src.dead then
 			self:removeEffect(eff.src.EFF_FED_UPON, false, true)
 		end
+	end,
+}
+
+newEffect{
+	name = "LICH_HUNGER", image = "talents/lichform.png",
+	desc = "Lich Hunger",
+	long_desc = function(self, eff) return "To complete your resurrection you must kill a unique/boss/elite boss rank creature before the duration expires." end,
+	type = "other",
+	subtype = { lich = true },
+	status = "neutral",
+	parameters = { },
+	callbackOnKill = function(self, eff, who, death_note)
+		if who.rank >= 3.2 then
+			eff.success = true
+			self:removeEffect(self.EFF_LICH_HUNGER)
+			game.bignews:say(120, "#DARK_ORCHID#Lichform regeneration is complete!#{normal}#")
+		end
+	end,
+	deactivate = function(self, eff)
+		if eff.success then return end
+		self.lich_no_more_regen = true
+		self:die(self, {special_death_msg="failed to complete the lich ressurection ritual"})
 	end,
 }
 
