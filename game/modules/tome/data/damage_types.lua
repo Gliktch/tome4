@@ -4300,6 +4300,23 @@ newDamageType{
 }
 
 newDamageType{
+	name = _t"chill of the tomb", type = "CHILL_OF_THE_TOMB", text_color = "#DARK_BLUE#",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local target = game.level.map(x, y, Map.ACTOR)
+		if not target then return end
+		local realdam = 0
+		if src:reactionToward(target) < 0 then
+			realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam.dam, state)
+		elseif target.summoner == src and target.necrotic_minion then
+			target:setEffect(target.EFF_CHILL_OF_THE_TOMB, 4, {power=dam.resist})
+		end
+		return realdam
+	end,
+}
+
+newDamageType{
 	name = _t"putrescent liquefaction", type = "PUTRESCENT_LIQUEFACTION", text_color = "#OLIVE_DRAB#",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)

@@ -4843,7 +4843,7 @@ newEffect{
 		if m.x then
 			if not m.dead then m:die(self) end
 			game.logSeen(m, "#GREY#%s explodes in a blast of gore!", m:getName():capitalize())
-			game.level.map:particleEmitter(m.x, m.y, eff.radius, "pustulent_fulmination", {radius=eff.radius})
+			game.level.map:particleEmitter(m.x, m.y, eff.radius, "corpse_explosion", {radius=eff.radius})
 			game:playSoundNear(m, "talents/slime")
 			m:project({type="ball", radius=eff.radius, friendlyfire=false}, m.x, m.y, DamageType.FROSTDUSK, self:spellCrit(eff.damage))
 			local diseases = {{self.EFF_WEAKNESS_DISEASE, "str"}, {self.EFF_ROTTING_DISEASE, "con"}, {self.EFF_DECREPITUDE_DISEASE, "dex"}}
@@ -4921,6 +4921,36 @@ newEffect{
 	on_lose = function(self, err) return nil, true end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "invulnerable", 1)
+	end,
+}
+
+newEffect{
+	name = "CHILL_OF_THE_TOMB", image = "talents/chill_of_the_tomb.png",
+	desc = _t"Chill of the Tomb",
+	long_desc = function(self, eff) return ("Reduces all damage by %d."):tformat(eff.power) end,
+	type = "magical",
+	subtype = { necrotic=true, flat=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "flat_damage_armor", {all=eff.power})
+	end,
+}
+
+newEffect{
+	name = "BLACK_ICE", image = "talents/black_ice.png",
+	desc = _t"Black Ice",
+	long_desc = function(self, eff) return ("Damage from necrotic minions increased by %d%%."):tformat(eff.power) end,
+	type = "magical",
+	subtype = { necrotic=true, },
+	status = "detrimental",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "inc_necrotic_minions", eff.power)
 	end,
 }
 
