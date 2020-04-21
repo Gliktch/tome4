@@ -8126,3 +8126,11 @@ function _M:checkSustainDeactivate(check)
 		end
 	end
 end
+
+function _M:getShieldAmount(amount)
+	return amount * (100 + (self:attr("shield_factor") or 0)) / 100
+end
+
+function _M:getShieldDuration(duration)
+	return duration + (self:attr("shield_dur") or 0)
+end
