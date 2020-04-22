@@ -2039,7 +2039,7 @@ newEffect{
 
 newEffect{
 	name = "DEATH_RUSH", image = "talents/utterly_destroyed.png",
-	desc = _t"DEATH_RUSH",
+	desc = _t"Death Rush",
 	long_desc = function(self, eff) return ("Movement speed increased by %d%%."):tformat(eff.power*100) end,
 	type = "magical",
 	subtype = { necrotic=true },
@@ -4947,6 +4947,60 @@ newEffect{
 }
 
 newEffect{
+	name = "CORPSELIGHT", image = "talents/corpselight.png",
+	desc = _t"Corpselight",
+	long_desc = function(self, eff) return ("Sustains a corpselight of radius %d that deals %0.2f cold damage per turn."):tformat(eff.effective_radius, eff.effective_dam) end,
+	type = "magical",
+	subtype = { necrotic=true, cold=true },
+	status = "beneficial",
+	charges = function(self, eff) return math.floor(eff.stacks) end,
+	parameters = {stacks=0, max_stacks=3, dam=20, radius=3},
+	on_gain = function(self, err) return "#Target# summons a corpselight!", true end,
+	on_lose = function(self, err) return nil, true end,
+	callbackOnChangeLevel = function(self, eff, what)
+		if what ~= "leave" then return end
+		self:removeEffect(self.EFF_CORPSELIGHT, true, true)
+	end,
+	explode = function(self, eff)
+		game.log("====================1")
+		if not self:knowTalent(self.T_GRAVE_MISTAKE) then return end
+		game.log("====================2")
+		if eff.exploded then return end
+		game.log("====================3")
+		eff.exploded = true
+		self:callTalent(self.T_GRAVE_MISTAKE, "explode", eff.x, eff.y, eff.effective_radius, eff.stacks)
+	end,
+	callbackOnTalentPost = function(self, eff, ab)
+		if not ab.is_spell or ab.id == self.T_CORPSELIGHT then return end
+		if eff.stacks >= eff.max_stacks then return end
+		local oldradius = math.min(eff.radius + eff.stacks, 10)
+		eff.stacks = eff.stacks + 1
+
+		eff.effective_dam = eff.dam * (1 + eff.stacks * 0.1)
+		eff.effective_radius = math.min(eff.radius + eff.stacks, 10)
+		if eff.effective_radius == oldradius then return end
+
+		game.level.map:removeParticleEmitter(eff.p_wave)
+		eff.p_wave = game.level.map:particleEmitter(eff.x, eff.y, eff.effective_radius, "corpselight_wave", {radius=eff.effective_radius})
+	end,
+	activate = function(self, eff)
+		eff.effective_dam = eff.dam
+		eff.effective_radius = math.min(eff.radius, 10)
+
+		eff.p_static = game.level.map:particleEmitter(eff.x, eff.y, 1, "corpselight", {})
+		eff.p_wave = game.level.map:particleEmitter(eff.x, eff.y, eff.radius, "corpselight_wave", {radius=eff.radius})
+	end,
+	deactivate = function(self, eff, ed)
+		game.level.map:removeParticleEmitter(eff.p_static)
+		game.level.map:removeParticleEmitter(eff.p_wave)
+		ed.explode(self, eff)
+	end,
+	on_timeout = function(self, eff)
+		self:project({type="ball", friendlyfire=false, radius=eff.effective_radius, x=eff.x, y=eff.y}, eff.x, eff.y, DamageType.COLD, eff.effective_dam)
+	end,
+}
+
+newEffect{
 	name = "CREPUSCULE", image = "talents/crepuscule.png",
 	desc = _t"Crepuscule",
 	long_desc = function(self, eff) return _t"Bring the night!" end,
@@ -4999,5 +5053,38 @@ newEffect{
 			end
 			DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, dam, {from_disease=true})
 		end end
+	end,
+}
+
+newEffect{
+	name = "FROST_CUT", image = "effects/crumbling_earth.png",
+	desc = _t"Frost Cut",
+	long_desc = function(self, eff) return ("Magically frozen wound that deals %0.2f cold damage per turn and movement speed reduced by %d%%."):tformat(eff.power, eff.speed) end,
+	charges = function(self, eff) return (math.floor(eff.power)) end,
+	type = "magical",
+	subtype = { wound=true, cut=true, bleed=true, cold=true },
+	status = "detrimental",
+	parameters = { power=1, speed=10 },
+	on_gain = function(self, err) return _t"#Target# starts to bleed ice.", _t"+Frost Cut" end,
+	on_lose = function(self, err) return _t"#Target# stops bleeding ice.", _t"-Frost Cut" end,
+	on_merge = function(self, old_eff, new_eff)
+		-- Merge the flames!
+		local olddam = old_eff.power * old_eff.dur
+		local newdam = new_eff.power * new_eff.dur
+		local dur = math.ceil((old_eff.dur + new_eff.dur) / 2)
+		old_eff.dur = dur
+		old_eff.power = (olddam + newdam) / dur
+		return old_eff
+	end,
+	activate = function(self, eff)
+		if eff.src and eff.src:knowTalent(self.T_BLOODY_BUTCHER) then
+			local t = eff.src:getTalentFromId(eff.src.T_BLOODY_BUTCHER)
+			local resist = math.min(t.getResist(eff.src, t), math.max(0, self:combatGetResist(DamageType.PHYSICAL)))
+			self:effectTemporaryValue(eff, "resists", {[DamageType.PHYSICAL] = -resist})
+		end
+		self:effectTemporaryValue(eff, "movement_speed", -eff.speed/100)
+	end,
+	on_timeout = function(self, eff)
+		DamageType:get(DamageType.COLD).projector(eff.src or self, self.x, self.y, DamageType.COLD, eff.power)
 	end,
 }

@@ -4341,3 +4341,32 @@ newDamageType{
 		end
 	end,
 }
+
+newDamageType{
+	name = _t"desolate waste", type = "DESOLATE_WASTE", text_color = "#BLUE#",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local target = game.level.map(x, y, Map.ACTOR)
+		if target and (target.old_x ~= x or target.old_y ~= y) and src:knowTalent(src.T_CRUMBLING_EARTH) and src:reactionToward(target) < 0 then
+			src:callTalent(src.T_CRUMBLING_EARTH, "trigger", target)
+		end
+		return DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam, state)
+	end,
+}
+
+newDamageType{
+	name = _t"desolate waste", type = "HIEMAL_SHIELD", text_color = "#BLUE#",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local target = game.level.map(x, y, Map.ACTOR)
+		local dam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam, state)
+		if dam > 0 and target then
+			local waste = game.level.map:hasEffectType(x, y, DamageType.DESOLATE_WASTE)
+			if waste then
+				src:callTalent(src.T_DESOLATE_WASTE, "trigger")
+			end			
+		end
+	end,
+}

@@ -88,7 +88,7 @@ newTalent{
 			if DamageType:get(DamageType.COLD).projector(self, x, y, DamageType.COLD, dam) > 0 then
 				target:setEffect(target.EFF_BLACK_ICE, 3, {apply_power=self:combatSpellpower(), power=t:_getMinionsInc(self)})
 			end
-			game.level.map:particleEmitter(x, y, 1, "spike_decrepitude", {})
+			game.level.map:particleEmitter(x, y, 1, "black_ice", {})
 		end)
 
 		game:playSoundNear(self, "talents/ice")
@@ -109,43 +109,32 @@ newTalent{
 	type = {"spell/grave",3},
 	require = spells_req3,
 	points = 5,
-	mode = "sustained",
-	sutain_mana = 20,
-	cooldown = 10,
-	tactical = { BUFF=1 },
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 330) / 5 end,
-	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
-		if dead or not death_note or not death_note.damtype or target == self then return end
-		if death_note.damtype ~= DamageType.DARKNESS then return end
-		if target.turn_procs.doing_bane_damage then return end
-
-		local banes = target:effectsFilter{subtype={bane=true}}
-		if #banes == 0 then return end
-
-		for _, baneid in ipairs(banes) do
-			local bane = target:hasEffect(baneid)
-			if bane then bane.dur = bane.dur + 1 end
-		end
-		
-		if target.turn_procs.erupting_shadows then return end
-		target.turn_procs.erupting_shadows = true
-
-		DamageType:get(DamageType.DARKNESS).projector(self, target.x, target.y, DamageType.DARKNESS, t:_getDamage(self))
-	end,
-	activate = function(self, t)
-		local ret = {}
-		return ret
-	end,
-	deactivate = function(self, t)
+	mana = 20,
+	soul = function(self, t) return self:knowTalent(self.T_GRAVE_MISTAKE) and 2 or 1 end,
+	cooldown = 15,
+	tactical = { ATTACKAREA={ COLD=4 } }, -- Higher prioriy to make sure it's cast before other spells so taht it can be extended
+	radius = 3,
+	range = 7,
+	getMaxStacks = function(self, t) return math.floor(self:combatTalentScale(t, 3, 7.5)) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 400) / 7 end,
+	target = function(self, t) return {type="ball", radius=self:getTalentRadius(t), range=self:getTalentRange(t), nolock=true, nowarning=true} end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y = self:getTargetLimited(tg)
+		if not x then return end
+		self:setEffect(self.EFF_CORPSELIGHT, 7, {x=x, y=y, radius=self:getTalentRadius(t), dam=t:_getDamage(self), stacks=self.life < 1 and 3 or 0, max_stacks=t:_getMaxStacks(self)})
 		return true
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Shadows engulf your foes, anytime you deal darkness damage to a creature affected by a bane, the bane's duration is increased by 1 turn and the shadows erupt, dealing an additional %0.2f damage.
-		The damage the can only happen once per turn per creature, the turn increase however always happens.
+		return ([[You summon a corpselight that radiates cold for 7 turns in radius %d.
+		Every turn all foes inside take %0.2f cold damage.
+		Anytime you cast a spell inside your corpselight's area it grows by one stack, each stack giving +1 radius and +10%% damage.
+		The corpselight can gain at most %d stacks and the radius will never extend beyond 10.
+		If cast while under 1 life it spawns with 3 stacks.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.DARKNESS, damage))
+		tformat(radius, damDesc(self, DamageType.COLD, damage), t:_getMaxStacks(self))
 	end,
 }
 
@@ -154,62 +143,26 @@ newTalent{
 	type = {"spell/grave",4},
 	require = spells_req4,
 	points = 5,
-	mode = "sustained",
-	mana = 30, -- Not sustain cost, cast cost
-	cooldown = 15,
-	tactical = { ATTACKAREA = { DARKNESS = 3 } },
-	range = 7,
-	direct_hit = true,
-	requires_target = true,
-	radius = function(self, t) return math.floor(self:combatTalentScale(t, 3, 4)) end,
-	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), friendlyfire=true, talent=t, display={particle="bolt_dark", trail="darktrail"}} end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 280) end,
-	iconOverlay = function(self, t, p)
-		local val = p.dur
-		if val <= 0 then return "" end
-		return tostring(math.ceil(val)), "buff_font_small"
-	end,
-	callbackOnChangeLevel = function(self, t, what)
-		local p = self:isTalentActive(t.id)
-		if not p then return end
-		if what ~= "leave" then return end
-		self:forceUseTalent(t.id, {ignore_energy=true})
-	end,
-	callbackOnActBase = function(self, t)
-		local p = self:isTalentActive(t.id)
-		if not p then return end
-
-		if self:getSoul() <= 0 then
-			self:forceUseTalent(t.id, {ignore_energy=true})
-			return
+	mode = "passive",
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 250) end,
+	explode = function(self, t, x, y, radius, stacks)
+		local dam = t:_getDamage(self) * (1 + stacks * 0.1)
+		local list = table.values(self:projectCollect({type="ball", radius=radius, x=x, y=y, friendlyfire=false}, x, y, Map.ACTOR))
+		table.sort(list, "dist")
+		for _, l in ipairs(list) do
+			if l.target:canBe("knockback") then l.target:pull(x, y, radius) end
+			DamageType:get(DamageType.COLD).projector(self, l.target.x, l.target.y, DamageType.COLD, dam)
 		end
-
-		local tg = self:getTalentTarget(t)
-		self:projectile(tg, p.x, p.y, DamageType.DARKNESS, self:spellCrit(t.getDamage(self, t)), {type="dark"})
-		self:incSoul(-1)
-		p.dur = p.dur - 1
-
-		if self:getSoul() <= 0 or p.dur <= 0 then
-			self:forceUseTalent(t.id, {ignore_energy=true})
-			return
-		end
-	end,
-	on_pre_use = function(self, t) return self:getSoul() > 0 end,
-	activate = function(self, t)
-		local tg = self:getTalentTarget(t)
-		local x, y = self:getTarget(tg)
-		if not x or not y then return nil end
-		return {x=x, y=y, dur=5}
-	end,
-	deactivate = function(self, t, p)
-		return true
+		game.level.map:particleEmitter(x, y, radius, "iceflash", {radius=radius})
+		game.logSeen(self, "#STEEL_BLUE#The corpselight implodes!")
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[You summon a river of tortured souls to launch an onslaught of darkness against your foes.
-		Every turn for 5 turns you launch a projectile towards the designated area that explodes in radius %d, dealing %0.2f darkness damage.
-		Each projectile consumes a soul and the spell ends when it has sent 5 projectiles or when you have no more souls to use.
-		The damage will increase with your Spellpower.]]):
-		tformat(self:getTalentRadius(t), damDesc(self, DamageType.DARKNESS, damage))
+		return ([[Upon expiring the corpselight implodes, pulling in all foes towards its center and dealing %0.2f cold damage.
+		The damage is increased by +10%% per stacks.
+		The damage will increase with your Spellpower.
+
+		#PURPLE#Learning this spell will make Corpselight cost two souls to use instead of one.]]):
+		tformat(damDesc(self, DamageType.COLD, damage))
 	end,
 }
