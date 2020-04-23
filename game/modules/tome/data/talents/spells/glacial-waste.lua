@@ -141,12 +141,14 @@ newTalent{
 	getThreshold = function(self, t) return 25 end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 40) end,
 	spawn = function(self, t)
+		local img = "shader_images/desolate_waste_ground_gfx.png"
+		if self:knowTalent(self.T_CRUMBLING_EARTH) then img = "shader_images/crumbling_earth_ground_gfx.png" end
 		game.level.map:addEffect(self,
 			self.x, self.y, 8,
 			DamageType.DESOLATE_WASTE, t:_getDamage(self),
 			self:getTalentRadius(t),
 			5, nil,
-			MapEffect.new{zdepth=3, color_br=255, color_bg=255, color_bb=255, effect_shader="shader_images/boneyard_ground_gfx_3.png"},
+			MapEffect.new{zdepth=3, color_br=255, color_bg=255, color_bb=255, effect_shader=img},
 			nil,
 			false, false
 		)
