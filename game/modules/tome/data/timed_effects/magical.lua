@@ -5088,3 +5088,127 @@ newEffect{
 		DamageType:get(DamageType.COLD).projector(eff.src or self, self.x, self.y, DamageType.COLD, eff.power)
 	end,
 }
+
+local rime_wraith_def = {
+	type = "magical",
+	subtype = { necrotic=true, cold=true, parasitic=true },
+	status = "neutral",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	callbackOnChangeLevel = function(self, eff, what)
+		if what ~= "leave" then return end
+		self:removeEffect(eff.effect_id, true, true)
+	end,
+	activate = function(self, eff)
+		if core.shader.active() then
+			self:effectParticles(eff, {type="shader_shield", args={toback=false,  size_factor=1.5, img="05_vimsense"}, shader={type="tentacles", appearTime=0.6, time_factor=1000, noup=0.0}})
+		end
+	end,
+	on_timeout = function(self, eff)
+		if self:reactionToward(eff.src) > 0 then
+			if not self:hasEffect(self.EFF_HOARFROST_GOOD) then
+				self:setEffect(self.EFF_HOARFROST_GOOD, 3, {dam=eff.dam, resists=eff.resists*2, permafrost=eff.permafrost, permafrost_huge=eff.permafrost_huge})
+			end
+		else
+			if not self:hasEffect(self.EFF_HOARFROST_BAD) then
+				self:setEffect(self.EFF_HOARFROST_BAD, 3, {apply_power=eff.src:combatSpellpower(), slow=eff.slow, resists=eff.resists, permafrost=eff.permafrost, permafrost_huge=eff.permafrost_huge})
+			end
+		end
+		
+		-- JUMP!
+		local list = table.values(self:projectCollect({type="ball", radius=10, selffire=false}, self.x, self.y, Map.ACTOR))
+		if #list == 0 then return end
+		local has = function(t) return t.target:hasEffect(t.target.EFF_HOARFROST_GOOD) or t.target:hasEffect(t.target.EFF_HOARFROST_BAD) end
+		local has_wraith = function(t) return t:hasEffect(t.EFF_RIME_WRAITH) or t:hasEffect(t.EFF_RIME_WRAITH_GELID_HOST) end
+		local list_has, list_not = {}, {}
+		for _, t in ipairs(list) do if has(t) then list_has[#list_has+1] = t else list_not[#list_not+1] = t end end
+		local use_list = #list_not > 0 and list_not or list_has
+
+		local target
+		if eff.src:knowTalent(eff.src.T_FRIGID_PLUNGE) then
+			table.sort(use_list, "dist")
+			while #use_list > 0 do
+				target = table.remove(use_list).target
+				if not (has_wraith(target) and #use_list > 0) then break end
+			end
+		else
+			while #use_list > 0 do
+				target = rng.table(use_list).target
+				if not (has_wraith(target) and #use_list > 0) then break end
+			end
+		end
+		self:removeEffect(eff.effect_id)
+		target:setEffect(eff.effect_id, eff.dur, eff)
+		game.level.map:particleEmitter(self.x, self.y, 1, "rime_wraith_move", {tx=target.x-self.x, ty=target.y-self.y})
+
+		if eff.src:knowTalent(eff.src.T_FRIGID_PLUNGE) then
+			local heal = eff.src:callTalent(eff.src.T_FRIGID_PLUNGE, "getHeal")
+			local dam = eff.src:callTalent(eff.src.T_FRIGID_PLUNGE, "getDamage")
+			eff.src:projectApply({type="beam", range=10, x=self.x, y=self.y}, target.x, target.y, Map.ACTOR, function(m)
+				if eff.src:reactionToward(m) < 0 then
+					DamageType:get(DamageType.COLD).projector(eff.src, m.x, m.y, DamageType.COLD, dam)
+				else
+					m:heal(heal, eff.src)
+				end
+			end)
+		end
+	end,
+}
+newEffect(table.merge(table.clone(rime_wraith_def), {
+	name = "RIME_WRAITH", image = "talents/rime_wraith.png",
+	desc = _t"Rime Wraith",
+	long_desc = function(self, eff) return _t"Host of a Rime Wraith!" end,
+}))
+newEffect(table.merge(table.clone(rime_wraith_def), {
+	name = "RIME_WRAITH_GELID_HOST", image = "talents/rime_wraith.png",
+	desc = _t"Rime Wraith (Gelid Host)",
+	long_desc = function(self, eff) return _t"Host of a Rime Wraith (Gelid Host)!" end,
+}))
+
+newEffect{
+	name = "HOARFROST_GOOD", image = "talents/permafrost.png",
+	desc = _t"Hoarfrost",
+	long_desc = function(self, eff) return ("All damage converted to cold, cold damage increased by %d%%, cold resistance increased by %d%%."):tformat(eff.dam, eff.resists) end,
+	type = "magical",
+	subtype = { necrotic=true, cold=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "resists", {[DamageType.COLD]=eff.resists})
+		self:effectTemporaryValue(eff, "inc_damage", {[DamageType.COLD]=eff.dam})
+		self:effectTemporaryValue(eff, "all_damage_convert", DamageType.COLD)
+		self:effectTemporaryValue(eff, "all_damage_convert_percent", 100)
+		if eff.permafrost then
+			self:effectTemporaryValue(eff, "combat_spellresist", eff.permafrost)
+			self:effectTemporaryValue(eff, "combat_physresist", eff.permafrost)
+			if eff.permafrost_huge then
+				self:effectTemporaryValue(eff, "healing_factor", 0.15)
+			end
+		end
+	end,
+}
+newEffect{
+	name = "HOARFROST_BAD", image = "talents/permafrost.png",
+	desc = _t"Hoarfrost",
+	long_desc = function(self, eff) return ("Cold resistance reduced by %d%%, movement speed reduced by %d%%."):tformat(eff.resists, eff.slow) end,
+	type = "magical",
+	subtype = { necrotic=true, cold=true },
+	status = "detrimental",
+	parameters = {},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "resists", {[DamageType.COLD]=-eff.resists})
+		self:effectTemporaryValue(eff, "movement_speed", -eff.slow/100)
+		if eff.permafrost then
+			self:effectTemporaryValue(eff, "combat_spellresist", -eff.permafrost)
+			self:effectTemporaryValue(eff, "combat_physresist", -eff.permafrost)
+			if eff.permafrost_huge then
+				self:effectTemporaryValue(eff, "talent_cd_reduction", {allpct = -0.15})
+			end
+		end
+	end,
+}
