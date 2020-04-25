@@ -181,7 +181,7 @@ newTalent{
 		return math.max(1, math.floor(self:combatTalentScale(t, 1, 2, "log")))
 	end,
 	getMax = function(self, t, ignore)
-		local max = math.max(1, math.floor(self:combatTalentScale(t, 1, 7)))
+		local max = math.max(1, math.floor(self:combatTalentScale(t, 1, 4.5)))
 		if ignore then return max end
 		return math.max(0, max - necroArmyStats(self).nb_skeleton)
 	end,

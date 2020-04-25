@@ -231,6 +231,7 @@ newTalent{
 	cooldown = 10,
 	tactical = { ATTACKAREA = {COLD=2, DARKNESS=2} },
 	requires_target = true,
+	radius = function(self, t) return math.floor(self:combatTalentScale(t, 3, 6)) end,
 	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t), talent=t} end,
 	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 1, 4)) end,
 	getIncrease = function(self, t) return math.floor(self:combatTalentScale(t, 1, 2)) end,
@@ -283,12 +284,19 @@ newTalent{
 		local ret = { dur = dur }
 
 		-- Add a lasting map effect
+		local radius = self:getTalentRadius(t)
 		ret.effect = game.level.map:addEffect(self,
 			self.x, self.y, 10, -- Duration is fake, its handled by the sustain
 			DamageType.PUTRESCENT_LIQUEFACTION, t.getDamage(self, t),
-			3,
+			radius,
 			5, nil,
-			{type="icestorm", only_one=true},
+			{stack={
+				{type="putrescent_liquefaction", args={radius=radius, img=1}, zdepth=3},
+				{type="putrescent_liquefaction", args={radius=radius, img=2}, zdepth=3},
+				{type="putrescent_liquefaction", args={radius=radius, img=3}, zdepth=3},
+				{type="putrescent_liquefaction", args={radius=radius, img=4}, zdepth=3},
+				{type="putrescent_liquefaction", args={radius=radius, img=5}, zdepth=3},
+			}},
 			function(e)
 				if e.src.dead then return end
 				e.x = e.src.x

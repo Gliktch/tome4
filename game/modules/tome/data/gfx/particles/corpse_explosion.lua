@@ -56,7 +56,7 @@ function(self)
 	end
 	nb = nb + 1
 end,
-1, "particles_images/ice_fireflash"
+1, "particles_images/corpse_explosion_fireflash"
 
 
 --------------------------------------------------------------------------------------
@@ -86,10 +86,10 @@ return { generator = function()
 		dir = static and a + math.rad(90 - rng.range(10, 20)) or a, dirv = 0, dira = 0,
 		vel = static and -2 or 0.5 * (-1-nb) * radius / 2.7, velv = 0, vela = static and -0.01 or rng.float(-0.3, -0.2) * 0.3,
 
-		r = 0,   rv = 0, ra = 0,
-		g = rng.range(170, 210)/255,   gv = 0, ga = 0,
-		b = rng.range(200, 255)/255,   gv = 0, ga = 0,
-		a = rng.range(230, 225)/255,   av = 0, aa = 0,
+		r = rng.range(0, 10)/255,      rv = 0, ra = 0,
+		g = rng.range(200, 255)/255,   gv = 0, ga = 0,
+		b = rng.range(120, 170)/255,   bv = 0, ba = 0,
+		a = rng.range(25, 220)/255,    av = static and -0.034 or 0, aa = 0.005,
 	}
 end, },
 function(self)
@@ -107,4 +107,5 @@ function(self)
 	end
 end,
 5*radius*266
+
 end

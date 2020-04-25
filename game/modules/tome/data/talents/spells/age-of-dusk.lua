@@ -144,16 +144,9 @@ newTalent{
 		self:talentTemporaryValue(ret, "confusion_immune", t:_getImmune(self)/100)
 		self:talentTemporaryValue(ret, "teleport_immune", t:_getImmune(self)/100)
 
-		-- local particle
-		-- if core.shader.active(4) then
-		-- 	local p1, p2 = self:talentParticles(ret, 
-		-- 		{type="shader_ring_rotating", args={rotation=0, radius=1.1, img="spinningwinds_black"}, shader={type="spinningwinds", ellipsoidalFactor={1,1}, time_factor=6000, noup=2.0, verticalIntensityAdjust=-3.0}},
-		-- 		{type="shader_ring_rotating", args={rotation=0, radius=1.1, img="spinningwinds_black"}, shader={type="spinningwinds", ellipsoidalFactor={1,1}, time_factor=6000, noup=1.0, verticalIntensityAdjust=-3.0}}
-		-- 	)
-		-- 	p1.toback = true
-		-- else
-		-- 	self:talentParticles(ret, {type="ultrashield", args={rm=0, rM=0, gm=0, gM=0, bm=10, bM=100, am=70, aM=180, radius=0.4, density=60, life=14, instop=20}})
-		-- end
+		if core.shader.active(4) then
+			self:talentParticles(ret, {type="shader_shield", args={toback=true, size_factor=1.5, img="golden_age_of_necromacy"}, shader={type="tentacles", appearTime=0.6, time_factor=1000, noup=0.0}})
+		end
 		return ret
 	end,
 	deactivate = function(self, t, p)
