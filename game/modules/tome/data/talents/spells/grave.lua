@@ -70,9 +70,9 @@ newTalent{
 	requires_target = true,
 	target = function(self, t)
 		if self:getTalentLevel(t) < 5 then
-			return {type="hit", range=self:getTalentRange(t)}
+			return {type="hit", range=self:getTalentRange(t), friendlyfire=false}
 		else
-			return {type="ball", radius=1, range=self:getTalentRange(t)}
+			return {type="ball", radius=1, range=self:getTalentRange(t), friendlyfire=false}
 		end
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 250) end,

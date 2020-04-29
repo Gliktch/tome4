@@ -39,6 +39,16 @@ newTalent{
 		if val >= 1000 then fnt = "buff_font_smaller" end
 		return tostring(math.ceil(val)), fnt
 	end,
+	resetShield = function(self, t, ret)
+		ret.been_used = nil
+		ret.shield = t:_getMaxAbsorb(self)
+		ret.original_shield = ret.shield
+		if self:knowTalent(self.T_DESOLATE_WASTE) then
+			ret.waste_threshold = self:callTalent(self.T_DESOLATE_WASTE, "getThreshold")
+			ret.waste_triggers = math.floor(100 / ret.waste_threshold)
+			ret.waste_counter = 0
+		end
+	end,
 	callbackOnActBase = checkLifeThreshold(1, function(self, t)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
@@ -53,7 +63,36 @@ newTalent{
 				p.crit_id = nil
 			end
 		end
+	end, function(self, t)
+		local p = self:isTalentActive(t.id)
+		if not p then return end
+
+		if p.out_combat_turn and p.out_combat_turn < game.turn - 100 and p.been_used then
+			local mana = util.getval(t.mana, self, t) or 0
+			mana = self:alterTalentCost(t, "mana", mana)
+			local soul = util.getval(t.soul, self, t) or 0
+			soul = self:alterTalentCost(t, "soul", soul)
+
+			if self:getSoul() < soul or self:getMana() < mana then
+				game.logPlayer(self, "#GREY#Your hiemal shield does not have enough ressources!")
+				self:forceUseTalent(t.id, {ignore_energy=true})
+			else
+				game.logPlayer(self, "#GREY#Your hiemal shield regenerates to full!")
+				t:_resetShield(self, p)
+				self:incMana(-mana)
+				self:incSoul(-soul)
+			end
+		end
 	end),
+	callbackOnCombat = function(self, t, state)
+		local p = self:isTalentActive(t.id)
+		if not p then return end
+		if state then
+			p.out_combat_turn = nil
+		else
+			p.out_combat_turn = game.turn
+		end
+	end,
 	callbackOnHit = function(self, t, cb, src, dt)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
@@ -84,6 +123,7 @@ newTalent{
 			cb.value = (rvalue - p.shield) / reduce
 			p.shield = 0
 		end
+		p.been_used = true
 
 		self.turn_procs.hiemal_shield = self.turn_procs.hiemal_shield or {}
 		if src and src ~= self and src.x and src.y and not self.turn_procs.hiemal_shield[src] then
@@ -99,13 +139,7 @@ newTalent{
 	end,
 	activate = function(self, t)
 		local ret = { }
-		ret.shield = t:_getMaxAbsorb(self)
-		ret.original_shield = ret.shield
-		if self:knowTalent(self.T_DESOLATE_WASTE) then
-			ret.waste_threshold = self:callTalent(self.T_DESOLATE_WASTE, "getThreshold")
-			ret.waste_triggers = math.floor(100 / ret.waste_threshold)
-			ret.waste_counter = 0
-		end
+		t:_resetShield(self, ret)
 
 		if core.shader.active(4) then
 			ret.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.4, img="hiemal_aegis"}, {type="shield", ellipsoidalFactor=1, shieldIntensity=0.4, color={0.9, 0.9, 1.0}}))
@@ -125,6 +159,7 @@ newTalent{
 		return ([[Conjure a shield of ice around you that can absorbs a total of %d damage.
 		Anytime it does it retaliates by sending a bolt of ice at the attacker, dealing %0.2f cold damage (this can only happen once per turn per creature).
 		When you are under 1 life it also reduces the damage of critical hits by %d%%.
+		10 turns after leaving combat the shield will consume its mana and soul cost again to fully regenerate if needed. if that cost can not be matched, it unsustains.
 		The shield strength will increase with your Spellpower.]]):
 		tformat(t:_getMaxAbsorb(self), damDesc(self, DamageType.COLD, t:_getDamage(self)), t:_getCritResist(self))
 	end,

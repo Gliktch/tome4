@@ -5102,7 +5102,7 @@ local rime_wraith_def = {
 	end,
 	activate = function(self, eff)
 		if core.shader.active() then
-			self:effectParticles(eff, {type="shader_shield", args={toback=false,  size_factor=1.5, img="05_vimsense"}, shader={type="tentacles", appearTime=0.6, time_factor=1000, noup=0.0}})
+			self:effectParticles(eff, {type="shader_shield", args={toback=false,  size_factor=1.5, img="rime_wraith_tentacle_shader_wings"}, shader={type="tentacles", appearTime=0.6, time_factor=1000, noup=0.0}})
 		end
 	end,
 	on_timeout = function(self, eff)

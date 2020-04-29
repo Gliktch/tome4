@@ -268,7 +268,7 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 	return m
 end
 
-function checkLifeThreshold(val, fct)
+function checkLifeThreshold(val, fct, basefct)
 	return function(self, t)
 		local checkid = "__check_threshold_"..t.id
 		if not self[checkid] then self[checkid] = self.life end
@@ -276,6 +276,7 @@ function checkLifeThreshold(val, fct)
 			fct(self, t)
 		end
 		self[checkid] = self.life
+		if basefct then basefct(self, t) end
 	end
 end
 -------------------------------------------

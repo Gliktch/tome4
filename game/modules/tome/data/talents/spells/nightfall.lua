@@ -88,7 +88,7 @@ newTalent{
 			5, nil,
 			{type="circle_of_death", overlay_particle={zdepth=6, only_one=true, type="circle", args={oversize=1, a=100, appear=8, speed=-0.05, img="necromantic_circle", radius=self:getTalentRadius(t)}}},
 --			{zdepth=6, only_one=true, type="circle", args={oversize=1, a=130, appear=8, speed=-0.03, img="arcane_circle", radius=self:getTalentRadius(t)}},
-			nil, false
+			nil, false, false
 		)
 
 		game:playSoundNear(self, "talents/fire")
@@ -162,7 +162,7 @@ newTalent{
 	direct_hit = true,
 	requires_target = true,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 3, 4)) end,
-	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), friendlyfire=true, talent=t, display={particle="bolt_dark", trail="darktrail"}} end,
+	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), friendlyfire=false, talent=t, display={particle="bolt_dark", trail="darktrail"}} end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 280) end,
 	iconOverlay = function(self, t, p)
 		local val = p.dur

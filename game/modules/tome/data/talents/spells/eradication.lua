@@ -84,6 +84,7 @@ newTalent{
 	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5)) end,
 	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)} end,
 	on_pre_use = function(self, t)
+		if not game.level then return false end
 		for i, e in ipairs(game.level.map.effects) do
 			if e.damtype == DamageType.BONEYARD and e.src == self then return true end
 		end		

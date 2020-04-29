@@ -75,7 +75,7 @@ newTalent{
 		local cd = t.getCD(self, t)
 		local dam = self:spellCrit(t.getDamage(self, t))
 		game.logSeen(self, "#GREY#%s unleashes a blast of frostdusk as %s crosses the veil!", self:getName():capitalize(), string.he_she(self))
-		self:projectApply({type="ball", radius=self:getTalentRadius(t), talent=t}, self.x, self.y, Map.ACTOR, function(target, px, py)
+		self:projectApply({type="ball", radius=self:getTalentRadius(t), talent=t, friendlyfire=false}, self.x, self.y, Map.ACTOR, function(target, px, py)
 			local d = DamageType:get(DamageType.FROSTDUSK).projector(self, target.x, target.y, DamageType.FROSTDUSK, dam)
 			if d > 0 and #list > 0 then
 				self:alterTalentCoolingdown(rng.tableRemove(list), -cd)
