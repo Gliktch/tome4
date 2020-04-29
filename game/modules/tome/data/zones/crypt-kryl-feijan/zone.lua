@@ -86,6 +86,10 @@ return {
 					if e.define_as and e.define_as == "MELINDA" then
 						local x, y = e.x, e.y
 						e:die()
+
+						local g = game.zone:makeEntityByName(game.level, "terrain", "ALTAR_SPLATTER")
+						game.zone:addEntity(game.level, g, "terrain", x, y)
+
 						local m = game.zone:makeEntityByName(game.level, "actor", "KRYL_FEIJAN")
 						if m then
 							game.zone:addEntity(game.level, m, "actor", x, y)
