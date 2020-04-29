@@ -39,6 +39,7 @@ newTalent{
 		self:updateTalentPassives(t)
 	end),
 	passives = function(self, t, p)
+		if type(self.max_life) ~= "number" then return end -- Prevent running on NPCs being spawned
 		local bonus = t.getLifeBonus(self, t)
 		self:talentTemporaryValue(p, "die_at", -bonus)
 		self:talentTemporaryValue(p, "max_life", -math.ceil(bonus * t.getLifeLostFactor(self, t)))
