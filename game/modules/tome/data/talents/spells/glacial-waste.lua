@@ -142,7 +142,7 @@ newTalent{
 		t:_resetShield(self, ret)
 
 		if core.shader.active(4) then
-			ret.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.4, img="hiemal_aegis"}, {type="shield", ellipsoidalFactor=1, shieldIntensity=0.4, color={0.9, 0.9, 1.0}}))
+			ret.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.2, img="hiemal_aegis"}, {type="shield", ellipsoidalFactor=1, shieldIntensity=0.4, color={0.9, 0.9, 1.0}}))
 		else
 			ret.particle = self:addParticles(Particles.new("disruption_shield", 1))
 		end

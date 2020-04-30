@@ -4803,10 +4803,14 @@ newEffect{
 	status = "detrimental",
 	parameters = {},
 	callbackOnDeath = function(self, eff)
-		if eff.src then eff.src:resolveSource():incSoul(1) end
+		if self.turn_procs.soul_leeched then return end
+		self.turn_procs.soul_leeched = true
+		if eff.src then eff.src:resolveSource():callTalent(eff.src:resolveSource().T_SOUL_LEECH, "gainSoul", self, "death") end
 	end,
 	deactivate = function(self, eff)
-		if eff.src and eff.powerful then eff.src:resolveSource():incSoul(1) end
+		if self.turn_procs.soul_leeched then return end
+		self.turn_procs.soul_leeched = true
+		if eff.src and eff.powerful then eff.src:resolveSource():callTalent(eff.src:resolveSource().T_SOUL_LEECH, "gainSoul", self, "periodic") end
 	end,
 }
 
@@ -4830,7 +4834,7 @@ newEffect{
 	end,
 	callbackOnActBase = function(self, eff)
 		if #eff.turn_list == 0 then return end
-		table.sort(eff.turn_list, function(a, b) return a.creation_turn < b.creation_turn end)
+		table.sort(eff.turn_list, function(a, b) return (a.creation_turn or 0) < (b.creation_turn or 0) end)
 		local m = eff.turn_list[1]
 		if m.x then
 			if not m.dead then m:die(self) end

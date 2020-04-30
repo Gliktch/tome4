@@ -97,6 +97,8 @@ return {
 						end
 						game.player:setQuestStatus("kryl-feijan-escape", engine.Quest.FAILED)
 
+						game.level.map:particleEmitter(x, y, 3, "corpse_explosion", {radius=3})
+
 						local spot = game.level:pickSpot{type="locked-door", subtype="locked-door"}
 						local g = game.zone:makeEntityByName(game.level, "terrain", "FLOOR")
 						game.zone:addEntity(game.level, g, "terrain", spot.x, spot.y)

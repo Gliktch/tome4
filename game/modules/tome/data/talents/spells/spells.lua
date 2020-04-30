@@ -148,6 +148,11 @@ function necroArmyStats(self)
 end
 
 function necroSetupSummon(self, def, x, y, level, turns, no_control)
+	local hookdata = {"Necromancer:NecroSetupSummon", def=def, x=y, y=y, level=level, turns=turns, no_control=no_control}
+	if self:triggerHook(hookdata) and hookdata.new_def then
+		def = hookdata.new_def
+	end
+
 	local m = require("mod.class.NPC").new(def)
 	m.necrotic_minion = true
 	m.creation_turn = game.turn
