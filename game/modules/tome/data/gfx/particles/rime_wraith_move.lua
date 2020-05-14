@@ -46,4 +46,4 @@ return {
 	}
 end}, function(self)
 	if first then self.ps:emit(1) first = false end
-end, 1, "particles_images/flaming_bat_projectile"
+end, 1, "particles_images/rime_wraith"

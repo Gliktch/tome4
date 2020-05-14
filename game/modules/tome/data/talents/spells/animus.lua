@@ -38,12 +38,20 @@ newTalent{
 	end,
 	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
 		if dead then
-			self:resolveSource():incSoul(1)
+			t:_gainSoul(self, target, "death")
 		else
 			if target:hasEffect(target.EFF_SOUL_LEECH) then return end -- Dont reset, we want it to exprei to leech
 			local turns, powerful = t.getTurnsByRank(self, t, target)
 			target:setEffect(target.EFF_SOUL_LEECH, turns, {src=self, powerful=powerful})
 		end
+	end,
+	gainSoul = function(self, t, src, mode)
+		if mode == "death" then
+			if src.turn_procs.soul_leeched_death then return end
+			src.turn_procs.soul_leeched_death = true
+		end
+		self:incSoul(1)
+		self:triggerHook{"Necromancer:SoulLeech:GainSoul", src=src}
 	end,
 	info = function(self, t)
 		local npc = mod.class.NPC.new{rank=3.2}

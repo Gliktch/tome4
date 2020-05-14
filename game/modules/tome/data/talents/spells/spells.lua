@@ -65,8 +65,8 @@ newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/grave", name = _t"grave", description = _t"Use the rotting cold doom of the tomb to fell your foes." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/glacial-waste", name = _t"glacial waste", description = _t"Wither the land into a cold, dead ground to protect yourself." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/rime-wraith", name = _t"rime wraith", min_lev = 10, description = _t"Summon an undead minion of pure cold to harass your foes." }
-newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/death", name = _t"death", description = _t"Learn to fasten your foes way into the grave." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/animus", name = _t"animus", description = _t"Crush the souls of your foes to improve yourself." }
+newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/death", name = _t"death", description = _t"Learn to fasten your foes way into the grave." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/eradication", name = _t"eradication", min_lev = 10, description = _t"Doom to all your foes. Crush them." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/necrosis", name = _t"necrosis", generic = true, description = _t"Gain control over death, by unnaturally expanding your life." }
 newTalentType{ allow_random=true, no_silence=true, is_necromancy=true, is_spell=true, mana_regen=true, type="spell/spectre", name = _t"spectre", generic = true, description = _t"Turn into a spectre to move around the battlefield." }
@@ -148,6 +148,11 @@ function necroArmyStats(self)
 end
 
 function necroSetupSummon(self, def, x, y, level, turns, no_control)
+	local hookdata = {"Necromancer:NecroSetupSummon", def=def, x=y, y=y, level=level, turns=turns, no_control=no_control}
+	if self:triggerHook(hookdata) and hookdata.new_def then
+		def = hookdata.new_def
+	end
+
 	local m = require("mod.class.NPC").new(def)
 	m.necrotic_minion = true
 	m.creation_turn = game.turn
@@ -268,7 +273,7 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 	return m
 end
 
-function checkLifeThreshold(val, fct)
+function checkLifeThreshold(val, fct, basefct)
 	return function(self, t)
 		local checkid = "__check_threshold_"..t.id
 		if not self[checkid] then self[checkid] = self.life end
@@ -276,6 +281,7 @@ function checkLifeThreshold(val, fct)
 			fct(self, t)
 		end
 		self[checkid] = self.life
+		if basefct then basefct(self, t) end
 	end
 end
 -------------------------------------------

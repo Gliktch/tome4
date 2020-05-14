@@ -4803,10 +4803,14 @@ newEffect{
 	status = "detrimental",
 	parameters = {},
 	callbackOnDeath = function(self, eff)
-		if eff.src then eff.src:resolveSource():incSoul(1) end
+		if self.turn_procs.soul_leeched then return end
+		self.turn_procs.soul_leeched = true
+		if eff.src then eff.src:resolveSource():callTalent(eff.src:resolveSource().T_SOUL_LEECH, "gainSoul", self, "death") end
 	end,
 	deactivate = function(self, eff)
-		if eff.src and eff.powerful then eff.src:resolveSource():incSoul(1) end
+		if self.turn_procs.soul_leeched then return end
+		self.turn_procs.soul_leeched = true
+		if eff.src and eff.powerful then eff.src:resolveSource():callTalent(eff.src:resolveSource().T_SOUL_LEECH, "gainSoul", self, "periodic") end
 	end,
 }
 
@@ -4830,7 +4834,7 @@ newEffect{
 	end,
 	callbackOnActBase = function(self, eff)
 		if #eff.turn_list == 0 then return end
-		table.sort(eff.turn_list, function(a, b) return a.creation_turn < b.creation_turn end)
+		table.sort(eff.turn_list, function(a, b) return (a.creation_turn or 0) < (b.creation_turn or 0) end)
 		local m = eff.turn_list[1]
 		if m.x then
 			if not m.dead then m:die(self) end
@@ -4962,11 +4966,8 @@ newEffect{
 		self:removeEffect(self.EFF_CORPSELIGHT, true, true)
 	end,
 	explode = function(self, eff)
-		game.log("====================1")
 		if not self:knowTalent(self.T_GRAVE_MISTAKE) then return end
-		game.log("====================2")
 		if eff.exploded then return end
-		game.log("====================3")
 		eff.exploded = true
 		self:callTalent(self.T_GRAVE_MISTAKE, "explode", eff.x, eff.y, eff.effective_radius, eff.stacks)
 	end,
@@ -5102,7 +5103,7 @@ local rime_wraith_def = {
 	end,
 	activate = function(self, eff)
 		if core.shader.active() then
-			self:effectParticles(eff, {type="shader_shield", args={toback=false,  size_factor=1.5, img="05_vimsense"}, shader={type="tentacles", appearTime=0.6, time_factor=1000, noup=0.0}})
+			self:effectParticles(eff, {type="shader_shield", args={toback=false,  size_factor=1.5, img="rime_wraith_tentacle_shader_wings"}, shader={type="tentacles", appearTime=0.6, time_factor=1000, noup=0.0}})
 		end
 	end,
 	on_timeout = function(self, eff)

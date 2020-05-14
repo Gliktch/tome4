@@ -51,7 +51,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[Conjures up a bolt of cold that moves toward the target and explodes into a chilly circle of death, doing %0.2f cold damage in a radius of %d.
-		Necortic minions caught in the blast do not take damage but are instead coated with a thin layer of ice, reducing all damage they take by %d for 4 turns.
+		Necrotic minions caught in the blast do not take damage but are instead coated with a thin layer of ice, reducing all damage they take by %d for 4 turns.
 		The damage will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.COLD, damage), radius, t:_getFlatResist(self))
 	end,
@@ -70,9 +70,9 @@ newTalent{
 	requires_target = true,
 	target = function(self, t)
 		if self:getTalentLevel(t) < 5 then
-			return {type="hit", range=self:getTalentRange(t)}
+			return {type="hit", range=self:getTalentRange(t), friendlyfire=false}
 		else
-			return {type="ball", radius=1, range=self:getTalentRange(t)}
+			return {type="ball", radius=1, range=self:getTalentRange(t), friendlyfire=false}
 		end
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 250) end,
