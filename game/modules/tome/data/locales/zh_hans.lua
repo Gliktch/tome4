@@ -919,6 +919,8 @@ t("Additional %d %s damage", "额外 %d %s伤害", "tformat")
 t("Life regen %d%% of max life", "生命值回复增加 %d%% 最大生命值", "tformat")
 t("Latent Damage Type: ", "潜在伤害类型：", "_t")
 t("When inscribed on your body:", "当铭刻在你的皮肤上时：", "_t")
+t("Talent level: %+d %s.", "技能等级: %+d %s.", "tformat")
+t("Talent level: %s.", "技能等级: %s.", "tformat")
 t("Talent on hit(spell): %s (%d%% chance level %d).", "技能（法术）命中后释放：%s (%d%% 几率等级 %d).", "tformat")
 t("Talent on hit(nature): %s (%d%% chance level %d).", "技能（自然）命中后释放：%s (%d%% 几率等级 %d).", "tformat")
 t("Talent on hit(mindpower): %s (%d%% chance level %d).", "技能（精神）命中后释放：%s (%d%% 几率等级 %d).", "tformat")
@@ -2519,7 +2521,7 @@ t("Failed to save any escorted adventurers.", "在护送任务中未成功护送
 t("Guiding Hand", "最佳护卫", "achievement name")
 t("Saved all escorted adventurers.", "在护送任务中搭救所有的冒险者。", "_t")
 t("Earth Master", "大地领主", "achievement name")
-t("Killed Harkor'Zun and unlocked Stone magic.", "杀死哈克祖并解锁石系魔法。", "_t")
+t("Killed Harkor'Zun.", "杀死哈克祖。", "_t")
 t("Kill Bill!", "杀死比尔！", "achievement name")
 t("Killed Bill in the Trollmire without leveling beyond your starting level.", "用初始级别的人物杀死食人魔沼泽的比尔。", "_t")
 t("Atamathoned!", "阿塔麦森！", "achievement name")
@@ -3491,6 +3493,7 @@ t("Redhead 3", "红发3", "_t")
 t("Redhead 4", "红发4", "_t")
 t("Redhead 5", "红发5", "_t")
 t("Redhead 6", "红发6", "_t")
+t("Redhead Melinda", "梅琳达红发", "_t")
 t("Dark Beard 1", "深色络腮胡1", "_t")
 t("Dark Beard 2", "深色络腮胡2", "_t")
 t("Dark Beard 3", "深色络腮胡3", "_t")
@@ -6958,6 +6961,12 @@ t("void echoes", "虚空回响", "_t")
 t("%s resists the void!", "%s抵抗了虚空！", "logSeen")
 t("#YELLOW#Lite Light#LAST# Burst (radius 1)", "#YELLOW#光照#LAST#爆发（范围 1）", "_t")
 t("dark light", "黑暗之光", "_t")
+t("meteor", "陨石", "_t")
+t("frostdusk", "霜暮", "_t")
+t("chill of the tomb", "极寒坟墓", "_t")
+t("putrescent liquefaction", "腐烂液化", "_t")
+t("boneyard", "大墓地", "_t")
+t("desolate waste", "荒芜之地", "_t")
 
 
 ------------------------------------------------
@@ -9267,6 +9276,7 @@ t("%s's %s sends out a blast of psionic energy!", "%s的%s释放出灵能冲击�
 t("Storm Bringer's Gauntlets", "风暴使者臂铠", "entity name")
 t("fine-mesh gauntlets", "细孔臂铠", "_t")
 t("This pair of fine mesh voratun gauntlets is covered with glyphs of power that spark with azure energy.  The metal is supple and light so as not to interfere with spell-casting.  When and where these gauntlets were forged is a mystery, but odds are the crafter knew a thing or two about magic.", "这副细孔沃瑞钽臂铠被闪烁着蓝色能量的雕文所覆盖。这种金属柔软且轻盈，不会对施法造成阻碍。制造这副手套的时间和地点都是一个谜，但是可以确认的是，制造者对于魔法技术有一定的了解。", "_t")
+t("+1 to all lightning damage spells", "+1 所有闪电伤害技能等级", "_t")
 t("ornate trident", "华丽的三叉戟", "_t")
 t("River's Fury", "河流之怒", "entity name")
 t("This gorgeous and ornate trident was wielded by Lady Nashva, and when you hold it, you can faintly hear the roar of a rushing river.", "这柄华丽的三叉戟曾被纳纱瓦女士使用过，当你握紧它时，你会听到奔腾河流的怒吼。", "_t")
@@ -9715,7 +9725,7 @@ t(" of the vagrant", "漂泊之", "entity name")
 t("vagrant", "漂泊", "entity keyword")
 t(" of shielding", "护盾之", "entity name")
 t("shielding", "护盾", "entity keyword")
-t("create a temporary shield that absorbs %d damage", "制造护盾，吸收%d伤害", "_t")
+t("create a temporary shield that absorbs %d damage", "制造护盾，吸收%d伤害", "tformat")
 t("%s uses %s!", "%s 使用了 %s！", "logSeen")
 t(" of life", "生命之", "entity name")
 t("life", "生命", "entity keyword")
@@ -12294,7 +12304,7 @@ t("#DARK_GREEN#Nessilla's belt seems to come alive as you put it on.", "#DARK_GR
 t("Neira's Memory", "尼耶拉的记忆", "entity name")
 t("crackling belt", "发出异常声音的腰带", "_t")
 t("Ages ago this belt was worn by Linaniil herself in her youth, using its power she shielded herself from the Spellblaze rain of fire, but naught could she do for her sister Neira.", "许多年前这根腰带是年轻时的莱娜尼尔穿戴的，在魔法大爆炸的火焰之中它的力量保护了她，但却保护不了她的姐妹尼耶拉。", "_t")
-t("surround yourself with a magical shield (strength %d, based on Magic) for 10 turns", "制造一层魔法护盾，(强度 %d，基于魔法) ，持续 10 回合。", "tformat")
+t("surround yourself with a magical shield (strength %d, based on Magic) for %d turns", "制造一层魔法护盾，(强度%d，基于魔法) ，持续%d回合。", "tformat")
 t("%s invokes the memory of Neira!", "%s呼唤了尼耶拉的记忆!", "logSeen")
 t("Nature's Blessing", "自然之赐", "entity name")
 t("supple leather armour entwined with willow bark", "柔韧的皮甲被柳木条缠绕着", "_t")
@@ -12324,7 +12334,7 @@ t("#STEEL_BLUE#The arcane energies surrounding you dissipate.", "#STEEL_BLUE#围
 t("Mirror Shards", "镜影碎片", "entity name")
 t("mirror lined chain", "镶有锁链的镜片", "_t")
 t("Said to have been created by a powerful mage after his home was destroyed by a mob following the Spellblaze. Though he fled, his possessions were crushed, burned, and smashed. When he returned to the ruins, he made this amulet from the remains of his shattered mirror.", "据说是由一位强大的魔法师在他的家园被猎魔行动的暴民摧毁后制造。虽然他逃脱了追捕，但是他的财产都被破坏和烧毁殆尽。当他回去时，发现家里已成废墟，墙上的斑驳和地上的碎片说明了这里曾遭到怎样的劫难。最终，他捡起了其中一块镜子残片，将其做成了这副项链。", "_t")
-t("create a reflective shield (50%% reflection rate, %d strength, based on Magic) for 5 turns", "制造反射护盾（50%%反射率，%d 吸收量，基于魔法）持续5回合。", "tformat")
+t("create a reflective shield (50%% reflection rate, %d strength, based on Magic) for %d turns", "制造反射护盾（50%%反射率，%d吸收量，基于魔法）持续%d回合。", "tformat")
 t("%s activates %s, forging a reflective barrier!", "%s激活了%s，制造了一层反射护盾！", "logSeen")
 t("Destala's Scales", "德斯塔拉之鳞片", "entity name")
 t("green dragon-scale cloak", "绿色的龙鳞斗篷", "_t")
@@ -21040,9 +21050,9 @@ t([[A magical zone of Sunlight appears around you, healing and shielding all wit
 		它同时会照亮此区域。 
 		受魔法影响，治疗量有额外加成。]], "tformat")
 t("Barrier", "护盾术", "talent name")
-t([[A protective shield forms around you that lasts for up to 10 turns and negates %d damage.
- 		The total damage the barrier can absorb will increase with your Spellpower and can crit.]], [[一个持续 10 回合的保护性圣盾围绕着你，可吸收 %d 点伤害。 
-		受法术强度影响，圣盾的最大吸收量有额外加成，该技能可以暴击。]], "tformat")
+t([[A protective shield forms around you that lasts for up to %d turns and negates %d damage.
+ 		The total damage the barrier can absorb will increase with your Spellpower and can crit.]], [[一个持续 %d 回合的保护性圣盾围绕着你，可吸收 %d 点伤害。 
+		 受法术强度影响，圣盾的最大吸收量有额外加成，该技能可以暴击。]], "tformat")
 t("Providence", "光之守护", "talent name")
 t("Places you under the protection of a ray of sunlight. For %d turns, the light removes a single negative effect from you every turn.", "你位于圣光的保护下，每回合移除 1 种负面状态，持续 %d 回合。", "tformat")
 
@@ -24348,17 +24358,17 @@ t([[Sharp shards of stone grow from your shields.
 		每次你承受近战攻击时，你能利用这些碎片反击攻击者，造成 %d%% 自然伤害。
 		每回合只能反击一次。]], "tformat")
 t("Eldritch Stone", "岩石护盾", "talent name")
-t([[Creates a shield of impenetrable stone around you for 7 turns, absorbing up to %d damage.
+t([[Creates a shield of impenetrable stone around you for %d turns, absorbing up to %d damage.
 		Your equilibrium will increase by twice the damage absorbed.
 		When the effect ends, all equilibrium above minimum will be converted to mana in a storm of arcane energy and the cooldown of your Block is reset.
 		The storm inflicts Arcane damage equal to the converted equilibrium (maximum %d) against everyone around you in a radius %d.
 		Also while resting you will passively regenerate %0.2f mana each turn.
-		The shield strength will increase with Willpower]], [[制造一层持续 7 回合的岩石护盾，吸收至多 %d 点伤害。
+		The shield strength will increase with Willpower]], [[制造一层持续 %d 回合的岩石护盾，吸收至多 %d 点伤害。
 		你的失衡值将会上升两倍伤害吸收量。 
-		护盾破碎时，所有超过最小值的失衡值将被转化为法力，同时释放奥术能量风暴 , 造成等同于转化失衡值的奥术伤害（至多 %d 点），伤害半径 %d 。
+		护盾破碎时，所有超过最小值的失衡值将被转化为法力值，同时释放奥术能量风暴 , 造成等同于转化失衡值的奥术伤害（至多 %d 点），伤害半径 %d 。
 		你的格挡技能的冷却时间也会被重置。
 		同时，你休息时获得每回合 %0.2f 回魔速度。
-		护盾值受法术强度加成。]], "tformat")
+		护盾值受意志度加成。]], "tformat")
 
 
 ------------------------------------------------
@@ -25569,11 +25579,11 @@ t([[Activate the rune to create up to 3 images of yourself that taunt nearby ene
 t("dur %d; cd %d", "持续 %d; 冷却 %d", "tformat")
 t("Rune: Shatter Afflictions", "符文：粉碎痛苦", "talent name")
 t([[Activate the rune to instantly dissipate the energy of your ailments, cleansing all cross tier effects and 1 physical, mental, and magical effect.
-		You use the dissipated energy to create a shield lasting 3 turns and blocking %d damage per debuff cleansed (not counting cross-tier ones).
+		You use the dissipated energy to create a shield lasting %d turns and blocking %d damage per debuff cleansed (not counting cross-tier ones).
 		If there were only cross-tier effects to cleanse, no shield is created and the rune goes on a 75%% reduced cooldown.]], [[激活符文，立刻清除你身上的负面效果。
 		清除所有越层效果（失去平衡、法术冲击和思维封锁），以及物理、精神和魔法负面效果各 1 个。
-		每清除一个负面效果，你都会获得一个抵挡 %d 伤害的护盾，持续 3 回合。
-		如果只清除了越层效果，不会产生护盾且冷却时间减少75%%]], "tformat")
+		每清除一个负面效果，你都会获得一个抵挡 %d 伤害的护盾，持续 %d 回合。
+		如果只清除了越层效果，不会产生护盾且冷却时间减少75%% 。]], "tformat", {2,1})
 t("absorb %d; cd %d", "吸收 %d; 冷却 %d", "tformat")
 t("Rune: Dissipation", "符文：耗散", "talent name")
 t("Activate the rune to remove 8 beneficial magical sustains from an enemy target or all magical debuffs from you.", "激活这个符文，从敌人身上移除 8 个正面魔法持续效果，或从自己身上移除所有魔法负面效果。", "tformat")
@@ -25789,7 +25799,7 @@ t("Weakness Disease", "衰弱疫病", "talent name")
 t("@Source@ performs a diseased attack against @target@.", "@Source@向@target@传播疾病。", "_t")
 t("%s resists the disease!", "%s抵抗了疫病！", "logSeen")
 t("Hits the target doing %d%% damage. If the attack hits, the target is afflicted with a disease, inflicting %0.2f blight damage per turn for %d turns and reducing strength by 10%% + 4.  The disease damage increases with your Strength, and the chance to apply it increases with your Physical Power.", "打击目标造成 %d%% 伤害，如果攻击命中可使目标感染疾病，造成每回合 %0.2f 枯萎伤害持续 %d 回合并降低其力量 10%%+4 。疾病伤害受力量加成，附加几率受物理强度加成。", "tformat")
-t("Mind Disruption", "精神崩溃", "talent name")
+t("Mind Disruption", "精神干扰", "talent name")
 t("Try to confuse the target's mind for %d (power %d%%) turns.", "试图使目标混乱 %d 回合 (强度 %d%%)。", "tformat")
 t("Water Bolt", "水弹", "talent name")
 t([[Condenses ambient water on a target, inflicting %0.1f cold damage.
@@ -26178,6 +26188,11 @@ t("Blur Sight", "模糊视觉", "talent name")
 t([[The caster's image blurs, granting a %d bonus to Defense.
 		The bonus will increase with your Spellpower.]], [[施法者的形象变的模糊不清，增加 %d 点闪避。 
 		受法术强度影响，闪避有额外加成。]], "tformat")
+t("Cold Flames", "骨灵冷火", "talent name")
+t("cold flames", "冷火", "_t")
+t([[Cold Flames slowly spread from %d spots in a radius of %d around the targeted location. The flames deal %0.2f cold damage, and have a chance of freezing.
+		Damage improves with your Spellpower.]], [[冰冷的火焰从目标点向 %d 个方向扩散，有效范围 %d 码半径。火焰会造成 %0.2f 冰冷伤害并有几率冰冻目标。 
+		受法术强度影响，伤害有额外加成。]], "tformat")
 
 
 ------------------------------------------------
@@ -27681,35 +27696,6 @@ t([[Increases your golem's life, mana and stamina regeneration rates by %0.2f.
 ------------------------------------------------
 section "game/modules/tome/data/talents/spells/advanced-necrotic-minions.lua"
 
-t("A towering creature, made from the bones of dozens of dead bodies. It is covered by an unholy aura.", "像铁塔一样的生物，由数不清的骨头构成。它全身围绕着邪恶的气息。", "_t")
-t("A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.", "像铁塔一样的生物，由数不清的骨头构成。它全身围绕着邪恶的气息。", "_t")
-t("A towering creature, made from the bones of hundreds of dead bodies, rune-etched and infused with hateful sorceries.", "像铁塔一样的生物，由数不清的骨头构成，它的骨头上布满符文和充斥着憎恨的魔法印记。", "_t")
-t("Undead Explosion", "亡灵爆炸", "talent name")
-t([[Minions are only tools. You may dispose of them... Violently.
-		Makes the targeted minion explode for %d%% of its maximum life in a radius of %d as blight damage.
-		Beware! Don't get caught in the blast! (unless you know Dark Empthy: %d%% chance to ignore damage)]], [[亡灵随从只是工具。你可以残忍地引爆它们。 
-		使目标单位爆炸并造成枯萎伤害，伤害为它最大生命值的 %d%% ,半径为 %d 。 
-		注意！别站在爆炸范围内！( 除非你学会了黑暗共享，这样你有 %d%% 几率无视伤害。)]], "tformat")
-t("Assemble", "亡灵组合", "talent name")
-t([[Combines 3 of your minions into a bone giant.
-		At level 1, it makes a bone giant.
-		At level 3, it makes a heavy bone giant.
-		At level 5, it makes an eternal bone giant.
-		At level 6, it has a 20%% chance to produce a runed bone giant.
-		Only %s can be active at any time.]], [[将 3 个单位组合成 1 个骨巨人。 
-		在等级 1 时它可以制造 1 个骨巨人。 
-		在等级 3 时它可以制造 1 个重型骨巨人。 
-		在等级 5 时它可以制造 1 个不朽骨巨人。 
-		在等级 6 时它可以有 20%% 几率制造 1 个符文骨巨人。 
-		在同一时间只能激活 %s 。]], "tformat")
-t("one bone giant", "一个骨巨人", "_t")
-t("two bone giants", "两个骨巨人", "_t")
-t("Sacrifice", "献祭骨盾", "talent name")
-t([[Sacrifice a bone giant minion. Using its bones, you make a temporary shield around you that prevents any attacks from doing more than %d%% of your total life.
-		The effect lasts %d turns.]], [[牺牲 1 个骨巨人。使用它的骨头，你可以制造一个临时的骨盾，格挡超过你总生命值的 %d%% 的任何伤害。 
-		此效果持续 %d 回合。]], "tformat")
-t("Minion Mastery", "亡灵精通", "talent name")
-t("Each minion you summon has a chance to be a more advanced form of undead. Your chance for each type of minion is as follows:%s", "你召唤的每个亡灵单位有概率进阶:%s", "tformat")
 
 
 ------------------------------------------------
@@ -27791,6 +27777,46 @@ t([[Surround yourself with Pure Aether, increasing all your arcane damage by %0.
 
 
 ------------------------------------------------
+section "game/modules/tome/data/talents/spells/age-of-dusk.lua"
+
+t("Dire Plague", "恐怖瘟疫", "talent name")
+t([[You unleash the glorious vision of the past when the continent was filled with death and plagues.
+		All foes in range %d catch a dire plague for 5 turns, dealing %0.2f darkness damage each turn.
+		The Dire Plague is considered a disease but is not prevented by diseases immunity.
+		Every turn there is a %d%% chance of a piece of the soul to be ripped away, increasing your souls by 1.
+		]], [[你释放了死灵法师过去的光辉景象，那是大地充满死亡和瘟疫的年代。
+		范围 %d 码内的所有敌人被恐怖瘟疫感染 5 回合，每回合受到 %0.2f 暗影伤害。
+		恐怖瘟疫被视为疾病，但无视敌人的疾病免疫。
+		每一回合，感染瘟疫的目标有 %d%% 的几率被剥离灵魂的一部分，使你获得 1 个灵魂。
+		]], "tformat")
+t("Crepuscule", "黄昏降临", "talent name")
+t("%s resists the crepuscule!", "%s 抵抗了黄昏降临！", "logSeen")
+t([[You call upon an eerie night to aid you for %d turns.
+		Each turn you automatically fire a beam of darkness towards a random foe (prioritizing the ones further away) that deals %0.2f darkness damage and has 25%% chances to blind any foes caught inside for 4 turns.
+		The damage will increase with your Spellpower.]], [[你呼唤黄昏降临，持续 %d 回合。
+		在每回合内，你会自动朝一个随机敌人发射暗影光线（优先攻击最远的敌人），造成 %0.2f 暗影伤害，并有 25%% 几率致盲被击中的敌人 4 回合。
+		伤害受法术强度加成。]], "tformat")
+t("The End of All Hope", "希望终结", "talent name")
+t([[Whenever one of your Dire Plague rips a soul it feels the inescapable coming of the end.
+		When this happens the darkness damage of the plague is a critical hit and all Dire Plagues in radius %d around it (including itself) have their durations increased by %d turns.
+		The duration increase may happen only once per turn.
+		If Crepuscule is currently active it fires an additional free beam at the target.
+		In addition the chance to rip a soul by Dire Plague increases by %d%%.
+		]], [[每当你的恐怖瘟疫撕裂一个灵魂的时候，受害者会感受到不可逃避的死亡降临。
+		当这一效果触发的时候，瘟疫造成的暗影伤害将回报及，且目标周围 %d 码范围内所有被恐怖瘟疫感染的目标（包括它自己）的瘟疫持续时间将会延长 %d 回合。
+		持续时间延长效果每回合最多触发 1 次。
+		如果你开启了黄昏降临技能，你还会额外朝目标发射一道光线。
+		此外，你的恐怖瘟疫撕裂灵魂的几率提升 %d%% 。
+		]], "tformat")
+t("Golden Age of Necromancy", "死灵法术的黄金时代", "talent name")
+t([[You recall the age long gone where necromancers had free reign over the world.
+		Increases all saves by %d, confusion and teleport resistances by %d%%.
+		At level 5 any time you cross the 1 life thresshold you become invulnerable for 2 turns.]], [[你回忆起死灵法师自由地统治、支配这个世界的黄金年代。
+		获得 %d 全体豁免， %d%% 混乱和传送抗性。
+		技能等级 5 时，每当你穿越 1 生命值的界线时，你无敌 2 回合。]], "tformat")
+
+
+------------------------------------------------
 section "game/modules/tome/data/talents/spells/air.lua"
 
 t("Lightning", "闪电术", "talent name")
@@ -27808,7 +27834,7 @@ t([[A gentle wind circles around the caster, increasing carrying capacity by %d,
 		At level 4 it also makes you levitate slightly above the ground, allowing you to ignore some traps.
 		At level 5 it also grants %d%% movement speed and removes %d fatigue.]], [[一股温柔的风围绕着施法者，增加 %d 点负重能力，增加 %d 点对抛射物的闪避，获得 %d%% 定身免疫和 %d%% 震慑免疫。 
 		在等级 4 时，它会使你轻微的漂浮在空中，可忽略部分陷阱。 
-		在等级 5 时，同时还会提升你 %d%% 的移动速度并且移除 %d 点负重。]], "tformat")
+		在等级 5 时，同时还会提升你 %d%% 的移动速度并且移除 %d 点疲劳。]], "tformat")
 t("Thunderstorm", "闪电风暴", "talent name")
 t("#0080FF#A furious lightning storm forms around %s!", "#0080FF#一道强烈的闪电风暴围绕着%s！", "logSeen")
 t("#0080FF#The furious lightning storm around %s calms down and disappears.", "#0080FF#围绕着%s的闪电风暴沉寂了下来并消失了。", "logSeen")
@@ -27822,54 +27848,44 @@ t([[Conjures a furious, raging lightning storm with a radius of 6 that follows y
 ------------------------------------------------
 section "game/modules/tome/data/talents/spells/animus.lua"
 
+t("Soul Leech", "灵魂吸取", "talent name")
+t([[Each time you or your undead minions deal damage to a creature you apply Soul Leech to them.
+		If a creature dies with this effect active, you steal its soul.
+		Strong creatures and bosses are so overflowing with soul power that you steal a fragment of their soul every few turns:
+		%s- rare: at most every %d turns
+		%s- unique: at most every %d turns
+		%s- boss: at most every %d turns
+		%s- elite boss: at most every %d turns
+		]], [[每当你或你的不死随从对敌人造成伤害，将会对其附加灵魂吸取效果。
+		如果敌人在灵魂吸取状态下死去，你将会偷取它的灵魂。
+		强力的敌人和Boss的灵魂力量是如此强大，你可以每几个回合从它们的身上偷取一个灵魂：
+		%s- 稀有：每 %d 回合偷取一个灵魂
+		%s- 史诗：每 %d 回合偷取一个灵魂
+		%s- Boss：每 %d 回合偷取一个灵魂
+		%s- 精英Boss：每 %d 回合偷取一个灵魂
+		]], "tformat")
 t("Consume Soul", "消耗灵魂", "talent name")
-t([[Crush and consume one of your captured souls, healing you for %d life and restoring %d mana.
-		The life and mana healed will increase with your Spellpower.]], [[ 粉碎你捕获的一个灵魂，利用其能量回复自己 %d 点生命， %d 点法力。
-		受法术强度影响，治疗量有额外加成。]], "tformat")
-t("Animus Hoarder", "灵魂储存", "talent name")
-t([[Your hunger for souls grows ever more. When you kill a creature you rip away its animus with great force, granting you a %d%% chance to gain one additional soul.
-		In addition you are able to store %d more souls.]], " 你对灵魂的渴望与日俱增。当你杀死一个生物时，你利用强大的力量抹去它的仇恨，有 %d%% 概率获得额外一个灵魂，同时你能获得的最大灵魂数增加 %d 。", "tformat")
-t("Animus Purge", "仇恨净化", "talent name")
-t("Your husk is out of sight; you cannot establish direct control.", "你的傀儡在视线外，你无法直接控制它。", "logPlayer")
-t("Lifeless Husk", "无魂傀儡", "_t")
-t("#GREY##Source# rips apart the animus of #target# and creates an undead husk.", "#GREY##Source#抹杀了#target#的灵魂，制造了一个不死傀儡。", "logCombat")
-t([[Try to crush the soul of your foe, doing %0.2f darkness damage (that can never kill the target).
-		If the target is left with less than %d%% life you try to take control of its body.
-		Should this succeed the target becomes your permanent minion (unaffected by your aura) and you regain 2 souls.
-		Husks prossess the same abilities as they had in life (affected by Dark Empathy), are healed to full when created but can never heal or be healed by any means.
-		Only one husk can be controlled at any time, if this spell is cast again it will dispell the previous husk, even if no new one is created.
-		Bosses, other undeads and summoned creatures can not be turned into husks.
-		The damage and chance will increase with your Spellpower.]], [[ 试图粉碎你敌人的灵魂，造成 %0.2f 点暗影伤害（但不会杀死它）。 
-		如果剩余生命少于 %d%% , 你将试图控制其身体。
-		如果成功，对方将成为你永久的傀儡，不受你的死灵光环影响，并得到两个灵魂。 
-		傀儡能力与生前相同 , 受黑暗共享的影响，在制造时生命恢复满值，之后不能以任何方式被治疗。
-		任何时候，这种方式只能控制一个生物，在已经存在傀儡时使用该技能会让原来的傀儡消失。
-		boss、不死族和召唤物不会变成傀儡。 
-		受法术强度影响，伤害和概率有额外加成。]], "tformat")
-t("Essence of the Dead", "亡者精华", "talent name")
-t([[Crush and consume two souls to empower your next %d spells, granting them a special effect.
-		Affected spells are:
-		- Undeath Link: in addition to the heal a shield is created for half the heal power
-		- Create Minions: allows you to summon 2 more minions
-		- Assemble: allows you to summon a second bone golem
-		- Invoke Darkness: becomes a cone of darkness
-		- Shadow Tunnel: teleported minions will also be healed for 30%% of their max life
-		- Cold Flames: freeze chance increased to 100%%
-		- Freeze: becomes a ball of radius 2 and makes all targets wet
-		- Consume Soul: effect increased by 50%%]], [[ 粉碎两个灵魂，接下来的 %d 个法术获得额外效果： 
-		受影响的法术有：
-		亡灵分流：获得治疗量一半的护盾 
-		亡灵召唤：额外召唤两个不死族
-		亡灵组合：额外召唤一个骨巨人
-		黑夜降临：攻击变成锥形
-		暗影通道：被传送的不死族同时受到相当于 30%% 最大生命值的治疗
-		骨灵冷火：冰冻概率增加至 100%%
-		冻结：变成一个半径为 2 的球，且使所有目标湿润。
-		消耗灵魂：效果增加 50%%]], "tformat")
-t("Self-destruction", "自爆", "talent name")
-t([[The husk self-destructs, destroying itself and generating a blast of shadows in a radius of %d, doing %0.2f darkness damage.
-		This spell is only usable when the husk's master is dead.]], [[毁灭自己，在半径 %d 的范围造成 %0.2f 点暗影伤害。
-		只有当主人死去时才能使用。]], "tformat")
+t([[Consume a soul whole to rebuild your body, healing you by %d and generating %d mana.
+		If used below 1 life the surge increases your spellpower by %d for 10 turns.
+		The heal and mana increases with your Spellpower.]], [[消耗一个灵魂，用来修复你的身体，恢复 %d 生命值，获得 %d 法力值。
+		如果你当前生命值在 1 以下，这股力量还将会提升你的法术强度 %d ，持续 10 回合。
+		治疗量和法力值受法术强度加成。]], "tformat")
+t("Torture Souls", "折磨灵魂", "talent name")
+t([[Unleash dark forces to all foes in sight that are afflicted by Soul Leech, dealing %0.2f frostdusk damage to them and tearing apart their souls.
+		This returns up to %d souls to you (based on number of foes hit).
+		The damage increases with your Spellpower.]], [[朝视野内所有被灵魂吸收影响的敌人放出黑暗能量，对其造成 %0.2f 霜暮伤害，并撕裂它们的灵魂。
+		这将会让你获得最多 %d 个灵魂（基于被击中的敌人数量）。
+		伤害受法术强度提升。]], "tformat")
+t("Reaping", "灵魂收割", "talent name")
+t([[You draw constant power from the souls you hold within your grasp.
+		If you hold at least 2, your mana regeneration is increased by %0.1f per turn.
+		If you hold at least 5, your spellpower is increased by %d.
+		If you hold at least 8, all your resistances are increased by %d.
+		Also increases your maximum souls capacity by %d.]], [[你从你掌握的灵魂中持续汲取力量。
+		如果你有至少 2 个灵魂，你的每回合法力值恢复速度增加 %0.1f 。
+		如果你至少有 5 个灵魂，你的法术强度增加 %d 。
+		如果你有至少 8 个灵魂，你的全体伤害抗性增加 %d 。
+		另外，增加你最大灵魂数 %d 。]], "tformat")
 
 
 ------------------------------------------------
@@ -27968,6 +27984,37 @@ t([[When you hit a solid surface, this spell tears down the laws of probability 
 
 
 ------------------------------------------------
+section "game/modules/tome/data/talents/spells/death.lua"
+
+t("Rigor Mortis", "尸僵症", "talent name")
+t("%s resists the Rigor Mortis!", "%s 抵抗了尸僵症！", "logSeen")
+t([[Press your advantage when your foes are starting to crumble.
+		For every detrimental effect on the target you deals %0.2f frostdusk damage per effect (with disminishing returns) and reduce its global speed by 25%% for one turn per effect (up to a maximum of %d).
+		]], [[利用敌人的痛楚打击敌人。
+		目标每具有一个负面效果，造成 %0.2f 霜暮伤害（有收益衰减），并降低其整体速度 25%% （最大降低 %d ）。
+		]], "tformat")
+t("Drawn To Death", "拖入黄泉", "talent name")
+t([[Everytime you or one of your minions kills a creature you create a temporary link to the place of death.
+		For %d turns afterwards you can instantly and accurately teleport to it (if it is in sight).
+		]], [[每当你或你的随从杀死一个生物，你可以创建一个通向它死亡的地方的临时通道。
+		在接下来的 %d 回合内，你可以选择瞬间准确地传送到那个位置（如果那个位置在视野内的话）。
+		]], "tformat")
+t("Grim Shadow", "冷酷阴影", "talent name")
+t("#GREY#Darkness pulsates around %s!", "#GREY#黑暗从%s身上散发出来！", "logSeen")
+t([[Your body starts to radiate shadows, increasing your darkness resistance by %d%%, armour by %d and defence by %d.
+		Any time you absorb a soul the shadows pulse outward, dealing %0.2f frostdusk damage to all foes in range %d and knocking them back 3 tiles away.
+		This can only happen once per turn.
+		The damage increases with your Spellpower.]], [[你的身体开始散发出暗影，获得暗影抗性 %d%% ， %d 护甲值和 %d 闪避值。
+		每当你吸收一个灵魂，你体内的黑暗会放射出来，对范围 %d 内所有敌人造成 %0.2f 霜暮伤害，并将其击退 3 格。
+		这一效果每回合最多触发一次。
+		伤害受法术强度提升。]], "tformat", {1,2,3,5,4})
+t("Utterly Destroyed", "完全毁灭", "talent name")
+t([[Whenever a creature is killed by yourself or a minion you feast on its essence, gaining %0.1f mana.
+		At level 3 the thrill of the death invigorates you, granting a movement sped bonus of 50%% for %d turns.]], [[每当你或你的随从杀死一个敌人，你吞噬它的精华，获得 %0.1f 法力值。
+		技能等级 3 时，对死亡的渴望还会激励你，让你获得 50%% 移动速度加成，持续 %d 回合。]], "tformat")
+
+
+------------------------------------------------
 section "game/modules/tome/data/talents/spells/deeprock.lua"
 
 t("Deeprock Form", "深岩形态", "talent name")
@@ -28034,6 +28081,30 @@ t([[Echoes of the future flash before your eyes, allowing you to sense some inco
 		如果攻击是元素类或魔法类的，那么你会创造一个临时性的护盾来减少 %d%% 所有此类攻击伤害，持续 5 回合。 
 		此效果每隔 5 回合只能触发一次，且在承受伤害前被激活。 
 		受法术强度影响，效果有额外加成。]], "tformat")
+
+
+------------------------------------------------
+section "game/modules/tome/data/talents/spells/dreadmaster.lua"
+
+t("Dread", "梦魇", "talent name")
+t([[Summon a Dread of level %d that will annoyingly blink around, hexing your foes.
+		]], [[召唤一个等级 %d 的梦魇。梦魇会四处传送，并对敌人释放邪术。
+		]], "tformat")
+t("Souleater", "噬魂者", "talent name")
+t("#GREY#%s has fed on enough minions and starts to randomly hex foes!", "#GREY#%s吸取了足够多的随从，开始随机对敌人释放邪术！", "logSeen")
+t([[Any time one of your minions dies or expires, and even if it is resurrected by a boneyard, the dread feeds on it.
+		Each time it feeds it gets healed by %d and reduces remaining cooldown of its spells by %d.
+		Every 10 minion deaths it casts a random hex on up to %d foes at once, instantly and without triggering a cooldown.]], [[每当你的一个死灵随从死亡或超时的时候，梦魇会吸收它的能量，即使它被大墓地复活了仍然会如此。
+		每当梦魇吸收一个随从，它会恢复 %d 生命值，并降低其法术剩余冷却时间 %d 。
+		每当它吸收 10 个死亡的随从，它会立刻朝最多 %d 个敌人释放邪术，不消耗时间，也不会触发技能冷却。]], "tformat")
+t("Neverending Peril", "不灭灾厄", "talent name")
+t("In an effort to make your dread more annoying you focus a shell of darkness around it, rendering it fully invincible for %d turns.", "你使用一层暗影包裹你召唤的梦魇，以便最大限度给敌人带来扰乱。梦魇在 %d 回合内进入无敌状态。", "tformat")
+t("Dreadmaster", "梦魇之王", "talent name")
+t([[You now summon a Dreadmaster instead of a Dread.
+		Dreadmasters learn to cast silence, dispel magic and mind disruption, making them the ultimate annoyance tool.
+		It learns them at talent level %d.]], [[你改为召唤梦魇之王取代梦魇。
+		梦魇之王可以使用释放沉默、解除魔法和精神干扰，这使它们成为扰乱敌人的强大力量。
+		它学习的上述技能等级为 %d 。]], "tformat")
 
 
 ------------------------------------------------
@@ -28198,6 +28269,39 @@ t([[You concentrate on your inner self, increasing your Strength, Dexterity, Mag
 
 
 ------------------------------------------------
+section "game/modules/tome/data/talents/spells/eradication.lua"
+
+t("Boneyard", "大墓地", "talent name")
+t("#GREY#%s is resurrected by the boneyard!", "#GREY#%s被大墓地复活了！", "logSeen")
+t([[Spawn a boneyard of radius %d around you that lasts for 8 turns.
+		Any foes inside gain the brittle bones effect, reducing their physical resistance by %d%% and making all cooldowns %d%% longer.
+		When one of your minion stands in the boneyard they gain %d more physical and spell power.
+		At level 5 when a minion dies inside the boneyard it has %d%% chances to resurrect instantly. This effect may only happen once per minion.
+		]], [[在你周围 %d 码范围内召唤大墓地，持续 8 回合。
+		所有大墓地中的敌人会获得脆骨效果，物理抗性降低 %d%% ，所有技能冷却时间变长 %d%% 。
+		大墓地中的死灵随从会获得 %d 法术强度和法术强度。
+		等级 5 时，在大墓地中死亡的随从有 %d%% 几率原地复活。每个随从只能这样复活一次。
+		]], "tformat")
+t("To The Grave", "葬身之所", "talent name")
+t("%s resists the call of the boneyard!", "%s抵抗了大墓地的召唤！", "logSeen")
+t([[Teleport all foes in radius %d to your boneyard, as close to its center as possible.
+		Up to %d ghouls or skeletons are created around them by the boneyard, without any additional soul cost, but they only last 5 turns.
+		]], [[将 %d 码范围内的所有敌人传送到大墓地内，并尽可能拖入大墓地的中央。
+		然后，在它们的周围制造最多 %d 个食尸鬼或骷髅。召唤它们不会消耗灵魂，但是它们只能存留 5 回合。
+		]], "tformat")
+t("Impending Doom", "灾厄降临", "talent name")
+t([[Your target's doom draws near. Its healing factor is reduced by 80%%, and will take %d%% of its remaining life (or %0.2f, whichever is lower) over 10 turns as arcane damage.
+		This spell is so powerful that every 2 turns it tears a part of the target's soul, generating one soul for you.
+		The damage will increase with your Spellpower.]], [[你使目标厄运临头。目标的治疗加成减少 80%% 且会对目标造成它 %d%% 剩余生命值的奥术伤害（或 %0.2f ，取最小伤害值），持续 10 回合。 
+		这个法术的力量是如此强大，每 2 回合它会撕裂目标灵魂的一部分，使你获得一个灵魂。
+		伤害受法术强度加成。]], "tformat")
+t("Eternal Night", "无尽之夜", "talent name")
+t([[Surround yourself with Frostdusk, increasing all your darkness and cold damage by %0.1f%%, and ignoring %d%% of the darkness and cold resistance of your targets.
+		In addition, at the end of each turn you are healed for %d%% of all damage you dealt.]], [[使用霜暮的力量覆盖全身，增加 %0.1f%% 暗影和寒冷伤害，并无视目标暗影和寒冷抗性的 %d%% 。
+		此外，在每个回合结束时，你获得相当于你造成的伤害的 %d%% 的治疗。]], "tformat")
+
+
+------------------------------------------------
 section "game/modules/tome/data/talents/spells/explosives.lua"
 
 t("Throw Bomb", "炸弹投掷", "talent name")
@@ -28311,6 +28415,42 @@ t([[Turn your body into pure ice, increasing your Cold damage affinity by %d%% a
 
 
 ------------------------------------------------
+section "game/modules/tome/data/talents/spells/glacial-waste.lua"
+
+t("Hiemal Shield", "寒冬护盾", "talent name")
+t("#GREY#Your hiemal shield does not have enough ressources!", "#GREY#你的寒冬护盾资源不够！", "logPlayer")
+t("#GREY#Your hiemal shield regenerates to full!", "#GREY#你的寒冬护盾恢复到满了！", "logPlayer")
+t("#SLATE#(%d absorbed)#LAST#", "#SLATE#(%d 护盾吸收)#LAST#", "tformat")
+t([[Conjure a shield of ice around you that can absorbs a total of %d damage.
+		Anytime it does it retaliates by sending a bolt of ice at the attacker, dealing %0.2f cold damage (this can only happen once per turn per creature).
+		When you are under 1 life it also reduces the damage of critical hits by %d%%.
+		10 turns after leaving combat the shield will consume its mana and soul cost again to fully regenerate if needed. if that cost can not be matched, it unsustains.
+		The shield strength will increase with your Spellpower.]], [[使用冰块在你的身边形成一道护盾，吸收最多 %d 点伤害。
+		每当其受到伤害，它会对攻击者发射一团冰球，造成 %0.2f 寒冷伤害（每个生物每回合最多触发一次）
+		当你的生命值在 1 以下时，这还会降低你受到的暴击伤害 %d%% 。
+		当你脱离战斗 10 回合后，护盾将会试图消耗魔法和灵魂，将其恢复到满。如果不能满足这一条件，护盾会解除。
+		护盾强度受法术强度加成。]], "tformat")
+t("Desolate Waste", "荒芜之地", "talent name")
+t([[Everytime your shield looses %d%% of its original value an radius %d circle of desolate waste spawns under you that deals %0.2f cold damage per turn to all foes for 6 turns.
+		If a creature is hit by your hiemal shield's retribution bolt while on the waste, the shield feeds of the wasteland to regenerate %0.1f%% of its original value.
+		No more than %d desolate wastes can trigger per shield activation.
+		The damage will increase with your Spellpower.]], [[每当你的寒冰护盾损失 %d%% 原始护盾值，在你周围 %d 码范围内的大地会变成荒芜的极寒之地，对敌人在 6 回合内造成 %0.2f 寒冷伤害。
+		如果一个生物在荒芜之地上被寒冬护盾的冰球击中，护盾将会吸收荒芜之地的能量，恢复 %0.1f%% 原始护盾值。
+		每次护盾最多触发 %d 次荒芜之地效果。
+		伤害受法术强度加成。]], "tformat")
+t("Crumbling Earth", "破碎大地", "talent name")
+t([[Your desolate wastes are now rapidly crumbling.
+		Any foe moving through them is likely to get cut, bleeding ice that deals %0.2f cold damage over 4 turns (stacking) and reducing its movement speed by %d%%.
+		The damage will increase with your Spellpower.]], [[你的荒芜大地开始破碎。
+		在荒芜大地上移动的敌人有几率被冰划伤流血受伤，在 4 回合内受到 %0.2f 寒冷伤害（可以叠加），并降低移动速度 %d%% 。
+		伤害受法术强度加成。]], "tformat")
+t("Bleak Guard", "冰寒守卫", "talent name")
+t([[Your hiemal shield is stronger, taking %d%% less damage from all attacks.
+		When under 1 life this effect is increased to %d%%.]], [[你进一步强化寒冬护盾的效果，所受所有伤害降低 %d%% 。
+		当生命值在 1 以下时，这一效果提升 %d%% 。]], "tformat")
+
+
+------------------------------------------------
 section "game/modules/tome/data/talents/spells/golem.lua"
 
 t("Knockback", "击退", "talent name")
@@ -28405,8 +28545,10 @@ t([[Take care of your golem:
 		- 如果它被摧毁，你将耗费一些时间重新安装傀儡（需要 15 个炼金宝石）。 
 		- 如果它还存活，你可以修整它使其恢复 %d 生命值。（耗费 2 个炼金宝石）。法术强度、炼金宝石和强化傀儡技能都会影响治疗量。]], "tformat")
 t("Golem Power", "强化傀儡", "talent name")
+t("Improves your golem's proficiency with weapons, increasing its attack and damage.", "提高傀儡的武器熟练度，增加其命中和伤害。", "_t")
 t("Improves your golem's proficiency with weapons, increasing its Accuracy by %d, Physical Power by %d and damage by %d%%.", "提高傀儡的武器熟练度，增加它 %d 点命中、 %d 物理强度和 %d%% 伤害。", "tformat")
 t("Golem Resilience", "坚韧傀儡", "talent name")
+t("Improves your golem's armour training, damage resistance, and healing efficiency.", "提高傀儡护甲熟练度、伤害抵抗和治疗系数。", "_t")
 t([[Improves your golem's armour training, damage resistance, and healing efficiency.
 		Increases all damage resistance by %d%%; increases Armour value by %d, Armour hardiness by %d%%, reduces chance to be critically hit by %d%% when wearing heavy mail or massive plate armour, and increases healing factor by %d%%.
 		The golem can always use any kind of armour, including massive armours.]], [[提高傀儡护甲熟练度、伤害抵抗和治疗系数。
@@ -28427,26 +28569,41 @@ section "game/modules/tome/data/talents/spells/grave.lua"
 
 t("Chill of the Tomb", "极寒坟墓", "talent name")
 t([[Conjures up a bolt of cold that moves toward the target and explodes into a chilly circle of death, doing %0.2f cold damage in a radius of %d.
-		The damage will increase with your Spellpower. 
-		Additionally, when Will o' the Wisp is sustained, minions killed by this spell will spawn Wisps.]], [[召唤 1 个冰冷的球体射向目标并产生死亡的冰冷爆炸对目标造成 %0.2f 冰冷伤害，范围 %d 码。 
-		受法术强度影响，伤害有额外加成。
-		同时，当鬼火开启时，被这个法术杀死的单位将产生鬼火。]], "tformat")
-t("Will o' the Wisp", "鬼火", "talent name")
-t("will o' the wisp", "鬼火", "_t")
-t([[Surround yourself with undead energies. When one of your minions is destroyed while inside your necrotic aura, it has a %d%% chance to create a will o' the wisp.
-		The will o' the wisp will take a random target in sight and home in on it. When it reaches the target, it will explode for %0.2f cold damage.
-		The damage will increase with your Spellpower.]], [[亡灵的能量缠绕着你，当你的随从之一在亡灵光环内被摧毁时，它有 %d%% 的概率变为 1 个鬼火。 
-		鬼火会随机选择并追踪目标。当它击中目标时，它会爆炸并造成 %0.2f 冰冷伤害。 
-		受法术强度影响，伤害有额外加成。]], "tformat")
-t("Cold Flames", "骨灵冷火", "talent name")
-t("cold flames", "冷火", "_t")
-t([[Cold Flames slowly spread from %d spots in a radius of %d around the targeted location. The flames deal %0.2f cold damage, and have a chance of freezing.
-		Damage improves with your Spellpower.]], [[冰冷的火焰从目标点向 %d 个方向扩散，有效范围 %d 码半径。火焰会造成 %0.2f 冰冷伤害并有几率冰冻目标。 
-		受法术强度影响，伤害有额外加成。]], "tformat")
-t("Vampiric Gift", "血族礼物", "talent name")
-t([[Vampiric energies fill you; each time you deal damage, you have %d%% chance to heal for %d%% of the damage done.
-		The absorption percent will increase with your Spellpower.]], [[血族的能量在你的身体里流动；每次你对目标造成伤害时有 %d%% 概率吸收目标血液，恢复 %d%% 伤害的生命值。 
-		受法术强度影响，吸收百分比有额外加成。]], "tformat")
+		Necrotic minions caught in the blast do not take damage but are instead coated with a thin layer of ice, reducing all damage they take by %d for 4 turns.
+		The damage will increase with your Spellpower.]], [[发射出一团极寒的冰球，在目标位置爆炸，在 %d 码范围内造成 %0.2f 寒冷伤害。
+		被爆炸击中的死灵随从不会受到伤害，而会被一层厚厚的冰层覆盖，降低它们所受到的所有伤害 %d ，持续 4 回合。
+		伤害受法术强度加成。]], "tformat", {2,1,3})
+t("Black Ice", "寒霜黑冰", "talent name")
+t([[Summon a icy spike directly on a foe, impaling it for %0.2f cold damage.
+		At level 5 it hits all foes in range 1 around the target.
+		Any creature hit will take %d%% more damage from your necrotic minions for 3 turns.
+		The damage will increase with your Spellpower.]], [[召唤寒霜冰刺刺穿敌人，造成 %0.2f 寒冷伤害。
+		技能等级 5 时，目标周围 1 码范围内的所有敌人都会被击中。
+		在接下来的 3 回合内，所有被击中的敌人受到你死灵随从的伤害会增加 3 回合。
+		伤害受法术强度加成。]], "tformat")
+t("Corpselight", "阴燃鬼火", "talent name")
+t([[You summon a corpselight that radiates cold for 7 turns in radius %d.
+		Every turn all foes inside take %0.2f cold damage.
+		Anytime you cast a spell inside your corpselight's area it grows by one stack, each stack giving +1 radius and +10%% damage.
+		The corpselight can gain at most %d stacks and the radius will never extend beyond 10.
+		If cast while under 1 life it spawns with 3 stacks.
+		The damage will increase with your Spellpower.]], [[你召唤一个半径为 %d 的鬼火，散发出刺骨的尸寒，持续 7 回合。
+		在每个回合内，每个被鬼火覆盖的敌人会受到 %0.2f 寒冷伤害。
+		每当你在鬼火的范围内施放法术，它会强化一层，每一层增长半径 1，伤害增加 10%% 。
+		鬼火最多可以叠加强化 %d 层，且半径最大为 10 。
+		如果在生命值为 1 以下时使用技能，鬼火初始强度为 3 层。
+		伤害受法术强度加成。]], "tformat")
+t("Grave Mistake", "墓光之灾", "talent name")
+t("#STEEL_BLUE#The corpselight implodes!", "#STEEL_BLUE#鬼火爆炸了!", "logSeen")
+t([[Upon expiring the corpselight implodes, pulling in all foes towards its center and dealing %0.2f cold damage.
+		The damage is increased by +10%% per stacks.
+		The damage will increase with your Spellpower.
+
+		#PURPLE#Learning this spell will make Corpselight cost two souls to use instead of one.]], [[当你的鬼火时间到之后，将会发生爆炸，将所有敌人拖向中心位置，并造成 %0.2f 寒冷伤害。
+		鬼火每叠加一层，伤害增加 10%% 。
+		伤害受法术强度加成。
+
+		#PURPLE#学习这一技能会把你极寒鬼火消耗的灵魂数量从 1 增加到 2 。]], "tformat")
 
 
 ------------------------------------------------
@@ -28454,13 +28611,10 @@ section "game/modules/tome/data/talents/spells/ice.lua"
 
 t("Freeze", "冻结", "talent name")
 t([[Condenses ambient water on a target, freezing it for %d turns and damaging it for %0.2f.
-		If this is used on a friendly target the cooldown is reduced by 33%%.%s
+		If this is used on a friendly target the cooldown is reduced by 33%%.
 		The damage will increase with your Spellpower.]], [[凝聚周围的水冻结目标 %d 回合并对其造成 %0.2f 伤害。 
-		如果目标为友好生物，冷却时间减少 33%% 。 %s
+		如果目标为友好生物，冷却时间减少 33%% 。
 		受法术强度影响，伤害有额外加成。]], "tformat")
-t("\
-Affects all creatures in radius 2.", "\
-影响2码范围内的所有生物。", "_t")
 t("Frozen Ground", "冻结大地", "talent name")
 t([[Blast a wave of cold all around you with a radius of %d, doing %0.2f cold damage and freezing creatures to the ground for 4 turns.
 		Affected creatures can still act, but cannot move.
@@ -28494,6 +28648,155 @@ t([[Surround yourself with Uttercold, increasing all your cold damage by %0.1f%%
 
 
 ------------------------------------------------
+section "game/modules/tome/data/talents/spells/master-necromancer.lua"
+
+t("Aura of Undeath", "不死光环", "talent name")
+t([[Your mastery of necromancy becomes so total that an aura of undeath radiates around you in radius %d.
+		Any undead minion standing inside of it is protected, increasing all their resistances by %d%%.
+		In addition when you create new minions they inherit %d%% of your spellpower (applied to any powers), spell crit chance (applied to any crit chances), saves, resists and damage increases (applied to all elements).
+		]], [[你对死灵法术的掌握是如此强大，你可以在周围 %d 码范围内放射出不死能量的光环。
+		所有在光环内的不死随从会被光环保护，增加所有抗性 %d%% 。
+		另外，当你创造不死随从的时候，它们会继承你 %d%% 的法术强度（用于所有强度），法术暴击率（用于所有暴击率），豁免，抗性和伤害加成效果（用于所有伤害加成）。
+		]], "tformat")
+t("Surge of Undeath", "不死狂潮", "talent name")
+t([[Sends out a surge of undeath energies into your aura.
+		All minions inside gain 25%% speed for %d turns.
+		All non-undead foes caught inside are dazed for %d turns.]], [[在你的光环中放出一股不死能量。
+		所有随从获得 25%% 速度，持续 %d 回合。
+		所有非不死生物的敌人都会被眩晕 %d 回合。]], "tformat")
+t("Recall Minions", "召回随从", "talent name")
+t([[Tigthen the ethereal leash to some of your minions currently within your aura of undeath, pulling them to you and swapping place with any eventual foes in the way.
+		Up to %d minions are affected.
+		When recalling a minion the spell tries to prioritize a spot where there is already a foe, to push it away.]], [[拉紧你与不死光环内的死灵随从的虚幻连接，将它们拉到你的身边，并与路径上的敌人换位。
+		最多召回 %d 个随从。
+		当你召回随从的时候，会优先选择周围有敌人的格子，将敌人推开。]], "tformat")
+t("Suffer For Me", "替死鬼", "talent name")
+t("#GREY#(%d to minion: %s)#LAST#", "#GREY#(%d 到不死随从: %s)#LAST#", "tformat")
+t([[By creating an arcane link with your minions army you are able to redirect parts of any damage affecting you to them.
+		Anytime you take damage %d%% of it is instead redirected to a random minion without your aura of undeath.
+		The minion takes 300%% damage from that effect.
+		The damage redirected percent depends on your Spellpower.]], [[你与你的不死大军之间建立奥术连接，将你所收到的任何伤害转移到他们的身上。
+		每当你受到伤害的时候， %d%% 的伤害转移到到随机一个不死光环内的随从身上。
+		那个随从将会受到 300%% 伤害值的伤害。
+		伤害转移比例受法术强度加成。]], "tformat")
+
+
+------------------------------------------------
+section "game/modules/tome/data/talents/spells/master-of-bones.lua"
+
+t("Call of the Crypt", "墓穴召唤", "talent name")
+t([[Call upon the battle fields of old to collect bones and fuse them with souls, combining them to create skeletal minions to do your bidding.
+		Up to %d skeleton warriors of level %d are summoned. Up to %d skeletons can be controlled at once.
+		At level 3 the summons become armoured skeletons warriors.
+		At level 5 every 3 summoned warriors a free skeleton mage or skeleton archer is also created (without costing a soul).
+
+		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generaly more durable.#{normal}#
+		]], [[从古战场中收集白骨，将灵魂附着在白骨上，将其转化为你的骷髅随从。
+		使用技能将会召唤 %d 个等级 %d 的骷髅战士。最多同时掌控 %d 个骷髅战士。
+		技能等级 3 时，你将会改为召唤武装骷髅战士。
+		技能等级 5 时，每当你召唤 3 个骷髅战士，将会额外召唤一个骷髅法师或骷髅弓箭手（不消耗灵魂）
+
+		#GREY##{italic}#骷髅的数量一般来说比食尸鬼更少，但是它们一般来说更加强韧。#{normal}#
+		]], "tformat")
+t("Bone Wall", "白骨之墙", "talent name")
+t("bone wall", "白骨之墙", "_t")
+t("a summoned wall of bones", "召唤的一面白骨之墙", "_t")
+t([[Sacrifice one skeleton to turn it into a wall of bones of %d length for %d turns.
+		The wall is strong enough to block movement but projectiles and sight are not hampered.
+		Any foes adjacent to it takes %0.2f frostdusk damage and has %d%% chances to be pinned for 4 turns.
+		]], [[牺牲一个骷髅，将其化为长度为 %d 的骨墙，持续 %d 回合。
+		骨墙可以阻挡移动，但是不会阻挡抛射物和射线。
+		所有骨墙周围的敌人都会受到 %0.2f 霜暮伤害，并有 %d%% 几率被定身 4 回合。
+		]], "tformat")
+t("Assemble", "亡灵组合", "talent name")
+t("A towering creature, made from the bones of dozens of dead bodies. It is covered by an unholy aura.", "像铁塔一样的生物，由数不清的骨头构成。它全身围绕着邪恶的气息。", "_t")
+t("A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.", "像铁塔一样的生物，由数不清的骨头构成。它全身围绕着邪恶的气息。", "_t")
+t([[Every army of undead minions needs its spearhead. To that end you combine 3 skeleton minions into a bone giant of level %d.
+		The minions used are automatically selected by taking the weaker and older ones first and a Lord of Skull is never used.
+		At level 3 a heavy bone giant is created instead.
+		At level 6 an eternal bone giant is created instead.
+		Only one bone giant may be active at any time, casting this spell while one exists will destroy it and replace it with a new one.
+		]], [[任何亡灵军队需要领袖。为此，你将 3 个骷髅随从合成成一个等级为 %d 的骨巨人。
+		优先选择生命值更低，持续时间更短的不死随从，且不会使用骷髅王作为合成材料。
+		在等级 3 时，会改为制造 1 个重型骨巨人。 
+		在等级 6 时，会改为制造 1 个永恒骨巨人。 
+		任何时候最多只能有一个骨巨人，如果你在有骨巨人的时候使用这一技能，会摧毁原有的骨巨人，并用新的骨巨人取代它。
+		]], "tformat")
+t("Lord of Skulls", "骷髅之王", "talent name")
+t([[Consume a soul to empower one of your skeleton, making it into a Lord of Skulls.
+		The Lord of Skulls gain %d%% more life, is instantly healed to full.
+		There can be only one active Lord of Skulls, casting this spell on an other skeleton removes the effect from the current one.
+		At level 6 it also gains a new talent:
+		- Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes and impact and frees the skeleton from any stun, daze and pin effects they may have
+		- Archers learn Vital Shot, a devastating attack that can stun and cripple their foes
+		- Mages learn Meteoric Crash, a destructive spell that crushes and burns foes in a big radius for multiple turns
+		]], [[消耗一个灵魂，强化你的一个骷髅，使其成为骷髅王。
+		骷髅王具有 %d%% 额外生命值，且生命值立刻恢复到满。
+		同时只能存在一个骷髅王，在其他骷髅身上使用这个技能会消除掉原有骷髅王的效果。
+		技能等级 6 时，骷髅王获得额外技能：
+		- 战士将学会战争践踏，一个强大的跳跃攻击，可以造成伤害，眩晕敌人，并解除自身的眩晕、定身和震慑效果。
+		- 弓箭手将学会要害射击，一个毁灭性的射击攻击，可以震慑和残废敌人。
+		- 法师将学会落星，一个强大的法术，可以压碎敌人，并在大范围内造成多回合的持续伤害。
+		]], "tformat")
+
+
+------------------------------------------------
+section "game/modules/tome/data/talents/spells/master-of-flesh.lua"
+
+t("Call of the Mausoleum", "陵墓召唤", "talent name")
+t([[You control dead matter around you, lyring in the ground, decaying.
+		When you enter combat and every %d turns thereafter a ghoul of level %d automatically raises to fight for you.
+		At level 3 you can forcefully activate this spell to summon up to %d ghasts, as close as possible to your foes in range %d.
+		At level 5 every 4 summoned ghouls or ghasts a ghoulking is summoned for free.
+		Ghouls, ghasts and ghoulkings last for %d turns.
+
+		#GREY##{italic}#Ghoul minions come in larger numbers than skeleton minions but are generaly more frail and disposable.#{normal}#
+		]], [[你操控大地上的死亡血肉，让其腐烂。
+		当你进入战斗时，每 %d 个回合，你将会自动召唤一个等级 %d 的食尸鬼来为你而战。
+		技能等级 3 时，你可以强制激活这一技能，召唤最多 %d 个妖鬼，但不超过你周围 %d 码范围内敌人的个数。
+		技能等级 5 时，你每召唤 4 个食尸鬼或妖鬼，将会额外召唤一个食尸鬼王。
+		食尸鬼，妖鬼和食尸鬼王持续 %d 个回合。
+
+		#GREY##{italic}#食尸鬼通常数量比骷髅更多，但是它们相对更加脆弱，容易被击倒。#{normal}#
+		]], "tformat")
+t("Putrescent Liquefaction", "腐烂液化", "talent name")
+t([[Shattering up to %d ghouls or ghasts you create a putrescent swirling cloud of radius %d that follows you around for 3 turns per dead ghoul. Oldest ghouls are prioritized for destruction.
+		Any ghoul or ghast dying or expiring within this cloud increases its duration by %d turn.
+		The cloud deals %0.2f frostdusk damage to any foes caught inside.
+		The damage is increased by your Spellpower.
+		]], [[你粉碎最多 %d 个食尸鬼或妖鬼，在身边创造出半径 %d 码的腐败云雾，持续时间为杀死的食尸鬼数量乘 3 。你会优先选择持续时间最短的食尸鬼。
+		每个在云雾中死去的食尸鬼或妖鬼会增加它的持续时间 %d 回合。
+		云雾会对其中的所有敌人造成 %0.2f 霜暮伤害。
+		伤害受法术强度加成。
+		]], "tformat")
+t("Corpse Explosion", "夺命尸爆", "talent name")
+t([[Ghouls are nothing but mere tools to you, for %d turns you render them bloated with dark forces.
+		Anytime a ghoul or ghast is hit it will explode in a messy splash of gore, dealing %0.2f frostdusk damage to all foes in radius %d of it.
+		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces on attribute by %d.
+		Only one ghoul may explode per turn. The one with the least time left to live is always the first to do so.
+		The damage and disease power is increased by your Spellpower.
+		]], [[对你来说，食尸鬼只是可以随地丢弃的工具。在 %d 回合内，你让它们的体内充满黑暗的能量。
+		在此期间，每当一个食尸鬼或妖鬼被击中，它会爆炸成为一团碎肉，对 %d 码范围的所有敌人造成 %0.2f 霜暮伤害。
+		所有被爆炸击中的敌人也会感染一项随机疾病，在 6 回合内每回合受到 %0.2f 枯萎伤害，并降低一项属性值 %d 。
+		每回合内最多只能有一个食尸鬼爆炸。你会优先让剩余时间最短的食尸鬼爆炸。
+		伤害和疾病强度受法术强度加成。
+		]], "tformat")
+t("Discarded Refuse", "李代桃僵", "talent name")
+t("%s sacrifice a ghoul to avoid being affected by %s!", "%s牺牲了一个食尸鬼，避免了陷入%s状态！", "logSeen")
+t([[Whenever you would be affected by a detrimental physical effect you instead transfer it instantly to one of your ghoul.
+		The ghoul dies from the process.
+		While under 1 life it also affects magical and mental effects.
+		Cross-tier effects are never affected.
+		This spell will automatically unsustain if you have no more ghouls.
+		]], [[当你即将受到一个物理负面效果的影响的时候，你立刻将其转移到你的一个食尸鬼身上。
+		这个食尸鬼会在这一过程中死亡。
+		当你的生命值低于 1 时，你也可以转移魔法和精神负面效果。
+		不会转移越层负面效果（失去平衡，法术冲击和思维封锁）。
+		如果你没有食尸鬼，这一法术会自动终止。
+		]], "tformat")
+
+
+------------------------------------------------
 section "game/modules/tome/data/talents/spells/meta.lua"
 
 t("Disperse Magic", "驱散", "talent name")
@@ -28510,176 +28813,90 @@ t([[You learn to finely craft and tune your offensive spells.
 t("Quicken Spells", "快速施法", "talent name")
 t("Reduces the cooldown of all spells by %d%%.", "减少 %d%% 所有法术冷却时间。", "tformat")
 t("Metaflow", "奥术流动", "talent name")
-t("Your mastery of arcane flows allow you to reset the cooldown of up to %d of your spells (that don't have a fixed cooldown) of tier %d or less.", [[ 你对奥术的精通使你能重置法术的冷却时间。 
-		重置至多 %d 个法术的冷却，对技能层次 %d 或更低的技能有效。]], "tformat")
+t([[Your mastery of arcane flows allow you to reset the cooldown of up to %d of your spells (that don't have a fixed cooldown) of tier %d or less.
+		Passive effect:
+		At talent level 6 all known spells are considered one talent level higher when casting them.]], [[你对奥术的精通使你能重置法术的冷却时间，重置至多 %d 个法术的冷却（对固定冷却时间的技能无效），对技能层次 %d 或更低的技能有效。
+		被动效果：
+		等级 6 时，你释放所有已知法术的时候，释放的技能效果相当于技能等级增加 1 级的效果。]], "tformat")
 
 
 ------------------------------------------------
 section "game/modules/tome/data/talents/spells/necrosis.lua"
 
 t("Blurred Mortality", "模糊死亡", "talent name")
-t("You have mastered the lesser arts of overcoming death, but your true goal is before you: the true immortality of Lichform!", "你在对抗死亡的过程中初窥门径，但是你的真正目标还很遥远——成为一位不朽的巫妖！", "_t")
-t("The line between life and death blurs for you; you can only die when you reach -%d life.", "对你而言，生死之别变的模糊，你只有在生命值下降到 -%d 时才会死亡。", "tformat")
-t("Impending Doom", "灾厄降临", "talent name")
-t([[Your target's doom draws near. Its healing factor is reduced by 80%%, and will take %d%% of its remaining life (or %0.2f, whichever is lower) over 10 turns as arcane damage.
-		The damage will increase with your Spellpower.]], [[你使目标厄运临头。目标的治疗加成减少 80%% 且会对目标造成它 %d%% 剩余生命值的奥术伤害（或 %0.2f ，取最小伤害值），持续 10 回合。 
-		受法术强度影响，伤害有额外加成。]], "tformat")
-t("Undeath Link", "亡灵分流", "talent name")
-t([[Absorb up to %d%% of the maximum life of each of your necrotic minions (even negative life, possibly destroying them). This will heal you for the greatest amount absorbed.
-		The healing will increase with your Spellpower.]], [[吸收你所有亡灵随从 %d%% 的最大生命值（可能会杀死它们）并使用这股能量治愈你。
-		受法术强度影响，治疗量有额外加成。]], "tformat")
-t("'From Death, Life' quest completed and not already undead", "已完成“起死回生”任务，且不是亡灵", "_t")
-t("#GREY#As you turn into a powerful undead you feel your body violently rejecting the Blood of Life.", "#GREY#当你成为强大的不死生物你感到你的身体强烈的对抗着生命之血。", "log")
-t([[#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!
+t([[The line between life and death blurs for you.
+		You can only die when you reach -%d life but your maximum life is reduced by %d.
+		When you are below 1 life you gain %d%% to all resistances.
+		The life amount is based on your Constitution attribute.]], [[对你来说，生命和死亡的界线开始变得模糊。
+		你只有在生命值为 -%d 的时候才会死亡，但你的最大生命值也降低 %d 。
+		当你的生命值小于 1 时，你获得 %d%% 全体抗性。
+		生命值变化受体质值加成。]], "tformat")
+t("Across the Veil", "穿越死亡", "talent name")
+t("#GREY#%s unleashes a blast of frostdusk as %s crosses the veil!", "#GREY#%s穿越死亡边缘，放出了一股霜暮爆炸！", "logSeen")
+t([[As you learn to tiptoe across the veil of death you learn to master the dark forces.
+		Each time you cross the 1 life threshold you automatically unleash a blast of %0.2f frostdusk damage in radius %d.
+		For each creature that takes damage from the blast one of your talent's cooldown is reduced by %d turns.
+		The damage will increase with your Spellpower.]], [[你对黑暗能量的掌握，让你学会了在死亡的边缘起舞。
+		无论是受到伤害还是被治疗，每当你的生命值穿越 1 的界线的时候，你会自动在周围 %d 码范围内放出爆炸，造成 %0.2f 霜暮伤害，
+		这一爆炸每对一个敌人造成伤害，你的一个随机技能的冷却时间降低 %d 回合。
+		伤害受法术强度加成。]], "tformat")
+t("Runeskin", "符文皮肤", "talent name")
+t("effects disabled because of an infusion", "由于纹身，效果被禁用", "_t")
+t("effects disabled because of no rune", "由于没有符文，效果被禁用", "_t")
+t("%d runes active", "有 %d 个符文", "tformat")
+t([[As you continue to attune your body to undeath you reject nature as a whole.
+		As long as you have no natural infusion on your skin, each rune on it increases your minimum negative life by -%d and your spells critical chance by %d%%.
 
-#{italic}#You may now choose to customize the appearance of your Lich, this can not be changed afterwards.]], [[#GREY#你觉得你的生命在不断流失，取而代之的是纯粹的奥术力量！肉体腐烂的只剩骨头，眼睛也崩落不见，你终于转生成了巫妖！
+		Currently: %s]], [[你拒绝自然，让自己的身体离不死越来越近。
+		如果你的身上没有自然纹身，你身上的每个纹身会增加你的生命值下限 -%d 和法术暴击率 %d%% 。
 
-#{italic}#你可以现在选择自定义你巫妖的外形，这一外形之后无法改变。]], "_t")
-t("Customize Appearance", "自定义外形", "_t")
-t("Use Default", "使用默认", "_t")
-t("#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!", "#GREY#你觉得你的生命在不断流失，取而代之的是纯粹的奥术力量！肉体腐烂的只剩骨头，眼睛也崩落不见，你终于转生成了巫妖！", "_t")
-t("Lichform", "巫妖转生", "_t")
-t([[This is your true goal and the purpose of all necromancy - to become a powerful and everliving Lich!
-		If you are killed while this spell is active, the arcane forces you unleash will be able to rebuild your body into the desired Lichform.
-		All liches gain the following intrinsics:
-		- Poison, cut, and fear immunity.
-		- 100%% disease and stun resistance.
-		- 20%% cold and darkness resistance.
-		- No need to breathe.
-		- Infusions do not work.
-		Also:
-		At level 1: -3 to all stats, -10%% to all resistances. Such meagre devotion!
-		At level 2: Nothing.
-		At level 3: +3 Magic and Willpower, +1 life rating (not retroactive).
-		At level 4: +3 Magic and Willpower, +2 life rating (not retroactive), +10 spell and mental saves, Celestial/Star Fury category (0.7) and 0.1 negative energies regeneration.
-		At level 5: +5 Magic and Willpower, +2 life rating (not retroactive), +10 spell and mental saves, all resistance caps raised by 10%%, Celestial/Star Fury category (0.9) and 0.5 negative energy regeneration.
-		At level 6: +6 Magic, Willpower and Cunning, +3 life rating (not retroactive), +15 spell and mental saves, all resistance caps raised by 15%%, Celestial/Star Fury category (1.1) and 1.0 negative energy regeneration.
-		At level 7: #CRIMSON##{bold}#Your power becomes overwhelming!#{normal}##LAST# +12 Magic, Willpower and Cunning, 60%% chance to ignore critical hits, +4 life rating (not retroactive), +35 spell and mental saves, all resistance caps raised by 15%%, Celestial/Star Fury category (1.3) and 1.0 negative energy regeneration.
-		The undead cannot use this talent.
-		While active, it will drain 4 mana per turn.
-		Once you die and turn into a Lich you can not invest any more in this talent.]], [[你的终极目标。所有死灵法师的目标，就是变成一个强大且永生的巫妖！ 
-		当此技能激活时，如果你被杀死，你的身体会被转化为巫妖。 
-		所有的巫妖会增加以下天赋： 
-		* 中毒、流血、恐惧免疫 
-		*100%% 疾病和震慑抵抗 
-		*20%% 冰冷和暗影抵抗 
-		* 不需要呼吸 
-		* 纹身不起作用 
-		同时： 
-		* 等级 1 ： -3 所有属性， -10%% 所有抵抗。 如此微小的代价！ 
-		* 等级 2 ：无 
-		* 等级 3 ： +3 魔法和意志， +1 每等级增加生命值（不追加前面等级的生命值）。 
-		* 等级 4 ： +3 魔法和意志， +2 每等级增加生命值（不追加前面等级的生命值）， +10 法术和精神豁免，天空/星怒系技能树（0.7）和每回合 0.1 负能量回复。
-		* 等级 5 ： +5 魔法和意志， +2 每等级增加生命值（不追加前面等级的生命值）， +10 法术和精神豁免，所有抵抗上限增加 10%% ，天空/星怒系技能树（0.9）和每回合 0.5 负能量回复。
-		* 等级 6 ： +6 魔法、意志和灵巧， +3 每等级增加生命值（不追加前面等级的生命值）， +15 法术和精神豁免，所有抵抗上限增加 15%% ，天空/星怒系技能树（1.1 ）和每回合 1.0 负能量回复。
-		* 等级 7 ： #CRIMSON##{bold}#你的力量无比强大 !#{normal}##LAST# +12 魔法, 意志和灵巧， 60%% 几率无视暴击，+4 每等级增加生命值（不追加前面等级的生命值）， +35 法术和精神豁免, 所有抵抗上限增加 15%% ，天空/星怒系技能树（ 1.3 ）和每回合 1.0 负能量回复。
-		不死族无法使用此天赋。 
-		当此技能激活时，每回合消耗 4 法力值。]], "tformat")
+		当前: %s]], "tformat")
+t("Spikes of Decrepitude", "破碎尖刺", "talent name")
+t([[Each turn you unleash dark powers through your runeskin.
+		For each rune you have a random foe in sight will be hit by a spike of decrepitude, dealing %0.2f frostdusk damage.
+		A foe can only be hit by one spike per turn.
+		If your life is below 1, the spikes also reduce all damage done by the targets by %d%%.]], [[在每个回合内，你从符文皮肤中释放出黑暗能量。
+		你每有一个符文，就会用破碎尖刺攻击视野内的随机敌人，造成 %0.2f 霜暮伤害。
+		每个回合内，每个敌人只能被尖刺攻击一次。
+		如果你的生命值在 1 以下，尖刺还会降低目标所造成的所有伤害 %d%% 。]], "tformat")
 
 
 ------------------------------------------------
 section "game/modules/tome/data/talents/spells/necrotic-minions.lua"
 
-t("Necrotic Aura", "死灵光环", "talent name")
-t("Noooooo!", "不！！！！！！", "_t")
-t("Save me, Master, save meeee---", "救救我，主人，救救我——", "_t")
-t("Aaaauuuggghhh!", "啊啊啊啊嘎嘎嘎啊啊", "_t")
-t("Did I do good?", "主人，我做的好吗？", "_t")
-t("Bwuh? Nwaaah!", "唔？啊！！！！", "_t")
-t("Why, Master, whyyyyy---?", "为什么，主人，为什么——？", "_t")
-t("I thought you loved me! I thought-", "主人，我以为你爱着我！我以为你——", "_t")
-t("For Master's glory!", "为了主人的荣耀!", "_t")
-t("Bye... bye....", "再…见…", "_t")
-t("We love you, Master!", "我们爱你，主人！", "_t")
-t("EeeeeeeaaaAAAAAUUUUUGGGGGHHHHH!!!!", "呃呃呃嗷嗷嗷咕咕咕额啊啊！！！", "_t")
-t("The pain, the PAAAAAIN!", "我很痛苦，我很痛苦啊！", "_t")
-t("Please, no, nooo--", "请不要这样，不要，不要啊——", "_t")
-t("Unlife no more for this dead matter, the time comes for my flesh to splatter.", "从这样不死的姿态解脱，终于到了我的肉体回归大地的时候了。", "_t")
-t("You gave back life, you gave back dreams, but now I'm bursting at the seams...", "你给了我生命，你给了我梦想，然而我好像有点撑破了…", "_t")
-t("Remember meeeee!", "请记住我！！", "_t")
-t("My tummy hurts...", "我感觉很难受……", "_t")
-t("Whu..?", "唔……？", "_t")
-t("Ahahahahaha!", "啊哈哈哈哈哈！", "_t")
-t("Me go boom, me go BOOM!", "我要爆炸了，我要爆炸了！", "_t")
-t("Grave circumstances, Master....", "形势严峻，主人…", "_t")
-t("I see the light.. I see, oh.. just a wisp....", "我看到了光…哦，我看到了…那只是点点莹火…", "_t")
-t("Master, wait... I thought I saw a....Master? ..", "主人，等一下…你是主人…吗？", "_t")
-t("I'm not.. so sure my spine is supposed to bend this way....", "我不太清楚…不太清楚我的背为什么这么弯了…", "_t")
-t("I told you I could Dash 100 yards and back in time! You owe me 10 gol....", "我跟你打赌我可以瞬间跑出一百米！我赢了，快拿钱…", "_t")
-t("%s rips more animus from its victim. (+1 more soul)", "%s 从受害者身上获取了更多灵魂（+1额外灵魂）。", "logPlayer")
-t([[Emits a necrotic aura, sustaining your undead minions in a radius of %d. Minions outside the radius will lose %d%% life per turn.
-		Any creature you or your minions kill within your aura will be absorbed as a soul that can be used to raise minions.
-		Retch from your ghouls will also heal you, even if you are not undead.]], [[产生一个死灵光环，维持你亡灵随从的生存， %d 码有效范围。在光环以外的随从每回合减少 %d%% 生命。 
-		所有在你光环中被杀死的敌人灵魂可以吸收以召唤随从。 
-		食尸鬼的呕吐同时也能治疗你，即使你不是不死族。]], "tformat")
-t("It is a humanoid with an aura of power. You notice a sharp set of front teeth.", "这是一只成年吸血鬼，你注意到他有一副獠牙。", "_t")
-t("It is a humanoid form dressed in robes. Power emanates from its chilling frame.", "这是一只穿着长袍的人形吸血鬼，魔法波动不断的从他手中的冰焰溢出。", "_t")
-t("It is a ghostly form with eyes that haunt you.", "它呈幽灵形态，眼睛一直盯着你。", "_t")
-t("It is a ghostly nightmare of an entity.", "它是幽灵般的梦靥。", "_t")
-t("It is a form that screams its presence against the eye. Death incarnate, its hideous black body seems to struggle against reality as the universe itself strives to banish it.", "它的可怕形象冲击着你的双眼。它是死亡的化身，它丑恶的身体似乎在向宇宙宣告着它与现实的格格不入。", "_t")
-t("Having thought to discover life eternal, these beings have allowed undeath to rob them of the joys of life. Now they seek to destroy it as well.", "为了探索永恒的生命，这些人允许不死族剥夺他们的生趣。现在，他们同样在毁灭生者。", "_t")
-t("Create Minions", "亡灵召唤", "talent name")
-t(": %d%%", "：%d%%", "tformat")
-t(" (Minion Mastery effects included)", " (包括亡灵精通的效果)", "_t")
-t([[Fires powerful undead energies through your necrotic aura. For each recent death that happened inside your aura, you will raise an undead minion (up to %d minions). These minions will be raised within a cone that extends to the edge of your necrotic aura.
-		The minions level is your level %+d.
-		Each minion has a chance to be%s:%s]], [[通过你的亡灵光环释放强烈的不死能量。在你的光环里，每有 1 个刚死亡的目标，你召唤 1 个亡灵随从（最多 %d 个）。 
-		亡灵随从在光环边缘按照锥形分布。 
-		单位等级为你的等级 %+d.
-		每个单位有概率进阶为 %s:%s ]], "tformat")
-t("Aura Mastery", "光环掌握", "talent name")
-t([[Your dark power radiates further as you grow stronger. Increases the radius of your necrotic aura by %d, and reduces the decay rate of your minions outside the aura by %d%%.
-		At level 3, necrotic minions inside your aura have a 25%% chance to refund their soul on death. If a minion turns into a will o' the wisp then the wisp will have that chance instead.]], [[随着你逐渐强大，黑暗能量的影响范围增加。 
-		增加亡灵光环 %d 码半径，并减少光环范围外亡灵随从每回合掉血量 %d%% 。
-		技能等级 3 后，光环内亡灵随从死亡时有 25%% 几率返还灵魂，若其转换为鬼火，则在鬼火爆炸时返还。]], "tformat")
-t("Surge of Undeath", "不死狂潮", "talent name")
-t([[A surge of power radiates to all your minions, increasing their Physical Power, Spellpower and Accuracy by %d, their Armour penetration by %d and their critical hit chance by %d for 6 turns.
-		The effects will increase with your Spellpower.]], [[一股强大的能量灌输入你的所有亡灵随从。 
-		增加它们的物理强度、法术强度和命中 %d 点， %d 点护甲穿透， %d 暴击几率，持续 6 回合。 
-		受法术强度影响，此效果有额外加成。]], "tformat")
-t("Dark Empathy", "黑暗共享", "talent name")
-t([[You share your powers with your minions, granting them %d%% of your resistances and saves.
-		In addition all damage done by your minions to you or your other minions is reduced by %d%%.
-		The effect will increase with your Spellpower.]], [[你和你的亡灵随从分享你的能量，随从获得你的抵抗和豁免的 %d%% 。 
-		此外，所有随从对你和其他随从造成的伤害减少 %d%% 。 
-		受法术强度影响，此效果有额外加成。]], "tformat")
 
 
 ------------------------------------------------
 section "game/modules/tome/data/talents/spells/nightfall.lua"
 
 t("Invoke Darkness", "黑夜降临", "talent name")
-t([[Conjures up a bolt of darkness, doing %0.2f darkness damage.
-		At level 3, it will create a beam of shadows.
-		At level 5, none of your Nightfall spells will hurt your minions.
-		The damage will increase with your Spellpower.]], [[召唤出一片黑暗，对目标造成 %0.2f 暗影伤害。 
-		在等级 3 时，它会生成暗影射线。 
-		在等级 5 时，你的黑夜降临系法术不会再伤害亡灵随从。 
-		受法术强度影响，伤害有额外加成。]], "tformat")
-t("Circle of Death", "死亡之环", "talent name")
+t([[Conjures up a beam of darkness, doing %0.2f darkness damage.
+		At level 5, the beam widens to hit foes on each sides.
+		The damage will increase with your Spellpower.]], [[发射出黑暗的射线，对目标造成 %0.2f 暗影伤害。
+		技能等级 5 时，射线会变宽，可以击中两侧的目标。
+		伤害受法术强度加成。]], "tformat")
+t("Night Sphere", "暗夜笼罩", "talent name")
 t([[Dark fumes erupt from the ground for 5 turns. Any creature entering the circle will receive either a bane of confusion or a bane of blindness.
 		Only one bane can affect a creature.
 		Banes last for %d turns, and also deal %0.2f darkness damage.
-		The damage will increase with your Spellpower.]], [[从地上召唤出持续 5 回合的黑暗之雾。 
-		受法术强度影响，伤害有额外加成。 
-		任何生物走进去都会吸入混乱毒素或致盲毒素。 
-		对 1 个生物每次只能产生 1 种毒素效果。 
-		毒素效果持续 %d 回合并造成 %0.2f 暗影伤害。 
+		The damage will increase with your Spellpower.]], [[从地上召唤出持续 5 回合的黑暗之雾。任何生物走进去都会受到混乱灾祸或致盲灾祸的影响。
+		对 1 个生物每次只能产生 1 种灾祸效果。 
+		灾祸效果持续 %d 回合并造成 %0.2f 暗影伤害。 
 		受法术强度影响，伤害有额外加成。]], "tformat")
-t("Fear the Night", "暗夜恐惧", "talent name")
-t([[Invoke a cone dealing %0.2f darkness damage in a radius of %d. Any creatures caught inside must make check against their Mental Save or be knocked back 4 grids away.
-		The damage will increase with your Spellpower.]], [[在前方锥形范围内造成 %0.2f 暗影伤害（ %d 码半径范围）。 
-		任何受影响的怪物须进行一次精神豁免鉴定，否则会被击退 4 码以外。 
-		受法术强度影响，伤害有额外加成。]], "tformat")
-t("Rigor Mortis", "尸僵症", "talent name")
-t([[Invoke a ball of darkness that deals %0.2f darkness damage in a radius of %d. Every creature hit will start to become closer to death,  reducing their global speed by %d%%.
-		Necrotic minions' damage against those creatures is increased by %d%%.
-		The effects last for %d turns.
-		The damage done and the minions' damage increase will increase with your Spellpower.]], [[发射 1 个黑暗之球在范围内造成 %0.2f 暗影系伤害（ %d 码半径）。 
-		被击中的目标将会感染尸僵症并减少整体速度： %d%% 。 
-		亡灵随从对这些目标额外造成伤害： %d%% 。 
-		此效果持续 %d 回合。 
-		受法术强度影响，你的伤害和亡灵随从的伤害有额外加成。]], "tformat")
+t("Erupting Shadows", "暗影喷发", "talent name")
+t([[Shadows engulf your foes, anytime you deal darkness damage to a creature affected by a bane, the bane's duration is increased by 1 turn and the shadows erupt, dealing an additional %0.2f damage.
+		The damage the can only happen once per turn per creature, the turn increase however always happens.
+		The damage will increase with your Spellpower.]], [[暗影吞噬你的敌人。每当你对受到灾祸影响的敌人造成暗影伤害的时候，灾祸的持续时间会被延长 1 回合，并且暗影会喷发出来，造成 %0.2f 额外伤害。
+		该伤害每回合对一个生物最多触发一次，但持续时间可以被延长任意多次。
+		伤害受法术强度提升。]], "tformat")
+t("River of Souls", "冥河追魂", "talent name")
+t([[You summon a river of tortured souls to launch an onslaught of darkness against your foes.
+		Every turn for 5 turns you launch a projectile towards the designated area that explodes in radius %d, dealing %0.2f darkness damage.
+		Each projectile consumes a soul and the spell ends when it has sent 5 projectiles or when you have no more souls to use.
+		The damage will increase with your Spellpower.]], [[你召唤冥河中受折磨的灵魂，用暗影压倒你的敌人。
+		在接下来的 5 回合内，你将会每回合向目标区域发射一个灵魂，在 %d 码范围内爆炸，造成 %0.2f 暗影伤害。
+		每次发射会消耗一个灵魂。如果你发射了 5 个灵魂，或者你已经没有可以使用的灵魂了，法术结束。
+		伤害受法术强度加成。]], "tformat")
 
 
 ------------------------------------------------
@@ -28692,7 +28909,7 @@ t([[Creates a globe of pure light within a radius of %d that illuminates the are
 t("Phantasmal Shield", "幻象护盾", "talent name")
 t([[Surround yourself with a phantasmal shield of pure light.
 		Whenever you would take damage there is %d%% chance to become ethereal for an instant and fully ignore it.
-		If you do get it, the shield glow brightly, sending triggering a flash of light on the attacker, dealing %0.2f light damage in radius %d around it and dazzling any affected creature (deal 10%% less damage) for 5 turns. This can only happen every %d turns.
+		If you do get hit, the shield glow brightly, sending triggering a flash of light on the attacker, dealing %0.2f light damage in radius %d around it and dazzling any affected creature (deal 10%% less damage) for 5 turns. This can only happen every %d turns.
 		The damage and ignore chance will increase with your Spellpower.]], [[使用纯净的光构成幻象护盾，保护你自己。
 		每当你受到伤害时，你有 %d%% 的几率瞬间变得虚无，完全无视这一伤害。
 		如果你触发了这一效果，护盾会向攻击你的敌人发出明亮的闪光，在其周围 %d 码范围内造成 %0.2f 光系伤害，并炫目所有受到伤害的敌人（减少 10%% 的伤害），持续 5 回合。这一效果最多每 %d 回合触发一次。
@@ -28722,40 +28939,74 @@ t("Change your choice of elements for Elemental Mirage.", "选择你元素幻影
 
 
 ------------------------------------------------
+section "game/modules/tome/data/talents/spells/rime-wraith.lua"
+
+t("Rime Wraith", "远古冰魂", "talent name")
+t([[You summon a Rime Wraith inside of you, an intangible creature, that haunts both foes and allies for %d turns.
+		Every turn the wraith will select a new target and jump to it.
+		When the wraith enters a creature they are covered in hoarfrost for 3 turns:
+		- if friendly: increases cold resistance by %d%%, converts all damage done to cold and increases cold damage by %d%%.
+		- if hostile: reduces cold resistance by %d%% and move %d%% slower
+		When selecting a target the wraith prefers one that is not affected by hoarfrost if possible.
+		]], [[你在体内召唤远古冰魂，这是一种无形的生物，可以对敌人和盟友造成影响，持续 %d 回合。
+		每一回合，冰魂会选择一个新的目标，然后跳向那个目标。
+		当冰魂进入一个生物体内，那个生物将会被寒霜覆盖，持续 3 回合。
+		- 友方目标：获得 %d%% 寒冷伤害抗性，所造成的所有伤害转化成寒冷伤害，增加寒冷伤害 %d%% 。
+		- 敌对目标：降低 %d%% 寒冷伤害抗性，移动速度降低 %d%% 。
+		冰魂会优先选择没有被寒霜覆盖的目标。
+		]], "tformat")
+t("Frigid Plunge", "寒流涌动", "talent name")
+t([[When switching targets your rime wraith now always prefers the one farther away if possible.
+		Any creatures on the path of the wraith while it travels are affected:
+		- if friendly: they are healed by %d
+		- if hostile: they take %0.2f cold damage
+		The damage and healing will increase with your Spellpower.]], [[当冰魂选择目标的时候，它会优先选择尽可能远的目标。
+		在冰魂转移的时候，所有在路径上的生物将会受到以下影响：
+		- 友方目标：治疗 %d 生命值
+		- 敌对目标：受到 %0.2f 寒冷伤害。
+		伤害和治疗效果受法术强度加成。]], "tformat")
+t("Gelid Host", "霜寒宿主", "talent name")
+t([[By crushing one more soul you reinforce your existing rime wraith, duplicating it out of its current host.
+		The new wraith will exist for %d turns and cannot be used for an other cast of Gelid Host.
+		When it is created the current host and all foes in radius %d are blasted for %0.2f cold damage.
+		The damage will increase with your Spellpower.]], [[你粉碎一个灵魂，强化你当前的冰魂，将其从当前的宿主身上复制出来。
+		复制的新冰魂持续 %d 回合，不能被再次复制。
+		当新冰魂创建后，其原来的宿主和周围 %d 码范围内的所有敌人会受到 %0.2f 寒冷伤害。
+		伤害受法术强度加成。]], "tformat")
+t("Permafrost", "永冻极寒", "talent name")
+t([[Hoarfrost now has additional effects:
+		- if friendly: magical and physical saves increased by %d, at level 5 healing factor is also increased by 15%%.
+		- if hostile: magical and physical saves reduced by %d, at level 5 all talents cool down 15%% slower.
+		]], [[寒霜覆盖效果获得以下额外效果：
+		- 友方目标: 提升 %d 魔法和物理豁免，技能等级 5 时，还会提升治疗系数 15%% 。
+		- 敌对目标: 降低 %d 魔法和物理豁免，技能等级 5 时，还会使技能冷却时间延长 15%% 。
+		]], "tformat")
+
+
+------------------------------------------------
 section "game/modules/tome/data/talents/spells/shades.lua"
 
-t("Shadow Tunnel", "暗影通道", "talent name")
-t([[Surround your minions in a veil of darkness. The darkness will teleport them to you, and grant them %d%% evasion for 5 turns.
-		The evasion chance will increase with your Spellpower.]], [[用一片黑暗笼罩你的亡灵随从。 
-		黑暗会传送他们到你身边并使他们增加 %d%% 闪避，持续 5 回合。 
-		受法术强度影响，闪避率有额外加成。]], "tformat")
-t("Curse of the Meek", "驯服诅咒", "talent name")
-t("human farmer", "人类农民", "_t")
-t("A weather-worn human farmer, looking at a loss as to what's going on.", "一个饱经风霜的人类农民，他茫然不知所措。", "_t")
-t("halfling gardener", "半身人园丁", "_t")
-t("A rugged halfling gardener, looking quite confused as to what he's doing here.", "一个粗犷的半身人园丁，他对在这里做什么感到困惑。", "_t")
-t("shalore scribe", "永恒精灵书记员", "_t")
-t("A scrawny elven scribe, looking bewildered at his surroundings.", "一个瘦骨嶙峋的精灵书记员，他困惑地看着周围的环境。", "_t")
-t("dwarven lumberjack", "矮人伐木工", "_t")
-t("A brawny dwarven lumberjack, looking a bit upset at his current situation.", "一个强壮的矮人伐木工，他对自己现在的处境有点不安。", "_t")
-t("cute bunny", "可爱的小白兔", "_t")
-t("It is so cute!", "真可爱！", "_t")
-t([[Reaches through the shadows into quieter places, summoning %d harmless creatures.
-		Those creatures are then cursed with a Curse of Hate, making all hostile foes try to kill them.
-		If the summoned creatures are killed by hostile foes, you have 70%% chance to gain a soul.]], [[通过阴影，从安全地区召唤 %d 个无害生物。 
-		这些生物会受到仇恨诅咒，吸引附近所有的敌人的攻击。 
-		若这些生物被敌人杀死，你有 70%% 概率增加 1 个灵魂。]], "tformat")
-t("Not enough space to summon!", "没有足够的空间召唤。", "logPlayer")
-t("Forgery of Haze (%s)", "暗影分身 (%s)", "tformat")
-t("A dark shadowy shape whose form resembles %s.", "一个看起来像是%s的黑暗阴影。", "tformat")
-t("Forgery of Haze", "暗影分身", "_t")
-t([[Through the shadows, you forge a temporary copy of yourself, existing for %d turns.
-		The copy possesses your exact talents and stats, has %d%% life and deals %d%% damage.]], [[你使用暗影复制自己，生成一个分身，持续 %d 回合。 
-		你的分身继承你的天赋和属性，继承 %d%% 生命值和 %d%% 伤害。]], "tformat")
-t("Frostdusk", "幽暗极冰", "talent name")
-t([[Surround yourself with Frostdusk, increasing all your darkness and cold damage by %0.1f%%, and ignoring %d%% of the darkness resistance of your targets.
-		In addition, all darkness damage you take heals you for %d%% of the damage.]], [[ 让幽暗极冰围绕你，增加你 %0.1f%% 所有的暗影系和冰冷系伤害并无视目标 %d%% 暗影抵抗。 
-		此外，你受到的所有暗影伤害可治疗你。治疗量为 %d%% 暗影伤害值。]], "tformat")
+
+
+------------------------------------------------
+section "game/modules/tome/data/talents/spells/spectre.lua"
+
+t("Ghost Walk", "游魂行走", "talent name")
+t([[Taking on a spectral form, you teleport to the target tile within range %d. 
+		For 3 turns after using this spell, you gain the ability to teleport back to your original tile as long as you are within range of it.]], [[你进入游魂形态，传送到半径 %d 码内的目标位置。
+		在使用这一法术后的 3 回合内，只要你还在法术的适用范围内，你可以随时传送回原地点。]], "tformat")
+t("Ghost Walk - Return", "游魂行走 - 返回", "talent name")
+t("You do not have line of sight.", "你没有视线", "logPlayer")
+t("%s's ghost walk fizzles!", "%s的游魂行走失败了!", "logSeen")
+t("Return to the location you used Ghost Walk from.", "返回你使用游魂行走的原地点。", "tformat")
+t("Spectral Sight", "幽灵视野", "talent name")
+t([[While in your spectral form from Ghost Walk and for %d turns afterwards, you gain vision of all enemies within radius %d.
+In addition, at all times you gain the ability to sense undead within %d tiles, and can perceive any foe within %d tiles of your necrotic minions.]], [[当你使用游魂行走而进入游魂形态，以及之后的 %d 回合内，你能感知周围 %d 码内的敌人。
+此外，你获得感知周围 %d 码内亡灵的被动能力，并且可以感知你亡灵随从周围 %d 码范围内的敌人。]], "tformat")
+t("Intangibility", "无形无体", "talent name")
+t("While in your spectral form from Ghost Walk and for %d turns afterwards, damage and detrimental effects have a %d%% chance to harmlessly pass through you.", "当你使用游魂行走而进入游魂形态，以及之后的 %d 回合内，你有 %d%% 几率免疫对你造成的伤害和负面效果。", "tformat")
+t("Path to Beyond", "彼岸通道", "talent name")
+t("On using Ghost Walk - Return, you create a portal that summons %d spirits around you for %d turns. The spirits do very little damage, but taunt all enemies in radius 3 into attacking them.", "当你使用游魂行走-返回之后，你将会在身边产生一个传送门，在 %d 回合内召唤 %d 个鬼魂。鬼魂造成的伤害很低，但是它们会嘲讽半径 3 码内的敌人攻击它们。", "tformat", {2,1})
 
 
 ------------------------------------------------
@@ -28824,20 +29075,34 @@ t("Golem basic capacity.", " 傀儡的基础能力。", "_t")
 t("Drolem basic capacity.", "龙傀儡的基础能力。", "_t")
 t("drolem", "龙傀儡", "_t")
 t("golem", "傀儡", "talent category")
-t("Create and empower dumb undead minions.", " 制造无声的亡灵随从。", "_t")
-t("necrotic minions", "死灵召唤", "_t")
-t("Create and empower powerful undead minions.", " 制造高级的更强大的亡灵随从。", "_t")
-t("advanced necrotic minions", "高级死灵召唤", "_t")
+t("Become of the master of bones, creating skeletal minions to do your bidding.", "成为白骨之主，创造骷髅军团来执行你的命令。", "_t")
+t("master of bones", "白骨之主", "_t")
+t("Become of the master of flesh, creating ghoul minions to do your bidding", "成为血肉之主，创造食尸鬼军团来执行你的命令。", "_t")
+t("master of flesh", "血肉之主", "_t")
+t("Full and total control over your undead army.", "完全控制你的不死军团。", "_t")
+t("master necromancer", "死灵大师", "_t")
 t("Manipulate darkness itself to slaughter your foes.", " 操控黑暗来消灭你的目标。", "_t")
 t("nightfall", "黄昏", "_t")
-t("Invoke and control shades.", " 召唤并控制阴影。", "_t")
-t("shades", "暗影", "_t")
-t("Gain control over death, eventually turning into a lich.", " 获得控制死亡的力量，最终成为一个巫妖。", "_t")
-t("necrosis", "死灵", "_t")
+t("Summon an undead minion of pure darkness to harass your foes.", "召唤至暗的不死随从，骚扰你的敌人。", "_t")
+t("dreadmaster", "梦魇之王", "_t")
+t("Recall the glorious days of the Age of Dusk when necromancers reigned supreme.", "唤起黄昏纪的记忆，那个死灵法师处于至高无上地位的黄金年代。", "_t")
+t("age of dusk", "黄昏纪", "_t")
 t("Use the rotting cold doom of the tomb to fell your foes.", " 使用腐败、冰冷和厄运的坟墓埋葬你的目标。", "_t")
 t("grave", "坟墓", "_t")
+t("Wither the land into a cold, dead ground to protect yourself.", "将大地化为枯萎冰封死地，保护你自己。", "_t")
+t("glacial waste", "冰封大地", "_t")
+t("Summon an undead minion of pure cold to harass your foes.", "召唤极寒的不死随从，骚扰你的敌人。", "_t")
+t("rime wraith", "远古冰魂", "_t")
 t("Crush the souls of your foes to improve yourself.", " 粉碎敌人的灵魂来强化自身。", "_t")
 t("animus", "仇恨", "_t")
+t("Learn to fasten your foes way into the grave.", "加速你的敌人走向死亡的过程。", "_t")
+t("death", "死亡", "_t")
+t("Doom to all your foes. Crush them.", "粉碎，毁灭你的敌人。", "_t")
+t("eradication", "根除", "_t")
+t("Gain control over death, by unnaturally expanding your life.", "使用超自然的力量延长你的生命，获得超越死亡的力量。", "_t")
+t("necrosis", "死灵", "_t")
+t("Turn into a spectre to move around the battlefield.", "化为游魂，在战场上四处游荡。", "_t")
+t("spectre", "游魂", "_t")
 t("Infuse arcane forces into your shield.", "利用奥术能量强化盾牌。", "_t")
 t("eldritch shield", "魔力盾牌", "_t")
 t("Summon stony spikes imbued with various powers.", "召唤各种力量的岩石尖刺。", "_t")
@@ -28846,8 +29111,7 @@ t("Harness the power of the world to turn into a Deeprock Form.", "利用世界�
 t("deeprock", "深岩形态", "_t")
 t("spell", "法术", "talent category")
 t("Necrotic Minion", "死灵随从", "_t")
-t("#{bold}#%s decays into a pile of ash!#{normal}#", "#{bold}#%s变成了一堆灰烬。#{normal}#", "logSeen")
-t("A soul returns to %s.", "一个灵魂回到了%s手中。", "logPlayer")
+t("#GREY#%s dissolves into the cloud of gore.", "#GREY#%s化为一团血肉的云雾。", "logSeen")
 
 
 ------------------------------------------------
@@ -29023,16 +29287,15 @@ t([[Turn part of your target into fire, burning the rest for %0.2f fire damage o
 section "game/modules/tome/data/talents/spells/water.lua"
 
 t("Ice Shards", "寒冰箭", "talent name")
-t([[Hurl ice shards at the targets in the selected area. Each shard %s and does %0.2f ice damage, hitting all adjacent targets on impact with 25%% chance to freeze them.
+t([[Hurl ice shards at the targets in the selected area. Each shard travels slowly and does %0.2f ice damage, hitting all adjacent targets on impact with 25%% chance to freeze them.
 		If the target resists being frozen, it instead get wet.
 		If the target is wet the damage increases by 30%% and the ice freeze chance increases to 50%%.
 		This spell will never hit the caster.
-		The damage will increase with your Spellpower.]], [[朝指定地点所有目标射出寒冰箭。每根寒冰箭 %s 并造成 %0.2f 冰系伤害，有25%%几率使其冻结，未冻结时将使其湿润。
-		此法术不会伤害施法者。 
+		The damage will increase with your Spellpower.]], [[朝指定地点所有目标射出寒冰箭。每根寒冰箭缓慢移动，造成 %0.2f 冰系伤害，有25%%几率使其冻结。
+		如果目标抵抗了冻结，则会使其湿润。
 		如果目标处于湿润状态，伤害增加 30%% ，同时冰冻率上升至 50%% 。
+		此法术不会伤害施法者。 
 		受法术强度影响，伤害有额外加成。]], "tformat")
-t("affects all foes on its path", "击中行进直线上的所有敌人", "_t")
-t("travels slowly", "缓慢移动", "_t")
 t("Glacial Vapour", "寒霜冰雾", "talent name")
 t([[Glacial fumes rise from the ground, doing %0.2f cold damage in a radius of 3 each turn for %d turns.
 		Creatures that are wet will take 30%% more damage and have 15%% chance to get frozen.
@@ -29098,7 +29361,7 @@ section "game/modules/tome/data/talents/techniques/2h-assault.lua"
 t("Stunning Blow", "震慑打击", "talent name")
 t("%s resists the stunning blow!", "%s抵抗了震慑打击。", "logSeen")
 t([[Hit the target twice with your two-handed weapon, doing %d%% damage. Each hit will try to stun the target for %d turns.
-		The stun chance increases with your Physical Power.]], [[用你的双持武器攻击目标两次并造成 %d%% 伤害。每次攻击都会试图震慑目标 %d 回合。 
+		The stun chance increases with your Physical Power.]], [[用你的双手武器攻击目标两次并造成 %d%% 伤害。每次攻击都会试图震慑目标 %d 回合。 
 		受物理强度影响，震慑概率有加成。]], "tformat")
 t("Fearless Cleave", "无畏跳斩", "talent name")
 t("You must be able to move to use this talent.", "你必须处于可以移动的状态才能使用该技能。", "logPlayer")
@@ -30815,16 +31078,20 @@ t([[Your inner flame is strong. Each time that you receive a blow that would kil
 		每回合圣焰会对你造成 10%% 刚才吸收的伤害（此伤害会自动忽略护甲和抵抗）。 
 		警告：此技能有冷却时间。]], "tformat")
 t("Lich", "巫妖", "talent name")
+t("Is a living creature that knows necromancy", "是活着的生物，并且掌握死灵法术", "_t")
+t("Have completed the ritual", "完成了转化仪式", "_t")
 t("#GREY#As you turn into a powerful undead you feel your body violently rejecting the Blood of Life.", "#GREY#当你成为强大的不死生物你感到你的身体强烈的对抗着生命之血。", "log")
 t([[#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!
 
 #{italic}#You may now choose to customize the appearance of your Lich, this can not be changed afterwards.]], [[#GREY#你觉得你的生命在不断流失，取而代之的是纯粹的奥术力量！肉体腐烂的只剩骨头，眼睛也崩落不见，你终于转生成了巫妖！
 
 #{italic}#你可以现在选择自定义你巫妖的外形，这一外形之后无法改变。]], "_t")
+t("Lich Cosmetic Options", "巫妖外观选项", "_t")
 t("Customize Appearance", "自定义外形", "_t")
 t("Use Default", "使用默认", "_t")
 t("#GREY#You feel your life slip away, only to be replaced by pure arcane forces! Your flesh starts to rot on your bones, and your eyes fall apart as you are reborn into a Lich!", "#GREY#你觉得你的生命在不断流失，取而代之的是纯粹的奥术力量！肉体腐烂的只剩骨头，眼睛也崩落不见，你终于转生成了巫妖！", "_t")
 t("Lichform", "巫妖转生", "_t")
+t("#DARK_ORCHID#You are on your way to Lichdom. #{bold}#Your next death will finish the ritual.#{normal}#", "#DARK_ORCHID#你的巫妖转生之路已经到了最后的阶段。 #{bold}#你下一次死亡的时候将会完成转化仪式。#{normal}#", "say")
 t([[This is your true goal and the purpose of all necromancy - to become a powerful and everliving Lich!
 		Once learnt, the next time you are killed, the arcane forces you unleash will be able to rebuild your body into the desired Lichform.
 		Liches are immune to poisons, diseases, fear, cuts, stuns, do not need to breath and are 20%% resistant to cold and darkness.
@@ -31058,8 +31325,8 @@ section "game/modules/tome/data/talents/undeads/skeleton.lua"
 t("Skeleton", "骷髅", "talent name")
 t("Improves your skeletal condition, increasing Strength and Dexterity by %d.", "调整你的骷髅体质，增加 %d 点力量和敏捷。", "tformat")
 t("Bone Armour", "骨质盔甲", "talent name")
-t([[Creates a shield of bones, absorbing %d damage. Lasts for 10 turns.
-		The total damage the shield can absorb increases with your Dexterity.]], [[在你的周围制造一个能吸收 %d 点伤害的骨盾。持续 10 回合。 
+t([[Creates a shield of bones, absorbing %d damage. Lasts for %d turns.
+		The total damage the shield can absorb increases with your Dexterity.]], [[在你的周围制造一个能吸收 %d 点伤害的骨盾。持续 %d 回合。 
 		受敏捷影响，护盾的最大吸收值有额外加成。]], "tformat")
 t("Resilient Bones", "弹力骨骼", "talent name")
 t("Your undead bones are very resilient, reducing the duration of all detrimental effects on you by up to %d%%.", "你的骨头充满弹性，至多减少 %d%% 所有负面状态持续的时间。", "tformat")
@@ -34161,7 +34428,6 @@ t("#Target#'s eyes tingle.", "#Target#的眼睛闪出光芒。", "_t")
 t("#Target#'s eyes tingle no more.", "#Target#的眼睛恢复了正常状态。", "_t")
 t("Bane of Blindness", "致盲灾祸", "_t")
 t("The target is blinded, unable to see anything and takes %0.2f darkness damage per turn.", "目标被致盲，不能看到任何东西并每回合受到 %0.2f 暗影伤害。", "tformat")
-t("blind", "致盲", "effect subtype")
 t("#Target# loses sight!", "#Target#失明了！", "_t")
 t("+Blind", "+致盲", "_t")
 t("#Target# recovers sight.", "#Target#恢复了视力。", "_t")
@@ -34394,17 +34660,22 @@ t("The target is being removed from the timeline, its resistance to physical and
 t("#Target# is being removed from the timeline.", "#Target#被从时间线中移除。", "_t")
 t("+Cease to Exist", "+存在抹杀", "_t")
 t("Impending Doom", "灾厄降临", "_t")
-t("The target's final doom is drawing near, reducing healing factor by 80%% and dealing %0.2f arcane damage per turn. The effect will stop if the caster dies.", "目标的末日已经临近，治疗系数降低 80%% 并且每回合受到 %0.2f 奥术伤害。施法者死亡时本效果消失。", "tformat")
+t("The target's final doom is drawing near, reducing healing factor by 80%% and dealing %0.2f frostdusk damage per turn. The effect will stop if the caster dies.", "目标的末日已经临近，治疗系数降低 80%% 并且每回合受到 %0.2f 霜暮伤害。施法者死亡时本效果消失。", "tformat")
 t("#Target# is doomed!", "#Target#遭受了厄运！", "_t")
 t("+Doomed", "+灾厄", "_t")
 t("#Target# is freed from the impending doom.", "#Target#摆脱了厄运。", "_t")
 t("-Doomed", "-灾厄", "_t")
+t("#CRIMSON#A piece of the soul of %s is torn apart by Impending Doom!", "#CRIMSON#%s的灵魂被撕裂了一片！", "logSeen")
 t("Rigor Mortis", "尸僵症", "_t")
-t("The target takes %d%% more damage from necrotic minions.", " 目标受到死灵随从的伤害增加 %d%% 。", "tformat")
+t("The target is slowed by %d%%.", "目标被减速 %d%% 。", "tformat")
 t("#Target# feels death coming!", "#Target#感受到了死亡迫近！", "_t")
 t("+Rigor Mortis", "+尸僵症", "_t")
 t("#Target# is freed from the rigor mortis.", "#Target#摆脱了尸僵。", "_t")
 t("-Rigor Mortis", "-尸僵症", "_t")
+t("Death Rush", "死亡加速", "_t")
+t("Movement speed increased by %d%%.", "移动速度增加 %d%% 。", "tformat")
+t("#Target# is invogorated by death!", "#Target# 被死亡加速！", "_t")
+t("#Target# is less fast.", "#Target# 不再被加速。", "_t")
 t("Abyssal Shroud", "堕入深渊", "_t")
 t("The target's lite radius has been reduced by %d, and its darkness resistance by %d%%.", "目标光照范围减少 %d ，暗影抵抗下降 %d%% 。", "tformat")
 t("#Target# feels closer to the abyss!", "#Target#堕入了深渊！", "_t")
@@ -34469,13 +34740,11 @@ t("#LIGHT_RED#A carrion worm mass bursts out of %s!", "#LIGHT_RED#%s处出现成
 t("Ghoul Rot", "尸鬼腐蚀", "_t")
 t("  If the target dies while ghoul rot is active it will rise as a ghoul.", "  如果目标在尸鬼腐蚀期间死亡，它将会被复活食尸鬼。", "_t")
 t("The target is infected by a disease doing %0.2f blight damage per turn.%s", "目标感染疾病，每回合造成 %0.2f 点枯萎伤害。 %s", "tformat")
-t("disease", "疾病", "effect subtype")
 t("#Target# is afflicted by ghoul rot!", "#Target#被食尸鬼的疾病感染!", "_t")
 t("#Target# is free from the ghoul rot.", "#Target#摆脱了食尸鬼的疾病!", "_t")
 t("Bloodcasting", "血祭施法", "_t")
 t("Corruptions consume health instead of vim.", "堕落者消耗生命值来取代活力值。", "_t")
 t("Sanguine Infusion", "鲜血充能", "_t")
-t("Maximum life increased by %d.", "最大生命值提升 %d 。", "tformat")
 t("corruption", "堕落", "effect subtype")
 t("Arcane Supremacy", "奥术至尊", "_t")
 t("The target's spellpower and spell save has been increased by %d", "目标法术强度及法术豁免提升 %d", "tformat")
@@ -34581,11 +34850,9 @@ t("%s damage increased by 20%%.", "%s 伤害增加 20%%.", "tformat")
 t("race", "种族技能", "effect subtype")
 t("Essence of the Dead", "亡者精华", "_t")
 t("The target consumed souls to gain new powers. %d spells affected.", "目标消耗灵魂来获取额外力量，   %d 个法术受到影响。", "tformat")
-t("necrotic", "死灵", "effect subtype")
 t("Ice Armour", "寒冰护甲", "_t")
 t("The target is covered in a layer of ice. Its armour is increased by %d, it deals %0.1f Cold damage to attackers that hit in melee, and 50%% of its damage is converted to cold.", " 目标被冰覆盖，增加 %d 护甲，对攻击者造成 %0.1f 点寒冷伤害 , 同时将 50%% 伤害转化为寒冷伤害。", "tformat")
 t("armour", "护甲", "effect subtype")
-t("cold", "寒冷", "effect subtype")
 t("#Target# is covered in icy armor!", "#Target#被寒冰护甲覆盖！", "_t")
 t("#Target#'s ice coating crumbles away.", "#Target#的寒冰护甲消散了。", "_t")
 t("Caustic Golem", "酸化傀儡", "_t")
@@ -34865,16 +35132,12 @@ t("#Target# speeds down outside of the retch.", "#Target#站在唾液外，速�
 t("-Retched", "-亡灵唾液", "_t")
 t("Shadow Cut", "暗影伤口", "_t")
 t("Huge shadow cut that bleeds, doing %0.2f darkness damage per turn. Anytime you hit it you get healed for %d.", "正在流血的巨大的暗影伤口，每回合造成 %0.2f 暗影伤害。每次你击中目标将受到 %d 点治疗。", "tformat")
-t("bleed", "流血", "effect subtype")
-t("cut", "流血", "effect subtype")
-t("wound", "创伤", "effect subtype")
 t("#Target# starts to bleed darkness.", "#Target#流出黑暗的血液。", "_t")
 t("+Shadow Cut", "+暗影伤口", "_t")
 t("#Target# stops bleeding darkness.", "#Target#的黑暗伤口愈合了。", "_t")
 t("-Shadow Cut", "-暗影伤口", "_t")
 t("Draining Moonlight", "吸能月光", "_t")
 t("The target has been drained by a glyph, all damage it does is reduced by %d%%.", "目标被圣印汲取能量，造成的所有伤害降低 %d%%", "tformat")
-t("darkness", "暗影", "effect subtype")
 t("#Target# is weakened by the glyph of moonlight!", "#Target#被月光圣印削弱！", "_t")
 t("+Draining Moonlight", "+吸能月光", "_t")
 t("#Target# looks shakes off the effect of the glyph of moonlight.", "#Target#摆脱了月光圣印的效果。", "_t")
@@ -34897,7 +35160,74 @@ t("phantasm", "幻术", "effect subtype")
 t("Commander of the Dead", "亡者领袖", "_t")
 t("Physical power, spellpower and all saves increased by %d.", "物理强度，法术强度和全体豁免增加 %d 。", "tformat")
 t("lich", "巫妖", "effect subtype")
+t("Consume Soul", "消耗灵魂", "_t")
+t("Spellpower increased by %d.", "法术强度增加 %d 。", "tformat")
+t("Necrotic Aura", "死灵光环", "_t")
+t("All resistances increased by %d.", "所有抗性提升 %d 。", "tformat")
+t("Lord of Skulls", "骷髅之王", "_t")
+t("Maximum life increased by %d.", "最大生命值提升 %d 。", "tformat")
+t("lord of skulls", "骷髅王", "effect subtype")
+t("#Target# becomes the Lord of Skulls!", "#Target#成为骷髅王！", "_t")
+t("#Target# is no more the Lord of Skulls.", "#Target#不再是骷髅王。", "_t")
+t("Lord of Skulls (warrior)", "骷髅王 (战士)", "_t")
+t("Lord of Skulls (archer)", "骷髅王 (弓箭手)", "_t")
+t("Lord of Skulls (mage)", "骷髅王 (法师)", "_t")
+t("Spike of Decrepitude", "破碎尖刺", "_t")
+t("Damage reduced by %d%%.", "你造成的伤害减少%d%%。", "tformat")
+t("Soul Leech", "灵魂吸取", "_t")
+t("Soul absorbed upon death.", "死后灵魂会被吸收。", "_t")
+t("Corpse Explosion", "夺命尸爆", "_t")
+t("When a ghoul is hit or dies, it explodes, doing %0.2f frostdusk damage.", "当食尸鬼被击中或死亡，它会爆炸，造成 %0.2f 霜暮伤害。", "tformat")
+t("ghoul", "食尸鬼", "effect subtype")
+t("#GREY#%s explodes in a blast of gore!", "#GREY#%s 爆炸成一团碎肉！", "logSeen")
+t("Brittle Bones", "脆骨", "_t")
+t("Physical resistance reduced by %d%% and talents cooldowns increased by %d%%.", "物理抗性降低 %d%% ，技能冷却时间增加 %d%% 。", "tformat")
+t("cooldown", "冷却", "effect subtype")
+t("resistance", "抵抗", "effect subtype")
+t("Boneyard", "大墓地", "_t")
+t("Spellpower and physical power increased by %d.", "法术强度和物理强度提升 %d 。", "tformat")
 t("power", "能量", "effect subtype")
+t("Neverending Peril", "不灭灾厄", "_t")
+t("Golden Age of Necromancy", "死灵法术的黄金时代", "_t")
+t("Invulnerable.", "无敌。", "_t")
+t("invulnerable", "无敌", "effect subtype")
+t("Chill of the Tomb", "极寒坟墓", "_t")
+t("Reduces all damage by %d.", "降低所有伤害 %d 。", "tformat")
+t("flat", "直接伤害减免", "effect subtype")
+t("Black Ice", "寒霜黑冰", "_t")
+t("Damage from necrotic minions increased by %d%%.", "来自死灵随从的伤害增加 %d%% 。", "tformat")
+t("Corpselight", "阴燃鬼火", "_t")
+t("Sustains a corpselight of radius %d that deals %0.2f cold damage per turn.", "维持一个半径 %d 码的鬼火，每回合造成 %0.2f 寒冷伤害。", "tformat")
+t("Crepuscule", "黄昏降临", "_t")
+t("Bring the night!", "黑夜降临了！", "_t")
+t("blind", "致盲", "effect subtype")
+t("#Target# calls the night!", "#Target# 召唤了黑暗！", "_t")
+t("The eerie night around #target# fades away.", "在#target#周围的黑暗消逝了。", "_t")
+t("Dire Plague", "恐怖瘟疫", "_t")
+t("The target is infected by a plague, doing %0.2f darkness damage per turn with a %d%% chance to rip apart the soul.", "目标被瘟疫感染，每回合受到 %0.2f 暗影伤害，并有 %d%% 几率被撕裂一个灵魂。", "tformat")
+t("darkness", "暗影", "effect subtype")
+t("disease", "疾病", "effect subtype")
+t("#Target# is afflicted by a dire plague!", "#Target#被恐怖瘟疫感染！", "_t")
+t("#Target# is free from the dire plague.", "#Target#脱离恐怖瘟疫影响。", "_t")
+t("Dire Plague rips out a piece of %s soul!", "恐怖瘟疫撕裂了%s灵魂的一部分！", "logSeen")
+t("Frost Cut", "寒霜流血", "_t")
+t("Magically frozen wound that deals %0.2f cold damage per turn and movement speed reduced by %d%%.", "被魔法伤口割伤，每回合受到 %0.2f 寒冷伤害，移动速度降低 %d%% 。", "tformat")
+t("bleed", "流血", "effect subtype")
+t("cut", "流血", "effect subtype")
+t("wound", "创伤", "effect subtype")
+t("#Target# starts to bleed ice.", "#Target# 被冰割伤流血。", "_t")
+t("+Frost Cut", "+寒霜流血", "_t")
+t("#Target# stops bleeding ice.", "#Target# 不再流血。", "_t")
+t("-Frost Cut", "-寒霜流血", "_t")
+t("Rime Wraith", "远古冰魂", "_t")
+t("Host of a Rime Wraith!", "远古冰魂的宿主！", "_t")
+t("Rime Wraith (Gelid Host)", "远古冰魂(霜寒宿主)", "_t")
+t("Host of a Rime Wraith (Gelid Host)!", "远古冰魂的宿主（霜寒宿主）！", "_t")
+t("All damage converted to cold, cold damage increased by %d%%, cold resistance increased by %d%%.", "所有伤害转化为寒冷伤害，寒冷伤害增加 %d%% ，寒冷抗性增加 %d%% 。", "tformat")
+t("Hoarfrost", "寒霜覆盖", "_t")
+t("Cold resistance reduced by %d%%, movement speed reduced by %d%%.", "寒冷伤害降低 %d%% ，移动速度降低 %d%% 。", "tformat")
+t("cold", "寒冷", "effect subtype")
+t("necrotic", "死灵", "effect subtype")
 
 
 ------------------------------------------------
@@ -35903,7 +36233,10 @@ t("%s is feeding from %s.", "%s正在从%s身上吸食精华。", "tformat")
 t("Fed Upon", "被吞食", "_t")
 t("%s is fed upon by %s.", "%s被%s吸食精华。", "tformat")
 t("psychic_drain", "超能力吸收", "effect subtype")
+t("Lich Hunger", "巫妖欲望", "_t")
+t("To complete your resurrection you must kill a unique/boss/elite boss rank creature before the duration expires.", "为了完成你的复活，你必须在持续时间结束前，杀死一个 史诗/Boss/精英Boss 等级的敌人。", "_t")
 t("lich", "巫妖", "effect subtype")
+t("#DARK_ORCHID#Lichform regeneration is complete!#{normal}#", "#DARK_ORCHID#巫妖形态恢复完成！#{normal}#", "say")
 t("Sensing Everything", "感知一切", "_t")
 t("Improves senses, allowing the detection of everything.", "强化感知，可以侦测一切事物。", "_t")
 t("sense", "感知", "effect subtype")
@@ -37153,6 +37486,7 @@ section "game/modules/tome/data/zones/crypt-kryl-feijan/grids.lua"
 t("floor", "地板", "entity subtype")
 t("sealed door", "被封印的门", "entity name")
 t("demonic symbol", "恶魔符文", "entity name")
+t("altar", "祭坛", "entity name")
 
 
 ------------------------------------------------
