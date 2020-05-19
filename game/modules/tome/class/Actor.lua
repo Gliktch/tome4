@@ -4543,6 +4543,7 @@ function _M:onWear(o, inven_id, bypass_set, silent)
 	self:checkMindstar(o)
 
 	o:check("on_wear", self, inven_id)
+	self:triggerHook{"Actor:onWear", o=o, inven_id=inven_id}
 
 	if o.wielder then
 		for k, e in pairs(o.wielder) do
