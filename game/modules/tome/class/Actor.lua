@@ -2256,7 +2256,7 @@ end
 -- accounts for healing_factor and Solipsism life/psi healing split, which includes psi_regen
 function _M:regenLife(fake)
 	if self.life_regen and not self:attr("no_life_regen") then
-		local regen, psi_increase = self.life_regen * util.bound((self.healing_factor or 1), 0, 2.5)
+		local regen, psi_increase = self.life_regen * util.bound((self.healing_factor or 1), 0, self.healing_factor_max or 2.5)
 
 		-- Solipsism: regeneration split between life and psi
 		if self:knowTalent(self.T_SOLIPSISM) then
