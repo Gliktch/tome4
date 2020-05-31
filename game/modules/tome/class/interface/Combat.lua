@@ -2783,6 +2783,13 @@ function _M:startGrapple(target)
 		grappleParam["sharePct"] = t.getSharePct(self, t) -- damage shared with grappled set by Clinch
 
 	end
+
+	if grappledParam.silence == 1 and not target:canBe("silence") then
+		grappledParam.silence = 0
+	end
+	if grappledParam.slow == 1 and not target:canBe("slow") then
+		grappledParam.slow = 0
+	end
 	-- oh for the love of god why didn't I rewrite this entire structure
 	grappledParam["src"] = self
 	grappledParam["apply_power"] = self:combatPhysicalpower()

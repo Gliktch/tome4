@@ -3557,7 +3557,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			end)
 			level.turn_counter = turns * 10
 			level.max_turn_counter = turns * 10
-			level.turn_counter_desc = _t"Survive the multiplicative madness!."
+			level.turn_counter_desc = _t"Survive the multiplicative madness!"
 		end end, _t"Refuse", _t"Accept", true)
 	elseif id_challenge == "headhunter" then
 		local mlist = {} -- add random elite "spawns of Urh'Rok"
