@@ -5886,6 +5886,8 @@ function _M:preUseTalent(ab, silent, fake)
 
 		if self:hasEffect(self.EFF_SENTINEL) and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") then
 			if not silent then game.logSeen(self, "%s's %s is interrupted by the shot!", self:getName():capitalize(), ab.name) end
+			local cdr = self:getTalentCooldown(ab)
+			self.talents_cd[ab.id] = cdr
 			self.tempeffect_def[self.EFF_SENTINEL].do_proc(self, self:hasEffect(self.EFF_SENTINEL))
 			self:useEnergy()
 			self:fireTalentCheck("callbackOnTalentDisturbed", t)
