@@ -541,7 +541,7 @@ newEffect{
 	subtype = { bane=true, confusion=true },
 	status = "detrimental",
 	parameters = { power=50, dam=10 },
-	on_gain = function(self, err) return _t"#Target# wanders around!.", _t"+Confused" end,
+	on_gain = function(self, err) return _t"#Target# wanders around!", _t"+Confused" end,
 	on_lose = function(self, err) return _t"#Target# seems more focused.", _t"-Confused" end,
 	on_timeout = function(self, eff)
 		self.turn_procs.doing_bane_damage = true
@@ -2644,7 +2644,7 @@ newEffect{
 	subtype = { arcane=true },
 	status = "detrimental",
 	parameters = { dam=10 },
-	on_gain = function(self, err) return _t"#Target# is focused by an arcane vortex!.", _t"+Arcane Vortex" end,
+	on_gain = function(self, err) return _t"#Target# is focused by an arcane vortex!", _t"+Arcane Vortex" end,
 	on_lose = function(self, err) return _t"#Target# is free from the arcane vortex.", _t"-Arcane Vortex" end,
 	on_timeout = function(self, eff)
 		if not self.x then return end

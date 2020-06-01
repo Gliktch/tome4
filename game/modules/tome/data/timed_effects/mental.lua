@@ -131,7 +131,7 @@ newEffect{
 	subtype = { confusion=true },
 	status = "detrimental",
 	parameters = { power=30 },
-	on_gain = function(self, err) return _t"#Target# wanders around!.", _t"+Confused" end,
+	on_gain = function(self, err) return _t"#Target# wanders around!", _t"+Confused" end,
 	on_lose = function(self, err) return _t"#Target# seems more focused.", _t"-Confused" end,
 	activate = function(self, eff)
 		eff.power = math.floor(util.bound(eff.power, 0, 50))
@@ -468,6 +468,7 @@ newEffect{
 	type = "mental",
 	subtype = { veil=true },
 	status = "detrimental",
+	no_stop_enter_worlmap = true, cancel_on_level_change = true,
 	parameters = {},
 	activate = function(self, eff)
 		local effStalker = eff.src:hasEffect(eff.src.EFF_STALKER)

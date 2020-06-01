@@ -1313,7 +1313,9 @@ function resolvers.nice_tile(def)
 end
 function resolvers.calc.nice_tile(t, e)
 	if engine.Map.tiles.nicer_tiles then
-		if t[1].tall then t[1] = {image="invis.png", add_mos = {{image="=BASE=TILE=", display_h=2, display_y=-1}}} end
+		if t[1].tall and not t[1].wide then t[1] = {image="invis.png", add_mos = {{image="=BASE=TILE=", display_h=2, display_y=-1}}}
+		elseif t[1].tall and t[1].wide then t[1] = {image="invis.png", add_mos = {{image="=BASE=TILE=", display_h=2, display_y=-1, display_w=2, display_x=-0.5}}}
+		elseif not t[1].tall and t[1].wide then t[1] = {image="invis.png", add_mos = {{image="=BASE=TILE=", display_w=2, display_x=-0.5}}} end
 		if t[1].add_mos and t[1].add_mos[1] and t[1].add_mos[1].image == "=BASE=TILE=" then t[1].add_mos[1].image = e.image end
 		if t[1].add_mos and t[1].add_mos[1] and t[1].add_mos[1].image then t[1].attachement_spots = t[1].add_mos[1].image end
 		table.merge(e, t[1])
@@ -1389,4 +1391,12 @@ function resolvers.calc.robe_stats(t, e)
 	e.wielder = e.wielder or {}
 	e.wielder.resists = e.wielder.resists or {}
 	e.wielder.resists.all = (e.wielder.resists.all or 0) + 5 + ((e.material_level or 1) * 2)
+end
+
+--- Make robes great again
+function resolvers.for_campaign(id, fct)
+	return {__resolver="for_campaign", __resolve_last=true, id, fct}
+end
+function resolvers.calc.for_campaign(t, e)
+	if game:isCampaign(t[1]) then t[2](e) end
 end
