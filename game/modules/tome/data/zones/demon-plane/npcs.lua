@@ -79,7 +79,7 @@ newEntity{ define_as = "DRAEBOR",
 	resolvers.inscriptions(1, {"manasurge rune"}),
 
 	on_die = function(self, who)
-		require("engine.ui.Dialog"):simplePopup("Back and there again", "As the annoying imp falls a portal appears under its corpse.")
+		require("engine.ui.Dialog"):simplePopup(_t"Back and there again", _t"As the annoying imp falls a portal appears under its corpse.")
 		local g = game.zone:makeEntityByName(game.level, "terrain", "PORTAL_BACK")
 		local oe = game.level.map(self.x, self.y, engine.Map.TERRAIN)
 		if oe:attr("temporary") and oe.old_feat then
