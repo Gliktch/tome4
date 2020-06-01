@@ -165,7 +165,7 @@ newEntity{ base = "BASE_NPC_SPIDER", define_as = "WEAVER_QUEEN",
 		require("engine.ui.Dialog"):simplePopup(_t"Weaver Queen", _t"As you vanquish the queen you notice a temporal thread that seems to have been controlling her. It seems to go through a rift.")
 
 		local g = game.zone:makeEntityByName(game.level, "terrain", "RIFT_HOME")
-		local oe = game.level.map(npc.x, npc.y, engine.Map.TERRAIN)
+		local oe = game.level.map(self.x, self.y, engine.Map.TERRAIN)
 		if oe:attr("temporary") and oe.old_feat then
 			oe.old_feat = g
 		else
