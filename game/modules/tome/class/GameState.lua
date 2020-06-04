@@ -2159,7 +2159,7 @@ function _M:applyRandomClass(b, data, instant)
 		if not tres then tres = resolvers.talents{} b[#b+1] = tres end
 		for tid, v in pairs(class.talents or {}) do
 			local t = b:getTalentFromId(tid)
-			if not t.no_npc_use and not t.no_npc_autolevel and (not t.random_boss_rarity or rng.chance(t.random_boss_rarity)) and not (t.rnd_boss_restrict and t.rnd_boss_restrict(b, t, data) ) then
+			if not t.no_npc_use and not t.no_npc_autolevel and (not t.random_boss_rarity or rng.chance(t.random_boss_rarity)) and not (t.rnd_boss_restrict and util.getval(t.rnd_boss_restrict, b, t, data) ) then
 				local max = (t.points == 1) and 1 or math.ceil(t.points * 1.2)
 				local step = max / 70
 				tres[1][tid] = v + math.ceil(step * data.level)
@@ -2215,7 +2215,7 @@ function _M:applyRandomClass(b, data, instant)
 					print(" * Random boss forbade talent because talent not allowed on random bosses", t.name, t.id, data.level)
 					ok = false
 				end
-				if t.rnd_boss_restrict and t.rnd_boss_restrict(b, t, data) and ok then
+				if t.rnd_boss_restrict and util.getval(t.rnd_boss_restrict, b, t, data) and ok then
 					print(" * Random boss forbade talent because of special talent restriction", t.name, t.id, data.level)
 					nb_known = nb_known + 1 -- treat as known to allow later talents to be learned
 					ok = false
