@@ -1414,6 +1414,8 @@ function _M:changeLevelReal(lev, zone, params)
 	self.change_level_party_back = nil
 
 	self:dieClonesDie()
+
+	self:triggerHook{"Game:changeLevel"}
 end
 
 function _M:dieClonesDie()
