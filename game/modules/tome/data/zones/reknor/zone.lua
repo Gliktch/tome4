@@ -21,16 +21,16 @@ return {
 	name = _t"Lost Dwarven Kingdom of Reknor",
 	level_range = {18, 35},
 	level_scheme = "player",
-	max_level = 3,
+	max_level = 4,
 	decay = {300, 800},
 	actor_adjust_level = function(zone, level, e) return zone.base_level + e:getRankLevelAdjust() + level.level-1 + rng.range(-1,2) end,
-	width = 70, height = 49,
+	width = 70, height = 70,
 --	all_remembered = true,
 --	all_lited = true,
 	persistent = "zone",
 	ambient_music = "To the Depths.ogg",
 	min_material_level = function() return game.state:isAdvanced() and 3 or 3 end,
-	max_material_level = function() return game.state:isAdvanced() and 5 or 4 end,
+	max_material_level = function() return game.state:isAdvanced() and 5 or 3 end,
 	generator =  {
 		map = {
 			class = "engine.generator.map.TileSet",
@@ -44,11 +44,11 @@ return {
 		},
 		actor = {
 			class = "mod.class.generator.actor.Random",
-			nb_npc = {30, 45},
+			nb_npc = {50, 60},
 		},
 		object = {
 			class = "engine.generator.object.Random",
-			nb_object = {10, 15},
+			nb_object = {12, 16},
 		},
 		trap = {
 			class = "engine.generator.trap.Random",
@@ -62,7 +62,7 @@ return {
 				up = "UP_WILDERNESS",
 			}, },
 		},
-		[3] = {
+		[4] = {
 			decay = false,
 			generator = {
 				map = {
