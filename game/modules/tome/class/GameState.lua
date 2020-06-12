@@ -499,7 +499,12 @@ function _M:generateRandart(data)
 	-----------------------------------------------------------
 	local themename = power_themes[#power_themes]
 	themename = themename and themename[1] or nil
-	local ngd = NameGenerator.new(rng.chance(2) and self:getRandartNameRule().default or self:getRandartNameRule().default2)
+	local ngd
+	if self.birth.world_base_random_name_def then
+		ngd = NameGenerator2.new("/data/languages/names/"..self.birth.world_base_random_name_def:gsub("#sex#", rng.chance(2) and "female" or "male")..".txt")
+	else
+		ngd = NameGenerator.new(rng.chance(2) and self:getRandartNameRule().default or self:getRandartNameRule().default2)
+	end
 	local ngt = (themename and self:getRandartNameRule()[themename] and NameGenerator.new(self:getRandartNameRule()[themename])) or ngd
 	local name
 	local namescheme = data.namescheme or ((ngt ~= ngd) and rng.range(1, 4) or rng.range(1, 3))
@@ -2363,8 +2368,10 @@ function _M:createRandomBoss(base, data)
 	-- Basic stuff, name, rank, ...
 	------------------------------------------------------------
 	local ngd, name
-	if base.random_name_def then
-		ngd = NameGenerator2.new("/data/languages/names/"..base.random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
+	local random_name_def = base.random_name_def
+	if not random_name_def and self.birth.world_base_random_name_def then random_name_def = self.birth.world_base_random_name_def end
+	if random_name_def then
+		ngd = NameGenerator2.new("/data/languages/names/"..random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
 		name = ngd:generate(nil, base.random_name_min_syllables, base.random_name_max_syllables)
 	else
 		ngd = NameGenerator.new(self:getRandartNameRule().default)
@@ -2741,8 +2748,10 @@ function _M:createRandomBossNew(base, data)
 	-- Basic stuff, name, rank, ...
 	------------------------------------------------------------
 	local ngd, name
-	if base.random_name_def then
-		ngd = NameGenerator2.new("/data/languages/names/"..base.random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
+	local random_name_def = base.random_name_def
+	if not random_name_def and self.birth.world_base_random_name_def then random_name_def = self.birth.world_base_random_name_def end
+	if random_name_def then
+		ngd = NameGenerator2.new("/data/languages/names/"..random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
 		name = ngd:generate(nil, base.random_name_min_syllables, base.random_name_max_syllables)
 	else
 		ngd = NameGenerator.new(self:getRandartNameRule().default)
