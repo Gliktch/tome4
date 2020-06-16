@@ -89,7 +89,7 @@ newEntity{ base = "BASE_NPC_DEMON",
 }
 
 newEntity{ base = "BASE_NPC_DEMON",
-	name = "onilug", color=colors.LIGHT_GREY,
+	name = "onilug", color=colors.GREY,
 	desc = _t[[A gaunt vaguely humanoid shape featuring unadorned grey leathery skin. Its arms and legs seem somehow too long and it stands toll, projecting an ominous shadow even in darkness.
 Its glowing red eyes shiny with both cruelty and a deep frightening intellect.]],
 	level_range = {10, nil}, exp_worth = 1,

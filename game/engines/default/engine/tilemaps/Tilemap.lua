@@ -87,6 +87,23 @@ function _M:point(x, y)
 	end
 end
 
+function _M:pointIterator(sx, sy, tx, ty)
+	sx = sx or 1
+	sy = sy or 1
+	tx = tx or self.data_w
+	ty = ty or self.data_h
+	local ps = {}
+	for i = sx, tx do for j = sy, ty do
+		ps[#ps+1] = self:point(i, j)
+	end end
+	local i = 0
+	return function()
+		if i >= #ps then return nil end
+		i = i + 1
+		return ps[i]
+	end
+end
+
 point_meta = {
 	__add = function(a, b)
 		if type(b) == "number" then return _M:point(a.x + b, a.y + b)
@@ -602,6 +619,12 @@ group_meta = {
 				g.list[i] = p + tp
 			end
 			g:updateReverse()
+		end,
+		fill = function(g, map, ...)
+			local chars = {...}
+			for i, p in ipairs(g.list) do
+				map:put(p, (rng.table(chars)))
+			end
 		end,
 		hasPoint = function(g, x, y)
 			if type(x) == "table" then x, y = x.x, x.y end
