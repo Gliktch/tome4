@@ -1175,7 +1175,7 @@ function resolvers.racial(race)
 	return {__resolver="racial", race}
 end
 function resolvers.calc.racial(t, e)
-	if e.type ~= "humanoid" and e.type ~= "giant" and e.type ~= "undead" then return end
+	if e.type ~= "humanoid" and e.type ~= "giant" and e.type ~= "undead" and e.type ~= "construct" then return end
 	local race = t[1] or e.subtype
 	if not racials[race] then return end
 
