@@ -30,10 +30,15 @@ function _M:init(size, fill_with)
 		self:setSize(size[1], size[2], fill_with)
 	end
 	self.merged_pos = self:point(1, 1)
+	self.on_merged_at = {}
 end
 
 function _M:getSize()
 	return self.data_w, self.data_h
+end
+
+function _M:area()
+	return self.data_w * self.data_h
 end
 
 function _M:setSize(w, h, fill_with)
@@ -587,6 +592,10 @@ group_meta = {
 		bounds = function(g)
 			return _M:pointsBoundingRectangle(g.list)
 		end,
+		size = function(g)
+			local from, to = g:bounds()
+			return to - from + 1
+		end,
 		submap = function(g, map)
 			local Proxy = require "engine.tilemaps.Proxy"
 
@@ -1116,11 +1125,16 @@ function _M:merge(x, y, tm, char_order, empty_char)
 			end
 		end
 	end
-	tm:mergedAt(x, y)
+	tm:mergedAt(x, y, self)
 end
 
-function _M:mergedAt(x, y)
+function _M:mergedAt(x, y, into)
 	self.merged_pos = self.merged_pos + self:point(x, y) - 1
+	for _, fct in ipairs(self.on_merged_at) do
+		if fct(self, x, y, into) then
+			into.on_merged_at[#into.on_merged_at+1] = fct
+		end
+	end
 end
 
 function _M:findExits(pos, kind, exitable_chars)
@@ -1573,3 +1587,102 @@ function _M:tunnelAStar(from, to, char, tunnel_through, tunnel_avoid, config)
 		end
 	end
 end
+
+-------------------------------------------- Binpacker
+local binpack_meta
+
+--- Make a point data, can be added
+function _M:binpack(margin_x, margin_y, maps)
+	margin_x, margin_y = margin_x or 1, margin_y or 1
+	local binpack = require('binpack')
+	local bp = binpack(self.data_w, self.data_h)
+	local maps = maps or {}
+	local g = {into=self, maps={}, bp=bp, default_margin_x=margin_x, default_margin_y=margin_y}
+	for _, m in ipairs(maps) do
+		g.maps[m] = {
+			margin_x = margin_x,
+			margin_y = margin_y,
+		}
+	end
+	setmetatable(g, binpack_meta)
+	return g
+end
+
+binpack_meta = {
+	__tostring = function(self)
+		return ("Binpacker (%d maps)"):format(#self.maps)
+	end,
+	__index = {
+		add = function(self, map, margin_x, margin_y)
+			margin_x, margin_y = margin_x or self.default_margin_x, margin_y or self.default_margin_y
+			self.maps[map] = {
+				margin_x = margin_x,
+				margin_y = margin_y,
+			}
+			return self
+		end,
+		compute = function(self, sort)
+			self.bp:clear(self.into.data_w, self.into.data_h)
+			local list = {}
+			for map, params in pairs(self.maps) do
+				params.computed, params.pos = nil, nil
+				list[#list+1] = map
+			end
+			if sort == "random" then
+				table.shuffle(list)
+			elseif sort == false then
+				table.sort(list, function(a, b) return a:area() > b:area() end)
+			elseif sort == true then
+				table.sort(list, function(a, b) return a:area() < b:area() end)
+			elseif type(sort) == "function" then
+				table.sort(list, sort)
+			end
+
+			for _, map in ipairs(list) do
+				local params = self.maps[map]
+				local coords = self.bp:insert(map.data_w + 2 * params.margin_x, map.data_h + 2 * params.margin_y)
+				if coords then
+					params.computed = true
+					params.pos = _M:point(coords.x + 1 + params.margin_x, coords.y + 1 + params.margin_y)
+				end
+			end
+
+			return self
+		end,
+		resolve = function(self)
+			for map, params in pairs(self.maps) do
+				if not params.computed then
+					local coords = self.bp:insert(map.data_w + 2 * params.margin_x, map.data_h + 2 * params.margin_y)
+					if not coords then return false end
+					params.computed = true
+					params.pos = _M:point(coords.x + 1 + params.margin_x, coords.y + 1 + params.margin_y)
+				end
+			end
+			return true
+		end,
+		merge = function(self)
+			self.merged_maps = {}
+			for map, params in pairs(self.maps) do if params.computed then
+				if map.build then map:build() end
+				self.into:merge(params.pos, map)
+				self.merged_maps[#self.merged_maps+1] = map
+			end end
+		end,
+		hasMerged = function(map)
+			return self.maps[map] and self.maps[map].computed and self.maps[map].pos
+		end,
+		getMerged = function(self)
+			return self.merged_maps
+		end,
+		getNotMerged = function(self)
+			local list = {}
+			for map, params in pairs(self.maps) do if not params.computed then
+				list[#list+1] = map
+			end end
+			return list
+		end,
+		iteratorMerged = function(self)
+			return ipairs(self.merged_maps)
+		end,
+	},
+}

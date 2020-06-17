@@ -31,13 +31,13 @@ if #rooms <= 1 then return true end -- Easy !
 local mstrun = MST.new()
 
 -- Generate all possible edges
-for i, room in ipairs(rooms) do
+for i, room in ipairs(rooms) do if not room.do_not_connect then
 	local c = room:centerPoint()
 	for j, proom in ipairs(rooms) do if proom ~= room then
 		local c1, c2 = room:centerPoint(), proom:centerPoint()
 		mstrun:edge(room, proom, core.fov.distance(c1.x, c1.y, c2.x, c2.y))
 	end end
-end
+end end
 
 -- Compute!
 mstrun:run()
