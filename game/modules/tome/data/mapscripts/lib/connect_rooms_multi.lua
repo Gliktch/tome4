@@ -24,20 +24,26 @@ local MST = require "engine.algorithms.MST"
 
 local max_links = args.max_links or 3
 local map = args.map
-local rooms = args.rooms
+local orooms = args.rooms
 
-if #rooms <= 1 then return true end -- Easy !
 
 local mstrun = MST.new()
 
+-- Extract usable rooms
+local rooms = {}
+for i, room in ipairs(orooms) do if not room.do_not_connect then
+	rooms[#rooms+1] = room
+end end
+if #rooms <= 1 then return true end -- Easy !
+
 -- Generate all possible edges
-for i, room in ipairs(rooms) do if not room.do_not_connect then
+for i, room in ipairs(rooms) do
 	local c = room:centerPoint()
 	for j, proom in ipairs(rooms) do if proom ~= room then
 		local c1, c2 = room:centerPoint(), proom:centerPoint()
 		mstrun:edge(room, proom, core.fov.distance(c1.x, c1.y, c2.x, c2.y))
 	end end
-end end
+end
 
 -- Compute!
 mstrun:run()

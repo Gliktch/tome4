@@ -1592,12 +1592,13 @@ end
 local binpack_meta
 
 --- Make a point data, can be added
-function _M:binpack(margin_x, margin_y, maps)
+function _M:binpack(size_x, size_y, margin_x, margin_y, maps)
 	margin_x, margin_y = margin_x or 1, margin_y or 1
+	size_x, size_y = size_x or self.data_w, size_y or self.data_h
 	local binpack = require('binpack')
-	local bp = binpack(self.data_w, self.data_h)
+	local bp = binpack(size_x, size_y)
 	local maps = maps or {}
-	local g = {into=self, maps={}, bp=bp, default_margin_x=margin_x, default_margin_y=margin_y}
+	local g = {into=self, maps={}, bp=bp, default_margin_x=margin_x, default_margin_y=margin_y, size_x=size_x, size_y=size_y}
 	for _, m in ipairs(maps) do
 		g.maps[m] = {
 			margin_x = margin_x,
@@ -1622,7 +1623,7 @@ binpack_meta = {
 			return self
 		end,
 		compute = function(self, sort)
-			self.bp:clear(self.into.data_w, self.into.data_h)
+			self.bp:clear(self.size_x, self.size_y)
 			local list = {}
 			for map, params in pairs(self.maps) do
 				params.computed, params.pos = nil, nil
@@ -1668,8 +1669,15 @@ binpack_meta = {
 				self.merged_maps[#self.merged_maps+1] = map
 			end end
 		end,
-		hasMerged = function(map)
-			return self.maps[map] and self.maps[map].computed and self.maps[map].pos
+		hasMerged = function(self, map)
+			if map then
+				return self.maps[map] and self.maps[map].computed and self.maps[map].pos
+			else
+				for map, params in pairs(self.maps) do
+					if map.required_to_merge and not params.computed then return false end
+				end
+				return true
+			end
 		end,
 		getMerged = function(self)
 			return self.merged_maps
