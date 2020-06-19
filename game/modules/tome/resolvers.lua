@@ -1201,6 +1201,14 @@ local racials_visuals = {
 			{kind="facial_features", percent=20, filter={"findname", "Dark Beard "}},
 			{kind="facial_features", percent=20, filter={"findname", "Dark Mustache "}},
 		},
+		Sholtar = {
+			{kind="skin", filter={"oneof", {"Skin Color 6", "Skin Color 7", "Skin Color 8"}}},
+			{kind="skin", percent=5, filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
+			{kind="hairs", filter={"findname", "Dark Hair"}},
+			{kind="hairs", percent=10, filter={"findname", "Redhead "}},
+			{kind="facial_features", percent=20, filter={"findname", "Dark Beard "}},
+			{kind="facial_features", percent=20, filter={"findname", "Dark Mustache "}},
+		},
 		Higher = {
 			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
 			{kind="skin", percent=5, filter={"oneof", {"Skin Color 6", "Skin Color 7", "Skin Color 8"}}},
@@ -1227,6 +1235,11 @@ local racials_visuals = {
 		Halfling = {
 			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4"}}},
 			{kind="skin", percent=5, filter={"oneof", {"Skin Color 5", "Skin Color 6"}}},
+			{kind="hairs", filter={"all"}},
+		},
+		DarkSkinHalfling = {
+			{kind="skin", filter={"oneof", {"Skin Color 5", "Skin Color 6"}}},
+			{kind="skin", percent=5, filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4"}}},
 			{kind="hairs", filter={"all"}},
 		},
 	},

@@ -836,7 +836,7 @@ function _M:spawnWorldAmbush(enc, dx, dy, kind)
 		},
 
 		reload_lists = false,
-		npc_list = mod.class.NPC:loadList("/data/general/npcs/all.lua", nil, nil, 
+		npc_list = mod.class.NPC:loadList(enc.npc_list or "/data/general/npcs/all.lua", nil, nil, 
 			function(e) 
 				e.make_escort=nil
 				e.instakill_immune = 1
