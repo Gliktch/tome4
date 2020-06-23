@@ -1863,21 +1863,23 @@ function _M:allowedRanks()
 	return { 1, 2, 3, 3.2, 3.5, 4, 5, 10 }
 end
 
-function _M:TextRank()
+function _M:textRank(use_rank)
+	use_rank = use_rank or self.rank
 	local rank, color = _t"normal", "#ANTIQUE_WHITE#"
-	if self.rank == 1 then rank, color = _t"critter", "#C0C0C0#"
-	elseif self.rank == 2 then rank, color = _t"normal", "#ANTIQUE_WHITE#"
-	elseif self.rank == 3 then rank, color = _t"elite", "#YELLOW#"
-	elseif self.rank == 3.2 then rank, color = _t"rare", "#SALMON#"
-	elseif self.rank == 3.5 then rank, color = _t"unique", "#SANDY_BROWN#"
-	elseif self.rank == 4 then rank, color = _t"boss", "#ORANGE#"
-	elseif self.rank == 5 then rank, color = _t"elite boss", "#GOLD#"
-	elseif self.rank >= 10 then rank, color = _t"god", "#FF4000#"
+	if use_rank == 1 then rank, color = _t"critter", "#C0C0C0#"
+	elseif use_rank == 2 then rank, color = _t"normal", "#ANTIQUE_WHITE#"
+	elseif use_rank == 3 then rank, color = _t"elite", "#YELLOW#"
+	elseif use_rank == 3.2 then rank, color = _t"rare", "#SALMON#"
+	elseif use_rank == 3.5 then rank, color = _t"unique", "#SANDY_BROWN#"
+	elseif use_rank == 4 then rank, color = _t"boss", "#ORANGE#"
+	elseif use_rank == 5 then rank, color = _t"elite boss", "#GOLD#"
+	elseif use_rank >= 10 then rank, color = _t"god", "#FF4000#"
 	end
 	return rank, color
 end
+_M.TextRank = _M.textRank -- This drove me crazy to have them with the bad camelCase
 
-function _M:TextSizeCategory()
+function _M:textSizeCategory()
 	local sizecat = _t"medium"
 	if self.size_category <= 1 then sizecat = _t"tiny"
 	elseif self.size_category == 2 then sizecat = _t"small"
@@ -1888,6 +1890,7 @@ function _M:TextSizeCategory()
 	end
 	return sizecat
 end
+_M.TextSizeCategory = _M.textSizeCategory -- This drove me crazy to have them with the bad camelCase
 
 function _M:colorStats(stat)
 	local score = 0
@@ -7993,8 +7996,10 @@ function _M:doWearTinker(wear_inven, wear_item, wear_o, base_inven, base_item, b
 		if wear_inven and wear_item then self:removeObject(wear_inven, wear_item) end
 
 		self:fireTalentCheck("callbackOnWearTinker", wear_o, base_o)
-		if not self:attr("quick_wear_takeoff") or self:attr("quick_wear_takeoff_disable") then self:useEnergy() end
-		if self:attr("quick_wear_takeoff") then self:setEffect(self.EFF_SWIFT_HANDS_CD, 1, {}) self.tmp[self.EFF_SWIFT_HANDS_CD].dur = 0 end
+		if not self:attr("free_tinker_attach") then
+			if not self:attr("quick_wear_takeoff") or self:attr("quick_wear_takeoff_disable") then self:useEnergy() end
+			if self:attr("quick_wear_takeoff") then self:setEffect(self.EFF_SWIFT_HANDS_CD, 1, {}) self.tmp[self.EFF_SWIFT_HANDS_CD].dur = 0 end
+		end
 		return true, base_o
 	else
 		game.logPlayer(self, "You fail to attach %s to %s.", wear_o:getName{do_color=true}, base_o:getName{do_color=true})
