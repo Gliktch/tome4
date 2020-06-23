@@ -5832,6 +5832,21 @@ function _M:preUseTalent(ab, silent, fake)
 			end
 		end
 
+		-- Psionic can fail
+		if (ab.is_mind and not self:isTalentActive(ab.id)) and not fake and self:attr("mind_failure") then
+			if rng.percent(self:attr("mind_failure")) then
+				if not silent then game.logSeen(self, "%s's %s has been disrupted by #ORCHID#anti-psionic forces#LAST#!", self:getName():capitalize(), ab.name) end
+				if not util.getval(ab.no_energy, self, ab) then
+					self:useEnergy()
+				else
+					self.turn_procs.forbid_instant_talents = self.turn_procs.forbid_instant_talents or {}
+					self.turn_procs.forbid_instant_talents[ab.id] = true
+				end
+				self:fireTalentCheck("callbackOnTalentDisturbed", ab)
+				return false
+			end
+		end
+
 		-- Chronomancy can fail, causing an anomaly but returning Paradox
 		if (ab.paradox or (ab.sustain_paradox and not self:isTalentActive(ab.id))) and not fake and not self:attr("force_talent_ignore_ressources") then
 			-- Random anomalies reduce paradox by twice the talent's paradox cost
