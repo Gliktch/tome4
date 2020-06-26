@@ -4627,6 +4627,40 @@ newEffect{
 	end,
 }
 
+local base_energy_alteration = {
+	type = "magical",
+	subtype = { meta=true, },
+	status = "beneficial",
+	parameters = {power=20},
+	on_gain = function(self, err) return nil, true end,
+	on_lose = function(self, err) return nil, true end,
+	decrease = 0,
+	charges_smallfont = true,
+	charges = function(self, eff)
+		return math.floor(eff.dur + 1)
+	end,
+	activate = function(self, eff, ed)
+		self:effectTemporaryValue(eff, "all_damage_convert", ed.dt)
+		self:effectTemporaryValue(eff, "all_damage_convert_percent", eff.power)
+	end,
+	on_timeout = function(self, eff)
+		eff.dur = eff.dur - 1
+	end,
+}
+for _, dt in ipairs{
+	DamageType.FIRE, DamageType.COLD, DamageType.ARCANE, DamageType.TEMPORAL,
+	DamageType.PHYSICAL, DamageType.MIND, DamageType.BLIGHT, DamageType.NATURE,
+	DamageType.LIGHT, DamageType.DARKNESS, DamageType.LIGHTNING, DamageType.ACID,
+} do
+	local name = DamageType:get(dt).name
+	local e = table.clone(base_energy_alteration, true)
+	e.name = "ENERGY_ALTERATION_"..dt
+	e.desc = ("Energy Alteration (%s)"):tformat(name)
+	e.long_desc = function(self, eff) return ("%d%% of all damage converted to %s."):tformat(eff.power, name) end
+	e.dt = dt
+	newEffect(e)
+end
+
 newEffect{
 	name = "ELEMENTAL_MIRAGE1", image = "talents/blur_sight.png",
 	desc = _t"Elemental Mirage (First Element)",

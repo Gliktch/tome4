@@ -112,6 +112,8 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 	end
 
 	local source_talent = src.__projecting_for and src.__projecting_for.project_type and (src.__projecting_for.project_type.talent_id or src.__projecting_for.project_type.talent) and src.getTalentFromId and src:getTalentFromId(src.__projecting_for.project_type.talent or src.__projecting_for.project_type.talent_id)
+	local source_talent_mode = src.__projecting_for and src.__projecting_for.project_type and src.__projecting_for.project_type.talent_mode
+	if not source_talent_mode and src.getCurrentTalentMode then source_talent_mode = src:getCurrentTalentMode() end
 
 	local terrain = game.level.map(x, y, Map.TERRAIN)
 	if terrain then terrain:check("damage_project", src, x, y, type, dam, source_talent) end
@@ -517,7 +519,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 
 		print("[PROJECTOR] final dam after static checks", dam)
 
-		local hd = {"DamageProjector:final", src=src, target=target, x=x, y=y, type=type, dam=dam, state=state, source_talent=source_talent}
+		local hd = {"DamageProjector:final", src=src, target=target, x=x, y=y, type=type, dam=dam, state=state, source_talent=source_talent, source_talent_mode=source_talent_mode}
 		if src:triggerHook(hd) then dam = hd.dam if hd.stopped then return hd.stopped end end
 		if target.iterCallbacks then
 			for cb in target:iterCallbacks("callbackOnTakeDamage") do
@@ -537,7 +539,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 		print("[PROJECTOR] final dam after hooks and callbacks", dam)
 
 		local dead
-		dead, dam = target:takeHit(dam, src, {damtype=type, damstate=state, source_talent=source_talent, initial_dam=initial_dam})
+		dead, dam = target:takeHit(dam, src, {damtype=type, damstate=state, source_talent=source_talent, source_talent_mode=source_talent_mode, initial_dam=initial_dam})
 
 		-- Log damage for later
 		if not DamageType:get(type).hideMessage then

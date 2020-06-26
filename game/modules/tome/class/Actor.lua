@@ -6174,7 +6174,9 @@ function _M:iterCallbacks(event)
 				return function(...)
 					local old_ps = self.__project_source
 					self.__project_source = self.sustain_talents[tid]
+					self:setCurrentTalentMode("callback")
 					local ret = self:callTalent(tid, event, ...)
+					self:setCurrentTalentMode(nil)
 					self.__project_source = old_ps
 					return ret
 				end, priority, kind
@@ -7522,6 +7524,8 @@ end
 
 --- Called when we are initiating a projection
 function _M:on_project_init(t, x, y, damtype, dam, particles)
+	t.talent_mode = self:getCurrentTalentMode()
+
 	if self:attr("nullify_all_friendlyfire") and not t.ignore_nullify_all_friendlyfire then
 		local dt = DamageType:exists(damtype)
 		if not dt or not dt.ignore_nullify_all_friendlyfire then

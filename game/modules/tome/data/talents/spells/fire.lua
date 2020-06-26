@@ -99,6 +99,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.FIRE)
 		self:project(tg, x, y, DamageType.FLAMESHOCK, {dur=t.getStunDuration(self, t), dam=self:spellCrit(t.getDamage(self, t))})
 
 		if self:attr("burning_wake") then
@@ -192,6 +193,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.FIRE)
 		local _ _, _, _, x, y = self:canProject(tg, x, y)
 		-- Add a lasting map effect
 		game.level.map:addEffect(self,
