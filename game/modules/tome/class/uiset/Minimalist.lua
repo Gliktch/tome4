@@ -1164,7 +1164,7 @@ function _M:handleEffect(player, eff_id, e, p, x, y, hs, bx, by, is_first, scale
 			txt.fw, txt.fh = font:size(dur)
 		end
 		if e.charges then
-			local font = e.decrease > 0 or e.charges_smallfont and self.buff_font_smallmed or self.buff_font
+			local font = (e.decrease > 0 or e.charges_smallfont) and self.buff_font_smallmed or self.buff_font
 
 			txt2 = font:draw(charges, 40, colors.WHITE.r, colors.WHITE.g, colors.WHITE.b, true)[1]
 			txt2.fw, txt2.fh = font:size(charges)

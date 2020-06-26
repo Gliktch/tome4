@@ -5247,3 +5247,22 @@ newEffect{
 		end
 	end,
 }
+
+newEffect{
+	name = "CLEANSING_FLAMES", image = "talents/cleansing_flames.png",
+	desc = _t"Cleansing Flames",
+	long_desc = function(self, eff) return ("The target is on fire, taking %0.2f fire damage per turn and %d%% chance per turn of removing a physical or magical effect from all targets affected by Inferno, Burning Wake or Cleansing Flames."):tformat(eff.power, eff.chance) end,
+	charges = function(self, eff) return (math.floor(eff.power)) end,
+	type = "magical",
+	subtype = { fire=true, cleanse=true },
+	status = "beneficial",
+	parameters = { power=10 },
+	on_gain = function(self, err) return _t"#Target# bathes in cleansing flames!", true end,
+	on_lose = function(self, err) return _t"#Target# stops burning.", true end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "cleansing_flames", eff.chance)
+	end,
+	on_timeout = function(self, eff)
+		DamageType:get(DamageType.FIRE).projector(self, self.x, self.y, DamageType.FIRE, eff.power)
+	end,
+}
