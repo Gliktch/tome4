@@ -4662,22 +4662,6 @@ for _, dt in ipairs{
 end
 
 newEffect{
-	name = "ELEMENTAL_MIRAGE1", image = "talents/blur_sight.png",
-	desc = _t"Elemental Mirage (First Element)",
-	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):tformat(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
-	type = "magical",
-	subtype = { phantasm=true,},
-	status = "beneficial",
-	parameters = {dt=DamageType.ARCANE, power=10},
-	on_gain = function(self, err) return nil, true end,
-	on_lose = function(self, err) return nil, true end,
-	activate = function(self, eff)
-		self:effectTemporaryValue(eff, "inc_damage", {[eff.dt] = eff.power})
-		if eff.pen then self:effectTemporaryValue(eff, "resists_pen", {[eff.dt] = eff.pen}) end
-	end,
-}
-
-newEffect{
 	name = "LICH_FEAR", image = "talents/lichform.png",
 	desc = _t"Frightening Presence",
 	long_desc = function(self, eff) return ("The mere sight of a Lich sent you into a frightened state, reducing all saves by %d, all damage by %d%% and movement speed by %d%%."):tformat(eff.saves, eff.dam, eff.speed) end,
@@ -4693,22 +4677,6 @@ newEffect{
 		self:effectTemporaryValue(eff, "combat_physresist", -eff.saves)
 		self:effectTemporaryValue(eff, "combat_spellresist", -eff.saves)
 		self:effectTemporaryValue(eff, "movement_speed", -eff.speed / 100)
-	end,
-}
-
-newEffect{
-	name = "ELEMENTAL_MIRAGE2", image = "talents/alter_mirage.png",
-	desc = _t"Elemental Mirage (Second Element)",
-	long_desc = function(self, eff) return ("%s damage increased by %d%% and resistance penetration by %d%%."):tformat(DamageType:get(eff.dt).name, eff.power, eff.pen or 0) end,
-	type = "magical",
-	subtype = { phantasm=true,},
-	status = "beneficial",
-	parameters = {dt=DamageType.FIRE, power=10},
-	on_gain = function(self, err) return nil, true end,
-	on_lose = function(self, err) return nil, true end,
-	activate = function(self, eff)
-		self:effectTemporaryValue(eff, "inc_damage", {[eff.dt] = eff.power})
-		if eff.pen then self:effectTemporaryValue(eff, "resists_pen", {[eff.dt] = eff.pen}) end
 	end,
 }
 

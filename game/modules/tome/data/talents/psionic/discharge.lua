@@ -183,7 +183,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Focused Wrath",   
+	name = "Focused Wrath",
 	type = {"psionic/discharge", 4},
 	points = 5, 
 	require = psi_wil_high4,

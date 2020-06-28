@@ -1766,7 +1766,7 @@ end
 
 --- Gets spellpower raw
 function _M:combatSpellpowerRaw(add)
-	if self.combat_precomputed_spellpower then return self.combat_precomputed_spellpower end
+	if self.combat_precomputed_spellpower then return self.combat_precomputed_spellpower, 1 end
 	add = add or 0
 
 	if self.combat_generic_power then

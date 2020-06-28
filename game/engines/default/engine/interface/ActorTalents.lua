@@ -1054,7 +1054,7 @@ end
 function _M:getTalentTarget(t)
 	if type(t.target) == "function" then
 		typ = t.target(self, t)
-		typ.talent_mode = self:getCurrentTalentMode()
+		if typ then typ.talent_mode = self:getCurrentTalentMode() end
 		return typ
 	end
 	if t.target then t.target.talent_mode = self:getCurrentTalentMode() end -- Yes t is a global, not linked to actor, but this shouldnt matter as this will be set every time anyway
