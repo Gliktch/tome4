@@ -232,7 +232,9 @@ newTalent{
 		image.life = t:_getLife(self)
 
 		-- Clone particles
-
+		for ps, _ in pairs(self.__particles) do
+			image:addParticles(ps:clone())
+		end
 
 		local dam_bonus = self:callTalent(self.T_INVISIBILITY, "getDamPower")
 		image:setEffect(image.EFF_MIRROR_IMAGE_FAKE, 1, {dam=dam_bonus})
