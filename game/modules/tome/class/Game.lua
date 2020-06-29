@@ -2024,6 +2024,8 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			game.player:setEffect("EFF_STUNNED", 1, {apply_power=200})
+do return end
 			local f, err = loadfile("/data/general/events/rat-lich.lua")
 			print(f, err)
 			setfenv(f, setmetatable({level=self.level, zone=self.zone}, {__index=_G}))
