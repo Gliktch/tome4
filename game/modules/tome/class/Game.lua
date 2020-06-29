@@ -2300,7 +2300,9 @@ do return end
 			local mx, my = self.mouse.last_pos.x, self.mouse.last_pos.y
 			local tmx, tmy = self.level.map:getMouseTile(mx, my)
 			local a = self.level.map(tmx, tmy, Map.ACTOR)
-			self:registerDialog(require("mod.dialogs.CharacterSheet").new((config.settings.cheat or self.player:canSee(a)) and a or self.player))
+			a = (config.settings.cheat or self.player:canSee(a)) and a or self.player
+			if a.showCharacterSheet then a = a:showCharacterSheet() end
+			self:registerDialog(require("mod.dialogs.CharacterSheet").new(a))
 		end,
 
 		CENTER_ON_PLAYER = function()

@@ -150,7 +150,7 @@ newTalent{
 	points = 5,
 	mana = 30,
 	cooldown = 20,
-	tactical = { DEFEND = 3,},
+	tactical = { DEFEND = 3, ATTACK = 2 },
 	getLife = function(self, t) return math.ceil(self:combatTalentScale(t, 5, 12)) end,
 	on_pre_use = function(self, t) return self.in_combat and not self:hasEffect(self.EFF_MIRROR_IMAGE_REAL) end,
 	action = function(self, t)
@@ -191,7 +191,7 @@ newTalent{
 			combat_armor = 0,
 			max_mana = 10000,
 			mana = 10000,
-			rank = 1,
+			rank = self.rank,
 			difficulty_boosted = 1,
 			life_rating = 0,
 			life_regen = 0, no_life_regen = 1,
@@ -253,9 +253,8 @@ newTalent{
 			image.ai_state.use_taunt = true
 		else
 			-- Dont reveal ourself to player
-			image.tooltip = function(self, x, y, seen_by)
-				return mod.class.NPC.tooltip(self.summoner, x, y, seen_by)
-			end
+			image.tooltip = function(self, x, y, seen_by) return mod.class.NPC.tooltip(self.summoner, x, y, seen_by) end
+			image.showCharacterSheet = function(self) return self.summoner end
 			image.ai_state.use_taunt = false
 		end
 
