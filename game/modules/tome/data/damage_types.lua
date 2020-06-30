@@ -4288,6 +4288,18 @@ newDamageType{
 	end,
 }
 
+newDamageType{
+	name = _t"fetid", type = "FETID", text_color = "#DARK_GREEN#",
+	damdesc_split = { {DamageType.BLIGHT, 0.5}, {DamageType.DARKNESS, 0.5} },
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local realdam1 = DamageType:get(DamageType.BLIGHT).projector(src, x, y, DamageType.BLIGHT, dam / 2, state)
+		local realdam2 = DamageType:get(DamageType.DARKNESS).projector(src, x, y, DamageType.DARKNESS, dam / 2, state)
+		return (realdam1 or 0) + (realdam2 or 0)
+	end,
+}
+
 -- Cold/Darkness damage
 newDamageType{
 	name = _t"frostdusk", type = "FROSTDUSK", text_color = "#DARK_BLUE#",
