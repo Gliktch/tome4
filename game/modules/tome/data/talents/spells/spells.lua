@@ -126,7 +126,11 @@ function necroArmyStats(self)
 	if not game.party or not game.party:hasMember(self) then
 		for _, act in pairs(game.level.entities) do if act.summoner == self and act.necrotic_minion then
 			stats.nb = stats.nb + 1
-			if act.skeleton_minion then stats.nb_skeleton = stats.nb_skeleton + 1 end
+			if act.skeleton_minion then
+				stats.nb_skeleton = stats.nb_skeleton + 1
+				if act.skeleton_minion == "mage" then stats.has_skeleton_mage = true end
+				if act.skeleton_minion == "archer" then stats.has_skeleton_archer = true end
+			end
 			if act.ghoul_minion then stats.nb_ghoul = stats.nb_ghoul + 1 end
 			if act.lord_of_skulls then stats.lord_of_skulls = act end
 			if act.is_bone_giant then stats.bone_giant = act end
@@ -136,7 +140,11 @@ function necroArmyStats(self)
 	else
 		for act, _ in pairs(game.party.members) do if act.summoner == self and act.necrotic_minion then
 			stats.nb = stats.nb + 1
-			if act.skeleton_minion then stats.nb_skeleton = stats.nb_skeleton + 1 end
+			if act.skeleton_minion then
+				stats.nb_skeleton = stats.nb_skeleton + 1
+				if act.skeleton_minion == "mage" then stats.has_skeleton_mage = true end
+				if act.skeleton_minion == "archer" then stats.has_skeleton_archer = true end
+			end
 			if act.ghoul_minion then stats.nb_ghoul = stats.nb_ghoul + 1 end
 			if act.lord_of_skulls then stats.lord_of_skulls = act end
 			if act.is_bone_giant then stats.bone_giant = act end
