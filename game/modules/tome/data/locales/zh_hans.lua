@@ -290,6 +290,7 @@ t("You do not have enough %s to use %s.", "你没有足够的%s施展：%s", "lo
 t("You fail to use %s due to your equilibrium!", "由于你的失衡值过高你使用 %s 失败！", "logPlayer")
 t("%s's %s has been disrupted by #ORCHID#anti-magic forces#LAST#!", "%s的%s被#ORCHID#反魔法力量#LAST#打断了！", "logSeen")
 t("%s's %s has been disrupted by #ORCHID#anti-nature forces#LAST#!", "%s的%s被#ORCHID#反自然力量#LAST#打断了！", "logSeen")
+t("%s's %s has been disrupted by #ORCHID#anti-psionic forces#LAST#!", "%s的%s被#ORCHID#反灵能力量#LAST#打断了！", "logSeen")
 t("%s is confused and fails to use %s.", "%s陷入混乱使用%s时失败。", "logSeen")
 t("%s fails to use %s.", "%s使用%s时失败。", "logSeen")
 t("%s fumbles and fails to use %s, injuring %s!", "%s使用%s失败,还弄伤了%s!", "logSeen")
@@ -389,6 +390,44 @@ t("This tinker can not be applied to this item.", "这个配件不能装在该�
 t("You already have a tinker on this item.", "这个物品上已经有了配件", "logPlayer")
 t("You attach %s to your %s.", "你将%s附着于%s", "logPlayer")
 t("You fail to attach %s to %s.", "你未能将%s装载在%s上。", "logPlayer")
+
+
+------------------------------------------------
+section "game/modules/tome/class/EscortRewards.lua"
+
+t("%s, the lost warrior", "%s, 迷路的战士", "_t")
+t("Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I will not be able to continue the road alone. Would you help me?", "帮帮我！我在这地方迷路了，我有个朋友给我留下了一个传送门，不过恐怕靠我自己是到不了那里了，你能帮我一下吗？", "_t")
+t("%s, the injured seer", "%s, 受伤的先知", "_t")
+t("%s, the repented thief", "%s, 忏悔的盗贼", "_t")
+t("%s, the lone alchemist", "%s, 落单的炼金术师", "_t")
+t("He looks tired and wounded.", "他看起来又累又饿，且身受重伤。", "_t")
+t("%s, the lost sun paladin", "%s, 迷路的太阳骑士", "_t")
+t("%s, the lost defiler", "%s, 迷路的堕落者", "_t")
+t("temporal portal", "时空传送门", "_t")
+t("%s, temporal explorer", "%s, 时空旅行者", "_t")
+t("She looks tired and wounded. She is so similar to you and yet completely different. Weird.", "她看起来又累又饿，且身受重伤。她跟你是如此的相像，但完全不一样。好奇怪。", "_t")
+t("Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?", "帮帮我！我在这地方迷路了，我有个朋友给我留下了一个传送门，不过我打了太多仗，恐怕靠我自己是到不了那里了，你能帮我一下吗？", "_t")
+t("%s, the worried loremaster", "%s, 担忧的贤者", "_t")
+t("She looks tired and wounded.", "她看起来又累又饿，且身受重伤。", "_t")
+t("mental", "精神", "_t")
+t("physical", "物理", "_t")
+t("spell", "法术", "_t")
+t("improved %s by +%d", "提升 %s +%d", "tformat")
+t("[Improve %s by +%d]", "[提升 %s +%d]", "tformat")
+t("improved %s save by +%d", "提升 %s豁免 +%d", "tformat")
+t("[Improve %s save by +%d]", "[提升 %s豁免 +%d]", "tformat")
+t("%s talent %s (+%d level(s))", "%s 技能 %s (+%d 等级)", "tformat")
+t("improved", "提升了", "_t")
+t("learnt", "学习了", "_t")
+t("Improve", "提升", "_t")
+t("Learn", "学习", "_t")
+t("[%s talent %s (+%d level(s))]", "[%s 技能 %s (+%d 等级)]", "tformat")
+t("Select the party member to receive the reward:", "选择队伍中获得奖励的成员：", "_t")
+t("gained talent category %s (at mastery %0.2f)", "解锁技能树 %s (技能等级 %0.2f)", "tformat")
+t("[Allow training of talent category %s (at mastery %0.2f)]", "[解锁技能树 %s (技能等级 %0.2f)]", "tformat")
+t([[#GOLD#%s / %s#LAST#
+%s]], [[#GOLD#%s/%s#LAST#
+%s]], "tformat")
 
 
 ------------------------------------------------
@@ -4847,25 +4886,6 @@ t("Go away; I do not care for the weak.", "走开，我可没有义务帮助弱�
 ------------------------------------------------
 section "game/modules/tome/data/chats/escort-quest.lua"
 
-t("mental", "精神", "_t")
-t("physical", "物理", "_t")
-t("spell", "法术", "_t")
-t("improved %s by +%d", "提升 %s +%d", "tformat")
-t("[Improve %s by +%d]", "[提升 %s +%d]", "tformat")
-t("improved %s save by +%d", "提升 %s豁免 +%d", "tformat")
-t("[Improve %s save by +%d]", "[提升 %s豁免 +%d]", "tformat")
-t("%s talent %s (+%d level(s))", "%s 技能 %s (+%d 等级)", "tformat")
-t("improved", "提升了", "_t")
-t("learnt", "学习了", "_t")
-t("Improve", "提升", "_t")
-t("Learn", "学习", "_t")
-t("[%s talent %s (+%d level(s))]", "[%s 技能 %s (+%d 等级)]", "tformat")
-t("Select the party member to receive the reward:", "选择队伍中获得奖励的成员：", "_t")
-t("gained talent category %s (at mastery %0.2f)", "解锁技能树 %s (技能等级 %0.2f)", "tformat")
-t("[Allow training of talent category %s (at mastery %0.2f)]", "[解锁技能树 %s (技能等级 %0.2f)]", "tformat")
-t([[#GOLD#%s / %s#LAST#
-%s]], [[#GOLD#%s/%s#LAST#
-%s]], "tformat")
 t([[At the last moment you invoke the power of nature.  The portal fizzles and transports @npcname@ to Zigur.
 You can feel Nature thanking you.]], [[最后你召唤了自然之力，传送门发出嘶嘶的响声，将 @npcname@ 传送到了伊格。
 你可以感觉到自然对你的感激。]], "_t")
@@ -6962,6 +6982,7 @@ t("%s resists the void!", "%s抵抗了虚空！", "logSeen")
 t("#YELLOW#Lite Light#LAST# Burst (radius 1)", "#YELLOW#光照#LAST#爆发（范围 1）", "_t")
 t("dark light", "黑暗之光", "_t")
 t("meteor", "陨石", "_t")
+t("fetid", "恶臭", "_t")
 t("frostdusk", "霜暮", "_t")
 t("chill of the tomb", "极寒坟墓", "_t")
 t("putrescent liquefaction", "腐烂液化", "_t")
@@ -7582,9 +7603,26 @@ t("#Source# burns #Target#!", "#Source#灼烧了#Target#!", "logCombat")
 t("lava", "岩浆", "entity subtype")
 t("wall", "墙壁", "entity type")
 t("lava wall", "熔岩墙壁", "entity name")
-t("floor", "地板", "entity type")
 t("molten_lava", "融化岩浆", "entity subtype")
 t("molten lava", "融化的岩浆", "entity name")
+t("ladder to the next level", "通往下一层的台阶", "entity name")
+t("ladder to the previous level", "通往上一层的台阶", "entity name")
+t("cave", "山洞", "entity subtype")
+t("floor", "地板", "entity type")
+t("ladder to worldmap", "通往世界地图的台阶", "entity name")
+
+
+------------------------------------------------
+section "game/modules/tome/data/general/grids/malrok_walls.lua"
+
+t("exit to the worldmap", "离开前往世界地图", "entity name")
+t("previous level", "前往上一层", "entity name")
+t("next level", "前往下一层", "entity name")
+t("floor", "地板", "entity name")
+t("door", "门", "entity name")
+t("rocks", "岩石", "entity subtype")
+t("wall", "墙壁", "entity type")
+t("open door", "敞开的门", "entity name")
 
 
 ------------------------------------------------
@@ -8077,7 +8115,7 @@ t("elemental", "元素", "entity type")
 t("gwelgoroth", "格维格罗斯", "entity name")
 t("greater gwelgoroth", "强化格维格罗斯", "entity name")
 t("ultimate gwelgoroth", "究极格维格罗斯", "entity name")
-t("Gwelgoroth are mighty air elementals, torn away from their home world by a powerful magic.", "格维格罗斯是非常强大的气系元素，它们被一股强大的魔法从老家里赶出来。", "_t")
+t("Gwelgoroth are mighty air elementals, a pure incarnation of lightning and thunder.", "格维格罗斯是强大的气系元素，它们是电闪雷鸣的化身。", "_t")
 
 
 ------------------------------------------------
@@ -8284,7 +8322,7 @@ section "game/modules/tome/data/general/npcs/losgoroth.lua"
 
 t("elemental", "元素", "entity type")
 t("void", "虚空", "entity subtype")
-t("Losgoroth are mighty void elementals, native to the void between the stars. They are rarely seen on a planet's surface.", "洛斯格罗斯是非常强大的虚空生物，居住于群星之间的星空中。在星球表面几乎看不到这种生物。", "_t")
+t("Losgoroth are mighty void elementals, native to the void between the stars. They are rarely seen on a planet's surface.", "洛斯格罗斯是强大的虚空生物，居住于群星之间的星空中。在星球表面几乎看不到这种生物。", "_t")
 t("losgoroth", "洛斯格罗斯", "entity name")
 t("manaworm", "魔法蠕虫", "entity name")
 t("Manaworms are losgoroth which feed on the mana of arcane users. If they ever come in contact with a spellcaster, they latch on and start draining mana away.", "魔法蠕虫是以施法者的魔力为食的虚空生物。如果它们近距离接触到法师，它们会缠上去并吸干对方的魔力。", "_t")
@@ -8324,6 +8362,10 @@ t("fire imp", "火魔婴", "entity name")
 t("A small demon, lobbing spells at you.", "一只小恶魔，它向你发射法术。", "_t")
 t("wretchling", "酸液树魔", "entity name")
 t("Acid oozes all over this small demon's skin.  Beware, they tend to hunt in packs.", "酸液从这只小恶魔的身体上渗出。当心，它们喜欢群体行动。", "_t")
+t("onilug", "欧尼路格", "entity name")
+t([[A gaunt vaguely humanoid shape featuring unadorned grey leathery skin. Its arms and legs seem somehow too long and it stands toll, projecting an ominous shadow even in darkness.
+Its glowing red eyes shiny with both cruelty and a deep frightening intellect.]], [[一个憔悴而模糊不清的人形生物，全身是未经修饰的灰色皮肤。不知为何，它的胳膊和腿很长。当它耸立在那里的时候，即使在黑暗中也会投下不祥的阴影。
+它发光的红色眼睛闪烁着，目光里蕴含着既残酷又深邃可怕的智慧。]], "_t")
 t("quasit", "夸塞魔", "entity name")
 t("A small, heavily armoured demon, rushing toward you.", "一只装备了重甲的小恶魔，它向你发起冲锋。", "_t")
 
@@ -8604,7 +8646,7 @@ t("ice", "寒冰", "entity subtype")
 t("shivgoroth", "西弗格罗斯", "entity name")
 t("greater shivgoroth", "强化西弗格罗斯", "entity name")
 t("ultimate shivgoroth", "究极西弗格罗斯", "entity name")
-t("Shivgoroth are mighty ice elementals, torn away from their home world by a powerful magic.", "西弗格罗斯是非常强大的元素，它们被一股强大的魔法从老家里赶出来", "_t")
+t("Shivgoroth are mighty ice elementals, torn away from their home world by a powerful magic.", "西弗格罗斯是强大的寒冰元素，它们被一股强大的魔法从老家里赶出来", "_t")
 
 
 ------------------------------------------------
@@ -15121,7 +15163,7 @@ At the other end of the cavern a wall of ice blocked our way.  Linaniil held up 
 
 This cold, crypt-like hollow was covered in smooth, glistening ice on all sides.  The walls were square and straight, and ancient pillars of marble were dotted about the room.  On the pillars and walls were weathered runes and symbols.  I came close to study some, but couldn’t recognise them from any of my studies.  “What was this place?” I asked, turning to Linaniil.  “It seems older even than Sher’Tul.”
 
-She ran her hand over one of the walls, tracing the outline of a door.  “It be a temple to Quekorja, god of a race called the Weissi.  The were killed off by the Sher’Tul long before our races were born.  They did build this temple in honour of Quekorja, and the last of them did die here defending her.”
+She ran her hand over one of the walls, tracing the outline of a door.  “It be a temple to Quekorja, god of a race whose name somehow escapes my mind.  The were killed off by the Sher’Tul long before our races were born.  They did build this temple in honour of Quekorja, and the last of them did die here defending her.”
 
 I looked about in awe.  Though I had explored many Sher’Tul ruins I hadn’t seen anything like this.  The architecture was simple but elegant.  There was a crude beauty to it all.  I turned back to the door Linaniil was examining.
 
@@ -15217,7 +15259,7 @@ But ah, that is another tale, one indeed of many tales, in the long and rich his
 
 这是个冰冷的、地穴般的空洞，四周覆盖着光滑闪亮的冰块。这里的墙壁是规整的方形，房间里散布着古老的大理石柱子。在柱子和墙壁上满是风化的符文和符号。我试图靠近研究它们，但我无法认出任何东西来，这超出了我的学识。“这是个地方什么？”我转向莱娜尼尔问道“这看起来似乎比夏·图尔还古老。”
 
-她将手伸向墙壁，勾勒出一个门的轮廓。“这是奎科加的一座神庙，它一个叫做维西的种族之神。远在我们的种族出生之前，这个种族已经被夏·图尔人打败了。他们曾经为了纪念奎科加而建造了这座神庙，而他们中的最后一批人为了保卫这座神庙在这里战死。”
+她将手伸向墙壁，勾勒出一个门的轮廓。“这是奎科加的一座神庙，是一个名字不知为何被我遗忘了的种族之神。远在我们的种族出生之前，这个种族已经被夏·图尔人打败了。他们曾经为了纪念奎科加而建造了这座神庙，而他们中的最后一批人为了保卫这座神庙在这里战死。”
 
 我敬畏地看着周围的一切。虽然我曾探索过很多夏·图尔遗址，但我从未见过这样的景象。这座建筑简洁而优雅，表现出一种粗糙的美感。我转身望向莱娜尼尔正在检查的门。
 
@@ -19921,25 +19963,6 @@ t("#VIOLET#You enter the swirling portal and in the blink of an eye you are back
 ------------------------------------------------
 section "game/modules/tome/data/quests/escort-duty.lua"
 
-t("%s, the lost warrior", "%s, 迷路的战士", "_t")
-t("Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I will not be able to continue the road alone. Would you help me?", "帮帮我！我在这地方迷路了，我有个朋友给我留下了一个传送门，不过恐怕靠我自己是到不了那里了，你能帮我一下吗？", "_t")
-t("%s, the injured seer", "%s, 受伤的先知", "_t")
-t("%s, the repented thief", "%s, 忏悔的盗贼", "_t")
-t("%s, the lone alchemist", "%s, 落单的炼金术师", "_t")
-t("He looks tired and wounded.", "他看起来又累又饿，且身受重伤。", "_t")
-t("%s, the lost sun paladin", "%s, 迷路的太阳骑士", "_t")
-t("%s, the lost defiler", "%s, 迷路的堕落者", "_t")
-t("temporal portal", "时空传送门", "_t")
-t([[Oh but you are ... are you ?! ME?!
-So I was right, this is not my original time-thread!
-Please help me! I am afraid I lost myself in this place. I know there is a temporal portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me? Would you help .. yourself?]], [[呃……你是……另一个我吗？
-好吧，我是对的，这已经不是我本来的时间线了！
-帮帮我！我在这地方迷路了，我有个朋友给我留下了一个传送门，不过我打了太多仗恐怕靠我自己是到不了那里了，你能帮我……呃……你自己一下吗？]], "_t")
-t("%s, temporal explorer", "%s, 时空旅行者", "_t")
-t("She looks tired and wounded. She is so similar to you and yet completely different. Weird.", "她看起来又累又饿，且身受重伤。她跟你是如此的相像，但完全不一样。好奇怪。", "_t")
-t("Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?", "帮帮我！我在这地方迷路了，我有个朋友给我留下了一个传送门，不过我打了太多仗，恐怕靠我自己是到不了那里了，你能帮我一下吗？", "_t")
-t("%s, the worried loremaster", "%s, 担忧的贤者", "_t")
-t("She looks tired and wounded.", "她看起来又累又饿，且身受重伤。", "_t")
 t("You successfully escorted the %s to the recall portal on level %s.", "你成功地将%s护送到了%s的召回传送门。", "tformat")
 t("As a reward you %s.", "作为奖励，你%s.", "tformat")
 t("You abandoned %s, to death.", "你抛下了%s，任其自生自灭", "tformat")
@@ -26194,6 +26217,8 @@ t("cold flames", "冷火", "_t")
 t([[Cold Flames slowly spread from %d spots in a radius of %d around the targeted location. The flames deal %0.2f cold damage, and have a chance of freezing.
 		Damage improves with your Spellpower.]], [[冰冷的火焰从目标点向 %d 个方向扩散，有效范围 %d 码半径。火焰会造成 %0.2f 冰冷伤害并有几率冰冻目标。 
 		受法术强度影响，伤害有额外加成。]], "tformat")
+t("Quicken Spells", "快速施法", "talent name")
+t("Reduces the cooldown of all spells by %d%%.", "减少 %d%% 所有法术冷却时间。", "tformat")
 
 
 ------------------------------------------------
@@ -26714,8 +26739,10 @@ t([[Your subconscious now retaliates when you take damage.  If the attacker is w
 t("Focused Wrath", "集火", "talent name")
 t([[Focus your mind on a single target, diverting all offensive Discharge talent effects to it for %d turns.  While this effect is active, all Discharge talents gain %d%% critical power and you ignore %d%% mind resistance of your targets.
 		If the target is killed, the effect will end early.
+		At level level 5 your single-minded focus also resets the cooldown of Mind Storm.
 		The damage bonus will scale with your Mindpower.]], [[将注意力集中于单体目标，将所有攻击性灵能脉冲系技能射向目标，持续 %d 回合。当此技能激活时，所有灵能脉冲系技能增加 %d%% 暴击伤害， 并且你可以获得 %d%% 精神抗性穿透。 
 		如果目标死亡，则该技能提前中断。 
+		技能等级 5 时，你一心一意的注意力也会重置心灵风暴技能的冷却时间。
 		受精神强度影响，暴击增益效果按比例加成。]], "tformat")
 
 
@@ -27804,7 +27831,7 @@ t([[Whenever one of your Dire Plague rips a soul it feels the inescapable coming
 		If Crepuscule is currently active it fires an additional free beam at the target.
 		In addition the chance to rip a soul by Dire Plague increases by %d%%.
 		]], [[每当你的恐怖瘟疫撕裂一个灵魂的时候，受害者会感受到不可逃避的死亡降临。
-		当这一效果触发的时候，瘟疫造成的暗影伤害将回报及，且目标周围 %d 码范围内所有被恐怖瘟疫感染的目标（包括它自己）的瘟疫持续时间将会延长 %d 回合。
+		当这一效果触发的时候，瘟疫造成的暗影伤害将会暴击，且目标周围 %d 码范围内所有被恐怖瘟疫感染的目标（包括它自己）的瘟疫持续时间将会延长 %d 回合。
 		持续时间延长效果每回合最多触发 1 次。
 		如果你开启了黄昏降临技能，你还会额外朝目标发射一道光线。
 		此外，你的恐怖瘟疫撕裂灵魂的几率提升 %d%% 。
@@ -28419,7 +28446,7 @@ t([[Turn your body into pure ice, increasing your Cold damage affinity by %d%% a
 section "game/modules/tome/data/talents/spells/glacial-waste.lua"
 
 t("Hiemal Shield", "寒冬护盾", "talent name")
-t("#GREY#Your hiemal shield does not have enough ressources!", "#GREY#你的寒冬护盾资源不够！", "logPlayer")
+t("#GREY#Your hiemal shield does not have enough resources!", "#GREY#你的寒冬护盾资源不够！", "logPlayer")
 t("#GREY#Your hiemal shield regenerates to full!", "#GREY#你的寒冬护盾恢复到满了！", "logPlayer")
 t("#SLATE#(%d absorbed)#LAST#", "#SLATE#(%d 护盾吸收)#LAST#", "tformat")
 t([[Conjure a shield of ice around you that can absorbs a total of %d damage.
@@ -28689,13 +28716,13 @@ t("Call of the Crypt", "墓穴召唤", "talent name")
 t([[Call upon the battle fields of old to collect bones and fuse them with souls, combining them to create skeletal minions to do your bidding.
 		Up to %d skeleton warriors of level %d are summoned. Up to %d skeletons can be controlled at once.
 		At level 3 the summons become armoured skeletons warriors.
-		At level 5 every 3 summoned warriors a free skeleton mage or skeleton archer is also created (without costing a soul).
+		At level 5 every 3 summoned warriors a free skeleton mage or skeleton archer is also created (without costing a soul). You can only sustain one mage and one archer at most in your army, in which case the free minion will be an armoured skeleton warrior.
 
 		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generaly more durable.#{normal}#
 		]], [[从古战场中收集白骨，将灵魂附着在白骨上，将其转化为你的骷髅随从。
 		使用技能将会召唤 %d 个等级 %d 的骷髅战士。最多同时掌控 %d 个骷髅战士。
 		技能等级 3 时，你将会改为召唤武装骷髅战士。
-		技能等级 5 时，每当你召唤 3 个骷髅战士，将会额外召唤一个骷髅法师或骷髅弓箭手（不消耗灵魂）
+		技能等级 5 时，每当你召唤 3 个骷髅战士，将会额外召唤一个骷髅法师或骷髅弓箭手（不消耗灵魂）。你的队伍中最多同时有一个法师和一个弓箭手，当你处于这种情况下的时候，你获得的额外随从将会变成武装骷髅战士。
 
 		#GREY##{italic}#骷髅的数量一般来说比食尸鬼更少，但是它们一般来说更加强韧。#{normal}#
 		]], "tformat")
@@ -28781,7 +28808,7 @@ t([[Ghouls are nothing but mere tools to you, for %d turns you render them bloat
 		所有被爆炸击中的敌人也会感染一项随机疾病，在 6 回合内每回合受到 %0.2f 枯萎伤害，并降低一项属性值 %d 。
 		每回合内最多只能有一个食尸鬼爆炸。你会优先让剩余时间最短的食尸鬼爆炸。
 		伤害和疾病强度受法术强度加成。
-		]], "tformat")
+		]], "tformat", {1,3,2,4,5})
 t("Discarded Refuse", "李代桃僵", "talent name")
 t("%s sacrifice a ghoul to avoid being affected by %s!", "%s牺牲了一个食尸鬼，避免了陷入%s状态！", "logSeen")
 t([[Whenever you would be affected by a detrimental physical effect you instead transfer it instantly to one of your ghoul.
@@ -28806,13 +28833,17 @@ t([[Removes up to %d magical effects (good effects from foes, and bad effects fr
 		]], [[驱散目标身上的 %d 种魔法效果（敌方单位的增益状态和友方单位的负面状态）。 
 		在等级 3 时可以选择目标。]], "tformat")
 t("Spellcraft", "法术亲和", "talent name")
-t([[You learn to finely craft and tune your offensive spells.
-		You try to carve a hole in spells that affect an area to avoid damaging yourself.  The chance of success is %d%%.
-		In addition, you hone your damaging spells to spellshock their targets. Whenever you deal damage with a spell you attempt to spellshock them with %d more Spellpower than normal. Spellshocked targets suffer a temporary 20%% penalty to damage resistances.]], [[你学会精确调节你的攻击技能。 
-		你试图控制自己的攻击性魔法，尝试在攻击范围中留出空隙，避免伤及自身， %d%% 成功概率。 
-		如果你的法术强度等级超过目标法术豁免等级，你的攻击法术将会对目标产生法术冲击。此技能将赋予你提高 %d 法术强度的加成用于判定目标的法术豁免。被法术冲击目标暂时减少 20%% 伤害抵抗。]], "tformat")
-t("Quicken Spells", "快速施法", "talent name")
-t("Reduces the cooldown of all spells by %d%%.", "减少 %d%% 所有法术冷却时间。", "tformat")
+t([[You learn to finely craft and tune your spells, reducing all their cooldowns by %d%%.
+		In doing so you can also carve a hole in spells that affect an area to avoid damaging yourself.  The chance of success is %d%%.
+		In addition, you hone your damaging spells to spellshock their targets. Whenever you deal damage with a spell you attempt to spellshock them with %d more Spellpower than normal. Spellshocked targets suffer a temporary 20%% penalty to damage resistances.]], [[你学会巧妙控制和调谐你的法术，降低 %d%% 法术冷却时间。
+		此外，你可以控制自己的攻击性魔法，尝试在攻击范围中留出空隙，避免伤及自身。成功概率为 %d%% 。 
+		如果你的法术强度等级超过目标法术豁免等级，你的攻击法术将会对目标产生法术冲击。此技能将会在判定目标是否会被你法术冲击，使用法术强度对抗敌人法术豁免的时候，使这一判定获得 %d 额外法术强度加成。被法术冲击目标暂时减少 20%% 伤害抗性。]], "tformat")
+t("Energy Alteration", "能量转化", "talent name")
+t([[Your mastery over magic is so great that you can alter the energy of all damaging spells to suit your needs.
+		Whenever you deal damage with a spell you attune to the element of that spell for 6 turns, converting %d%% of any damage you deal into that element.
+		This effect will not override itself and will only trigger from spells directly cast by you, not from damage over time or ground damage effects.]], [[你对魔法的掌握是如此精巧，你可以调节任何伤害技能的能量，来为你所用。
+		每当你使用法术造成伤害的时候，你将法术调谐到这一元素，持续 6 回合，你造成的所有伤害中的 %d%% 将会转化为该元素。
+		这一效果不会覆盖自身，只会被你直接释放的技能触发，不会因持续伤害或地面伤害效果而触发。]], "tformat")
 t("Metaflow", "奥术流动", "talent name")
 t([[Your mastery of arcane flows allow you to reset the cooldown of up to %d of your spells (that don't have a fixed cooldown) of tier %d or less.
 		Passive effect:
@@ -28921,22 +28952,22 @@ t([[Weave a net of arcane disturbances around your body, removing yourself from 
 		The invisibility bonus will increase with your Spellpower.]], [[你在身体周围编织一个奥术能量的干扰网，让你消失在敌人的视野中，获得 %d 强度的隐形效果，持续 7 回合。
 		当隐形时，你对致盲或炫目的敌人造成的伤害增加 %d%% （与其他伤害加成效果加法叠加）
 		隐形强度随法术强度提升。]], "tformat")
-t("Elemental Mirage", "元素幻影", "talent name")
-t([[Your mastery of both illusion and elements knows no bound.
-		Upon first sustaining this spell you may select two elements. You may later change them with the Alter Mirage spell, provided automatically upon learning this one.
-
-		Any time you deal damage with one of those elements, the other gets a bonus of %d%% damage for 3 turns.
-		At level 5 if the target element has less resistance penetration, it gets increased to match the one of the source element.
-
-		Current elements selected: %s#LAST# and %s]], [[你对幻术和元素的掌握无人能比。
-		在第一次释放这一法术时，你可以选择两个元素。你可以在以后使用“改变幻影”技能来改变你选择的元素，这是在你学习这个法术时自动习得的。
-
-		当你使用其中一个元素造成伤害时，另一个元素在 3 回合内获得 %d%% 的伤害加成。
-		等级5时，如果目标元素的抗性穿透较低，它会获得另一个元素的抗性穿透。
-		
-		当前选定的元素：%s#LAST#和%s]], "tformat")
-t("Alter Mirage", "改变幻影", "talent name")
-t("Change your choice of elements for Elemental Mirage.", "选择你元素幻影技能的加成元素。", "_t")
+t("Mirror Image", "镜像", "talent name")
+t("You cannot summon; you are suppressed!", "你不能召唤，你被压制了！", "logPlayer")
+t("Mirror Image (%s)", "镜像 (%s)", "tformat")
+t("A blurred image.", "一个模糊的镜像。", "_t")
+t("Summon", "召唤", "_t")
+t([[Create a perfect lookalike of your own form made out of pure light near a creature or yourself if no creature is present.
+		This image has %d life and can never take more than 1 damage per creature per turn and is immune to any non direct damage (ground effects, damage over time, ...).
+		Whenever you cast a spell your mirror image will try to duplicate it at the same target for 66%% less damage, if possible. If it can it will loose 1 life, if not it will instead taunt a creature to focus its attention on itself.
+		While the image exists you receive the damage bonus from the Invisibility spell as if you were invisible.
+		This spell can not be cast while a Mirror Image already exists and only in combat.
+		]], [[在某个生物的身旁，召唤一个由纯粹的光线构成的，与你完全相似的完美复制体。如果周围没有生物，则会召唤在你自己身边。
+		这一镜像具有 %d 生命值，每回合从每个生物身上最多受到 1 点伤害，且免疫任何非直接伤害（地面效果，持续伤害，等等）
+		当你释放任何法术的时候，镜像也会试图对同一目标释放这一法术，造成的伤害降低 66% 。如果它这么做了，它会流失 1 点生命值。如果不能的话，它则会嘲讽一个生物，将它的注意力集中在自己身上。
+		只要镜像持续存在在战场上，你就会获得隐形技能所基于的隐形伤害加成，无论你是否隐形。
+		这一技能无法在场上已经有镜像的时候释放，且只能在战斗中释放。
+		]], "tformat")
 
 
 ------------------------------------------------
@@ -29095,7 +29126,7 @@ t("glacial waste", "冰封大地", "_t")
 t("Summon an undead minion of pure cold to harass your foes.", "召唤极寒的不死随从，骚扰你的敌人。", "_t")
 t("rime wraith", "远古冰魂", "_t")
 t("Crush the souls of your foes to improve yourself.", " 粉碎敌人的灵魂来强化自身。", "_t")
-t("animus", "仇恨", "_t")
+t("animus", "魂魄", "_t")
 t("Learn to fasten your foes way into the grave.", "加速你的敌人走向死亡的过程。", "_t")
 t("death", "死亡", "_t")
 t("Doom to all your foes. Crush them.", "粉碎，毁灭你的敌人。", "_t")
@@ -29346,11 +29377,15 @@ t([[Your Flame, Flameshock, Fireflash and Blastwave spells leave a burning wake 
 		The damage will increase with your Spellpower.]], [[你的火球术、火焰冲击、爆裂火球和火焰新星都会在地上留下燃烧的火焰，每回合对经过者造成 %0.2f 火焰伤害，持续 4 回合。 
 		受法术强度影响，伤害有额外加成。]], "tformat")
 t("Cleansing Flames", "净化之焰", "talent name")
-t([[When your Burning Wake talent is active, your Inferno and Burning Wake effects have a %d%% chance, each turn, to remove a status effect (physical or magical) from the targets.
+t([[When you stand in your Burning Wake or Inferno ground effect, you can self immolate to trigger Cleansing Flames for %d turns.
+		While the effect lasts you will take %0.2f fire damage per turn.
+		Each turn there is a %d%% chance for any creature taking damage from Burning Wake, Inferno or Cleansing Flames to remove a status effect (physical or magical).
 		If the target is hostile, it will remove a beneficial effect.
-		If the target is friendly, it will remove a detrimental effect (but still burn).]], [[当你的无尽之炎激活时，你的地狱火和无尽之炎均有 %d%% 概率净化目标身上一种状态。（物理或法术） 
-		如果目标是敌人，则净化其增益状态。 
-		如果目标时友方单位，则净化负面状态（仍然有燃烧效果）。]], "tformat")
+		If the target is friendly, it will remove a detrimental effect.]], [[当你站在你的无尽之焰或地狱火地面效果上的时候，你可以用净化之焰引燃自己，持续 %d 回合。
+		在这一效果持续的时候，你会每回合受到 %0.2f 火焰伤害。
+		在每一回合内，对于每个从无尽之焰，地狱火或净化之焰中受到伤害的生物，将会有 %d%% 几率移除一个物理或魔法状态。
+		如果目标是敌人，则移除其增益状态。 
+		如果目标时友方单位，则移除其负面状态。]], "tformat")
 t("Wildfire", "野火燎原", "talent name")
 t("Surround yourself with Wildfire, increasing all your fire damage by %0.1f%%, ignoring %d%% fire resistance of your targets and reducing self-inflicted fire damage by %d%%.", [[使身上缠绕火焰，增加 %0.1f%% 所有火系伤害并无视目标 %d%% 火焰抵抗。 
 		同时，减少 %d%% 对自己造成的火焰伤害。]], "tformat")
@@ -34395,6 +34430,7 @@ t("#Target# is no longer invisible.", "#Target#不再隐形。", "_t")
 t("-Invis", "-隐身", "_t")
 t("Ethereal", "虚幻形态", "_t")
 t("Invisible (power %d), damage dealt reduced by %d%%, all resistances increased by %d%%, movement speed increased by %d%%.", "隐形 ( 隐形等级 %d), 造成的伤害减少 %d%%, 所有抗性增加 %d%%, 移动速度增加 %d%%.", "tformat")
+t("phantasm", "幻术", "effect subtype")
 t("#Target# becomes ethereal.", "#Target#变得虚幻。", "_t")
 t("+Ethereal", "+虚幻形态", "_t")
 t("#Target# is no longer ethereal.", "#Target#变得不再虚幻。", "_t")
@@ -34889,7 +34925,6 @@ t("Lightburn", "灼烧之光", "_t")
 t("The creature is burnt by light, dealing %0.2f light damage each turn and reducing armour by %d.", "目标被光明灼烧，每回合受到 %0.2f 点光系伤害，同时护甲降低 %d。", "tformat")
 t("#Target# burns with light!", "#Target#被光明灼烧！", "_t")
 t("+Lightburn", "+灼烧之光", "_t")
-t("#Target# stops burning.", "#Target#身上的火熄灭了。", "_t")
 t("-Lightburn", "-灼烧之光", "_t")
 t("Illumination ", "照明", "_t")
 t("The target glows in the light, reducing its stealth and invisibility power by %d, defense by %d and looses all evasion bonus from being unseen.", " 目标在光明中显形，减少 %d 潜行与隐身强度，减少 %d 闪避，同时失去不可见带来的闪避加成。", "tformat")
@@ -35097,7 +35132,6 @@ t("+Pacification Hex", "+宁神邪术", "_t")
 t("-Pacification Hex", "-宁神邪术", "_t")
 t("Burning Hex", "燃烧邪术", "_t")
 t("The target is hexed.  Each time it uses an ability it takes %0.2f fire damage, and talent cooldowns are increased by %s plus 1 turn.", "目标受邪术影响，每次施放技能都会受到 %0.2f 火焰伤害, 技能冷却延长 %s 再延长 1 回合。", "tformat")
-t("fire", "火焰", "effect subtype")
 t("#Target# is hexed!", "#Target#受邪术影响！", "_t")
 t("+Burning Hex", "+燃烧邪术", "_t")
 t("-Burning Hex", "-燃烧邪术", "_t")
@@ -35151,13 +35185,11 @@ t("All damage decreased by %d%%.", "所有伤害降低 %d%% 。", "tformat")
 t("stun", "震慑", "effect subtype")
 t("Immune to Frightening Presence", "免疫恐怖存在", "_t")
 t("You resisted a Lich and are immune to its frightening presence.", "你抵抗了一个巫妖的强大意志，免疫它的恐怖存在效果。", "_t")
-t("Elemental Mirage (First Element)", "元素幻影 (第一个元素)", "_t")
+t("Energy Alteration (%s)", "能量转化 (%s)", "tformat")
+t("%d%% of all damage converted to %s.", "所有伤害的%d%%转化为%s伤害。", "tformat")
 t("Frightening Presence", "恐怖存在", "_t")
 t("The mere sight of a Lich sent you into a frightened state, reducing all saves by %d, all damage by %d%% and movement speed by %d%%.", "巫妖的恐怖存在让你陷入深度恐惧之中，所有豁免降低 %d， 所有伤害减少 %d%% ，移动速度降低 %d%% 。", "tformat")
 t("fear", "恐惧", "effect subtype")
-t("Elemental Mirage (Second Element)", "元素幻影 (第二个元素)", "_t")
-t("%s damage increased by %d%% and resistance penetration by %d%%.", "%s 伤害增加 %d%% ，抗性穿透增加 %d%% 。", "tformat")
-t("phantasm", "幻术", "effect subtype")
 t("Commander of the Dead", "亡者领袖", "_t")
 t("Physical power, spellpower and all saves increased by %d.", "物理强度，法术强度和全体豁免增加 %d 。", "tformat")
 t("lich", "巫妖", "effect subtype")
@@ -35229,6 +35261,11 @@ t("Hoarfrost", "寒霜覆盖", "_t")
 t("Cold resistance reduced by %d%%, movement speed reduced by %d%%.", "寒冷伤害降低 %d%% ，移动速度降低 %d%% 。", "tformat")
 t("cold", "寒冷", "effect subtype")
 t("necrotic", "死灵", "effect subtype")
+t("Cleansing Flames", "净化之焰", "_t")
+t("The target is on fire, taking %0.2f fire damage per turn and %d%% chance per turn of removing a physical or magical effect from all targets affected by Inferno, Burning Wake or Cleansing Flames.", "目标受到灼烧效果，每回合受到 %0.2f 火焰伤害，并每回合有 %d%% 几率移除被地狱火、无尽之焰或净化之焰影响的生物身上的一个物理或魔法效果。", "tformat")
+t("cleanse", "清除", "effect subtype")
+t("fire", "火焰", "effect subtype")
+t("#Target# stops burning.", "#Target#身上的火熄灭了。", "_t")
 
 
 ------------------------------------------------
@@ -36244,6 +36281,9 @@ t("sense", "感知", "effect subtype")
 t("Dozing", "打盹", "_t")
 t("The target is completely asleep, unable to act.", "目标完全睡着了，无法行动。", "_t")
 t("sleep", "睡眠", "effect subtype")
+t("Protected by a Mirror Image", "被镜像保护", "_t")
+t("Target is protected by a mirror image. Increases damage dealt to blind or dazzled creatures by %d%%", "目标被镜像保护。增加对致盲和炫目敌人伤害%d%%。", "tformat")
+t("phantasm", "幻术", "effect subtype")
 
 
 ------------------------------------------------
@@ -37323,7 +37363,7 @@ t("#LIGHT_RED#Final round!!!", "#LIGHT_RED#最终轮!!!", "log")
 t("Round Clear! +%s EXP!", "全清! +%s 经验!", "tformat")
 t("%sWave clear!", "%s波次已全清!", "log")
 t("%sClear bonus: %s%s%s! Score bonus: %s%s%s! Danger bonus: %s%s%s! Rank bonus: %s%s%s!", "%s全清奖励：%s%s%s! 分数奖励：%s%s%s! 危险度奖励：%s%s%s! 级别奖励：%s%s%s!", "log")
-t("%sYour experience increases by %s%s%s!", "%s你的经验值增加了%s%s%s!", "log")
+t("%sYour experience increases by %s%d%s!", "%s你的经验值增加了%s%d%s!", "log")
 t("%sYou earn %s gold for your victory!", "%s你胜利了，你赢得了%s金币!", "log")
 t("Arena mode", "竞技场模式", "_t")
 
@@ -39636,6 +39676,16 @@ t("The peace of this place has been disturbed.", "此处的和平被打破了。
 
 
 ------------------------------------------------
+section "game/modules/tome/data/zones/test/mapscripts/rooms_test.lua"
+
+
+
+------------------------------------------------
+section "game/modules/tome/data/zones/test/mapscripts/rooms_test2.lua"
+
+
+
+------------------------------------------------
 section "game/modules/tome/data/zones/test/zone.lua"
 
 t("TestZone!", "测试！", "_t")
@@ -40062,7 +40112,7 @@ t("guardian of reality", "时空守卫", "entity name")
 t("A stern-looking guardian, ever vigilant against the threats of the paradox.", "一名严肃的守卫，他时刻警惕着对零点圣域的威胁。", "_t")
 t("elemental", "元素", "entity type")
 t("void", "虚空", "entity subtype")
-t("Losgoroth are mighty void elementals, native to the void between the stars; they are rarely seen on the planet's surface.", "洛斯格罗斯是非常强大的虚空生物，居住于群星之间的星空中。在星球表面几乎看不到这种生物。", "_t")
+t("Losgoroth are mighty void elementals, native to the void between the stars; they are rarely seen on the planet's surface.", "洛斯格罗斯是强大的虚空生物，居住于群星之间的星空中。在星球表面几乎看不到这种生物。", "_t")
 t("monstrous losgoroth", "大型洛斯格罗斯", "entity name")
 t("Zemekkys, Grand Keeper of Reality", "伊莫克斯·时空守护者", "entity name")
 t("shalore", "永恒精灵", "entity subtype")

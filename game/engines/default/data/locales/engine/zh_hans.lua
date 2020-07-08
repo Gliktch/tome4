@@ -344,6 +344,7 @@ t("Missing!", "不见了！", "_t")
 ------------------------------------------------
 section "game/engines/default/engine/HotkeysIconsDisplay.lua"
 
+t("Unknown!", "未知!", "_t")
 t("Missing!", "不见了！", "_t")
 
 
