@@ -125,7 +125,7 @@ newTalent{
 	radius = function(self, t) return self:getTalentRadius(self:getTalentFromId(self.T_NECROTIC_AURA)) end,
 	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=false, talent=t} end,
 	getNb = function(self, t, ignore) return math.max(1, math.floor(self:combatTalentScale(t, 1, 5))) end,
-	getEvery = function(self, t, ignore) return math.floor(self:combatTalentLimit(t, 10, 30, 15)) end,
+	getEvery = function(self, t, ignore) return math.floor(self:combatTalentLimit(t, 10, 30, 12)) end,
 	getTurns = function(self, t, ignore) return math.floor(self:combatTalentScale(t, 5, 10)) end,
 	getLevel = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), -6, 0.9, 2, 5)) end, -- -6 @ 1, +2 @ 5, +5 @ 8
 	on_pre_use = function(self, t) return self:getTalentLevel(t) >= 3 and self:getSoul() >= 1 end,
