@@ -2115,7 +2115,7 @@ function _M:applyRandomClass(b, data, instant)
 					if type(d) ~= "number" then d = rng.range(1, 3)*0.1 end
 					b:learnTalentType(tt, true)
 					b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d)
-					ttypes[tt] = table.clone(d)
+					ttypes[tt] = {true, d}
 				end
 			end
 		end
@@ -2193,6 +2193,15 @@ function _M:applyRandomClass(b, data, instant)
 			d.tt = tt
 			table.insert(tt_choices, d)
 		end
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		table.print(tt_choices)
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 		
 		local fails = 0
 		local focus_trees = {}
