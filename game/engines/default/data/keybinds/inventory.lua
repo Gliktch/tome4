@@ -24,7 +24,7 @@ defineAction{
 	name = _t"Show inventory",
 }
 defineAction{
-	default = { "sym:=e:false:false:false:false", },
+	default = { "sym:=e:false:true:false:false", },
 	type = "SHOW_EQUIPMENT",
 	group = "inventory",
 	name = _t"Show equipment",
@@ -44,7 +44,7 @@ defineAction{
 }
 
 defineAction{
-	default = { "sym:=w:false:false:false:false", },
+	default = { "sym:=w:false:false:false:false", "sym:=e:false:false:false:false", },
 	type = "WEAR_ITEM",
 	group = "inventory",
 	name = _t"Wield/wear items",
