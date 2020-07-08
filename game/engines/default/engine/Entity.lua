@@ -32,7 +32,7 @@ local entities_load_functions = {}
 
 _M.__mo_final_repo = {}
 --- Fields we shouldn't save
-_M._no_save_fields = { _shader = true }
+_M._no_save_fields = { _shader = true, _temp_data = true, ai_state_volatile = true }
  --- Subclasses can change it to know where they are on the map
 _M.__position_aware = false
 
@@ -159,6 +159,10 @@ function _M:init(t, no_default)
 		end
 	end
 
+end
+
+function _M:getName()
+	return self.name
 end
 
 function _M:checkForUpvalues()
