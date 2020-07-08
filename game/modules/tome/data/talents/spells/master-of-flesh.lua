@@ -266,6 +266,18 @@ newTalent{
 			t:_endEffect(self)
 		end
 	end,
+	absorbGhoul = function(self, t, src)
+		local p = self:isTalentActive(self.T_PUTRESCENT_LIQUEFACTION)
+		p.dur = p.dur + self:callTalent(self.T_PUTRESCENT_LIQUEFACTION, "getIncrease")
+		game.level.map:particleEmitter(src.x, src.y, 1, "pustulent_fulmination", {radius=1})
+		game.logSeen(src, "#GREY#%s dissolves into the cloud of gore.", src:getName():capitalize())
+
+		p.absorb_cnt = p.absorb_cnt + 1
+		if p.absorb_cnt >= 2 then
+			self:incSoul(1)
+			p.absorb_cnt = 0
+		end
+	end,
 	activate = function(self, t)
 		local list = {}
 		local stats = necroArmyStats(self)
@@ -281,7 +293,7 @@ newTalent{
 		end
 		if dur == 0 then return nil end
 
-		local ret = { dur = dur }
+		local ret = { dur = dur, absorb_cnt = 0 }
 
 		-- Add a lasting map effect
 		local radius = self:getTalentRadius(t)
@@ -315,7 +327,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Shattering up to %d ghouls or ghasts you create a putrescent swirling cloud of radius %d that follows you around for 3 turns per dead ghoul. Oldest ghouls are prioritized for destruction.
-		Any ghoul or ghast dying or expiring within this cloud increases its duration by %d turn.
+		Any ghoul or ghast dying or expiring within this cloud increases its duration by %d turn and every two aborbed ghoul/ghast your gain back one soul.
 		The cloud deals %0.2f frostdusk damage to any foes caught inside.
 		The damage is increased by your Spellpower.
 		]]):tformat(t:_getNb(self), self:getTalentRadius(t), t:_getIncrease(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)))

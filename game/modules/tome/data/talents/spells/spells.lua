@@ -266,10 +266,8 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 			local src = self:resolveSource()
 			for i, e in ipairs(game.level.map.effects) do
 				if e.src == src and e.damtype == engine.DamageType.PUTRESCENT_LIQUEFACTION and e.grids[self.x] and e.grids[self.x][self.y] and src:isTalentActive(src.T_PUTRESCENT_LIQUEFACTION) then
-					local p = src:isTalentActive(src.T_PUTRESCENT_LIQUEFACTION)
-					p.dur = p.dur + src:callTalent(src.T_PUTRESCENT_LIQUEFACTION, "getIncrease")
-					game.level.map:particleEmitter(self.x, self.y, 1, "pustulent_fulmination", {radius=1})
-					game.logSeen(self, "#GREY#%s dissolves into the cloud of gore.", self:getName():capitalize())
+					src:callTalent(src.T_PUTRESCENT_LIQUEFACTION, "absorbGhoul", self)
+					return
 				end
 			end
 		end
