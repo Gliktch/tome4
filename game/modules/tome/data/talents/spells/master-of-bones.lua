@@ -476,7 +476,7 @@ newTalent{
 			melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
 			autolevel = "warriormage",
 			resists = {all = 50},
-			resolvers.talents{ T_BONE_ARMOUR={base=5, every=10, max=7}, T_STUN={base=3, every=10, max=5}, T_SKELETON_REASSEMBLE=5, },
+			resolvers.talents{ T_BONE_ARMOUR={base=5, every=10, max=7}, T_THROW_BONES={base=4, every=10, max=7}, T_STUN={base=3, every=10, max=5}, T_SKELETON_REASSEMBLE=5, },
 		},
 	},
 	tactical = { ATTACK = 2 },
@@ -542,34 +542,35 @@ newTalent{
 	onAIGetTarget = function(self, t)
 		local targets = {}
 		for _, act in pairs(game.level.entities) do
-			if act.summoner == self and act.necrotic_minion and act.skeleton_minion and self:hasLOS(act.x, act.y) and core.fov.distance(self.x, self.y, act.x, act.y) <= self:getTalentRange(t) then
+			if act.summoner == self and act.necrotic_minion and (act.skeleton_minion or act.is_bone_giant) and self:hasLOS(act.x, act.y) and core.fov.distance(self.x, self.y, act.x, act.y) <= self:getTalentRange(t) then
 			targets[#targets+1] = act
 		end end
 		if #targets == 0 then return nil end
 		local tgt = rng.table(targets)
 		return tgt.x, tgt.y, tgt
 	end,
-	on_pre_use = function(self, t) return necroArmyStats(self).nb_skeleton > 0 end,
+	on_pre_use = function(self, t) local stats = necroArmyStats(self) return stats.nb_skeleton > 0 or stats.bone_giant end,
 	action = function(self, t, p)
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTargetLimited(tg)
 		if not x or not y or not target then return nil end
-		if not target.skeleton_minion or target.summoner ~= self then return nil end
+		if (not target.skeleton_minion and not target.is_bone_giant) or target.summoner ~= self then return nil end
 
 		local stats = necroArmyStats(self)
 		if stats.lord_of_skulls then stats.lord_of_skulls:removeEffect(stats.lord_of_skulls.EFF_LORD_OF_SKULLS, false, true) end
 
-		target:setEffect(target.EFF_LORD_OF_SKULLS, 1, {life=t:_getLife(self), talents=self:getTalentLevel(t) >= 6})
+		target:setEffect(target.EFF_LORD_OF_SKULLS, 1, {life=t:_getLife(self), talents=self:getTalentLevel(t)})
 		return true
 	end,	
 	info = function(self, t)
 		return ([[Consume a soul to empower one of your skeleton, making it into a Lord of Skulls.
 		The Lord of Skulls gain %d%% more life, is instantly healed to full.
 		There can be only one active Lord of Skulls, casting this spell on an other skeleton removes the effect from the current one.
-		At level 6 it also gains a new talent:
-		- Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes and impact and frees the skeleton from any stun, daze and pin effects they may have
-		- Archers learn Vital Shot, a devastating attack that can stun and cripple their foes
-		- Mages learn Meteoric Crash, a destructive spell that crushes and burns foes in a big radius for multiple turns
+		It also gains a new talent if high enough:
+		At level 2 Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes and impact and frees the skeleton from any stun, daze and pin effects they may have
+		At level 3 Archers learn Vital Shot, a devastating attack that can stun and cripple their foes
+		At level 5 Mages learn Meteoric Crash, a destructive spell that crushes and burns foes in a big radius for multiple turns
+		At level 6 Bone Giants learn You Shall Be My Weapon!, a massive attack that deals high damage, knockbacks foes and stuns them
 		]]):
 		tformat(t:_getLife(self))
 	end,
