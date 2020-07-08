@@ -102,7 +102,7 @@ newTalent{
 	radius = function(self, t) return self:callTalent(self.T_NECROTIC_AURA, "radius") end,
 	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t)} end,
 	requires_target = true,
-	getNb = function(self, t) return math.floor(self:combatTalentLimit(t, 8, 1, 6)) end,
+	getNb = function(self, t) return math.ceil(self:combatTalentLimit(t, 8, 1, 6)) end,
 	on_pre_use = function(self, t) return self:isTalentActive(self.T_NECROTIC_AURA) and necroArmyStats(self).nb > 0 end,
 	action = function(self, t)
 		local stats = necroArmyStats(self)
