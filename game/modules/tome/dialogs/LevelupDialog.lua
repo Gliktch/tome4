@@ -111,7 +111,8 @@ function _M:init(actor, on_finish, on_birth)
 		end end,
 		__TEXTINPUT = function(c)
 			if c == 'x' then
-				self.show_detailed_progression = not self.show_detailed_progression
+				config.settings.tome.show_detailed_talents_desc = not config.settings.tome.show_detailed_talents_desc
+				game:saveSettings("tome.show_detailed_talents_desc", ("tome.show_detailed_talents_desc = %s\n"):format(config.settings.tome.show_detailed_talents_desc and "true" or "false"))
 				self:updateTooltip()
 			end
 			if self.focus_ui.ui.last_mz then
@@ -921,7 +922,7 @@ function _M:getStatDesc(item)
 end
 
 local tokenize_number = {}
-local tokenize_digit = lpeg.R("09")
+local tokenize_digit = lpeg.R("09") + lpeg.P"%"
 
 -- Matches: 10, -10, 0
 tokenize_number.integer =
@@ -979,7 +980,7 @@ function _M:getTalentDesc(item)
 		end
 
 		local traw = self.actor:getTalentLevelRaw(t.id)
-		if self.show_detailed_progression then
+		if config.settings.tome.show_detailed_talents_desc then
 			local list = {}
 			for i = 1, 5 do
 				local d = self.actor:getTalentReqDesc(item.talent, i-traw):toTString():tokenize(" ()[]")
