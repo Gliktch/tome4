@@ -37,7 +37,7 @@ defineAction{
 	name = _t"Pickup items",
 }
 defineAction{
-	default = { "sym:=d:false:false:false:false" },
+	default = { "sym:=d:false:true:false:false" },
 	type = "DROP_FLOOR",
 	group = "inventory",
 	name = _t"Drop items",

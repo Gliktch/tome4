@@ -244,10 +244,10 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 
 		m.remove_from_party_on_death = true
 		game.party:addMember(m, {
-			control=can_control and "full" or "no",
+			control=can_control and "full" or "order",
 			type="minion",
 			title=_t"Necrotic Minion",
-			orders = {target=true},
+			orders = {target=true, dismiss=true},
 		})
 	end
 	m:resolve() m:resolve(nil, true)
