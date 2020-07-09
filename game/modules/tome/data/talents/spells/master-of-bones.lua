@@ -490,7 +490,7 @@ newTalent{
 		if stats.bone_giant then stats.bone_giant:die(self) end
 
 		local list = {}
-		for _, m in ipairs(stats.list) do if m.skeleton_minion then list[#list+1] = m end end
+		for _, m in ipairs(stats.list) do if m.skeleton_minion and not m.lord_of_skulls then list[#list+1] = m end end
 		table.sort(list, function(a, b)
 			local pa, pb = a.life / a.max_life, b.life / b.max_life
 			if pa == pb then return a.creation_turn < b.creation_turn end
