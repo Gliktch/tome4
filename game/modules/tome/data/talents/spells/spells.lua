@@ -184,6 +184,7 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 	-- Try to use stored AI talents to preserve tweaking over multiple summons
 	m.ai_talents = self.stored_ai_talents and self.stored_ai_talents[m.name] or {}
 	m.inc_damage = table.clone(self.inc_damage, true)
+	m.no_inventory_access = 1
 	m.no_breath = 1
 	m.no_drops = true
 	m.minion_be_nice = 1
