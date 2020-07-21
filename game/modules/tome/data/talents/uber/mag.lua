@@ -184,7 +184,9 @@ uberTalent{
 		who:learnTalent(who.T_BONE_SHIELD, true, 3, {no_unlearn=true})
 		who:forceUseTalent(who.T_BONE_SHIELD, {ignore_energy=true})
 		if who.necrotic_minion then
-			if who.subtype == "giant" then
+			if who.name == "dread" or who.name == "dreadmaster" then
+				who:learnTalent(who.T_SLUMBER, true, 3, {no_unlearn=true})				
+			elseif who.subtype == "giant" then
 				who:learnTalent(who.T_BONE_SPIKE, true, 3, {no_unlearn=true})
 				who:learnTalent(who.T_RUIN, true, 3, {no_unlearn=true}) who:forceUseTalent(who.T_RUIN, {ignore_energy=true})
 			elseif who.subtype == "vampire" or who.subtype == "lich" then
@@ -261,8 +263,7 @@ uberTalent{
 		- Skeleton Warriors: Ruin
 		- Bone Giants: Bone Spike and Ruin
 		- Ghouls: Virulent Disease
-		- Vampires / Liches: Blood Grasp and Blood Boil
-		- Ghosts / Wights: Blood Fury and Curse of Death
+		- Dread: Slumber
 		]]):tformat()
 	end,
 }
