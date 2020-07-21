@@ -2032,6 +2032,7 @@ function _M:setupCommands()
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
 			game.player:takeHit(100, game.player)
+			-- DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)
 do return end
 			game.player:setEffect("EFF_STUNNED", 1, {apply_power=200})
 do return end
