@@ -41,7 +41,7 @@ newTalent{
 		if dead then
 			t:_gainSoul(self, target, "death")
 		else
-			if target:hasEffect(target.EFF_SOUL_LEECH) then return end -- Dont reset, we want it to exprei to leech
+			if target:hasEffect(target.EFF_SOUL_LEECH) or target == self or target == self.summoner then return end -- Dont reset, we want it to exprei to leech
 			local turns, powerful = t.getTurnsByRank(self, t, target)
 			target:setEffect(target.EFF_SOUL_LEECH, turns, {src=self, powerful=powerful})
 		end
