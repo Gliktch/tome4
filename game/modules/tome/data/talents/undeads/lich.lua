@@ -27,7 +27,7 @@ newTalent{
 	getDieAt = function(self, t) return math.ceil(self:combatTalentLimit(t, 150, 20, 100)) end,
 	getTurns = function(self, t) return math.ceil(self:combatTalentLimit(t, 300, 50, 150)) end,
 	passives = function(self, t, p)
-		self:talentTemporaryValue(p, "die_at", t.getDieAt(self, t))
+		self:talentTemporaryValue(p, "die_at", -t.getDieAt(self, t))
 	end,
 	callbackOnDeathbox = function(self, t, dialog, list)
 		if not self.lich_first_rez then
