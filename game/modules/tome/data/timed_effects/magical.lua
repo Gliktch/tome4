@@ -4758,7 +4758,11 @@ newEffect{
 		if self.skeleton_minion == "warrior" then image = "npc/lord_of_skulls_warrior.png"
 		elseif self.skeleton_minion == "archer" then image = "npc/lord_of_skulls_archer.png"
 		elseif self.skeleton_minion == "mage" then image = "npc/lord_of_skulls_magus.png"
-		elseif self.is_bone_giant then image = "npc/undead_giant_heavy_sentinel.png"
+		elseif self.is_bone_giant then
+			if self.is_bone_giant == "e_bone_giant" then image = "npc/lord_of_skulls_eternal_bone_giant.png"
+			elseif self.is_bone_giant == "h_bone_giant" then image = "npc/lord_of_skulls_heavy_bone_giant.png"
+			elseif self.is_bone_giant == "bone_giant" then image = "npc/lord_of_skulls_bone_giant.png"
+			end
 		end
 
 		self.replace_display = mod.class.Actor.new{

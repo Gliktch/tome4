@@ -391,7 +391,7 @@ newTalent{
 			blind_immune = 1,
 			fear_immune = 1,
 			stun_immune = 1,
-			is_bone_giant = true,
+			is_bone_giant = "bone_giant",
 			see_invisible = resolvers.mbonus(15, 5),
 			undead = 1,
 			name = "bone giant", color=colors.WHITE,
@@ -403,42 +403,6 @@ newTalent{
 			on_melee_hit = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
 			melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
 			resolvers.talents{ T_BONE_ARMOUR={base=3, every=10, max=5}, T_STUN={base=3, every=10, max=5}, },
-		},
-		h_bone_giant = {
-			type = "undead", subtype = "giant",
-			blood_color = colors.GREY,
-			display = "K",
-			combat = { dam=resolvers.levelup(resolvers.mbonus(45, 20), 1, 1), atk=15, apr=10, dammod={str=0.8} },
-			body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
-			infravision = 10,
-			life_rating = 12,
-			max_stamina = 90,
-			rank = 2,
-			size_category = 4,
-			movement_speed = 1.5,
-			autolevel = "warrior",
-			ai = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=2, },
-			stats = { str=20, dex=12, mag=16, con=16 },
-			resists = { [DamageType.PHYSICAL] = 20, [DamageType.BLIGHT] = 20, [DamageType.COLD] = 50, },
-			open_door = 1,
-			no_breath = 1,
-			confusion_immune = 1,
-			poison_immune = 1,
-			blind_immune = 1,
-			fear_immune = 1,
-			stun_immune = 1,
-			is_bone_giant = true,
-			see_invisible = resolvers.mbonus(15, 5),
-			undead = 1,
-			name = "heavy bone giant", color=colors.RED,
-			desc=_t[[A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.]],
-			resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_giant_heavy_bone_giant.png", display_h=2, display_y=-1}}},
-			level_range = {1, nil}, exp_worth = 0,
-			max_life = resolvers.rngavg(100,120),
-			combat_armor = 20, combat_def = 0,
-			on_melee_hit = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
-			melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
-			resolvers.talents{ T_BONE_ARMOUR={base=3, every=10, max=5}, T_THROW_BONES={base=4, every=10, max=7}, T_STUN={base=3, every=10, max=5}, },
 		},
 		e_bone_giant = {
 			type = "undead", subtype = "giant",
@@ -463,12 +427,48 @@ newTalent{
 			blind_immune = 1,
 			fear_immune = 1,
 			stun_immune = 1,
-			is_bone_giant = true,
+			is_bone_giant = "e_bone_giant",
 			see_invisible = resolvers.mbonus(15, 5),
 			undead = 1,
-			name = "eternal bone giant", color=colors.GREY,
+			name = "eternal bone giant", color=colors.RED,
 			desc=_t[[A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.]],
 			resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_giant_eternal_bone_giant.png", display_h=2, display_y=-1}}},
+			level_range = {1, nil}, exp_worth = 0,
+			max_life = resolvers.rngavg(100,120),
+			combat_armor = 20, combat_def = 0,
+			on_melee_hit = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
+			melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
+			resolvers.talents{ T_BONE_ARMOUR={base=3, every=10, max=5}, T_THROW_BONES={base=4, every=10, max=7}, T_STUN={base=3, every=10, max=5}, },
+		},
+		h_bone_giant = {
+			type = "undead", subtype = "giant",
+			blood_color = colors.GREY,
+			display = "K",
+			combat = { dam=resolvers.levelup(resolvers.mbonus(45, 20), 1, 1), atk=15, apr=10, dammod={str=0.8} },
+			body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
+			infravision = 10,
+			life_rating = 12,
+			max_stamina = 90,
+			rank = 2,
+			size_category = 4,
+			movement_speed = 1.5,
+			autolevel = "warrior",
+			ai = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=2, },
+			stats = { str=20, dex=12, mag=16, con=16 },
+			resists = { [DamageType.PHYSICAL] = 20, [DamageType.BLIGHT] = 20, [DamageType.COLD] = 50, },
+			open_door = 1,
+			no_breath = 1,
+			confusion_immune = 1,
+			poison_immune = 1,
+			blind_immune = 1,
+			fear_immune = 1,
+			stun_immune = 1,
+			is_bone_giant = "h_bone_giant",
+			see_invisible = resolvers.mbonus(15, 5),
+			undead = 1,
+			name = "heavy bone giant", color=colors.GREY,
+			desc=_t[[A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.]],
+			resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_giant_heavy_bone_giant.png", display_h=2, display_y=-1}}},
 			level_range = {1, nil}, exp_worth = 0,
 			max_life = resolvers.rngavg(100,120),
 			combat_armor = 40, combat_def = 20,
@@ -506,8 +506,8 @@ newTalent{
 		end
 
 		local def = t.minions_list.bone_giant
-		if self:getTalentLevel(t) >= 6 then def = t.minions_list.e_bone_giant
-		elseif self:getTalentLevel(t) >= 3 then def = t.minions_list.h_bone_giant
+		if self:getTalentLevel(t) >= 6 then def = t.minions_list.h_bone_giant
+		elseif self:getTalentLevel(t) >= 3 then def = t.minions_list.e_bone_giant
 		end
 
 		necroSetupSummon(self, def, pos.x, pos.y, lev, nil, true)
@@ -518,8 +518,8 @@ newTalent{
 	info = function(self, t)
 		return ([[Every army of undead minions needs its spearhead. To that end you combine 3 skeleton minions into a bone giant of level %d.
 		The minions used are automatically selected by taking the weaker and older ones first and a Lord of Skull is never used.
-		At level 3 a heavy bone giant is created instead.
-		At level 6 an eternal bone giant is created instead.
+		At level 3 an eternal bone giant is created instead.
+		At level 6 a heavy bone giant is created instead.
 		Only one bone giant may be active at any time, casting this spell while one exists will destroy it and replace it with a new one.
 		]]):
 		tformat(math.max(1, self.level + t:_getLevel(self)))
