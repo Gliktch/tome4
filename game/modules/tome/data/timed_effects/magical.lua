@@ -4979,6 +4979,9 @@ newEffect{
 	callbackOnTalentPost = function(self, eff, ab)
 		if not ab.is_spell or ab.id == self.T_CORPSELIGHT then return end
 		if eff.stacks >= eff.max_stacks then return end
+		local found_self = false
+		self:projectApply({type="ball", radius=eff.effective_radius, x=eff.x, y=eff.y}, eff.x, eff.y, Map.ACTOR, function(tgt) if tgt == self then found_self = true end end)
+		if not found_self then return end
 		local oldradius = math.min(eff.radius + eff.stacks, 10)
 		eff.stacks = eff.stacks + 1
 
