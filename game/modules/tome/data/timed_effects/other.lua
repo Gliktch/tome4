@@ -3986,8 +3986,15 @@ newEffect{
 	subtype = { lich = true },
 	status = "neutral",
 	parameters = { },
+	callbackOnSummonKill = function(self, t, minion, who, death_note)
+		if who.rank >= 3.5 then
+			eff.success = true
+			self:removeEffect(self.EFF_LICH_HUNGER)
+			game.bignews:say(120, "#DARK_ORCHID#Lichform regeneration is complete!#{normal}#")
+		end
+	end,
 	callbackOnKill = function(self, eff, who, death_note)
-		if who.rank >= 3.2 then
+		if who.rank >= 3.5 then
 			eff.success = true
 			self:removeEffect(self.EFF_LICH_HUNGER)
 			game.bignews:say(120, "#DARK_ORCHID#Lichform regeneration is complete!#{normal}#")
