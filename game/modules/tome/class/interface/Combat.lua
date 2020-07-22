@@ -1896,7 +1896,7 @@ end
 
 --- Gets summon speed
 function _M:combatSummonSpeed()
-	return math.max(1 - ((self:attr("fast_summons") or 0) / 100), 0.4)
+	return math.max(1 - ((self:attr("fast_summons") or 0) / 100), 0.15)
 end
 
 --- Computes physical crit chance reduction
