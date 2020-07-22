@@ -1503,8 +1503,12 @@ function _M:chronoRestore(name, remove)
 end
 
 function _M:getZoneName()
-	if self.zone.display_name then
+	if not self.zone then
+		name = _t"the great unknown"
+	elseif self.zone.display_name then
 		name = self.zone.display_name()
+	elseif not self.level then
+		name = self.zone.name
 	else
 		local lev = self.level.level
 		if self.level.data.reverse_level_display then lev = 1 + self.level.data.max_level - lev end
