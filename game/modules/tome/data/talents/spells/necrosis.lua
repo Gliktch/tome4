@@ -63,9 +63,9 @@ newTalent{
 	require = spells_req2,
 	mode = "passive",
 	points = 5,
-	radius = function(self, t) return self:combatTalentLimit(t, 10, 2, 5) end,
+	radius = function(self, t) return self:combatTalentLimit(t, 10, 2, 6) end,
 	getCD = function(self, t) return math.ceil(self:combatTalentLimit(t, 12, 2, 8)) end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 300) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 280) end,
 	callbackOnActBase = checkLifeThreshold(1, function(self, t)
 		local list = {}
 		for tid, c in pairs(self.talents_cd) do
