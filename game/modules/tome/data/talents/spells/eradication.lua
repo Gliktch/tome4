@@ -110,7 +110,7 @@ newTalent{
 		while #gs > 0 and #list > 0 do
 			local foe = table.remove(list, 1).target
 			local spot = table.remove(gs, 1)
-			if foe:canBe("teleport") and target:checkHit(self:combatSpellpower(), target:combatSpellResist(), 0, 95, 15) then
+			if foe:canBe("teleport") and foe:checkHit(self:combatSpellpower(), foe:combatSpellResist(), 0, 95, 15) then
 				foe:forceMoveAnim(spot[1], spot[2])
 			else
 				game.logSeen(foe, "%s resists the call of the boneyard!")
