@@ -4974,6 +4974,9 @@ newEffect{
 		if what ~= "leave" then return end
 		self:removeEffect(self.EFF_CORPSELIGHT, true, true)
 	end,
+	callbackOnDeath = function(self, eff)
+		self:removeEffect(self.EFF_CORPSELIGHT, true, true)
+	end,
 	explode = function(self, eff)
 		if not self:knowTalent(self.T_GRAVE_MISTAKE) then return end
 		if eff.exploded then return end
