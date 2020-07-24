@@ -6903,8 +6903,8 @@ end
 -- Classifications for actor resist/damage
 -- Thanks to grayswandir for this really neat code structure
 _M.classifications = {
-	unliving = {undead = true, construct = true, crystal = true},
-	unnatural = {demon = true, elemental = true, horror = true, construct = true, undead = true},
+	unliving = {attrs={undead = true}, types={undead = true, construct = true, crystal = true}},
+	unnatural = {attrs={demon = true, undead = true}, types={demon = true, elemental = true, horror = true, construct = true, undead = true}},
 	living = function(self) return not self:checkClassification('unliving') end,
 	natural = function(self) return not self:checkClassification('unnatural') end,
 	summoned = function(self) return (self.summoner ~= nil) end
@@ -6920,8 +6920,15 @@ function _M:checkClassification(type_str)
 	if (tostring(self.type).."/"..tostring(self.subtype) == type_str) or self.type == type_str then return true end
 	local class = _M.classifications[type_str]
 	if not class then return false end
-	if type(class) == 'function' then return class(self) end
-	return class[self.type or "unknown"]
+	if type(class) == 'function' then
+		return class(self)
+	else
+		if class.types and class.types[self.type or "unknown"] then return true end
+		if class.attrs then
+			for a, _ in pairs(class.attrs) do if self:attr(a) then return true end end
+		end
+	end
+	return false
 end
 
 --- Gains some experience
