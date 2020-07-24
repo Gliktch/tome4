@@ -163,7 +163,7 @@ newTalent{
 	requires_target = true,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 3, 4)) end,
 	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), friendlyfire=false, talent=t, display={particle="bolt_dark", trail="darktrail"}} end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 280) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 220) end,
 	iconOverlay = function(self, t, p)
 		local val = p.dur
 		if val <= 0 then return "" end
