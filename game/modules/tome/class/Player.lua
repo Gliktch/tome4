@@ -459,7 +459,7 @@ function _M:updateMainShader()
 
 		-- Set shader HP warning
 		if self.life ~= self.shader_old_life then
-			if self.life < self.max_life / 2 then game.fbo_shader:setUniform("hp_warning", 1 - (self.life / self.max_life))
+			if (self.life - self.die_at) < (self.max_life - self.die_at) / 2 then game.fbo_shader:setUniform("hp_warning", 1 - (self.life / (self.max_life - self.die_at)))
 			else game.fbo_shader:setUniform("hp_warning", 0) end
 		end
 		-- Set shader air warning
