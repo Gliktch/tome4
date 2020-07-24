@@ -5041,6 +5041,10 @@ newEffect{
 	parameters = {dam=10, chance=2},
 	on_gain = function(self, err) return _t"#Target# is afflicted by a dire plague!" end,
 	on_lose = function(self, err) return _t"#Target# is free from the dire plague." end,
+	on_merge = function(self, old_eff, new_eff)
+		new_eff.dur = math.max(old_eff.dur, new_eff.dur)
+		return new_eff
+	end,
 	on_timeout = function(self, eff)
 		if self:attr("purify_disease") then self:heal(eff.dam, eff.src)
 		else if eff.dam > 0 then
