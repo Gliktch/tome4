@@ -375,6 +375,7 @@ newTalent{
 	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 15, 40, 20)) end,
 	tactical = { CURE = 1 },
 	range = 10,
+	no_energy = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	on_pre_use = function(self, t) return necroArmyStats(self).nb_ghoul > 0 end,
 	callbackOnActBase = function(self, t)
