@@ -93,7 +93,7 @@ newTalent{
 			rarity = 1,
 			skeleton_minion = "warrior",
 
-			resolvers.inscriptions(1, "rune"),
+			resolvers.inscriptions(1, {"blink rune"}),
 			resolvers.talents{
 				T_WEAPON_COMBAT={base=1, every=7, max=10},
 				T_WEAPONS_MASTERY={base=1, every=7, max=10},
