@@ -1414,6 +1414,8 @@ function _M:changeLevelReal(lev, zone, params)
 	self.change_level_party_back = nil
 
 	self:dieClonesDie()
+
+	self:triggerHook{"Game:changeLevel"}
 end
 
 function _M:dieClonesDie()
@@ -1501,8 +1503,12 @@ function _M:chronoRestore(name, remove)
 end
 
 function _M:getZoneName()
-	if self.zone.display_name then
+	if not self.zone then
+		name = _t"the great unknown"
+	elseif self.zone.display_name then
 		name = self.zone.display_name()
+	elseif not self.level then
+		name = self.zone.name
 	else
 		local lev = self.level.level
 		if self.level.data.reverse_level_display then lev = 1 + self.level.data.max_level - lev end
@@ -1935,6 +1941,13 @@ function _M:display(nb_keyframes)
 		self.full_fbo:toScreen(0, 0, self.w, self.h, self.full_fbo_shader.shad)
 	end
 
+	if self.wasd_state and self.wasd_state.cnt > 0 then
+		self.wasd_state.cd = self.wasd_state.cd - nb_keyframes
+		if self.wasd_state.cd <= 0 then			
+			self.wasd_state.cd = self.wasd_state.base_cd
+			self:onTickEnd(function() self:executeWASD() end)
+		end
+	end
 end
 
 --- Called when a dialog is registered to appear on screen
@@ -2022,12 +2035,15 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			game.player:takeHit(100, game.player)
+			-- DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)
+do return end
+			game.player:setEffect("EFF_STUNNED", 1, {apply_power=200})
+do return end
 			local f, err = loadfile("/data/general/events/rat-lich.lua")
 			print(f, err)
 			setfenv(f, setmetatable({level=self.level, zone=self.zone}, {__index=_G}))
 			print(pcall(f))
-do return end
-			game.player:takeHit(100, game.player)
 do return end
 			self:changeLevel(game.level.level + 1)
 do return end
@@ -2298,7 +2314,9 @@ do return end
 			local mx, my = self.mouse.last_pos.x, self.mouse.last_pos.y
 			local tmx, tmy = self.level.map:getMouseTile(mx, my)
 			local a = self.level.map(tmx, tmy, Map.ACTOR)
-			self:registerDialog(require("mod.dialogs.CharacterSheet").new((config.settings.cheat or self.player:canSee(a)) and a or self.player))
+			a = (config.settings.cheat or self.player:canSee(a)) and a or self.player
+			if a.showCharacterSheet then a = a:showCharacterSheet() end
+			self:registerDialog(require("mod.dialogs.CharacterSheet").new(a))
 		end,
 
 		CENTER_ON_PLAYER = function()
@@ -2486,27 +2504,39 @@ do return end
 	self.key:setCurrent()
 end
 
+function _M:executeWASD()
+	local ws = self.wasd_state
+	if     ws.left  and ws.up   then self.key:triggerVirtual("MOVE_LEFT_UP")
+	elseif ws.right and ws.up   then self.key:triggerVirtual("MOVE_RIGHT_UP")
+	elseif ws.left  and ws.down then self.key:triggerVirtual("MOVE_LEFT_DOWN")
+	elseif ws.right and ws.down then self.key:triggerVirtual("MOVE_RIGHT_DOWN")
+	elseif ws.right             then self.key:triggerVirtual("MOVE_RIGHT")
+	elseif ws.left              then self.key:triggerVirtual("MOVE_LEFT")
+	elseif ws.up                then self.key:triggerVirtual("MOVE_UP")
+	elseif ws.down              then self.key:triggerVirtual("MOVE_DOWN")
+	end
+	ws.has_executed_once = true
+end
+
 function _M:setupWASD()
-	self.wasd_state = {}
-	local function handle_wasd()
+	self.wasd_state = {cnt=0, cd=12, base_cd=3}
+	local function update_wasd()
 		local ws = self.wasd_state
-		if     ws.left  and ws.up   then self.key:triggerVirtual("MOVE_LEFT_UP")
-		elseif ws.right and ws.up   then self.key:triggerVirtual("MOVE_RIGHT_UP")
-		elseif ws.left  and ws.down then self.key:triggerVirtual("MOVE_LEFT_DOWN")
-		elseif ws.right and ws.down then self.key:triggerVirtual("MOVE_RIGHT_DOWN")
-		elseif ws.right             then self.key:triggerVirtual("MOVE_RIGHT")
-		elseif ws.left              then self.key:triggerVirtual("MOVE_LEFT")
-		elseif ws.up                then self.key:triggerVirtual("MOVE_UP")
-		elseif ws.down              then self.key:triggerVirtual("MOVE_DOWN")
-		end
+		local old_cnt = ws.cnt
+		ws.cnt = 0
+		if ws.left then ws.cnt = ws.cnt + 1 end
+		if ws.right then ws.cnt = ws.cnt + 1 end
+		if ws.up then ws.cnt = ws.cnt + 1 end
+		if ws.down then ws.cnt = ws.cnt + 1 end
+		if ws.cnt == 0 then ws.has_executed_once = false ws.cd = ws.cd + 3 * ws.base_cd end
 	end
 
 	if config.settings.tome.use_wasd then
 		self.key:addBinds{
-			MOVE_WASD_UP    = function(sym, ctrl, shift, alt, meta, unicode, isup, key) if isup then handle_wasd() end self.wasd_state.up = not isup and true or false end,
-			MOVE_WASD_DOWN  = function(sym, ctrl, shift, alt, meta, unicode, isup, key) if isup then handle_wasd() end self.wasd_state.down = not isup and true or false end,
-			MOVE_WASD_LEFT  = function(sym, ctrl, shift, alt, meta, unicode, isup, key) if isup then handle_wasd() end self.wasd_state.left = not isup and true or false end,
-			MOVE_WASD_RIGHT = function(sym, ctrl, shift, alt, meta, unicode, isup, key) if isup then handle_wasd() end self.wasd_state.right = not isup and true or false end,
+			MOVE_WASD_UP    = function(sym, ctrl, shift, alt, meta, unicode, isup, key) if isup and not self.wasd_state.has_executed_once then self:executeWASD() end self.wasd_state.up = not isup and true or false update_wasd() end,
+			MOVE_WASD_DOWN  = function(sym, ctrl, shift, alt, meta, unicode, isup, key) if isup and not self.wasd_state.has_executed_once then self:executeWASD() end self.wasd_state.down = not isup and true or false update_wasd() end,
+			MOVE_WASD_LEFT  = function(sym, ctrl, shift, alt, meta, unicode, isup, key) if isup and not self.wasd_state.has_executed_once then self:executeWASD() end self.wasd_state.left = not isup and true or false update_wasd() end,
+			MOVE_WASD_RIGHT = function(sym, ctrl, shift, alt, meta, unicode, isup, key) if isup and not self.wasd_state.has_executed_once then self:executeWASD() end self.wasd_state.right = not isup and true or false update_wasd() end,
 		}
 	else
 		self.key:removeBind("MOVE_WASD_UP")

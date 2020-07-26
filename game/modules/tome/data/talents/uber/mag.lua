@@ -184,7 +184,9 @@ uberTalent{
 		who:learnTalent(who.T_BONE_SHIELD, true, 3, {no_unlearn=true})
 		who:forceUseTalent(who.T_BONE_SHIELD, {ignore_energy=true})
 		if who.necrotic_minion then
-			if who.subtype == "giant" then
+			if who.name == "dread" or who.name == "dreadmaster" then
+				who:learnTalent(who.T_SLUMBER, true, 3, {no_unlearn=true})				
+			elseif who.subtype == "giant" then
 				who:learnTalent(who.T_BONE_SPIKE, true, 3, {no_unlearn=true})
 				who:learnTalent(who.T_RUIN, true, 3, {no_unlearn=true}) who:forceUseTalent(who.T_RUIN, {ignore_energy=true})
 			elseif who.subtype == "vampire" or who.subtype == "lich" then
@@ -261,8 +263,7 @@ uberTalent{
 		- Skeleton Warriors: Ruin
 		- Bone Giants: Bone Spike and Ruin
 		- Ghouls: Virulent Disease
-		- Vampires / Liches: Blood Grasp and Blood Boil
-		- Ghosts / Wights: Blood Fury and Curse of Death
+		- Dread: Slumber
 		]]):tformat()
 	end,
 }
@@ -355,6 +356,7 @@ uberTalent{
 		stat = {wil=25},
 	},
 	is_race_evolution = function(self, t)
+		if self:knowTalent(t.id) then return true end
 		if not t:_canGrantQuest(self) then return false end
 		local nb = 0
 		for tid, lvl in pairs(self.talents) do local t = self:getTalentFromId(tid) if t.is_necromancy then nb = nb + lvl end end
@@ -436,7 +438,7 @@ uberTalent{
 		return ([[This is your true goal and the purpose of all necromancy - to become a powerful and everliving Lich!
 		Once learnt, the next time you are killed, the arcane forces you unleash will be able to rebuild your body into the desired Lichform.
 		Liches are immune to poisons, diseases, fear, cuts, stuns, do not need to breath and are 20%% resistant to cold and darkness.
-		Liches also gain +12 Magic, Willpower and Cunning, 60%% chance to ignore critical hits, +4 life rating (not retroactive), +35 spell and mental saves, all resistance caps raised by 15%% and 7 mana regeneration.
+		Liches also gain +12 Magic, Willpower and Cunning, 60%% chance to ignore critical hits, +4 life rating (not retroactive), +35 spell and mental saves and 7 mana regeneration.
 
 		Liches gain a new racial tree with the following talents:
 		- Neverending Unlife: A Lich body is extremely resilient, being able to go into negative life and when destroyed it can regenerate itself.

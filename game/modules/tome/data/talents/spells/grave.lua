@@ -120,7 +120,7 @@ newTalent{
 	target = function(self, t) return {type="ball", radius=self:getTalentRadius(t), range=self:getTalentRange(t), nolock=true, nowarning=true} end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
-		local x, y = self:getTargetLimited(tg)
+		local x, y = self:getTargetLimitedWallStop(tg)
 		if not x then return end
 		self:setEffect(self.EFF_CORPSELIGHT, 7, {x=x, y=y, radius=self:getTalentRadius(t), dam=t:_getDamage(self), stacks=self.life < 1 and 3 or 0, max_stacks=t:_getMaxStacks(self)})
 		return true

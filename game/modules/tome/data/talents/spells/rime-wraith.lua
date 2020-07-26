@@ -26,6 +26,7 @@ newTalent{
 	mana = 15,
 	range = 10,
 	cooldown = 30,
+	fixed_cooldown = true,
 	tactical = { BUFF = 2 },
 	requires_target = true,
 	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t} end,
