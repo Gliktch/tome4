@@ -61,6 +61,9 @@ function _M:bumpInto(target, x, y)
 			if target.describeFloor then target:describeFloor(target.x, target.y, true) end
 			if self.describeFloor then self:describeFloor(self.x, self.y, true) end
 
+			local eff = self:hasEffect(self.EFF_CURSE_OF_SHROUDS) if eff then eff.moved = true end
+			eff = target:hasEffect(target.EFF_CURSE_OF_SHROUDS) if eff then eff.moved = true end
+
 			local energy = game.energy_to_act * self:combatMovementSpeed(x, y)
 			if self:attr("bump_swap_speed_divide") then
 				energy = energy / self:attr("bump_swap_speed_divide")
