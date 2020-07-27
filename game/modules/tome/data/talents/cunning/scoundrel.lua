@@ -58,7 +58,7 @@ newTalent{
 	require = cuns_req2,
 	mode = "passive",
 	points = 5,
-	getCritPenalty = function(self,t) return self:combatTalentScale(t, 20, 60) end,
+	getCritPenalty = function(self,t) return self:combatTalentLimit(t, 100, 20, 60) end,
 	getDuration = function(self,t) return 4 end,
 	getChance = function(self, t) return self:combatTalentLimit(t, 100, 8, 35) end, -- Limit < 100%
 	callbackOnMeleeAttack = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
