@@ -2286,6 +2286,7 @@ local type_sort = {
 	weapon = 100,
 	armor = 101,
 }
+_M.type_sort = type_sort
 
 --- Sorting by type function
 -- By default, sort by type name
