@@ -30,6 +30,7 @@ newTalent{
 	reflectable = true,
 	requires_target = true,
 	target = function(self, t)
+		if self:attr("archmage_widebeam") then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
 		return {type="beam", range=self:getTalentRange(t), talent=t}
 	end,
 	allow_for_arcane_combat = true,
@@ -41,9 +42,13 @@ newTalent{
 		local dam = self:spellCrit(t.getDamage(self, t))
 		self:project(tg, x, y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(dam / 3, dam, 3), daze=self:attr("lightning_daze_tempest") or 0})
 		local _ _, x, y = self:canProject(tg, x, y)
-		if core.shader.active() then game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "lightning_beam", {tx=x-self.x, ty=y-self.y}, {type="lightning"})
-		else game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "lightning_beam", {tx=x-self.x, ty=y-self.y})
+
+		if self:attr("archmage_widebeam") then
+			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "lightning_beam_wide", {tx=x-self.x, ty=y-self.y}, core.shader.active() and {type="lightning"} or nil)
+		else
+			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "lightning_beam", {tx=x-self.x, ty=y-self.y}, core.shader.active() and {type="lightning"} or nil)
 		end
+
 		game:playSoundNear(self, "talents/lightning")
 		return true
 	end,

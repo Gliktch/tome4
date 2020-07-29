@@ -448,3 +448,37 @@ uberTalent{
 		]]):tformat()
 	end,
 }
+
+uberTalent{
+	name = "High Thaumaturgist",
+	require = {
+		birth_descriptors={{"subclass", "Archmage"}},
+		special={desc=_t"Unlocked the High Thaumaturgist evolution", fct=function(self) return profile.mod.allow_build.mage_thaumaturgist end},
+		stat = {wil=25},
+	},
+	is_class_evolution = "Archmage", requires_unlock = "mage_thaumaturgist",
+	cant_steal = true,
+	is_spell = true,
+	mode = "passive",
+	no_npc_use = true,
+	on_learn = function(self, t)
+		if not game.party:hasMember(self) then return end
+		self.descriptor.class_evolution = "High Thaumaturgist"
+
+		self:learnTalentType("spell/thaumaturgy", true)
+		self:setTalentTypeMastery("spell/thaumaturgy", 1.3)
+		self:attr("archmage_widebeam", 1)
+	end,
+	on_unlearn = function(self, t)
+	end,
+	info = function(self, t)
+		return ([[Thaumaturgists have unlocked a deeper understanding of their spells, allowing them to combine the elements into new ways and to empower them.
+		The spells Flame, Manathrust, Lightning, Pulverizing Auger and Ice Shards are permanently turned into 3-wide beams spells.
+		In addition they have access to the unique Thaumaturgy class tree:
+		- Orb of Thaumaturgy: a temporary orb that duplicates any beam spells that you cast
+		- Multicaster: When casting a beam spell adds a chance to also cast an other archmage spell
+		- Slipstream: Allows movement when casting beams
+		- Elemental Array Burst: a powerful, multi-elemental beam spell that can inflict all elemental ailments and can not be resisted]])
+		:tformat()
+	end,
+}

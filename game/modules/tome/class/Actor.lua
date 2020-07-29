@@ -6870,7 +6870,9 @@ end
 function _M:canLearnTalent(t, ...)
 	local ret = engine.interface.ActorTalents.canLearnTalent(self, t, ...)
 	if (t.is_class_evolution or t.is_race_evolution) and self:attr("has_evolution") then
-		return nil, _t"can only learn one evolution"
+		if not self.is_in_uber_dialog or not self.is_in_uber_dialog.levelup_end_prodigies or not self.is_in_uber_dialog.levelup_end_prodigies[t.id] then
+			return nil, _t"can only learn one evolution"
+		end
 	end
 	return ret
 end
@@ -6880,7 +6882,12 @@ function _M:getTalentReqDesc(t_id, ...)
 	local str = engine.interface.ActorTalents.getTalentReqDesc(self, t_id, ...)
 	local t = self:getTalentFromId(t_id)
 	if t.is_race_evolution or t.is_class_evolution then
-		str:add(((not self:attr("has_evolution") or self:knowTalent(t_id)) and {"color", 0x00,0xff,0x00} or {"color", 0xff,0x00,0x00}), _t"- Not other class or race evolution", true)
+		local ok = false
+		if not self:attr("has_evolution") then ok = true
+		elseif self:knowTalent(t_id) then ok = true
+		elseif self.is_in_uber_dialog and self.is_in_uber_dialog.levelup_end_prodigies and self.is_in_uber_dialog.levelup_end_prodigies[t_id] then ok = true
+		end
+		str:add(ok and {"color", 0x00,0xff,0x00} or {"color", 0xff,0x00,0x00}, _t"- Not other class or race evolution", true)
 	end
 	return str
 end

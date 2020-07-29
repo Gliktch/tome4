@@ -32,6 +32,7 @@ newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=tru
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/temporal", name = _t"temporal", description = _t"The school of time manipulation." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/phantasm", name = _t"phantasm", description = _t"Control the power of tricks and illusions." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/enhancement", name = _t"enhancement", description = _t"Magical enhancement of your body." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/thaumaturgy", name = _t"thaumaturgy", description = _t"The pinacle of spellcasting." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/conveyance", name = _t"conveyance", generic = true, description = _t"Conveyance is the school of travel. It allows you to travel faster and to track others." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/divination", name = _t"divination", generic = true, description = _t"Divination allows the caster to sense its surroundings, and find hidden things." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/aegis", name = _t"aegis", generic = true, description = _t"Command the arcane forces into healing and protection." }
@@ -314,6 +315,7 @@ load("/data/talents/spells/meta.lua")
 load("/data/talents/spells/divination.lua")
 load("/data/talents/spells/temporal.lua")
 load("/data/talents/spells/phantasm.lua")
+load("/data/talents/spells/thaumaturgy.lua")
 load("/data/talents/spells/enhancement.lua")
 
 load("/data/talents/spells/explosives.lua")

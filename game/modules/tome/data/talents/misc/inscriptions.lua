@@ -103,7 +103,7 @@ newInscription{
 			return cut + poison + disease
 		end
 	},
-	is_heal = true,
+	is_heal = true, ignore_is_heal_test = true,
 	no_energy = true,
 	action = function(self, t)
 		local data = self:getInscriptionData(t.short_name)

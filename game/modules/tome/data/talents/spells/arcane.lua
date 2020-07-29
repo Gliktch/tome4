@@ -34,6 +34,7 @@ newTalent{
 	reflectable = true,
 	requires_target = true,
 	target = function(self, t)
+		if self:attr("archmage_widebeam") then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
 		local tg = {type="bolt", range=self:getTalentRange(t), talent=t, display={particle="bolt_arcane", trail="arcanetrail"}}
 		if self:getTalentLevel(t) >= 3 then tg.type = "beam" end
 		return tg
@@ -43,9 +44,14 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		if tg.type == "beam" then
+		if tg.type == "beam" or tg.type == "widebeam" then
 			self:project(tg, x, y, DamageType.ARCANE, self:spellCrit(t.getDamage(self, t)), nil)
-			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "mana_beam", {tx=x-self.x, ty=y-self.y})
+			local _ _, x, y = self:canProject(tg, x, y)
+			if self:attr("archmage_widebeam") then
+				game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "mana_beam_wide", {tx=x-self.x, ty=y-self.y})
+			else
+				game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "mana_beam", {tx=x-self.x, ty=y-self.y})
+			end
 		else
 			self:projectile(tg, x, y, DamageType.ARCANE, self:spellCrit(t.getDamage(self, t)), {type="manathrust"})
 		end
