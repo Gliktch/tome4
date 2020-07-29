@@ -5059,6 +5059,7 @@ function _M:learnTalent(t_id, force, nb, extra)
 		self:capLastLearntTalents(t.generic and "generic" or "class")
 	end
 
+	if t.is_race_evolution or t.is_class_evolution then self:attr("has_evolution", nb or 1) end
 	if t.is_spell then self:attr("has_arcane_knowledge", nb or 1) end
 	if t.is_antimagic then self:attr("forbid_arcane", nb or 1) end
 	if t.type[1]:find("^chronomancy/bow") or t.type[1]:find("^chronomancy/blade") then self:attr("warden_swap", nb or 1) end
@@ -5243,6 +5244,7 @@ function _M:unlearnTalent(t_id, nb, no_unsustain, extra)
 	if #todel > 0 then for _, eff_id in ipairs(todel) do self:removeEffect(eff_id) end end
 
 	self:recomputeRegenResources()
+	if t.is_race_evolution or t.is_class_evolution then self:attr("has_evolution", -nb) end
 	if t.is_spell then self:attr("has_arcane_knowledge", -nb) end
 	if t.is_antimagic then self:attr("forbid_arcane", -nb) end
 	if t.type[1]:find("^chronomancy/bow") or t.type[1]:find("^chronomancy/blade") then self:attr("warden_swap", -nb) end
@@ -5925,7 +5927,7 @@ function _M:preUseTalent(ab, silent, fake)
 	end
 
 	-- Cant heal
-	if ab.is_heal and (self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) then return false end
+	if ab.is_heal and not ab.ignore_is_heal_test and (self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) then return false end
 	if ab.is_teleport and self:attr("encased_in_ice") then return false end
 
 	return true
@@ -6863,6 +6865,26 @@ function _M:setTalentAuto(tid, v, opt)
 	else self.talents_auto[tid] = nil
 	end
 end
+
+--- Checks if the talent can be learned
+function _M:canLearnTalent(t, ...)
+	local ret = engine.interface.ActorTalents.canLearnTalent(self, t, ...)
+	if (t.is_class_evolution or t.is_race_evolution) and self:attr("has_evolution") then
+		return nil, _t"can only learn one evolution"
+	end
+	return ret
+end
+
+--- Formats the requirements as a (multiline) string
+function _M:getTalentReqDesc(t_id, ...)
+	local str = engine.interface.ActorTalents.getTalentReqDesc(self, t_id, ...)
+	local t = self:getTalentFromId(t_id)
+	if t.is_race_evolution or t.is_class_evolution then
+		str:add(((not self:attr("has_evolution") or self:knowTalent(t_id)) and {"color", 0x00,0xff,0x00} or {"color", 0xff,0x00,0x00}), _t"- Not other class or race evolution", true)
+	end
+	return str
+end
+
 
 --- Setups a talent automatic use
 function _M:checkSetTalentAuto(tid, v, opt)
