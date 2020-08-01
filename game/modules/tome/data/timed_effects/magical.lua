@@ -5301,3 +5301,58 @@ newEffect{
 		self:unlearnTalent(self.T_GHOST_WALK_RETURN, 1, nil, {no_unlearn=true})
 	end,
 }
+
+newEffect{
+	name = "SLIPSTREAM", image = "talents/slipstream.png",
+	desc = _t"Slipstream Free Movement",
+	long_desc = function(self, eff) return _t"Can move once for free, this turn only." end,
+	type = "magical",
+	subtype = { thaumaturgy=true, movement=true },
+	status = "beneficial", decrease = 0,
+	parameters = {},
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "free_movement", 1)
+		eff.setup = true
+	end,
+	callbackOnMove = function(self, eff, moved, force, ox, oy)
+		if not moved or force then return end
+		self:removeEffect(self.EFF_SLIPSTREAM, true, true)
+		self:callTalent(self.T_SLIPSTREAM, "useStream")
+	end,
+	callbackOnAct = function(self, eff)
+		if eff.setup then eff.setup = nil return end
+		self:removeEffect(self.EFF_SLIPSTREAM, true, true)
+	end,
+}
+
+newEffect{
+	name = "ORB_OF_THAUMATURGY", image = "talents/orb_of_thaumaturgy.png",
+	desc = _t"Orb Of Thaumaturgy",
+	long_desc = function(self, eff) return _t"All beam spells are duplicated to the orb." end,
+	type = "magical",
+	subtype = { thaumaturgy=true, meta=true },
+	status = "beneficial",
+	parameters = {},
+	callbackOnChangeLevel = function(self, eff, what)
+		if what ~= "leave" then return end
+		self:removeEffect(self.EFF_ORB_OF_THAUMATURGY, true, true)
+	end,
+	callbackOnTalentPost = function(self, eff, t)
+		if self._orb_of_thaumaturgy_recurs then return end
+		if not t.is_beam_spell then return end
+		game:onTickEnd(function()
+		local target = {x=eff.x, y=eff.y, __no_self=true}
+		self._orb_of_thaumaturgy_recurs = target
+		print("==============+HERE!!!!")
+		self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_ressources=true, ignore_energy=true, force_target=target})
+		print("==============+DONE!!!!")
+		self._orb_of_thaumaturgy_recurs = nil
+		end)
+	end,
+	activate = function(self, eff)
+		eff.particle = game.level.map:particleEmitter(eff.x, eff.y, 1, "corpselight", {})
+	end,
+	deactivate = function(self, eff, ed)
+		game.level.map:removeParticleEmitter(eff.particle)
+	end,
+}

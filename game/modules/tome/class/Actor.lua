@@ -1406,6 +1406,7 @@ function _M:move(x, y, force)
 			else
 				local speed = self:combatMovementSpeed(x, y)
 				local use_energy = true
+				if self:attr("free_movement") then use_energy = false end
 				if self:attr("walk_sun_path") then
 					for i, e in ipairs(game.level.map.effects) do if e.damtype == DamageType.SUN_PATH and e.grids[x] and e.grids[x][y] then use_energy = false break end end
 				end
@@ -6868,13 +6869,13 @@ end
 
 --- Checks if the talent can be learned
 function _M:canLearnTalent(t, ...)
-	local ret = engine.interface.ActorTalents.canLearnTalent(self, t, ...)
+	local status, reason = engine.interface.ActorTalents.canLearnTalent(self, t, ...)
 	if (t.is_class_evolution or t.is_race_evolution) and self:attr("has_evolution") then
 		if not self.is_in_uber_dialog or not self.is_in_uber_dialog.levelup_end_prodigies or not self.is_in_uber_dialog.levelup_end_prodigies[t.id] then
 			return nil, _t"can only learn one evolution"
 		end
 	end
-	return ret
+	return status, reason
 end
 
 --- Formats the requirements as a (multiline) string

@@ -28,10 +28,11 @@ newTalent{
 	tactical = { ATTACK = { FIRE = 2 } },
 	range = 10,
 	reflectable = true,
+	is_beam_spell = true,
 	proj_speed = 20,
 	requires_target = true,
 	target = function(self, t)
-		if self:attr("archmage_widebeam") then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
+		if thaumaturgyCheck(self) then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
 		local tg = {type="bolt", range=self:getTalentRange(t), talent=t, display={particle="bolt_fire", trail="firetrail"}}
 		if self:getTalentLevel(t) >= 5 then tg.type = "beam" end
 		return tg
@@ -45,7 +46,7 @@ newTalent{
 		if not x or not y then return nil end
 		local grids = nil
 
-		if self:attr("archmage_widebeam") then
+		if thaumaturgyCheck(self) then
 			grids = self:project(tg, x, y, DamageType.FIREBURN, self:spellCrit(t.getDamage(self, t)))
 			local _ _, x, y = self:canProject(tg, x, y)
 			game.level.map:particleEmitter(self.x, self.y, tg.radius, "flamebeam_wide", {tx=x-self.x, ty=y-self.y})

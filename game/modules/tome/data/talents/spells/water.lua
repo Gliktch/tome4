@@ -27,10 +27,11 @@ newTalent{
 	tactical = { ATTACKAREA = { COLD = 1, stun = 1 } },
 	range = 10,
 	radius = 1,
+	is_beam_spell = true,
 	proj_speed = 8,
 	requires_target = true,
 	target = function(self, t)
-		if self:attr("archmage_widebeam") then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()}
+		if thaumaturgyCheck(self) then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()}
 		else return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t} end
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 18, 200) end,
@@ -39,7 +40,7 @@ newTalent{
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 
-		if self:attr("archmage_widebeam") then
+		if thaumaturgyCheck(self) then
 			self:project(tg, x, y, DamageType.ICE, {chance=25, do_wet=true, dam=self:spellCrit(t.getDamage(self, t))})
 			game.level.map:particleEmitter(self.x, self.y, tg.radius, "ice_beam_wide", {tx=x-self.x, ty=y-self.y})
 		else

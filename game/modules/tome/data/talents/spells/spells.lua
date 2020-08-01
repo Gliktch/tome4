@@ -119,6 +119,15 @@ spells_req_high5 = {
 	level = function(level) return 26 + (level-1)  end,
 }
 
+function thaumaturgyCheck(self)
+	if not self:attr("archmage_widebeam") then return false end
+	local inven = self:getInven("BODY")
+	if not inven then return true end
+	if not inven[1] then return true end
+	if inven[1].type ~= "armor" or inven[1].subtype ~= "cloth" then return false end
+	return true
+end
+
 -------------------------------------------
 -- Necromancer minions
 function necroArmyStats(self)

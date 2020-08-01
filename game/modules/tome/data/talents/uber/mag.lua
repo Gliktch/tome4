@@ -478,7 +478,8 @@ uberTalent{
 		- Orb of Thaumaturgy: a temporary orb that duplicates any beam spells that you cast
 		- Multicaster: When casting a beam spell adds a chance to also cast an other archmage spell
 		- Slipstream: Allows movement when casting beams
-		- Elemental Array Burst: a powerful, multi-elemental beam spell that can inflict all elemental ailments and can not be resisted]])
+		- Elemental Array Burst: a powerful, multi-elemental beam spell that can inflict all elemental ailments and can not be resisted
+		#CRIMSON#The fine spellcasting required for wide beams and all thaumaturgy spells can only happen while wearing cloth. Anything heavier will hinder the casting too much.]])
 		:tformat()
 	end,
 }

@@ -4384,3 +4384,25 @@ newDamageType{
 		end
 	end,
 }
+
+-- Unresistible damage, always uses highest resistance penetration
+-- NEVER add items that resist that! Use sparingly!
+newDamageType{
+	name = _t"thaumic energy", type = "THAUM", text_color = "#C259D0#",
+	death_message = {_t"utterly vaporized", _t"annihilated", _t"disintegrated"},
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		if src.combatGetResistPen then
+			if not src.auto_highest_resists_pen then src.auto_highest_resists_pen = {} end
+			if not src.auto_highest_resists_pen[DamageType.THAUM] then src.auto_highest_resists_pen[DamageType.THAUM] = 1 end
+		end
+		if src.combatGetDamageIncrease then
+			if not src.auto_highest_inc_damage then src.auto_highest_inc_damage = {} end
+			if not src.auto_highest_inc_damage[DamageType.THAUM] then src.auto_highest_inc_damage[DamageType.THAUM] = 1 end
+		end
+		local target = game.level.map(x, y, Map.ACTOR)
+		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 end
+		return DamageType.defaultProjector(src, x, y, type, dam, state)
+	end,
+}

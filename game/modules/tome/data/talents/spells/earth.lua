@@ -30,10 +30,11 @@ newTalent{
 	is_body_of_stone_affected = true,
 	range = 10,
 	tactical = { ATTACK = {PHYSICAL = 2} },
+	is_beam_spell = true,
 	direct_hit = true,
 	requires_target = true,
 	target = function(self, t)
-		if self:attr("archmage_widebeam") then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
+		if thaumaturgyCheck(self) then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
 		local tg = {type="beam", range=self:getTalentRange(t), talent=t}
 		return tg
 	end,
@@ -55,7 +56,7 @@ newTalent{
 		tg.range = self:getTalentRange(t)
 		self:project(tg, x, y, DamageType.PHYSICAL, self:spellCrit(t.getDamage(self, t)), nil)
 		local _ _, x, y = self:canProject(tg, x, y)
-		if self:attr("archmage_widebeam") then 
+		if thaumaturgyCheck(self) then 
 			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "earth_beam_wide", {tx=x-self.x, ty=y-self.y})
 		else
 			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "earth_beam", {tx=x-self.x, ty=y-self.y})

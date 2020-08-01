@@ -324,7 +324,7 @@ function _M:checkDeps(simple, ignore_special)
 
 		local t = self.actor:getTalentFromId(t_id)
 		local ok, reason = self.actor:canLearnTalent(t, 0, ignore_special)
-		if not ok and (self.actor:knowTalent(t) or force) then talents = talents.."\n#GOLD##{bold}#    - "..t.name.."#{normal}##LAST#("..reason..")" end
+		if not ok and (self.actor:knowTalent(t) or force) then talents = talents.."\n#GOLD##{bold}#    - "..t.name.."#{normal}##LAST#("..(reason or _t"unknown")..")" end
 		if reason == _t"not enough stat" then
 			stats_ok = false
 		end
