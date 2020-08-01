@@ -127,6 +127,11 @@ function thaumaturgyCheck(self)
 	if inven[1].type ~= "armor" or inven[1].subtype ~= "cloth" then return false end
 	return true
 end
+function thaumaturgyBeamDamage(self, dam)
+	local v = self:attr("archmage_beam_dam_mult")
+	if not v then return dam end
+	return dam * (1 + v / 100)
+end
 
 -------------------------------------------
 -- Necromancer minions

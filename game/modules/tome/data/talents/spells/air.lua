@@ -40,7 +40,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		local dam = self:spellCrit(t.getDamage(self, t))
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
 		self:project(tg, x, y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(dam / 3, dam, 3), daze=self:attr("lightning_daze_tempest") or 0})
 		local _ _, x, y = self:canProject(tg, x, y)
 

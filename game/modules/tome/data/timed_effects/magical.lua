@@ -5343,9 +5343,9 @@ newEffect{
 		game:onTickEnd(function()
 		local target = {x=eff.x, y=eff.y, __no_self=true}
 		self._orb_of_thaumaturgy_recurs = target
-		print("==============+HERE!!!!")
+		self:attr("archmage_beam_dam_mult", -eff.dam_pct)
 		self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_ressources=true, ignore_energy=true, force_target=target})
-		print("==============+DONE!!!!")
+		self:attr("archmage_beam_dam_mult", eff.dam_pct)
 		self._orb_of_thaumaturgy_recurs = nil
 		end)
 	end,

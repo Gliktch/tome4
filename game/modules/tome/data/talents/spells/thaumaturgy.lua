@@ -32,17 +32,18 @@ newTalent{
 	no_energy = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	getDur = function(self, t) return math.floor(self:combatTalentScale(t, 2, 6)) end,
+	getDamPct = function(self, t) return math.floor(self:combatTalentLimit(t, 0, 80, 50)) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTargetLimitedWallStop(tg)
 		if not x or not y then return nil end
-		self:setEffect(self.EFF_ORB_OF_THAUMATURGY, t:_getDur(self), {x=x, y=y})
+		self:setEffect(self.EFF_ORB_OF_THAUMATURGY, t:_getDur(self), {x=x, y=y, dam_pct=t:_getDamPct(self)})
 		return true
 	end,
 	info = function(self, t)
 		return ([[You create an orb attuned to thaumaturgy for %d turns.
-		While it lasts, any beam spell you cast will be duplicated and also cast for free at the orb.
-		]]):tformat(t:_getDur(self))
+		While it lasts, any beam spell you cast will be duplicated and also cast for free at the orb for %d%% of the normal damage.
+		]]):tformat(t:_getDur(self), 100 - t:_getDamPct(self))
 	end,
 }
 
@@ -108,7 +109,7 @@ newTalent{
 	cooldown = 20,
 	use_only_arcane = 5,
 	tactical = { BUFF=1 },
-	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 3, 9)) end,
+	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 2, 7)) end,
 	iconOverlay = function(self, t, p)
 		local val = p.charges
 		if val <= 0 then return "" end
@@ -200,7 +201,7 @@ newTalent{
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 
-		local dam = self:spellCrit(t.getDamage(self, t))
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
 		local grids = self:project(tg, x, y, DamageType.THAUM, dam)
 
 		if self:attr("burning_wake") and grids then

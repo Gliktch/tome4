@@ -54,7 +54,8 @@ newTalent{
 		end
 
 		tg.range = self:getTalentRange(t)
-		self:project(tg, x, y, DamageType.PHYSICAL, self:spellCrit(t.getDamage(self, t)), nil)
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
+		self:project(tg, x, y, DamageType.PHYSICAL, dam, nil)
 		local _ _, x, y = self:canProject(tg, x, y)
 		if thaumaturgyCheck(self) then 
 			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "earth_beam_wide", {tx=x-self.x, ty=y-self.y})

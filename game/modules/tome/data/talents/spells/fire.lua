@@ -46,20 +46,21 @@ newTalent{
 		if not x or not y then return nil end
 		local grids = nil
 
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
 		if thaumaturgyCheck(self) then
-			grids = self:project(tg, x, y, DamageType.FIREBURN, self:spellCrit(t.getDamage(self, t)))
+			grids = self:project(tg, x, y, DamageType.FIREBURN, dam)
 			local _ _, x, y = self:canProject(tg, x, y)
 			game.level.map:particleEmitter(self.x, self.y, tg.radius, "flamebeam_wide", {tx=x-self.x, ty=y-self.y})
 		else
 			if self:getTalentLevel(t) < 5 then
-				self:projectile(tg, x, y, DamageType.FIREBURN, self:spellCrit(t.getDamage(self, t)), function(self, tg, x, y, grids)
+				self:projectile(tg, x, y, DamageType.FIREBURN, dam, function(self, tg, x, y, grids)
 					game.level.map:particleEmitter(x, y, 1, "flame")
 					if self:attr("burning_wake") then
 						game.level.map:addEffect(self, x, y, 4, engine.DamageType.INFERNO, self:attr("burning_wake"), 0, 5, nil, {type="inferno"}, nil, self:spellFriendlyFire())
 					end
 				end)
 			else
-				grids = self:project(tg, x, y, DamageType.FIREBURN, self:spellCrit(t.getDamage(self, t)))
+				grids = self:project(tg, x, y, DamageType.FIREBURN, dam)
 				local _ _, x, y = self:canProject(tg, x, y)
 				game.level.map:particleEmitter(self.x, self.y, tg.radius, "flamebeam", {tx=x-self.x, ty=y-self.y})
 			end

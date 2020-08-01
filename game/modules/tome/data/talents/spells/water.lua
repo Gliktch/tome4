@@ -40,15 +40,16 @@ newTalent{
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
 		if thaumaturgyCheck(self) then
-			self:project(tg, x, y, DamageType.ICE, {chance=25, do_wet=true, dam=self:spellCrit(t.getDamage(self, t))})
+			self:project(tg, x, y, DamageType.ICE, {chance=25, do_wet=true, dam=dam})
 			game.level.map:particleEmitter(self.x, self.y, tg.radius, "ice_beam_wide", {tx=x-self.x, ty=y-self.y})
 		else
 			self:project(tg, x, y, function(px, py)
 				local actor = game.level.map(px, py, Map.ACTOR)
 				if actor and actor ~= self then
 					local tg2 = {type="bolt", range=self:getTalentRange(t), talent=t, display={particle="arrow", particle_args={tile="particles_images/ice_shards"}}}
-					self:projectile(tg2, px, py, DamageType.ICE, {chance=25, do_wet=true, dam=self:spellCrit(t.getDamage(self, t))}, {type="freeze"})
+					self:projectile(tg2, px, py, DamageType.ICE, {chance=25, do_wet=true, dam=dam}, {type="freeze"})
 				end
 			end)
 		end

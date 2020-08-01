@@ -45,8 +45,9 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
 		if tg.type == "beam" or tg.type == "widebeam" then
-			self:project(tg, x, y, DamageType.ARCANE, self:spellCrit(t.getDamage(self, t)), nil)
+			self:project(tg, x, y, DamageType.ARCANE, dam, nil)
 			local _ _, x, y = self:canProject(tg, x, y)
 			if thaumaturgyCheck(self) then
 				game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "mana_beam_wide", {tx=x-self.x, ty=y-self.y})
@@ -54,7 +55,7 @@ newTalent{
 				game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "mana_beam", {tx=x-self.x, ty=y-self.y})
 			end
 		else
-			self:projectile(tg, x, y, DamageType.ARCANE, self:spellCrit(t.getDamage(self, t)), {type="manathrust"})
+			self:projectile(tg, x, y, DamageType.ARCANE, dam, {type="manathrust"})
 		end
 		game:playSoundNear(self, "talents/arcane")
 		return true
