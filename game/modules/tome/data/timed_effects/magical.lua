@@ -5341,12 +5341,12 @@ newEffect{
 		if self._orb_of_thaumaturgy_recurs then return end
 		if not t.is_beam_spell then return end
 		game:onTickEnd(function()
-		local target = {x=eff.x, y=eff.y, __no_self=true}
-		self._orb_of_thaumaturgy_recurs = target
-		self:attr("archmage_beam_dam_mult", -eff.dam_pct)
-		self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_ressources=true, ignore_energy=true, force_target=target})
-		self:attr("archmage_beam_dam_mult", eff.dam_pct)
-		self._orb_of_thaumaturgy_recurs = nil
+			local target = {x=eff.x, y=eff.y, __no_self=true}
+			self._orb_of_thaumaturgy_recurs = target
+			self:attr("archmage_beam_dam_mult", -eff.dam_pct)
+			self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_ressources=true, ignore_energy=true, force_target=target})
+			self:attr("archmage_beam_dam_mult", eff.dam_pct)
+			self._orb_of_thaumaturgy_recurs = nil
 		end)
 	end,
 	activate = function(self, eff)
