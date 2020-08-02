@@ -97,7 +97,7 @@ newTalent{
 		self:callTalent(self.T_RIME_WRAITH, "createWraith", target, "EFF_RIME_WRAITH_GELID_HOST", t:_getDur(self))
 
 		local radius = self:getTalentRadius(t)
-		self:project({type="ball", radius=radius, x=target.x, y=target.y}, target.x, target.y, DamageType.COLD, t:_getDamage(self))
+		self:project({type="ball", radius=radius, x=target.x, y=target.y, friendlyfire=false}, target.x, target.y, DamageType.COLD, t:_getDamage(self))
 		game.level.map:particleEmitter(target.x, target.y, radius, "iceflash", {radius=radius})
 
 		return true
