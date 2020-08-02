@@ -466,7 +466,7 @@ uberTalent{
 		self:attr("archmage_widebeam", 1)
 
 		if not game.party:hasMember(self) then return end
-		self.descriptor.class_evolution = "High Thaumaturgist"
+		self.descriptor.class_evolution = _t"High Thaumaturgist"
 	end,
 	on_unlearn = function(self, t)
 	end,
