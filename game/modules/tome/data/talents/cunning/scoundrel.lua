@@ -129,7 +129,7 @@ newTalent{
 		end
 	end,
 	callbackOnTemporaryEffect = function(self, eff, eff_id, e, p)
-		if e.status ~= "detrimental" or e.type ~= "physical" or not (p.src and p.src._is_actor) then return end
+		if e.status ~= "detrimental" or e.type ~= "physical" or not (p.src and p.src.__is_actor) then return end
 		local chance = self:callTalent(self.T_MISDIRECTION, "getChance")
 		if not rng.percent(chance) then return end
 		game.logSeen(self, "#ORANGE#%s redirects the effect '%s'!#LAST#", self:getName():capitalize(), e.desc)

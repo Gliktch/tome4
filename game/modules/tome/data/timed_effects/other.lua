@@ -1553,11 +1553,11 @@ newEffect{
 		(function()
 			local def, level, bonusLevel = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES], eff.level, math.min(eff.unlockLevel, eff.level)
 			if math.min(eff.unlockLevel, eff.level) >= 3 then
-				--if e.status == "detrimental" and not e.subtype["cross tier"] and p.src and p.src._is_actor and not p.src.dead then
+				--if e.status == "detrimental" and not e.subtype["cross tier"] and p.src and p.src.__is_actor and not p.src.dead then
 					--local e = self.tempeffect_def[eff_id]
 				if e.status ~= "detrimental" or e.type == "other" or e.subtype["cross tier"] then return end
 				local harrowDam = def.getHarrowDam(self, level)
-				if p.src and p.src._is_actor then
+				if p.src and p.src.__is_actor then
 					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.MIND, harrowDam)
 					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.DARKNESS, harrowDam)
 					--game.logSeen(self, "#F53CBE#%s harrows '%s'!", self:getName():capitalize(), p.src.name)
