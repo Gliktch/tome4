@@ -32,7 +32,7 @@ newTalent{
 	no_energy = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	getDur = function(self, t) return math.floor(self:combatTalentScale(t, 2, 6)) end,
-	getDamPct = function(self, t) return math.floor(self:combatTalentLimit(t, 0, 80, 50)) end,
+	getDamPct = function(self, t) return math.floor(self:combatTalentLimit(t, 0, 60, 25)) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTargetLimitedWallStop(tg)
@@ -67,9 +67,11 @@ newTalent{
 		["spell/earth"] = 	{ "T_MUDSLIDE", "T_EARTHEN_MISSILES", "T_EARTHQUAKE" },
 	},
 	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
+		if not rng.percent(t:_getChance(self)) then return end
 		if not death_note then return end
 		if death_note.source_talent_mode ~= "active" and not self._orb_of_thaumaturgy_recurs then return end
 		if not death_note.source_talent or not death_note.source_talent.is_beam_spell then return end
+		if not thaumaturgyCheck(self) then return end
 
 		local tids = {}
 		for kind, list in pairs(t.spells_list) do
@@ -80,7 +82,6 @@ newTalent{
 		end
 		local choice = rng.rarityTable(tids, "cd")
 		if not choice then return end
-		table.print(self._orb_of_thaumaturgy_recurs)
 		self:forceUseTalent(choice.tid, {ignore_cooldown=true, ignore_energy=true, force_target=self._orb_of_thaumaturgy_recurs or target})
 	end,	
 	activate = function(self, t)
@@ -155,6 +156,7 @@ newTalent{
 		if not death_note then return end
 		if death_note.source_talent_mode ~= "active" then return end
 		if not death_note.source_talent or not death_note.source_talent.is_beam_spell then return end
+		if not thaumaturgyCheck(self) then return end
 		self:setEffect(self.EFF_SLIPSTREAM, 1, {})
 	end,	
 	on_pre_use = thaumaturgyCheck,
@@ -240,12 +242,49 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Using your near-perfect knowledge of beam spells you combine them all into a powerful 3-wide beam of pure energy.
 		The beam deals %0.2f thaumic damage and always goes as far as possible.
-		Thaumic damage can never be resisted by anything but "Resistance: All" and always uses your highest resistance penetration and highest damage type bonus.
+		Thaumic damage can never be resisted by anything but "Resistance: All", always uses your highest resistance penetration and highest damage type bonus and can never be altered into other damage types.
 		It can trigger Burning Wake and Hurricane.
 		It is affected by the wet status.
 		It has a 25%% chance to either stun or freeze the targets for 3 turns (if Crystalline Focus or Uttercold are active, respectively).
 		Each time you deal damage with a beam spell, the remaining cooldown is reduced by 1 (this can happen only once per turn).
 		The damage will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.THAUM, damage))
+	end,
+}
+
+newTalent{
+	name = "Thaumaturgy Unlock Checker", short_name = "THAUMATURGIST_UNLOCK_CHECKER",
+	type = {"spell/other",1},
+	mode = "passive",
+	hide = "always",
+	no_unlearn_last = true,
+	checkValid = function(self, t, death_note)
+		if not death_note then print("[Thaumaturgy Checker] fail because no death_note") return false end
+		if death_note.source_talent_mode ~= "active" then print("[Thaumaturgy Checker] unsure because no active") return nil end
+		if not death_note.source_talent or not death_note.source_talent.is_beam_spell then print("[Thaumaturgy Checker] fail because no beam spell") return false end
+		local tg = self:getTalentTarget(death_note.source_talent)
+		if tg.type ~= "beam" then print("[Thaumaturgy Checker] fail because beam spell is not yet beam") return false end
+		print("[Thaumaturgy Checker] Good for now") 
+		return true
+	end,
+	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
+		if target.rank < 4 or target.level < 10 then return end
+		local res = t:_checkValid(self, death_note)
+		if res == false then
+			target.__invalid_for_thaumaturgy_unlock = true
+		elseif res == true then
+			target.__valid_for_thaumaturgy_unlock = true
+		end
+	end,
+	callbackOnKill = function(self, t, target, death_note)
+		if target.rank < 4 or target.level < 10 then return end
+		local res = t:_checkValid(self, death_note)
+		if (res == true or res == nil) and target.__valid_for_thaumaturgy_unlock and not target.__invalid_for_thaumaturgy_unlock then
+			game:setAllowedBuild("mage_thaumaturgist", true)
+			self:unlearnTalent(t.id)
+		end
+	end,
+	info = function(self, t)
+		return "Move along, nothing to see" -- No need to translate
 	end,
 }
