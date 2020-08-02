@@ -460,14 +460,13 @@ uberTalent{
 	cant_steal = true,
 	is_spell = true,
 	mode = "passive",
-	no_npc_use = true,
 	on_learn = function(self, t)
-		if not game.party:hasMember(self) then return end
-		self.descriptor.class_evolution = "High Thaumaturgist"
-
 		self:learnTalentType("spell/thaumaturgy", true)
 		self:setTalentTypeMastery("spell/thaumaturgy", 1.3)
 		self:attr("archmage_widebeam", 1)
+
+		if not game.party:hasMember(self) then return end
+		self.descriptor.class_evolution = "High Thaumaturgist"
 	end,
 	on_unlearn = function(self, t)
 	end,

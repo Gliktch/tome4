@@ -26,7 +26,9 @@ newTalent{
 	cooldown = 20,
 	range = 10,
 	use_only_arcane = 5,
-	tactical = { BUFF=2 },
+	tactical = { BUFF=function(self, t)
+		if not self:hasEffect(self.EFF_ORB_OF_THAUMATURGY) then return 2 end
+	end },
 	on_pre_use = thaumaturgyCheck,
 	requires_target = true,
 	no_energy = true,
@@ -183,7 +185,7 @@ newTalent{
 	mana = 25,
 	use_only_arcane = 5,
 	cooldown = 16,
-	tactical = { ATTACKAREA = { THAUM = 3 } },
+	tactical = { ATTACKAREA = { THAUM = 4 } },
 	range = 10,
 	is_beam_spell = true,
 	requires_target = true,
