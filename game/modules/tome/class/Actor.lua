@@ -358,7 +358,7 @@ function _M:stripForExport()
 	self:setTarget(nil)
 
 	-- Disable all sustains, remove all effects
-	self:removeEffectsSustainsFilter()
+	self:removeEffectsSustainsFilter(true, nil, nil, {silent=true, force=true, save_cleanup=true})
 end
 
 -- Dummy
@@ -7028,7 +7028,9 @@ function _M:effectsFilter(t, nb)
 
 	for eff_id, p in pairs(self.tmp) do
 		local e = self.tempeffect_def[eff_id]
-		if type(t) == "function" then
+		if t == true then
+			effs[#effs+1] = eff_id
+		elseif type(t) == "function" then
 			if t(e) then effs[#effs+1] = eff_id end
 		else
 			local test = true
@@ -7075,7 +7077,10 @@ function _M:sustainsFilter(t, nb)
 			local talent = self:getTalentFromId(tid)
 			local ttype = getSustainType(talent)
 			local test
-			if type(t) == "function" then test = t(talent)
+			if t == true then
+				test = true
+			elseif type(t) == "function" then
+				test = t(talent)
 			else
 				test = (not t.type or t.type == ttype) and (not t.types or t.types[ttype])
 			end
@@ -7096,7 +7101,11 @@ function _M:removeSustainsFilter(t, nb, check_remove)
 	return #found
 end
 
-function _M:removeEffectsSustainsFilter(t, nb, check_remove, silent, force)
+function _M:removeEffectsSustainsFilter(t, nb, check_remove, params)
+	if not params then params = {} end
+	if params.silent == nil then params.silent = false end
+	if params.force == nil then params.force = false end
+	if params.ignore_energy == nil then params.ignore_energy = true end
 	t = t or {}
 	local objects = {}
 	for _, eff_id in ipairs(self:effectsFilter(t)) do
@@ -7119,7 +7128,11 @@ function _M:removeEffectsSustainsFilter(t, nb, check_remove, silent, force)
 	return nbr
 end
 
-function _M:removeEffectsSustainsTable(effs, susts, nb, check_remove, silent, force)
+function _M:removeEffectsSustainsTable(effs, susts, nb, check_remove, params)
+	if not params then params = {} end
+	if params.silent == nil then params.silent = false end
+	if params.force == nil then params.force = false end
+	if params.ignore_energy == nil then params.ignore_energy = true end
 	t = t or {}
 	local objects = {}
 	for _, eff_id in ipairs(effs) do
@@ -7132,9 +7145,9 @@ function _M:removeEffectsSustainsTable(effs, susts, nb, check_remove, silent, fo
 	for obj in rng.tableSampleIterator(objects, nb) do
 		if not check_remove or check_remove(self, obj) then
 			if obj[1] == "effect" then
-				self:removeEffect(obj[2], silent, force)
+				self:removeEffect(obj[2], params.silent, params.force)
 			else
-				self:forceUseTalent(obj[2], {ignore_energy=true, silent=silent})
+				self:forceUseTalent(obj[2], params)
 			end
 			nbr = nbr + 1
 		end
