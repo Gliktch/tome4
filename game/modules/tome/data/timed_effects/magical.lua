@@ -5351,7 +5351,7 @@ newEffect{
 		end)
 	end,
 	activate = function(self, eff)
-		eff.particle = game.level.map:particleEmitter(eff.x, eff.y, 1, "corpselight", {})
+		eff.particle = game.level.map:particleEmitter(eff.x, eff.y, 1, "thaumaturgy_orb", {})
 	end,
 	deactivate = function(self, eff, ed)
 		game.level.map:removeParticleEmitter(eff.particle)
