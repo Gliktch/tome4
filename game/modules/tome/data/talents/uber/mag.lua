@@ -350,6 +350,7 @@ uberTalent{
 			return not self:attr("true_undead") and nb > 0
 		end},
 		special2={desc=_t"Have completed the ritual", fct=function(self)
+			if config.settings.cheat then return true end
 			if self.lichform_quest_checker then return true end
 			if not game.state.birth.supports_lich_transform then return true else return self:isQuestStatus(game.state.birth.supports_lich_transform, engine.Quest.DONE) end
 		end},

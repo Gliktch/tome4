@@ -4860,6 +4860,7 @@ newEffect{
 		eff.turn_list = {}
 	end,
 	registerHit = function(self, eff, minion)
+		if not minion.ghoul_minion then return end
 		eff.turn_list[#eff.turn_list+1] = minion
 	end,
 	activate = function(self, eff)
