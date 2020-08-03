@@ -412,7 +412,7 @@ end
 function _M:descAttribute(attr)
 	local power = function(c)
 		if config.settings.tome.advanced_weapon_stats then
-			return ("%d%% power"):tformat(math.floor(game.player:combatDamagePower(self.combat)*100))
+			return ("%d%% power"):tformat(math.floor(game.player:combatDamagePower(self.special_combat or self.combat)*100))
 		else
 			return ("%d-%d power"):tformat(c.dam, (c.dam*(c.damrange or 1.1)))
 		end
