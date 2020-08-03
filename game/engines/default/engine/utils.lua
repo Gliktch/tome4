@@ -704,7 +704,7 @@ function table.orderedPairs(t)
 	return function ()
 		if i < n then
 			i = i + 1
-			return sorted_keys[i], t[sorted_keys[i]]
+			return sorted_keys[i], t[sorted_keys[i]], i == n
 		end
 	end
 end
@@ -720,7 +720,7 @@ function table.orderedPairs2(t, ordering)
 		if index <= #t then
 			value = t[index]
 			index = index + 1
-			return value[1], value[2]
+			return value[1], value[2], index == #t + 1
 		end
 	end
 end

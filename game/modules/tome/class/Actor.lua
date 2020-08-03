@@ -2055,18 +2055,24 @@ function _M:tooltip(x, y, seen_by)
 	--if #resists > 0 then ts:add("Resists: ", table.concat(resists, ','), true) end
 
 	local dt_order = function(a, b)
-		if a[1] == "all" then return true
-		elseif b[1] == "all" then return false
-		else return a[2] > b[2] end
+		if a[1] == "absolute" then return true
+		elseif b[1] == "absolute" then return false
+		else
+			if a[1] == "all" then return true
+			elseif b[1] == "all" then return false
+			else return a[2] > b[2] end
+		end
 	end
 
 	local resists = tstring{}
 	local first = true
 	ts:add({"color", "ANTIQUE_WHITE"}, _t"Resists: ")
-	for t, _ in table.orderedPairs2(self.resists or {}, dt_order) do
+	for t, ov, is_last in table.orderedPairs2(self.resists or {}, dt_order) do
 		local v = self:combatGetResist(t)
-		if t == "all" or t == "absolute" then
-			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(v)) .. "%", " ", {"color", "LAST"}, _t(t)..", ")
+		if t == "all" then
+			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(v)) .. "%", " ", {"color", "LAST"}, _t(t)) if not is_last then ts:add(", ") end
+		elseif t == "absolute" then
+			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(ov)) .. "%", " ", {"color", "LAST"}, _t(t)) if not is_last then ts:add(", ") end
 		elseif type(t) == "string" and math.abs(v) >= 20 then
 			local res = tostring(math.floor(v)) .. "%"
 			if first then first = false else ts:add(", ") end
