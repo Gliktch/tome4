@@ -196,7 +196,9 @@ newTalent{
 
 				local grids = {}
 				self:project({type="ball", radius=4, x=self.x, y=self.y}, self.x, self.y, function(px, py)
-					table.insert(grids, {x=px, y=py})
+					if not game.level.map:checkAllEntities(px, py, "block_move") then
+						table.insert(grids, {x=px, y=py})
+					end
 				end)
 
 				local spot = rng.table(grids)
