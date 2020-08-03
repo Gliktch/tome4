@@ -5107,14 +5107,15 @@ function _M:learnItemTalent(o, tid, level)
 	local t = self:getTalentFromId(tid)
 	local max = t.hard_cap or (t.points and t.points + 2) or 5
 	if not self.item_talent_surplus_levels then self.item_talent_surplus_levels = {} end
-	--local item_talent_surplus_levels = self.item_talent_surplus_levels or {}
 	if not self.item_talent_surplus_levels[tid] then self.item_talent_surplus_levels[tid] = 0 end
-	--item_talent_levels[tid] = item_talent_levels[tid] + level
+	if not self.item_talent_levels_learnt then self.item_talent_levels_learnt = {} end
+	if not self.item_talent_levels_learnt[tid] then self.item_talent_levels_learnt[tid] = 0 end
 	for i = 1, level do
 		if self:getTalentLevelRaw(t) >= max then
 			self.item_talent_surplus_levels[tid] = self.item_talent_surplus_levels[tid] + 1
 		else
 			self:learnTalent(tid, true, 1, {no_unlearn = true})
+			self.item_talent_levels_learnt[tid] = self.item_talent_levels_learnt[tid] + 1
 		end
 	end
 
@@ -5128,8 +5129,9 @@ function _M:unlearnItemTalent(o, tid, level)
 	local t = self:getTalentFromId(tid)
 	local max = (t.points and t.points + 2) or 5
 	if not self.item_talent_surplus_levels then self.item_talent_surplus_levels = {} end
-	--local item_talent_surplus_levels = self.item_talent_surplus_levels or {}
 	if not self.item_talent_surplus_levels[tid] then self.item_talent_surplus_levels[tid] = 0 end
+	if not self.item_talent_levels_learnt then self.item_talent_levels_learnt = {} end
+	if not self.item_talent_levels_learnt[tid] then self.item_talent_levels_learnt[tid] = 0 end
 
 	if self:isTalentActive(t) then self:forceUseTalent(t, {ignore_energy=true}) end
 
@@ -5138,6 +5140,7 @@ function _M:unlearnItemTalent(o, tid, level)
 			self.item_talent_surplus_levels[tid] = self.item_talent_surplus_levels[tid] - 1
 		else
 			self:unlearnTalent(tid, nil, nil, {no_unlearn = true})
+			self.item_talent_levels_learnt[tid] = self.item_talent_levels_learnt[tid] - 1
 		end
 	end
 end
