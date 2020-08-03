@@ -200,11 +200,11 @@ newTalent{
 		p.shield = p.shield + math.ceil(p.original_shield * t:_getRegen(self) / 100)
 	end,
 	info = function(self, t)
-		return ([[Everytime your shield loses %d%% of its original value a radius %d circle of desolate waste spawns under you that deals %0.2f cold damage per turn to all foes for 6 turns.
+		return ([[Every time your shield loses %d%% of its original value a circle of desolate waste will spawn under you, lasting 6 turns, and dealing %0.2f cold damage per turn to foes within radius %d.
 		If a creature is hit by your hiemal shield's retribution bolt while on the waste, the shield feeds of the wasteland to regenerate %0.1f%% of its original value.
 		No more than %d desolate wastes can trigger per shield activation.
 		The damage will increase with your Spellpower.]]):
-		tformat(t:_getThreshold(self), self:getTalentRadius(t), damDesc(self, DamageType.COLD, t:_getDamage(self)), t:_getRegen(self), 100 / t:_getThreshold(self))
+		tformat(t:_getThreshold(self), damDesc(self, DamageType.COLD, t:_getDamage(self)), self:getTalentRadius(t), t:_getRegen(self), 100 / t:_getThreshold(self))
 	end,
 }
 
@@ -222,7 +222,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your desolate wastes are now rapidly crumbling.
-		Any foe moving through them is likely to get cut, bleeding ice that deals %0.2f cold damage over 4 turns (stacking) and reducing its movement speed by %d%%.
+		Any foe moving through them is likely to get cut, taking %0.2f cold damage and bleeding over 4 turns (stacking) while reducing its movement speed by 15%%.
 		The damage will increase with your Spellpower.]]):
 		tformat(t:_getDamage(self), t:_getSpeed(self))
 	end,

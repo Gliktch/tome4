@@ -239,10 +239,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Call upon the battlefields of old to collect bones and fuse them with souls, combining them to create skeletal minions to do your bidding.
-		Up to %d skeleton warriors of level %d are summoned. Up to %d skeletons can be controlled at once.
+		return ([[Call upon the battlefields of old, collecting bones, fusing them with souls, and forging them into skeletal minions.
+		Up to %d skeleton warriors of level %d are summonedn, and up to %d skeletons can be controlled at once.
 		At level 3 the summons become armoured skeletons warriors.
-		At level 5 every 3 summoned warriors a free skeleton mage or skeleton archer is also created (without costing a soul). You can only sustain one mage and one archer at most in your army, in which case the free minion will be an armoured skeleton warrior.
+		At level 5, for every 3 skeleton warriors, a skeleton mage or archer will also be created without costing any souls.
 
 		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generally more durable.#{normal}#
 		]]):tformat(t:_getNb(self), math.max(1, self.level + t:_getLevel(self)), t:_getMax(self, true))
@@ -517,10 +517,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Every army of undead minions needs its spearhead. To that end you combine 3 skeleton minions into a bone giant of level %d.
-		The minions used are automatically selected by taking the weaker and older ones first and a Lord of Skull is never used.
+		The minions used are selected from the weakest first, and a Lord of Skulls will never be used. 
 		At level 3 an eternal bone giant is created instead.
 		At level 6 a heavy bone giant is created instead.
-		Only one bone giant may be active at any time, casting this spell while one exists will destroy it and replace it with a new one.
+		Only one bone giant may be active, and casting this spell while one already exists will destroy it and create a new one.
 		]]):
 		tformat(math.max(1, self.level + t:_getLevel(self)))
 	end,
