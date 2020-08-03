@@ -30,13 +30,14 @@ defineTile('.', "FLOOR")
 defineTile('#', "DOOR")
 defineTile('X', "HARDWALL")
 defineTile('8', "FLOOR", {random_filter={add_levels=15, tome_mod="gvault"}}, {random_filter={add_levels=50}})
+defineTile('!', "DOOR_VAULT")
 
 rotates = {"default", "90", "180", "270", "flipx", "flipy"}
 
 return {
 [[.......................................]],
 [[.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.]],
-[[.#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8X.]],
+[[.!8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8X.]],
 [[.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#X.]],
 [[.X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8X.X.]],
 [[.X#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#X#X.]],
@@ -48,7 +49,7 @@ return {
 [[.X#X#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#X.]],
 [[.X8X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#.X.]],
 [[.X#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.]],
-[[.X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#.]],
+[[.X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8!.]],
 [[.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.]],
 [[.......................................]],
 }
