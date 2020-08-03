@@ -4403,8 +4403,10 @@ newDamageType{
 			if not src.auto_highest_inc_damage then src.auto_highest_inc_damage = {} end
 			if not src.auto_highest_inc_damage[DamageType.THAUM] then src.auto_highest_inc_damage[DamageType.THAUM] = 1 end
 		end
+
 		local target = game.level.map(x, y, Map.ACTOR)
-		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 end
+		if target and target:hasEffect(target.EFF_WET) and src.hasEffect and src:hasEffect(src.EFF_SHIVGOROTH_FORM) then dam = dam * 1.3 end
+
 		if src.turn_procs then src.turn_procs.damage_type_fix_type = true end
 		local realdam = DamageType.defaultProjector(src, x, y, type, dam, state)
 		if src.turn_procs then src.turn_procs.damage_type_fix_type = nil end

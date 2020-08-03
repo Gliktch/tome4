@@ -246,7 +246,7 @@ newTalent{
 		The beam deals %0.2f thaumic damage and always goes as far as possible.
 		Thaumic damage can never be resisted by anything but "Resistance: All", always uses your highest resistance penetration and highest damage type bonus and can never be altered into other damage types.
 		It can trigger Burning Wake and Hurricane.
-		It is affected by the wet status.
+		It is affected by the wet status (+30%% damage) if you are in Shivgoroth Form.
 		It has a 25%% chance to either stun or freeze the targets for 3 turns (if Crystalline Focus or Uttercold are active, respectively).
 		Each time you deal damage with a beam spell, the remaining cooldown is reduced by 1 (this can happen only once per turn).
 		The damage will increase with your Spellpower.]]):
