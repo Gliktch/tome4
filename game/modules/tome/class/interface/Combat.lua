@@ -2479,7 +2479,7 @@ function _M:hasOffWeaponType(type)
 	if not self:getInven("OFFHAND") then return end
 	local weapon = self:getInven("OFFHAND")[1]
 	if not weapon then return nil end
-	if type and weapon.combat.talented ~= type then return nil end
+	if type and (weapon.special_combat or weapon.combat).talented ~= type then return nil end
 	return weapon
 end
 
