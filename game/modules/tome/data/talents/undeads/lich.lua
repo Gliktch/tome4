@@ -35,7 +35,7 @@ newTalent{
 			self.lich_first_rez = true
 			_G.a=dialog
 			dialog:cleanActor(self)
-			dialog:resurrectBasic(self)
+			dialog:resurrectBasic(self, "lich_rebirth")
 			dialog:restoreResources(self)
 			self:callTalent(self.T_LICH, "becomeLich")
 
@@ -48,7 +48,7 @@ newTalent{
 		elseif not self:hasEffect(self.EFF_LICH_HUNGER) and not self.lich_no_more_regen then
 			list[#list+1] = {name=("Lich Regeneration (%d turns)"):tformat(t.getTurns(self, t)), action=function()
 				dialog:cleanActor(self)
-				dialog:resurrectBasic(self)
+				dialog:resurrectBasic(self, "lich_regen")
 				dialog:restoreResources(self)
 
 				game.level.map:particleEmitter(self.x, self.y, 1, "demon_teleport")

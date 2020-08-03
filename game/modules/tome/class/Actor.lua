@@ -3138,6 +3138,7 @@ function _M:die(src, death_note)
 		self:move(self.x, self.y, true)
 		self:check("on_resurrect", "basic_resurrect")
 		self:triggerHook{"Actor:resurrect", reason="basic_resurrect"}
+		self:fireTalentCheck("callbackOnResurrect", "basic_resurrect")
 
 		if self:attr("self_resurrect_chat") then
 			local chat = Chat.new(self.self_resurrect_chat, self, game.player)
@@ -5984,6 +5985,7 @@ local sustainCallbackCheck = {
 	callbackOnDeath = "talents_on_death",
 	callbackOnDeathbox = "talents_on_deathbox",
 	callbackOnSummonDeath = "talents_on_summon_death",
+	callbackOnResurrect = "talents_on_resurrect",
 	callbackOnDie = "talents_on_die",
 	callbackOnKill = "talents_on_kill",
 	callbackOnSummonKill = "talents_on_summon_kill",
