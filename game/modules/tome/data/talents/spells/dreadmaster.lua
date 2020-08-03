@@ -198,7 +198,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Any time one of your minions dies or expires, and even if it is resurrected by a boneyard, the dread feeds on it.
-		Each time it feeds it gets healed by %d and reduces remaining cooldown of its spells by %d.
+		Each time it feeds it gets healed for %d and reduces remaining cooldown of its spells by %d.
 		Every 10 minion deaths it casts a random hex on up to %d foes at once, instantly and without triggering a cooldown.]]):
 		tformat(t:_getHeal(self), t:_getCD(self), t:_getFoes(self))
 	end,

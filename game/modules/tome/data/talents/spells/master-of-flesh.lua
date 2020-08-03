@@ -215,7 +215,7 @@ newTalent{
 		At level 5 every 4 summoned ghouls or ghasts a ghoulking is summoned for free.
 		Ghouls, ghasts and ghoulkings last for %d turns.
 
-		#GREY##{italic}#Ghoul minions come in larger numbers than skeleton minions but are generaly more frail and disposable.#{normal}#
+		#GREY##{italic}#Ghoul minions come in larger numbers than skeleton minions but are generally more frail and disposable.#{normal}#
 		]]):tformat(t:_getEvery(self), math.max(1, self.level + t:_getLevel(self)), t:_getNb(self), self:getTalentRadius(self, t), t:_getTurns(self))
 	end,
 }
@@ -329,7 +329,7 @@ newTalent{
 		return ([[Shattering up to %d ghouls or ghasts you create a putrescent swirling cloud of radius %d that follows you around for 3 turns per dead ghoul. Oldest ghouls are prioritized for destruction.
 		Any ghoul or ghast dying or expiring within this cloud increases its duration by %d turn and every two aborbed ghoul/ghast your gain back one soul.
 		The cloud deals %0.2f frostdusk damage to any foes caught inside.
-		The damage is increased by your Spellpower.
+		The damage will increase with your Spellpower.
 		]]):tformat(t:_getNb(self), self:getTalentRadius(t), t:_getIncrease(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)))
 	end,
 }
@@ -356,7 +356,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Ghouls are nothing but mere tools to you, for %d turns you render them bloated with dark forces.
 		Anytime a ghoul or ghast is hit it will explode in a messy splash of gore, dealing %0.2f frostdusk damage to all foes in radius %d of it.
-		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces on attribute by %d.
+		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces one attribute by %d.
 		Only one ghoul may explode per turn. The one with the least time left to live is always the first to do so.
 		The damage and disease power is increased by your Spellpower.
 		]]):
@@ -410,7 +410,7 @@ newTalent{
 		return true
 	end,	
 	info = function(self, t)
-		return ([[Whenever you would be affected by a detrimental physical effect you instead transfer it instantly to one of your ghoul.
+		return ([[Whenever you would be affected by a detrimental physical effect you instead transfer it instantly to one of your ghouls.
 		The ghoul dies from the process.
 		While under 1 life it also affects magical and mental effects.
 		Cross-tier effects are never affected.

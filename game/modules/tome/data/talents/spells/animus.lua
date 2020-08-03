@@ -93,7 +93,7 @@ newTalent{
 		return true
 	end,	
 	info = function(self, t)
-		return ([[Consume a soul whole to rebuild your body, healing you by %d and generating %d mana.
+		return ([[Consume a soul whole to rebuild your body, healing you for %d and generating %d mana.
 		If used below 1 life the surge increases your spellpower by %d for 10 turns.
 		The heal and mana increases with your Spellpower.]]):
 		tformat(t.getHeal(self, t), t.getMana(self, t), t.getSpellpower(self, t))

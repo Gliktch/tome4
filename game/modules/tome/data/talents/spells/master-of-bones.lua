@@ -239,12 +239,12 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Call upon the battle fields of old to collect bones and fuse them with souls, combining them to create skeletal minions to do your bidding.
+		return ([[Call upon the battlefields of old to collect bones and fuse them with souls, combining them to create skeletal minions to do your bidding.
 		Up to %d skeleton warriors of level %d are summoned. Up to %d skeletons can be controlled at once.
 		At level 3 the summons become armoured skeletons warriors.
 		At level 5 every 3 summoned warriors a free skeleton mage or skeleton archer is also created (without costing a soul). You can only sustain one mage and one archer at most in your army, in which case the free minion will be an armoured skeleton warrior.
 
-		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generaly more durable.#{normal}#
+		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generally more durable.#{normal}#
 		]]):tformat(t:_getNb(self), math.max(1, self.level + t:_getLevel(self)), t:_getMax(self, true))
 	end,
 }
@@ -353,9 +353,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Sacrifice one skeleton to turn it into a wall of bones of %d length for %d turns.
+		return ([[Sacrifice one skeleton to turn it into a wall of bones of length %d for %d turns.
 		The wall is strong enough to block movement but projectiles and sight are not hampered.
-		Any foes adjacent to it takes %0.2f frostdusk damage and has %d%% chances to be pinned for 4 turns.
+		Any foes adjacent to it take %0.2f frostdusk damage and has %d%% chances to be pinned for 4 turns.
 		]]):tformat(3 + math.floor(self:getTalentLevel(t) / 2) * 2, t:_getDuration(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), t:_getChance(self))
 	end,
 }
@@ -564,12 +564,12 @@ newTalent{
 	end,	
 	info = function(self, t)
 		return ([[Consume a soul to empower one of your skeleton, making it into a Lord of Skulls.
-		The Lord of Skulls gain %d%% more life, is instantly healed to full.
-		There can be only one active Lord of Skulls, casting this spell on an other skeleton removes the effect from the current one.
+		The Lord of Skulls gains %d%% more life and is instantly healed to full.
+		There can be only one active Lord of Skulls, casting this spell on another skeleton removes the effect from the current one.
 		It also gains a new talent if high enough:
-		At level 2 Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes and impact and frees the skeleton from any stun, daze and pin effects they may have
+		At level 2 Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes on impact and frees the skeleton from any stun, daze and pin effects they may have
 		At level 3 Archers learn Vital Shot, a devastating attack that can stun and cripple their foes
-		At level 5 Mages learn Meteoric Crash, a destructive spell that crushes and burns foes in a big radius for multiple turns
+		At level 5 Mages learn Meteoric Crash, a destructive spell that crushes and burns foes in a big radius for multiple turns and stuns them
 		At level 6 Bone Giants learn You Shall Be My Weapon!, a massive attack that deals high damage, knockbacks foes and stuns them
 		]]):
 		tformat(t:_getLife(self))

@@ -51,7 +51,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Conjures up a beam of darkness, doing %0.2f darkness damage.
-		At level 5, the beam widens to hit foes on each sides.
+		At level 5, the beam widens to hit foes on each side.
 		The damage will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.DARKNESS, damage))
 	end,
@@ -142,8 +142,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Shadows engulf your foes, anytime you deal darkness damage to a creature affected by a bane, the bane's duration is increased by 1 turn and the shadows erupt, dealing an additional %0.2f damage.
-		The damage the can only happen once per turn per creature, the turn increase however always happens.
+		return ([[Shadows engulf your foes, anytime you deal darkness damage to a creature affected by a bane, the bane's duration is increased by 1 turn and the shadows erupt, dealing an additional %0.2f darkness damage.
+		The damage can only happen once per turn per creature, the turn increase however always happens.
 		The damage will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.DARKNESS, damage))
 	end,

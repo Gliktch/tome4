@@ -69,7 +69,7 @@ newTalent{
 	info = function(self, t)
 		return ([[When switching targets your rime wraith now always prefers the one farther away if possible.
 		Any creatures on the path of the wraith while it travels are affected:
-		- if friendly: they are healed by %d
+		- if friendly: they are healed for %d
 		- if hostile: they take %0.2f cold damage
 		The damage and healing will increase with your Spellpower.]]):
 		tformat(t:_getHeal(self), damDesc(self, DamageType.COLD, t:_getDamage(self)))
@@ -104,7 +104,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[By crushing one more soul you reinforce your existing rime wraith, duplicating it out of its current host.
-		The new wraith will exist for %d turns and cannot be used for an other cast of Gelid Host.
+		The new wraith will exist for %d turns and cannot be used for another cast of Gelid Host.
 		When it is created the current host and all foes in radius %d are blasted for %0.2f cold damage.
 		The damage will increase with your Spellpower.]]):
 		tformat(t:_getDur(self), self:getTalentRadius(t), damDesc(self, DamageType.COLD, t:_getDamage(self)))

@@ -96,7 +96,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Summon a icy spike directly on a foe, impaling it for %0.2f cold damage.
+		return ([[Summon an icy spike directly on a foe, impaling it for %0.2f cold damage.
 		At level 5 it hits all foes in range 1 around the target.
 		Any creature hit will take %d%% more damage from your necrotic minions for 3 turns.
 		The damage will increase with your Spellpower.]]):
@@ -159,7 +159,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Upon expiring the corpselight implodes, pulling in all foes towards its center and dealing %0.2f cold damage.
-		The damage is increased by +10%% per stacks.
+		The damage is increased by +10%% per stack.
 		The damage will increase with your Spellpower.
 
 		#PURPLE#Learning this spell will make Corpselight cost two souls to use instead of one.]]):

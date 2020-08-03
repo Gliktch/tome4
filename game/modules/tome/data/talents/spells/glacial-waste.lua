@@ -161,7 +161,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Conjure a shield of ice around you that can absorbs a total of %d damage.
+		return ([[Conjure a shield of ice around you that can absorb a total of %d damage.
 		Anytime it does it retaliates by sending a bolt of ice at the attacker, dealing %0.2f cold damage (this can only happen once per turn per creature).
 		When you are above 1 life it only affects 66.6%% of the damage, letting through the rest.
 		When you are under 1 life it affects 100%% of the damage and also reduces the damage of critical hits by %d%%.
@@ -200,7 +200,7 @@ newTalent{
 		p.shield = p.shield + math.ceil(p.original_shield * t:_getRegen(self) / 100)
 	end,
 	info = function(self, t)
-		return ([[Everytime your shield looses %d%% of its original value an radius %d circle of desolate waste spawns under you that deals %0.2f cold damage per turn to all foes for 6 turns.
+		return ([[Everytime your shield loses %d%% of its original value a radius %d circle of desolate waste spawns under you that deals %0.2f cold damage per turn to all foes for 6 turns.
 		If a creature is hit by your hiemal shield's retribution bolt while on the waste, the shield feeds of the wasteland to regenerate %0.1f%% of its original value.
 		No more than %d desolate wastes can trigger per shield activation.
 		The damage will increase with your Spellpower.]]):
