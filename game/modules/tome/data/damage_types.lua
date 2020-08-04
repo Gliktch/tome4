@@ -1823,7 +1823,7 @@ newDamageType{
 			end
 			if #effs > 0 then
 				local eff = rng.tableRemove(effs)
-				target:removeEffect(eff[2])
+				target:dispel(eff[2], src)
 			end
 		end
 		return realdam
@@ -2619,7 +2619,7 @@ newDamageType{
 					end
 					if #effs > 0 then
 						local eff = rng.tableRemove(effs)
-						target:removeEffect(eff[2])
+						target:dispel(eff[2], src)
 					end
 				end
 			end

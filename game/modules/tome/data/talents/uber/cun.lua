@@ -302,7 +302,7 @@ uberTalent{
 			if damtype == DamageType.PHYSICAL and not self:hasProc("elemental_surge_physical") then
 				self:setProc("elemental_surge_physical", true, 10)
 				game.logSeen(self, "%s surges with earthen power!", self:getName():capitalize())
-				self:removeEffectsFilter({status="detrimental", type="physical", ignore_crosstier=true}, 1)
+				self:removeEffectsFilter(self, {status="detrimental", type="physical", ignore_crosstier=true}, 1)
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_PHYSICAL, 2, {})
 				t.doProject(self, t, damtype, "ball_earth")
 			elseif damtype == DamageType.ARCANE and not self:hasProc("elemental_surge_arcane") then
@@ -333,7 +333,7 @@ uberTalent{
 			elseif damtype == DamageType.NATURE and not self:hasProc("elemental_surge_nature") then
 				self:setProc("elemental_surge_nature", true, 10)
 				game.logSeen(self, "%s surges with #LIGHT_GREEN#natural#LAST# power!", self:getName():capitalize())
-				self:removeEffectsFilter({status="detrimental", type="magical", ignore_crosstier=true}, 1)
+				self:removeEffectsFilter(self, {status="detrimental", type="magical", ignore_crosstier=true}, 1)
 				self:setEffect(self.EFF_ELEMENTAL_SURGE_NATURE, 2, {})
 				t.doProject(self, t, damtype, "slime")
 			end

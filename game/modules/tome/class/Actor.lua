@@ -358,7 +358,7 @@ function _M:stripForExport()
 	self:setTarget(nil)
 
 	-- Disable all sustains, remove all effects
-	self:removeEffectsSustainsFilter(true, nil, nil, {silent=true, force=true, save_cleanup=true})
+	self:removeEffectsSustainsFilter(self, true, nil, nil, {silent=true, force=true, save_cleanup=true})
 end
 
 -- Dummy
@@ -3131,7 +3131,7 @@ function _M:die(src, death_note)
 
 		local effs = {}
 
-		self:removeEffectsSustainsFilter()
+		self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
 
 		self.life = self.max_life
 		self.mana = self.max_mana
@@ -5995,6 +5995,8 @@ local sustainCallbackCheck = {
 	callbackOnDeathbox = "talents_on_deathbox",
 	callbackOnSummonDeath = "talents_on_summon_death",
 	callbackOnResurrect = "talents_on_resurrect",
+	callbackOnDispelled = "talents_on_dispelled",
+	callbackOnDispel = "talents_on_dispel",
 	callbackOnDie = "talents_on_die",
 	callbackOnKill = "talents_on_kill",
 	callbackOnSummonKill = "talents_on_summon_kill",
@@ -7064,12 +7066,13 @@ function _M:effectsFilter(t, nb)
 	return rng.tableSample(effs, nb)
 end
 
-function _M:removeEffectsFilter(t, nb, silent, force, check_remove)
+function _M:removeEffectsFilter(src, t, nb, silent, force, check_remove, allow_immunity)
+	if allow_immunity == nil then allow_immunity = true end
 	t = t or {}
 	local eff_ids = self:effectsFilter(t, nb)
 	for _, eff_id in ipairs(eff_ids) do
 		if not check_remove or check_remove(self, eff_id) then
-			self:removeEffect(eff_id, silent, force)
+			self:dispel(eff_id, src, not force and allow_immunity, {force=force, silent=silent})
 		end
 	end
 	return #eff_ids
@@ -7102,18 +7105,18 @@ function _M:sustainsFilter(t, nb)
 	return rng.tableSample(ids, nb)
 end
 
-function _M:removeSustainsFilter(t, nb, check_remove)
+function _M:removeSustainsFilter(src, t, nb, check_remove, allow_immunity)
 	t = t or {}
 	local found = self:sustainsFilter(t, nb)
 	for _, tid in ipairs(found) do
 		if not check_remove or check_remove(self, tid) then
-			self:forceUseTalent(tid, {ignore_energy=true})
+			self:dispel(tid, src, allow_immunity)
 		end
 	end
 	return #found
 end
 
-function _M:removeEffectsSustainsFilter(t, nb, check_remove, params)
+function _M:removeEffectsSustainsFilter(src, t, nb, check_remove, params)
 	if not params then params = {} end
 	if params.silent == nil then params.silent = false end
 	if params.force == nil then params.force = false end
@@ -7129,18 +7132,15 @@ function _M:removeEffectsSustainsFilter(t, nb, check_remove, params)
 	local nbr = 0
 	for obj in rng.tableSampleIterator(objects, nb) do
 		if not check_remove or check_remove(self, obj) then
-			if obj[1] == "effect" then
-				self:removeEffect(obj[2], silent, force)
-			else
-				self:forceUseTalent(obj[2], {ignore_energy=true, silent=silent})
+			if self:dispel(obj[2], src, not params.force and not params.no_resist, params) then
+				nbr = nbr + 1
 			end
-			nbr = nbr + 1
 		end
 	end
 	return nbr
 end
 
-function _M:removeEffectsSustainsTable(effs, susts, nb, check_remove, params)
+function _M:removeEffectsSustainsTable(src, effs, susts, nb, check_remove, params)
 	if not params then params = {} end
 	if params.silent == nil then params.silent = false end
 	if params.force == nil then params.force = false end
@@ -7156,15 +7156,71 @@ function _M:removeEffectsSustainsTable(effs, susts, nb, check_remove, params)
 	local nbr = 0
 	for obj in rng.tableSampleIterator(objects, nb) do
 		if not check_remove or check_remove(self, obj) then
-			if obj[1] == "effect" then
-				self:removeEffect(obj[2], params.silent, params.force)
-			else
-				self:forceUseTalent(obj[2], params)
+			if self:dispel(obj[2], src, not params.force and not params.no_resist, params) then
+				nbr = nbr + 1
 			end
-			nbr = nbr + 1
 		end
 	end
 	return nbr
+end
+
+--- Try to dispel an effect or sustain
+-- @param src who is doing the dispelling
+-- @param allow_immunity If true will check for canBe("dispel_XXX"), defaults to true
+function _M:dispel(effid_or_tid, src, allow_immunity, params)
+	if self:attr("invulnerable") then return end
+
+	if not params then params = {} end
+	if params.silent == nil then params.silent = false end
+	if params.force == nil then params.force = false end
+	if params.ignore_energy == nil then params.ignore_energy = true end
+	if allow_immunity == nil then allow_immunity = true end
+	local allowed = true
+
+	-- Dont resist yourself!
+	if src == self then allow_immunity = false end
+
+	-- Effect
+	if effid_or_tid:find("^EFF_") then
+		local eff = self:getEffectFromId(effid_or_tid)
+		if not eff or eff.type == "other" then return end -- NEVER touch other
+		if not self:hasEffect(effid_or_tid) then return end
+
+		if allow_immunity then
+			if not self:canBe("dispel_effects") then allowed = false end
+		end
+		if allowed and allow_immunity then
+			if self:fireTalentCheck("callbackOnDispel", "effect", effid_or_tid, src, allow_immunity) then allowed = false end
+		end
+		if allowed then
+			self:removeEffect(effid_or_tid, params.force)
+			self:fireTalentCheck("callbackOnDispelled", "effect", effid_or_tid, src, allow_immunity)
+			return true
+		else
+			game.logSeen(self, "%s resists the dispelling of %s!", self:getName():capitalize(), eff.desc)
+			return false
+		end
+	-- Sustain
+	else
+		local t = self:getTalentFromId(effid_or_tid)
+		if not t then return end
+		if not self:isTalentActive(t.id) then return end
+
+		if allow_immunity then
+			if not self:canBe("dispel_sustains") then allowed = false end
+		end
+		if allowed and allow_immunity then
+			if self:fireTalentCheck("callbackOnDispel", "sustain", effid_or_tid, src, allow_immunity) then allowed = false end
+		end
+		if allowed then
+			self:forceUseTalent(effid_or_tid, params)
+			self:fireTalentCheck("callbackOnDispelled", "sustain", effid_or_tid, src, allow_immunity)
+			return true
+		else
+			game.logSeen(self, "%s resists the dispelling of %s!", self:getName():capitalize(), t.name)
+			return false
+		end
+	end
 end
 
 --- Randomly reduce talent cooldowns based on a filter
@@ -7375,6 +7431,8 @@ end
 _M.StatusTypes = {poison=true,	disease=true, cut=true, confusion=true, blind=true,	silence=true,
 	disarm=true, stun=true, sleep=true, fear=true, stone=true, slow=true,
 	instakill=false, anomaly=false,
+	dispel_sustains=function(self) return 100 * ((self:attr("dispel_sustains_immune") or 0) + (self:attr("dispel_immune") or 0)) end,
+	dispel_effects=function(self) return 100 * ((self:attr("dispel_effects_immune") or 0) + (self:attr("dispel_immune") or 0)) end,
 	pin=function(self) return (self:attr("negative_status_effect_immune") or self:attr("levitation") or self:attr("fly")) and 100 or 100 * (self:attr("pin_immune") or 0) end,
 	knockback=function(self) return self:attr("never_move") and 100 or 100 * (self:attr("knockback_immune") or 0) end,
 	teleport=function(self) return self:attr("encased_in_ice") and 100 or 100 * (self:attr("teleport_immune") or 0) end,

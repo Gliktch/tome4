@@ -447,7 +447,7 @@ newEffect{
 	deactivate = function(self, eff)
 	end,
 	on_timeout = function(self, eff)
-		local cleanse = self:removeEffectsFilter({type="physical", status="detrimental"}, 1)
+		local cleanse = self:removeEffectsFilter(self, {type="physical", status="detrimental"}, 1)
 		if cleanse > 0 then eff.dur = eff.dur + 1 end
 	end,
 }
@@ -2372,7 +2372,7 @@ newEffect{
 		if #effs > 0 then
 			local eff = rng.tableRemove(effs)
 			if eff[1] == "effect" then
-				self:removeEffect(eff[2])
+				self:dispel(eff[2], eff.src)
 			end
 		end
 
@@ -3710,7 +3710,7 @@ newEffect{
 	status = "detrimental",
 	parameters = {},
 	on_timeout = function(self, eff)
-		self:removeSustainsFilter(nil, 1)
+		self:removeSustainsFilter(eff.src, nil, 1)
 	end,
 	activate = function(self, eff)
 		if core.shader.allow("adv") then

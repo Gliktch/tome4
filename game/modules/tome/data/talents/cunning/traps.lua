@@ -1907,11 +1907,7 @@ newTalent{
 							if #effs == 0 then break end
 							local eff = rng.tableRemove(effs)
 				
-							if eff[1] == "effect" then
-								who:removeEffect(eff[2])
-							else
-								who:forceUseTalent(eff[2], {ignore_energy=true})
-							end
+							who:dispel(eff[2], self.summoner)
 						end
 					end
 					engine.DamageType:get(engine.DamageType.MANABURN).projector(self.summoner, px, py, engine.DamageType.MANABURN, self.dam)

@@ -101,11 +101,7 @@ newTalent{
 			if #effs == 0 then break end
 			local eff = rng.tableRemove(effs)
 
-			if eff[1] == "effect" then
-				target:removeEffect(eff[2])
-			else
-				target:forceUseTalent(eff[2], {ignore_energy=true})
-			end
+			target:dispel(eff[2], self)
 		end
 		game:playSoundNear(self, "talents/spell_generic")
 		return true

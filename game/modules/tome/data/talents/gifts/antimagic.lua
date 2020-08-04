@@ -199,7 +199,7 @@ newTalent{
 			DamageType:get(DamageType.MANABURN).projector(self, px, py, DamageType.MANABURN, base)
 		
 			if self:knowTalent(self.T_ANTIMAGIC_ADEPT) then
-				target:removeSustainsFilter(function(o)
+				target:removeSustainsFilter(self, function(o)
 					if o.is_spell then return true else return false end
 				end, 4)
 			end

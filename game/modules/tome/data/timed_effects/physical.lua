@@ -2542,11 +2542,7 @@ newEffect{
 
 			if #effs > 0 then
 				local eff = rng.tableRemove(effs)
-				if eff[1] == "effect" then
-					self:removeEffect(eff[2])
-				else
-					self:forceUseTalent(eff[2], {ignore_energy=true})
-				end
+				self:dispel(eff[2], eff.src)
 			end
 		end
 		self:setEffect(self.EFF_DISTORTION, 2, {power=eff.distort})
