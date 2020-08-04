@@ -663,6 +663,23 @@ I'm going to enjoy hearing his screams, a log on the pyre a gold he cost us. Nic
 }
 
 newLore{
+	id = "renegade-pyromancers-vault",
+	category = "vault",
+	name = _t"How to Summon a Phoenix",
+	lore = _t[[#{bold}#How to Summon a Phoenix#{normal}#
+	  10 pouches faeros ash
+	  5 vials fire wyrm saliva
+	  3 red crystal shards
+	  3 pouches bone giant dust
+	  1 vial greater demon bile
+	  1 skeleton mage skull
+	  pinch of luminous horror dust
+
+	#{italic}#The bottom half of the scroll has been singed into a pile of char, dispersing into a cloud of ash as you grasp it#{normal}#
+	]]
+}
+
+newLore{
 	id = "nature-vs-magic",
 	category = "magic",
 	name = _t"Nature vs Magic",
