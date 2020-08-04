@@ -4059,7 +4059,8 @@ newEffect{
 
 		pcall(function() -- Just in case
 			eff.image:forceUseTalent(ab.id, {force_level=self:getTalentLevelRaw(ab.id), ignore_cd=true, no_talent_fail=true, ignore_energy=true, force_talent_ignore_ressources=true, force_target=tgt})
-			eff.image:takeHit(1, eff.image)
+			-- eff.image:takeHit(1, eff.image)
+			eff.image:useCharge()
 		end)
 
 		eff.last_talent = true

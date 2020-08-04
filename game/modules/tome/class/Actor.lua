@@ -6847,6 +6847,7 @@ end
 function _M:alterTalentLevelRaw(t, lvl)
 	if t.no_unlearn_last then return lvl end -- Those are dangerous, do not change them
 	if self.talents_add_levels and self.talents_add_levels[t.id] then lvl = lvl + self.talents_add_levels[t.id] end
+	if self:attr("all_talents_bonus_level") then lvl = lvl + self:attr("all_talents_bonus_level") end
 	if self:attr("spells_bonus_level") and t.is_spell then lvl = lvl + self:attr("spells_bonus_level") end
 	if self.talents_add_levels_custom and next(self.talents_add_levels_custom) then
 		for id, filter in pairs(self.talents_add_levels_custom) do if type(filter) == "function" then

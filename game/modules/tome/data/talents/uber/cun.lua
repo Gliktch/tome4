@@ -471,17 +471,11 @@ uberTalent{
 	mode = "passive",
 	cant_steal = true,
 	info = function(self, t)
-		return ([[Your talent masteries are increased by 0.3.  Note that many talents will not benefit from this increase.]])
-		:tformat()
+		return ([[You are adept at many different skills, granting you +2 to all talent levels.
+		This works on already known talents and those that you will learn afterwards.]]):tformat()
 	end,
-	passives = function(self, t, tmptable)
-		self:talentTemporaryValue(tmptable, "talents_mastery_bonus", {all = 0.3})
-		
-		if not self._updating_adept then
-			self._updating_adept = true
-			self:updateAllTalentsPassives()
-			self._updating_adept = nil
-		end
+	passives = function(self, t, p)
+		self:talentTemporaryValue(p, "all_talents_bonus_level", 2)
 	end,
 }
 
