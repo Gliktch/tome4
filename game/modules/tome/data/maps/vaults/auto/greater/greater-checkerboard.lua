@@ -28,7 +28,6 @@ specialList("actor", {
 border = 0
 defineTile('.', "FLOOR")
 defineTile('#', "DOOR")
-defineTile('!', "DOOR_VAULT")
 defineTile('X', "HARDWALL")
 defineTile('8', "FLOOR", {random_filter={add_levels=15, tome_mod="gvault"}}, {random_filter={add_levels=50}})
 defineTile('!', "DOOR_VAULT")
