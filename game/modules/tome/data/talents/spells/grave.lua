@@ -18,49 +18,9 @@
 -- darkgod@te4.org
 
 newTalent{
-	name = "Chill of the Tomb",
+	name = "Black Ice",
 	type = {"spell/grave",1},
 	require = spells_req1,
-	points = 5,
-	mana = 30,
-	cooldown = 8,
-	tactical = { ATTACKAREA = { COLD = 2 } },
-	range = 7,
-	radius = function(self, t)
-		return math.floor(self:combatTalentScale(t, 2, 6, 0.5, 0, 0, true))
-	end,
-	proj_speed = 4,
-	direct_hit = true,
-	requires_target = true,
-	target = function(self, t)
-		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=self:spellFriendlyFire(), talent=t, display={particle="bolt_ice", trail="icetrail"}}
-	end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 28, 280) end,
-	getFlatResist = function(self, t) return math.floor(self:combatTalentScale(t, 5, 25)) end,
-	action = function(self, t)
-		local tg = self:getTalentTarget(t)
-		local x, y = self:getTarget(tg)
-		if not x or not y then return nil end
-		self:projectile(tg, x, y, DamageType.CHILL_OF_THE_TOMB, {dam=self:spellCrit(t:_getDamage(self)), resist=t:_getFlatResist(self)}, function(self, tg, x, y, grids)
-			game.level.map:particleEmitter(x, y, tg.radius, "iceflash", {radius=tg.radius, tx=x, ty=y})
-		end)
-		game:playSoundNear(self, "talents/ice")
-		return true
-	end,
-	info = function(self, t)
-		local damage = t.getDamage(self, t)
-		local radius = self:getTalentRadius(t)
-		return ([[Conjures up a bolt of cold that moves toward the target and explodes into a chilly circle of death, doing %0.2f cold damage in a radius of %d.
-		Necrotic minions caught in the blast do not take damage but are instead coated with a thin layer of ice, reducing all damage they take by %d for 4 turns.
-		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.COLD, damage), radius, t:_getFlatResist(self))
-	end,
-}
-
-newTalent{
-	name = "Black Ice",
-	type = {"spell/grave",2},
-	require = spells_req2,
 	points = 5,
 	mana = 7,
 	cooldown = 4,
@@ -101,6 +61,46 @@ newTalent{
 		Any creature hit will take %d%% more damage from your necrotic minions for 3 turns.
 		The damage will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.COLD, damage), t:_getMinionsInc(self))
+	end,
+}
+
+newTalent{
+	name = "Chill of the Tomb",
+	type = {"spell/grave",2},
+	require = spells_req2,
+	points = 5,
+	mana = 30,
+	cooldown = 8,
+	tactical = { ATTACKAREA = { COLD = 2 } },
+	range = 7,
+	radius = function(self, t)
+		return math.floor(self:combatTalentScale(t, 2, 6, 0.5, 0, 0, true))
+	end,
+	proj_speed = 4,
+	direct_hit = true,
+	requires_target = true,
+	target = function(self, t)
+		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=self:spellFriendlyFire(), talent=t, display={particle="bolt_ice", trail="icetrail"}}
+	end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 28, 280) end,
+	getFlatResist = function(self, t) return math.floor(self:combatTalentScale(t, 5, 25)) end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y = self:getTarget(tg)
+		if not x or not y then return nil end
+		self:projectile(tg, x, y, DamageType.CHILL_OF_THE_TOMB, {dam=self:spellCrit(t:_getDamage(self)), resist=t:_getFlatResist(self)}, function(self, tg, x, y, grids)
+			game.level.map:particleEmitter(x, y, tg.radius, "iceflash", {radius=tg.radius, tx=x, ty=y})
+		end)
+		game:playSoundNear(self, "talents/ice")
+		return true
+	end,
+	info = function(self, t)
+		local damage = t.getDamage(self, t)
+		local radius = self:getTalentRadius(t)
+		return ([[Conjures up a bolt of cold that moves toward the target and explodes into a chilly circle of death, doing %0.2f cold damage in a radius of %d.
+		Necrotic minions caught in the blast do not take damage but are instead coated with a thin layer of ice, reducing all damage they take by %d for 4 turns.
+		The damage will increase with your Spellpower.]]):
+		tformat(damDesc(self, DamageType.COLD, damage), radius, t:_getFlatResist(self))
 	end,
 }
 
