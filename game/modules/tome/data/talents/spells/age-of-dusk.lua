@@ -155,7 +155,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You recall the age long gone where necromancers had free reign over the world.
 		Increases all saves by %d, confusion and teleport resistances by %d%%.
-		At level 5 any time you cross the 1 life threshold you become invulnerable for 2 turns.]])
+		At level 5 any time you cross the 1 life threshold you become invulnerable for 1 turns.]])
 		:tformat(t:_getSaves(self), t:_getImmune(self))
 	end,
 }

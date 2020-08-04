@@ -4927,6 +4927,7 @@ newEffect{
 	on_lose = function(self, err) return nil, true end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "invulnerable", 1)
+		eff.dur = 0 -- Force one turn
 	end,
 }
 
