@@ -187,6 +187,7 @@ newTalent{
 	getDamageIncrease = function(self, t) return self:combatTalentScale(t, 2.5, 10) end,
 	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 100, 17, 50, true) end,
 	getVampiric = function(self, t) return math.floor(self:combatTalentLimit(t, 60, 3, 8)) end,
+	callbackPriorities={callbackOnActBase = 100}, -- trigger after most others
 	callbackOnActBase = function(self, t)
 		local p = self:isTalentActive(t.id) if not p then return end
 		if p.cur_value > 0 then self:heal(p.cur_value, self) end

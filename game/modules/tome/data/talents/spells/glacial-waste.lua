@@ -49,7 +49,7 @@ newTalent{
 			ret.waste_counter = 0
 		end
 	end,
-	callbackOnActBase = checkLifeThreshold(1, function(self, t)
+	callbackOnAct = checkLifeThreshold(1, function(self, t)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
 
@@ -63,7 +63,8 @@ newTalent{
 				p.crit_id = nil
 			end
 		end
-	end, function(self, t)
+	end),
+	callbackOnActBase = function(self, t)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
 
@@ -83,7 +84,7 @@ newTalent{
 				self:incSoul(-soul)
 			end
 		end
-	end),
+	end,
 	callbackOnCombat = function(self, t, state)
 		local p = self:isTalentActive(t.id)
 		if not p then return end

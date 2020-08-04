@@ -130,7 +130,7 @@ newTalent{
 	tactical = { BUFF = 2 },
 	getImmune = function(self, t) return math.floor(self:combatTalentLimit(t, 100, 20, 50)) end,
 	getSaves = function(self, t) return math.floor(self:combatTalentScale(t, 10, 55)) end,
-	callbackOnActBase = checkLifeThreshold(1, function(self, t)
+	callbackOnAct = checkLifeThreshold(1, function(self, t)
 		if self:getTalentLevel(t) < 5 then return end
 		self:setEffect(self.EFF_GOLDEN_AGE_OF_NECROMANCY, 1, {})
 		return true
