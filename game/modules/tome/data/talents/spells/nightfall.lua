@@ -72,7 +72,7 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 15, 40) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 15, 60) end,
 	getDuration = function(self, t) return 5 end,
 	getBaneDur = function(self,t) return math.floor(self:combatTalentScale(t, 4.5, 6.5)) end,
 	action = function(self, t)
@@ -113,7 +113,7 @@ newTalent{
 	sutain_mana = 20,
 	cooldown = 10,
 	tactical = { BUFF=1 },
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 330) / 5 end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 250) / 5 end,
 	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
 		if dead or not death_note or not death_note.damtype or target == self then return end
 		if death_note.damtype ~= DamageType.DARKNESS then return end
