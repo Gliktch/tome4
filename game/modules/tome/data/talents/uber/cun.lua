@@ -467,7 +467,7 @@ uberTalent{
 
 -- Re-used icon
 uberTalent{
-	name = "Adept", image = "talents/meditation.png",
+	name = "Adept",
 	mode = "passive",
 	cant_steal = true,
 	info = function(self, t)
