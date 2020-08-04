@@ -370,18 +370,21 @@ newTalent{
 	require = spells_req4,
 	points = 5,
 	mode = "sustained",
-	sustain_mana = 40,
+	mana = 40,
 	soul = 1,
-	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 15, 40, 20)) end,
+	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 15, 35, 15)) end,
 	tactical = { CURE = 1 },
 	range = 10,
 	no_energy = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
-	on_pre_use = function(self, t) return necroArmyStats(self).nb_ghoul > 0 end,
+	on_pre_use = function(self, t) return necroArmyStats(self).nb_ghoul > 0 and self.in_combat end,
 	callbackOnActBase = function(self, t)
 		if necroArmyStats(self).nb_ghoul == 0 then
 			self:forceUseTalent(t.id, {ignore_energy=true})
 		end
+	end,
+	callbackOnCombat = function(self, t, state)
+		if state == false then self:forceUseTalent(t.id, {ignore_energy=true}) end
 	end,
 	callbackOnTemporaryEffect = function(self, t, eff_id, e, p)
 		if e.status ~= "detrimental" then return end
@@ -414,7 +417,7 @@ newTalent{
 		The ghoul dies from the process.
 		While under 1 life it also affects magical and mental effects.
 		Cross-tier effects are never affected.
-		This spell will automatically unsustain if you have no more ghouls.
+		This spell can only be used in comabt and will automatically unsustain if you have no more ghouls or if you leave combat.
 		]]):
 		tformat()
 	end,
