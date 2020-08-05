@@ -633,6 +633,8 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# speeds up.", _t"-Slow" end,
 	on_merge = function(self, old_eff, new_eff)
 		if new_eff.power > old_eff.power then
+			self:removeTemporaryValue("global_speed_add", old_eff.tmpid)
+			old_eff.tmpid = self:addTemporaryValue("global_speed_add", -new_eff.power)
 			old_eff.power = new_eff.power
 			old_eff.dur = new_eff.dur
 		end 
