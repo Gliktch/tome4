@@ -2242,9 +2242,9 @@ newEffect{
 	end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "inc_stats", {
-			[Stats.STAT_STR] = math.floor(eff.str),
-			[Stats.STAT_CON] = math.floor(eff.con),
-			[Stats.STAT_DEX] = math.floor(eff.dex),
+			[Stats.STAT_STR] = -math.floor(eff.str),
+			[Stats.STAT_CON] = -math.floor(eff.con),
+			[Stats.STAT_DEX] = -math.floor(eff.dex),
 		})
 	end,
 	deactivate = function(self, eff)

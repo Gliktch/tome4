@@ -151,7 +151,7 @@ uberTalent{
 			if damtype == DamageType.TEMPORAL and not self:hasProc("endless_woes_temporal") then
 				self:setProc("endless_woes_temporal", true, 10)
 				game.logSeen(self, "You unleash a blast of #LIGHT_STEEL_BLUE#temporal#LAST# energy!", self:getName():capitalize())
-				t.doProject(self, t, damtype, {id="EFF_SLOW", dur=5, params={power=0.3}, canbe="slow"}, "ball_temporal")
+				t.doProject(self, t, damtype, {id="EFF_SLOW", dur=5, params={power=t.getTemporal(self, t)/100}, canbe="slow"}, "ball_temporal")
 			elseif damtype == DamageType.BLIGHT and not self:hasProc("endless_woes_blight") then
 				self:setProc("endless_woes_blight", true, 10)				
 				game.logSeen(self, "You unleash a blast of #DARK_GREEN#virulent blight!#LAST#!", self:getName():capitalize())
