@@ -297,7 +297,7 @@ newTalent{
 
 		-- Add a lasting map effect
 		local radius = self:getTalentRadius(t)
-		ret.effect = game.level.map:addEffect(self,
+		ret.effect = game.level.map:c(self,
 			self.x, self.y, 10, -- Duration is fake, its handled by the sustain
 			DamageType.PUTRESCENT_LIQUEFACTION, t.getDamage(self, t),
 			radius,
@@ -316,7 +316,7 @@ newTalent{
 				e.duration = 10 -- Duration is fake, its handled by the sustain
 				return true
 			end,
-			false
+			false, false
 		)
 
 		return ret
