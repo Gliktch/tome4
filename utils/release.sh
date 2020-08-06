@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if test $# -lt 1 ; then
-	echo "Usage: release.sh [version] [beta, if any] [allowed addons, if beta]"
+	echo "Usage: release.sh [version] [beta, if any] [if beta, allowed addons list or 'all' or 'no-dlc' or 'with-dlc']"
 	exit
 fi
 
@@ -70,15 +70,19 @@ echo "version_desc = '$ver'" >> game/engines/default/modules/boot/init.lua
 echo "version_desc = '$ver'" >> game/modules/tome/init.lua
 if test -n "$beta"; then
 	if test $# -lt 3 ; then
-		echo "Usage: release.sh [version] [beta] [allowed addons or 'all']"
+		echo "Usage: release.sh [version] [beta] [allowed addons list or 'all' or 'no-dlc' or 'with-dlc']"
 		exit
 	fi
 	addons="$3"
 	if test "$addons" = "all"; then
 		echo "return '$beta'" > game/engines/default/engine/version_beta.lua
+	elif test "$addons" = "no-dlc"; then
+		echo "return '$beta', "'{"possessors", "items-vault", "^cosmetic%-shimmer%-.+"}' > game/engines/default/engine/version_beta.lua
+	elif test "$addons" = "with-dlc"; then
+		echo "return '$beta', "'{"possessors", "items-vault", "^cosmetic%-shimmer%-.+", function(add) return add.id_dlc end}' > game/engines/default/engine/version_beta.lua
 	else
 		addons_check=`echo "$addons" | sed -e 's/\([^,]\+\)/"\1"/g' -e 's/^/{/' -e 's/$/}/'`
-		echo "return '$beta' '$addons_check'" > game/engines/default/engine/version_beta.lua
+		echo "return '$beta', '$addons_check'" > game/engines/default/engine/version_beta.lua
 	fi
 fi
 

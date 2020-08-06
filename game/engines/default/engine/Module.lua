@@ -586,7 +586,7 @@ function _M:loadAddons(mod, saveuse)
 					print("Removing addon "..add.short_name..": not allowed by config")
 					table.remove(adds, i) removed = true
 				end
-			elseif not config.settings.cheat and not engine.beta_allow_addon(add.short_name) then
+			elseif not config.settings.cheat and not engine.beta_allow_addon(add) then
 				print("Removing addon "..add.short_name..": game beta forbids")
 				table.remove(adds, i) removed = true
 				beta_removed[#beta_removed+1] = add.long_name
