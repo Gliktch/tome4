@@ -6751,7 +6751,7 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 	self:triggerHook{"Actor:getTalentFullDescription", str=d, t=t, addlevel=addlevel, config=config, fake_mastery=fake_mastery}
 
 	d:add({"color",0x6f,0xff,0x83}, _t"Description: ", {"color",0xFF,0xFF,0xFF})
-	d:merge(t.info(self, t):toTString():tokenize(" ()[]"))
+	d:merge(t.info(self, t):toTString():tokenize(" ()[],"))
 
 	self.talents[t.id] = old
 

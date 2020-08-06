@@ -990,7 +990,8 @@ function _M:getTalentDesc(item)
 			for i = 1, 5 do
 				local d = self.actor:getTalentReqDesc(item.talent, i-traw):toTString():tokenize(" ()[]")
 				d:merge(self.actor:getTalentFullDescription(t, i-traw))
-				list[i] = d:tokenize(tokenize_number.decimal)
+				list[i] = d
+				-- list[i] = d:tokenize(tokenize_number.decimal)
 			end			
 			text:add({"font", "bold"}, _t"Current talent level: "..traw, {"font", "normal"})
 			text:add(true)
