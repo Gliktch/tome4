@@ -985,16 +985,18 @@ function _M:getTalentDesc(item)
 		end
 
 		local traw = self.actor:getTalentLevelRaw(t.id)
+		local lvl_alt = self.actor:alterTalentLevelRaw(t, traw) - traw
 		if config.settings.tome.show_detailed_talents_desc then
 			local list = {}
 			for i = 1, 5 do
 				local d = self.actor:getTalentReqDesc(item.talent, i-traw):toTString():tokenize(" ()[]")
-				d:merge(self.actor:getTalentFullDescription(t, i-traw))
+				d:merge(self.actor:getTalentFullDescription(t, i-traw+lvl_alt))
 				list[i] = d
 				-- list[i] = d:tokenize(tokenize_number.decimal)
 			end			
-			text:add({"font", "bold"}, _t"Current talent level: "..traw, {"font", "normal"})
-			text:add(true)
+			text:add({"font", "bold"}, _t"Current talent level: "..traw)
+			if lvl_alt ~= 0 then text:add((" (%+d bonus level)"):tformat(lvl_alt)) end
+			text:add({"font", "normal"}, true)
 			text:merge(tstring:diffMulti(list, function(diffs, res)
 				for i, d in ipairs(diffs) do
 					if i ~= traw then
@@ -1022,24 +1024,27 @@ function _M:getTalentDesc(item)
 			if traw == 0 then
 				local req = self.actor:getTalentReqDesc(item.talent, 1):toTString():tokenize(" ()[]")
 				text:add{"color","WHITE"}
-				text:add({"font", "bold"}, _t"First talent level: ", tostring(traw+1), {"font", "normal"})
-				text:add(true)
+				text:add({"font", "bold"}, _t"First talent level: ", tostring(traw+1))
+				if lvl_alt ~= 0 then text:add((" (%+d bonus level)"):tformat(lvl_alt)) end
+				text:add({"font", "normal"}, true)
 				text:merge(req)
-				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t, 1), diff_color))
+				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t, 1+lvl_alt), diff_color))
 			elseif traw < self:getMaxTPoints(t) then
 				local req = self.actor:getTalentReqDesc(item.talent):toTString():tokenize(" ()[]")
 				local req2 = self.actor:getTalentReqDesc(item.talent, 1):toTString():tokenize(" ()[]")
 				text:add{"color","WHITE"}
-				text:add({"font", "bold"}, traw == 0 and _t"Next talent level" or _t"Current talent level: ", tostring(traw), " [-> ", tostring(traw + 1), "]", {"font", "normal"})
-				text:add(true)
+				text:add({"font", "bold"}, traw == 0 and _t"Next talent level" or _t"Current talent level: ", tostring(traw), " [-> ", tostring(traw + 1), "]")
+				if lvl_alt ~= 0 then text:add((" (%+d bonus level)"):tformat(lvl_alt)) end
+				text:add({"font", "normal"}, true)
 				text:merge(req2:diffWith(req, diff_full))
-				text:merge(self.actor:getTalentFullDescription(t, 1):diffWith(self.actor:getTalentFullDescription(t), diff_full))
+				text:merge(self.actor:getTalentFullDescription(t, 1+lvl_alt):diffWith(self.actor:getTalentFullDescription(t, lvl_alt), diff_full))
 			else
 				local req = self.actor:getTalentReqDesc(item.talent):toTString():tokenize(" ()[]")
-				text:add({"font", "bold"}, _t"Current talent level: "..traw, {"font", "normal"})
-				text:add(true)
+				text:add({"font", "bold"}, _t"Current talent level: "..traw)
+				if lvl_alt ~= 0 then text:add((" (%+d bonus level)"):tformat(lvl_alt)) end
+				text:add({"font", "normal"}, true)
 				text:merge(req)
-				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t), diff_color))
+				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t, lvl_alt), diff_color))
 			end
 			text:add(true, true, {"font", "italic"}, {"color", "GREY"}, _t"<Press 'x' to swap to advanced display>", {"color", "LAST"}, {"font", "normal"})
 		end
