@@ -81,7 +81,6 @@ if test -n "$beta"; then
 		echo "return '$beta' '$addons_check'" > game/engines/default/engine/version_beta.lua
 	fi
 fi
-exit
 
 # create teae/teams
 cd game/engines
