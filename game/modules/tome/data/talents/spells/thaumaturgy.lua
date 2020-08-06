@@ -76,11 +76,15 @@ newTalent{
 		if not thaumaturgyCheck(self) then return end
 
 		local tids = {}
+		local is_aethar_avatar = self:hasEffect(self.EFF_AETHER_AVATAR)
 		for kind, list in pairs(t.spells_list) do
-			for _, tid in ipairs(list) do if self:knowTalent(tid) then
-				-- print(("[%s] %s : %d"):format(kind, tid, self:getTalentCooldown(self:getTalentFromId(tid), true)))
-				tids[#tids+1] = {tid=tid, cd=self:getTalentCooldown(self:getTalentFromId(tid), true)}
-			end end
+			for _, tid in ipairs(list) do
+				local tt = self:getTalentFromId(tid)
+				if self:knowTalent(tid) and (not is_aethar_avatar or (tt.use_only_arcane and self:getTalentLevel(self.T_AETHER_AVATAR) >= tt.use_only_arcane)) then
+					-- print(("[%s] %s : %d"):format(kind, tid, self:getTalentCooldown(self:getTalentFromId(tid), true)))
+					tids[#tids+1] = {tid=tid, cd=self:getTalentCooldown(tt, true)}
+				end
+			end
 		end
 		local choice = rng.rarityTable(tids, "cd")
 		if not choice then return end
@@ -97,7 +101,8 @@ newTalent{
 		return ([[Casting beam spells has become so instinctive for you that you can now easily weave in other spells at the same time.
 		Anytime you cast a beam spell there is a %d%% chance to automatically cast an offensive spell that you know. This can only happen once per turn.
 		Beam spells duplicated by the Orb of Thaumaturgy can also trigger this effect.
-		The additional cast will cost mana but no turn and will not active its cooldown.]]):
+		The additional cast will cost mana but no turn and will not active its cooldown.
+		During Aether Avatar only compatible spells are used.]]):
 		tformat(t:_getChance(self))
 	end,
 }
