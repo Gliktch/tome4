@@ -7183,7 +7183,7 @@ function _M:dispel(effid_or_tid, src, allow_immunity, params)
 	-- Effect
 	if effid_or_tid:find("^EFF_") then
 		local eff = self:getEffectFromId(effid_or_tid)
-		if not eff or eff.type == "other" then return end -- NEVER touch other
+		if (not eff or eff.type == "other") and not params.force then return end -- NEVER touch other
 		if not self:hasEffect(effid_or_tid) then return end
 
 		if allow_immunity then
@@ -7193,7 +7193,7 @@ function _M:dispel(effid_or_tid, src, allow_immunity, params)
 			if self:fireTalentCheck("callbackOnDispel", "effect", effid_or_tid, src, allow_immunity) then allowed = false end
 		end
 		if allowed then
-			self:removeEffect(effid_or_tid, params.force)
+			self:removeEffect(effid_or_tid, params.silent, params.force)
 			self:fireTalentCheck("callbackOnDispelled", "effect", effid_or_tid, src, allow_immunity)
 			return true
 		else
