@@ -144,7 +144,7 @@ newTalent{
 			local lvl = math.floor(self:getTalentLevel(self.T_DREADMASTER))
 			dread:learnTalent(dread.T_SILENCE, true, lvl)
 			dread:learnTalent(dread.T_MIND_DISRUPTION, true, lvl)
-			dread:learnTalent(dread.T_BURNING_HEX, true, lvl)
+			dread:learnTalent(dread.T_DISPERSE_MAGIC, true, lvl)
 		end
 		game:playSoundNear(self, "creatures/ghost/random1")
 		return true
@@ -198,7 +198,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Any time one of your minions dies or expires, and even if it is resurrected by a boneyard, the dread feeds on it.
-		Each time it feeds it gets healed by %d and reduces remaining cooldown of its spells by %d.
+		Each time it feeds it gets healed for %d and reduces remaining cooldown of its spells by %d.
 		Every 10 minion deaths it casts a random hex on up to %d foes at once, instantly and without triggering a cooldown.]]):
 		tformat(t:_getHeal(self), t:_getCD(self), t:_getFoes(self))
 	end,
@@ -235,7 +235,7 @@ newTalent{
 	mode = "passive",
 	info = function(self, t)
 		return ([[You now summon a Dreadmaster instead of a Dread.
-		Dreadmasters learn to cast silence, dispel magic and mind disruption, making them the ultimate annoyance tool.
+		Dreadmasters learn to cast silence, disperse magic and mind disruption, making them the ultimate annoyance tool.
 		It learns them at talent level %d.]]):
 		tformat(math.floor(self:getTalentLevel(t)))
 	end,

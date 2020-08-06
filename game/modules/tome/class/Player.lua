@@ -385,7 +385,7 @@ function _M:act()
 	self:updateMainShader()
 
 	if config.settings.tome.life_lost_warning and self.shader_old_life then
-		local perc = (self.shader_old_life - self.life) / self.max_life
+		local perc = (self.shader_old_life - self.life) / (self.max_life - self.die_at)
 		if perc > (config.settings.tome.life_lost_warning / 100) then
 			game.bignews:say(100, "#LIGHT_RED#LIFE LOST WARNING!")
 			game.key.disable_until = core.game.getTime() + 2000
@@ -459,7 +459,7 @@ function _M:updateMainShader()
 
 		-- Set shader HP warning
 		if self.life ~= self.shader_old_life then
-			if self.life < self.max_life / 2 then game.fbo_shader:setUniform("hp_warning", 1 - (self.life / self.max_life))
+			if (self.life - self.die_at) < (self.max_life - self.die_at) / 2 then game.fbo_shader:setUniform("hp_warning", 1 - (self.life / (self.max_life - self.die_at)))
 			else game.fbo_shader:setUniform("hp_warning", 0) end
 		end
 		-- Set shader air warning

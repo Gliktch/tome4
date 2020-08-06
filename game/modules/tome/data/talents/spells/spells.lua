@@ -32,6 +32,7 @@ newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=tru
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/temporal", name = _t"temporal", description = _t"The school of time manipulation." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/phantasm", name = _t"phantasm", description = _t"Control the power of tricks and illusions." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/enhancement", name = _t"enhancement", description = _t"Magical enhancement of your body." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, mana_regen=true, type="spell/thaumaturgy", name = _t"thaumaturgy", description = _t"The pinacle of spellcasting." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/conveyance", name = _t"conveyance", generic = true, description = _t"Conveyance is the school of travel. It allows you to travel faster and to track others." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/divination", name = _t"divination", generic = true, description = _t"Divination allows the caster to sense its surroundings, and find hidden things." }
 newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="spell/aegis", name = _t"aegis", generic = true, description = _t"Command the arcane forces into healing and protection." }
@@ -118,6 +119,20 @@ spells_req_high5 = {
 	level = function(level) return 26 + (level-1)  end,
 }
 
+function thaumaturgyCheck(self)
+	if not self:attr("archmage_widebeam") then return false end
+	local inven = self:getInven("BODY")
+	if not inven then return true end
+	if not inven[1] then return true end
+	if inven[1].type ~= "armor" or inven[1].subtype ~= "cloth" then return false end
+	return true
+end
+function thaumaturgyBeamDamage(self, dam)
+	local v = self:attr("archmage_beam_dam_mult")
+	if not v then return dam end
+	return dam * (1 + v / 100)
+end
+
 -------------------------------------------
 -- Necromancer minions
 function necroArmyStats(self)
@@ -184,9 +199,15 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 	-- Try to use stored AI talents to preserve tweaking over multiple summons
 	m.ai_talents = self.stored_ai_talents and self.stored_ai_talents[m.name] or {}
 	m.inc_damage = table.clone(self.inc_damage, true)
+	m.no_inventory_access = 1
 	m.no_breath = 1
 	m.no_drops = true
 	m.minion_be_nice = 1
+	m.heal = function(self, amt, src)
+		if not src or src == self or src.necrotic_minion then return mod.class.NPC.heal(self, amt, src) end
+		if src.getCurrentTalent and src:getCurrentTalent() and src:getTalentFromId(src:getCurrentTalent()) and not src:getTalentFromId(src:getCurrentTalent()).is_nature then return mod.class.NPC.heal(self, amt, src) end
+		game.logSeen(self, "#GREY#%s can not be healed this way!", self:getName():capitalize())
+	end
 
 	if self:isTalentActive(self.T_NECROTIC_AURA) then
 		local t = self:getTalentFromId(self.T_NECROTIC_AURA)
@@ -239,10 +260,10 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 
 		m.remove_from_party_on_death = true
 		game.party:addMember(m, {
-			control=can_control and "full" or "no",
+			control=can_control and "full" or "order",
 			type="minion",
 			title=_t"Necrotic Minion",
-			orders = {target=true},
+			orders = {target=true, dismiss=true},
 		})
 	end
 	m:resolve() m:resolve(nil, true)
@@ -266,10 +287,8 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 			local src = self:resolveSource()
 			for i, e in ipairs(game.level.map.effects) do
 				if e.src == src and e.damtype == engine.DamageType.PUTRESCENT_LIQUEFACTION and e.grids[self.x] and e.grids[self.x][self.y] and src:isTalentActive(src.T_PUTRESCENT_LIQUEFACTION) then
-					local p = src:isTalentActive(src.T_PUTRESCENT_LIQUEFACTION)
-					p.dur = p.dur + src:callTalent(src.T_PUTRESCENT_LIQUEFACTION, "getIncrease")
-					game.level.map:particleEmitter(self.x, self.y, 1, "pustulent_fulmination", {radius=1})
-					game.logSeen(self, "#GREY#%s dissolves into the cloud of gore.", self:getName():capitalize())
+					src:callTalent(src.T_PUTRESCENT_LIQUEFACTION, "absorbGhoul", self)
+					return
 				end
 			end
 		end
@@ -310,6 +329,7 @@ load("/data/talents/spells/meta.lua")
 load("/data/talents/spells/divination.lua")
 load("/data/talents/spells/temporal.lua")
 load("/data/talents/spells/phantasm.lua")
+load("/data/talents/spells/thaumaturgy.lua")
 load("/data/talents/spells/enhancement.lua")
 
 load("/data/talents/spells/explosives.lua")

@@ -208,6 +208,20 @@ newTalent{
 			faction = self.faction,
 			summoner = self,
 			heal = function() return 0 end, -- Cant ever heal
+			useCharge = function(self)
+				self.charges = self.charges - 1
+				self.max_life = self.max_charges
+				self.life = self.charges
+				if self.charges < 0 then self:die(self) end
+			end,
+			callbackOnAct = function(self)
+				self.max_life = self.max_charges
+				self.life = self.charges
+			end,
+			onTemporaryValueChange = function(self, ...)
+				self:callbackOnAct()
+				return mod.class.NPC.onTemporaryValueChange(self, ...)
+			end,
 			takeHit = function(self, value, src, death_note) -- Cant ever take more than one damage per turn per actor
 				if not src then return false, 0 end
 				if src ~= self then
@@ -216,7 +230,9 @@ newTalent{
 					self.turn_procs.mirror_image_dmg = self.turn_procs.mirror_image_dmg or {}
 					self.turn_procs.mirror_image_dmg[src] = true
 				end
-				return mod.class.NPC.takeHit(self, 1, src, death_note)
+				self:useCharge()
+				return false, 1
+				-- return mod.class.NPC.takeHit(self, 1, src, death_note)
 			end,
 			on_die = function(self)
 				self.summoner:removeEffect(self.summoner.EFF_MIRROR_IMAGE_REAL, true, true)
@@ -230,6 +246,8 @@ newTalent{
 		game.zone:addEntity(game.level, image, "actor", tx, ty)
 		image.max_life = t:_getLife(self)
 		image.life = t:_getLife(self)
+		image.max_charges = t:_getLife(self)
+		image.charges = t:_getLife(self)
 
 		-- Clone particles
 		for ps, _ in pairs(self.__particles) do

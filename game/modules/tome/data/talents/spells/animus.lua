@@ -37,10 +37,11 @@ newTalent{
 		end
 	end,
 	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
+		if target.necrotic_minion then return end
 		if dead then
 			t:_gainSoul(self, target, "death")
 		else
-			if target:hasEffect(target.EFF_SOUL_LEECH) then return end -- Dont reset, we want it to exprei to leech
+			if target:hasEffect(target.EFF_SOUL_LEECH) or target == self or target == self.summoner then return end -- Dont reset, we want it to exprei to leech
 			local turns, powerful = t.getTurnsByRank(self, t, target)
 			target:setEffect(target.EFF_SOUL_LEECH, turns, {src=self, powerful=powerful})
 		end
@@ -92,7 +93,7 @@ newTalent{
 		return true
 	end,	
 	info = function(self, t)
-		return ([[Consume a soul whole to rebuild your body, healing you by %d and generating %d mana.
+		return ([[Consume a soul whole to rebuild your body, healing you for %d and generating %d mana.
 		If used below 1 life the surge increases your spellpower by %d for 10 turns.
 		The heal and mana increases with your Spellpower.]]):
 		tformat(t.getHeal(self, t), t.getMana(self, t), t.getSpellpower(self, t))

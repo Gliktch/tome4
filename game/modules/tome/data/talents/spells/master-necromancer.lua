@@ -67,6 +67,7 @@ newTalent{
 	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t)} end,
 	requires_target = true,
 	getSpeed = function(self, t) return math.floor(self:combatTalentScale(t, 2, 5)) end,
+	getHeal = function(self, t) return math.floor(self:combatTalentScale(t, 12, 22)) end,
 	getDaze = function(self, t) return math.floor(self:combatTalentScale(t, 4, 10)) end,
 	on_pre_use = function(self, t) return self:isTalentActive(self.T_NECROTIC_AURA) end,
 	action = function(self, t, p)
@@ -76,6 +77,7 @@ newTalent{
 				if target:canBe("stun") then target:setEffect(target.EFF_DAZED, t:_getDaze(self), {apply_power=self:combatSpellpower()}) end
 			elseif target.summoner == self and target.necrotic_minion then
 				target:setEffect(target.EFF_HASTE, t:_getSpeed(self), {power=0.25})
+				target:heal(target.max_life * t:_getHeal(self) / 100, self)
 			end
 		end)
 		game.level.map:particleEmitter(self.x, self.y, tg.radius, "ball_darkness", {radius=tg.radius})
@@ -83,9 +85,9 @@ newTalent{
 	end,	
 	info = function(self, t)
 		return ([[Sends out a surge of undeath energies into your aura.
-		All minions inside gain 25%% speed for %d turns.
+		All minions inside gain 25%% speed for %d turns and are healed by %d%%.
 		All non-undead foes caught inside are dazed for %d turns.]]):
-		tformat(t:_getSpeed(self), t:_getDaze(self))
+		tformat(t:_getSpeed(self), t:_getHeal(self), t:_getDaze(self))
 	end,
 }
 
@@ -102,7 +104,7 @@ newTalent{
 	radius = function(self, t) return self:callTalent(self.T_NECROTIC_AURA, "radius") end,
 	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t)} end,
 	requires_target = true,
-	getNb = function(self, t) return math.floor(self:combatTalentLimit(t, 8, 1, 6)) end,
+	getNb = function(self, t) return math.ceil(self:combatTalentLimit(t, 8, 1, 6)) end,
 	on_pre_use = function(self, t) return self:isTalentActive(self.T_NECROTIC_AURA) and necroArmyStats(self).nb > 0 end,
 	action = function(self, t)
 		local stats = necroArmyStats(self)
@@ -131,7 +133,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Tigthen the ethereal leash to some of your minions currently within your aura of undeath, pulling them to you and swapping place with any eventual foes in the way.
+		return ([[Tighten the ethereal leash to some of your minions currently within your aura of undeath, pulling them to you and swapping place with any eventual foes in the way.
 		Up to %d minions are affected.
 		When recalling a minion the spell tries to prioritize a spot where there is already a foe, to push it away.]]):
 		tformat(t:_getNb(self, t))
@@ -173,7 +175,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[By creating an arcane link with your minions army you are able to redirect parts of any damage affecting you to them.
+		return ([[By creating an arcane link with your minion army you are able to redirect parts of any damage affecting you to them.
 		Anytime you take damage %d%% of it is instead redirected to a random minion without your aura of undeath.
 		The minion takes 300%% damage from that effect.
 		The damage redirected percent depends on your Spellpower.]]):

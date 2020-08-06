@@ -358,7 +358,7 @@ function _M:stripForExport()
 	self:setTarget(nil)
 
 	-- Disable all sustains, remove all effects
-	self:removeEffectsSustainsFilter()
+	self:removeEffectsSustainsFilter(self, true, nil, nil, {silent=true, force=true, save_cleanup=true})
 end
 
 -- Dummy
@@ -1406,6 +1406,7 @@ function _M:move(x, y, force)
 			else
 				local speed = self:combatMovementSpeed(x, y)
 				local use_energy = true
+				if self:attr("free_movement") then use_energy = false end
 				if self:attr("walk_sun_path") then
 					for i, e in ipairs(game.level.map.effects) do if e.damtype == DamageType.SUN_PATH and e.grids[x] and e.grids[x][y] then use_energy = false break end end
 				end
@@ -2054,18 +2055,24 @@ function _M:tooltip(x, y, seen_by)
 	--if #resists > 0 then ts:add("Resists: ", table.concat(resists, ','), true) end
 
 	local dt_order = function(a, b)
-		if a[1] == "all" then return true
-		elseif b[1] == "all" then return false
-		else return a[2] > b[2] end
+		if a[1] == "absolute" then return true
+		elseif b[1] == "absolute" then return false
+		else
+			if a[1] == "all" then return true
+			elseif b[1] == "all" then return false
+			else return a[2] > b[2] end
+		end
 	end
 
 	local resists = tstring{}
 	local first = true
 	ts:add({"color", "ANTIQUE_WHITE"}, _t"Resists: ")
-	for t, _ in table.orderedPairs2(self.resists or {}, dt_order) do
+	for t, ov, is_last in table.orderedPairs2(self.resists or {}, dt_order) do
 		local v = self:combatGetResist(t)
-		if t == "all" or t == "absolute" then
-			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(v)) .. "%", " ", {"color", "LAST"}, _t(t)..", ")
+		if t == "all" then
+			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(v)) .. "%", " ", {"color", "LAST"}, _t(t)) if not is_last then ts:add(", ") end
+		elseif t == "absolute" then
+			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(ov)) .. "%", " ", {"color", "LAST"}, _t(t)) if not is_last then ts:add(", ") end
 		elseif type(t) == "string" and math.abs(v) >= 20 then
 			local res = tostring(math.floor(v)) .. "%"
 			if first then first = false else ts:add(", ") end
@@ -3124,7 +3131,7 @@ function _M:die(src, death_note)
 
 		local effs = {}
 
-		self:removeEffectsSustainsFilter()
+		self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
 
 		self.life = self.max_life
 		self.mana = self.max_mana
@@ -3137,6 +3144,7 @@ function _M:die(src, death_note)
 		self:move(self.x, self.y, true)
 		self:check("on_resurrect", "basic_resurrect")
 		self:triggerHook{"Actor:resurrect", reason="basic_resurrect"}
+		self:fireTalentCheck("callbackOnResurrect", "basic_resurrect")
 
 		if self:attr("self_resurrect_chat") then
 			local chat = Chat.new(self.self_resurrect_chat, self, game.player)
@@ -5059,6 +5067,7 @@ function _M:learnTalent(t_id, force, nb, extra)
 		self:capLastLearntTalents(t.generic and "generic" or "class")
 	end
 
+	if t.is_race_evolution or t.is_class_evolution then self:attr("has_evolution", nb or 1) end
 	if t.is_spell then self:attr("has_arcane_knowledge", nb or 1) end
 	if t.is_antimagic then self:attr("forbid_arcane", nb or 1) end
 	if t.type[1]:find("^chronomancy/bow") or t.type[1]:find("^chronomancy/blade") then self:attr("warden_swap", nb or 1) end
@@ -5104,14 +5113,15 @@ function _M:learnItemTalent(o, tid, level)
 	local t = self:getTalentFromId(tid)
 	local max = t.hard_cap or (t.points and t.points + 2) or 5
 	if not self.item_talent_surplus_levels then self.item_talent_surplus_levels = {} end
-	--local item_talent_surplus_levels = self.item_talent_surplus_levels or {}
 	if not self.item_talent_surplus_levels[tid] then self.item_talent_surplus_levels[tid] = 0 end
-	--item_talent_levels[tid] = item_talent_levels[tid] + level
+	if not self.item_talent_levels_learnt then self.item_talent_levels_learnt = {} end
+	if not self.item_talent_levels_learnt[tid] then self.item_talent_levels_learnt[tid] = 0 end
 	for i = 1, level do
 		if self:getTalentLevelRaw(t) >= max then
 			self.item_talent_surplus_levels[tid] = self.item_talent_surplus_levels[tid] + 1
 		else
 			self:learnTalent(tid, true, 1, {no_unlearn = true})
+			self.item_talent_levels_learnt[tid] = self.item_talent_levels_learnt[tid] + 1
 		end
 	end
 
@@ -5125,8 +5135,9 @@ function _M:unlearnItemTalent(o, tid, level)
 	local t = self:getTalentFromId(tid)
 	local max = (t.points and t.points + 2) or 5
 	if not self.item_talent_surplus_levels then self.item_talent_surplus_levels = {} end
-	--local item_talent_surplus_levels = self.item_talent_surplus_levels or {}
 	if not self.item_talent_surplus_levels[tid] then self.item_talent_surplus_levels[tid] = 0 end
+	if not self.item_talent_levels_learnt then self.item_talent_levels_learnt = {} end
+	if not self.item_talent_levels_learnt[tid] then self.item_talent_levels_learnt[tid] = 0 end
 
 	if self:isTalentActive(t) then self:forceUseTalent(t, {ignore_energy=true}) end
 
@@ -5135,6 +5146,7 @@ function _M:unlearnItemTalent(o, tid, level)
 			self.item_talent_surplus_levels[tid] = self.item_talent_surplus_levels[tid] - 1
 		else
 			self:unlearnTalent(tid, nil, nil, {no_unlearn = true})
+			self.item_talent_levels_learnt[tid] = self.item_talent_levels_learnt[tid] - 1
 		end
 	end
 end
@@ -5243,6 +5255,7 @@ function _M:unlearnTalent(t_id, nb, no_unsustain, extra)
 	if #todel > 0 then for _, eff_id in ipairs(todel) do self:removeEffect(eff_id) end end
 
 	self:recomputeRegenResources()
+	if t.is_race_evolution or t.is_class_evolution then self:attr("has_evolution", -nb) end
 	if t.is_spell then self:attr("has_arcane_knowledge", -nb) end
 	if t.is_antimagic then self:attr("forbid_arcane", -nb) end
 	if t.type[1]:find("^chronomancy/bow") or t.type[1]:find("^chronomancy/blade") then self:attr("warden_swap", -nb) end
@@ -5925,7 +5938,7 @@ function _M:preUseTalent(ab, silent, fake)
 	end
 
 	-- Cant heal
-	if ab.is_heal and (self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) then return false end
+	if ab.is_heal and not ab.ignore_is_heal_test and (self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) then return false end
 	if ab.is_teleport and self:attr("encased_in_ice") then return false end
 
 	return true
@@ -5981,6 +5994,9 @@ local sustainCallbackCheck = {
 	callbackOnDeath = "talents_on_death",
 	callbackOnDeathbox = "talents_on_deathbox",
 	callbackOnSummonDeath = "talents_on_summon_death",
+	callbackOnResurrect = "talents_on_resurrect",
+	callbackOnDispelled = "talents_on_dispelled",
+	callbackOnDispel = "talents_on_dispel",
 	callbackOnDie = "talents_on_die",
 	callbackOnKill = "talents_on_kill",
 	callbackOnSummonKill = "talents_on_summon_kill",
@@ -6177,7 +6193,7 @@ function _M:iterCallbacks(event)
 				return function(...)
 					local old_ps = self.__project_source
 					self.__project_source = self.sustain_talents[tid]
-					self:setCurrentTalentMode("callback")
+					self:setCurrentTalentMode("callback", tid)
 					local ret = self:callTalent(tid, event, ...)
 					self:setCurrentTalentMode(nil)
 					self.__project_source = old_ps
@@ -6833,6 +6849,7 @@ end
 function _M:alterTalentLevelRaw(t, lvl)
 	if t.no_unlearn_last then return lvl end -- Those are dangerous, do not change them
 	if self.talents_add_levels and self.talents_add_levels[t.id] then lvl = lvl + self.talents_add_levels[t.id] end
+	if self:attr("all_talents_bonus_level") then lvl = lvl + self:attr("all_talents_bonus_level") end
 	if self:attr("spells_bonus_level") and t.is_spell then lvl = lvl + self:attr("spells_bonus_level") end
 	if self.talents_add_levels_custom and next(self.talents_add_levels_custom) then
 		for id, filter in pairs(self.talents_add_levels_custom) do if type(filter) == "function" then
@@ -6863,6 +6880,33 @@ function _M:setTalentAuto(tid, v, opt)
 	else self.talents_auto[tid] = nil
 	end
 end
+
+--- Checks if the talent can be learned
+function _M:canLearnTalent(t, ...)
+	local status, reason = engine.interface.ActorTalents.canLearnTalent(self, t, ...)
+	if (t.is_class_evolution or t.is_race_evolution) and self:attr("has_evolution") then
+		if not self.is_in_uber_dialog or not self.is_in_uber_dialog.levelup_end_prodigies or not self.is_in_uber_dialog.levelup_end_prodigies[t.id] then
+			return nil, _t"can only learn one evolution"
+		end
+	end
+	return status, reason
+end
+
+--- Formats the requirements as a (multiline) string
+function _M:getTalentReqDesc(t_id, ...)
+	local str = engine.interface.ActorTalents.getTalentReqDesc(self, t_id, ...)
+	local t = self:getTalentFromId(t_id)
+	if t.is_race_evolution or t.is_class_evolution then
+		local ok = false
+		if not self:attr("has_evolution") then ok = true
+		elseif self:knowTalent(t_id) then ok = true
+		elseif self.is_in_uber_dialog and self.is_in_uber_dialog.levelup_end_prodigies and self.is_in_uber_dialog.levelup_end_prodigies[t_id] then ok = true
+		end
+		str:add(ok and {"color", 0x00,0xff,0x00} or {"color", 0xff,0x00,0x00}, _t"- Not other class or race evolution", true)
+	end
+	return str
+end
+
 
 --- Setups a talent automatic use
 function _M:checkSetTalentAuto(tid, v, opt)
@@ -6903,8 +6947,8 @@ end
 -- Classifications for actor resist/damage
 -- Thanks to grayswandir for this really neat code structure
 _M.classifications = {
-	unliving = {undead = true, construct = true, crystal = true},
-	unnatural = {demon = true, elemental = true, horror = true, construct = true, undead = true},
+	unliving = {attrs={undead = true}, types={undead = true, construct = true, crystal = true}},
+	unnatural = {attrs={demon = true, undead = true}, types={demon = true, elemental = true, horror = true, construct = true, undead = true}},
 	living = function(self) return not self:checkClassification('unliving') end,
 	natural = function(self) return not self:checkClassification('unnatural') end,
 	summoned = function(self) return (self.summoner ~= nil) end
@@ -6920,8 +6964,15 @@ function _M:checkClassification(type_str)
 	if (tostring(self.type).."/"..tostring(self.subtype) == type_str) or self.type == type_str then return true end
 	local class = _M.classifications[type_str]
 	if not class then return false end
-	if type(class) == 'function' then return class(self) end
-	return class[self.type or "unknown"]
+	if type(class) == 'function' then
+		return class(self)
+	else
+		if class.types and class.types[self.type or "unknown"] then return true end
+		if class.attrs then
+			for a, _ in pairs(class.attrs) do if self:attr(a) then return true end end
+		end
+	end
+	return false
 end
 
 --- Gains some experience
@@ -6991,7 +7042,9 @@ function _M:effectsFilter(t, nb)
 
 	for eff_id, p in pairs(self.tmp) do
 		local e = self.tempeffect_def[eff_id]
-		if type(t) == "function" then
+		if t == true then
+			effs[#effs+1] = eff_id
+		elseif type(t) == "function" then
 			if t(e) then effs[#effs+1] = eff_id end
 		else
 			local test = true
@@ -7013,12 +7066,13 @@ function _M:effectsFilter(t, nb)
 	return rng.tableSample(effs, nb)
 end
 
-function _M:removeEffectsFilter(t, nb, silent, force, check_remove)
+function _M:removeEffectsFilter(src, t, nb, silent, force, check_remove, allow_immunity)
+	if allow_immunity == nil then allow_immunity = true end
 	t = t or {}
 	local eff_ids = self:effectsFilter(t, nb)
 	for _, eff_id in ipairs(eff_ids) do
 		if not check_remove or check_remove(self, eff_id) then
-			self:removeEffect(eff_id, silent, force)
+			self:dispel(eff_id, src, not force and allow_immunity, {force=force, silent=silent})
 		end
 	end
 	return #eff_ids
@@ -7038,7 +7092,10 @@ function _M:sustainsFilter(t, nb)
 			local talent = self:getTalentFromId(tid)
 			local ttype = getSustainType(talent)
 			local test
-			if type(t) == "function" then test = t(talent)
+			if t == true then
+				test = true
+			elseif type(t) == "function" then
+				test = t(talent)
 			else
 				test = (not t.type or t.type == ttype) and (not t.types or t.types[ttype])
 			end
@@ -7048,18 +7105,22 @@ function _M:sustainsFilter(t, nb)
 	return rng.tableSample(ids, nb)
 end
 
-function _M:removeSustainsFilter(t, nb, check_remove)
+function _M:removeSustainsFilter(src, t, nb, check_remove, allow_immunity)
 	t = t or {}
 	local found = self:sustainsFilter(t, nb)
 	for _, tid in ipairs(found) do
 		if not check_remove or check_remove(self, tid) then
-			self:forceUseTalent(tid, {ignore_energy=true})
+			self:dispel(tid, src, allow_immunity)
 		end
 	end
 	return #found
 end
 
-function _M:removeEffectsSustainsFilter(t, nb, check_remove, silent, force)
+function _M:removeEffectsSustainsFilter(src, t, nb, check_remove, params)
+	if not params then params = {} end
+	if params.silent == nil then params.silent = false end
+	if params.force == nil then params.force = false end
+	if params.ignore_energy == nil then params.ignore_energy = true end
 	t = t or {}
 	local objects = {}
 	for _, eff_id in ipairs(self:effectsFilter(t)) do
@@ -7071,18 +7132,19 @@ function _M:removeEffectsSustainsFilter(t, nb, check_remove, silent, force)
 	local nbr = 0
 	for obj in rng.tableSampleIterator(objects, nb) do
 		if not check_remove or check_remove(self, obj) then
-			if obj[1] == "effect" then
-				self:removeEffect(obj[2], silent, force)
-			else
-				self:forceUseTalent(obj[2], {ignore_energy=true, silent=silent})
+			if self:dispel(obj[2], src, not params.force and not params.no_resist, params) then
+				nbr = nbr + 1
 			end
-			nbr = nbr + 1
 		end
 	end
 	return nbr
 end
 
-function _M:removeEffectsSustainsTable(effs, susts, nb, check_remove, silent, force)
+function _M:removeEffectsSustainsTable(src, effs, susts, nb, check_remove, params)
+	if not params then params = {} end
+	if params.silent == nil then params.silent = false end
+	if params.force == nil then params.force = false end
+	if params.ignore_energy == nil then params.ignore_energy = true end
 	t = t or {}
 	local objects = {}
 	for _, eff_id in ipairs(effs) do
@@ -7094,15 +7156,71 @@ function _M:removeEffectsSustainsTable(effs, susts, nb, check_remove, silent, fo
 	local nbr = 0
 	for obj in rng.tableSampleIterator(objects, nb) do
 		if not check_remove or check_remove(self, obj) then
-			if obj[1] == "effect" then
-				self:removeEffect(obj[2], silent, force)
-			else
-				self:forceUseTalent(obj[2], {ignore_energy=true, silent=silent})
+			if self:dispel(obj[2], src, not params.force and not params.no_resist, params) then
+				nbr = nbr + 1
 			end
-			nbr = nbr + 1
 		end
 	end
 	return nbr
+end
+
+--- Try to dispel an effect or sustain
+-- @param src who is doing the dispelling
+-- @param allow_immunity If true will check for canBe("dispel_XXX"), defaults to true
+function _M:dispel(effid_or_tid, src, allow_immunity, params)
+	if self:attr("invulnerable") then return end
+
+	if not params then params = {} end
+	if params.silent == nil then params.silent = false end
+	if params.force == nil then params.force = false end
+	if params.ignore_energy == nil then params.ignore_energy = true end
+	if allow_immunity == nil then allow_immunity = true end
+	local allowed = true
+
+	-- Dont resist yourself!
+	if src == self then allow_immunity = false end
+
+	-- Effect
+	if effid_or_tid:find("^EFF_") then
+		local eff = self:getEffectFromId(effid_or_tid)
+		if not eff or eff.type == "other" then return end -- NEVER touch other
+		if not self:hasEffect(effid_or_tid) then return end
+
+		if allow_immunity then
+			if not self:canBe("dispel_effects") then allowed = false end
+		end
+		if allowed and allow_immunity then
+			if self:fireTalentCheck("callbackOnDispel", "effect", effid_or_tid, src, allow_immunity) then allowed = false end
+		end
+		if allowed then
+			self:removeEffect(effid_or_tid, params.force)
+			self:fireTalentCheck("callbackOnDispelled", "effect", effid_or_tid, src, allow_immunity)
+			return true
+		else
+			game.logSeen(self, "%s resists the dispelling of %s!", self:getName():capitalize(), eff.desc)
+			return false
+		end
+	-- Sustain
+	else
+		local t = self:getTalentFromId(effid_or_tid)
+		if not t then return end
+		if not self:isTalentActive(t.id) then return end
+
+		if allow_immunity then
+			if not self:canBe("dispel_sustains") then allowed = false end
+		end
+		if allowed and allow_immunity then
+			if self:fireTalentCheck("callbackOnDispel", "sustain", effid_or_tid, src, allow_immunity) then allowed = false end
+		end
+		if allowed then
+			self:forceUseTalent(effid_or_tid, params)
+			self:fireTalentCheck("callbackOnDispelled", "sustain", effid_or_tid, src, allow_immunity)
+			return true
+		else
+			game.logSeen(self, "%s resists the dispelling of %s!", self:getName():capitalize(), t.name)
+			return false
+		end
+	end
 end
 
 --- Randomly reduce talent cooldowns based on a filter
@@ -7313,6 +7431,8 @@ end
 _M.StatusTypes = {poison=true,	disease=true, cut=true, confusion=true, blind=true,	silence=true,
 	disarm=true, stun=true, sleep=true, fear=true, stone=true, slow=true,
 	instakill=false, anomaly=false,
+	dispel_sustains=function(self) return 100 * ((self:attr("dispel_sustains_immune") or 0) + (self:attr("dispel_immune") or 0)) end,
+	dispel_effects=function(self) return 100 * ((self:attr("dispel_effects_immune") or 0) + (self:attr("dispel_immune") or 0)) end,
 	pin=function(self) return (self:attr("negative_status_effect_immune") or self:attr("levitation") or self:attr("fly")) and 100 or 100 * (self:attr("pin_immune") or 0) end,
 	knockback=function(self) return self:attr("never_move") and 100 or 100 * (self:attr("knockback_immune") or 0) end,
 	teleport=function(self) return self:attr("encased_in_ice") and 100 or 100 * (self:attr("teleport_immune") or 0) end,

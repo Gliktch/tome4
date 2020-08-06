@@ -1553,11 +1553,11 @@ newEffect{
 		(function()
 			local def, level, bonusLevel = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES], eff.level, math.min(eff.unlockLevel, eff.level)
 			if math.min(eff.unlockLevel, eff.level) >= 3 then
-				--if e.status == "detrimental" and not e.subtype["cross tier"] and p.src and p.src._is_actor and not p.src.dead then
+				--if e.status == "detrimental" and not e.subtype["cross tier"] and p.src and p.src.__is_actor and not p.src.dead then
 					--local e = self.tempeffect_def[eff_id]
 				if e.status ~= "detrimental" or e.type == "other" or e.subtype["cross tier"] then return end
 				local harrowDam = def.getHarrowDam(self, level)
-				if p.src and p.src._is_actor then
+				if p.src and p.src.__is_actor then
 					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.MIND, harrowDam)
 					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.DARKNESS, harrowDam)
 					--game.logSeen(self, "#F53CBE#%s harrows '%s'!", self:getName():capitalize(), p.src.name)
@@ -3986,8 +3986,15 @@ newEffect{
 	subtype = { lich = true },
 	status = "neutral",
 	parameters = { },
+	callbackOnSummonKill = function(self, t, minion, who, death_note)
+		if who.rank >= 3.5 then
+			eff.success = true
+			self:removeEffect(self.EFF_LICH_HUNGER)
+			game.bignews:say(120, "#DARK_ORCHID#Lichform regeneration is complete!#{normal}#")
+		end
+	end,
 	callbackOnKill = function(self, eff, who, death_note)
-		if who.rank >= 3.2 then
+		if who.rank >= 3.5 then
 			eff.success = true
 			self:removeEffect(self.EFF_LICH_HUNGER)
 			game.bignews:say(120, "#DARK_ORCHID#Lichform regeneration is complete!#{normal}#")
@@ -4052,7 +4059,8 @@ newEffect{
 
 		pcall(function() -- Just in case
 			eff.image:forceUseTalent(ab.id, {force_level=self:getTalentLevelRaw(ab.id), ignore_cd=true, no_talent_fail=true, ignore_energy=true, force_talent_ignore_ressources=true, force_target=tgt})
-			eff.image:takeHit(1, eff.image)
+			-- eff.image:takeHit(1, eff.image)
+			eff.image:useCharge()
 		end)
 
 		eff.last_talent = true

@@ -447,7 +447,7 @@ newEffect{
 	deactivate = function(self, eff)
 	end,
 	on_timeout = function(self, eff)
-		local cleanse = self:removeEffectsFilter({type="physical", status="detrimental"}, 1)
+		local cleanse = self:removeEffectsFilter(self, {type="physical", status="detrimental"}, 1)
 		if cleanse > 0 then eff.dur = eff.dur + 1 end
 	end,
 }
@@ -2242,9 +2242,9 @@ newEffect{
 	end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "inc_stats", {
-			[Stats.STAT_STR] = math.floor(eff.str),
-			[Stats.STAT_CON] = math.floor(eff.con),
-			[Stats.STAT_DEX] = math.floor(eff.dex),
+			[Stats.STAT_STR] = -math.floor(eff.str),
+			[Stats.STAT_CON] = -math.floor(eff.con),
+			[Stats.STAT_DEX] = -math.floor(eff.dex),
 		})
 	end,
 	deactivate = function(self, eff)
@@ -2372,7 +2372,7 @@ newEffect{
 		if #effs > 0 then
 			local eff = rng.tableRemove(effs)
 			if eff[1] == "effect" then
-				self:removeEffect(eff[2])
+				self:dispel(eff[2], eff.src)
 			end
 		end
 
@@ -3710,7 +3710,7 @@ newEffect{
 	status = "detrimental",
 	parameters = {},
 	on_timeout = function(self, eff)
-		self:removeSustainsFilter(nil, 1)
+		self:removeSustainsFilter(eff.src, nil, 1)
 	end,
 	activate = function(self, eff)
 		if core.shader.allow("adv") then
@@ -4745,35 +4745,42 @@ newEffect{
 		if self.skeleton_minion == "warrior" then self.name = _t"Lord of Skulls (warrior)"
 		elseif self.skeleton_minion == "archer" then self.name = _t"Lord of Skulls (archer)"
 		elseif self.skeleton_minion == "mage" then self.name = _t"Lord of Skulls (mage)"
+		elseif self.is_bone_giant then self.name = _t"Lord of Skulls (bone giant)"
 		end
 
-		if eff.talents then
-			if self.skeleton_minion == "warrior" then self:learnTalent(self.T_GIANT_LEAP, true)
-			elseif self.skeleton_minion == "archer" then self:learnTalent(self.T_VITAL_SHOT, true)
-			elseif self.skeleton_minion == "mage" then self:learnTalent(self.T_METEORIC_CRASH, true)
-			end
+		if eff.talents >= 2 and self.skeleton_minion == "warrior" then self:learnTalent(self.T_GIANT_LEAP, true)
+		elseif eff.talents >= 3 and self.skeleton_minion == "archer" then self:learnTalent(self.T_VITAL_SHOT, true)
+		elseif eff.talents >= 5 and self.skeleton_minion == "mage" then self:learnTalent(self.T_METEORIC_CRASH, true)
+		elseif eff.talents >= 6 and self.is_bone_giant then self:learnTalent(self.T_TITAN_S_SMASH, true)
 		end
 
 		local image
 		if self.skeleton_minion == "warrior" then image = "npc/lord_of_skulls_warrior.png"
 		elseif self.skeleton_minion == "archer" then image = "npc/lord_of_skulls_archer.png"
 		elseif self.skeleton_minion == "mage" then image = "npc/lord_of_skulls_magus.png"
+		elseif self.is_bone_giant then
+			if self.is_bone_giant == "e_bone_giant" then image = "npc/lord_of_skulls_eternal_bone_giant.png"
+			elseif self.is_bone_giant == "h_bone_giant" then image = "npc/lord_of_skulls_heavy_bone_giant.png"
+			elseif self.is_bone_giant == "bone_giant" then image = "npc/lord_of_skulls_bone_giant.png"
+			end
 		end
 
 		self.replace_display = mod.class.Actor.new{
-			image = image, display_y = -1, display_h = 2
+			image = "invis.png",
+			add_mos = {{image = image, display_y = -1, display_h = 2}}
 		}
 		self:removeAllMOs()
 		game.level.map:updateMap(self.x, self.y)
 	end,
 	deactivate = function(self, eff)
 		self.lord_of_skulls = false
-		if eff.talents then
-			if self.skeleton_minion == "warrior" then self:unlearnTalent(self.T_GIANT_LEAP, 1)
-			elseif self.skeleton_minion == "archer" then self:unlearnTalent(self.T_VITAL_SHOT, 1)
-			elseif self.skeleton_minion == "mage" then self:unlearnTalent(self.T_METEORIC_CRASH, 1)
-			end
+
+		if eff.talents >= 2 and self.skeleton_minion == "warrior" then self:unlearnTalent(self.T_GIANT_LEAP, 1)
+		elseif eff.talents >= 3 and self.skeleton_minion == "archer" then self:unlearnTalent(self.T_VITAL_SHOT, 1)
+		elseif eff.talents >= 5 and self.skeleton_minion == "mage" then self:unlearnTalent(self.T_METEORIC_CRASH, 1)
+		elseif eff.talents >= 6 and self.is_bone_giant then self:unlearnTalent(self.T_TITAN_S_SMASH, 1)
 		end
+
 		self.name = self.old_los_name
 		self.replace_display = nil
 		self:removeAllMOs()
@@ -4853,6 +4860,7 @@ newEffect{
 		eff.turn_list = {}
 	end,
 	registerHit = function(self, eff, minion)
+		if not minion.ghoul_minion then return end
 		eff.turn_list[#eff.turn_list+1] = minion
 	end,
 	activate = function(self, eff)
@@ -4919,6 +4927,7 @@ newEffect{
 	on_lose = function(self, err) return nil, true end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "invulnerable", 1)
+		eff.dur = 0 -- Force one turn
 	end,
 }
 
@@ -4967,6 +4976,9 @@ newEffect{
 		if what ~= "leave" then return end
 		self:removeEffect(self.EFF_CORPSELIGHT, true, true)
 	end,
+	callbackOnDeath = function(self, eff)
+		self:removeEffect(self.EFF_CORPSELIGHT, true, true)
+	end,
 	explode = function(self, eff)
 		if not self:knowTalent(self.T_GRAVE_MISTAKE) then return end
 		if eff.exploded then return end
@@ -4976,6 +4988,9 @@ newEffect{
 	callbackOnTalentPost = function(self, eff, ab)
 		if not ab.is_spell or ab.id == self.T_CORPSELIGHT then return end
 		if eff.stacks >= eff.max_stacks then return end
+		local found_self = false
+		self:projectApply({type="ball", radius=eff.effective_radius, x=eff.x, y=eff.y}, eff.x, eff.y, Map.ACTOR, function(tgt) if tgt == self then found_self = true end end)
+		if not found_self then return end
 		local oldradius = math.min(eff.radius + eff.stacks, 10)
 		eff.stacks = eff.stacks + 1
 
@@ -5028,6 +5043,10 @@ newEffect{
 	parameters = {dam=10, chance=2},
 	on_gain = function(self, err) return _t"#Target# is afflicted by a dire plague!" end,
 	on_lose = function(self, err) return _t"#Target# is free from the dire plague." end,
+	on_merge = function(self, old_eff, new_eff)
+		new_eff.dur = math.max(old_eff.dur, new_eff.dur)
+		return new_eff
+	end,
 	on_timeout = function(self, eff)
 		if self:attr("purify_disease") then self:heal(eff.dam, eff.src)
 		else if eff.dam > 0 then
@@ -5232,5 +5251,153 @@ newEffect{
 	end,
 	on_timeout = function(self, eff)
 		DamageType:get(DamageType.FIRE).projector(self, self.x, self.y, DamageType.FIRE, eff.power)
+	end,
+}
+
+newEffect{
+	name = "GHOST_WALK", image = "talents/ghost_walk.png",
+	desc = _t"Ghost Walk",
+	long_desc = function(self, eff) return ("Taking on a spectral form, allowing teleportation back to their original tile."):tformat() end,
+	type = "magical",
+	subtype = { darkness=true },
+	status = "beneficial",
+	parameters = {},
+	on_gain = function(self, err) return _t"#Target#'s form becomes intangible!", _t"+Ghost Walk" end,
+	on_lose = function(self, err) return _t"#Target# seems more solid.", _t"-Ghost Walk" end,
+	on_timeout = function(self, eff)
+		if self:knowTalent(self.T_SPECTRAL_SIGHT) then
+			self:setEffect(self.EFF_SENSE, self:callTalent(self.T_SPECTRAL_SIGHT, "getDuration"), {
+			range = self:callTalent(self.T_SPECTRAL_SIGHT, "getVision"),
+			actor = 1,
+			})
+		end
+		if self:knowTalent(self.T_INTANGIBILITY) then
+			self:setEffect(self.EFF_INTANGIBILITY, self:callTalent(self.T_INTANGIBILITY, "getDuration"), {
+			src = self,
+			power = self:callTalent(self.T_INTANGIBILITY, "getChance"),
+			})			
+		end
+	end,
+	activate = function(self, eff)
+		if self.hotkey and self.isHotkeyBound then
+			local pos = self:isHotkeyBound("talent", self.T_GHOST_WALK)
+			if pos then
+				self.hotkey[pos] = {"talent", self.T_GHOST_WALK_RETURN}
+			end
+		end
+
+		local ohk = self.hotkey
+		self.hotkey = nil -- Prevent assigning hotkey, we just did
+		self:learnTalent(self.T_GHOST_WALK_RETURN, true, 1, {no_unlearn=true})
+		self.hotkey = ohk
+
+	end,
+	deactivate = function(self, eff)
+		if self.hotkey and self.isHotkeyBound then
+			local pos = self:isHotkeyBound("talent", self.T_GHOST_WALK_RETURN)
+			if pos then
+				self.hotkey[pos] = {"talent", self.T_GHOST_WALK}
+			end
+		end
+
+		self:unlearnTalent(self.T_GHOST_WALK_RETURN, 1, nil, {no_unlearn=true})
+	end,
+}
+
+newEffect{
+	name = "SLIPSTREAM", image = "talents/slipstream.png",
+	desc = _t"Slipstream Free Movement",
+	long_desc = function(self, eff) return _t"Can move once for free, this turn only." end,
+	type = "magical",
+	subtype = { thaumaturgy=true, movement=true },
+	status = "beneficial", decrease = 0,
+	parameters = {},
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "free_movement", 1)
+		eff.setup = true
+	end,
+	callbackOnMove = function(self, eff, moved, force, ox, oy)
+		if not moved or force then return end
+		self:removeEffect(self.EFF_SLIPSTREAM, true, true)
+		self:callTalent(self.T_SLIPSTREAM, "useStream")
+	end,
+	callbackOnAct = function(self, eff)
+		if eff.setup then eff.setup = nil return end
+		self:removeEffect(self.EFF_SLIPSTREAM, true, true)
+	end,
+}
+
+newEffect{
+	name = "ORB_OF_THAUMATURGY", image = "talents/orb_of_thaumaturgy.png",
+	desc = _t"Orb Of Thaumaturgy",
+	long_desc = function(self, eff) return _t"All beam spells are duplicated to the orb." end,
+	type = "magical",
+	subtype = { thaumaturgy=true, meta=true },
+	status = "beneficial",
+	parameters = {},
+	callbackOnChangeLevel = function(self, eff, what)
+		if what ~= "leave" then return end
+		self:removeEffect(self.EFF_ORB_OF_THAUMATURGY, true, true)
+	end,
+	callbackOnTalentPost = function(self, eff, t)
+		if self._orb_of_thaumaturgy_recurs then return end
+		if not t.is_beam_spell then return end
+		game:onTickEnd(function()
+			local target = {x=eff.x, y=eff.y, __no_self=true}
+			self._orb_of_thaumaturgy_recurs = target
+			self:attr("archmage_beam_dam_mult", -eff.dam_pct)
+			self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_ressources=true, ignore_energy=true, force_target=target})
+			self:attr("archmage_beam_dam_mult", eff.dam_pct)
+			self._orb_of_thaumaturgy_recurs = nil
+		end)
+	end,
+	activate = function(self, eff)
+		eff.particle = game.level.map:particleEmitter(eff.x, eff.y, 1, "thaumaturgy_orb", {})
+	end,
+	deactivate = function(self, eff, ed)
+		game.level.map:removeParticleEmitter(eff.particle)
+	end,
+}
+
+newEffect{
+	name = "METAFLOW", image = "talents/metaflow.png",
+	desc = _t"Metaflow",
+	long_desc = function(self, eff) return ("Overflowing with energy, increasing all spells talent level by %d."):tformat(eff.power) end,
+	type = "magical",
+	subtype = { meta=true },
+	status = "beneficial",
+	parameters = {power=1},
+	on_gain = function(self, err) return _t"#Target# is overflowing with energy!", true end,
+	on_lose = function(self, err) return _t"#Target# is no more overflowing with energy.", true end,
+	udpateSustains = function(self)
+		local reset = {}
+		for tid, act in pairs(self.sustain_talents) do if act then
+				local t = self:getTalentFromId(tid)
+				if not t.no_sustain_autoreset and self:knowTalent(tid) then
+					reset[#reset+1] = tid
+				end
+		end end
+		self.turn_procs.resetting_talents = true
+		for i, tid in ipairs(reset) do
+			self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true})
+			self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true, talent_reuse=true})
+		end
+		self.turn_procs.resetting_talents = nil
+	end,
+	activate = function(self, eff, ed)
+		eff.tmpid = self:addTemporaryValue("spells_bonus_level", eff.power)
+		ed.udpateSustains(self)
+
+		if core.shader.allow("adv") then
+			eff.particle1, eff.particle2 = self:addParticles3D("volumetric", {kind="fast_sphere", appear=10, radius=1.2, twist=50, density=15, growSpeed=0.002, scrollingSpeed=0.008, img="continuum_01"})
+		else
+			eff.particle1 = self:addParticles(Particles.new("generic_shield", 1, {r=1, g=0, b=0, a=0.5}))
+		end
+	end,
+	deactivate = function(self, eff, ed)
+		self:removeTemporaryValue("spells_bonus_level", eff.tmpid)
+		if eff.particle1 then self:removeParticles(eff.particle1) end
+		if eff.particle2 then self:removeParticles(eff.particle2) end
+		ed.udpateSustains(self)
 	end,
 }

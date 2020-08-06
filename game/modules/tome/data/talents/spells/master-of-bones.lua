@@ -93,7 +93,7 @@ newTalent{
 			rarity = 1,
 			skeleton_minion = "warrior",
 
-			resolvers.inscriptions(1, "rune"),
+			resolvers.inscriptions(1, {"blink rune"}),
 			resolvers.talents{
 				T_WEAPON_COMBAT={base=1, every=7, max=10},
 				T_WEAPONS_MASTERY={base=1, every=7, max=10},
@@ -239,12 +239,12 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Call upon the battle fields of old to collect bones and fuse them with souls, combining them to create skeletal minions to do your bidding.
-		Up to %d skeleton warriors of level %d are summoned. Up to %d skeletons can be controlled at once.
+		return ([[Call upon the battlefields of old, collecting bones, fusing them with souls, and forging them into skeletal minions.
+		Up to %d skeleton warriors of level %d are summonedn, and up to %d skeletons can be controlled at once.
 		At level 3 the summons become armoured skeletons warriors.
-		At level 5 every 3 summoned warriors a free skeleton mage or skeleton archer is also created (without costing a soul). You can only sustain one mage and one archer at most in your army, in which case the free minion will be an armoured skeleton warrior.
+		At level 5, for every 3 skeleton warriors, a skeleton mage or archer will also be created without costing any souls.
 
-		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generaly more durable.#{normal}#
+		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generally more durable.#{normal}#
 		]]):tformat(t:_getNb(self), math.max(1, self.level + t:_getLevel(self)), t:_getMax(self, true))
 	end,
 }
@@ -353,9 +353,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Sacrifice one skeleton to turn it into a wall of bones of %d length for %d turns.
+		return ([[Sacrifice one skeleton to turn it into a wall of bones of length %d for %d turns.
 		The wall is strong enough to block movement but projectiles and sight are not hampered.
-		Any foes adjacent to it takes %0.2f frostdusk damage and has %d%% chances to be pinned for 4 turns.
+		Any foes adjacent to it take %0.2f frostdusk damage and has %d%% chances to be pinned for 4 turns.
 		]]):tformat(3 + math.floor(self:getTalentLevel(t) / 2) * 2, t:_getDuration(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), t:_getChance(self))
 	end,
 }
@@ -375,7 +375,7 @@ newTalent{
 			combat = { dam=resolvers.levelup(resolvers.mbonus(45, 20), 1, 1), atk=15, apr=10, dammod={str=0.8} },
 			body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
 			infravision = 10,
-			life_rating = 12,
+			life_rating = 16,
 			max_stamina = 90,
 			rank = 2,
 			size_category = 4,
@@ -391,7 +391,7 @@ newTalent{
 			blind_immune = 1,
 			fear_immune = 1,
 			stun_immune = 1,
-			is_bone_giant = true,
+			is_bone_giant = "bone_giant",
 			see_invisible = resolvers.mbonus(15, 5),
 			undead = 1,
 			name = "bone giant", color=colors.WHITE,
@@ -404,42 +404,6 @@ newTalent{
 			melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
 			resolvers.talents{ T_BONE_ARMOUR={base=3, every=10, max=5}, T_STUN={base=3, every=10, max=5}, },
 		},
-		h_bone_giant = {
-			type = "undead", subtype = "giant",
-			blood_color = colors.GREY,
-			display = "K",
-			combat = { dam=resolvers.levelup(resolvers.mbonus(45, 20), 1, 1), atk=15, apr=10, dammod={str=0.8} },
-			body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
-			infravision = 10,
-			life_rating = 12,
-			max_stamina = 90,
-			rank = 2,
-			size_category = 4,
-			movement_speed = 1.5,
-			autolevel = "warrior",
-			ai = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=2, },
-			stats = { str=20, dex=12, mag=16, con=16 },
-			resists = { [DamageType.PHYSICAL] = 20, [DamageType.BLIGHT] = 20, [DamageType.COLD] = 50, },
-			open_door = 1,
-			no_breath = 1,
-			confusion_immune = 1,
-			poison_immune = 1,
-			blind_immune = 1,
-			fear_immune = 1,
-			stun_immune = 1,
-			is_bone_giant = true,
-			see_invisible = resolvers.mbonus(15, 5),
-			undead = 1,
-			name = "heavy bone giant", color=colors.RED,
-			desc=_t[[A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.]],
-			resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_giant_heavy_bone_giant.png", display_h=2, display_y=-1}}},
-			level_range = {1, nil}, exp_worth = 0,
-			max_life = resolvers.rngavg(100,120),
-			combat_armor = 20, combat_def = 0,
-			on_melee_hit = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
-			melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
-			resolvers.talents{ T_BONE_ARMOUR={base=3, every=10, max=5}, T_THROW_BONES={base=4, every=10, max=7}, T_STUN={base=3, every=10, max=5}, },
-		},
 		e_bone_giant = {
 			type = "undead", subtype = "giant",
 			blood_color = colors.GREY,
@@ -447,7 +411,7 @@ newTalent{
 			combat = { dam=resolvers.levelup(resolvers.mbonus(45, 20), 1, 1), atk=15, apr=10, dammod={str=0.8} },
 			body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
 			infravision = 10,
-			life_rating = 12,
+			life_rating = 16,
 			max_stamina = 90,
 			rank = 2,
 			size_category = 4,
@@ -463,12 +427,48 @@ newTalent{
 			blind_immune = 1,
 			fear_immune = 1,
 			stun_immune = 1,
-			is_bone_giant = true,
+			is_bone_giant = "e_bone_giant",
 			see_invisible = resolvers.mbonus(15, 5),
 			undead = 1,
-			name = "eternal bone giant", color=colors.GREY,
+			name = "eternal bone giant", color=colors.RED,
 			desc=_t[[A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.]],
 			resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_giant_eternal_bone_giant.png", display_h=2, display_y=-1}}},
+			level_range = {1, nil}, exp_worth = 0,
+			max_life = resolvers.rngavg(100,120),
+			combat_armor = 20, combat_def = 0,
+			on_melee_hit = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
+			melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
+			resolvers.talents{ T_BONE_ARMOUR={base=3, every=10, max=5}, T_THROW_BONES={base=4, every=10, max=7}, T_STUN={base=3, every=10, max=5}, },
+		},
+		h_bone_giant = {
+			type = "undead", subtype = "giant",
+			blood_color = colors.GREY,
+			display = "K",
+			combat = { dam=resolvers.levelup(resolvers.mbonus(45, 20), 1, 1), atk=15, apr=10, dammod={str=0.8} },
+			body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
+			infravision = 10,
+			life_rating = 16,
+			max_stamina = 90,
+			rank = 2,
+			size_category = 4,
+			movement_speed = 1.5,
+			autolevel = "warrior",
+			ai = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=2, },
+			stats = { str=20, dex=12, mag=16, con=16 },
+			resists = { [DamageType.PHYSICAL] = 20, [DamageType.BLIGHT] = 20, [DamageType.COLD] = 50, },
+			open_door = 1,
+			no_breath = 1,
+			confusion_immune = 1,
+			poison_immune = 1,
+			blind_immune = 1,
+			fear_immune = 1,
+			stun_immune = 1,
+			is_bone_giant = "h_bone_giant",
+			see_invisible = resolvers.mbonus(15, 5),
+			undead = 1,
+			name = "heavy bone giant", color=colors.GREY,
+			desc=_t[[A towering creature, made from the bones of hundreds of dead bodies. It is covered by an unholy aura.]],
+			resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/undead_giant_heavy_bone_giant.png", display_h=2, display_y=-1}}},
 			level_range = {1, nil}, exp_worth = 0,
 			max_life = resolvers.rngavg(100,120),
 			combat_armor = 40, combat_def = 20,
@@ -476,7 +476,7 @@ newTalent{
 			melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 5)},
 			autolevel = "warriormage",
 			resists = {all = 50},
-			resolvers.talents{ T_BONE_ARMOUR={base=5, every=10, max=7}, T_STUN={base=3, every=10, max=5}, T_SKELETON_REASSEMBLE=5, },
+			resolvers.talents{ T_BONE_ARMOUR={base=5, every=10, max=7}, T_THROW_BONES={base=4, every=10, max=7}, T_STUN={base=3, every=10, max=5}, T_SKELETON_REASSEMBLE=5, },
 		},
 	},
 	tactical = { ATTACK = 2 },
@@ -490,7 +490,7 @@ newTalent{
 		if stats.bone_giant then stats.bone_giant:die(self) end
 
 		local list = {}
-		for _, m in ipairs(stats.list) do if m.skeleton_minion then list[#list+1] = m end end
+		for _, m in ipairs(stats.list) do if m.skeleton_minion and not m.lord_of_skulls then list[#list+1] = m end end
 		table.sort(list, function(a, b)
 			local pa, pb = a.life / a.max_life, b.life / b.max_life
 			if pa == pb then return a.creation_turn < b.creation_turn end
@@ -506,8 +506,8 @@ newTalent{
 		end
 
 		local def = t.minions_list.bone_giant
-		if self:getTalentLevel(t) >= 6 then def = t.minions_list.e_bone_giant
-		elseif self:getTalentLevel(t) >= 3 then def = t.minions_list.h_bone_giant
+		if self:getTalentLevel(t) >= 6 then def = t.minions_list.h_bone_giant
+		elseif self:getTalentLevel(t) >= 3 then def = t.minions_list.e_bone_giant
 		end
 
 		necroSetupSummon(self, def, pos.x, pos.y, lev, nil, true)
@@ -517,10 +517,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Every army of undead minions needs its spearhead. To that end you combine 3 skeleton minions into a bone giant of level %d.
-		The minions used are automatically selected by taking the weaker and older ones first and a Lord of Skull is never used.
-		At level 3 a heavy bone giant is created instead.
-		At level 6 an eternal bone giant is created instead.
-		Only one bone giant may be active at any time, casting this spell while one exists will destroy it and replace it with a new one.
+		The minions used are selected from the weakest first, and a Lord of Skulls will never be used. 
+		At level 3 an eternal bone giant is created instead.
+		At level 6 a heavy bone giant is created instead.
+		Only one bone giant may be active, and casting this spell while one already exists will destroy it and create a new one.
 		]]):
 		tformat(math.max(1, self.level + t:_getLevel(self)))
 	end,
@@ -542,34 +542,35 @@ newTalent{
 	onAIGetTarget = function(self, t)
 		local targets = {}
 		for _, act in pairs(game.level.entities) do
-			if act.summoner == self and act.necrotic_minion and act.skeleton_minion and self:hasLOS(act.x, act.y) and core.fov.distance(self.x, self.y, act.x, act.y) <= self:getTalentRange(t) then
+			if act.summoner == self and act.necrotic_minion and (act.skeleton_minion or act.is_bone_giant) and self:hasLOS(act.x, act.y) and core.fov.distance(self.x, self.y, act.x, act.y) <= self:getTalentRange(t) then
 			targets[#targets+1] = act
 		end end
 		if #targets == 0 then return nil end
 		local tgt = rng.table(targets)
 		return tgt.x, tgt.y, tgt
 	end,
-	on_pre_use = function(self, t) return necroArmyStats(self).nb_skeleton > 0 end,
+	on_pre_use = function(self, t) local stats = necroArmyStats(self) return stats.nb_skeleton > 0 or stats.bone_giant end,
 	action = function(self, t, p)
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTargetLimited(tg)
 		if not x or not y or not target then return nil end
-		if not target.skeleton_minion or target.summoner ~= self then return nil end
+		if (not target.skeleton_minion and not target.is_bone_giant) or target.summoner ~= self then return nil end
 
 		local stats = necroArmyStats(self)
 		if stats.lord_of_skulls then stats.lord_of_skulls:removeEffect(stats.lord_of_skulls.EFF_LORD_OF_SKULLS, false, true) end
 
-		target:setEffect(target.EFF_LORD_OF_SKULLS, 1, {life=t:_getLife(self), talents=self:getTalentLevel(t) >= 6})
+		target:setEffect(target.EFF_LORD_OF_SKULLS, 1, {life=t:_getLife(self), talents=self:getTalentLevel(t)})
 		return true
 	end,	
 	info = function(self, t)
 		return ([[Consume a soul to empower one of your skeleton, making it into a Lord of Skulls.
-		The Lord of Skulls gain %d%% more life, is instantly healed to full.
-		There can be only one active Lord of Skulls, casting this spell on an other skeleton removes the effect from the current one.
-		At level 6 it also gains a new talent:
-		- Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes and impact and frees the skeleton from any stun, daze and pin effects they may have
-		- Archers learn Vital Shot, a devastating attack that can stun and cripple their foes
-		- Mages learn Meteoric Crash, a destructive spell that crushes and burns foes in a big radius for multiple turns
+		The Lord of Skulls gains %d%% more life and is instantly healed to full.
+		There can be only one active Lord of Skulls, casting this spell on another skeleton removes the effect from the current one.
+		It also gains a new talent if high enough:
+		At level 2 Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes on impact and frees the skeleton from any stun, daze and pin effects they may have
+		At level 3 Archers learn Vital Shot, a devastating attack that can stun and cripple their foes
+		At level 5 Mages learn Meteoric Crash, a destructive spell that crushes and burns foes in a big radius for multiple turns and stuns them
+		At level 6 Bone Giants learn You Shall Be My Weapon!, a massive attack that deals high damage, knockbacks foes and stuns them
 		]]):
 		tformat(t:_getLife(self))
 	end,

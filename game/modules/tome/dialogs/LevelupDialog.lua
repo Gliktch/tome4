@@ -110,6 +110,11 @@ function _M:init(actor, on_finish, on_birth)
 			if tid then profile.chat.uc_ext:sendTalentLink(tid) end
 		end end,
 		__TEXTINPUT = function(c)
+			if c == 'x' then
+				config.settings.tome.show_detailed_talents_desc = not config.settings.tome.show_detailed_talents_desc
+				game:saveSettings("tome.show_detailed_talents_desc", ("tome.show_detailed_talents_desc = %s\n"):format(config.settings.tome.show_detailed_talents_desc and "true" or "false"))
+				self:updateTooltip()
+			end
 			if self.focus_ui.ui.last_mz then
 				if c == "+" and self.focus_ui and self.focus_ui.ui.onUse then
 					self.focus_ui.ui:onUse(self.focus_ui.ui.last_mz.item, true)
@@ -319,7 +324,7 @@ function _M:checkDeps(simple, ignore_special)
 
 		local t = self.actor:getTalentFromId(t_id)
 		local ok, reason = self.actor:canLearnTalent(t, 0, ignore_special)
-		if not ok and (self.actor:knowTalent(t) or force) then talents = talents.."\n#GOLD##{bold}#    - "..t.name.."#{normal}##LAST#("..reason..")" end
+		if not ok and (self.actor:knowTalent(t) or force) then talents = talents.."\n#GOLD##{bold}#    - "..t.name.."#{normal}##LAST#("..(reason or _t"unknown")..")" end
 		if reason == _t"not enough stat" then
 			stats_ok = false
 		end
@@ -343,6 +348,11 @@ function _M:checkDeps(simple, ignore_special)
 end
 
 function _M:isUnlearnable(t, limit)
+	-- Dont let them unlearn talents granted by items
+	if self.actor.item_talent_levels_learnt and self.actor.item_talent_levels_learnt[t.id] then
+		if self.actor:getTalentLevelRaw(t) <= self.actor.item_talent_levels_learnt[t.id] then return nil end
+	end
+
 	if config.settings.cheat then return 9999 end
 	if not self.actor.last_learnt_talents then return end
 	if self.on_birth and self.actor:knowTalent(t.id) and not t.no_unlearn_last then return 1 end -- On birth we can reset any talents except a very few
@@ -916,6 +926,24 @@ function _M:getStatDesc(item)
 	return text
 end
 
+local tokenize_number = {}
+local tokenize_digit = lpeg.R("09") + lpeg.P"%"
+
+-- Matches: 10, -10, 0
+tokenize_number.integer =
+	(lpeg.S("+-") ^ -1) *
+	(tokenize_digit   ^  1)
+
+-- Matches: .6, .899, .9999873
+tokenize_number.fractional =
+	(lpeg.P(".")   ) *
+	(tokenize_digit ^ 1)
+
+-- Matches: 55.97, -90.8, .9 
+tokenize_number.decimal =	
+	(tokenize_number.integer *                     -- Integer
+	(tokenize_number.fractional ^ -1)) +           -- Fractional
+	((lpeg.S("+-") ^ -1) * tokenize_number.fractional)  -- Completely fractional number
 
 function _M:getTalentDesc(item)
 	self.last_drawn_talent = item.talent
@@ -957,33 +985,62 @@ function _M:getTalentDesc(item)
 		end
 
 		local traw = self.actor:getTalentLevelRaw(t.id)
-		local diff_full = function(i2, i1, res)
-			res:add({"color", "LIGHT_GREEN"}, i1, {"color", "LAST"}, " [->", {"color", "YELLOW_GREEN"}, i2, {"color", "LAST"}, "]")
-		end
-		local diff_color = function(i2, i1, res)
-			res:add({"color", "LIGHT_GREEN"}, i1, {"color", "LAST"})
-		end
-		if traw == 0 then
-			local req = self.actor:getTalentReqDesc(item.talent, 1):toTString():tokenize(" ()[]")
-			text:add{"color","WHITE"}
-			text:add({"font", "bold"}, _t"First talent level: ", tostring(traw+1), {"font", "normal"})
-			text:add(true)
-			text:merge(req)
-			text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t, 1), diff_color))
-		elseif traw < self:getMaxTPoints(t) then
-			local req = self.actor:getTalentReqDesc(item.talent):toTString():tokenize(" ()[]")
-			local req2 = self.actor:getTalentReqDesc(item.talent, 1):toTString():tokenize(" ()[]")
-			text:add{"color","WHITE"}
-			text:add({"font", "bold"}, traw == 0 and _t"Next talent level" or _t"Current talent level: ", tostring(traw), " [-> ", tostring(traw + 1), "]", {"font", "normal"})
-			text:add(true)
-			text:merge(req2:diffWith(req, diff_full))
-			text:merge(self.actor:getTalentFullDescription(t, 1):diffWith(self.actor:getTalentFullDescription(t), diff_full))
-		else
-			local req = self.actor:getTalentReqDesc(item.talent):toTString():tokenize(" ()[]")
+		if config.settings.tome.show_detailed_talents_desc then
+			local list = {}
+			for i = 1, 5 do
+				local d = self.actor:getTalentReqDesc(item.talent, i-traw):toTString():tokenize(" ()[]")
+				d:merge(self.actor:getTalentFullDescription(t, i-traw))
+				list[i] = d:tokenize(tokenize_number.decimal)
+			end			
 			text:add({"font", "bold"}, _t"Current talent level: "..traw, {"font", "normal"})
 			text:add(true)
-			text:merge(req)
-			text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t), diff_color))
+			text:merge(tstring:diffMulti(list, function(diffs, res)
+				for i, d in ipairs(diffs) do
+					if i ~= traw then
+						res:add{"color", "YELLOW_GREEN"}
+					else
+						res:add{"color", "LIGHT_GREEN"}
+						res:add{"font", "bold"}
+					end
+					res:add(d.str)
+					if i == traw then
+						res:add{"font", "normal"}
+					end
+					res:add{"color", "LAST"}
+					if i < #list then res:add(", ") end
+				end
+			end))
+			text:add(true, true, {"font", "italic"}, {"color", "GREY"}, _t"<Press 'x' to swap to simple display>", {"color", "LAST"}, {"font", "normal"})
+		else
+			local diff_full = function(i2, i1, res)
+				res:add({"color", "LIGHT_GREEN"}, i1, {"color", "LAST"}, " [->", {"color", "YELLOW_GREEN"}, i2, {"color", "LAST"}, "]")
+			end
+			local diff_color = function(i2, i1, res)
+				res:add({"color", "LIGHT_GREEN"}, i1, {"color", "LAST"})
+			end
+			if traw == 0 then
+				local req = self.actor:getTalentReqDesc(item.talent, 1):toTString():tokenize(" ()[]")
+				text:add{"color","WHITE"}
+				text:add({"font", "bold"}, _t"First talent level: ", tostring(traw+1), {"font", "normal"})
+				text:add(true)
+				text:merge(req)
+				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t, 1), diff_color))
+			elseif traw < self:getMaxTPoints(t) then
+				local req = self.actor:getTalentReqDesc(item.talent):toTString():tokenize(" ()[]")
+				local req2 = self.actor:getTalentReqDesc(item.talent, 1):toTString():tokenize(" ()[]")
+				text:add{"color","WHITE"}
+				text:add({"font", "bold"}, traw == 0 and _t"Next talent level" or _t"Current talent level: ", tostring(traw), " [-> ", tostring(traw + 1), "]", {"font", "normal"})
+				text:add(true)
+				text:merge(req2:diffWith(req, diff_full))
+				text:merge(self.actor:getTalentFullDescription(t, 1):diffWith(self.actor:getTalentFullDescription(t), diff_full))
+			else
+				local req = self.actor:getTalentReqDesc(item.talent):toTString():tokenize(" ()[]")
+				text:add({"font", "bold"}, _t"Current talent level: "..traw, {"font", "normal"})
+				text:add(true)
+				text:merge(req)
+				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t), diff_color))
+			end
+			text:add(true, true, {"font", "italic"}, {"color", "GREY"}, _t"<Press 'x' to swap to advanced display>", {"color", "LAST"}, {"font", "normal"})
 		end
 	end
 

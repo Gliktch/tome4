@@ -26,6 +26,7 @@ newTalent{
 	mana = 10,
 	range = 10,
 	cooldown = 15,
+	requires_target = true,
 	tactical = { ATTACK = { COLD=1, DARK=1 }, DISABLE = 1 },
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 300) end,
 	getMax = function(self, t) return math.floor(self:combatTalentScale(t, 1, 9)) end,
@@ -59,7 +60,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Press your advantage when your foes are starting to crumble.
-		For every detrimental effect on the target you deals %0.2f frostdusk damage per effect (with disminishing returns) and reduce its global speed by 25%% for one turn per effect (up to a maximum of %d).
+		For every detrimental effect on the target you deals %0.2f frostdusk damage (with diminishing returns) and reduce its global speed by 25%% for one turn per effect (up to a maximum of %d).
 		]]):tformat(damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), t:_getMax(self))
 	end,
 }
@@ -140,7 +141,7 @@ newTalent{
 		return nil
 	end,	
 	info = function(self, t)
-		return ([[Everytime you or one of your minions kills a creature you create a temporary link to the place of death.
+		return ([[Every time you or one of your minions kill a creature you create a temporary link to the place of death.
 		For %d turns afterwards you can instantly and accurately teleport to it (if it is in sight).
 		]]):tformat(t:_getTurns(self))
 	end,
@@ -190,7 +191,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your body starts to radiate shadows, increasing your darkness resistance by %d%%, armour by %d and defence by %d.
-		Any time you absorb a soul the shadows pulse outward, dealing %0.2f frostdusk damage to all foes in range %d and knocking them back 3 tiles away.
+		Any time you absorb a soul the shadows pulse outward, dealing %0.2f frostdusk damage to all foes in range %d and knocking them back 3 tiles.
 		This can only happen once per turn.
 		The damage increases with your Spellpower.]]):
 		tformat(t:_getResist(self), t:_getArmor(self), t:_getDef(self), damDesc(self, DamageType.FROSTDUSK, t.getDamage(self, t)), self:getTalentRadius(t))
@@ -227,7 +228,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Whenever a creature is killed by yourself or a minion you feast on its essence, gaining %0.1f mana.
-		At level 3 the thrill of the death invigorates you, granting a movement sped bonus of 50%% for %d turns.]]):
+		At level 3 the thrill of the death invigorates you, granting a movement speed bonus of 50%% for %d turns.]]):
 		tformat(t.getMana(self, t), t.getDur(self, t))
 	end,
 }

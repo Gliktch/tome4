@@ -128,7 +128,7 @@ function _M:restoreResources(actor)
 end
 
 --- Basic resurrection
-function _M:resurrectBasic(actor)
+function _M:resurrectBasic(actor, reason)
 	actor.dead = false
 	actor.died = (actor.died or 0) + 1
 	
@@ -160,6 +160,8 @@ function _M:resurrectBasic(actor)
 	game.paused = true
 
 	actor:checkTwoHandedPenalty()
+
+	actor:fireTalentCheck("callbackOnResurrect", reason or "unknown")
 end
 
 --- Send the party to the Eidolon Plane
@@ -177,7 +179,7 @@ function _M:eidolonPlane()
 
 		local is_exploration = game.permadeath == game.PERMADEATH_INFINITE
 		self:cleanActor(self.actor)
-		self:resurrectBasic(self.actor)
+		self:resurrectBasic(self.actor, "eidolon_plane")
 		for e, _ in pairs(game.party.members) do
 			self:cleanActor(e)
 		end
@@ -222,7 +224,7 @@ function _M:use(item)
 		game.logPlayer(self.actor, "#LIGHT_BLUE#You resurrect! CHEATER!")
 
 		self:cleanActor(self.actor)
-		self:resurrectBasic(self.actor)
+		self:resurrectBasic(self.actor, "cheat")
 		self:restoreResources(self.actor)
 		self.actor:check("on_resurrect", "cheat")
 		self.actor:triggerHook{"Actor:resurrect", reason="cheat"}
@@ -231,7 +233,7 @@ function _M:use(item)
 		game.logPlayer(self.actor, "#LIGHT_RED#The Blood of Life rushes through your dead body. You come back to life!")
 
 		self:cleanActor(self.actor)
-		self:resurrectBasic(self.actor)
+		self:resurrectBasic(self.actor, "blood_life")
 		self:restoreResources(self.actor)
 		world:gainAchievement("UNSTOPPABLE", actor)
 		self.actor:check("on_resurrect", "blood_life")
@@ -251,7 +253,7 @@ function _M:use(item)
 		game.logPlayer(self.actor, "#YELLOW#Your bones magically knit back together. You are once more able to dish out pain to your foes!")
 
 		self:cleanActor(self.actor)
-		self:resurrectBasic(self.actor)
+		self:resurrectBasic(self.actor, "skeleton")
 		self:restoreResources(self.actor)
 		world:gainAchievement("UNSTOPPABLE", actor)
 		self.actor:check("on_resurrect", "skeleton")
@@ -263,7 +265,7 @@ function _M:use(item)
 		game.logPlayer(self.actor, "#YELLOW#Your %s is consumed and disappears! You come back to life!", o:getName{do_colour=true})
 
 		self:cleanActor(self.actor)
-		self:resurrectBasic(self.actor)
+		self:resurrectBasic(self.actor, "consume", o)
 		self:restoreResources(self.actor)
 		world:gainAchievement("UNSTOPPABLE", actor)
 		self.actor:check("on_resurrect", "consume", o)

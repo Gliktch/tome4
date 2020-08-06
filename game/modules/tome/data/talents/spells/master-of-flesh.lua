@@ -125,7 +125,7 @@ newTalent{
 	radius = function(self, t) return self:getTalentRadius(self:getTalentFromId(self.T_NECROTIC_AURA)) end,
 	target = function(self, t) return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=false, talent=t} end,
 	getNb = function(self, t, ignore) return math.max(1, math.floor(self:combatTalentScale(t, 1, 5))) end,
-	getEvery = function(self, t, ignore) return math.floor(self:combatTalentLimit(t, 10, 30, 15)) end,
+	getEvery = function(self, t, ignore) return math.floor(self:combatTalentLimit(t, 10, 30, 12)) end,
 	getTurns = function(self, t, ignore) return math.floor(self:combatTalentScale(t, 5, 10)) end,
 	getLevel = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), -6, 0.9, 2, 5)) end, -- -6 @ 1, +2 @ 5, +5 @ 8
 	on_pre_use = function(self, t) return self:getTalentLevel(t) >= 3 and self:getSoul() >= 1 end,
@@ -211,11 +211,11 @@ newTalent{
 	info = function(self, t)
 		return ([[You control dead matter around you, lyring in the ground, decaying.
 		When you enter combat and every %d turns thereafter a ghoul of level %d automatically raises to fight for you.
-		At level 3 you can forcefully activate this spell to summon up to %d ghasts, as close as possible to your foes in range %d.
+		At level 3 you can forcefully activate this spell to summon up to %d ghasts around you.
 		At level 5 every 4 summoned ghouls or ghasts a ghoulking is summoned for free.
 		Ghouls, ghasts and ghoulkings last for %d turns.
 
-		#GREY##{italic}#Ghoul minions come in larger numbers than skeleton minions but are generaly more frail and disposable.#{normal}#
+		#GREY##{italic}#Ghoul minions come in larger numbers than skeleton minions but are generally more frail and disposable.#{normal}#
 		]]):tformat(t:_getEvery(self), math.max(1, self.level + t:_getLevel(self)), t:_getNb(self), self:getTalentRadius(self, t), t:_getTurns(self))
 	end,
 }
@@ -232,7 +232,7 @@ newTalent{
 	tactical = { ATTACKAREA = {COLD=2, DARKNESS=2} },
 	requires_target = true,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 3, 6)) end,
-	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t), talent=t} end,
+	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t), talent=t, friendlyfire=false} end,
 	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 1, 4)) end,
 	getIncrease = function(self, t) return math.floor(self:combatTalentScale(t, 1, 2)) end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 400) / 5 end,
@@ -266,6 +266,18 @@ newTalent{
 			t:_endEffect(self)
 		end
 	end,
+	absorbGhoul = function(self, t, src)
+		local p = self:isTalentActive(self.T_PUTRESCENT_LIQUEFACTION)
+		p.dur = p.dur + self:callTalent(self.T_PUTRESCENT_LIQUEFACTION, "getIncrease")
+		game.level.map:particleEmitter(src.x, src.y, 1, "pustulent_fulmination", {radius=1})
+		game.logSeen(src, "#GREY#%s dissolves into the cloud of gore.", src:getName():capitalize())
+
+		p.absorb_cnt = p.absorb_cnt + 1
+		if p.absorb_cnt >= 2 then
+			self:incSoul(1)
+			p.absorb_cnt = 0
+		end
+	end,
 	activate = function(self, t)
 		local list = {}
 		local stats = necroArmyStats(self)
@@ -281,7 +293,7 @@ newTalent{
 		end
 		if dur == 0 then return nil end
 
-		local ret = { dur = dur }
+		local ret = { dur = dur, absorb_cnt = 0 }
 
 		-- Add a lasting map effect
 		local radius = self:getTalentRadius(t)
@@ -315,9 +327,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Shattering up to %d ghouls or ghasts you create a putrescent swirling cloud of radius %d that follows you around for 3 turns per dead ghoul. Oldest ghouls are prioritized for destruction.
-		Any ghoul or ghast dying or expiring within this cloud increases its duration by %d turn.
+		Any ghoul or ghast dying or expiring within this cloud increases its duration by %d turn and every two aborbed ghoul/ghast your gain back one soul.
 		The cloud deals %0.2f frostdusk damage to any foes caught inside.
-		The damage is increased by your Spellpower.
+		The damage will increase with your Spellpower.
 		]]):tformat(t:_getNb(self), self:getTalentRadius(t), t:_getIncrease(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)))
 	end,
 }
@@ -344,7 +356,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Ghouls are nothing but mere tools to you, for %d turns you render them bloated with dark forces.
 		Anytime a ghoul or ghast is hit it will explode in a messy splash of gore, dealing %0.2f frostdusk damage to all foes in radius %d of it.
-		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces on attribute by %d.
+		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces one attribute by %d.
 		Only one ghoul may explode per turn. The one with the least time left to live is always the first to do so.
 		The damage and disease power is increased by your Spellpower.
 		]]):
@@ -358,17 +370,21 @@ newTalent{
 	require = spells_req4,
 	points = 5,
 	mode = "sustained",
-	sustain_mana = 40,
+	mana = 40,
 	soul = 1,
-	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 15, 40, 20)) end,
+	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 15, 35, 15)) end,
 	tactical = { CURE = 1 },
 	range = 10,
+	no_energy = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
-	on_pre_use = function(self, t) return necroArmyStats(self).nb_ghoul > 0 end,
+	on_pre_use = function(self, t) return necroArmyStats(self).nb_ghoul > 0 and self.in_combat end,
 	callbackOnActBase = function(self, t)
 		if necroArmyStats(self).nb_ghoul == 0 then
 			self:forceUseTalent(t.id, {ignore_energy=true})
 		end
+	end,
+	callbackOnCombat = function(self, t, state)
+		if state == false then self:forceUseTalent(t.id, {ignore_energy=true}) end
 	end,
 	callbackOnTemporaryEffect = function(self, t, eff_id, e, p)
 		if e.status ~= "detrimental" then return end
@@ -397,11 +413,11 @@ newTalent{
 		return true
 	end,	
 	info = function(self, t)
-		return ([[Whenever you would be affected by a detrimental physical effect you instead transfer it instantly to one of your ghoul.
+		return ([[Whenever you would be affected by a detrimental physical effect you instead transfer it instantly to one of your ghouls.
 		The ghoul dies from the process.
 		While under 1 life it also affects magical and mental effects.
 		Cross-tier effects are never affected.
-		This spell will automatically unsustain if you have no more ghouls.
+		This spell can only be used in comabt and will automatically unsustain if you have no more ghouls or if you leave combat.
 		]]):
 		tformat()
 	end,

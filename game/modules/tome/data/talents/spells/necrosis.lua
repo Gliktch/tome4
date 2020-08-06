@@ -35,7 +35,7 @@ newTalent{
 	callbackOnStatChange = function(self, t, stat, v)
 		if stat == self.STAT_CON then self:updateTalentPassives(t) end
 	end,
-	callbackOnActBase = checkLifeThreshold(1, function(self, t)
+	callbackOnAct = checkLifeThreshold(1, function(self, t)
 		self:updateTalentPassives(t)
 	end),
 	passives = function(self, t, p)
@@ -63,10 +63,10 @@ newTalent{
 	require = spells_req2,
 	mode = "passive",
 	points = 5,
-	radius = function(self, t) return self:combatTalentLimit(t, 10, 2, 5) end,
+	radius = function(self, t) return self:combatTalentLimit(t, 10, 2, 6) end,
 	getCD = function(self, t) return math.ceil(self:combatTalentLimit(t, 12, 2, 8)) end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 300) end,
-	callbackOnActBase = checkLifeThreshold(1, function(self, t)
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 260) end,
+	callbackOnAct = checkLifeThreshold(1, function(self, t)
 		local list = {}
 		for tid, c in pairs(self.talents_cd) do
 			local t = self:getTalentFromId(tid)
@@ -131,7 +131,7 @@ newTalent{
 		elseif nb > 0 then bonus = ("%d runes active"):tformat(nb) end
 
 		return ([[As you continue to attune your body to undeath you reject nature as a whole.
-		As long as you have no natural infusion on your skin, each rune on it increases your minimum negative life by -%d and your spells critical chance by %d%%.
+		As long as you have no natural infusion on your skin, each rune on it increases your minimum negative life by -%d and your spells critical chance by %0.1f%%.
 
 		Currently: %s]]):
 		tformat(t.getLifeBonus(self, t), t.getCrit(self, t), bonus)

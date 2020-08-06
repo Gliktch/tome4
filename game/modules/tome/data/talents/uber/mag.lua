@@ -184,7 +184,9 @@ uberTalent{
 		who:learnTalent(who.T_BONE_SHIELD, true, 3, {no_unlearn=true})
 		who:forceUseTalent(who.T_BONE_SHIELD, {ignore_energy=true})
 		if who.necrotic_minion then
-			if who.subtype == "giant" then
+			if who.name == "dread" or who.name == "dreadmaster" then
+				who:learnTalent(who.T_SLUMBER, true, 3, {no_unlearn=true})				
+			elseif who.subtype == "giant" then
 				who:learnTalent(who.T_BONE_SPIKE, true, 3, {no_unlearn=true})
 				who:learnTalent(who.T_RUIN, true, 3, {no_unlearn=true}) who:forceUseTalent(who.T_RUIN, {ignore_energy=true})
 			elseif who.subtype == "vampire" or who.subtype == "lich" then
@@ -261,8 +263,7 @@ uberTalent{
 		- Skeleton Warriors: Ruin
 		- Bone Giants: Bone Spike and Ruin
 		- Ghouls: Virulent Disease
-		- Vampires / Liches: Blood Grasp and Blood Boil
-		- Ghosts / Wights: Blood Fury and Curse of Death
+		- Dread: Slumber
 		]]):tformat()
 	end,
 }
@@ -349,12 +350,14 @@ uberTalent{
 			return not self:attr("true_undead") and nb > 0
 		end},
 		special2={desc=_t"Have completed the ritual", fct=function(self)
+			if config.settings.cheat then return true end
 			if self.lichform_quest_checker then return true end
 			if not game.state.birth.supports_lich_transform then return true else return self:isQuestStatus(game.state.birth.supports_lich_transform, engine.Quest.DONE) end
 		end},
 		stat = {wil=25},
 	},
 	is_race_evolution = function(self, t)
+		if self:knowTalent(t.id) then return true end
 		if not t:_canGrantQuest(self) then return false end
 		local nb = 0
 		for tid, lvl in pairs(self.talents) do local t = self:getTalentFromId(tid) if t.is_necromancy then nb = nb + lvl end end
@@ -436,7 +439,7 @@ uberTalent{
 		return ([[This is your true goal and the purpose of all necromancy - to become a powerful and everliving Lich!
 		Once learnt, the next time you are killed, the arcane forces you unleash will be able to rebuild your body into the desired Lichform.
 		Liches are immune to poisons, diseases, fear, cuts, stuns, do not need to breath and are 20%% resistant to cold and darkness.
-		Liches also gain +12 Magic, Willpower and Cunning, 60%% chance to ignore critical hits, +4 life rating (not retroactive), +35 spell and mental saves, all resistance caps raised by 15%% and 7 mana regeneration.
+		Liches also gain +12 Magic, Willpower and Cunning, 60%% chance to ignore critical hits, +4 life rating (not retroactive), +35 spell and mental saves and 7 mana regeneration.
 
 		Liches gain a new racial tree with the following talents:
 		- Neverending Unlife: A Lich body is extremely resilient, being able to go into negative life and when destroyed it can regenerate itself.
@@ -444,5 +447,39 @@ uberTalent{
 		- Doomed for Eternity: As a creature of doom and despair you now constantly spawn undead shadows around you.
 		- Commander of the Dead: You are able to infuse all undead party members (including yourself) with un-natural power, increasing your physical and spellpower.
 		]]):tformat()
+	end,
+}
+
+uberTalent{
+	name = "High Thaumaturgist",
+	require = {
+		birth_descriptors={{"subclass", "Archmage"}},
+		special={desc=_t"Unlocked the High Thaumaturgist evolution", fct=function(self) return profile.mod.allow_build.mage_thaumaturgist end},
+		stat = {wil=25},
+	},
+	is_class_evolution = "Archmage", requires_unlock = "mage_thaumaturgist",
+	cant_steal = true,
+	is_spell = true,
+	mode = "passive",
+	on_learn = function(self, t)
+		self:learnTalentType("spell/thaumaturgy", true)
+		self:setTalentTypeMastery("spell/thaumaturgy", 1.3)
+		self:attr("archmage_widebeam", 1)
+
+		if not game.party:hasMember(self) then return end
+		self.descriptor.class_evolution = _t"High Thaumaturgist"
+	end,
+	on_unlearn = function(self, t)
+	end,
+	info = function(self, t)
+		return ([[Thaumaturgists have unlocked a deeper understanding of their spells, allowing them to combine the elements into new ways and to empower them.
+		The spells Flame, Manathrust, Lightning, Pulverizing Auger and Ice Shards are permanently turned into 3-wide beams spells.
+		In addition they have access to the unique Thaumaturgy class tree:
+		- Orb of Thaumaturgy: a temporary orb that duplicates any beam spells that you cast
+		- Multicaster: When casting a beam spell adds a chance to also cast an other archmage spell
+		- Slipstream: Allows movement when casting beams
+		- Elemental Array Burst: a powerful, multi-elemental beam spell that can inflict all elemental ailments and can not be resisted
+		#CRIMSON#The fine spellcasting required for wide beams and all thaumaturgy spells can only happen while wearing cloth. Anything heavier will hinder the casting too much.]])
+		:tformat()
 	end,
 }
