@@ -3466,6 +3466,7 @@ function _M:learnStats(statorder, repeats)
 	repeats = (repeats or 1)*#statorder
 	local nb = 0
 	local max = 60
+	print("!!learn", self.unused_stats) table.print(statorder)
 
 	-- Allow stats to go over a natural 60, up to 80 at level 50
 	if not self.no_auto_high_stats then max = 60 + (self.level * 20 / 50) end

@@ -483,10 +483,10 @@ newTalent{
 	requires_target = true,
 	range = 10,
 	getLevel = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), -6, 0.9, 2, 5)) end, -- -6 @ 1, +2 @ 5, +5 @ 8
-	on_pre_use = function(self, t) local stats = necroArmyStats(self) return stats.nb_skeleton >= 3 end,
+	on_pre_use = function(self, t) local stats = necroArmyStats(self) return stats.nb_skeleton >= (stats.lord_of_skulls and 4 or 3) end,
 	action = function(self, t)
 		local stats = necroArmyStats(self)
-		if stats.nb_skeleton < 3 then return end
+		if stats.nb_skeleton < (stats.lord_of_skulls and 4 or 3) then return end
 		if stats.bone_giant then stats.bone_giant:die(self) end
 
 		local list = {}
