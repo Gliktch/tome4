@@ -86,7 +86,7 @@ newTalent{
 	callbackOnHit = function(self, t, cb, src, dt)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
-		if cb.value <= 0 then return end
+		if cb.value <= 0 or src == self then return end
 		if rng.percent(t.getEvade(self, t)) then
 			game:delayedLogDamage(src, self, 0, ("#YELLOW#(%d ignored)#LAST#"):format(cb.value), false)
 			cb.value = 0
