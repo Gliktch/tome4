@@ -4129,6 +4129,9 @@ newEntity{ base = "BASE_CLOTH_ARMOR", --Thanks Grayswandir!
 			["spell/water"] = 0.3,
 			["spell/ice"] = 0.3,
 			["spell/frost-alchemy"] = 0.3, --more!
+			["spell/grave"] = 0.3, --more!
+			["spell/glacial-waste"] = 0.3, --more!
+			["spell/rime-wraith"] = 0.3, --more!
  		},
 	},
 	talent_on_spell = {
