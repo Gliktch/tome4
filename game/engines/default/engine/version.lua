@@ -110,6 +110,21 @@ end
 --- Check if we are running as beta
 function engine.version_hasbeta()
 	if fs.exists("/engine/version_beta.lua") then
-		return dofile("/engine/version_beta.lua")
+		local beta = dofile("/engine/version_beta.lua")
+		return beta
+	end
+end
+
+--- Check if we are running as beta
+function engine.beta_allow_addon(name)
+	if fs.exists("/engine/version_beta.lua") then
+		local beta, allowed_addons = dofile("/engine/version_beta.lua")
+		if not beta or not allowed_addons then return true end
+		for _, test in ipairs(allowed_addons) do
+			if name == test then return true
+			elseif name:find(test) then return true end
+		end
+	else
+		return true
 	end
 end

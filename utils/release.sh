@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if test $# -lt 1 ; then
-	echo "Usage: release.sh [version] [beta, if any]"
+	echo "Usage: release.sh [version] [beta, if any] [allowed addons, if beta]"
 	exit
 fi
 
@@ -69,8 +69,19 @@ find . -name '*~' -or -name '.svn' -or -name '.keep' | xargs rm -rf
 echo "version_desc = '$ver'" >> game/engines/default/modules/boot/init.lua
 echo "version_desc = '$ver'" >> game/modules/tome/init.lua
 if test -n "$beta"; then
-	echo "return '$beta'" > game/engines/default/engine/version_beta.lua
+	if test $# -lt 3 ; then
+		echo "Usage: release.sh [version] [beta] [allowed addons or 'all']"
+		exit
+	fi
+	addons="$3"
+	if test "$addons" = "all"; then
+		echo "return '$beta'" > game/engines/default/engine/version_beta.lua
+	else
+		addons_check=`echo "$addons" | sed -e 's/\([^,]\+\)/"\1"/g' -e 's/^/{/' -e 's/$/}/'`
+		echo "return '$beta' '$addons_check'" > game/engines/default/engine/version_beta.lua
+	fi
 fi
+exit
 
 # create teae/teams
 cd game/engines
