@@ -279,7 +279,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Create a perfect lookalike of your own form made out of pure light near a creature or yourself if no creature is present.
+		return ([[Create a perfect lookalike of your own form made out of pure light near a creature.
 		This image has %d life and can never take more than 1 damage per creature per turn and is immune to any non direct damage (ground effects, damage over time, ...).
 		Whenever you cast a spell your mirror image will try to duplicate it at the same target for 66%% less damage, if possible. If it can it will loose 1 life, if not it will instead taunt a creature to focus its attention on itself.
 		While the image exists you receive the damage bonus from the Invisibility spell as if you were invisible.
