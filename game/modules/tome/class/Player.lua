@@ -182,7 +182,7 @@ function _M:onEnterLevel(zone, level)
 			if type(self.tempeffect_def[eff_id].cancel_on_level_change) == "function" then self.tempeffect_def[eff_id].cancel_on_level_change(self, p) end
 		end
 	end
-	for i, eff_id in ipairs(effs) do self:removeEffect(eff_id) end
+	for i, eff_id in ipairs(effs) do self:removeEffect(eff_id, nil, true) end
 
 	-- Clear existing player created effects on the map
 	for i, eff in ipairs(level.map.effects) do
