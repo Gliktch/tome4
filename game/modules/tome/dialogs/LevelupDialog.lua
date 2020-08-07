@@ -55,7 +55,6 @@ end
 function _M:init(actor, on_finish, on_birth)
 	self.on_birth = on_birth
 	actor.is_dialog_talent_leveling = true
-	actor.disable_talents_add_levels = true
 	actor.no_last_learnt_talents_cap = true
 	self.actor = actor
 	self.unused_stats = self.actor.unused_stats
@@ -160,7 +159,6 @@ end
 function _M:unload()
 	self.actor.is_dialog_talent_leveling = nil
 	self.actor.no_last_learnt_talents_cap = nil
-	self.actor.disable_talents_add_levels = nil
 	self.actor:capLastLearntTalents("class")
 	self.actor:capLastLearntTalents("generic")
 end
@@ -194,26 +192,12 @@ function _M:finish()
 
 	local txt = _t"#LIGHT_BLUE#Warning: You have increased some of your statistics or talent. Talent(s) actually sustained: \n %s If these are dependent on one of the stats you changed, you need to re-use them for the changes to take effect."
 	local talents = ""
-	local reset = {}
-	for tid, act in pairs(self.actor.sustain_talents) do
-		if act then
-			local t = self.actor:getTalentFromId(tid)
-			if t.no_sustain_autoreset and self.actor:knowTalent(tid) then
-				talents = talents.."#GOLD# - "..t.name.."#LAST#\n"
-			else
-				reset[#reset+1] = tid
-			end
-		end
+	for _, tid in ipairs(self.actor:udpateSustains()) do
+		local t = self.actor:getTalentFromId(tid)
+		talents = talents.."#GOLD# - "..t.name.."#LAST#\n"
 	end
-	if talents ~= "" then
-		game.logPlayer(self.actor, txt:format(talents))
-	end
-	self.actor.turn_procs.resetting_talents = true
-	for i, tid in ipairs(reset) do
-		self.actor:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true})
-		if self.actor:knowTalent(tid) then self.actor:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true, talent_reuse=true}) end
-	end
-	self.actor.turn_procs.resetting_talents = nil
+	if talents ~= "" then game.logPlayer(self.actor, txt:format(talents)) end
+
 	-- Prodigies
 	if self.on_finish_prodigies then
 		for tid, ok in pairs(self.on_finish_prodigies) do if ok then self.actor:learnTalent(tid, true, nil, {no_unlearn=true}) end end
@@ -990,7 +974,7 @@ function _M:getTalentDesc(item)
 			local list = {}
 			for i = 1, 5 do
 				local d = self.actor:getTalentReqDesc(item.talent, i-traw):toTString():tokenize(" ()[]")
-				d:merge(self.actor:getTalentFullDescription(t, i-traw+lvl_alt))
+				d:merge(self.actor:getTalentFullDescription(t, i-traw))
 				list[i] = d
 				-- list[i] = d:tokenize(tokenize_number.decimal)
 			end			
@@ -1028,7 +1012,7 @@ function _M:getTalentDesc(item)
 				if lvl_alt ~= 0 then text:add((" (%+d bonus level)"):tformat(lvl_alt)) end
 				text:add({"font", "normal"}, true)
 				text:merge(req)
-				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t, 1+lvl_alt), diff_color))
+				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t, 1), diff_color))
 			elseif traw < self:getMaxTPoints(t) then
 				local req = self.actor:getTalentReqDesc(item.talent):toTString():tokenize(" ()[]")
 				local req2 = self.actor:getTalentReqDesc(item.talent, 1):toTString():tokenize(" ()[]")
@@ -1037,14 +1021,14 @@ function _M:getTalentDesc(item)
 				if lvl_alt ~= 0 then text:add((" (%+d bonus level)"):tformat(lvl_alt)) end
 				text:add({"font", "normal"}, true)
 				text:merge(req2:diffWith(req, diff_full))
-				text:merge(self.actor:getTalentFullDescription(t, 1+lvl_alt):diffWith(self.actor:getTalentFullDescription(t, lvl_alt), diff_full))
+				text:merge(self.actor:getTalentFullDescription(t, 1):diffWith(self.actor:getTalentFullDescription(t), diff_full))
 			else
 				local req = self.actor:getTalentReqDesc(item.talent):toTString():tokenize(" ()[]")
 				text:add({"font", "bold"}, _t"Current talent level: "..traw)
 				if lvl_alt ~= 0 then text:add((" (%+d bonus level)"):tformat(lvl_alt)) end
 				text:add({"font", "normal"}, true)
 				text:merge(req)
-				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t, lvl_alt), diff_color))
+				text:merge(self.actor:getTalentFullDescription(t, 1000):diffWith(self.actor:getTalentFullDescription(t), diff_color))
 			end
 			text:add(true, true, {"font", "italic"}, {"color", "GREY"}, _t"<Press 'x' to swap to advanced display>", {"color", "LAST"}, {"font", "normal"})
 		end

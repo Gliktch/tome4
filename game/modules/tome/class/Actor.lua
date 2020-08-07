@@ -6847,7 +6847,7 @@ end
 
 --- Called if a talent level is > 0
 function _M:alterTalentLevelRaw(t, lvl)
-	if t.no_unlearn_last then return lvl end -- Those are dangerous, do not change them
+	-- if t.no_unlearn_last then return lvl end -- Those are dangerous, do not change them
 	if self.talents_add_levels and self.talents_add_levels[t.id] then lvl = lvl + self.talents_add_levels[t.id] end
 	if self:attr("all_talents_bonus_level") then lvl = lvl + self:attr("all_talents_bonus_level") end
 	if self:attr("spells_bonus_level") and t.is_spell then lvl = lvl + self:attr("spells_bonus_level") end
@@ -7076,6 +7076,27 @@ function _M:removeEffectsFilter(src, t, nb, silent, force, check_remove, allow_i
 		end
 	end
 	return #eff_ids
+end
+
+--- Force sustains off and on again to account for level/mastery/... changes
+function _M:udpateSustains()
+	local reset = {}
+	local remaining = {}
+	for tid, act in pairs(self.sustain_talents) do if act and self:knowTalent(tid) then
+		local t = self:getTalentFromId(tid)
+		if not t.no_sustain_autoreset then
+			reset[#reset+1] = tid
+		else
+			remaining[#remaining+1] = tid
+		end
+	end end
+	self.turn_procs.resetting_talents = true
+	for i, tid in ipairs(reset) do
+		self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true})
+		self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true, talent_reuse=true})
+	end
+	self.turn_procs.resetting_talents = nil
+	return remaining
 end
 
 -- Mix in sustains

@@ -168,10 +168,17 @@ newTalent{
 	end,	
 	on_pre_use = thaumaturgyCheck,
 	activate = function(self, t)
-		local ret = { charges = t:_getNb(self) }
+		local ret = { charges = t:_getNb(self), max_charges = t:_getNb(self) }
+		-- I'm French and I like cheese but I'll still try to prevent it!
+		if self.turn_procs.resetting_talents then
+			ret.charges = ret.charges - self.turn_procs.slipstream_resetting
+			if ret.charges <= 0 then game:onTickEnd(function() self:forceUseTalent(t.id, {ignore_energy=true}) end) end
+		end
 		return ret
 	end,
-	deactivate = function(self, t)
+	deactivate = function(self, t, p)
+		-- I'm French and I like cheese but I'll still try to prevent it!
+		if self.turn_procs.resetting_talents then self.turn_procs.slipstream_resetting = p.max_charges - p.charges end
 		return true
 	end,
 	info = function(self, t)

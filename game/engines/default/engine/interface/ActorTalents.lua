@@ -894,22 +894,20 @@ end
 --- Talent level, 0 if not known
 function _M:getTalentLevelRaw(id)
 	if type(id) == "table" then id = id.id end
-	local lvl = self.talents[id] or 0
-	if lvl > 0 and not self.disable_talents_add_levels then lvl = self:alterTalentLevelRaw(_M.talents_def[id], lvl) end
-	return lvl
+	return self.talents[id] or 0
 end
 
 --- Talent level, 0 if not known
 -- Includes mastery (defaults to 1)
 function _M:getTalentLevel(id)
 	local t
+	if type(id) == "table" then t, id = id, id.id
+	else t = _M.talents_def[id] end
+	if not t then return 0 end
 
-	if type(id) == "table" then
-		t, id = id, id.id
-	else
-		t = _M.talents_def[id]
-	end
-	return t and (self:getTalentLevelRaw(id)) * (self:getTalentMastery(t) or 0) or 0
+	local lvl = self:getTalentLevelRaw(id)
+	if lvl > 0 then lvl = self:alterTalentLevelRaw(t, lvl) end
+	return lvl * (self:getTalentMastery(t) or 0)
 
 end
 
