@@ -237,7 +237,9 @@ newTalent{
 			on_die = function(self)
 				self.summoner:removeEffect(self.summoner.EFF_MIRROR_IMAGE_REAL, true, true)
 			end,
-			spellFriendlyFire = function() return 100 end,
+			spellFriendlyFire = function(self) return self.summoner:spellFriendlyFire() end,
+			archmage_widebeam = self.archmage_widebeam,
+			iceblock_pierce = self.iceblock_pierce,
 			no_breath = 1,
 			remove_from_party_on_death = true,
 		}

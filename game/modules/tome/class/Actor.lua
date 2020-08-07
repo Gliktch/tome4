@@ -3121,6 +3121,8 @@ function _M:die(src, death_note)
 	if self.in_resurrect then return end
 	if self.dead then self:disappear(src) self:deleteFromMap(game.level.map) if game.level:hasEntity(self) then game.level:removeEntity(self, true) end return true end
 
+	self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
+
 	-- Self resurrect, mouhaha!
 	if self:attr("self_resurrect") and not self.no_resurrect then
 		self.in_resurrect = true
@@ -3130,8 +3132,6 @@ function _M:die(src, death_note)
 		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"RESURRECT!", {255,120,0})
 
 		local effs = {}
-
-		self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
 
 		self.life = self.max_life
 		self.mana = self.max_mana
@@ -3466,7 +3466,6 @@ function _M:learnStats(statorder, repeats)
 	repeats = (repeats or 1)*#statorder
 	local nb = 0
 	local max = 60
-	print("!!learn", self.unused_stats) table.print(statorder)
 
 	-- Allow stats to go over a natural 60, up to 80 at level 50
 	if not self.no_auto_high_stats then max = 60 + (self.level * 20 / 50) end
