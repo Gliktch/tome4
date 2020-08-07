@@ -183,7 +183,7 @@ function _M:eidolonPlane()
 		local is_exploration = game.permadeath == game.PERMADEATH_INFINITE
 		self:cleanActor(self.actor)
 		self:resurrectBasic(self.actor, "eidolon_plane")
-		for e, _ in pairs(game.party.members) do if e ~= self then
+		for e, _ in pairs(game.party.members) do if e ~= self.actor then
 			self:cleanActor(e)
 		end end
 		for uid, e in pairs(game.level.entities) do
