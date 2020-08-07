@@ -676,7 +676,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 						target:triggerTalent(target.T_NATURE_S_DEFIANCE, nil, src, t)
 					end
 				end
-				if t.is_spell and src.knowTalent and src:knowTalent(src.T_BORN_INTO_MAGIC) then
+				if t.is_spell and src.knowTalent and src:knowTalent(src.T_BORN_INTO_MAGIC) and type ~= DamageType.THAUM then
 					src:triggerTalent(target.T_BORN_INTO_MAGIC, nil, type)
 				end
 
