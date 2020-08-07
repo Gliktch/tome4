@@ -39,18 +39,9 @@ function _M:init(actor)
 	if self.dont_show then return end
 	if not config.settings.cheat then game:onTickEnd(function() game:saveGame() end) end
 
-	local text = _t[[Death in #{bold}#Tales of Maj'Eyal#{normal}# is usually permanent, but if you have a means of resurrection it will be proposed in the menu below.
-You can dump your character data to a file to remember her/him forever, or you can exit and try once again to survive in the wilds!
-]]
-
-	if #game.party.on_death_show_achieved > 0 then
-		self.c_achv = Textzone.new{width=self.iw, scrollbar=true, height=100, text=("#LIGHT_GREEN#During your game you#WHITE#:\n* %s"):tformat(table.concat(game.party.on_death_show_achieved, "\n* "))}
-	end
+	self:setupDescription()
 
 	self:setTitleShadowShader(Shader.default.textoutline and Shader.default.textoutline.shad, 1.5)
-	self.c_desc = Textzone.new{width=self.iw, auto_height=true, text=text}
-	self.c_desc:setTextShadow(1)
-	self.c_desc:setShadowShader(Shader.default.textoutline and Shader.default.textoutline.shad, 1.2)
 
 	self.c_list = List.new{width=self.iw, nb_items=#self.list, list=self.list, fct=function(item) self:use(item) end, select=function(item) self.cur_item = item end}
 
@@ -86,6 +77,18 @@ You can dump your character data to a file to remember her/him forever, or you c
 	end
 	self:setFocus(self.c_list)
 	self:setupUI(false, true)
+end
+
+function _M:setupDescription()
+	self.c_desc = Textzone.new{width=self.iw, auto_height=true, text=_t[[Death in #{bold}#Tales of Maj'Eyal#{normal}# is usually permanent, but if you have a means of resurrection it will be proposed in the menu below.
+You can dump your character data to a file to remember her/him forever, or you can exit and try once again to survive in the wilds!
+]]}
+	self.c_desc:setTextShadow(1)
+	self.c_desc:setShadowShader(Shader.default.textoutline and Shader.default.textoutline.shad, 1.2)
+
+	if #game.party.on_death_show_achieved > 0 then
+		self.c_achv = Textzone.new{width=self.iw, scrollbar=true, height=100, text=("#LIGHT_GREEN#During your game you#WHITE#:\n* %s"):tformat(table.concat(game.party.on_death_show_achieved, "\n* "))}
+	end
 end
 
 --- Clean the actor from debuffs/buffs
