@@ -3121,8 +3121,6 @@ function _M:die(src, death_note)
 	if self.in_resurrect then return end
 	if self.dead then self:disappear(src) self:deleteFromMap(game.level.map) if game.level:hasEntity(self) then game.level:removeEntity(self, true) end return true end
 
-	self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
-
 	-- Self resurrect, mouhaha!
 	if self:attr("self_resurrect") and not self.no_resurrect then
 		self.in_resurrect = true
@@ -3130,6 +3128,8 @@ function _M:die(src, death_note)
 		game.logSeen(self, self.self_resurrect_msg or "#LIGHT_RED#%s rises from the dead!", self:getName():capitalize()) -- src, not self as the source, to make sure the player knows his doom ;>
 		local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"RESURRECT!", {255,120,0})
+
+		self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
 
 		local effs = {}
 
@@ -3454,6 +3454,9 @@ function _M:die(src, death_note)
 
 	if src and src.fireTalentCheck then src:fireTalentCheck("callbackOnKill", self, death_note) end
 	if src and src.summoner and src.summoner.fireTalentCheck then src.summoner:fireTalentCheck("callbackOnSummonKill", src, self, death_note) end
+
+	-- We do it at the end so that effects can detect death
+	self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
 
 	return true
 end
