@@ -422,12 +422,13 @@ end
 -- "def" can have a field "ignore_energy" to not consume energy; other parameters can be passed and handled by an overload of this method.  
 -- Object activation interface calls this method with an "ignore_ressources" parameter
 function _M:forceUseTalent(t, def)
+	if type(t) == "table" then t = t.id end -- Ugh
 	local oldpause = game.paused
 	local oldenergy = self.energy.value
 	if def.ignore_energy then self.energy.value = 10000 end
 
 	if def.ignore_ressources then self:attr("force_talent_ignore_ressources", 1) end
-	self:setCurrentTalentMode("forced", t.id)
+	self:setCurrentTalentMode("forced", t)
 	local ret = {self:useTalent(t, def.force_who, def.force_level, def.ignore_cd or def.ignore_cooldown, def.force_target, def.silent, true)}
 	self:setCurrentTalentMode(nil)
 	if def.ignore_ressources then self:attr("force_talent_ignore_ressources", -1) end
