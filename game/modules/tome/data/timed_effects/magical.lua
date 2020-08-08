@@ -5369,24 +5369,9 @@ newEffect{
 	parameters = {power=1},
 	on_gain = function(self, err) return _t"#Target# is overflowing with energy!", true end,
 	on_lose = function(self, err) return _t"#Target# is no more overflowing with energy.", true end,
-	udpateSustains = function(self)
-		local reset = {}
-		for tid, act in pairs(self.sustain_talents) do if act then
-				local t = self:getTalentFromId(tid)
-				if not t.no_sustain_autoreset and self:knowTalent(tid) then
-					reset[#reset+1] = tid
-				end
-		end end
-		self.turn_procs.resetting_talents = true
-		for i, tid in ipairs(reset) do
-			self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true})
-			self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true, talent_reuse=true})
-		end
-		self.turn_procs.resetting_talents = nil
-	end,
 	activate = function(self, eff, ed)
 		eff.tmpid = self:addTemporaryValue("spells_bonus_level", eff.power)
-		ed.udpateSustains(self)
+		self:udpateSustains()
 
 		if core.shader.allow("adv") then
 			eff.particle1, eff.particle2 = self:addParticles3D("volumetric", {kind="fast_sphere", appear=10, radius=1.2, twist=50, density=15, growSpeed=0.002, scrollingSpeed=0.008, img="continuum_01"})
@@ -5396,8 +5381,8 @@ newEffect{
 	end,
 	deactivate = function(self, eff, ed)
 		self:removeTemporaryValue("spells_bonus_level", eff.tmpid)
+		self:udpateSustains()
 		if eff.particle1 then self:removeParticles(eff.particle1) end
 		if eff.particle2 then self:removeParticles(eff.particle2) end
-		ed.udpateSustains(self)
 	end,
 }

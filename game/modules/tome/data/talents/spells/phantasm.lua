@@ -86,7 +86,7 @@ newTalent{
 	callbackOnHit = function(self, t, cb, src, dt)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
-		if cb.value <= 0 then return end
+		if cb.value <= 0 or src == self then return end
 		if rng.percent(t.getEvade(self, t)) then
 			game:delayedLogDamage(src, self, 0, ("#YELLOW#(%d ignored)#LAST#"):format(cb.value), false)
 			cb.value = 0
@@ -237,7 +237,9 @@ newTalent{
 			on_die = function(self)
 				self.summoner:removeEffect(self.summoner.EFF_MIRROR_IMAGE_REAL, true, true)
 			end,
-			spellFriendlyFire = function() return 100 end,
+			spellFriendlyFire = function(self) return self.summoner:spellFriendlyFire() end,
+			archmage_widebeam = self.archmage_widebeam,
+			iceblock_pierce = self.iceblock_pierce,
 			no_breath = 1,
 			remove_from_party_on_death = true,
 		}
@@ -279,7 +281,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Create a perfect lookalike of your own form made out of pure light near a creature or yourself if no creature is present.
+		return ([[Create a perfect lookalike of your own form made out of pure light near a creature.
 		This image has %d life and can never take more than 1 damage per creature per turn and is immune to any non direct damage (ground effects, damage over time, ...).
 		Whenever you cast a spell your mirror image will try to duplicate it at the same target for 66%% less damage, if possible. If it can it will loose 1 life, if not it will instead taunt a creature to focus its attention on itself.
 		While the image exists you receive the damage bonus from the Invisibility spell as if you were invisible.

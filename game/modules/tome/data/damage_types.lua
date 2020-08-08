@@ -55,7 +55,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 	local crit_power = state.crit_power
 
 	local add_dam = 0
-	if not src.turn_procs.damage_type_fix_type then
+	if not src.turn_procs or not src.turn_procs.damage_type_fix_type then
 		if src:attr("all_damage_convert") and src:attr("all_damage_convert_percent") and src.all_damage_convert ~= type then
 			local ndam = dam * src.all_damage_convert_percent / 100
 			dam = dam - ndam
@@ -676,7 +676,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 						target:triggerTalent(target.T_NATURE_S_DEFIANCE, nil, src, t)
 					end
 				end
-				if t.is_spell and src.knowTalent and src:knowTalent(src.T_BORN_INTO_MAGIC) then
+				if t.is_spell and src.knowTalent and src:knowTalent(src.T_BORN_INTO_MAGIC) and type ~= DamageType.THAUM then
 					src:triggerTalent(target.T_BORN_INTO_MAGIC, nil, type)
 				end
 

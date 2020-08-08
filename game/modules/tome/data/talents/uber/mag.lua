@@ -431,7 +431,16 @@ uberTalent{
 	on_learn = function(self, t)
 		self:attr("greater_undead", 1) -- Set that here so that the player cant become an Exarch while waiting for their death to become a Lich
 		self:learnTalent(self.T_NEVERENDING_UNLIFE, true, 1)
-		game.bignews:say(120, "#DARK_ORCHID#You are on your way to Lichdom. #{bold}#Your next death will finish the ritual.#{normal}#")
+
+		-- Wait for death
+		if not self.no_resurrect then
+			game.bignews:say(120, "#DARK_ORCHID#You are on your way to Lichdom. #{bold}#Your next death will finish the ritual.#{normal}#")
+		-- We cant wait for death! do it now!
+		else
+			local dialog = require("mod.dialogs.DeathDialog").new(self)
+			t:_becomeLich(self)
+			game.level.map:particleEmitter(self.x, self.y, 1, "demon_teleport")
+		end
 	end,
 	on_unlearn = function(self, t)
 	end,

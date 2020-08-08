@@ -3129,9 +3129,9 @@ function _M:die(src, death_note)
 		local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"RESURRECT!", {255,120,0})
 
-		local effs = {}
-
 		self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
+
+		local effs = {}
 
 		self.life = self.max_life
 		self.mana = self.max_mana
@@ -3454,6 +3454,9 @@ function _M:die(src, death_note)
 
 	if src and src.fireTalentCheck then src:fireTalentCheck("callbackOnKill", self, death_note) end
 	if src and src.summoner and src.summoner.fireTalentCheck then src.summoner:fireTalentCheck("callbackOnSummonKill", src, self, death_note) end
+
+	-- We do it at the end so that effects can detect death
+	self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
 
 	return true
 end
@@ -6750,7 +6753,7 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 	self:triggerHook{"Actor:getTalentFullDescription", str=d, t=t, addlevel=addlevel, config=config, fake_mastery=fake_mastery}
 
 	d:add({"color",0x6f,0xff,0x83}, _t"Description: ", {"color",0xFF,0xFF,0xFF})
-	d:merge(t.info(self, t):toTString():tokenize(" ()[]"))
+	d:merge(t.info(self, t):toTString():tokenize(" ()[],"))
 
 	self.talents[t.id] = old
 
@@ -6847,7 +6850,7 @@ end
 
 --- Called if a talent level is > 0
 function _M:alterTalentLevelRaw(t, lvl)
-	if t.no_unlearn_last then return lvl end -- Those are dangerous, do not change them
+	-- if t.no_unlearn_last then return lvl end -- Those are dangerous, do not change them
 	if self.talents_add_levels and self.talents_add_levels[t.id] then lvl = lvl + self.talents_add_levels[t.id] end
 	if self:attr("all_talents_bonus_level") then lvl = lvl + self:attr("all_talents_bonus_level") end
 	if self:attr("spells_bonus_level") and t.is_spell then lvl = lvl + self:attr("spells_bonus_level") end
@@ -7078,6 +7081,27 @@ function _M:removeEffectsFilter(src, t, nb, silent, force, check_remove, allow_i
 	return #eff_ids
 end
 
+--- Force sustains off and on again to account for level/mastery/... changes
+function _M:udpateSustains()
+	local reset = {}
+	local remaining = {}
+	for tid, act in pairs(self.sustain_talents) do if act and self:knowTalent(tid) then
+		local t = self:getTalentFromId(tid)
+		if not t.no_sustain_autoreset then
+			reset[#reset+1] = tid
+		else
+			remaining[#remaining+1] = tid
+		end
+	end end
+	self.turn_procs.resetting_talents = true
+	for i, tid in ipairs(reset) do
+		self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true})
+		self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true, talent_reuse=true})
+	end
+	self.turn_procs.resetting_talents = nil
+	return remaining
+end
+
 -- Mix in sustains
 local function getSustainType(talent_def)
 	if talent_def.is_mind then return "mental"
@@ -7183,7 +7207,7 @@ function _M:dispel(effid_or_tid, src, allow_immunity, params)
 	-- Effect
 	if effid_or_tid:find("^EFF_") then
 		local eff = self:getEffectFromId(effid_or_tid)
-		if not eff or eff.type == "other" then return end -- NEVER touch other
+		if (not eff or eff.type == "other") and not params.force then return end -- NEVER touch other
 		if not self:hasEffect(effid_or_tid) then return end
 
 		if allow_immunity then
@@ -7193,7 +7217,7 @@ function _M:dispel(effid_or_tid, src, allow_immunity, params)
 			if self:fireTalentCheck("callbackOnDispel", "effect", effid_or_tid, src, allow_immunity) then allowed = false end
 		end
 		if allowed then
-			self:removeEffect(effid_or_tid, params.force)
+			self:removeEffect(effid_or_tid, params.silent, params.force)
 			self:fireTalentCheck("callbackOnDispelled", "effect", effid_or_tid, src, allow_immunity)
 			return true
 		else

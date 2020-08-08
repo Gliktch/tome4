@@ -216,7 +216,7 @@ newTalent{
 		Ghouls, ghasts and ghoulkings last for %d turns.
 
 		#GREY##{italic}#Ghoul minions come in larger numbers than skeleton minions but are generally more frail and disposable.#{normal}#
-		]]):tformat(t:_getEvery(self), math.max(1, self.level + t:_getLevel(self)), t:_getNb(self), self:getTalentRadius(self, t), t:_getTurns(self))
+		]]):tformat(t:_getEvery(self), math.max(1, self.level + t:_getLevel(self)), t:_getNb(self), t:_getTurns(self))
 	end,
 }
 
@@ -316,7 +316,7 @@ newTalent{
 				e.duration = 10 -- Duration is fake, its handled by the sustain
 				return true
 			end,
-			false
+			false, false
 		)
 
 		return ret

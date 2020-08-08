@@ -113,7 +113,7 @@ newTalent{
 			if foe:canBe("teleport") and foe:checkHit(self:combatSpellpower(), foe:combatSpellResist(), 0, 95, 15) then
 				foe:forceMoveAnim(spot[1], spot[2])
 			else
-				game.logSeen(foe, "%s resists the call of the boneyard!")
+				game.logSeen(foe, "%s resists the call of the boneyard!", foe:getName():capitalize())
 			end
 		end
 

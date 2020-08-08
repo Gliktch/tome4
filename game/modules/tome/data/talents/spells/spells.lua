@@ -193,7 +193,7 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 	m.unused_generics = 0
 	m.unused_talents_types = 0
 	m.silent_levelup = true
-	m.no_points_on_levelup = true
+	-- m.no_points_on_levelup = true
 	m.ai_state = m.ai_state or {}
 	m.ai_state.tactic_leash = 100
 	-- Try to use stored AI talents to preserve tweaking over multiple summons
