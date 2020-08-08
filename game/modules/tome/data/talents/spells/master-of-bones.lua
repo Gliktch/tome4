@@ -531,7 +531,7 @@ newTalent{
 	type = {"spell/master-of-bones", 4},
 	require = spells_req4,
 	points = 5,
-	soul = function(self, t) return self:getTalentLevel(t) < 6 and 1 or 3 end,
+	soul = 2,
 	mana = 50,
 	cooldown = 30,
 	tactical = { SPECIAL=10 },
