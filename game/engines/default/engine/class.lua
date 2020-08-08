@@ -207,6 +207,7 @@ local function clonerecurs(d)
 		if type(e) == "table" and not e.__ATOMIC and not e.__CLASSNAME then ne = clonerecurs(e) end
 		n[nk] = ne
 	end
+	setmetatable(n, getmetatable(d))
 	return n
 end
 --[[

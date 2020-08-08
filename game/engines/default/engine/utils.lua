@@ -244,8 +244,9 @@ end
 -- @param tbl The original table to be cloned
 -- @param deep Boolean allow recursive cloning (unless .__ATOMIC or .__CLASSNAME is defined)
 -- @param k_skip A table containing key values set to true if you want to skip them.
+-- @param clone_meta If true table and subtables that have a metatable will have it assigned to the clone too
 -- @return The cloned table.
-function table.clone(tbl, deep, k_skip)
+function table.clone(tbl, deep, k_skip, clone_meta)
 	if not tbl then return nil end
 	local n = {}
 	k_skip = k_skip or {}
@@ -253,11 +254,15 @@ function table.clone(tbl, deep, k_skip)
 		if not k_skip[k] then
 			-- Deep copy subtables, but not objects!
 			if deep and type(e) == "table" and not e.__ATOMIC and not e.__CLASSNAME then
-				n[k] = table.clone(e, true, k_skip)
+				n[k] = table.clone(e, true, k_skip, clone_meta)
 			else
 				n[k] = e
 			end
 		end
+	end
+	if clone_meta then
+		if getmetatable(tbl) then print("cling meta") end
+		setmetatable(n, getmetatable(tbl))
 	end
 	return n
 end

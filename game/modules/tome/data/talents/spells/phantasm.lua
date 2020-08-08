@@ -225,7 +225,7 @@ newTalent{
 			takeHit = function(self, value, src, death_note) -- Cant ever take more than one damage per turn per actor
 				if not src then return false, 0 end
 				if src ~= self then
-					if death_note.source_talent_mode ~= "active" then return false, 0 end
+					if not death_note or death_note.source_talent_mode ~= "active" then return false, 0 end
 					if self.turn_procs.mirror_image_dmg and self.turn_procs.mirror_image_dmg[src] then return false, 0 end
 					self.turn_procs.mirror_image_dmg = self.turn_procs.mirror_image_dmg or {}
 					self.turn_procs.mirror_image_dmg[src] = true
