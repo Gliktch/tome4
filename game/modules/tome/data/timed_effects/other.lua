@@ -4066,7 +4066,7 @@ newEffect{
 		eff.last_talent = true
 	end,
 	activate = function(self, eff)
-		self:effectTemporaryValue(eff, "blind_inc_damage", eff.dam)	
+		self:effectTemporaryValue(eff, "blind_inc_damage", eff.dam)
 	end,
 }
 
@@ -4081,5 +4081,14 @@ newEffect{
 	parameters = { dam=10 },
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "blind_inc_damage", eff.dam)	
+		eff.out_of_combat = 5
+	end,
+	on_timeout = function(self, eff)
+		if not self.in_combat then
+			eff.out_of_combat = eff.out_of_combat - 1
+			if eff.out_of_combat <= 0 then
+				self:die(self)
+			end
+		end
 	end,
 }
