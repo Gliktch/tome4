@@ -564,7 +564,7 @@ newTalent{
 	end,	
 	info = function(self, t)
 		return ([[Consume a soul to empower one of your skeleton, making it into a Lord of Skulls.
-		The Lord of Skulls gains %d%% more life and is instantly healed to full.
+		The Lord of Skulls gains %d more life and is instantly healed to full.
 		There can be only one active Lord of Skulls, casting this spell on another skeleton removes the effect from the current one.
 		It also gains a new talent if high enough:
 		At level 2 Warriors learn Giant Leap, a powerful jump attack that deals damage and dazes on impact and frees the skeleton from any stun, daze and pin effects they may have
