@@ -1139,6 +1139,7 @@ t("Cancel", "取消", "_t")
 t("Sell", "出售", "_t")
 t("Buy for: %0.2f gold (You have %0.2f gold)", "购买价：%0.2f 金币 (你有 %0.2f 金币)", "tformat")
 t("Sell for: %0.2f gold (You have %0.2f gold)", "出售价：%0.2f 金币 (你有 %0.2f 金币)", "tformat")
+t("This entity can not access inventories.", "这个生物没有物品栏。", "logPlayer")
 t("You must be level %d to access this shop.", "你必须达到 %d级才能进入这个商店。", "logPlayer")
 
 
@@ -6993,7 +6994,7 @@ t("chill of the tomb", "极寒坟墓", "_t")
 t("putrescent liquefaction", "腐烂液化", "_t")
 t("boneyard", "大墓地", "_t")
 t("desolate waste", "荒芜之地", "_t")
-t("thaumic energy", "灾祸能量", "_t")
+t("thaumic energy", "奇术能量", "_t")
 t("annihilated", "被歼灭", "_t")
 t("disintegrated", "被分解", "_t")
 t("utterly vaporized", "被完全汽化", "_t")
@@ -9362,7 +9363,7 @@ t("Upon defeat, Ak'Gishil collapsed into this tiny rift. How it remains stable, 
 t("Blade of Distorted Time", "时光扭曲之刃", "entity name")
 t("time-warped sword", "扭曲时间的剑", "_t")
 t("The remnants of a damaged timeline, this blade shifts and fades at random.", "这把剑由一段损坏的时间线构成，它在不断的出入相位现实。", "_t")
-t("deals %d temporal damage and slows enemies in radius 6 of the target by %d%% based on Magic", "造成%d时空伤害，并减速6码范围内的目标，基于魔法。", "tformat")
+t("deals %d temporal damage and slows enemies in radius 6 of the target by %d%% based on Magic", "造成%d时空伤害，并使6码范围内的敌人减速%d%%，基于魔法。", "tformat")
 t("Rune of Reflection", "反射符文", "entity name")
 t("You can see your own image mirrored in the surface of this silvery rune.", "你可以在这块银色的符文表面看到自己的倒影。", "_t")
 t("shiny rune", "闪光的符文", "_t")
@@ -19832,7 +19833,7 @@ t("#rng# the Herald", "先锋#rng#", "_t")
 t("Beastmaster #rng#", "兽王#rng#", "_t")
 t("#rng# the Flame Terror", "#rng#火焰恐怖", "_t")
 t("#rng# the Storm Terror", "#rng#风暴恐怖", "_t")
-t("#rng# the Fozen Terror", "#rng#冻结恐怖", "_t")
+t("#rng# the Frozen Terror", "#rng# 冻结恐怖", "_t")
 t("#rng# the Caustic Terror", "#rng#腐蚀恐怖", "_t")
 
 
@@ -28563,7 +28564,7 @@ t([[Every time your shield loses %d%% of its original value a circle of desolate
 		The damage will increase with your Spellpower.]], [[每当你的寒冰护盾损失 %d%% 原始护盾值，在你周围 %d 码范围内的大地会变成荒芜的极寒之地，对敌人在 6 回合内造成 %0.2f 寒冷伤害。
 		如果一个生物在荒芜之地上被寒冬护盾的冰球击中，护盾将会吸收荒芜之地的能量，恢复 %0.1f%% 原始护盾值。
 		每次护盾最多触发 %d 次荒芜之地效果。
-		伤害受法术强度加成。]], "tformat")
+		伤害受法术强度加成。]], "tformat", {1,3,2,4,5})
 t("Crumbling Earth", "破碎大地", "talent name")
 t([[Your desolate wastes are now rapidly crumbling.
 		Any foe moving through them is likely to get cut, taking %0.2f cold damage and bleeding over 4 turns (stacking) while reducing its movement speed by 15%%.
@@ -28947,7 +28948,7 @@ t([[Your mastery over magic is so great that you can alter the energy of all dam
 t("Metaflow", "奥术流动", "talent name")
 t([[Your mastery of arcane flows allow you to reset the cooldown of up to %d of your spells (that don't have a fixed cooldown) of tier %d or less.
 		In addition for %d turns you are overflowing with energy; all known spells are considered one talent level higher when casting them.]], [[你对奥术的精通使你能重置法术的冷却时间，重置至多 %d 个法术的冷却（对固定冷却时间的技能无效），对技能层次 %d 或更低的技能有效。
-		此外，在接下来的%d回合内，你充满能量，释放法术的时候，技能等级视为额外增加 1 级]], "tformat")
+		此外，在接下来的 %d 回合内，你充满能量，释放法术的时候，技能等级视为额外增加 1 级]], "tformat")
 
 
 ------------------------------------------------
@@ -28962,14 +28963,14 @@ t([[The line between life and death blurs for you.
 		当你的生命值低于 1 时，获得 %d%% 全体伤害抗性。
 		生命值变化受体质值加成。]], "tformat")
 t("Across the Veil", "穿越死亡", "talent name")
-t("#GREY#%s unleashes a blast of frostdusk as %s crosses the veil!", "#GREY#%s穿越死亡边缘，放出了一股霜暮爆炸！", "logSeen")
+t("#GREY#%s unleashes a blast of frostdusk as %s crosses the veil!", "#GREY#%s穿越死亡边缘，在%s身边放出了一股霜暮爆炸！", "logSeen")
 t([[As you learn to tiptoe across the veil of death you learn to master the dark forces.
 		Each time you cross the 1 life threshold you automatically unleash a blast of %0.2f frostdusk damage in radius %d.
 		For each creature that takes damage from the blast one of your talent's cooldown is reduced by %d turns.
 		The damage will increase with your Spellpower.]], [[你对黑暗能量的掌握，让你学会了在死亡的边缘起舞。
 		无论是受到伤害还是被治疗，每当你的生命值穿越 1 的界线的时候，你会自动在周围 %d 码范围内放出爆炸，造成 %0.2f 霜暮伤害，
 		这一爆炸每对一个敌人造成伤害，你的一个随机技能的冷却时间降低 %d 回合。
-		伤害受法术强度加成。]], "tformat")
+		伤害受法术强度加成。]], "tformat", {2,1,3})
 t("Runeskin", "符文皮肤", "talent name")
 t("effects disabled because of an infusion", "由于纹身，效果被禁用", "_t")
 t("effects disabled because of no rune", "由于没有符文，效果被禁用", "_t")
@@ -29055,14 +29056,14 @@ t("You cannot summon; you are suppressed!", "你不能召唤，你被压制了�
 t("Mirror Image (%s)", "镜像 (%s)", "tformat")
 t("A blurred image.", "一个模糊的镜像。", "_t")
 t("Summon", "召唤", "_t")
-t([[Create a perfect lookalike of your own form made out of pure light near a creature or yourself if no creature is present.
+t([[Create a perfect lookalike of your own form made out of pure light near a creature.
 		This image has %d life and can never take more than 1 damage per creature per turn and is immune to any non direct damage (ground effects, damage over time, ...).
 		Whenever you cast a spell your mirror image will try to duplicate it at the same target for 66%% less damage, if possible. If it can it will loose 1 life, if not it will instead taunt a creature to focus its attention on itself.
 		While the image exists you receive the damage bonus from the Invisibility spell as if you were invisible.
 		This spell can not be cast while a Mirror Image already exists and only in combat.
-		]], [[在某个生物的身旁，召唤一个由纯粹的光线构成的，与你完全相似的完美复制体。如果周围没有生物，则会召唤在你自己身边。
+		]], [[在某个生物的身旁，召唤一个由纯粹的光线构成的，与你完全相似的完美复制体。
 		这一镜像具有 %d 生命值，每回合从每个生物身上最多受到 1 点伤害，且免疫任何非直接伤害（地面效果，持续伤害，等等）
-		当你释放任何法术的时候，镜像也会试图对同一目标释放这一法术，造成的伤害降低 66% 。如果它这么做了，它会流失 1 点生命值。如果不能的话，它则会嘲讽一个生物，将它的注意力集中在自己身上。
+		当你释放任何法术的时候，镜像也会试图对同一目标释放这一法术，造成的伤害降低 66%% 。如果它这么做了，它会流失 1 点生命值。如果不能的话，它则会嘲讽一个生物，将它的注意力集中在自己身上。
 		只要镜像持续存在在战场上，你就会获得隐形技能所基于的隐形伤害加成，无论你是否隐形。
 		这一技能无法在场上已经有镜像的时候释放，且只能在战斗中释放。
 		]], "tformat")
@@ -29419,10 +29420,12 @@ t("Multicaster", "多重施法", "talent name")
 t([[Casting beam spells has become so instinctive for you that you can now easily weave in other spells at the same time.
 		Anytime you cast a beam spell there is a %d%% chance to automatically cast an offensive spell that you know. This can only happen once per turn.
 		Beam spells duplicated by the Orb of Thaumaturgy can also trigger this effect.
-		The additional cast will cost mana but no turn and will not active its cooldown.]], [[释放射线类法术对你来说是如此自然的事情，你可以和其他法术穿插释放。
+		The additional cast will cost mana but no turn and will not active its cooldown.
+		During Aether Avatar only compatible spells are used.]], [[释放射线类法术对你来说是如此自然的事情，你可以和其他法术穿插释放。
 		每当你释放射线类法术的时候，你有 %d%% 几率自动释放一个你知道的其他攻击类法术。这一效果一回合只能触发一次。
 		奇术之球释放的射线类法术也能触发这一效果。
-		额外释放的法术仍然会消耗法力值，但不会消耗回合，也不会使其进入冷却。]], "tformat")
+		额外释放的法术仍然会消耗法力值，但不会消耗回合，也不会使其进入冷却。
+		以太之体状态下，只会释放以太之体下能释放的技能。]], "tformat")
 t("Slipstream", "能量滑流", "talent name")
 t("#PURPLE#Your Slipstream does not have enough resources!", "#PURPLE#你的能量滑流魔力不足了", "logPlayer")
 t("#PURPLE#Your Slipstream regenerates to full!", "#PURPLE#的能量滑流充能满了！", "logPlayer")
@@ -41012,20 +41015,11 @@ t("Eyal", "埃亚尔", "_t")
 ------------------------------------------------
 section "game/modules/tome/dialogs/ArenaFinish.lua"
 
-t("Arena mode", "竞技场模式", "_t")
 t("#LIGHT_GREEN#No high scores. This should not happen.", "#LIGHT_GREEN#没有最高分。这不应该发生", "_t")
 t([[%s (%s %s %s)
  Score %d[%s]) - Wave: %d]], [[%s (%s %s %s)
  分数 %d[%s]) - 波次：%d]], "tformat")
 t("unknown", "未知", "_t")
-t("#LIGHT_BLUE#You resurrect! CHEATER !", "#LIGHT_BLUE#你复活了！作弊者！", "logPlayer")
-t("Resurrect by cheating", "使用作弊复活", "_t")
-t("Message Log", "消息日志", "_t")
-t("Message/Chat log (allows to talk)", "消息/聊天日志(允许聊天)", "_t")
-t("Character dump", "存储角色", "_t")
-t("Restart the same character", "以这个角色重新开始", "_t")
-t("Restart with a new character", "以新角色重新开始", "_t")
-t("Exit to main menu", "退回主菜单", "_t")
 
 
 ------------------------------------------------
@@ -41857,6 +41851,7 @@ t("<Press 'x' to swap to simple display>", "<按x键切换简单显示>", "_t")
 t("First talent level: ", "第一级需求： ", "_t")
 t("Next talent level", "下一等级", "_t")
 t("Current talent level: ", "当前等级： ", "_t")
+t(" (%+d bonus level)", " (%+d 额外技能等级)", "tformat")
 t("<Press 'x' to swap to advanced display>", "<按x键切换进阶显示>", "_t")
 t("Stats: %s", "属性: %s", "tformat")
 t("Class points: %s", "职业点：%s", "tformat")

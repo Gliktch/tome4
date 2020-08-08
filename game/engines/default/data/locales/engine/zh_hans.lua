@@ -375,6 +375,11 @@ t("Test", "测试", "_t")
 ------------------------------------------------
 section "game/engines/default/engine/Module.lua"
 
+t("#{italic}##PINK#Addons developers can still test their addons by enabling developer mode.#{normal}#", "#{italic}##PINK#插件开发者可以通过开启调试模式继续测试他们的插件。#{normal}#", "_t")
+t("Beta Addons Disabled", "Beta版禁用插件", "_t")
+t([[This beta version is meant to be tested without addons, as such the following ones are currently disabled:
+#GREY#]], [[本Beta版本设计上用于纯原版测试环境，因此，以下插件被自动禁用:
+#GREY#]], "_t")
 t("#LIGHT_RED#Online profile disabled(switching to offline profile) due to %s.", "#LIGHT_RED#由于 %s ，在线存档无法运行（切换至离线存档）", "log")
 
 
