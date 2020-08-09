@@ -7974,11 +7974,11 @@ section "game/modules/tome/data/general/npcs/cold-drake.lua"
 t("cold", "寒冷", "entity subtype")
 t("dragon", "龙", "entity type")
 t("cold drake hatchling", "冰龙幼仔", "entity name")
-t("A drake hatchling. Not too powerful by itself, but it usually comes with its brothers and sisters.", "一只幼龙。它本身并不强大，但是它们经常集体行动。", "_t")
+t("A drake hatchling. Not too powerful by itself, but it usually comes with its brothers and sisters.", "一条幼龙。它本身并不强大，但是它们经常集体行动。", "_t")
 t("cold drake", "冰龙", "entity name")
-t("A mature cold drake, armed with deadly breath and nasty claws.", "一只成年冰龙，拥有冰冷刺骨的吐息和锋利的爪子。", "_t")
+t("A mature cold drake, armed with deadly breath and nasty claws.", "一条成年冰龙，拥有冰冷刺骨的吐息和锋利的爪子。", "_t")
 t("ice wyrm", "冰霜巨龙", "entity name")
-t("An old and powerful cold drake, armed with deadly breath and nasty claws.", "一只年长且强大的冰龙，拥有冰冷刺骨的吐息和锋利的爪子。", "_t")
+t("An old and powerful cold drake, armed with deadly breath and nasty claws.", "一条年长且强大的冰龙，拥有冰冷刺骨的吐息和锋利的爪子。", "_t")
 
 
 ------------------------------------------------
@@ -7998,7 +7998,7 @@ section "game/modules/tome/data/general/npcs/crystal.lua"
 t("crystal", "水晶", "entity subtype")
 t("immovable", "静态类", "entity type")
 t("A shining crystal formation charged with magical energies.", "一个由闪光水晶构成的生物，它通体围绕着球状的光芒。", "_t")
-t("wisp", "元素结晶", "entity name")
+t("wisp", "鬼火", "entity name")
 t("elemental", "元素", "entity type")
 t("light", "轻甲", "entity subtype")
 t("A floating orb of magical energy. It shines with a radiant light. They explode upon contact.", "一个充满了魔法能量的球体。它散发着耀眼的光芒，当它们接触其他物体时会发生爆炸。", "_t")
@@ -8081,11 +8081,11 @@ section "game/modules/tome/data/general/npcs/fire-drake.lua"
 t("dragon", "龙", "entity type")
 t("fire", "火焰", "entity subtype")
 t("fire drake hatchling", "火龙幼仔", "entity name")
-t("A drake hatchling; not too powerful by itself, but it usually comes with its brothers and sisters.", "一只幼龙。它本身并不强大，但是它们经常集体行动。", "_t")
+t("A drake hatchling; not too powerful by itself, but it usually comes with its brothers and sisters.", "一条幼龙。它本身并不强大，但是它们经常集体行动。", "_t")
 t("fire drake", "火龙", "entity name")
-t("A mature fire drake, armed with deadly breath and nasty claws.", "一只成年火龙，拥有炽烈的火焰吐息和锋利的爪子。", "_t")
+t("A mature fire drake, armed with deadly breath and nasty claws.", "一条成年火龙，拥有炽烈的火焰吐息和锋利的爪子。", "_t")
 t("fire wyrm", "火焰巨龙", "entity name")
-t("An old and powerful fire drake, armed with deadly breath and nasty claws.", "一只年长且强大的火龙，拥有炽烈的火焰吐息和锋利的爪子。", "_t")
+t("An old and powerful fire drake, armed with deadly breath and nasty claws.", "一条年长且强大的火龙，拥有炽烈的火焰吐息和锋利的爪子。", "_t")
 
 
 ------------------------------------------------
@@ -8415,11 +8415,11 @@ section "game/modules/tome/data/general/npcs/multihued-drake.lua"
 t("dragon", "龙", "entity type")
 t("multihued", "多彩", "entity subtype")
 t("multi-hued drake hatchling", "七彩龙幼仔", "entity name")
-t("A drake hatchling. Not too powerful by itself, but it usually comes with its brothers and sisters.", "一只幼龙。它本身并不强大，但是它们经常集体行动。", "_t")
+t("A drake hatchling. Not too powerful by itself, but it usually comes with its brothers and sisters.", "一条幼龙。它本身并不强大，但是它们经常集体行动。", "_t")
 t("multi-hued drake", "七彩龙", "entity name")
-t("A mature multi-hued drake, armed with many deadly breath weapons and nasty claws.", "一只成年七彩龙，拥有许多致命的吐息和锋利的爪子。", "_t")
+t("A mature multi-hued drake, armed with many deadly breath weapons and nasty claws.", "一条成年七彩龙，拥有许多致命的吐息和锋利的爪子。", "_t")
 t("greater multi-hued wyrm", "强化七彩巨龙", "entity name")
-t("An old and powerful multi-hued drake, armed with many deadly breath weapons and nasty claws.", "一只年长且强大的七彩龙，拥有许多致命的吐息和锋利的爪子。", "_t")
+t("An old and powerful multi-hued drake, armed with many deadly breath weapons and nasty claws.", "一条年长且强大的七彩龙，拥有许多致命的吐息和锋利的爪子。", "_t")
 t("Ureslak the Prismatic", "七色闪光，乌瑞斯拉克", "entity name")
 t("A huge multi-hued drake. It seems to shift color rapidly.", "一只巨大的七彩龙。它似乎在快速的变幻颜色。", "_t")
 t("#YELLOW#%s's skin turns %s!", "#YELLOW#%s的皮肤变成了 %s ！", "logSeen")
@@ -8757,11 +8757,11 @@ section "game/modules/tome/data/general/npcs/storm-drake.lua"
 t("dragon", "龙", "entity type")
 t("storm", "风暴", "entity subtype")
 t("storm drake hatchling", "风暴幼龙", "entity name")
-t("A drake hatchling. Not too powerful by itself, but it usually comes with its brothers and sisters.", "一只幼龙。它本身并不强大，但是它们经常集体行动。", "_t")
+t("A drake hatchling. Not too powerful by itself, but it usually comes with its brothers and sisters.", "一条幼龙。它本身并不强大，但是它们经常集体行动。", "_t")
 t("storm drake", "风暴翼龙", "entity name")
-t("A mature storm drake, armed with deadly breath and nasty claws.", "一只成年巨龙，拥有致命的吐息和锋利的爪子。", "_t")
+t("A mature storm drake, armed with deadly breath and nasty claws.", "一条成年风暴巨龙，拥有致命的吐息和锋利的爪子。", "_t")
 t("storm wyrm", "风暴巨龙", "entity name")
-t("An old and powerful storm drake, armed with deadly breath and nasty claws.", "一只年长且强大的风暴巨龙，拥有致命的吐息和锋利的爪子。", "_t")
+t("An old and powerful storm drake, armed with deadly breath and nasty claws.", "一条年长且强大的风暴巨龙，拥有致命的吐息和锋利的爪子。", "_t")
 
 
 ------------------------------------------------
@@ -8919,9 +8919,9 @@ t("venom", "毒液", "entity subtype")
 t("venom drake hatchling", "毒龙幼仔", "entity name")
 t("A corrosive venom drake hatchling; not too powerful by itself, but it usually comes with its brothers and sisters.", "一只毒龙幼仔。它本身并不强大，但是它们经常集体行动。", "_t")
 t("venom drake", "毒龙", "entity name")
-t("A mature corrosive venom drake, armed with deadly breath and nasty claws.", "一只成年毒龙，拥有致命的吐息和锋利的爪子。", "_t")
+t("A mature corrosive venom drake, armed with deadly breath and nasty claws.", "一条成年毒龙，拥有致命的吐息和锋利的爪子。", "_t")
 t("venom wyrm", "猛毒巨龙", "entity name")
-t("An old and powerful corrosive venom drake, armed with deadly breath and nasty claws.", "一只年长且强大的毒龙，拥有致命的吐息和锋利的爪子。", "_t")
+t("An old and powerful corrosive venom drake, armed with deadly breath and nasty claws.", "一条年长且强大的毒龙，拥有致命的吐息和锋利的爪子。", "_t")
 
 
 ------------------------------------------------
@@ -21868,7 +21868,7 @@ t("Matter Weaving", "物质编织", "talent name")
 t([[Weave matter into your flesh, becoming incredibly resilient to damage.  While active you gain %d armour, %d%% resistance to stunning, and %d%% resistance to cuts.
 		The bonus to armour will scale with your Magic.]], [[你的血肉被改变，对伤害的抗性提高。
 		增加 %d 护甲， %d%% 震慑免疫， %d%% 流血免疫。
-		护甲加成受魔法加成。]], "tformat")
+		护甲加成受魔力值加成。]], "tformat")
 t("Materialize Barrier", "物质屏障", "talent name")
 t("materialize barrier", "物质屏障", "_t")
 t("a summoned wall of stone", "召唤的岩石墙壁", "_t")
@@ -22304,7 +22304,7 @@ t([[Attack with your bow or dual-weapons for %d%% damage.  If you shoot an arrow
 		The Out of Phase bonuses will scale with your Magic stat.]], [[使用弓或双持武器攻击，造成 %d%% 武器伤害。
 		如果使用弓箭，则你被传送到目标附近。否则传送到和目标距离等于弓的射程的位置。
 		同时，你获得传送后加成：增加 %d 闪避和 %d%% 全体抗性。
-		传送后加成受魔法加成。]], "tformat")
+		传送后加成受魔力值加成。]], "tformat")
 t("Blended Threads", "混合螺旋", "talent name")
 t([[Each time you hit with an arrow you reduce the cooldown of one Blade Threading talent on cooldown by one turn.
 		Each time you hit with a melee weapon you reduce the cooldown of one Bow Threading talent on cooldown by one turn.
@@ -28504,10 +28504,6 @@ t([[Conjures up a cone of flame with radius %d. Any targets caught in the area w
 t("Fireflash", "爆裂火球", "talent name")
 t([[Conjures up a bolt of fire that moves toward the target and explodes into a flash of fire, doing %0.2f fire damage in a radius of %d.
 		The damage will increase with your Spellpower.]], [[向你的目标发射一枚爆裂火球，造成 %0.2f 火焰伤害，有效范围 %d 码。 
-		受法术强度影响，伤害有额外加成。]], "tformat")
-t("Inferno", "地狱火", "talent name")
-t([[Raging flames burn foes and allies alike, doing %0.2f fire damage in a radius of %d each turn for %d turns.
-		The damage will increase with your Spellpower.]], [[向地上释放一片火焰，每回合可对敌我双方造成 %0.2f 火焰伤害，半径 %d 码，持续 %d 回合。 
 		受法术强度影响，伤害有额外加成。]], "tformat")
 
 
@@ -36085,12 +36081,12 @@ t("Shadow out of sight", "阴影在视线外", "_t")
 t("The shadow is out of sight of its host; direct control will be lost!", "阴影在视线以外，你将失去对它的控制！", "_t")
 t("#LIGHT_RED#You lost sight of your shadow for too long; it dissipates!", "#LIGHT_RED#阴影脱离视线太久；它消失了！", "logPlayer")
 t("shadow out of sight", "阴影在视线外", "_t")
-t("Husk out of sight", "傀儡在视线外", "_t")
-t("The husk is out of sight of its host; direct control will be lost!", "傀儡在视线以外，你将失去对它的控制！", "_t")
+t("Husk out of sight", "尸傀在视线外", "_t")
+t("The husk is out of sight of its host; direct control will be lost!", "尸傀在视线以外，你将失去对它的控制！", "_t")
 t("#LIGHT_RED##Target# is out of sight of its master; direct control will break!", "#LIGHT_RED##Target#在主人视野外；直接控制中断了！", "_t")
 t("+Out of sight", "+视野外", "_t")
-t("#LIGHT_RED#You lost sight of your husk for too long; it disintegrates!", "#LIGHT_RED#傀儡脱离视线太久；它碎裂了！", "logPlayer")
-t("husk out of sight", "傀儡在视线外", "_t")
+t("#LIGHT_RED#You lost sight of your husk for too long; it disintegrates!", "#LIGHT_RED#尸傀脱离视线太久；它碎裂了！", "logPlayer")
+t("husk out of sight", "尸傀在视线外", "_t")
 t("Continuum Destabilization", "连续紊乱", "_t")
 t("The target has been affected by space or time manipulations and is becoming more resistant to them (+%d).", "目标受时空操纵的影响，提升抵抗 (+%d)。", "tformat")
 t("#Target# looks a little pale around the edges.", "#Target#看上去变得暗淡了。", "_t")
@@ -41830,7 +41826,7 @@ t("Mindpower: ", "精神强度：", "_t")
 t("Spell save: ", "法术豁免加成：", "_t")
 t("Spellpower: ", "法术强度：", "_t")
 t("Defense: ", "闪避：", "_t")
-t("Ranged defense: ", "远程负重：", "_t")
+t("Ranged defense: ", "远程闪避：", "_t")
 t("Accuracy: ", "命中：", "_t")
 t("Shrug off criticals chance: ", "暴击摆脱率：", "_t")
 t("Class powers:", "职业能力：", "_t")
