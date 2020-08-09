@@ -39,7 +39,7 @@ uberTalent{
 uberTalent{
 	name = "Meteoric Crash",
 	mode = "passive",
-	-- cooldown = 15,
+	cooldown = 15,
 	getDamage = function(self, t) return math.max(50 + self:combatSpellpower() * 5, 50 + self:combatMindpower() * 5) end,
 	getLava = function(self, t) return math.max(self:combatSpellpower() + 30, self:combatMindpower() + 30) end,
 	require = { special={desc=_t"Have witnessed a meteoric crash", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or self:attr("meteoric_crash") end} },
