@@ -7222,8 +7222,8 @@ function _M:dispel(effid_or_tid, src, allow_immunity, params)
 			if self:fireTalentCheck("callbackOnDispel", "effect", effid_or_tid, src, allow_immunity) then allowed = false end
 		end
 		if allowed then
-			self:removeEffect(effid_or_tid, params.silent, params.force)
 			self:fireTalentCheck("callbackOnDispelled", "effect", effid_or_tid, src, allow_immunity)
+			self:removeEffect(effid_or_tid, params.silent, params.force)
 			return true
 		else
 			game.logSeen(self, "%s resists the dispelling of %s!", self:getName():capitalize(), eff.desc)
@@ -7242,8 +7242,8 @@ function _M:dispel(effid_or_tid, src, allow_immunity, params)
 			if self:fireTalentCheck("callbackOnDispel", "sustain", effid_or_tid, src, allow_immunity) then allowed = false end
 		end
 		if allowed then
-			self:forceUseTalent(effid_or_tid, params)
 			self:fireTalentCheck("callbackOnDispelled", "sustain", effid_or_tid, src, allow_immunity)
+			self:forceUseTalent(effid_or_tid, params)
 			return true
 		else
 			game.logSeen(self, "%s resists the dispelling of %s!", self:getName():capitalize(), t.name)

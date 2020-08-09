@@ -2344,55 +2344,43 @@ newEffect{
 	type = "magical",
 	subtype = {disease=true, blight=true, acid=true},
 	status = "detrimental",
-	parameters = {},
+	parameters = {chance=20, dam=10, burst=20},
 	on_gain = function(self, err) return _t"#Target# is afflicted by a terrible worm rot!" end,
 	on_lose = function(self, err) return _t"#Target# is free from the worm rot." end,
+	callbackOnDispelled = function(self, eff, type, effid_or_tid, src, allow_immunity)
+		if effid_or_tid ~= self.EFF_WORM_ROT then return end
+		if rng.percent(eff.chance) then
+			local ed = self:getEffectFromId(eff.effect_id)
+			ed.spawn_worm(self, eff)
+		else
+			-- Fake it, we missed out chance!
+			eff.spawned = true
+		end
+	end,
+	spawn_worm = function(self, eff)
+		if eff.spawned then return end
+		DamageType:get(DamageType.BLIGHT).projector(eff.src, self.x, self.y, DamageType.BLIGHT, eff.burst, {from_disease=true})
+		eff.src:callTalent(eff.src.T_WORM_ROT, "spawn_carrion_worm", self)
+		game.logSeen(self, "#LIGHT_RED#A carrion worm mass bursts out of %s!", self:getName():capitalize())
+		eff.spawned = true
+		self:removeEffect(self.EFF_WORM_ROT)
+	end,
 	-- Damage each turn
 	on_timeout = function(self, eff)
-		eff.rot_timer = eff.rot_timer - 1
-
 		-- disease damage
-		if self:attr("purify_disease") then
-			self:heal(eff.dam, eff.src)
-		else
-			DamageType:get(DamageType.BLIGHT).projector(eff.src, self.x, self.y, DamageType.BLIGHT, eff.dam, {from_disease=true})
+		if self:attr("purify_disease") then self:heal(eff.dam, eff.src)
+		else DamageType:get(DamageType.BLIGHT).projector(eff.src, self.x, self.y, DamageType.BLIGHT, eff.dam, {from_disease=true})
 		end
+
 		-- acid damage from the larvae
 		DamageType:get(DamageType.ACID).projector(eff.src, self.x, self.y, DamageType.ACID, eff.dam)
 
-		local effs = {}
-		-- Go through all physical effects
-		for eff_id, p in pairs(self.tmp) do
-			local e = self.tempeffect_def[eff_id]
-			if e.status == "beneficial" and e.type == "physical" then
-				effs[#effs+1] = {"effect", eff_id}
-			end
-		end
-		-- remove a random physical effect
-		if #effs > 0 then
-			local eff = rng.tableRemove(effs)
-			if eff[1] == "effect" then
-				self:dispel(eff[2], eff.src)
-			end
-		end
-
-		-- burst and spawn a worm mass
-		local t = eff.src:getTalentFromId(eff.src.T_WORM_ROT)
-		if eff.rot_timer == 0 then
-			DamageType:get(DamageType.BLIGHT).projector(eff.src, self.x, self.y, DamageType.BLIGHT, eff.burst, {from_disease=true})
-			t.spawn_carrion_worm(eff.src, self, t)
-			game.logSeen(self, "#LIGHT_RED#A carrion worm mass bursts out of %s!", self:getName():capitalize())
-			self:removeEffect(self.EFF_WORM_ROT)
-		end
+		-- Remove one effect
+		self:removeEffectsFilter(eff.src, {type="physical", status="beneficial"}, 1)
 	end,
 	deactivate = function(self, eff)
-		local t = eff.src:getTalentFromId(eff.src.T_WORM_ROT)
-		if rng.percent(t.getChance(eff.src,t)) then
-			DamageType:get(DamageType.BLIGHT).projector(eff.src, self.x, self.y, DamageType.BLIGHT, eff.burst, {from_disease=true})
-			t.spawn_carrion_worm(eff.src, self, t)
-			game.logSeen(self, "#LIGHT_RED#A carrion worm mass bursts out of %s!", self:getName():capitalize())
-			self:removeEffect(self.EFF_WORM_ROT)
-		end
+		local ed = self:getEffectFromId(eff.effect_id)
+		ed.spawn_worm(self, eff)
 	end,
 }
 
