@@ -3460,7 +3460,9 @@ function _M:die(src, death_note)
 	if src and src.summoner and src.summoner.fireTalentCheck then src.summoner:fireTalentCheck("callbackOnSummonKill", src, self, death_note) end
 
 	-- We do it at the end so that effects can detect death
-	self:removeEffectsSustainsFilter(self, true, nil, nil, {silent=true, force=true, save_cleanup=true})
+	game:onTickEnd(function()
+		self:removeEffectsSustainsFilter(self, true, nil, nil, {silent=true, force=true, save_cleanup=true})
+	end)
 
 	return true
 end
