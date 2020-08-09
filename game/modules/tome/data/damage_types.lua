@@ -60,9 +60,9 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			local ndam = dam * src.all_damage_convert_percent / 100
 			dam = dam - ndam
 			local nt = src.all_damage_convert
-			src.all_damage_convert = nil
+			-- src.all_damage_convert = nil
 			add_dam = DamageType:get(nt).projector(src, x, y, nt, ndam, state)
-			src.all_damage_convert = nt
+			-- src.all_damage_convert = nt
 			if dam <= 0 then return add_dam end
 		end
 

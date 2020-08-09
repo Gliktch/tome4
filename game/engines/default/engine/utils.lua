@@ -261,7 +261,6 @@ function table.clone(tbl, deep, k_skip, clone_meta)
 		end
 	end
 	if clone_meta then
-		if getmetatable(tbl) then print("cling meta") end
 		setmetatable(n, getmetatable(tbl))
 	end
 	return n
