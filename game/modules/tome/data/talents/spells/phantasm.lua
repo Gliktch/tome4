@@ -256,6 +256,9 @@ newTalent{
 			image:addParticles(ps:clone())
 		end
 
+		-- Let addons/dlcs that need to alter the image
+		self:triggerHook{"Spell:Phantasm:MirrorImage", image=image}
+
 		local dam_bonus = self:callTalent(self.T_INVISIBILITY, "getDamPower")
 		image:setEffect(image.EFF_MIRROR_IMAGE_FAKE, 1, {dam=dam_bonus})
 		self:setEffect(image.EFF_MIRROR_IMAGE_REAL, 1, {image=image, dam=dam_bonus})
