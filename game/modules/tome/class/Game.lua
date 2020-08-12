@@ -2316,7 +2316,6 @@ do return end
 			local tmx, tmy = self.level.map:getMouseTile(mx, my)
 			local a = self.level.map(tmx, tmy, Map.ACTOR)
 			a = (config.settings.cheat or self.player:canSee(a)) and a or self.player
-			if a.showCharacterSheet then a = a:showCharacterSheet() end
 			self:registerDialog(require("mod.dialogs.CharacterSheet").new(a))
 		end,
 

@@ -681,6 +681,26 @@ function _M:playerFOV()
 		end end
 	end
 
+	if self:knowTalent(self.T_SPECTRAL_SIGHT) then
+		local t = self:getTalentFromId(self.T_SPECTRAL_SIGHT)
+		local range = self:getTalentRange(t)
+		local sqsense = range * range
+
+		for minion, _ in pairs(game.party.members) do if minion.necrotic_minion and not minion.dead and minion.x then
+			local arr = minion.fov.actors_dist
+			local tbl = minion.fov.actors
+			local act
+			game.level.map:apply(minion.x, minion.y, 0.6)
+			game.level.map:applyExtraLite(minion.x, minion.y)
+			for i = 1, #arr do
+				act = arr[i]
+				if act and not act.dead and act.x and tbl[act] and minion:canSee(act) and tbl[act].sqdist <= sqsense then
+					game.level.map.seens(act.x, act.y, 0.6)
+				end
+			end
+		end end
+	end
+
 	if not self:attr("blind") then
 		-- Handle infravision/heightened_senses which allow to see outside of lite radius but with LOS
 		-- Note: Overseer of Nations bonus already factored into attributes

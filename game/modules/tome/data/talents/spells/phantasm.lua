@@ -225,7 +225,7 @@ newTalent{
 			takeHit = function(self, value, src, death_note) -- Cant ever take more than one damage per turn per actor
 				if not src then return false, 0 end
 				if src ~= self then
-					if death_note.source_talent_mode ~= "active" then return false, 0 end
+					if not death_note or death_note.source_talent_mode ~= "active" then return false, 0 end
 					if self.turn_procs.mirror_image_dmg and self.turn_procs.mirror_image_dmg[src] then return false, 0 end
 					self.turn_procs.mirror_image_dmg = self.turn_procs.mirror_image_dmg or {}
 					self.turn_procs.mirror_image_dmg[src] = true
@@ -256,6 +256,9 @@ newTalent{
 			image:addParticles(ps:clone())
 		end
 
+		-- Let addons/dlcs that need to alter the image
+		self:triggerHook{"Spell:Phantasm:MirrorImage", image=image}
+
 		local dam_bonus = self:callTalent(self.T_INVISIBILITY, "getDamPower")
 		image:setEffect(image.EFF_MIRROR_IMAGE_FAKE, 1, {dam=dam_bonus})
 		self:setEffect(image.EFF_MIRROR_IMAGE_REAL, 1, {image=image, dam=dam_bonus})
@@ -285,7 +288,7 @@ newTalent{
 		This image has %d life and can never take more than 1 damage per creature per turn and is immune to any non direct damage (ground effects, damage over time, ...).
 		Whenever you cast a spell your mirror image will try to duplicate it at the same target for 66%% less damage, if possible. If it can it will loose 1 life, if not it will instead taunt a creature to focus its attention on itself.
 		While the image exists you receive the damage bonus from the Invisibility spell as if you were invisible.
-		This spell can not be cast while a Mirror Image already exists and only in combat.
+		This spell can not be cast while a Mirror Image already exists and only in combat. It will disappear after a few turn when outside of combat.
 		]])
 		:tformat(t.getLife(self, t))
 	end,

@@ -1646,7 +1646,7 @@ It has been kept somewhat intact with layers of salt and clay, but in spite of t
 			-- Go through all spell effects
 			for eff_id, p in pairs(target.tmp) do
 				local e = target.tempeffect_def[eff_id]
-				if e.subtype.pin or e.subtype.stun then
+				if e and (e.subtype.pin or e.subtype.stun) then
 					effs[#effs+1] = {"effect", eff_id}
 					num = 1
 				end

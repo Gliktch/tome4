@@ -35,6 +35,7 @@ require "mod.class.interface.Combat"
 require "mod.class.interface.Archery"
 require "mod.class.interface.ActorInscriptions"
 require "mod.class.interface.ActorObjectUse"
+local ActorAI = require "mod.class.interface.ActorAI"
 local Particles = require "engine.Particles"
 local Faction = require "engine.Faction"
 local Dialog = require "engine.ui.Dialog"
@@ -55,6 +56,7 @@ module(..., package.seeall, class.inherit(
 	engine.interface.ActorResource,
 	engine.interface.BloodyDeath,
 	engine.interface.ActorFOV,
+	mod.class.interface.ActorAI,
 	mod.class.interface.ActorPartyQuest,
 	mod.class.interface.ActorInscriptions,
 	mod.class.interface.ActorObjectUse,
@@ -151,6 +153,8 @@ _M.temporary_values_conf.visual_force_day_time = "last"
 _M.projectile_class = "mod.class.Projectile"
 
 function _M:init(t, no_default)
+	ActorAI.init(self, t)
+
 	-- Define some basic combat stats
 	self.energyBase = 0
 
@@ -3456,7 +3460,9 @@ function _M:die(src, death_note)
 	if src and src.summoner and src.summoner.fireTalentCheck then src.summoner:fireTalentCheck("callbackOnSummonKill", src, self, death_note) end
 
 	-- We do it at the end so that effects can detect death
-	self:removeEffectsSustainsFilter(self, nil, nil, nil, {no_resist=true})
+	game:onTickEnd(function()
+		self:removeEffectsSustainsFilter(self, true, nil, nil, {silent=true, force=true, save_cleanup=true})
+	end)
 
 	return true
 end
@@ -4096,7 +4102,6 @@ function _M:onTemporaryValueChange(prop, v, base)
 	end
 	-- set up some values to allow the AI to detect changes in the actor's offensive or defensive abilities
 	if type(v) == "number" then -- use final value to update offensive/defensive hash values
-		local ActorAI = mod.class.interface.ActorAI
 		if base == self then
 			if ActorAI.aiDHashProps[prop] then -- Defense attributes
 				self.aiDHash = (self.aiDHash or 0) + v * ActorAI.aiDHashProps[prop] -- random value set at AI initialization
@@ -7192,7 +7197,7 @@ end
 -- @param src who is doing the dispelling
 -- @param allow_immunity If true will check for canBe("dispel_XXX"), defaults to true
 function _M:dispel(effid_or_tid, src, allow_immunity, params)
-	if self:attr("invulnerable") then return end
+	if allow_immunity and self:attr("invulnerable") then return end
 
 	if not params then params = {} end
 	if params.silent == nil then params.silent = false end
@@ -7217,8 +7222,8 @@ function _M:dispel(effid_or_tid, src, allow_immunity, params)
 			if self:fireTalentCheck("callbackOnDispel", "effect", effid_or_tid, src, allow_immunity) then allowed = false end
 		end
 		if allowed then
-			self:removeEffect(effid_or_tid, params.silent, params.force)
 			self:fireTalentCheck("callbackOnDispelled", "effect", effid_or_tid, src, allow_immunity)
+			self:removeEffect(effid_or_tid, params.silent, params.force)
 			return true
 		else
 			game.logSeen(self, "%s resists the dispelling of %s!", self:getName():capitalize(), eff.desc)
@@ -7237,8 +7242,8 @@ function _M:dispel(effid_or_tid, src, allow_immunity, params)
 			if self:fireTalentCheck("callbackOnDispel", "sustain", effid_or_tid, src, allow_immunity) then allowed = false end
 		end
 		if allowed then
-			self:forceUseTalent(effid_or_tid, params)
 			self:fireTalentCheck("callbackOnDispelled", "sustain", effid_or_tid, src, allow_immunity)
+			self:forceUseTalent(effid_or_tid, params)
 			return true
 		else
 			game.logSeen(self, "%s resists the dispelling of %s!", self:getName():capitalize(), t.name)
@@ -8314,3 +8319,5 @@ end
 function _M:getShieldDuration(duration)
 	return duration + (self:attr("shield_dur") or 0)
 end
+
+_M:staticInitActorAI()

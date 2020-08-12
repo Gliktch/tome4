@@ -120,7 +120,7 @@ function _M:resize(x, y, w, h, iw, ih)
 	end
 end
 
-local page_to_hotkey = {"", "SECOND_", "THIRD_", "FOURTH_", "FIFTH_"}
+local page_to_hotkey = {"", "SECOND_", "THIRD_", "FOURTH_", "FIFTH_", "SIX_", "SEVEN_"}
 
 local frames_colors = {
 	ok = {0.3, 0.6, 0.3},
