@@ -51,8 +51,9 @@ newTalent{
 			if src.turn_procs.soul_leeched_death then return end
 			src.turn_procs.soul_leeched_death = true
 		end
-		self:incSoul(1)
-		self:triggerHook{"Necromancer:SoulLeech:GainSoul", src=src}
+		local summoner = self:resolveSource()
+		summoner:incSoul(1)
+		summoner:triggerHook{"Necromancer:SoulLeech:GainSoul", src=src}
 	end,
 	info = function(self, t)
 		local _, c_rare = self:textRank(3.2)
