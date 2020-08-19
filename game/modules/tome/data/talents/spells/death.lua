@@ -37,6 +37,9 @@ newTalent{
 
 		return true
 	end,
+	incFormula = function(nb)
+		return 1 + math.log10(nb) * 1.5
+	end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -45,7 +48,7 @@ newTalent{
 		self:projectApply(tg, x, y, Map.ACTOR, function(target)
 			local nb = #target:effectsFilter({status="detrimental", ignore_crosstier=true}, 999)
 			if nb == 0 then return end
-			local mult = 1 + math.log10(nb) * 1.5
+			local mult = t.incFormula(nb)
 			local dam = self:spellCrit(mult * t:_getDamage(self))
 			if DamageType:get(DamageType.FROSTDUSK).projector(self, target.x, target.y, DamageType.FROSTDUSK, dam) > 0 then
 				if target:canBe("slow") then
@@ -59,9 +62,17 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
+		local dam = damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self))
 		return ([[Press your advantage when your foes are starting to crumble.
 		For every detrimental effect on the target you deals %0.2f frostdusk damage (with diminishing returns) and reduce its global speed by 25%% for one turn per effect (up to a maximum of %d).
-		]]):tformat(damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), t:_getMax(self))
+		The diminishing returns on damage bonus works this way:
+		- 2 effects: %0.2f
+		- 5 effects: %0.2f
+		- 10 effects: %0.2f
+		- 15 effects: %0.2f
+		And so on...
+		Damage increases with your Spellpower.
+		]]):tformat(dam, t:_getMax(self), dam*t.incFormula(2), dam*t.incFormula(5), dam*t.incFormula(10), dam*t.incFormula(15))
 	end,
 }
 
