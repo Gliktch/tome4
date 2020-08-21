@@ -3986,7 +3986,7 @@ newEffect{
 	subtype = { lich = true },
 	status = "neutral",
 	parameters = { },
-	callbackOnSummonKill = function(self, t, minion, who, death_note)
+	callbackOnSummonKill = function(self, eff, minion, who, death_note)
 		if who.rank >= 3.5 then
 			eff.success = true
 			self:removeEffect(self.EFF_LICH_HUNGER)
@@ -3999,6 +3999,9 @@ newEffect{
 			self:removeEffect(self.EFF_LICH_HUNGER)
 			game.bignews:say(120, "#DARK_ORCHID#Lichform regeneration is complete!#{normal}#")
 		end
+	end,
+	activate = function(self, eff)
+		self:effectTemporaryValue(eff, "lich_hunger", 1)
 	end,
 	deactivate = function(self, eff)
 		if eff.success then return end
