@@ -5099,6 +5099,39 @@ newEffect{
 	end,
 }
 
+newEffect{
+	name = "SHATTERED_REMAINS", image = "talents/bone_wall.png",
+	desc = _t"Shattered Remains",
+	long_desc = function(self, eff) return ("health increased by %d, armour by %d and melee retaliation by %d."):tformat(eff.health, eff.armor, eff.retaliation) end,
+	type = "magical",
+	subtype = { skeleton=true, bone=true },
+	status = "beneficial",
+	parameters = { health=10, armor=10, retaliation=10 },
+	on_gain = function(self, err) return _t"#Target# picks up the remains of its fallen comrade.", true end,
+	on_lose = function(self, err) return _t"#Target# drops its additional bones.", true end,
+	updateBonus = function(self, eff)
+		if eff.tmpids then self:tableTemporaryValuesRemove(eff.tmpids) end
+		eff.tmpids = {}
+		self:tableTemporaryValue(eff.tmpids, "max_life", eff.health)
+		self:tableTemporaryValue(eff.tmpids, "life", eff.health)
+		self:tableTemporaryValue(eff.tmpids, "combat_armor", eff.armor)
+		self:tableTemporaryValue(eff.tmpids, "on_melee_hit", {[DamageType.PHYSICAL]=eff.retaliation})
+	end,
+	on_merge = function(self, old_eff, new_eff, ed)
+		old_eff.health = old_eff.health + new_eff.health
+		old_eff.armor = old_eff.armor + new_eff.armor
+		old_eff.retaliation = old_eff.retaliation + new_eff.retaliation
+		ed.updateBonus(self, old_eff)
+		return old_eff
+	end,
+	activate = function(self, eff, ed)
+		ed.updateBonus(self, eff)
+	end,
+	deactivate = function(self, eff)
+		self:tableTemporaryValuesRemove(eff.tmpids)
+	end,
+}
+
 local rime_wraith_def = {
 	type = "magical",
 	subtype = { necrotic=true, cold=true, parasitic=true },
