@@ -4318,3 +4318,39 @@ newEffect{
 		return true
 	end,
 }
+
+newEffect{
+	name = "FLN_BLEED_VULN", image = "effects/stunned.png",
+	desc = "Brutalized",
+	long_desc = function(self, eff) return ("The target is brutally stunned, reducing damage by 60%%, movement speed by 50%%, bleed resist by 50%%, and halving talent cooldown."):format() end,
+	type = "physical",
+	subtype = { stun=true },
+	status = "detrimental",
+	parameters = { },
+	on_gain = function(self, err) return "#Target# is stunned by the brutal strike!", "+Brutalized" end,
+	on_lose = function(self, err) return "#Target# is not stunned anymore.", "-Brutalized" end,
+	activate = function(self, eff)
+		eff.tmpid = self:addTemporaryValue("stunned", 1)
+		eff.lockid = self:addTemporaryValue("half_talents_cooldown", 1)
+		eff.speedid = self:addTemporaryValue("movement_speed", -0.5)
+		eff.bleedid = self:addTemporaryValue("cut_immune", -0.5)
+		
+		local tids = {}
+		for tid, lev in pairs(self.talents) do
+			local t = self:getTalentFromId(tid)
+			if t and not self.talents_cd[tid] and t.mode == "activated" and not t.innate and util.getval(t.no_energy, self, t) ~= true then tids[#tids+1] = t end
+		end
+		for i = 1, 3 do
+			local t = rng.tableRemove(tids)
+			if not t then break end
+			self:startTalentCooldown(t.id, 1)
+		end
+  end,
+  deactivate = function(self, eff)
+		self:removeTemporaryValue("stunned", eff.tmpid)
+		self:removeTemporaryValue("half_talents_cooldown", eff.lockid)
+		self:removeTemporaryValue("movement_speed", eff.speedid)
+		self:removeTemporaryValue("cut_immune", eff.bleedid)
+  end,
+}
+

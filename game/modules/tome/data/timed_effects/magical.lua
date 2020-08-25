@@ -5407,3 +5407,146 @@ newEffect{
 		if eff.particle2 then self:removeParticles(eff.particle2) end
 	end,
 }
+
+newEffect{
+	name = "FLN_DIRGE_LINGER_FAMINE", image = "talents/fln_dirge_famine.png",
+	desc = "Dirge of Famine",
+	long_desc = function(self, eff) return ("The target is regenerating health"):format() end,
+	type = "magical",
+	subtype = { regen=true },
+	status = "beneficial",
+	parameters = { heal=1 },
+	activate = function(self, eff)
+		eff.healid = self:addTemporaryValue("life_regen", eff.heal)
+	end,
+	deactivate = function(self, eff)
+		self:removeTemporaryValue("life_regen", eff.healid)
+	end,
+}
+
+newEffect{
+	name = "FLN_DIRGE_LINGER_CONQUEST", image = "talents/fln_dirge_conquest.png",
+	desc = "Dirge of Conquest",
+	long_desc = function(self, eff) return ("The target will gain a surge of energy on kill or crit"):format() end,
+	type = "magical",
+	subtype = { haste=true },
+	status = "beneficial",
+	parameters = { heal=1 },
+	
+	callbackOnCrit = function(self, eff)
+		if self.turn_procs.fallen_conquest_on_crit then return end
+		self.turn_procs.fallen_conquest_on_crit = true
+		
+		self.energy.value = self.energy.value + 100
+		if core.shader.active(4) then
+			self:addParticles(Particles.new("shader_shield_temp", 1, {toback=true , size_factor=1.5, y=-0.3, img="healgreen", life=25}, {type="healing", time_factor=2000, beamsCount=20, noup=2.0, circleDescendSpeed=3.5}))
+			self:addParticles(Particles.new("shader_shield_temp", 1, {toback=false, size_factor=1.5, y=-0.3, img="healgreen", life=25}, {type="healing", time_factor=2000, beamsCount=20, noup=1.0, circleDescendSpeed=3.5}))
+		end
+	end,
+	callbackOnKill = function(self, t)
+		if self.turn_procs.fallen_conquest_on_kill then return end
+		self.turn_procs.fallen_conquest_on_kill = true
+		
+		self.energy.value = self.energy.value + 500
+		if core.shader.active(4) then
+			self:addParticles(Particles.new("shader_shield_temp", 1, {toback=true , size_factor=1.5, y=-0.3, img="healgreen", life=25}, {type="healing", time_factor=2000, beamsCount=20, noup=2.0, circleDescendSpeed=3.5}))
+			self:addParticles(Particles.new("shader_shield_temp", 1, {toback=false, size_factor=1.5, y=-0.3, img="healgreen", life=25}, {type="healing", time_factor=2000, beamsCount=20, noup=1.0, circleDescendSpeed=3.5}))
+		end
+	end,
+	
+	activate = function(self, eff)
+	end,
+	deactivate = function(self, eff)
+	end,
+}
+
+newEffect{
+	name = "FLN_DIRGE_LINGER_PESTILENCE", image = "talents/fln_dirge_pestilence.png",
+	desc = "Dirge of Pestilence",
+	long_desc = function(self, eff) return ("The target will gain a shield upon suffering a detrimental effect"):format() end,
+	type = "magical",
+	subtype = { shield=true },
+	status = "beneficial",
+	parameters = { shield=50, cd=5 },
+	callbackOnTemporaryEffectAdd = function(self, eff, eff_id, e_def, eff_incoming)
+		if not self:hasProc("rek_fln_dirge_shield") then
+			if e_def.status == "detrimental" and e_def.type ~= "other" and eff_incoming.src ~= self then
+				self:setProc("rek_fln_dirge_shield", true, eff.cd)
+				self:setEffect(self.EFF_DAMAGE_SHIELD, eff_incoming.dur, {color={0xff/255, 0x3b/255, 0x3f/255}, power=self:spellCrit(eff.shield)})
+			end
+		end
+	end,
+	activate = function(self, eff)
+	end,
+	deactivate = function(self, eff)
+	end,
+}
+
+newEffect{
+	name = "FLN_BLINDING_LIGHT", image = "talents/fln_templar_sigil.png",
+	desc = "Blinding Light",
+	long_desc = function(self, eff) return ("The target is blinded by a magical light and unable to see anything."):format(eff.dam) end,
+	type = "magical",
+	subtype = { light=true, blind=true },
+	status = "detrimental",
+	parameters = { dam=10},
+	on_gain = function(self, err) return "#Target# loses sight!", "+Blind" end,
+	on_lose = function(self, err) return "#Target# recovers sight.", "-Blind" end,
+	on_timeout = function(self, eff)
+	end,
+	activate = function(self, eff)
+		eff.tmpid = self:addTemporaryValue("blind", 1)
+		if game.level then
+			self:resetCanSeeCache()
+			if self.player then for uid, e in pairs(game.level.entities) do if e.x then game.level.map:updateMap(e.x, e.y) end end game.level.map.changed = true end
+		end
+	end,
+	deactivate = function(self, eff)
+		self:removeTemporaryValue("blind", eff.tmpid)
+		if game.level then
+			self:resetCanSeeCache()
+			if self.player then for uid, e in pairs(game.level.entities) do if e.x then game.level.map:updateMap(e.x, e.y) end end game.level.map.changed = true end
+		end
+	end,
+}
+
+newEffect{
+	name = "FLN_GRAVITY_BUFF", image = "talents/fln_blacksun_devour.png",
+	desc = "Devourer Stance",
+	long_desc = function(self, eff)
+		local desc = ("The target is redirecting energy, adding %d gravity damage to their attacks."):format(eff.gravity)
+		if eff.counter and eff.counter < 3 then
+			return desc..("The target is storing up healing energy, currently %d"):format(eff.heal)
+		end
+		return desc
+	end,
+	type = "magical",
+	subtype = { gravity=true },
+	status = "beneficial",
+	parameters = { gravity=10, heal=0 },
+	callbackOnTakeDamage = function(self, eff, src, x, y, type, dam, tmp)
+		if eff.counter < 3 then
+			local dam_absorb = dam * 0.5
+			eff.heal = eff.heal + dam_absorb
+		end
+		return {dam=dam}
+	end,
+	activate = function(self, eff)
+		eff.counter = 0
+		local damtype = DamageType.REK_FLN_GRAVITY_PULL
+		eff.onhit = self:addTemporaryValue("melee_project", {[damtype] = eff.gravity})
+	end,
+	deactivate = function(self, eff)
+		self:removeTemporaryValue("melee_project", eff.onhit)
+	end,
+	on_timeout = function(self, eff)
+		if not eff.counter then eff.counter = 0 end
+		eff.counter = eff.counter + 1
+		if eff.counter == 3 then
+			self:attr("allow_on_heal", 1)
+			self:heal(eff.heal, eff.src)
+			self:attr("allow_on_heal", -1)
+			eff.heal = 0
+		end
+	end,
+}

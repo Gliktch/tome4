@@ -141,6 +141,11 @@ newTalent{
 		self:talentTemporaryValue(p, "combat_spellcrit", t.getCrit(self, t))
 		self:talentTemporaryValue(p, "combat_physcrit", t.getCrit(self, t))
 	end,
+	callbackOnKill = function(self, t, src, msg)
+		if src.getHate and src:getHate() > 0 then
+      game:setAllowedBuild("paladin_fallen", true)
+		end
+	end,
 	callbackOnCrit = function(self, t, kind, dam, chance)
 		if kind ~= "spell" and kind ~= "physical" then return end
 		if not rng.percent(t.getProcChance(self, t)) then return end

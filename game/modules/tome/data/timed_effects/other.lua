@@ -4111,3 +4111,58 @@ newEffect{
 		return true
 	end,
 }
+
+newEffect{
+	name = "FLN_RUSH_MARK", image = "talents/fln_blood_rush.png",
+	desc = "Marked for Death",
+	long_desc = function(self, eff) return ("Reduces Blood Rush cooldown if killed"):format() end,
+	type = "other",
+	subtype = { status=true, },
+	status = "detrimental",
+	parameters = { },
+	
+	activate = function(self, eff)
+	end,
+	
+	deactivate = function(self, eff)
+	end,
+	
+	callbackOnDeath = function(self, eff, src, note)
+		marker = eff.src
+		reduc = eff.dur * 2
+		local tid = marker.T_FLN_BLOODSTAINED_RUSH
+		if marker.talents_cd[tid] then
+			marker.talents_cd[tid] = marker.talents_cd[tid] - reduc
+		end
+	end,
+}
+
+newEffect{
+	name = "FLN_JUDGEMENT_BLEED", image = "talents/fln_selfhate_judgement.png",
+	desc = "Self-Judgement",
+	long_desc = function(self, eff) return ("Your body is bleeding, losing %0.2f life each turn."):format(eff.power) end,
+	type = "other",
+	subtype = { bleed=true },
+	status = "detrimental",
+	parameters = { power=10 },
+	on_gain = function(self, err) return "#CRIMSON##Target# is torn open by the powerful blow!", "+Self-Judgement" end,
+	on_lose = function(self, err) return "#CRIMSON##Target#'s wound has closed.", "-Self-Judgement" end,
+	on_merge = function(self, old_eff, new_eff)
+		local remaining = old_eff.dur*old_eff.power
+		old_eff.dur = new_eff.dur
+		old_eff.power = remaining/(new_eff.dur or 1) + new_eff.power
+		return old_eff
+	end,
+	activate = function(self, eff) end,
+	deactivate = function(self, eff) end,
+	on_timeout = function(self, eff)
+		if eff.invulnerable then
+			eff.dur = eff.dur + 1
+			return
+		end
+		local dead, val = self:takeHit(eff.power, self, {special_death_msg="died a well-deserved death by exsanguination"})
+		
+		local srcname = self.x and self.y and game.level.map.seens(self.x, self.y) and self.name:capitalize() or "Something"
+		game:delayedLogDamage(eff, self, val, ("#CRIMSON#%d Bleed #LAST#"):format(math.ceil(val)), false)
+	end,
+}
