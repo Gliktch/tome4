@@ -296,7 +296,7 @@ uberTalent{
 }
 
 uberTalent{
-	name = "Fallen", short_name = "REK_PALADIN_FALLEN_PRODIGY", image="talents/fln_templar_splatter_sigils.png",
+	name = "Fallen", image="talents/splatter_sigils.png",
 	require = {
 		birth_descriptors={{"subclass", "Sun Paladin"}},
 		special={desc="Unlocked the Fallen evolution by bringing the Sun's Vengeance upon the cursed", fct=function(self) return profile.mod.allow_build.paladin_fallen end},
@@ -350,8 +350,8 @@ uberTalent{
 		}
 		t.unlearnTalents(self, t, removes)
 		
-		self:learnTalent(self.T_FLN_DIRGE_ACOLYTE, true, 1)
-		self:learnTalent(self.T_FLN_SELFHATE_HARM, true, 1)
+		self:learnTalent(self.T_DIRGE_ACOLYTE, true, 1)
+		self:learnTalent(self.T_SELF_HARM, true, 1)
 		
 		self:incHate(100)
 	end,

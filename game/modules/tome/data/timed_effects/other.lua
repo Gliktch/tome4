@@ -4113,24 +4113,19 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_RUSH_MARK", image = "talents/fln_blood_rush.png",
+	name = "BLOOD_RUSH_MARK", image = "talents/blood_rush.png",
 	desc = "Marked for Death",
 	long_desc = function(self, eff) return ("Reduces Blood Rush cooldown if killed"):format() end,
 	type = "other",
 	subtype = { status=true, },
 	status = "detrimental",
 	parameters = { },
-	
-	activate = function(self, eff)
-	end,
-	
-	deactivate = function(self, eff)
-	end,
-	
+	activate = function(self, eff) end,
+	deactivate = function(self, eff) end,
 	callbackOnDeath = function(self, eff, src, note)
 		marker = eff.src
 		reduc = eff.dur * 2
-		local tid = marker.T_FLN_BLOODSTAINED_RUSH
+		local tid = marker.T_BLOOD_RUSH
 		if marker.talents_cd[tid] then
 			marker.talents_cd[tid] = marker.talents_cd[tid] - reduc
 		end
@@ -4138,7 +4133,23 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_JUDGEMENT_BLEED", image = "talents/fln_selfhate_judgement.png",
+	name = "LIGHTS_OUT", image = "talents/final_sunbeam.png",
+	desc = "Lights Out",
+	long_desc = function(self, eff) return "The target is cut off from the sun" end,
+	type = "other",
+	subtype = { magic=true },
+	status = "detrimental",
+	parameters = { },
+	callbackOnActBase = function(self, t)
+		self:incPositive(-1 * self:getPositive())
+	end,
+	activate = function(self, eff) end,
+	deactivate = function(self, eff) end,
+}
+
+
+newEffect{
+	name = "SELF_JUDGEMENT", image = "talents/self_judgement.png",
 	desc = "Self-Judgement",
 	long_desc = function(self, eff) return ("Your body is bleeding, losing %0.2f life each turn."):format(eff.power) end,
 	type = "other",

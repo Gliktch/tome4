@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 newTalent{
-	name = "Shared Agony", short_name = "FLN_TEMPLAR_SHARED_AGONY",
+	name = "Shared Agony", short_name = "TEMPLAR_SHARED_AGONY",
 	type = {"cursed/crimson-templar", 1},
 	require = cursed_mag_req_high1,
 	points = 5,
@@ -81,7 +81,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Splatter Sigils", short_name = "FLN_TEMPLAR_SPLATTER_SIGILS",
+	name = "Splatter Sigils", short_name = "TEMPLAR_SPLATTER_SIGILS",
 	type = {"cursed/crimson-templar", 2},
 	require = cursed_mag_req_high2,
 	points = 5,
@@ -103,7 +103,7 @@ newTalent{
 														 DamageType.SOLAR_BLOOD, {dam=self:spellCrit(t.getStrength(self, t)), pow=self:combatSpellpower()},
 														 self:getTalentRadius(t),
 														 5, nil,
-														 MapEffect.new{zdepth=6, overlay_particle={zdepth=6, only_one=true, type="circle", args={appear=8, oversize=0, img="fln_celestial_circle", radius=self:getTalentRadius(t)*2}}, color_br=255, color_bg=187, color_bb=187, alpha=10, effect_shader="shader_images/sunlight_effect.png"},
+														 MapEffect.new{zdepth=6, overlay_particle={zdepth=6, only_one=true, type="circle", args={appear=8, oversize=0, img="celestial_circle", radius=self:getTalentRadius(t)*2}}, color_br=255, color_bg=187, color_bb=187, alpha=10, effect_shader="shader_images/sunlight_effect.png"},
 														 nil, true
 														)
 	end,
@@ -136,7 +136,7 @@ Spell Critical: Improves duration
 }
 
 newTalent{
-	name = "Mark of the Vampire", short_name = "FLN_TEMPLAR_MARK_OF_THE_VAMPIRE",
+	name = "Mark of the Vampire", short_name = "TEMPLAR_MARK_OF_THE_VAMPIRE",
 	type = {"cursed/crimson-templar", 3},
 	require = cursed_mag_req_high3,
 	points = 5,
@@ -160,7 +160,7 @@ newTalent{
 		self:project(tg, x, y, function(tx, ty)
 									 local target = game.level.map(tx, ty, Map.ACTOR)
 									 if not target or target == self then return end
-									 target:setEffect(target.EFF_FLN_VAMPIRE_MARK, 20, {src=self, dam=dam, power=1+t.getBleedIncrease(self, t), apply_power=self:combatSpellpower()})
+									 target:setEffect(target.EFF_MARK_OF_THE_VAMPIRE, 20, {src=self, dam=dam, power=1+t.getBleedIncrease(self, t), apply_power=self:combatSpellpower()})
 													 end)
 		local _ _, _, _, x, y = self:canProject(tg, x, y)
 		game.level.map:particleEmitter(x, y, tg.radius, "circle", {oversize=0.7, g=90, b=100, a=100, limit_life=8, appear=8, speed=2, img="blight_circle", radius=self:getTalentRadius(t)})
@@ -176,7 +176,7 @@ Spellpower: increases damage]]):
 }
 
 newTalent{
-	name = "Rosebloom", short_name = "FLN_TEMPLAR_ROSEBLOOM",
+	name = "Rosebloom", short_name = "TEMPLAR_ROSEBLOOM",
 	type = {"cursed/crimson-templar", 4},
 	require = cursed_mag_req_high4,
 	points = 5,
@@ -234,7 +234,6 @@ newTalent{
 												 drain = drain + math.max(eff.power*eff.dur*conversion, healMin)
 												 dur = math.max(dur, eff.dur)
 												 sleepPower = sleepPower + eff.power
-												 --target:removeEffect(eff)
 											 end
 										 end
 										 

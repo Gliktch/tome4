@@ -20,7 +20,7 @@
 --    Small damage
 --    Stun and lower bleed resist.
 newTalent{
-	name = "Brutalize", short_name = "FLN_DARKSIDE_SLAM",
+	name = "Brutalize",
 	type = {"celestial/darkside", 1},
 	require = divi_req1,
 	points = 5,
@@ -41,7 +41,7 @@ newTalent{
 		
 		if hit then
 			if target:canBe("stun") then
-				target:setEffect(target.EFF_FLN_BLEED_VULN, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
+				target:setEffect(target.EFF_BRUTALIZED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
 				game.logSeen(target, "%s resists the brutality!", target.name:capitalize())
 			end
@@ -59,7 +59,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Lunacy", short_name = "FLN_DARKSIDE_POWER",
+	name = "Lunacy",
 	type = {"celestial/darkside", 2},
 	mode = "passive",
 	points = 5,
@@ -80,7 +80,7 @@ You gain a bonus to Mindpower equal to %d%% of your Magic.
 
 
 newTalent{
-	name = "Flee the Sun", short_name = "FLN_DARKSIDE_BLINK",
+	name = "Flee the Sun",
 	type = {"celestial/darkside", 3},
 	require = divi_req3,
 	points = 5,
@@ -127,7 +127,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Final Sunbeam", short_name = "FLN_DARKSIDE_SUNSET",
+	name = "Final Sunbeam",
 	type = {"celestial/darkside", 4},
 	require = divi_req4,
 	points = 5,
@@ -160,7 +160,7 @@ newTalent{
 		game:playSoundNear(self, "talents/fallen_sun_whoosh")
 		self:addParticles(Particles.new("meleestorm", 2, {radius=t.radius(self, t), img="spinningwinds_black"}))
 		if not self:attr("zero_resource_cost") and not self:attr("force_talent_ignore_ressources") then self:incPositive(-1 * self:getPositive()) end
-		self:setEffect(self.EFF_FLN_NO_LIGHT, 5, {})
+		self:setEffect(self.EFF_LIGHTS_OUT, 5, {})
 		return true
 	end,
 	info = function(self, t)

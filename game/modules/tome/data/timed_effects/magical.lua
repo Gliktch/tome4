@@ -5414,7 +5414,7 @@ newEffect{
 }
 
 newEffect{
-	name = "DIRGE_OF_FAMINE", image = "talents/fln_dirge_famine.png",
+	name = "DIRGE_OF_FAMINE", image = "talents/dirge_of_famine.png",
 	desc = "Dirge of Famine",
 	long_desc = function(self, eff) return ("The target is regenerating health"):format() end,
 	type = "magical",
@@ -5430,7 +5430,7 @@ newEffect{
 }
 
 newEffect{
-	name = "DIRGE_OF_CONQUEST", image = "talents/fln_dirge_conquest.png",
+	name = "DIRGE_OF_CONQUEST", image = "talents/dirge_of_conquest.png",
 	desc = "Dirge of Conquest",
 	long_desc = function(self, eff) return ("The target will gain a surge of energy on kill or crit"):format() end,
 	type = "magical",
@@ -5466,7 +5466,7 @@ newEffect{
 }
 
 newEffect{
-	name = "DIRGE_OF_PESTILENCE", image = "talents/fln_dirge_pestilence.png",
+	name = "DIRGE_OF_PESTILENCE", image = "talents/dirge_of_pestilence.png",
 	desc = "Dirge of Pestilence",
 	long_desc = function(self, eff) return ("The target will gain a shield upon suffering a detrimental effect"):format() end,
 	type = "magical",
@@ -5474,9 +5474,9 @@ newEffect{
 	status = "beneficial",
 	parameters = { shield=50, cd=5 },
 	callbackOnTemporaryEffectAdd = function(self, eff, eff_id, e_def, eff_incoming)
-		if not self:hasProc("rek_fln_dirge_shield") then
+		if not self:hasProc("dirge_shield") then
 			if e_def.status == "detrimental" and e_def.type ~= "other" and eff_incoming.src ~= self then
-				self:setProc("rek_fln_dirge_shield", true, eff.cd)
+				self:setProc("dirge_shield", true, eff.cd)
 				self:setEffect(self.EFF_DAMAGE_SHIELD, eff_incoming.dur, {color={0xff/255, 0x3b/255, 0x3f/255}, power=self:spellCrit(eff.shield)})
 			end
 		end
@@ -5488,7 +5488,7 @@ newEffect{
 }
 
 newEffect{
-	name = "BLINDING_LIGHT", image = "talents/fln_templar_sigil.png",
+	name = "BLINDING_LIGHT", image = "talents/splatter_sigils.png",
 	desc = "Blinding Light",
 	long_desc = function(self, eff) return ("The target is blinded by a magical light and unable to see anything."):format(eff.dam) end,
 	type = "magical",
@@ -5516,7 +5516,7 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_GRAVITY_BUFF", image = "talents/fln_blacksun_devour.png",
+	name = "DEVOURER_STANCE", image = "talents/devourer_stance.png",
 	desc = "Devourer Stance",
 	long_desc = function(self, eff)
 		local desc = ("The target is redirecting energy, adding %d gravity damage to their attacks."):format(eff.gravity)
@@ -5538,7 +5538,7 @@ newEffect{
 	end,
 	activate = function(self, eff)
 		eff.counter = 0
-		local damtype = DamageType.REK_FLN_GRAVITY_PULL
+		local damtype = DamageType.BLACK_HOLE_GRAVITY
 		eff.onhit = self:addTemporaryValue("melee_project", {[damtype] = eff.gravity})
 	end,
 	deactivate = function(self, eff)

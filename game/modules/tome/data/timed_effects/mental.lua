@@ -3059,7 +3059,7 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_VAMPIRE_MARK", image = "talents/fln_templar_mark_of_the_vampire.png",
+	name = "MARK_OF_THE_VAMPIRE", image = "talents/mark_of_the_vampire.png",
 	desc = "Mark of the Vampire",
 	long_desc = function(self, eff) return ("The target is doomed to die a bloody death.  Each time it uses an ability it takes %0.2f physical damage, and incoming bleeds are strengthened by %d%%."):
 		format(eff.dam, eff.power*100)

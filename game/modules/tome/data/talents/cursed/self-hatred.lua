@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 newTalent{
-	name = "Self-Harm", short_name = "FLN_SELFHATE_HARM",
+	name = "Self-Harm", short_name = "SELF_HARM",
 	type = {"cursed/self-hatred", 1},
 	require = cursed_wil_req1,
 	points = 5,
@@ -65,7 +65,7 @@ You can activate this talent to quickly draw a blade across your skin, bleeding 
 }
 
 newTalent{
-	name = "Self-Loathing", short_name = "FLN_SELFHATE_LOATHING",
+	name = "Self-Loathing", short_name = "SELF_LOATHING",
 	type = {"cursed/self-hatred", 2},
 	require = cursed_wil_req2,
 	points = 5,
@@ -88,7 +88,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Self-Destruction", short_name = "FLN_SELFHATE_DESTRUCTION",
+	name = "Self-Destruction", short_name = "SELF_DESTRUCTION",
 	type = {"cursed/self-hatred", 3},
 	require = cursed_wil_req3,
 	points = 5,
@@ -112,7 +112,7 @@ newTalent{
 		-- Reduce cooldowns
 		for tid, _ in pairs(self.talents_cd) do
 			local t = self:getTalentFromId(tid)
-			if t and (not t.fixed_cooldown or tid == T_FLN_BLOODSTAINED_FURY) then
+			if t and (not t.fixed_cooldown or tid == T_BLOOD_FURY) then
 				self.talents_cd[tid] = self.talents_cd[tid] - 1
 			end
 		end
@@ -121,7 +121,7 @@ newTalent{
 		t.surge(self, t)
 		local ret = {}
 		game:playSoundNear(self, "talents/fire")
-		ret.particle = self:addParticles(Particles.new("rek_blood_inferno", 1))
+		ret.particle = self:addParticles(Particles.new("blood_inferno", 1))
 		return ret
 	end,
 	deactivate = function(self, t, p)
@@ -130,7 +130,7 @@ newTalent{
 	end,
 	callbackOnRest = function(self, t, mode)
 		if mode == "start" then
-			self:forceUseTalent(self.T_FLN_SELFHATE_DESTRUCTION, {ignore_energy=true, no_talent_fail=true})
+			self:forceUseTalent(self.T_SELF_DESTRUCTION, {ignore_energy=true, no_talent_fail=true})
 			return true
 		end
 	end,
@@ -154,7 +154,7 @@ This strength comes at a cost: you lose %d%% of your maximum life every turn.
 }
 
 newTalent{
-	name = "Self-Judgement", short_name = "FLN_SELFHATE_JUDGEMENT",
+	name = "Self-Judgement", short_name = "SELF_JUDGEMENT",
 	type = {"cursed/self-hatred", 4},
 	require = cursed_wil_req4,
 	points = 5,
@@ -188,7 +188,7 @@ newTalent{
 			if src.logCombat then src:logCombat(self, "#CRIMSON##Target# suffers from %s from #Source#, mitigating the blow!#LAST#.", is_attk and "an attack" or "damage") end
 			dam = dam - reduce
 			
-			self:setEffect(self.EFF_FLN_JUDGEMENT_BLEED, length, {power=reduce/length})
+			self:setEffect(self.EFF_SELF_JUDGEMENT, length, {power=reduce/length})
 			
 			local d_color = DamageType:get(type).text_color or "#CRIMSON#"
 			game:delayedLogDamage(src, self, 0, ("%s(%d bled out#LAST#%s)#LAST#"):format(d_color, reduce, d_color), false)

@@ -18,17 +18,17 @@
 -- darkgod@te4.org
 
 newTalent{
-	name = "Blood Clot", short_name = "FLN_BLEED_RESIST",
+	name = "Blood Clot",
 	type = {"cursed/other", 1},
 	points = 1,
 	mode = "passive",
 	callbackOnTemporaryEffectAdd = function(self, t, eff_id, e_def, eff)
 		if e_def.subtype.bleed and e_def.type ~= "other" then
 			local diminishment = math.min((
-																			self:getTalentLevelRaw(self.T_FLN_BLOODSTAINED_RUSH)
-																				+ self:getTalentLevelRaw(self.T_FLN_BLOODSTAINED_FURY)
-																				+ self:getTalentLevelRaw(self.T_FLN_BLOODSTAINED_BATH)
-																				+ self:getTalentLevelRaw(self.T_FLN_BLOODSTAINED_THIRST))*2, 90)
+																			self:getTalentLevelRaw(self.T_BLOOD_RUSH)
+																				+ self:getTalentLevelRaw(self.T_BLOOD_FURY)
+																				+ self:getTalentLevelRaw(self.T_BLOOD_BATH)
+																				+ self:getTalentLevelRaw(self.T_BLOOD_THIRST))*2, 90)
 																			if eff.dam then
 																				eff.dam = eff.dam * (100-diminishment) / 100
 																			elseif eff.power then
@@ -43,7 +43,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Blood Rush", short_name = "FLN_BLOODSTAINED_RUSH",
+	name = "Blood Rush",
 	type = {"cursed/bloodstained", 1},
 	require = cursed_str_req1,
 	points = 5,
@@ -58,8 +58,8 @@ newTalent{
 	getBleedDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.7, 2.1) end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1.0, 1.0) end,
 	target = function(self, t) return {type="hit", pass_terrain = true, range=self:getTalentRange(t)} end,
-	on_learn = function(self, t) self:learnTalent(self.T_FLN_BLEED_RESIST, true) end,
-	on_unlearn = function(self, t) self:unlearnTalent(self.T_FLN_BLEED_RESIST) end,
+	on_learn = function(self, t) self:learnTalent(self.T_BLOOD_CLOT, true) end,
+	on_unlearn = function(self, t) self:unlearnTalent(self.T_BLOOD_CLOT) end,
 	on_pre_use = function(self, t)
 		if self:attr("never_move") then return false end
 		return true
@@ -82,7 +82,7 @@ newTalent{
 		
 		-- Attack
 		if target and target.x and core.fov.distance(self.x, self.y, target.x, target.y) == 1 then
-			target:setEffect(target.EFF_FLN_RUSH_MARK, 6, {src=self})
+			target:setEffect(target.EFF_BLOOD_RUSH_MARK, 6, {src=self})
 			local hit = self:attackTarget(target, nil, 1, true)
 			if hit then
 				if target.dead then
@@ -119,7 +119,7 @@ Each level in Bloodstained talents reduces the amount of damage you take from bl
 }
 
 newTalent{
-	name = "Blood Fury", short_name = "FLN_BLOODSTAINED_FURY",
+	name = "Blood Fury",
 	type = {"cursed/bloodstained", 2},
 	require = cursed_str_req2,
 	points = 5,
@@ -133,8 +133,8 @@ newTalent{
 	is_melee = true,
 	getBleedMult = function(self, t) return self:combatTalentScale(t, 1.4, 2.8)-1 end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.8, 2.0) end,
-	on_learn = function(self, t) self:learnTalent(self.T_FLN_BLEED_RESIST, true) end,
-	on_unlearn = function(self, t) self:unlearnTalent(self.T_FLN_BLEED_RESIST) end,
+	on_learn = function(self, t) self:learnTalent(self.T_BLOOD_CLOT, true) end,
+	on_unlearn = function(self, t) self:unlearnTalent(self.T_BLOOD_CLOT) end,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -166,15 +166,15 @@ Each level in Bloodstained talents reduces the amount of damage you take from bl
 }
 
 newTalent{
-	name = "Blood Bath", short_name = "FLN_BLOODSTAINED_BATH",
+	name = "Blood Bath",
 	type = {"cursed/bloodstained",3},
 	require = cursed_str_req3,
 	points = 5,
 	mode = "sustained",
 	sustain_positive = 20,
 	getBleed = function(self, t) return self:combatTalentScale(t, 0.25, 0.95) end,
-	on_learn = function(self, t) self:learnTalent(self.T_FLN_BLEED_RESIST, true) end,
-	on_unlearn = function(self, t) self:unlearnTalent(self.T_FLN_BLEED_RESIST) end,
+	on_learn = function(self, t) self:learnTalent(self.T_BLOOD_CLOT, true) end,
+	on_unlearn = function(self, t) self:unlearnTalent(self.T_BLOOD_CLOT) end,
 	activate = function(self, t)
 		local ret = {}
 		return ret
@@ -198,23 +198,23 @@ Each level in Bloodstained talents reduces the amount of damage you take from bl
 }
 
 newTalent{
-	name = "Blood Thirst", short_name = "FLN_BLOODSTAINED_THIRST",
+	name = "Blood Thirst",
 	type = {"cursed/bloodstained", 4},
 	require = cursed_str_req4,
 	points = 5,
 	mode = "passive",
-	on_learn = function(self, t) self:learnTalent(self.T_FLN_BLEED_RESIST, true) end,
-	on_unlearn = function(self, t) self:unlearnTalent(self.T_FLN_BLEED_RESIST) end,
+	on_learn = function(self, t) self:learnTalent(self.T_BLOOD_CLOT, true) end,
+	on_unlearn = function(self, t) self:unlearnTalent(self.T_BLOOD_CLOT) end,
 	getLeech = function(self, t) return self:combatTalentScale(t, 3, 8) end,
 	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
 		local cap = self.max_life / 6
-		local used = self.turn_procs.rek_fallen_thirst_heal or 0
+		local used = self.turn_procs.fallen_thirst_heal or 0
 		if used > 0 then cap = cap - used end
 		if used < cap then
 			local leech = t.getLeech(self, t) * getHateMultiplier(self, 0.3, 1.5, false) * val / 100
 			if leech > cap then leech = cap end
 			self:heal(leech, self)
-			self.turn_procs.rek_fallen_thirst_heal = leech + used
+			self.turn_procs.fallen_thirst_heal = leech + used
 		end
 	end,
 	info = function(self, t)

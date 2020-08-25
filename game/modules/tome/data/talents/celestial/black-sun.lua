@@ -20,7 +20,7 @@
 local Object = require "mod.class.Object"
 
 newTalent{
-	name = "Breach", short_name = "FLN_BLACKSUN_BLACKHOLE",
+	name = "Breach",
 	type = {"celestial/black-sun", 1},
 	require = str_req_high1,
 	points = 5,
@@ -65,7 +65,7 @@ newTalent{
 				if self.particles2 then game.level.map:removeParticleEmitter(self.particles2) end
 				
 				local particle = engine.Particles.new("generic_vortex", self.radius, {radius=self.radius, rm=255, rM=255, gm=180, gM=255, bm=180, bM=255, am=35, aM=90})
-				local particle2 = engine.Particles.new("image", self.radius, {size=64*self.radius, image="particles_images/fln_black_hole"}) particle2.zdepth = 4
+				local particle2 = engine.Particles.new("image", self.radius, {size=64*self.radius, image="particles_images/breach"}) particle2.zdepth = 4
 				if core.shader.allow("distort") then particle:setSub("vortex_distort", self.radius, {radius=self.radius}) end
 				self.particles2 = game.level.map:addParticleEmitter(particle2, self.x, self.y)
 				self.particles = game.level.map:addParticleEmitter(particle, self.x, self.y)
@@ -133,7 +133,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Devourer Stance", short_name = "FLN_BLACKSUN_DEVOUR",
+	name = "Devourer Stance",
 	type = {"celestial/black-sun", 2},
 	require = str_req_high2,
 	points = 5,
@@ -142,7 +142,7 @@ newTalent{
 	getDuration = function(self,t) return math.floor(self:combatTalentScale(t, 3, 7)) end,
 	getOnhit = function(self,t) return self:combatTalentSpellDamage(t, 10, 50) end,
 	action = function(self, t)
-		self:setEffect(self.EFF_FLN_GRAVITY_BUFF, t.getDuration(self,t), {gravity=t.getOnhit(self,t)})
+		self:setEffect(self.EFF_DEVOURER_STANCE, t.getDuration(self,t), {gravity=t.getOnhit(self,t)})
 		return true
 	end,
 	info = function(self, t)
@@ -151,7 +151,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Singularity Armor", short_name = "FLN_BLACKSUN_SINGULARITY",
+	name = "Singularity Armor",
 	type = {"celestial/black-sun", 3},
 	require = str_req_high3,
 	points = 5,
@@ -187,7 +187,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Doom Spiral", short_name = "FLN_BLACKSUN_SPIRAL",
+	name = "Doom Spiral",
 	type = {"celestial/black-sun", 4},
 	require = str_req_high4,
 	points = 5,

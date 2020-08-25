@@ -4320,7 +4320,7 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_BLEED_VULN", image = "effects/stunned.png",
+	name = "Brutalized", image = "effects/stunned.png",
 	desc = "Brutalized",
 	long_desc = function(self, eff) return ("The target is brutally stunned, reducing damage by 60%%, movement speed by 50%%, bleed resist by 50%%, and halving talent cooldown."):format() end,
 	type = "physical",

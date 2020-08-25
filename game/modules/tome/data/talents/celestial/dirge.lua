@@ -18,42 +18,42 @@
 -- darkgod@te4.org
 
 clearDirges = function(self)
-	if self:hasEffect(self.EFF_FLN_DIRGE_LINGER_FAMINE) then
-		self:removeEffect(self.EFF_FLN_DIRGE_LINGER_FAMINE)
+	if self:hasEffect(self.EFF_DIRGE_OF_FAMINE) then
+		self:removeEffect(self.EFF_DIRGE_OF_FAMINE)
 	end
-	if self:hasEffect(self.EFF_FLN_DIRGE_LINGER_CONQUEST) then
-		self:removeEffect(self.EFF_FLN_DIRGE_LINGER_CONQUEST)
+	if self:hasEffect(self.EFF_DIRGE_OF_CONQUEST) then
+		self:removeEffect(self.EFF_DIRGE_OF_CONQUEST)
 	end
-	if self:hasEffect(self.EFF_FLN_DIRGE_LINGER_PESTILENCE) then
-		self:removeEffect(self.EFF_FLN_DIRGE_LINGER_PESTILENCE)
+	if self:hasEffect(self.EFF_DIRGE_OF_PESTILENCE) then
+		self:removeEffect(self.EFF_DIRGE_OF_PESTILENCE)
 	end
 end
 
 upgradeDirgeActivate = function(self, t, ret)
 	--Fire shield
-	if self:knowTalent(self.T_FLN_DIRGE_INTONER) then
-		local t2 = self:getTalentFromId(self.T_FLN_DIRGE_INTONER)
+	if self:knowTalent(self.T_DIRGE_INTONER) then
+		local t2 = self:getTalentFromId(self.T_DIRGE_INTONER)
 		self:talentTemporaryValue(ret, "on_melee_hit", {[DamageType.MIND]=t2.getDamageOnMeleeHit(self, t2)})
 		self:talentTemporaryValue(ret, "stun_immune", t2.getImmune(self, t2))
 		self:talentTemporaryValue(ret, "knockback_immune", t2.getImmune(self, t2))
 	end
 	
 	--Adept Upgrade
-	if self:knowTalent(self.T_FLN_DIRGE_ADEPT) then
-		local t3 = self:getTalentFromId(self.T_FLN_DIRGE_ADEPT)
+	if self:knowTalent(self.T_DIRGE_ADEPT) then
+		local t3 = self:getTalentFromId(self.T_DIRGE_ADEPT)
 		self:talentTemporaryValue(ret, "fear_immune", t3.getImmune(self, t3))
 		self:talentTemporaryValue(ret, "confusion_immune", t3.getImmune(self, t3))
 	end
 	
 	--Nihil upgrade
-	if self:knowTalent(self.T_FLN_DIRGE_NIHILIST) then
-		local t4 = self:getTalentFromId(self.T_FLN_DIRGE_NIHILIST)
+	if self:knowTalent(self.T_DIRGE_NIHILIST) then
+		local t4 = self:getTalentFromId(self.T_DIRGE_NIHILIST)
 		self:talentTemporaryValue(ret, "flat_damage_armor", {all=t4.getArmor(self, t4)})
 	end
 end
 
 newTalent{
-	name = "Dirge of Famine", short_name = "FLN_DIRGE_FAMINE",
+	name = "Dirge of Famine",
 	type = {"celestial/dirges", 1},
 	points = 5,
 	no_energy = true,
@@ -63,12 +63,12 @@ newTalent{
 	getRegen = function(self, t) return self:combatTalentScale(t, 2, 6, 0.75) * math.sqrt(self.level) end,
 	activate = function(self, t)
 		local ret = {}
-		ret.particle = self:addParticles(Particles.new("rek_dirge_shield", 1))
+		ret.particle = self:addParticles(Particles.new("dirge_shield", 1))
 		--Basic effect
 		self:talentTemporaryValue(ret, "life_regen", t.getRegen(self, t))
 		
 		upgradeDirgeActivate(self, t, ret)
-		game:playSoundNear(self, "talents/fallen_chant_one")
+		game:playSoundNear(self, "talents/chant_one")
 		
 		return ret
 	end,
@@ -76,10 +76,10 @@ newTalent{
 		self:removeParticles(p.particle)
 		
 		--Adept Upgrade
-		if self:knowTalent(self.T_FLN_DIRGE_ADEPT) then
+		if self:knowTalent(self.T_DIRGE_ADEPT) then
 			clearDirges(self)
-			local t3 = self:getTalentFromId(self.T_FLN_DIRGE_ADEPT)
-			self:setEffect(self.EFF_FLN_DIRGE_LINGER_FAMINE, t3.getDuration(self, t3), {src=self, heal=t.getRegen(self, t)})
+			local t3 = self:getTalentFromId(self.T_DIRGE_ADEPT)
+			self:setEffect(self.EFF_DIRGE_OF_FAMINE, t3.getDuration(self, t3), {src=self, heal=t.getRegen(self, t)})
 		end
 		
 		return true
@@ -92,7 +92,7 @@ This dirge increases your health regeneration by %d.  The regeneration will incr
 				 }
 
 newTalent{
-	name = "Dirge of Conquest", short_name = "FLN_DIRGE_CONQUEST",
+	name = "Dirge of Conquest",
 	type = {"celestial/dirges", 1},
 	points = 5,
 	no_energy = true,
@@ -122,11 +122,11 @@ newTalent{
 	activate = function(self, t)
 		
 		local ret = {}
-		ret.particle = self:addParticles(Particles.new("rek_dirge_shield", 1))
+		ret.particle = self:addParticles(Particles.new("dirge_shield", 1))
 		--Basic effect is in callbacks
 		
 		upgradeDirgeActivate(self, t, ret)
-		game:playSoundNear(self, "talents/fallen_chant_two")
+		game:playSoundNear(self, "talents/chant_two")
 		
 		return ret
 	end,
@@ -134,10 +134,10 @@ newTalent{
 		self:removeParticles(p.particle)
 		
 		--Adept Upgrade
-		if self:knowTalent(self.T_FLN_DIRGE_ADEPT) then
+		if self:knowTalent(self.T_DIRGE_ADEPT) then
 			clearDirges(self)
-			local t3 = self:getTalentFromId(self.T_FLN_DIRGE_ADEPT)
-			self:setEffect(self.EFF_FLN_DIRGE_LINGER_CONQUEST, t3.getDuration(self, t3), {src=self})
+			local t3 = self:getTalentFromId(self.T_DIRGE_ADEPT)
+			self:setEffect(self.EFF_DIRGE_OF_CONQUEST, t3.getDuration(self, t3), {src=self})
 		end
 		
 		return true
@@ -151,7 +151,7 @@ Each time you kill a creature you gain 50%% of a turn (only once per turn).
 }
 
 newTalent{
-	name = "Dirge of Pestilence", short_name = "FLN_DIRGE_PESTILENCE",
+	name = "Dirge of Pestilence",
 	type = {"celestial/dirges", 1},
 	points = 5,
 	no_energy = true,
@@ -161,21 +161,21 @@ newTalent{
 	getShield = function(self, t) return self:combatTalentScale(t, 50, 200, 0.75) end,
 	getShieldCD = function(self, t) return 5 end,
 	callbackOnTemporaryEffectAdd = function(self, t, eff_id, e_def, eff)
-		if not self:hasProc("rek_fln_dirge_shield") then
+		if not self:hasProc("dirge_shield") then
 			if e_def.status == "detrimental" and e_def.type ~= "other" and eff.src ~= self then
-				self:setProc("rek_fln_dirge_shield", true, t.getShieldCD(self, t))
+				self:setProc("dirge_shield", true, t.getShieldCD(self, t))
 				self:setEffect(self.EFF_DAMAGE_SHIELD, eff.dur, {color={0xff/255, 0x3b/255, 0x3f/255}, power=self:spellCrit(t.getShield(self, t))})
 			end
 		end
 	end,
 	activate = function(self, t)      
 		local ret = {}
-		ret.particle = self:addParticles(Particles.new("rek_dirge_shield", 1))
+		ret.particle = self:addParticles(Particles.new("dirge_shield", 1))
 		
 		--Basic effect is in callbacks
 		
 		upgradeDirgeActivate(self, t, ret)
-		game:playSoundNear(self, "talents/fallen_chant_three")
+		game:playSoundNear(self, "talents/chant_three")
 		
 		return ret
 	end,
@@ -183,10 +183,10 @@ newTalent{
 		self:removeParticles(p.particle)
 		
 		--Adept Upgrade
-		if self:knowTalent(self.T_FLN_DIRGE_ADEPT) then
+		if self:knowTalent(self.T_DIRGE_ADEPT) then
 			clearDirges(self)
-			local t3 = self:getTalentFromId(self.T_FLN_DIRGE_ADEPT)
-			self:setEffect(self.EFF_FLN_DIRGE_LINGER_PESTILENCE, t3.getDuration(self, t3), {src=self, shield=t.getShield(self, t), cd=t.getShieldCD(self, t)})
+			local t3 = self:getTalentFromId(self.T_DIRGE_ADEPT)
+			self:setEffect(self.EFF_DIRGE_OF_PESTILENCE, t3.getDuration(self, t3), {src=self, shield=t.getShield(self, t), cd=t.getShieldCD(self, t)})
 		end
 		
 		return true
@@ -200,21 +200,21 @@ newTalent{
 
 
 newTalent{
-	name = "Dirge Acolyte", short_name = "FLN_DIRGE_ACOLYTE",
+	name = "Dirge Acolyte",
 	type = {"celestial/dirge", 1},
 	require = divi_req1,
 	points = 5,
 	mode = "passive",
 	no_unlearn_last = true,
 	on_learn = function(self, t)
-		self:learnTalent(self.T_FLN_DIRGE_FAMINE, true, nil, {no_unlearn=true})
-		self:learnTalent(self.T_FLN_DIRGE_CONQUEST, true, nil, {no_unlearn=true})
-		self:learnTalent(self.T_FLN_DIRGE_PESTILENCE, true, nil, {no_unlearn=true})
+		self:learnTalent(self.T_DIRGE_OF_FAMINE, true, nil, {no_unlearn=true})
+		self:learnTalent(self.T_DIRGE_OF_CONQUEST, true, nil, {no_unlearn=true})
+		self:learnTalent(self.T_DIRGE_OF_PESTILENCE, true, nil, {no_unlearn=true})
 	end,
 	on_unlearn = function(self, t)
-		self:unlearnTalent(self.T_FLN_DIRGE_FAMINE)
-		self:unlearnTalent(self.T_FLN_DIRGE_CONQUEST)
-		self:unlearnTalent(self.T_FLN_DIRGE_PESTILENCE)
+		self:unlearnTalent(self.T_DIRGE_OF_FAMINE)
+		self:unlearnTalent(self.T_DIRGE_OF_CONQUEST)
+		self:unlearnTalent(self.T_DIRGE_OF_PESTILENCE)
 	end,
 	
 	callbackOnMove = function(self, t, moved, force, ox, oy, x, y)
@@ -231,16 +231,16 @@ newTalent{
 	
 	info = function(self, t)
 		local ret = ""
-		local old1 = self.talents[self.T_FLN_DIRGE_FAMINE]
-		local old2 = self.talents[self.T_FLN_DIRGE_CONQUEST]
-		local old3 = self.talents[self.T_FLN_DIRGE_PESTILENCE]
-		self.talents[self.T_FLN_DIRGE_FAMINE] = (self.talents[t.id] or 0)
-		self.talents[self.T_FLN_DIRGE_CONQUEST] = (self.talents[t.id] or 0)
-		self.talents[self.T_FLN_DIRGE_PESTILENCE] = (self.talents[t.id] or 0)
+		local old1 = self.talents[self.T_DIRGE_OF_FAMINE]
+		local old2 = self.talents[self.T_DIRGE_OF_CONQUEST]
+		local old3 = self.talents[self.T_DIRGE_OF_PESTILENCE]
+		self.talents[self.T_DIRGE_OF_FAMINE] = (self.talents[t.id] or 0)
+		self.talents[self.T_DIRGE_OF_CONQUEST] = (self.talents[t.id] or 0)
+		self.talents[self.T_DIRGE_OF_PESTILENCE] = (self.talents[t.id] or 0)
 		pcall(function()
-						local t1 = self:getTalentFromId(self.T_FLN_DIRGE_FAMINE)
-						local t2 = self:getTalentFromId(self.T_FLN_DIRGE_CONQUEST)
-						local t3 = self:getTalentFromId(self.T_FLN_DIRGE_PESTILENCE)
+						local t1 = self:getTalentFromId(self.T_DIRGE_OF_FAMINE)
+						local t2 = self:getTalentFromId(self.T_DIRGE_OF_CONQUEST)
+						local t3 = self:getTalentFromId(self.T_DIRGE_OF_PESTILENCE)
 						ret = ([[Even now, something compels you to sing.
 			Dirge of Famine: Increases health regen by %d.
 			Dirge of Conquest: Gives you part of a turn on critical (10%%) or kill (50%%).
@@ -248,15 +248,15 @@ newTalent{
 			You may only have one Dirge active at a time.]]):
 						format(t1.getRegen(self, t1), t3.getShield(self, t3))
 					end)
-		self.talents[self.T_FLN_DIRGE_FAMINE] = old1
-		self.talents[self.T_FLN_DIRGE_CONQUEST] = old2
-		self.talents[self.T_FLN_DIRGE_PESTILENCE] = old3
+		self.talents[self.T_DIRGE_OF_FAMINE] = old1
+		self.talents[self.T_DIRGE_OF_CONQUEST] = old2
+		self.talents[self.T_DIRGE_OF_PESTILENCE] = old3
 		return ret
 	end,
 }
 
 newTalent{
-	name = "Dirge Intoner", short_name = "FLN_DIRGE_INTONER",
+	name = "Dirge Intoner",
 	type = {"celestial/dirge", 2},
 	require = divi_req2,
 	points = 5,
@@ -275,7 +275,7 @@ newTalent{
 }
 
 newTalent{
-	name = "Dirge Adept", short_name = "FLN_DIRGE_ADEPT",
+	name = "Dirge Adept",
 	type = {"celestial/dirge", 3},
 	require = divi_req3,
 	points = 5,
@@ -290,7 +290,7 @@ Furthermore, you are given focus by the song.  Your dirges increase your resista
 }
 
 newTalent{
-	name = "Dirge Nihilist", short_name = "FLN_DIRGE_NIHILIST",
+	name = "Dirge Nihilist",
 	type = {"celestial/dirge", 4},
 	require = divi_req4,
 	points = 5,
