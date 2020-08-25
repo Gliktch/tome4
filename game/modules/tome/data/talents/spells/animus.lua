@@ -136,7 +136,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Unleash dark forces to all foes in sight that are afflicted by Soul Leech, dealing %0.2f frostdusk damage to them and tearing apart their souls.
-		This returns up to %d souls to you (based on number of foes hit).
+		This returns up to %d souls to you (one for each foe hit).
 		The damage increases with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.FROSTDUSK, t.getDamage(self, t)), t.getNb(self, t))
 	end,
