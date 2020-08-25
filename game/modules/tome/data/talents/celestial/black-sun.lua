@@ -94,7 +94,7 @@ newTalent{
 				for i, target in ipairs(tgts) do
 					local old_source = self.summoner.__project_source
 					self.summoner.__project_source = self
-					DamageType:get(DamageType.REK_FLN_GRAVITY_PULL).projector(self.summoner, target.actor.x, target.actor.y, DamageType.REK_FLN_GRAVITY_PULL, self.dam)
+					DamageType:get(DamageType.BLACK_HOLE_GRAVITY).projector(self.summoner, target.actor.x, target.actor.y, DamageType.BLACK_HOLE_GRAVITY, self.dam)
 					self.summoner.__project_source = old_source
 				end
 				
@@ -213,7 +213,7 @@ newTalent{
 		self:project(tg2, self.x, self.y, function(px, py, tg, self)
 									 local target = game.level.map(px, py, Map.ACTOR)
 									 if target and target ~= self then
-										 self:attackTarget(target, DamageType.REK_FLN_GRAVITY_PULL, t.getOuterDamage(self, t), true)
+										 self:attackTarget(target, DamageType.BLACK_HOLE_GRAVITY, t.getOuterDamage(self, t), true)
 									 end
 																			end)
 		

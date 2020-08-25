@@ -3158,6 +3158,11 @@ newEffect{
 	parameters = {},
 	on_gain = function(self, err) return _t"#Target# is filled with the Sun's fury!", _t"+Sun's Vengeance" end,
 	on_lose = function(self, err) return _t"#Target#'s solar fury subsides.", _t"-Sun's Vengeance" end,
+	callbackOnKill = function(self, eff, src, msg)
+		if src.getHate and src:getHate() > 0 then
+      game:setAllowedBuild("paladin_fallen", true)
+		end
+	end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "amplify_sun_beam", 25)
 	end
@@ -5409,7 +5414,7 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_DIRGE_LINGER_FAMINE", image = "talents/fln_dirge_famine.png",
+	name = "DIRGE_OF_FAMINE", image = "talents/fln_dirge_famine.png",
 	desc = "Dirge of Famine",
 	long_desc = function(self, eff) return ("The target is regenerating health"):format() end,
 	type = "magical",
@@ -5425,7 +5430,7 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_DIRGE_LINGER_CONQUEST", image = "talents/fln_dirge_conquest.png",
+	name = "DIRGE_OF_CONQUEST", image = "talents/fln_dirge_conquest.png",
 	desc = "Dirge of Conquest",
 	long_desc = function(self, eff) return ("The target will gain a surge of energy on kill or crit"):format() end,
 	type = "magical",
@@ -5461,7 +5466,7 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_DIRGE_LINGER_PESTILENCE", image = "talents/fln_dirge_pestilence.png",
+	name = "DIRGE_OF_PESTILENCE", image = "talents/fln_dirge_pestilence.png",
 	desc = "Dirge of Pestilence",
 	long_desc = function(self, eff) return ("The target will gain a shield upon suffering a detrimental effect"):format() end,
 	type = "magical",
@@ -5483,7 +5488,7 @@ newEffect{
 }
 
 newEffect{
-	name = "FLN_BLINDING_LIGHT", image = "talents/fln_templar_sigil.png",
+	name = "BLINDING_LIGHT", image = "talents/fln_templar_sigil.png",
 	desc = "Blinding Light",
 	long_desc = function(self, eff) return ("The target is blinded by a magical light and unable to see anything."):format(eff.dam) end,
 	type = "magical",

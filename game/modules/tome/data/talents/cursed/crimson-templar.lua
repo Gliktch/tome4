@@ -100,11 +100,11 @@ newTalent{
 		-- Add a lasting map effect
 		game.level.map:addEffect(self,
 														 x, y, self:spellCrit(t.getDuration(self, t)),
-														 DamageType.FLN_TEMPLAR_SIGIL, {dam=self:spellCrit(t.getStrength(self, t)), pow=self:combatSpellpower()},
+														 DamageType.SOLAR_BLOOD, {dam=self:spellCrit(t.getStrength(self, t)), pow=self:combatSpellpower()},
 														 self:getTalentRadius(t),
 														 5, nil,
 														 MapEffect.new{zdepth=6, overlay_particle={zdepth=6, only_one=true, type="circle", args={appear=8, oversize=0, img="fln_celestial_circle", radius=self:getTalentRadius(t)*2}}, color_br=255, color_bg=187, color_bb=187, alpha=10, effect_shader="shader_images/sunlight_effect.png"},
-														 nil, true --self:spellFriendlyFire(true)
+														 nil, true
 														)
 	end,
 	

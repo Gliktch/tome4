@@ -4417,7 +4417,7 @@ newDamageType{
 
 -- physical that pulls and might reduce knockback resistance
 newDamageType{
-	name = "black-hole gravity", type = "REK_FLN_GRAVITY_PULL",
+	name = "black-hole gravity", type = "BLACK_HOLE_GRAVITY",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4429,7 +4429,7 @@ newDamageType{
 			if dam.slow then
 				target:setEffect(target.EFF_SLOW, dam.dur, {power=dam.slow, apply_power=src:combatPhysicalpower(), no_ct_effect=true})
 			end
-			if src:isTalentActive(src.T_FLN_BLACKSUN_SINGULARITY) then
+			if src:isTalentActive(src.T_SINGULARITY_ARMOR) then
 				target:setEffect(target.EFF_ANTI_GRAVITY, 2, {})
 			end
 		end
@@ -4448,7 +4448,7 @@ newDamageType{
 
 -- blinding light that restores positive energy to its caster
 newDamageType{
-	name = "solar blood", type = "FLN_TEMPLAR_SIGIL",
+	name = "solar blood", type = "SOLAR_BLOOD",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4457,7 +4457,7 @@ newDamageType{
 			if target == src then
 				target:incPositive(2)
 			elseif target:reactionToward(src) < 0 then
-				target:setEffect(target.EFF_FLN_BLINDING_LIGHT, 1, {src=src, power=dam.dam, apply_power=dam.pow, no_ct_effect=true})
+				target:setEffect(target.EFF_BLINDING_LIGHT, 1, {src=src, power=dam.dam, apply_power=dam.pow, no_ct_effect=true})
 				DamageType:get(DamageType.LIGHT).projector(src, x, y, DamageType.LIGHT, dam.dam, state)
 			end
 		end
