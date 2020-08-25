@@ -112,7 +112,7 @@ newTalent{
 		-- Reduce cooldowns
 		for tid, _ in pairs(self.talents_cd) do
 			local t = self:getTalentFromId(tid)
-			if t and (not t.fixed_cooldown or tid == T_BLOOD_FURY) then
+			if t and (not t.fixed_cooldown or tid == T_BLOOD_RAGE) then
 				self.talents_cd[tid] = self.talents_cd[tid] - 1
 			end
 		end

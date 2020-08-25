@@ -26,7 +26,7 @@ newTalent{
 		if e_def.subtype.bleed and e_def.type ~= "other" then
 			local diminishment = math.min((
 																			self:getTalentLevelRaw(self.T_BLOOD_RUSH)
-																				+ self:getTalentLevelRaw(self.T_BLOOD_FURY)
+																				+ self:getTalentLevelRaw(self.T_BLOOD_RAGE)
 																				+ self:getTalentLevelRaw(self.T_BLOOD_BATH)
 																				+ self:getTalentLevelRaw(self.T_BLOOD_THIRST))*2, 90)
 																			if eff.dam then
@@ -119,7 +119,7 @@ Each level in Bloodstained talents reduces the amount of damage you take from bl
 }
 
 newTalent{
-	name = "Blood Fury",
+	name = "Blood Rage",
 	type = {"cursed/bloodstained", 2},
 	require = cursed_str_req2,
 	points = 5,

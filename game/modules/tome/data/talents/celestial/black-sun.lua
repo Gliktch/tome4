@@ -20,7 +20,7 @@
 local Object = require "mod.class.Object"
 
 newTalent{
-	name = "Breach",
+	name = "Breach", short_name = "FALLEN_BREACH",
 	type = {"celestial/black-sun", 1},
 	require = str_req_high1,
 	points = 5,
