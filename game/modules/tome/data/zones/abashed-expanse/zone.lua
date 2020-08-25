@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Abashed Expanse",
+	name = _t"Abashed Expanse",
 	level_range = {1, 5},
 	level_scheme = "player",
 	max_level = 3,
@@ -33,7 +33,6 @@ return {
 	max_material_level = 1,
 	no_level_connectivity = true,
 	force_controlled_teleport = true,
-	projectile_speed_mod = 0.3,
 	no_autoexplore = true,
 	effects = {"EFF_ZONE_AURA_ABASHED"},
 

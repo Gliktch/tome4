@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 local Map = require "engine.Map"
 
 local function getEffectName(self)
-	local name = self.name or self.damtype and engine.DamageType.dam_def[self.damtype].name.." area effect" or "area effect"
+	local name = self.name or self.damtype and engine.DamageType.dam_def[self.damtype].name.._t" area effect" or _t"area effect"
 	if self.src then
-		return self.src.name.."'s "..name
+		return ("%s's %s"):tformat(self.src:getName(), name)
 	else
 		return name
 	end

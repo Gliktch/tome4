@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ end
 --- Defines the default IDed status
 function _M:resolveIdentify()
 	if not self.unided_name then
-		self.unided_name = self.name
+		self.unided_name = _t(self.name)
 	end
 end
 

@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -108,7 +108,7 @@ end
 --- Make a dialog popup with the full log
 function _M:showLogDialog(title, shadow)
 	local log = self:getLog()
-	local d = require_first("mod.dialogs.ShowLog", "engine.dialogs.ShowLog").new(title or "Message Log", shadow, {log=log})
+	local d = require_first("mod.dialogs.ShowLog", "engine.dialogs.ShowLog").new(title or _t"Message Log", shadow, {log=log})
 	game:registerDialog(d)
 end
 
@@ -121,7 +121,8 @@ local urlmatch = lpeg.anywhere(lpeg.C(urlfind))
 -- log("foo %s", s)
 function _M:call(str, ...)
 	str = str or ""
-	str = str:format(...)
+	-- I18N
+	str = str:tformat(...)
 	print("[LOG]", str)
 	local tstr = str:toString()
 	if self.out_f then self.out_f:write(tstr:removeColorCodes()) self.out_f:write("\n") end

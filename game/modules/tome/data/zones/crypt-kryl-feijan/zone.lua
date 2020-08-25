@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Dark crypt",
+	name = _t"Dark crypt",
 	level_range = {25,35},
 	level_scheme = "player",
 	max_level = 5,
@@ -64,13 +64,13 @@ return {
 	end,
 	on_enter = function(lev)
 		if lev < 4 then
-			require("engine.ui.Dialog"):simplePopup("Crypt", "You hear an eerie chanting echoing from a distance.")
+			require("engine.ui.Dialog"):simplePopup(_t"Crypt", _t"You hear an eerie chanting echoing from a distance.")
 		elseif lev == 4 then
-			require("engine.ui.Dialog"):simplePopup("Crypt", "The chanting grows louder. You hear a sudden high-pitched scream.")
+			require("engine.ui.Dialog"):simplePopup(_t"Crypt", _t"The chanting grows louder. You hear a sudden high-pitched scream.")
 		elseif lev == 5 then
 			game.level.turn_counter = 20 * 10
 			game.level.max_turn_counter = 20 * 10
-			game.level.turn_counter_desc = "The cultists are about to sacrifice the woman. Stop them!"
+			game.level.turn_counter_desc = _t"The cultists are about to sacrifice the woman. Stop them!"
 			game.player:grantQuest("kryl-feijan-escape")
 			game.party:learnLore("kryl-feijan-altar")
 		end
@@ -81,17 +81,23 @@ return {
 			game.player.changed = true
 			if game.level.turn_counter < 0 then
 				game.level.turn_counter = nil
-				require("engine.ui.Dialog"):simpleLongPopup("Crypt", "The woman lets out a sudden ear-splitting scream that turns from pain to horror as her stomach is ripped open from within by long dark claws. A towering black demon arises, rending her flesh to shreds, and replacing her dying scream with a terrifying roar.", 400)
+				require("engine.ui.Dialog"):simpleLongPopup(_t"Crypt", _t"The woman lets out a sudden ear-splitting scream that turns from pain to horror as her stomach is ripped open from within by long dark claws. A towering black demon arises, rending her flesh to shreds, and replacing her dying scream with a terrifying roar.", 400)
 				for uid, e in pairs(game.level.entities) do
 					if e.define_as and e.define_as == "MELINDA" then
 						local x, y = e.x, e.y
 						e:die()
+
+						local g = game.zone:makeEntityByName(game.level, "terrain", "ALTAR_SPLATTER")
+						game.zone:addEntity(game.level, g, "terrain", x, y)
+
 						local m = game.zone:makeEntityByName(game.level, "actor", "KRYL_FEIJAN")
 						if m then
 							game.zone:addEntity(game.level, m, "actor", x, y)
 							game.level.map:particleEmitter(x, y, 1, "blood")
 						end
 						game.player:setQuestStatus("kryl-feijan-escape", engine.Quest.FAILED)
+
+						game.level.map:particleEmitter(x, y, 3, "corpse_explosion", {radius=3})
 
 						local spot = game.level:pickSpot{type="locked-door", subtype="locked-door"}
 						local g = game.zone:makeEntityByName(game.level, "terrain", "FLOOR")
@@ -108,7 +114,7 @@ return {
 		local melinda
 		for uid, e in pairs(game.level.entities) do if e.define_as and e.define_as == "MELINDA" then melinda = e end end
 		if melinda and not melinda.dead and core.fov.distance(game.player.x, game.player.y, melinda.x, melinda.y) > 1 then
-			require("engine.ui.Dialog"):simplePopup("Crypt", "You cannot abandon Melinda here!")
+			require("engine.ui.Dialog"):simplePopup(_t"Crypt", _t"You cannot abandon Melinda here!")
 			return nil, nil, true
 		end
 
@@ -123,7 +129,7 @@ return {
 	{
 		[1] = {
 			generator = { map = {
-				up = "FLOOR",
+				up = "UP_WILDERNESS",
 			}, },
 		},
 		[5] = {

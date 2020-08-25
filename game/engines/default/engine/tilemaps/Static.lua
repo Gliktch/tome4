@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,7 +27,8 @@ module(..., package.seeall, class.inherit(Tilemap))
 function _M:init(file)
 	Tilemap.init(self)
 
-	self.data = self:tmxLoad(file)
+	if file:find("%.tmx$") then self.data = self:tmxLoad(file)
+	else self.data = self:mapLoad(file) end
 	self.data_h = #self.data
 	self.data_w = self.data[1] and #self.data[1] or 0
 	self.data_size = self:point(self.data_w, self.data_h)

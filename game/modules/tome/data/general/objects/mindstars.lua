@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
 --
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
+
+local Talents = require "engine.interface.ActorTalents"
 
 newEntity{
 	define_as = "BASE_MINDSTAR",
@@ -39,7 +41,7 @@ newEntity{
 		sound = {"actions/melee", pitch=0.6, vol=1.2}, sound_miss = {"actions/melee", pitch=0.6, vol=1.2},
 		damtype = DamageType.NATURE,
 	},
-	desc = [[Mindstars are natural products. Natural gems covered in living matter, they are used to focus the mental powers of all nature defenders and psionics.
+	desc = _t[[Mindstars are natural products. Natural gems covered in living matter, they are used to focus the mental powers of all nature defenders and psionics.
 Using mindstars in the offhand does not incur the normal offhand damage penalty.]],
 	egos = "/data/general/objects/egos/mindstars.lua", egos_chance = { prefix=resolvers.mbonus(40, 5), suffix=resolvers.mbonus(40, 5) },
 }
@@ -55,10 +57,12 @@ newEntity{ base = "BASE_MINDSTAR",
 		apr = 12,
 		physcrit = 2.5,
 		dammod = {wil=0.5, cun=0.3},
+		damtype = resolvers.rngtable{DamageType.MIND, DamageType.NATURE},
 	},
 	wielder = {
 		combat_mindpower = 2,
 		combat_mindcrit = 1,
+		learn_talent = { [Talents.T_ATTUNE_MINDSTAR] = 1 },
 	},
 }
 
@@ -73,10 +77,12 @@ newEntity{ base = "BASE_MINDSTAR",
 		apr = 18,
 		physcrit = 3,
 		dammod = {wil=0.5, cun=0.3},
+		damtype = resolvers.rngtable{DamageType.MIND, DamageType.NATURE},
 	},
 	wielder = {
 		combat_mindpower = 4,
 		combat_mindcrit = 2,
+		learn_talent = { [Talents.T_ATTUNE_MINDSTAR] = 1 },
 	},
 }
 
@@ -91,10 +97,12 @@ newEntity{ base = "BASE_MINDSTAR",
 		apr = 24,
 		physcrit = 3.5,
 		dammod = {wil=0.5, cun=0.3},
+		damtype = resolvers.rngtable{DamageType.MIND, DamageType.NATURE},
 	},
 	wielder = {
 		combat_mindpower = 6,
 		combat_mindcrit = 3,
+		learn_talent = { [Talents.T_ATTUNE_MINDSTAR] = 1 },
 	},
 }
 
@@ -109,10 +117,12 @@ newEntity{ base = "BASE_MINDSTAR",
 		apr = 32,
 		physcrit = 4.5,
 		dammod = {wil=0.5, cun=0.3},
+		damtype = resolvers.rngtable{DamageType.MIND, DamageType.NATURE},
 	},
 	wielder = {
 		combat_mindpower = 8,
 		combat_mindcrit = 4,
+		learn_talent = { [Talents.T_ATTUNE_MINDSTAR] = 1 },
 	},
 }
 
@@ -127,9 +137,11 @@ newEntity{ base = "BASE_MINDSTAR",
 		apr = 40,
 		physcrit = 5,
 		dammod = {wil=0.5, cun=0.3},
+		damtype = resolvers.rngtable{DamageType.MIND, DamageType.NATURE},
 	},
 	wielder = {
 		combat_mindpower = 10,
 		combat_mindcrit = 5,
+		learn_talent = { [Talents.T_ATTUNE_MINDSTAR] = 1 },
 	},
 }

@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,12 +30,12 @@ local Separator = require "engine.ui.Separator"
 module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init()
-	Dialog.init(self, "Audio Options", 400, 300)
+	Dialog.init(self, _t"Audio Options", 400, 300)
 
-	self.c_enable = Checkbox.new{title="Enable audio", default=config.settings.audio.enable, fct=function() end, on_change=function(s) self:sfxEnable(s) end}
+	self.c_enable = Checkbox.new{title=_t"Enable audio", default=config.settings.audio.enable, fct=function() end, on_change=function(s) self:sfxEnable(s) end}
 
-	self.c_music_vol = NumberSlider.new{title="Music: ", size_title="Effects: ", w=400, max=100, min=0, value=config.settings.audio.music_volume, on_change = function(v) self:sfxVolume("music", v) end}
-	self.c_effects_vol = NumberSlider.new{title="Effects: ", w=400, max=100, min=0, value=config.settings.audio.effects_volume, on_change = function(v) self:sfxVolume("effects", v) end}
+	self.c_music_vol = NumberSlider.new{title=_t"Music: ", size_title=_t"Effects: ", w=400, max=100, min=0, value=config.settings.audio.music_volume, on_change = function(v) self:sfxVolume("music", v) end}
+	self.c_effects_vol = NumberSlider.new{title=_t"Effects: ", w=400, max=100, min=0, value=config.settings.audio.effects_volume, on_change = function(v) self:sfxVolume("effects", v) end}
 
 	self:loadUI{
 		{left=0, top=0, ui=self.c_enable},

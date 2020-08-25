@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ setDefaultProjector(function(src, x, y, type, dam)
 		local sx, sy = game.level.map:getTileToScreen(x, y)
 		if target:takeHit(dam, src) then
 			if src == game.player or target == game.player then
-				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, "Kill!", {255,0,255})
+				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"Kill!", {255,0,255})
 			end
 		else
 			if src == game.player then

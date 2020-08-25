@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,28 +27,25 @@ specialList("actor", {
 })
 border = 0
 defineTile('.', "FLOOR")
-defineTile('#', "WALL")
+defineTile('#', "DOOR")
 defineTile('X', "HARDWALL")
 defineTile('8', "FLOOR", {random_filter={add_levels=15, tome_mod="gvault"}}, {random_filter={add_levels=50}})
+defineTile('!', "DOOR_VAULT")
+
+defineTile('7', "FLOOR", {random_filter={add_levels=15, tome_mod="uvault"}}, {random_filter={add_levels=15, random_boss={name_scheme=_t"#rng# the Guardian", nb_classes=3, loot_unique=true, ai_move="move_complex", rank=4}}})
 
 rotates = {"default", "90", "180", "270", "flipx", "flipy"}
 
 return {
-[[.......................................]],
-[[.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.]],
-[[.#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8X.]],
-[[.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#X.]],
-[[.X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8X.X.]],
-[[.X#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#X#X.]],
-[[.X8X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8X8X.X.]],
-[[.X#X#XXXXXXXXXXXXXXXXXXXXXXXXXXX#X#X#X.]],
-[[.X8X8X8#8#8#8#8#8#8#8#8#8#8#8#8#8X8X.X.]],
-[[.X#X#X#XXXXXXXXXXXXXXXXXXXXXXXXXXX#X#X.]],
-[[.X8X8X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8X.X.]],
-[[.X#X#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#X.]],
-[[.X8X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#.X.]],
-[[.X#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.]],
-[[.X8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#8#.]],
-[[.XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.]],
-[[.......................................]],
+[[...........................]],
+[[.XXXXXXXXXXXXXXXXXXXXXXXXX.]],
+[[.!8#8#8#8#8#8#8#8#8#8#8#8X.]],
+[[.XXXXXXXXXXXXXXXXXXXXXXX#X.]],
+[[.X8#8#8#8#8#8#8#8#8#8#8X.X.]],
+[[.X#XXXXXXXXXXXXXXXXXXXXX#X.]],
+[[.X8X7#8#8#8#8#8#8#8#8#8#.X.]],
+[[.X#XXXXXXXXXXXXXXXXXXXXXXX.]],
+[[.X8#8#8#8#8#8#8#8#8#8#8#8!.]],
+[[.XXXXXXXXXXXXXXXXXXXXXXXXX.]],
+[[...........................]],
 }

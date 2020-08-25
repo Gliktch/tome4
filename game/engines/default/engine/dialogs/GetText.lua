@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -36,10 +36,10 @@ function _M:init(title, text, min, max, action, cancel, absolute)
 
 	Dialog.init(self, title, 320, 110)
 
-	local c_box = Textbox.new{title=text..": ", text="", chars=30, max_len=max, fct=function(text) self:okclick() end}
+	local c_box = Textbox.new{title=text..": ", text=_t"", chars=30, max_len=max, fct=function(text) self:okclick() end}
 	self.c_box = c_box
-	local ok = require("engine.ui.Button").new{text="Accept", fct=function() self:okclick() end}
-	local cancel = require("engine.ui.Button").new{text="Cancel", fct=function() self:cancelclick() end}
+	local ok = require("engine.ui.Button").new{text=_t"Accept", fct=function() self:okclick() end}
+	local cancel = require("engine.ui.Button").new{text=_t"Cancel", fct=function() self:cancelclick() end}
 
 	self:loadUI{
 		{left=0, top=0, padding_h=10, ui=c_box},
@@ -54,13 +54,17 @@ function _M:init(title, text, min, max, action, cancel, absolute)
 	}
 end
 
+function _M:setText(text)
+	self.c_box:setText(text)
+end
+
 function _M:okclick()
 	self.name = self.c_box.text
 	if self.name:len() >= self.min and self.name:len() <= self.max then
 		game:unregisterDialog(self)
 		self.action(self.name)
 	else
-		Dialog:simplePopup("Error", ("Must be between %i and %i characters."):format(self.min, self.max))
+		Dialog:simplePopup(_t"Error", ("Must be between %i and %i characters."):tformat(self.min, self.max))
 	end
 end
 

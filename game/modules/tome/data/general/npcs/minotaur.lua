@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ newEntity{
 newEntity{ base = "BASE_NPC_MINOTAUR",
 	name = "minotaur", color=colors.UMBER,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/giant_minotaur_minotaur.png", display_h=2, display_y=-1}}},
-	desc = [[It is a cross between a human and a bull.]],
+	desc = _t[[It is a cross between a human and a bull.]],
 	resolvers.auto_equip_filters("Berserker"),
 	resolvers.equip{ {type="weapon", subtype="battleaxe", autoreq=true}, },
 	level_range = {10, nil}, exp_worth = 1,
@@ -74,7 +74,7 @@ newEntity{ base = "BASE_NPC_MINOTAUR",
 newEntity{ base = "BASE_NPC_MINOTAUR",
 	name = "maulotaur", color=colors.SLATE,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/giant_minotaur_maulotaur.png", display_h=2, display_y=-1}}},
-	desc = [[A belligerent minotaur with a destructive magical arsenal, and armed with a hammer.]],
+	desc = _t[[A belligerent minotaur with a destructive magical arsenal, and armed with a hammer.]],
 	level_range = {20, nil}, exp_worth = 1,
 	rarity = 4,
 	combat_armor = 15, combat_def = 7,
@@ -86,6 +86,9 @@ newEntity{ base = "BASE_NPC_MINOTAUR",
 	max_mana = 100,
 	resolvers.talents{
 		[Talents.T_FLAME]={base=3, every=8, max=6},
-		[Talents.T_FIREFLASH]={base=2, every=10, max=6}
+		[Talents.T_FIREFLASH]={base=2, every=10, max=6},
+		[Talents.T_ARCANE_COMBAT]={base=2, every=10, max=4},
+		[Talents.T_STUNNING_BLOW]={base=3, every=10, max=6},
+		[Talents.T_SUNDER_ARMOUR]={base=2, every=10, max=5},
 	},
 }

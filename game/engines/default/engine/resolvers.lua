@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -130,6 +130,16 @@ function resolvers.calc.rngtalent(t, e)
 	e:learnTalent(tid, true, level)
 
 	if lvls then e._levelup_talents = levelup_talents end
+	return nil
+end
+
+--- Talents resolver, random choice of set of talents
+function resolvers.rngtalentsets(list)
+	return {__resolver="rngtalentsets", list}
+end
+function resolvers.calc.rngtalentsets(t, e)
+	local set = rng.table(t[1])
+	resolvers.calc.talents({set}, e)
 	return nil
 end
 

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@ newEntity{ define_as = "BROTOQ",
 	name = "Brotoq the Reaver",
 	display = "o", color=colors.VIOLET,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_orc_brotoq_the_reaver.png", display_h=2, display_y=-1}}},
-	desc = [[A huge orc blocks your way to the Iron Council. You must pass.]],
-	killer_message = ", who ate their brains still warm,",
+	desc = _t[[A huge orc blocks your way to the Iron Council. You must pass.]],
+	killer_message = _t", who ate their brains still warm,",
 	level_range = {7, nil}, exp_worth = 2,
 	max_life = 150, life_rating = 15, fixed_rating = true,
 	rank = 4,
@@ -78,12 +78,9 @@ newEntity{ define_as = "BROTOQ",
 
 	-- Remove free melee; poor brotoq
 	forbid_corrupted_strength_blow = 0,
+
 	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
-	on_added_to_level = function(self)
-		if self.level <= 16 then
-			self.ai_tactic.escape = 0
-		end
-	end,
+	low_level_tactics_override = {escape=0},
 	
 	on_die = function(self, who)
 		game.player:resolveSource():setQuestStatus("start-dwarf", engine.Quest.COMPLETED, "brotoq")
@@ -96,7 +93,7 @@ newEntity{ define_as = "NORGAN",
 	name = "Norgan",
 	display = "@", color=colors.UMBER,
 	faction = "iron-throne",
-	desc = [[Norgan and you are the sole survivors of the Reknor expedition; your duty is to make sure the news makes it back to the Iron Council.]],
+	desc = _t[[Norgan and you are the sole survivors of the Reknor expedition; your duty is to make sure the news makes it back to the Iron Council.]],
 	level_range = {1, nil},
 	max_life = 120, life_rating = 12, fixed_rating = true,
 	rank = 3,

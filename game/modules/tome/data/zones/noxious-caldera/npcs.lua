@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -39,8 +39,8 @@ newEntity{ define_as = "MINDWORM",
 	type = "humanoid", subtype = "thalore", unique = true,
 	name = "Mindworm",
 	display = "p", color=colors.VIOLET,
-	desc = [[This tall Thalore's eyes are lost in the distance; you can sense that he barely sees you.]],
-	killer_message = "and mind-probed",
+	desc = _t[[This tall Thalore's eyes are lost in the distance; you can sense that he barely sees you.]],
+	killer_message = _t"and mind-probed",
 	level_range = {25, nil}, exp_worth = 2,
 	max_life = 100, life_rating = 10, fixed_rating = true,
 	psi_rating = 9,
@@ -90,6 +90,6 @@ newEntity{ define_as = "MINDWORM",
 	on_die = function(self)
 		game.zone.fumes_active = false
 		game.level.turn_counter = nil
-		require("engine.ui.Dialog"):simplePopup("Fumes", "As Mindworm dies you can feel the fumes getting less poisonous for your mind.")
+		require("engine.ui.Dialog"):simplePopup(_t"Fumes", _t"As Mindworm dies you can feel the fumes getting less poisonous for your mind.")
 	end,
 }

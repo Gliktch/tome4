@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,9 +17,9 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "Light at the end of the tunnel"
+name = _t"Light at the end of the tunnel"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You must find a way to Maj'Eyal through the tunnel to the north of the island.\n"
+	desc[#desc+1] = _t"You must find a way to Maj'Eyal through the tunnel to the north of the island.\n"
 	return table.concat(desc, "\n")
 end

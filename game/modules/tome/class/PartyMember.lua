@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@ function _M:tooltip(x, y, seen_by)
 	str:add(
 		true,
 		{"color", "TEAL"},
-		("Behavior: %s"):format(self.ai_tactic.type or "default"), true,
-		("Action radius: %d"):format(self.ai_state.tactic_leash),
+		("Behavior: %s"):tformat(_t(self.ai_tactic.type) or _t"default"), true,
+		("Action radius: %d"):tformat(self.ai_state.tactic_leash),
 		{"color", "WHITE"}
 	)
 	return str

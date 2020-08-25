@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 newAchievement{
 	name = "Tales of the Spellblaze", id = "SPELLBLAZE_LORE",
-	desc = [[Learned the eight chapters of the Spellblaze Chronicles.]],
+	desc = _t[[Learned the eight chapters of the Spellblaze Chronicles.]],
 	show = "full",
 	mode = "player",
 	can_gain = function(self, who, obj)
@@ -37,7 +37,7 @@ newAchievement{
 
 newAchievement{
 	name = "The Legend of Garkul", id = "GARKUL_LORE",
-	desc = [[Learned the five chapters of the Legend of Garkul.]],
+	desc = _t[[Learned the five chapters of the Legend of Garkul.]],
 	show = "full",
 	mode = "player",
 	can_gain = function(self, who, obj)
@@ -55,7 +55,7 @@ newAchievement{
 
 newAchievement{
 	name = "A different point of view", id = "ORC_LORE",
-	desc = [[Learned the five chapters of Orc history through loremaster Hadak's tales.]],
+	desc = _t[[Learned the five chapters of Orc history through loremaster Hadak's tales.]],
 	show = "full",
 	mode = "player",
 	can_gain = function(self, who, obj)

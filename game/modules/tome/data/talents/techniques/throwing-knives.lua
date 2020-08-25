@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -72,6 +72,9 @@ local function throw(self, range, dam, x, y, dtype, special, fok)
 	local proj = self:projectile(tg, x, y, function(px, py, tg, self)
 		local target = game.level.map(px, py, engine.Map.ACTOR)
 		if target and target ~= self then
+			local hits = table.get(target.turn_procs, "hit_by_throwing_knife") or 0
+			if hits and hits >= 5 then return end
+			table.set(target.turn_procs, "hit_by_throwing_knife", hits + 1)
 			local t = self:getTalentFromId(self.T_THROWING_KNIVES)
 			local t2 = self:getTalentFromId(self.T_PRECISE_AIM)
 			local combat = t.getKnives(self, t)
@@ -99,7 +102,7 @@ newTalent{
 	points = 5,
 	require = {
 		stat = { dex=function(level) return 12 + (level-1) * 2 end },
-		level = function(level) return 0 + (level-1) * 8  end,
+		level = function(level) return 0 + (level-1) * 4  end,
 	},
 	on_learn = function(self, t)
 		venomous_throw_check(self)
@@ -159,7 +162,7 @@ newTalent{
 		local _ _, x, y = self:canProject(tg, x, y)
 
 		local proj = throw(self, tg.range, 1, x, y, nil, nil, nil)
-		proj.name = "Throwing Knife"
+		proj.name = _t"Throwing Knife"
 
 		return true
 	end,
@@ -175,15 +178,11 @@ newTalent{
 		if self:knowTalent(self.T_PRECISE_AIM) then crit_mult = crit_mult + self:callTalent(self.T_PRECISE_AIM, "getCritPower") end
 		
 		local stat_desc = {}
-		for stat, i in pairs(combat.dammod or {}) do
-			local name = engine.interface.ActorStats.stats_def[stat].short_name:capitalize()
-			if self:knowTalent(self.T_STRENGTH_OF_PURPOSE) then
-				if name == "Str" then name = "Mag" end
-			end
-			if talented == "knife" and self:knowTalent(self.T_LETHALITY) then
-				if name == "Str" then name = "Cun" end
-			end
-			stat_desc[#stat_desc+1] = ("%d%% %s"):format(i * 100, name)
+		-- I18N Stats using display_short_name
+		local dammod = self:getDammod(combat.dammod or {})
+		for stat, i in pairs(dammod) do
+			local name = engine.interface.ActorStats.stats_def[stat].display_short_name:capitalize()
+			stat_desc[#stat_desc+1] = ("%d%% %s"):tformat(i * 100, name)
 		end
 		stat_desc = table.concat(stat_desc, ", ")
 		return ([[Range: %d
@@ -193,7 +192,7 @@ APR: %d
 Crit Chance: %+d%%
 Crit mult: %d%%
 Uses Stats: %s
-]]):format(t.range(self, t), dmg, dmg*damrange, atk, talented, apr, crit, crit_mult, stat_desc)
+]]):tformat(t.range(self, t), dmg, dmg*damrange, atk, _t(talented), apr, crit, crit_mult, stat_desc)
 	end,
 	info = function(self, t)
 		local nb = t.getNb(self,t)
@@ -209,7 +208,7 @@ Uses Stats: %s
 		Throwing Knives count as melee attacks for the purpose of on-hit effects.
 		Effective Throwing Knife Stats:
 
-%s]]):format(nb, reload, t.knivesInfo(self, t))
+%s]]):tformat(nb, reload, t.knivesInfo(self, t))
 	end,
 }
 
@@ -255,7 +254,7 @@ newTalent{
 				local tgt, id = rng.table(tgts)
 				if tgt then
 					local proj = throw(self, self:getTalentRadius(t), t.getDamage(self,t), tgt.act.x, tgt.act.y, nil, nil, 1)
-					proj.name = "Fan of Knives"
+					proj.name = _t"Fan of Knives"
 					tgt.cnt = tgt.cnt + 1
 					print(("Fan of Knives #%d: target:%s (%s, %s) = %d"):format(count, tgt.act.name, tgt.act.x, tgt.act.y, tgt.cnt))
 					count = count - 1
@@ -270,7 +269,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You keep a special stash of %d throwing knives in your bandolier, which you can throw all at once at enemies within a radius %d cone, for %d%% damage each.
 		Each target can be hit up to 5 times, if the number of knives exceeds the number of enemies.  Creatures block knives from hitting targets behind them.]]):
-		format(t.getNb(self,t), self:getTalentRadius(t), t.getDamage(self, t)*100)
+		tformat(t.getNb(self,t), self:getTalentRadius(t), t.getDamage(self, t)*100)
 	end,
 }
 
@@ -290,7 +289,7 @@ newTalent{
 		local chance = t.getChance(self,t)
 		return ([[You are able to target your throwing knives with pinpoint accuracy, increasing their critical strike chance by %d%% and critical strike damage by %d%%. 
 In addition, your critical strikes with throwing knives have a %d%% chance to randomly disable your target, possibly disarming, silencing or pinning them for 2 turns.]])
-		:format(crit, power, chance)
+		:tformat(crit, power, chance)
 	end,
 }
 
@@ -333,7 +332,7 @@ newTalent{
 		if #tgts <= 0 then return nil end
 		local a, id = rng.table(tgts)
 		local proj = throw(self, self:getTalentRange(t), 1, a.x, a.y, nil, nil, nil)
-		proj.name = "Quickdraw Knife"
+		proj.name = _t"Quickdraw Knife"
 		self.turn_procs.quickdraw = true
 	end,
 	info = function(self, t)
@@ -341,7 +340,7 @@ newTalent{
 		local chance = t.getChance(self, t)
 		return ([[You can throw knives with lightning speed, increasing your attack speed with them by %d%% and giving you a %d%% chance when striking a target in melee to throw a knife at a random foe within 7 tiles for 100%% damage. 
 		This bonus attack can only trigger once per turn, and does not trigger from throwing knife attacks.]]):
-		format(speed, chance)
+		tformat(speed, chance)
 	end,
 }
 
@@ -378,7 +377,7 @@ newTalent{
 		local dam = t2.getDamage(self,t2)
 
 		local proj = throw(self, self:getTalentRange(t), dam, x, y, DamageType.NATURE, 1, nil)
-		proj.name = "Venomous Throw"
+		proj.name = _t"Venomous Throw"
 		self.talents_cd[self.T_VENOMOUS_STRIKE] = 8
 
 		return true
@@ -391,6 +390,6 @@ newTalent{
 		
 		%s
 		Using this talent puts your Venomous Strike talent on cooldown.]]):
-		format(dam, desc)
+		tformat(dam, desc)
 	end,
 }

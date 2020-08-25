@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -20,16 +20,16 @@
 local Object = require "mod.class.Object"
 
 -- race & classes
-newTalentType{ type="technique/other", name = "other", hide = true, description = "Talents of the various entities of the world." }
-newTalentType{ no_silence=true, is_spell=true, type="chronomancy/other", name = "other", hide = true, description = "Talents of the various entities of the world." }
-newTalentType{ no_silence=true, is_spell=true, type="spell/other", name = "other", hide = true, description = "Talents of the various entities of the world." }
-newTalentType{ no_silence=true, is_spell=true, type="corruption/other", name = "other", hide = true, description = "Talents of the various entities of the world." }
-newTalentType{ is_nature=true, type="wild-gift/other", name = "other", hide = true, description = "Talents of the various entities of the world." }
-newTalentType{ type="psionic/other", name = "other", hide = true, description = "Talents of the various entities of the world." }
-newTalentType{ type="other/other", name = "other", hide = true, description = "Talents of the various entities of the world." }
-newTalentType{ type="undead/other", name = "other", hide = true, description = "Talents of the various entities of the world." }
-newTalentType{ type="undead/keepsake", name = "keepsake shadow", generic = true, description = "Keepsake shadows's innate abilities." }
-newTalentType{ is_mind=true, type="cursed/misc", name = "misc", description = "Talents of the various entities of the world." }
+newTalentType{ type="technique/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="chronomancy/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="spell/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="corruption/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ is_nature=true, type="wild-gift/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ type="psionic/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ type="other/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ type="undead/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ type="undead/keepsake", name = _t"keepsake shadow", generic = true, description = _t"Keepsake shadows's innate abilities." }
+newTalentType{ is_mind=true, type="cursed/misc", name = _t"misc", description = _t"Talents of the various entities of the world." }
 
 local oldTalent = newTalent
 local newTalent = function(t) if type(t.hide) == "nil" then t.hide = true end return oldTalent(t) end
@@ -53,7 +53,7 @@ newTalent{
 		if not x then print("Multiply: no free space") return nil end
 
 		self.can_multiply = self.can_multiply - 1
-		local a = self:cloneActor({can_multiply=self.can_multiply-1, exp_worth=0.1})
+		local a = (self.clone_base or self):cloneActor({can_multiply=self.can_multiply-1, exp_worth=0.1})
 		mod.class.NPC.castAs(a)
 
 		a:removeTimedEffectsOnClone()
@@ -69,7 +69,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Multiply yourself! (up to %d times)]]):format(self.can_multiply or 0)
+		return ([[Multiply yourself! (up to %d times)]]):tformat(self.can_multiply or 0)
 	end,
 }
 
@@ -78,7 +78,7 @@ newTalent{
 	name = "Poisonous Crawl",
 	type = {"technique/other", 1},
 	points = 5,
-	message = "@Source@ envelops @target@ with poison.",
+	message = _t"@Source@ envelops @target@ with poison.",
 	cooldown = 5,
 	range = 1,
 	requires_target = true,
@@ -97,7 +97,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Crawl onto the target, doing %d%% damage and covering it in poison.]]):
-		format(100*t.getMult(self, t))
+		tformat(100*t.getMult(self, t))
 	end,
 }
 
@@ -106,7 +106,7 @@ newTalent{
 	name = "Acidic Crawl",
 	points = 5,
 	type = {"technique/other", 1},
-	message = "@Source@ envelops @target@ with acid.",
+	message = _t"@Source@ envelops @target@ with acid.",
 	cooldown = 2,
 	range = 1,
 	tactical = { ATTACK = { ACID = 2 } },
@@ -123,7 +123,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Crawl onto the target, covering it in acid.]])
+		return ([[Crawl onto the target, covering it in acid.]]):tformat()
 	end,
 }
 
@@ -132,7 +132,7 @@ newTalent{
 	name = "Blinding Spores",
 	type = {"technique/other", 1},
 	points = 5,
-	message = "@Source@ releases blinding spores at @target@.",
+	message = _t"@Source@ releases blinding spores at @target@.",
 	cooldown = 2,
 	range = 1,
 	tactical = { DISABLE = { blind = 2 } },
@@ -150,7 +150,7 @@ newTalent{
 			if target:canBe("blind") then
 				target:setEffect(target.EFF_BLINDED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the blinding!", target.name:capitalize())
+				game.logSeen(target, "%s resists the blinding!", target:getName():capitalize())
 			end
 		end
 
@@ -158,7 +158,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Releases stinging spores at the target, blinding it for %d turns.]]):
-		format(t.getDuration(self, t))
+		tformat(t.getDuration(self, t))
 	end,
 }
 
@@ -167,7 +167,7 @@ newTalent{
 	name = "Poisonous Spores",
 	type = {"technique/other", 1},
 	points = 5,
-	message = "@Source@ releases poisonous spores at @target@.",
+	message = _t"@Source@ releases poisonous spores at @target@.",
 	cooldown = 2,
 	range = 1,
 	tactical = { ATTACK = { NATURE = 1, poison = 1} },
@@ -185,7 +185,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Releases poisonous spores at the target, doing %d%% damage and poisoning it.]]):
-		format(100 * t.getMult(self, t))
+		tformat(100 * t.getMult(self, t))
 	end,
 }
 
@@ -212,7 +212,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the stunning blow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stunning blow!", target:getName():capitalize())
 			end
 		end
 
@@ -221,7 +221,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is stunned for %d turns.
 		The chance to stun improves with your Physical Power.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t))
 	end,
 }
 
@@ -247,14 +247,14 @@ newTalent{
 			target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			target:crossTierEffect(target.EFF_DISARMED, self:combatPhysicalpower())
 		else
-			game.logSeen(target, "%s resists the blow!", target.name:capitalize())
+			game.logSeen(target, "%s resists the blow!", target:getName():capitalize())
 		end
 
 		return true
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage and trying to disarm the target for %d turns. The chance improves with your Physical Power.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t))
 	end,
 }
 
@@ -281,7 +281,7 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_CONSTRICTED, t.getDuration(self, t), {src=self, power=1.5 * self:getTalentLevel(t), apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the constriction!", target.name:capitalize())
+				game.logSeen(target, "%s resists the constriction!", target:getName():capitalize())
 			end
 		end
 
@@ -290,7 +290,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is constricted for %d turns.
 		The constriction power improves with your Physical Power.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t))
 	end,
 }
 
@@ -317,14 +317,14 @@ newTalent{
 				target:knockback(self.x, self.y, 4)
 				target:crossTierEffect(target.EFF_OFFBALANCE, self:combatPhysicalpower())
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with your weapon doing %d%% damage. If the attack hits, the target is knocked back up to 4 grids.  The chance improves with your Physical Power.]]):format(100 * self:combatTalentWeaponDamage(t, 1.5, 2))
+		return ([[Hits the target with your weapon doing %d%% damage. If the attack hits, the target is knocked back up to 4 grids.  The chance improves with your Physical Power.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1.5, 2))
 	end,
 }
 
@@ -333,7 +333,7 @@ newTalent{
 	name = "Poisonous Bite",
 	type = {"technique/other", 1},
 	points = 5,
-	message = "@Source@ bites poison into @target@.",
+	message = _t"@Source@ bites poison into @target@.",
 	cooldown = 5,
 	range = 1,
 	tactical = { ATTACK = { NATURE = 1, poison = 1} },
@@ -348,7 +348,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Bites the target (an unarmed attack), doing %d%% damage and injecting it with poison.]]):format(100 * t.getMult(self, t))
+		return ([[Bites the target (an unarmed attack), doing %d%% damage and injecting it with poison.]]):tformat(100 * t.getMult(self, t))
 	end,
 }
 
@@ -418,7 +418,7 @@ newTalent{
 		return num_summon > 0
 	end,
 	info = function(self, t)
-		return ([[Summon allies.]])
+		return ([[Summon allies.]]):tformat()
 	end,
 }
 
@@ -427,7 +427,7 @@ newTalent{
 	type = {"technique/other", 1},
 	points = 5,
 	cooldown = 8,
-	message = "@Source@ performs a diseased attack against @target@.",
+	message = _t"@Source@ performs a diseased attack against @target@.",
 	requires_target = true,
 	tactical = { ATTACK = { weapon=1, BLIGHT = { disease = 2 } }, DISABLE = { disease = 1 } },
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 13, 25)) end,
@@ -446,7 +446,7 @@ newTalent{
 			if target:canBe("disease") then
 				target:setEffect(target.EFF_ROTTING_DISEASE, t.getDuration(self, t), {src=self, dam=t.getDamage(self, t), con=math.floor(4 + target:getCon() * 0.1), apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 			end
 		end
 
@@ -454,7 +454,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is afflicted with a disease, inflicting %0.2f blight damage per turn for %d turns and reducing constitution by 10%% + 4.  The disease damage increases with your Strength, and the chance to apply it increases with your Physical Power.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
 	end,
 }
 
@@ -463,7 +463,7 @@ newTalent{
 	type = {"technique/other", 1},
 	points = 5,
 	cooldown = 8,
-	message = "@Source@ performs a diseased attack against @target@.",
+	message = _t"@Source@ performs a diseased attack against @target@.",
 	tactical = { ATTACK = { weapon=1, BLIGHT = { disease = 2 } }, DISABLE = { disease = 1 } },
 	requires_target = true,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 13, 25)) end,
@@ -482,7 +482,7 @@ newTalent{
 			if target:canBe("disease") then
 				target:setEffect(target.EFF_DECREPITUDE_DISEASE, t.getDuration(self, t), {src=self, dam=t.getDamage(self, t), dex=math.floor(4 + target:getDex() * 0.1), apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 			end
 		end
 
@@ -490,7 +490,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is afflicted with a disease, inflicting %0.2f blight damage per turn for %d turns and reducing dexterity by 10%% + 4.  The disease damage increases with your Strength, and the chance to apply it increases with your Physical Power.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
 	end,
 }
 
@@ -499,7 +499,7 @@ newTalent{
 	type = {"technique/other", 1},
 	points = 5,
 	cooldown = 8,
-	message = "@Source@ performs a diseased attack against @target@.",
+	message = _t"@Source@ performs a diseased attack against @target@.",
 	requires_target = true,
 	tactical = { ATTACK = { weapon=1, BLIGHT = { disease = 2 } }, DISABLE = { disease = 1 } },
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 13, 25)) end,
@@ -518,7 +518,7 @@ newTalent{
 			if target:canBe("disease") then
 				target:setEffect(target.EFF_WEAKNESS_DISEASE, t.getDuration(self, t), {src=self, dam=t.getDamage(self, t), str=math.floor(4 + target:getStr() * 0.1), apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the disease!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disease!", target:getName():capitalize())
 			end
 		end
 
@@ -526,7 +526,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is afflicted with a disease, inflicting %0.2f blight damage per turn for %d turns and reducing strength by 10%% + 4.  The disease damage increases with your Strength, and the chance to apply it increases with your Physical Power.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
 	end,
 }
 
@@ -551,7 +551,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Try to confuse the target's mind for %d (power %d%%) turns.]]):format(t.getDuration(self, t), t.getConfusion(self, t))
+		return ([[Try to confuse the target's mind for %d (power %d%%) turns.]]):tformat(t.getDuration(self, t), t.getConfusion(self, t))
 	end,
 }
 
@@ -577,7 +577,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Condenses ambient water on a target, inflicting %0.1f cold damage.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.COLD,t.getDamage(self, t)))
+		tformat(damDesc(self, DamageType.COLD,t.getDamage(self, t)))
 	end,
 }
 
@@ -619,7 +619,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Conjures up a bolt of fire, setting the target ablaze and doing %0.2f fire damage over 3 turns.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.FIRE, damage))
+		tformat(damDesc(self, DamageType.FIRE, damage))
 	end,
 }
 
@@ -659,7 +659,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Hurl ice shard at the target dealing %0.2f ice damage.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.COLD, damage))
+		tformat(damDesc(self, DamageType.COLD, damage))
 	end,
 }
 
@@ -691,7 +691,7 @@ newTalent{
 		return ([[Projects a bolt of pure blight, doing %0.2f blight damage.
 		This spell has an improved critical strike chance of +%0.2f%%.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 1, 180)), t.getCritChance(self, t))
+		tformat(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 1, 180)), t.getCritChance(self, t))
 	end,
 }
 
@@ -718,7 +718,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Condenses ambient water on a target, inflicting %0.1f cold damage and stunning it for 4 turns.
 		The damage will increase with your Spellpower]]):
-		format(damDesc(self, DamageType.COLD,t.getDamage(self, t)))
+		tformat(damDesc(self, DamageType.COLD,t.getDamage(self, t)))
 	end,
 }
 
@@ -732,7 +732,7 @@ newTalent{
 	range = 10,
 	reflectable = true,
 	requires_target = true,
-	proj_speed = 2,
+	proj_speed = 20,
 	target = function(self, t) return {type="beam", range=self:getTalentRange(t), talent=t, selffire=false, display={particle="bolt_void", trail="voidtrail"}} end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -744,7 +744,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Fires a blast of void energies that slowly travel to their target, dealing %0.2f arcane damage on impact.
-		The damage will increase with your Spellpower.]]):format(damDesc(self, DamageType.ARCANE, self:combatTalentSpellDamage(t, 15, 240)))
+		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.ARCANE, self:combatTalentSpellDamage(t, 15, 240)))
 	end,
 }
 
@@ -790,7 +790,7 @@ newTalent{
 	info = function(self, t)
 		local curecount = t.getCureCount(self, t)
 		return ([[Call upon the forces of nature to cure your body of %d poisons and diseases.]]):
-		format(curecount)
+		tformat(curecount)
 	end,
 }
 
@@ -812,7 +812,7 @@ newTalent{
 		local regen = t.getRegeneration(self, t)
 		return ([[Call upon the forces of nature to regenerate your body for %d life every turn for 10 turns.
 		The life healed increases with Spellpower.]]):
-		format(regen)
+		tformat(regen)
 	end,
 }
 
@@ -839,14 +839,14 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the grab!", target.name:capitalize())
+				game.logSeen(target, "%s resists the grab!", target:getName():capitalize())
 			end
 		end
 
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target doing %d%% damage; if the attack hits, the target is pinned to the ground for %d turns.  The chance to pin improves with Physical Power.]]):format(100 * self:combatTalentWeaponDamage(t, 0.8, 1.4), t.getDuration(self, t))
+		return ([[Hits the target doing %d%% damage; if the attack hits, the target is pinned to the ground for %d turns.  The chance to pin improves with Physical Power.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.4), t.getDuration(self, t))
 	end,
 }
 
@@ -856,7 +856,7 @@ newTalent{
 	points = 5,
 	equilibrium = 12,
 	cooldown = 12,
-	message = "@Source@ projects ink!",
+	message = _t"@Source@ projects ink!",
 	range = 0,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 5, 9)) end,
 	direct_hit = true,
@@ -877,7 +877,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[You project thick black ink, blinding targets in a radius %d cone for %d turns.  The chance to blind improves with Physical Power.]]):format(t.radius(self, t), duration)
+		return ([[You project thick black ink, blinding targets in a radius %d cone for %d turns.  The chance to blind improves with Physical Power.]]):tformat(t.radius(self, t), duration)
 	end,
 }
 
@@ -906,7 +906,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Spit poison at your target, doing %0.2f poison damage over six turns.
 		The damage will increase with your Strength or Dexterity (whichever is higher).]]):
-		format(damDesc(self, DamageType.POISON, t.getDamage(self,t)))
+		tformat(damDesc(self, DamageType.POISON, t.getDamage(self,t)))
 	end,
 }
 
@@ -933,7 +933,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Strike your target with poison, doing %0.2f poison damage over six turns.
 		The damage will increase with your mindpower.]]):
-		format(damDesc(self, DamageType.POISON, t.getDamage(self,t)))
+		tformat(damDesc(self, DamageType.POISON, t.getDamage(self,t)))
 	end,
 }
 
@@ -960,14 +960,14 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Spit blight at your target doing %0.2f blight damage.
-		The damage will increase with your Magic.]]):format(t.getDamage(self,t))
+		The damage will increase with your Magic.]]):tformat(t.getDamage(self,t))
 	end,
 }
 
 newTalent{
 	name = "Rushing Claws",
 	type = {"wild-gift/other", 1},
-	message = "@Source@ rushes out, claws sharp and ready!",
+	message = _t"@Source@ rushes out, claws sharp and ready!",
 	points = 5,
 	equilibrium = 10,
 	cooldown = 15,
@@ -1009,7 +1009,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Rushes toward your target with incredible speed. If the target is reached, you use your claws to pin it to the ground for 5 turns.
-		You must rush from at least 2 tiles away.]])
+		You must rush from at least 2 tiles away.]]):tformat()
 	end,
 }
 
@@ -1038,7 +1038,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Throws a pack of bones at your target doing %0.2f physical damage as bleeding within radius %d.
 		The damage will increase with the Strength stat]]):
-		format(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), self:getTalentRadius(t))
+		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), self:getTalentRadius(t))
 	end,
 }
 
@@ -1048,7 +1048,7 @@ newTalent{
 	points = 5,
 	equilibrium = 4,
 	cooldown = 6,
-	message = "@Source@ seems to search the ground...",
+	message = _t"@Source@ seems to search the ground...",
 	range = 10,
 	requires_target = true,
 	tactical = { DISABLE = { pin = 1 } },
@@ -1058,13 +1058,13 @@ newTalent{
 	action = function(self, t)
 		local dur = t.getDuration(self,t)
 		local trap = mod.class.Trap.new{
-			type = "web", subtype="web", id_by_type=true, unided_name = "sticky web",
+			type = "web", subtype="web", id_by_type=true, unided_name = _t"sticky web",
 			display = '^', color=colors.YELLOW, image = "trap/trap_spiderweb_01_64.png",
-			name = "sticky web", auto_id = true,
+			name = _t"sticky web", auto_id = true,
 			detect_power = t.getDetect(self, t),
 			disarm_power = t.getDisarm(self, t),
 			level_range = {self.level, self.level},
-			message = "@Target@ is caught in a web!",
+			message = _t"@Target@ is caught in a web!",
 			pin_dur = dur,
 			temporary = dur * 5,
 			summoner = self,
@@ -1074,7 +1074,7 @@ newTalent{
 			x=self.x,
 			y=self.y,
 			desc = function(self)
-				return ("Pins non spiderkin for %d turns. Decays over time."):format(self.pin_dur)
+				return ("Pins non spiderkin for %d turns. Decays over time."):tformat(self.pin_dur)
 			end,
 			canTrigger = function(self, x, y, who)
 				if who.type == "spiderkin" then return false end
@@ -1098,7 +1098,7 @@ newTalent{
 				if who:canBe("stun") and who:canBe("pin") then
 					who:setEffect(who.EFF_PINNED, math.ceil(self.pin_dur), {apply_power=self.disarm_power + 5})
 				else
-					game.logSeen(who, "%s resists!", who.name:capitalize())
+					game.logSeen(who, "%s resists!", who:getName():capitalize())
 				end
 				return true, true
 			end
@@ -1111,7 +1111,7 @@ newTalent{
 	info = function(self, t)
 		local dur = t.getDuration(self, t)
 		return ([[Lay a concealed web (%d detect 'power', %d disarm 'power') under yourself that lasts %d turns and pins all non-spiderkin that pass through it for %d turns.  The web weakens over time.]]):
-		format(t.getDetect(self, t), t.getDisarm(self, t), dur*5, dur)
+		tformat(t.getDetect(self, t), t.getDisarm(self, t), dur*5, dur)
 	end,
 }
 
@@ -1146,7 +1146,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Weave darkness (power %d) in a radius of %d, blocking all light but the most powerful and teleporting you a short range.]]):
-		format(t.darkPower(self, t), self:getTalentRadius(t))
+		tformat(t.darkPower(self, t), self:getTalentRadius(t))
 	end,
 }
 
@@ -1170,7 +1170,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		local target = game.level.map(x, y, engine.Map.ACTOR) or self.ai_target.actor or {name="something"}
+		local target = game.level.map(x, y, engine.Map.ACTOR) or self.ai_target.actor or {name=_t"something"}
 		self:logCombat(target, "#Source# hurls a huge boulder at #target#!")
 		self:project(tg, x, y, DamageType.PHYSKNOCKBACK, {dist=t.getDist(self, t), dam=self:mindCrit(t.getDam(self, t))}, {type="archery"})
 		game:playSoundNear(self, "talents/ice")
@@ -1178,7 +1178,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Throw a huge boulder, dealing %0.2f physical damage and knocking targets back %d tiles within radius %d.
-		The damage will increase with your Strength.]]):format(damDesc(self, DamageType.PHYSICAL, t.getDam(self, t)), t.getDist(self, t), self:getTalentRadius(t))
+		The damage will increase with your Strength.]]):tformat(damDesc(self, DamageType.PHYSICAL, t.getDam(self, t)), t.getDist(self, t), self:getTalentRadius(t))
 	end,
 }
 
@@ -1188,10 +1188,11 @@ newTalent{
 	points = 5,
 	equilibrium = 5,
 	cooldown = 10,
-	message = "@Source@ howls",
+	message = _t"@Source@ howls",
 	range = 10,
 	tactical = { ATTACK = 3 },
 	direct_hit = true,
+	no_difficulty_boost = true,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 6, 10)) end,
 	action = function(self, t)
 		local rad = self:getTalentRadius(t)
@@ -1213,7 +1214,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Howl (radius %d) to call your hunting pack.]]):
-		format(self:getTalentRadius(t))
+		tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -1223,9 +1224,10 @@ newTalent{
 	points = 5,
 	equilibrium = 5,
 	cooldown = 10,
-	message = "@Source@ shrieks.",
+	message = _t"@Source@ shrieks.",
 	range = 10,
 	direct_hit = true,
+	no_difficulty_boost = true,
 	tactical = { ATTACK = 3 },
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 6, 10)) end,
 	action = function(self, t)
@@ -1248,7 +1250,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Shriek (radius %d) to call your allies.]]):
-		format(self:getTalentRadius(t))
+		tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -1281,7 +1283,7 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the crushing!", target.name:capitalize())
+				game.logSeen(target, "%s resists the crushing!", target:getName():capitalize())
 			end
 		end
 
@@ -1289,7 +1291,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target with a mighty blow to the legs doing %d%% weapon damage. If the attack hits, the target is unable to move for %d turns.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 1, 1.4), t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.4), t.getDuration(self, t))
 	end,
 }
 
@@ -1314,7 +1316,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Sends a telepathic attack, silencing the target for %d turns.  The chance to silence improves with Mindpower.]]):
-		format(t.getDuration(self, t))
+		tformat(t.getDuration(self, t))
 	end,
 }
 
@@ -1342,7 +1344,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Sends a telekinetic attack, knocking back the target up to 3 grids and doing %0.2f physical damage.
-		The damage will increase with Mindpower.]]):format(self:damDesc(engine.DamageType.PHYSICAL, t.getDamage(self, t)))
+		The damage will increase with Mindpower.]]):tformat(self:damDesc(engine.DamageType.PHYSICAL, t.getDamage(self, t)))
 	end,
 }
 
@@ -1383,7 +1385,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Corrupted vapour rises at the target location (radius 4) doing %0.2f blight damage every turn for %d turns.
 		The damage increases with Spellpower.]]):
-		format(damDesc(self, engine.DamageType.BLIGHT, self:combatTalentSpellDamage(t, 5, 65)), t.getDuration(self, t))
+		tformat(damDesc(self, engine.DamageType.BLIGHT, self:combatTalentSpellDamage(t, 5, 65)), t.getDuration(self, t))
 	end,
 }
 
@@ -1426,11 +1428,11 @@ newTalent{
 			game.zone:addEntity(game.level, m, "actor", x, y)
 
 			if self.is_grgglck then
-				game.logSeen(self, "%s spawns one of its tentacles!", self.name:capitalize())
+				game.logSeen(self, "%s spawns one of its tentacles!", self:getName():capitalize())
 			else
-				m.name = self.name.."'s summoned tentacle"
-				m.desc = "Ewwww.."
-				game.logSeen(self, "%s spawns a tentacle!", self.name:capitalize())
+				m.name = ("%s's summoned tentacle"):tformat(self:getName())
+				m.desc = _t"Ewwww.."
+				game.logSeen(self, "%s spawns a tentacle!", self:getName():capitalize())
 			end
 		else return
 		end
@@ -1438,7 +1440,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Invoke a tentacle to assault your foes.  If the tentacle is killed, you will lose life equal to 2/3 of it's maximum life.]])
+		return ([[Invoke a tentacle to assault your foes.  If the tentacle is killed, you will lose life equal to 2/3 of it's maximum life.]]):tformat()
 	end,
 }
 
@@ -1446,7 +1448,7 @@ newTalent{
 	name = "Explode",
 	type = {"technique/other", 1},
 	points = 5,
-	message = "@Source@ explodes! @target@ is enveloped in searing light.",
+	message = _t"@Source@ explodes! @target@ is enveloped in searing light.",
 	cooldown = 1,
 	range = 1,
 	requires_target = true,
@@ -1465,7 +1467,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Causes the user to explode (killing it) in a blinding flash for %0.2f light damage.]]):
-		format(damDesc(self, DamageType.LIGHT, t.getDamage(self, t)))
+		tformat(damDesc(self, DamageType.LIGHT, t.getDamage(self, t)))
 	end,
 }
 
@@ -1473,7 +1475,7 @@ newTalent{
 	name = "Will o' the Wisp Explode",
 	type = {"technique/other", 1},
 	points = 5,
-	message = "@Source@ explodes! @target@ is enveloped in frost.",
+	message = _t"@Source@ explodes! @target@ is enveloped in frost.",
 	cooldown = 1,
 	range = 1,
 	requires_target = true,
@@ -1490,7 +1492,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Explode against one target for %0.2f cold damage.]]):format(damDesc(self, DamageType.COLD, self.will_o_wisp_dam or 1))
+		return ([[Explode against one target for %0.2f cold damage.]]):tformat(damDesc(self, DamageType.COLD, self.will_o_wisp_dam or 1))
 	end,
 }
 
@@ -1499,7 +1501,7 @@ newTalent{
 	type = {"spell/other", 1},
 	points = 5,
 	mana = 10,
-	message = "@Source@ casts Elemental Bolt!",
+	message = _t"@Source@ casts Elemental Bolt!",
 	cooldown = 3,
 	range = 20,
 	proj_speed = 2,
@@ -1529,7 +1531,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Fire a slow bolt of a random element for %d damage. Damage increases with the magic stat.]]):
-		format(t.getDamage(self, t))
+		tformat(t.getDamage(self, t))
 	end,
 }
 
@@ -1538,7 +1540,7 @@ newTalent{
 	type = {"spell/other", 1},
 	points = 5,
 	mana = 10,
-	message = "A volcano erupts!",
+	message = _t"A volcano erupts!",
 	cooldown = 20,
 	range = 10,
 	proj_speed = 2,
@@ -1561,7 +1563,7 @@ newTalent{
 		local e = Object.new{
 			old_feat = oe,
 			type = rawget(oe, "type"), subtype = oe.subtype,
-			name = "raging volcano", image = oe.image, add_mos = {{image = "terrain/lava/volcano_01.png"}},
+			name = _t"raging volcano", image = oe.image, add_mos = {{image = "terrain/lava/volcano_01.png"}},
 			display = '&', color=colors.LIGHT_RED, back_color=colors.RED,
 			always_remember = true,
 			temporary = t.getDuration(self, t),
@@ -1611,7 +1613,7 @@ newTalent{
 		local dam = t.getDamage(self, t)
 		return ([[Summons a small raging volcano for %d turns. Every turn, it will fire a molten boulder towards up to %d of your foes, dealing %0.2f fire and %0.2f physical damage.
 		The damage will scale with your Spellpower.]]):
-		format(t.getDuration(self, t), t.nbProj(self, t), damDesc(self, DamageType.FIRE, dam/2), damDesc(self, DamageType.PHYSICAL, dam/2))
+		tformat(t.getDuration(self, t), t.nbProj(self, t), damDesc(self, DamageType.FIRE, dam/2), damDesc(self, DamageType.PHYSICAL, dam/2))
 	end,
 }
 
@@ -1649,7 +1651,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Saps 30%% of the target's speed (increasing yours by the same amount) and inflicts %0.2f temporal damage for three turns.
-		]]):format(damDesc(self, DamageType.TEMPORAL, damage))
+		]]):tformat(damDesc(self, DamageType.TEMPORAL, damage))
 	end,
 }
 
@@ -1702,7 +1704,7 @@ newTalent{
 		local power = t.getPower(self,t) * 100
 		return ([[Sends Dredges in a radius of %d into a frenzy for %d turns.
 		The frenzy will increase global speed by %d%%, physical crit chance by %d%%, and prevent death until -%d%% life.]]):
-		format(range, t.getDuration(self, t), power, power, power)
+		tformat(range, t.getDuration(self, t), power, power, power)
 	end,
 }
 
@@ -1732,7 +1734,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Start to sever the lifeline of the target. After 4 turns, if the target is still in line of sight of you, its existance will be ended (%d temporal damage).]]):format(damDesc(self, "TEMPORAL", t.getDamage(self, t)))
+		return ([[Start to sever the lifeline of the target. After 4 turns, if the target is still in line of sight of you, its existance will be ended (%d temporal damage).]]):tformat(damDesc(self, "TEMPORAL", t.getDamage(self, t)))
 	end,
 }
 
@@ -1759,13 +1761,13 @@ newTalent{
 				tgts[target] = true
 				local ox, oy = target.x, target.y
 				target:pull(self.x, self.y, 1)
-				if target.x ~= ox or target.y ~= oy then game.logSeen(target, "%s is pulled in!", target.name:capitalize()) end
+				if target.x ~= ox or target.y ~= oy then game.logSeen(target, "%s is pulled in!", target:getName():capitalize()) end
 			end
 		end)
 		return true
 	end,
 	info = function(self, t)
-		return ([[Pull all foes within radius 10 1 grid towards you.]])
+		return ([[Pull all foes within radius 10 1 grid towards you.]]):tformat()
 	end,
 }
 
@@ -1801,14 +1803,14 @@ newTalent{
 			local target = game.level.map(tx, ty, Map.ACTOR)
 			m:setTarget(target)
 
-			game.logSeen(self, "%s spawns a slimy crawler!", self.name:capitalize())
+			game.logSeen(self, "%s spawns a slimy crawler!", self:getName():capitalize())
 		else return
 		end
 
 		return true
 	end,
 	info = function(self, t)
-		return ([[Invoke a slimy crawler for 10 turns.]])
+		return ([[Invoke a slimy crawler for 10 turns.]]):tformat()
 	end,
 }
 
@@ -1842,7 +1844,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Conjures up a fist of stone, doing %0.2f physical damage and knocking the target back 3 grids.
-		The damage will increase with your Spellpower.]]):format(damDesc(self, DamageType.PHYSICAL, damage))
+		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.PHYSICAL, damage))
 	end,
 }
 
@@ -1886,7 +1888,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[Corrosive fumes rise from the ground doing %0.2f acid damage in a radius of 3 each turn for %d turns.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.ACID, damage), duration)
+		tformat(damDesc(self, DamageType.ACID, damage), duration)
 	end,
 }
 
@@ -1908,7 +1910,7 @@ newTalent{
 		local restoration = t.getManaRestoration(self, t)
 		return ([[Engulf yourself in a surge of mana, quickly restoring %d mana every turn for 10 turns.
 		The mana restored will increase with your Spellpower.]]):
-		format(restoration)
+		tformat(restoration)
 	end,
 }
 newTalent{
@@ -1952,7 +1954,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Exhale a wave of dark fire with radius %d. Any non demon caught in the area will take %0.2f fire damage, and flames will be left dealing a further %0.2f each turn. Demons will be healed for the same amount.
 		The damage will increase with your Strength Stat.]]):
-		format(radius, damDesc(self, DamageType.FIRE, t.getDamage(self, t)), damDesc(self, DamageType.FIRE, t.getBurnDamage(self, t)))
+		tformat(radius, damDesc(self, DamageType.FIRE, t.getDamage(self, t)), damDesc(self, DamageType.FIRE, t.getBurnDamage(self, t)))
 	end,
 }
 
@@ -1983,7 +1985,7 @@ newTalent{
 		local icedamageinc = t.getIceDamageIncrease(self, t)
 		return ([[Engulfs your hands (and weapons) in a sheath of frost, dealing %0.2f cold damage per melee attack and increasing all cold damage by %d%%.
 		The effects will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.COLD, icedamage), icedamageinc, self:getTalentLevel(t) / 3)
+		tformat(damDesc(self, DamageType.COLD, icedamage), icedamageinc, self:getTalentLevel(t) / 3)
 	end,
 }
 
@@ -2008,51 +2010,48 @@ newTalent{
 		t.terrains = terrains -- cache
 
 		local meteor = function(src, x, y, dam)
-			game.level.map:particleEmitter(x, y, 10, "meteor", {x=x, y=y}).on_remove = function(self)
-				local x, y = self.args.x, self.args.y
-				game.level.map:particleEmitter(x, y, 10, "fireflash", {radius=2})
-				game:playSoundNear(game.player, "talents/fireflash")
+			game.level.map:particleEmitter(x, y, 10, "meteor", {x=x, y=y})
+			game.level.map:particleEmitter(x, y, 10, "fireflash", {radius=2})
+			game:playSoundNear(game.player, "talents/fireflash")
 
-				local grids = {}
-				for i = x-1, x+1 do for j = y-1, y+1 do
-					local oe = game.level.map(i, j, Map.TERRAIN)
-					if oe and not oe:attr("temporary") and
-					(core.fov.distance(x, y, i, j) < 1 or rng.percent(40)) and (game.level.map:checkEntity(i, j, engine.Map.TERRAIN, "dig") or game.level.map:checkEntity(i, j, engine.Map.TERRAIN, "grow")) then
-						local g = terrains.LAVA_FLOOR:clone()
-						g:resolve() g:resolve(nil, true)
-						game.zone:addEntity(game.level, g, "terrain", i, j)
-						grids[#grids+1] = {x=i,y=j,oe=oe}
-					end
-				end end
-				for i = x-1, x+1 do for j = y-1, y+1 do
-					game.nicer_tiles:updateAround(game.level, i, j)
-				end end
-				for _, spot in ipairs(grids) do
-					local i, j = spot.x, spot.y
-					local g = game.level.map(i, j, Map.TERRAIN)
-					g.temporary = 8
-					g.x = i g.y = j
-					g.canAct = false
-					g.energy = { value = 0, mod = 1 }
-					g.old_feat = spot.oe
-					g.useEnergy = mod.class.Trap.useEnergy
-					g.act = function(self)
-						self:useEnergy()
-						self.temporary = self.temporary - 1
-						if self.temporary <= 0 then
-							game.level.map(self.x, self.y, engine.Map.TERRAIN, self.old_feat)
-							game.level:removeEntity(self)
-							game.nicer_tiles:updateAround(game.level, self.x, self.y)
-						end
-					end
-					game.level:addEntity(g)
+			local grids = {}
+			for i = x-1, x+1 do for j = y-1, y+1 do
+				local oe = game.level.map(i, j, Map.TERRAIN)
+				if oe and not oe:attr("temporary") and
+				(core.fov.distance(x, y, i, j) < 1 or rng.percent(40)) and (game.level.map:checkEntity(i, j, engine.Map.TERRAIN, "dig") or game.level.map:checkEntity(i, j, engine.Map.TERRAIN, "grow")) then
+					local g = terrains.LAVA_FLOOR:clone()
+					g:resolve() g:resolve(nil, true)
+					game.zone:addEntity(game.level, g, "terrain", i, j)
+					grids[#grids+1] = {x=i,y=j,oe=oe}
 				end
-
-				src:project({type="ball", radius=2, selffire=false}, x, y, engine.DamageType.FIRE, dam/2)
-				src:project({type="ball", radius=2, selffire=false}, x, y, engine.DamageType.PHYSICAL, dam/2)
-				if core.shader.allow("distort") then game.level.map:particleEmitter(x, y, 2, "shockwave", {radius=2}) end
-				game:getPlayer(true):attr("meteoric_crash", 1)
+			end end
+			for i = x-1, x+1 do for j = y-1, y+1 do
+				game.nicer_tiles:updateAround(game.level, i, j)
+			end end
+			for _, spot in ipairs(grids) do
+				local i, j = spot.x, spot.y
+				local g = game.level.map(i, j, Map.TERRAIN)
+				g.temporary = 8
+				g.x = i g.y = j
+				g.canAct = false
+				g.energy = { value = 0, mod = 1 }
+				g.old_feat = spot.oe
+				g.useEnergy = mod.class.Trap.useEnergy
+				g.act = function(self)
+					self:useEnergy()
+					self.temporary = self.temporary - 1
+					if self.temporary <= 0 then
+						game.level.map(self.x, self.y, engine.Map.TERRAIN, self.old_feat)
+						game.level:removeEntity(self)
+						game.nicer_tiles:updateAround(game.level, self.x, self.y)
+					end
+				end
+				game.level:addEntity(g)
 			end
+
+			src:project({type="ball", radius=2, selffire=false}, x, y, engine.DamageType.METEOR, dam)
+			if core.shader.allow("distort") then game.level.map:particleEmitter(x, y, 2, "shockwave", {radius=2}) end
+			game:getPlayer(true):attr("meteoric_crash", 1)
 		end
 
 		local grids = {}
@@ -2071,12 +2070,12 @@ newTalent{
 		return ([[Use arcane forces to summon %d meteors that fall to the ground within range 2 of the target.
 		Each meteor smashes everything within radius 2, dealing %0.2f fire and %0.2f physical damage to creatures other than yourself, while liquefying some of the terrain into lava for 8 turns.
 		The damage increases with your Spellpower.]]):
-		format(t.getNb(self, t), damDesc(self, DamageType.FIRE, dam), damDesc(self, DamageType.PHYSICAL, dam))
+		tformat(t.getNb(self, t), damDesc(self, DamageType.FIRE, dam), damDesc(self, DamageType.PHYSICAL, dam))
 	end,
 }
 
 newTalent{
-	name = "Heal", short_name = "HEAL_NATURE", image = "talents/heal.png",
+	name = "Heal", short_name = "HEAL_NATURE",
 	type = {"wild-gift/other", 1},
 	points = 5,
 	equilibrium = 10,
@@ -2099,7 +2098,7 @@ newTalent{
 		local heal = t.getHeal(self, t)
 		return ([[Imbues your body with natural energies, healing for %d life.
 		The life healed will increase with your Mindpower.]]):
-		format(heal)
+		tformat(heal)
 	end,
 }
 
@@ -2110,7 +2109,7 @@ newTalent{
 	equi = 4,
 	cooldown = 3,
 	tactical = { ATTACK = {LIGHTNING = 2} },
-	message = "@Source@ hurls lightning at @target@!",
+	message = _t"@Source@ hurls lightning at @target@!",
 	range = 10,
 	direct_hit = true,
 	reflectable = true,
@@ -2132,10 +2131,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Calls forth a powerful beam of lightning doing %0.2f to %0.2f lightning damage.
+		return ([[Calls forth a powerful beam of lightning doing %0.2f to %0.2f lightning damage (%0.2f average).
 		The damage will increase with your Mindpower.]]):
-		format(damDesc(self, DamageType.LIGHTNING, damage / 3),
-		damDesc(self, DamageType.LIGHTNING, damage))
+		tformat(damDesc(self, DamageType.LIGHTNING, damage / 3),
+		damDesc(self, DamageType.LIGHTNING, damage),
+		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
 	end,
 }
 
@@ -2153,7 +2153,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fade from sight, making you invulnerable until the beginning of your next turn.]])
+		return ([[You fade from sight, making you invulnerable until the beginning of your next turn.]]):tformat()
 	end,
 }
 
@@ -2172,7 +2172,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Teleports you randomly within range 10.]])
+		return ([[Teleports you randomly within range 10.]]):tformat()
 	end,
 }
 
@@ -2214,7 +2214,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local multiplier = self:combatTalentWeaponDamage(t, 1.1, 1.9)
-		return ([[With blinding speed you suddenly appear next to a target up to %d spaces away and attack for %d%% damage.]]):format(self:getTalentRange(t), multiplier)
+		return ([[With blinding speed you suddenly appear next to a target up to %d spaces away and attack for %d%% damage.]]):tformat(self:getTalentRange(t), multiplier)
 	end,
 }
 
@@ -2232,11 +2232,11 @@ newTalent{
 		return ret
 	end,
 	deactivate = function(self, t, p)
-		game.logSeen("#VIOLET#%s is freed from the suspended state!", self.name:capitalize())
+		game.logSeen("#VIOLET#%s is freed from the suspended state!", self:getName():capitalize())
 		return true
 	end,
 	info = function(self, t)
-		return ([[The target will not react until attacked.]])
+		return ([[The target will not react until attacked.]]):tformat()
 	end,
 }
 
@@ -2276,7 +2276,7 @@ newTalent{
 		return ([[Grab a target and pull it next to you, covering it with frost while reducing its movement speed by 50%% for %d turns.
 		The ice will also deal %0.2f cold damage.
 		The damage and chance to slow will increase with your Spellpower.]]):
-		format(t.getDuration(self, t), damDesc(self, DamageType.COLD, self:combatTalentSpellDamage(t, 5, 140)))
+		tformat(t.getDuration(self, t), damDesc(self, DamageType.COLD, self:combatTalentSpellDamage(t, 5, 140)))
 	end,
 }
 
@@ -2286,7 +2286,7 @@ newTalent{
 	points = 5,
 	cooldown = 10,
 	stamina = 10,
-	message = "@Source@ throws a body shot.",
+	message = _t"@Source@ throws a body shot.",
 	tactical = { ATTACK = { weapon = 2 }, DISABLE = { stun = 2 } },
 	requires_target = true,
 	--on_pre_use = function(self, t, silent) if not self:hasEffect(self.EFF_COMBO) then if not silent then game.logPlayer(self, "You must have a combo going to use this ability.") end return false end return true end,
@@ -2312,7 +2312,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_DAZED, t.getDuration(self, t, self:getCombo(combo)), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the body shot!", target.name:capitalize())
+				game.logSeen(target, "%s resists the body shot!", target:getName():capitalize())
 			end
 
 			target:incStamina(- t.getDrain(self, t))
@@ -2331,7 +2331,7 @@ newTalent{
 		return ([[A punch to the body that deals %d%% damage, drains %d of the target's stamina per combo point, and dazes the target for %d to %d turns, depending on the amount of combo points you've accumulated.
 		The daze chance will increase with your Physical Power.
 		Using this talent removes your combo points.]])
-		:format(damage, drain, daze, dazemax)
+		:tformat(damage, drain, daze, dazemax)
 	end,
 }
 
@@ -2347,7 +2347,7 @@ newTalent{
 		local chance = t.getChance(self, t)
 		return ([[When gaining a combo point, you have a %d%% chance to gain an extra combo point.  Additionally, your combo points will last %d turns longer before expiring.
 		The chance of building a second combo point will improve with your Cunning.]]):
-		format(chance, duration)
+		tformat(chance, duration)
 	end,
 }
 
@@ -2363,7 +2363,7 @@ newTalent{
 		local saves = t.getMental(self, t)
 		return ([[Superior cunning and training allows you to outthink and outwit your opponents' physical and mental assaults.  Increases Defense by %d and Mental Save by %d.
 		The Defense bonus will scale with your Dexterity, and the save bonus with your Cunning.]]):
-		format(defense, saves)
+		tformat(defense, saves)
 	end,
 }
 
@@ -2421,7 +2421,7 @@ newTalent{
 		local maim = t.getMaim(self, t)
 		return ([[Grapples the target and inflicts %0.2f physical damage. If the target is already grappled, the target will be maimed as well, reducing damage by %d and global speed by 30%% for %d turns.
 		The grapple effects will be based off your grapple talent, if you have it, and the damage will scale with your Physical Power.]])
-		:format(damDesc(self, DamageType.PHYSICAL, (damage)), maim, duration)
+		:tformat(damDesc(self, DamageType.PHYSICAL, (damage)), maim, duration)
 	end,
 }
 
@@ -2436,7 +2436,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Each time one of your foes bites the dust, you feel a surge of power, increasing your strength by 2 (stacking up to a maximum of %d) for %d turns.]]):
-		format(math.floor(self:getTalentLevel(t) * 6), t.getDuration(self, t))
+		tformat(math.floor(self:getTalentLevel(t) * 6), t.getDuration(self, t))
 	end,
 }
 
@@ -2469,7 +2469,7 @@ newTalent{
 	info = function(self, t)
 		local returndamage = t.getReturnDamage(self, t)
 		return ([[Designate a target as a martyr for 10 turns. When the martyr deals damage, it also damages itself for %d%% of the damage dealt.]]):
-		format(returndamage)
+		tformat(returndamage)
 	end,
 }
 
@@ -2509,7 +2509,7 @@ newTalent{
 			if target:checkHit(self:combatAttack(shield_combat), target:combatPhysicalResist(), 0, 95, 5 - self:getTalentLevel(t) / 2) and target:canBe("knockback") then
 				target:knockback(self.x, self.y, 4)
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 
@@ -2518,7 +2518,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target with your weapon doing %d%% damage and two shield strikes doing %d%% damage each, trying to overpower your target.
 		If the last attack hits, the target is knocked back 4 grids. The chance for knockback increases with your Accuracy.]])
-		:format(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3), 100 * self:combatTalentWeaponDamage(t, 0.8, 1.3, self:getTalentLevel(self.T_SHIELD_EXPERTISE)))
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3), 100 * self:combatTalentWeaponDamage(t, 0.8, 1.3, self:getTalentLevel(self.T_SHIELD_EXPERTISE)))
 	end,
 }
 
@@ -2542,7 +2542,7 @@ newTalent{
 		local dur = t.getDuration(self, t)
 		return ([[Encase your body in a sheath of thought-quick forces, allowing you to control your body's movements directly without the inefficiency of dealing with crude mechanisms like nerves and muscles.
 		Increases Accuracy by %d and critical strike chance by %0.1f%% for %d turns.]]):
-		format(boost, 0.5*boost, dur)
+		tformat(boost, 0.5*boost, dur)
 	end,
 }
 
@@ -2618,7 +2618,7 @@ newTalent{
 		local dam = damDesc(self, DamageType.PHYSICAL, t.getDam(self, t))
 		return ([[You expend massive amounts of energy to launch yourself across %d squares at incredible speed. All enemies in your path will be knocked flying and dealt between %d and %d Physical damage.
 		At talent level 5, you can batter through solid walls.]]):
-		format(range, 2*dam/3, dam)
+		tformat(range, 2*dam/3, dam)
 	end,
 }
 
@@ -2665,7 +2665,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, 4, {apply_power=self:combatMindpower()})
 			else
-				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target:getName():capitalize())
 			end
 		else --If the target resists the knockback, do half damage to it.
 			target:logCombat(self, "#YELLOW##Source# resists #Target#'s throw!")
@@ -2680,7 +2680,7 @@ newTalent{
 		Upon landing, your target takes %0.1f Physical damage and is stunned for 4 turns.  All other creatures within radius 2 of the landing point take %0.1f Physical damage and are knocked away from you.
 		This talent ignores %d%% of the knockback resistance of the thrown target, which takes half damage if it resists being thrown.
 		The damage improves with your Mindpower and the range increases with both Mindpower and Strength.]]):
-		format(range, dam, dam/2, t.getKBResistPen(self, t))
+		tformat(range, dam, dam/2, t.getKBResistPen(self, t))
 	end,
 }
 
@@ -2726,7 +2726,7 @@ newTalent{
 		Doing so requires no turn but you are considered disarmed for 2 turns.
 
 		Reloading does not break stealth.]])
-		:format(self:reloadRate())
+		:tformat(self:reloadRate())
 	end,
 }
 
@@ -2747,7 +2747,7 @@ newTalent{
 		if main then
 			-- Damage based on mainhand weapon and dex with an assumed 8 turn cut duration
 			return self:combatTalentScale(t, 1, 1.7) * self:combatDamage(main.combat)/8 + self:getDex()/2
-		else 
+		else
 			return 0
 		end
 	end,
@@ -2791,7 +2791,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Attack your foes in a frontal arc, doing %d%% weapon damage and making your targets bleed for %d each turn for %d turns.
 		The bleed damage increases with your main hand weapon damage and Dexterity.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 1, 1.7), damDesc(self, DamageType.PHYSICAL, t.cutPower(self, t)), t.cutdur(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.7), damDesc(self, DamageType.PHYSICAL, t.cutPower(self, t)), t.cutdur(self, t))
 	end,
 }
 
@@ -2835,7 +2835,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Reduces the duration of all poisons on the target by 50%%, but increases their damage by %d%%.
 		The effect increases with your Cunning.]]):
-		format(100 + self:combatTalentStatDamage(t, "cun", 40, 250))
+		tformat(100 + self:combatTalentStatDamage(t, "cun", 40, 250))
 	end,
 }
 
@@ -2860,7 +2860,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[For %d turns, you put all your will into your blows, adding %d physical power to each strike.
 		The effect will improve with your Cunning and Willpower stats.]]):
-		format(duration, damage)
+		tformat(duration, damage)
 	end,
 }
 
@@ -2901,7 +2901,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[You hit your target, doing %d%% damage. If your attack hits, you gain %d armor penetration (APR) for %d turns.
 		The APR will increase with your Cunning.]]):
-		format(100 * damage, apr, duration)
+		tformat(100 * damage, apr, duration)
 	end,
 }
 
@@ -2933,7 +2933,7 @@ newTalent{
 		return ([[Throws a vial of sticky smoke that explodes in radius %d on your foes, reducing their vision range by %d for 5 turns.
 		Creatures affected by smoke bomb can never prevent you from stealthing, even if their proximity would normally forbid it.
 		Use of this will not break stealth.]]):
-		format(self:getTalentRadius(t), t.getSightLoss(self,t))
+		tformat(self:getTalentRadius(t), t.getSightLoss(self,t))
 	end,
 }
 
@@ -2983,7 +2983,7 @@ newTalent{
 		return ([[Using a series of tricks and maneuvers, you switch places with your target.
 		Switching places will confuse your foes, granting you Evasion (50%%) for %d turns.
 		While switching places, your weapon(s) will connect with the target; this will not do weapon damage, but on hit effects of the weapons can trigger.]]):
-		format(duration)
+		tformat(duration)
 	end,
 }
 
@@ -3023,14 +3023,14 @@ newTalent{
 		local speedpen = t.getSpeedPenalty(self, t)
 		return ([[You hit your target, doing %d%% damage. If your attack connects, the target is crippled for %d turns, losing %d%% melee, spellcasting and mind speed.
 		The chance to land the status improves with Accuracy, and the status power improves with Cunning.]]):
-		format(100 * damage, duration, speedpen)
+		tformat(100 * damage, duration, speedpen)
 	end,
 }
 
 newTalent{
 	name = "Nimble Movements",
 	type = {"other/other",1},
-	message = "@Source@ dashes quickly!",
+	message = _t"@Source@ dashes quickly!",
 	no_break_stealth = true,
 --	require = cuns_req3,
 	points = 5,
@@ -3073,7 +3073,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Quickly and quietly dash your way to the target square, if it is not blocked by enemies or obstacles. This talent will not break Stealth.]])
+		return ([[Quickly and quietly dash your way to the target square, if it is not blocked by enemies or obstacles. This talent will not break Stealth.]]):tformat()
 	end,
 }
 
@@ -3129,7 +3129,7 @@ newTalent{
 		You always succeed if you are not directly observed.
 		This resets the cooldown of your Stealth talent, and, if successful, all creatures currently following you will lose track of your position.
 		You estimate your current chance to hide as %0.1f%%.]]):
-		format(t.stealthMult(self, t), t.getChance(self, t, true), t.getChance(self, t, false, true))
+		tformat(t.stealthMult(self, t), t.getChance(self, t, true), t.getChance(self, t, false, true))
 	end,
 }
 
@@ -3147,7 +3147,7 @@ newTalent{
 		local netstealth = t.stealthMult(self, t) * (self:callTalent(self.T_STEALTH, "getStealthPower") + (self:attr("inc_stealth") or 0))
 		if fake then return netstealth end
 		local detection = self:stealthDetection(10, estimate) -- Default radius 10
-		if detection <= 0 then return 100 end
+		if not detection or detection <= 0 then return 100 end
 		local _, chance = self:checkHit(netstealth, detection)
 		print("Unseen Actions: "..netstealth.." stealth vs "..detection.." detection -->chance(no luck): "..chance)
 		if estimate then return chance end
@@ -3158,7 +3158,7 @@ newTalent{
 		Success is more likely against fewer opponents and is determined by comparing %0.2f times your stealth power (currently %d) to the stealth detection (reduced by 10%% per tile distance) of all enemies that have a clear line of sight to you.
 		Your base chance of success is 100%% if you are not directly observed, and good or bad luck may also affect it.
 		You estimate your current chance to maintain stealth as %0.1f%%.]]):
-		format(t.stealthMult(self, t), t.getChance(self, t, true), t.getChance(self, t, false, true))
+		tformat(t.stealthMult(self, t), t.getChance(self, t, true), t.getChance(self, t, false, true))
 	end,
 }
 
@@ -3196,7 +3196,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local dist = t.getDist(self, t)
 		return ([[You hit your target, doing %d%% damage, distracting it while you jump back %d squares away.]]):
-		format(100 * damage, dist)
+		tformat(100 * damage, dist)
 	end,
 }
 
@@ -3214,7 +3214,7 @@ newTalent{
 	getHardiness = function(self, t) return self:combatTalentLimit(t, 100, 6, 30) end, -- Limit < 100%
 	info = function(self, t)
 		return ([[Whilst wearing leather or lighter armour, you gain %d%% Defense and %d%% Armour hardiness.]]):
-		format(t.getDef(self, t) * 100, t.getHardiness(self, t))
+		tformat(t.getDef(self, t) * 100, t.getHardiness(self, t))
 	end,
 }
 
@@ -3231,7 +3231,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You are light on your feet, handling your armour better. Each step you take regenerates %0.2f stamina, and your fatigue is permanently reduced by %0.1f%%.
 		At level 3 you are able to walk so lightly that you never trigger traps that require pressure.]]):
-		format(self:getTalentLevelRaw(t) * 0.2, t.getFatigue(self, t))
+		tformat(self:getTalentLevelRaw(t) * 0.2, t.getFatigue(self, t))
 	end,
 
 }
@@ -3252,7 +3252,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You literally dance around your foes, increasing your movement speed by %d%% and reducing the cooldown of Hack'n'Back, Rush, Disengage and Evasion by %d turns.]]):
-		format(t.incspeed(self, t)*100,t.CDreduce(self, t))
+		tformat(t.incspeed(self, t)*100,t.CDreduce(self, t))
 	end,
 }
 
@@ -3273,7 +3273,7 @@ newTalent{
 --	end,
 	info = function(self, t)
 		return ([[Your cunning manipulations allow you to use charms (wands, totems and torques) more efficiently, reducing their cooldowns by %d%%.]]):
-		format(t.cdReduc(self:getTalentLevel(t)))
+		tformat(t.cdReduc(self:getTalentLevel(t)))
 	end,
 }
 
@@ -3289,7 +3289,7 @@ newTalent{
 		return ([[You look at your surroundings with more intensity than most people, allowing you to see stealthed or invisible creatures.
 		Increases stealth detection by %d and invisibility detection by %d.
 		The detection power increases with your Cunning.]]):
-		format(t.seePower(self,t), t.seePower(self,t))
+		tformat(t.seePower(self,t), t.seePower(self,t))
 	end,
 }
 
@@ -3323,7 +3323,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You have learned to hit the right spot, increasing your armor penetration by %d when dual wielding.
-		The Armour penetration bonus will increase with your Dexterity.]]):format(t.getApr(self, t))
+		The Armour penetration bonus will increase with your Dexterity.]]):tformat(t.getApr(self, t))
 	end,
 }
 
@@ -3338,7 +3338,7 @@ newTalent{
 	require = techs_dex_req4,
 	tactical = { BUFF = 2 },
 	on_pre_use = function(self, t, silent) if self:hasArcheryWeapon() or not self:hasDualWeapon() then if not silent then game.logPlayer(self, "You require two melee weapons to use this talent.") end return false end return true end,
-	getSpeed = function(self, t) return self:combatTalentScale(t, 0.11, 0.40, 0.75) end,
+	getSpeed = function(self, t) return self:combatTalentScale(t, 0.11, 0.40) end,
 	activate = function(self, t)
 		local weapon, offweapon = self:hasDualWeapon()
 		if not weapon then
@@ -3357,7 +3357,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[When dual wielding, increases attack speed by %d%%, but drains stamina quickly (-6 stamina/turn).]]):format(t.getSpeed(self, t)*100)
+		return ([[When dual wielding, increases attack speed by %d%%, but drains stamina quickly (-6 stamina/turn).]]):tformat(t.getSpeed(self, t)*100)
 	end,
 }
 
@@ -3402,7 +3402,7 @@ newTalent{
 				end
 			end
 		else
-			self:logCombat(target, "#Source# misses a defensive throw against #Target#!", self.name:capitalize(),target.name:capitalize())
+			self:logCombat(target, "#Source# misses a defensive throw against #Target#!", self:getName():capitalize(),target:getName():capitalize())
 		end
 	end,
 	on_unlearn = function(self, t)
@@ -3413,7 +3413,7 @@ newTalent{
 		local damagetwo = t.getDamageTwo(self, t)
 		return ([[When you avoid a melee blow while unarmed, you have a %d%% chance to throw the target to the ground.  If the throw lands, the target will take %0.2f damage and be dazed for 2 turns, or %0.2f damage and be stunned for 2 turns if the target is grappled.  You may attempt up to %0.1f throws per turn.
 		The chance of throwing increases with your Accuracy, the damage scales with your Physical Power, and the number of attempts with your Strength and Dexterity.]]):
-		format(t.getchance(self,t), damDesc(self, DamageType.PHYSICAL, (damage)), damDesc(self, DamageType.PHYSICAL, (damagetwo)), t.getThrows(self, t))
+		tformat(t.getchance(self,t), damDesc(self, DamageType.PHYSICAL, (damage)), damDesc(self, DamageType.PHYSICAL, (damagetwo)), t.getThrows(self, t))
 	end,
 }
 
@@ -3449,7 +3449,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Attack your foes in a frontal arc with a roundhouse kick, which deals %0.2f physical damage and knocks your foes back 4 grids. This will break any grapples you're maintaining
 		The damage improves with your Physical Power.]]):
-		format(damDesc(self, DamageType.PHYSICAL, (damage)))
+		tformat(damDesc(self, DamageType.PHYSICAL, (damage)))
 	end,
 }
 
@@ -3475,7 +3475,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Fire bone spears in all directions, hitting all foes within radius %d for %0.2f physical damage, and inflicting bleeding for another %0.2f damage over 5 turns.
-		The damage will increase with your Spellpower.]]):format(self:getTalentRadius(t), damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)/2))
+		The damage will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)/2))
 	end,
 }
 
@@ -3511,7 +3511,7 @@ newTalent{
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the shadow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the shadow!", target:getName():capitalize())
 			end
 		end
 
@@ -3521,7 +3521,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[You reach out with shadowy vines toward your target, pulling it to you and silencing it for %d turns and dazing it for 2 turns.
 		The chance to hit improves with your Accuracy.]]):
-		format(duration)
+		tformat(duration)
 	end,
 }
 
@@ -3548,8 +3548,8 @@ newTalent{
 			return
 		end
 
-		local m = self:cloneActor({name = "Shadow of "..self.name,
-			desc = ([[A dark shadowy form in the shape of %s.]]):format(self.name),
+		local m = self:cloneActor({name = ("Shadow of %s"):tformat(self:getName()),
+			desc = ([[A dark shadowy form in the shape of %s.]]):tformat(self:getName()),
 			summoner=self, summoner_gain_exp=true, exp_worth=0,
 			summon_time=t.getDuration(self, t),
 			ai_target={actor=nil}, ai="summoned", ai_real="tactical",
@@ -3587,7 +3587,7 @@ newTalent{
 			game.party:addMember(m, {
 				control="full",
 				type="shadow",
-				title="Shadow of "..self.name,
+				title=("Shadow of %s"):tformat(self:getName()),
 				temporary_level=1,
 				orders = {target=true},
 				on_control = function(self)
@@ -3611,7 +3611,7 @@ newTalent{
 		Your shadow is permanently stealthed (%d power), and all melee damage it deals is converted to darkness damage.
 		The shadow cannot teleport.
 		If you release control early or if it leaves your sight for too long, your shadow will dissipate.]]):
-		format(t.getDuration(self, t), t.getHealth(self, t) * 100, t.getDam(self, t) * 100, t.getStealthPower(self, t))
+		tformat(t.getDuration(self, t), t.getHealth(self, t) * 100, t.getDam(self, t) * 100, t.getStealthPower(self, t))
 	end,
 }
 
@@ -3637,7 +3637,7 @@ newTalent{
 		if target:canBe("disarm") then
 			target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the shadow!", target.name:capitalize())
+			game.logSeen(target, "%s resists the shadow!", target:getName():capitalize())
 		end
 
 		return true
@@ -3646,7 +3646,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[For an instant, your weapons turn into a shadow leash that tries to grab the target's weapon, disarming it for %d turns.
 		The chance to hit improves with your Accuracy.]]):
-		format(duration)
+		tformat(duration)
 	end,
 }
 
@@ -3662,7 +3662,7 @@ newTalent{
 	info = function(self, t)
 		local chance = t.getChance(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Each turn, those caught in your gloom must save against your Mindpower or have an %0.1f%% chance of becoming dismayed for %d turns. When dismayed, the first melee attack against the foe will result in a critical hit.]]):format(chance, duration, mindpowerChange)
+		return ([[Each turn, those caught in your gloom must save against your Mindpower or have an %0.1f%% chance of becoming dismayed for %d turns. When dismayed, the first melee attack against the foe will result in a critical hit.]]):tformat(chance, duration, mindpowerChange)
 	end,
 }
 
@@ -3701,6 +3701,290 @@ newTalent{
 		local duration = t.getDur(self, t)
 		return ([[You are linked to your shadows for %d turns, diverting %d%% of all damage you take to a random shadow.
 		Effect increases with Mindpower.]]):
-		format(duration, power)
+		tformat(duration, power)
+	end,
+}
+
+newTalent{
+	name = "Circle of Blazing Light",
+	type = {"spell/other", 2},
+	--type = {"celestial/circles", 2},
+	--require = divi_req_high2,
+	points = 5,
+	cooldown = 20,
+	positive = 10,
+	no_energy = true,
+	tactical = { ATTACKAREA = {FIRE = 0.5, LIGHT = 0.5} },
+	tactical_imp = { SELF = {POSITIVE = 0.5}, ATTACKAREA = {FIRE = 0.5, LIGHT = 0.5} }, -- debugging transitional
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 2, 15) end,
+	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
+	range = 0,
+	radius = function(self, t) return math.floor(self:combatTalentScale(t, 2.5, 4.5)) end,
+	target = function(self, t) -- for AI only
+		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=false}
+	end,
+	action = function(self, t)
+		local radius = self:getTalentRadius(t)
+		local tg = {type="ball", range=0, selffire=true, radius=radius, talent=t}
+		self:project(tg, self.x, self.y, DamageType.LITE, 1)
+		-- Add a lasting map effect
+		game.level.map:addEffect(self,
+			self.x, self.y, self:spellCrit(t.getDuration(self, t)),
+			DamageType.BLAZINGLIGHT, self:spellCrit(t.getDamage(self, t)),
+			radius,
+			5, nil,
+			MapEffect.new{zdepth=6, overlay_particle={zdepth=6, only_one=true, type="circle", args={appear=8, img="sun_circle", radius=self:getTalentRadius(t)}}, color_br=255, color_bg=255, color_bb=255, effect_shader="shader_images/sunlight_effect.png"},
+			nil, true --self:spellFriendlyFire(true)
+		)
+		game:playSoundNear(self, "talents/arcane")
+		return true
+	end,
+	info = function(self, t)
+		local damage = t.getDamage(self, t)
+		local duration = t.getDuration(self, t)
+		local radius = self:getTalentRadius(t)
+		return ([[Creates a circle of radius %d at your feet; the circle lights up affected tiles, increases your positive energy by %d each turn and deals %0.2f light damage and %0.2f fire damage per turn to everyone else within its radius.  The circle lasts %d turns.
+		The damage will increase with your Spellpower.]]):
+		tformat(radius, 1 + (damage / 4), (damDesc (self, DamageType.LIGHT, damage)), (damDesc (self, DamageType.FIRE, damage)), duration)
+	end,
+}
+
+newTalent{
+	name = "Blur Sight",
+	type = {"spell/other", 1},
+	mode = "sustained",
+	points = 5,
+	sustain_mana = 30,
+	cooldown = 10,
+	tactical = { BUFF = 2 },
+	getDefense = function(self, t) return self:combatScale(self:getTalentLevel(t)*self:combatSpellpower(), 0, 0, 28.6, 267, 0.75) end,
+	activate = function(self, t)
+		game:playSoundNear(self, "talents/heal")
+		return {
+			particle = self:addParticles(Particles.new("phantasm_shield", 1)),
+			def = self:addTemporaryValue("combat_def", t.getDefense(self, t)),
+		}
+	end,
+	deactivate = function(self, t, p)
+		self:removeParticles(p.particle)
+		self:removeTemporaryValue("combat_def", p.def)
+		return true
+	end,
+	info = function(self, t)
+		local defence = t.getDefense(self, t)
+		return ([[The caster's image blurs, granting a %d bonus to Defense.
+		The bonus will increase with your Spellpower.]]):
+		tformat(defence)
+	end,
+}
+
+newTalent{
+	name = "Cold Flames",
+	type = {"spell/other", 1},
+	points = 5,
+	mana = 40,
+	cooldown = 22,
+	range = 5,
+	radius = 3,
+	tactical = { ATTACK = { COLD = 2 }, DISABLE = { stun = 1 } },
+	requires_target = true,
+	-- implementation of creeping darkness..used in various locations, but stored here
+	canCreep = function(x, y, ignoreCreepingDark)
+		-- not on map
+		if not game.level.map:isBound(x, y) then return false end
+		 -- already dark
+		if not ignoreCreepingDark then
+			if game.level.map:checkAllEntities(x, y, "coldflames") then return false end
+		end
+		 -- allow objects and terrain to block, but not actors
+		if game.level.map:checkAllEntities(x, y, "block_move") and not game.level.map(x, y, Map.ACTOR) then return false end
+
+		return true
+	end,
+	doCreep = function(tCreepingDarkness, self, useCreep)
+		local start = rng.range(0, 8)
+		for i = start, start + 8 do
+			local x = self.x + (i % 3) - 1
+			local y = self.y + math.floor((i % 9) / 3) - 1
+			if not (x == self.x and y == self.y) and tCreepingDarkness.canCreep(x, y) then
+				-- add new dark
+				local newCreep
+				if useCreep then
+					 -- transfer some of our creep to the new dark
+					newCreep = math.ceil(self.creep / 2)
+					self.creep = self.creep - newCreep
+				else
+					-- just clone our creep
+					newCreep = self.creep
+				end
+				tCreepingDarkness.createDark(self.summoner, x, y, self.damage, self.originalDuration, newCreep, self.creepChance, 0)
+				return true
+			end
+
+			-- nowhere to creep
+			return false
+		end
+	end,
+	createDark = function(summoner, x, y, damage, duration, creep, creepChance, initialCreep)
+		local e = Object.new{
+			name = _t"cold flames",
+			canAct = false,
+			canCreep = true,
+			x = x, y = y,
+			damage = damage,
+			originalDuration = duration,
+			duration = duration,
+			creep = creep,
+			creepChance = creepChance,
+			summoner = summoner,
+			summoner_gain_exp = true,
+			act = function(self)
+				local Map = require "engine.Map"
+
+				self:useEnergy()
+
+				-- apply damage to anything inside the darkness
+				local actor = game.level.map(self.x, self.y, Map.ACTOR)
+				if actor and actor ~= self.summoner and (not actor.summoner or actor.summoner ~= self.summoner) then
+					self.summoner:project(actor, actor.x, actor.y, engine.DamageType.ICE, self.damage)
+					--DamageType:get(DamageType.DARKNESS).projector(self.summoner, actor.x, actor.y, DamageType.DARKNESS, damage)
+				end
+
+				if self.duration <= 0 then
+					-- remove
+					if self.particles then game.level.map:removeParticleEmitter(self.particles) end
+					game.level.map:remove(self.x, self.y, Map.TERRAIN+3)
+					game.level:removeEntity(self)
+					self.coldflames = nil
+					--game.level.map:redisplay()
+				else
+					self.duration = self.duration - 1
+
+					local tCreepingDarkness = self.summoner:getTalentFromId(self.summoner.T_COLD_FLAMES)
+
+					if self.canCreep and self.creep > 0 and rng.percent(self.creepChance) then
+						if not tCreepingDarkness.doCreep(tCreepingDarkness, self, true) then
+							-- doCreep failed..pass creep on to a neighbor and stop creeping
+							self.canCreep = false
+							local start = rng.range(0, 8)
+							for i = start, start + 8 do
+								local x = self.x + (i % 3) - 1
+								local y = self.y + math.floor((i % 9) / 3) - 1
+								if not (x == self.x and y == self.y) and tCreepingDarkness.canCreep(x, y) then
+									local dark = game.level.map:checkAllEntities(x, y, "coldflames")
+									if dark and dark.canCreep then
+										-- transfer creep
+										dark.creep = dark.creep + self.creep
+										self.creep = 0
+										return
+									end
+								end
+							end
+						end
+					end
+				end
+			end,
+		}
+		e.coldflames = e -- used for checkAllEntities to return the dark Object itself
+		game.level:addEntity(e)
+		game.level.map(x, y, Map.TERRAIN+3, e)
+
+		-- add particles
+		e.particles = Particles.new("coldflames", 1, { })
+		e.particles.x = x
+		e.particles.y = y
+		game.level.map:addParticleEmitter(e.particles)
+
+		-- do some initial creeping
+		if initialCreep > 0 then
+			local tCreepingDarkness = self.summoner:getTalentFromId(summoner.T_COLD_FLAMES)
+			while initialCreep > 0 do
+				if not tCreepingDarkness.doCreep(tCreepingDarkness, e, false) then
+					e.canCreep = false
+					e.initialCreep = 0
+					break
+				end
+				initialCreep = initialCreep - 1
+			end
+		end
+	end,
+
+	getDarkCount = function(self, t) return math.floor(self:combatTalentScale(t, 6, 10)) end,
+	getDamage = function(self, t)
+		return self:combatTalentSpellDamage(t, 10, 90)
+	end,
+	action = function(self, t)
+		local range = self:getTalentRange(t)
+		local radius = self:getTalentRadius(t)
+		local damage = {dam=t.getDamage(self, t), chance=25}
+		local darkCount = t.getDarkCount(self, t)
+
+		local tg = {type="ball", nolock=true, pass_terrain=false, nowarning=true, friendly_fire=true, default_target=self, range=range, radius=radius, talent=t}
+		local x, y = self:getTarget(tg)
+		if not x or not y then return nil end
+		local _ _, _, _, x, y = self:canProject(tg, x, y)
+
+		-- get locations in line of movement from center
+		local locations = {}
+		local grids = core.fov.circle_grids(x, y, radius, true)
+		for darkX, yy in pairs(grids) do for darkY, _ in pairs(grids[darkX]) do
+			local l = line.new(x, y, darkX, darkY)
+			local lx, ly = l()
+			while lx and ly do
+				if game.level.map:checkAllEntities(lx, ly, "block_move") then break end
+
+				lx, ly = l()
+			end
+			if not lx and not ly then lx, ly = darkX, darkY end
+
+			if lx == darkX and ly == darkY and t.canCreep(darkX, darkY) then
+				locations[#locations+1] = {darkX, darkY}
+			end
+		end end
+
+		darkCount = math.min(darkCount, #locations)
+		if darkCount == 0 then return false end
+
+		for i = 1, darkCount do
+			local location, id = rng.table(locations)
+			table.remove(locations, id)
+			t.createDark(self, location[1], location[2], damage, 8, 4, 70, 0)
+		end
+
+		game:playSoundNear(self, "talents/breath")
+		return true
+	end,
+	info = function(self, t)
+		local radius = self:getTalentRadius(t)
+		local damage = t.getDamage(self, t)
+		local darkCount = t.getDarkCount(self, t)
+		return ([[Cold Flames slowly spread from %d spots in a radius of %d around the targeted location. The flames deal %0.2f cold damage, and have a chance of freezing.
+		Damage improves with your Spellpower.]]):tformat(darkCount, radius, damDesc(self, DamageType.COLD, damage))
+	end,
+}
+
+newTalent{
+	name = "Quicken Spells",
+	type = {"spell/other",1},
+	points = 5,
+	mode = "sustained",
+	sustain_mana = 80,
+	cooldown = 30,
+	tactical = { BUFF = 2 },
+	getCooldownReduction = function(self, t) return util.bound(self:getTalentLevelRaw(t) / 15, 0.05, 0.3) end,
+	activate = function(self, t)
+		game:playSoundNear(self, "talents/spell_generic")
+		return {
+			cd = self:addTemporaryValue("spell_cooldown_reduction", t.getCooldownReduction(self, t)),
+		}
+	end,
+	deactivate = function(self, t, p)
+		self:removeTemporaryValue("spell_cooldown_reduction", p.cd)
+		return true
+	end,
+	info = function(self, t)
+		local cooldownred = t.getCooldownReduction(self, t)
+		return ([[Reduces the cooldown of all spells by %d%%.]]):
+		tformat(cooldownred * 100)
 	end,
 }

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Class: #LIGHT_GREEN#Paradox Mage (Chronomancer)",
-[[Time isn't a linear thing; it only appears to be.  In truth it's a fabric, the very fabric that holds the universe together.
+return _t"New Class: #LIGHT_GREEN#Paradox Mage (Chronomancer)",
+_t[[Time isn't a linear thing; it only appears to be.  In truth it's a fabric, the very fabric that holds the universe together.
 Some seek to weave this fabric, to bend it and shape it to their own will.  Only the truly dedicated or the truly mad manage to unlock the secrets of time and space.
 
 You have learned such secrets and can now create new characters with the #LIGHT_GREEN#Paradox Mage class#WHITE#.

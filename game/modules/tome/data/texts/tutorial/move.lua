@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[Movement is simple. You can use the keyboard, the mouse, or both.
+return _t[[Movement is simple. You can use the keyboard, the mouse, or both.
 
 #GOLD#Keyboard:#WHITE#
 - Press the arrow keys or keypad to move in the given direction.

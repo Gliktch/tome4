@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ for i = 1, 4 do
 newEntity{ base = "BASE_LORE",
 	define_as = "NOTE"..i,
 	name = "letter", lore="rhaloren-note-"..i,
-	desc = [[A letter.]],
+	desc = _t[[A letter.]],
 	rarity = false,
 }
 end
@@ -31,6 +31,6 @@ end
 newEntity{ base = "BASE_LORE",
 	define_as = "NOTE5",
 	name = "a carefully preserved letter", lore="rhaloren-note-5",
-	desc = [[A letter.]],
+	desc = _t[[A letter.]],
 	rarity = false,
 }

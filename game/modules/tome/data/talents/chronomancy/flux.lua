@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ newTalent{
 		local reduction = t.getReduction(self, t)
 		return ([[Create an anomaly, reducing your Paradox by %d.  This spell will never produce a major anomaly.
 		Induced Anomalies may not be held by Twist Fate, nor do they cause held anomalies to trigger.  However upon learning Twist Fate you may target Induced Anomalies.
-		The Paradox reduction will increase with your Spellpower.]]):format(reduction)
+		The Paradox reduction will increase with your Spellpower.]]):tformat(reduction)
 	end,
 }
 
@@ -74,7 +74,7 @@ newTalent{
 		
 		self:setEffect(self.EFF_REALITY_SMEARING, t.getDuration(self, t), {paradox=paradox/t.getDuration(self, t)})
 		game:delayedLogMessage(self, nil,  "reality smearing", "#LIGHT_BLUE##Source# converts damage to paradox!")
-		game:delayedLogDamage(src, self, 0, ("#LIGHT_BLUE#(%d converted)#LAST#"):format(absorb), false)
+		game:delayedLogDamage(src, self, 0, ("#LIGHT_BLUE#(%d converted)#LAST#"):tformat(absorb), false)
 		cb.value = cb.value - absorb
 		
 		return cb.value
@@ -93,7 +93,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[While active 30%% of all damage you take is converted into %0.2f Paradox per point.
 		The Paradox is gained over three turns.]]):
-		format(ratio, duration)
+		tformat(ratio, duration)
 	end,
 }
 
@@ -110,7 +110,7 @@ newTalent{
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 25, 290, getParadoxSpellpower(self, t)) end,
 	getDuration = function(self, t) return getExtensionModifier(self, t, 4) end,
 	target = function(self, t)
-		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), nowarning=true, talent=t}
+		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), nowarning=true, can_autoaccept=true, talent=t}
 	end,
 	requires_target = true,
 	direct_hit = true,
@@ -142,7 +142,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Deals %0.2f temporal damage over %d turns to all targets in a radius of %d.  Targets with Reality Smearing active will instead recover %d life over four turns.
 		If a target is reduced below 20%% life while Attenuate is active it may be instantly slain.
-		The damage will scale with your Spellpower.]]):format(damDesc(self, DamageType.TEMPORAL, damage), duration, radius, damage *0.4)
+		The damage will scale with your Spellpower.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), duration, radius, damage *0.4)
 	end,
 }
 
@@ -168,8 +168,9 @@ newTalent{
 				game.bignews:saySimple(180, "#STEEL_BLUE#Targeting %s", anom.name)
 			end
 			
-			-- Call the anomoly action function directly
-			anom.action(self, anom)
+			-- Call the anomaly action function directly, while disabling the
+			-- ability to cancel targeting
+			anom.doAction(self, anom, false)
 			self:incParadox(-eff.paradox)
 		end
 			
@@ -204,6 +205,6 @@ newTalent{
 		Current Anomaly: %s
 		
 		%s]]):
-		format(duration, t_name, t_info)
+		tformat(duration, t_name, t_info)
 	end,
 }

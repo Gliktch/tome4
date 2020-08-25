@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -164,22 +164,22 @@ end
 
 function _M:tooltip(x, y, seen_by)
 	if seen_by and not seen_by:canSee(self) then return end
-	local factcolor, factstate, factlevel = "#ANTIQUE_WHITE#", "neutral", self:reactionToward(game.player)
-	if factlevel < 0 then factcolor, factstate = "#LIGHT_RED#", "hostile"
-	elseif factlevel > 0 then factcolor, factstate = "#LIGHT_GREEN#", "friendly"
+	local factcolor, factstate, factlevel = "#ANTIQUE_WHITE#", _t"neutral", self:reactionToward(game.player)
+	if factlevel < 0 then factcolor, factstate = "#LIGHT_RED#", _t"hostile"
+	elseif factlevel > 0 then factcolor, factstate = "#LIGHT_GREEN#", _t"friendly"
 	end
 
 	local rank, rank_color = self:TextRank()
 
 	local ts = tstring{}
-	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self.name, {"color", "WHITE"}, true)
-	ts:add(self.type:capitalize(), " / ", self.subtype:capitalize(), true)
-	ts:add("Rank: ") ts:merge(rank_color:toTString()) ts:add(rank, {"color", "WHITE"}, true)
+	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self:getName(), {"color", "WHITE"}, true)
+	ts:add(_t(self.type):capitalize(), " / ", _t(self.subtype):capitalize(), true)
+	ts:add(_t"Rank: ") ts:merge(rank_color:toTString()) ts:add(rank, {"color", "WHITE"}, true)
 	ts:add(self.desc, true)
-	ts:add("Faction: ") ts:merge(factcolor:toTString()) ts:add(("%s (%s, %d)"):format(Faction.factions[self.faction].name, factstate, factlevel), {"color", "WHITE"}, true)
+	ts:add(_t"Faction: ") ts:merge(factcolor:toTString()) ts:add(("%s (%s, %d)"):format(Faction.factions[self.faction].name, factstate, factlevel), {"color", "WHITE"}, true)
 	ts:add(
-		("Killed by you: "):format(killed), true,
-		"Target: ", self.ai_target.actor and self.ai_target.actor.name or "none", true,
+		("Killed by you: "):tformat(killed), true,
+		_t"Target: ", self.ai_target.actor and self.ai_target.actor:getName() or _t"none", true,
 		"UID: "..self.uid
 	)
 
@@ -187,5 +187,5 @@ function _M:tooltip(x, y, seen_by)
 end
 
 function _M:die(src)
-	engine.interface.ActorLife.die(self, src)
+	return engine.interface.ActorLife.die(self, src)
 end

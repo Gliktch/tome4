@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,6 +26,10 @@ module(..., package.seeall, class.make)
 function _M:onPartyDeath(src, death_note)
 	if self.dead then if game.level:hasEntity(self) then game.level:removeEntity(self, true) end return true end
 
+	-- Die
+	death_note = death_note or {}
+	if not mod.class.Actor.die(self, src, death_note) then return end
+
 	-- Remove from the party if needed
 	if self.remove_from_party_on_death then
 		game.party:removeMember(self, true)
@@ -34,12 +38,8 @@ function _M:onPartyDeath(src, death_note)
 		game.party:setDeathTurn(self, game.turn)
 	end
 
-	-- Die
-	death_note = death_note or {}
-	mod.class.Actor.die(self, src, death_note)
-
 	-- Was not the current player, just die
-	if game.player ~= self then return end
+	if game.player ~= self then return true end
 
 	-- Check for any survivor that can be controlled
 	local game_ender = not game.party:findSuitablePlayer()
@@ -55,7 +55,7 @@ function _M:onPartyDeath(src, death_note)
 		game.party:setPlayer(game.party:findMember{main=true}, true)
 		game.paused = true
 		game.player.energy.value = game.energy_to_act
-		src = src or {name="unknown"}
+		src = src or {name=_t"unknown"}
 		game.player.killedBy = src
 		game.player.died_times[#game.player.died_times+1] = {name=src.name, level=game.player.level, turn=game.turn}
 		game.player:registerDeath(game.player.killedBy)
@@ -86,56 +86,61 @@ function _M:onPartyDeath(src, death_note)
 
 		local msg, short_msg
 		if not death_note.special_death_msg then
-			msg = "%s the level %d %s %s was %s to death by %s%s%s on level %s of %s."
-			short_msg = "%s(%d %s %s) was %s to death by %s%s on %s %s."
-			local srcname = src.unique and src.name or src.name:a_an()
-			local killermsg = (src.killer_message and " "..src.killer_message or ""):gsub("#sex#", game.player.female and "her" or "him")
+			msg = _t"%s the level %d %s %s was %s to death by %s%s%s on level %s of %s."
+			short_msg = _t"%s(%d %s %s) was %s to death by %s%s on %s %s."
+			local srcname
+			if src.getName and src.unique then srcname = src:getName()
+			elseif src.getName then srcname = src:getName():a_an()
+			else srcname = src.name and tostring(src.name) or "(???)"
+			end
+			local killermsg = (src.killer_message and " "..src.killer_message or ""):gsub("#sex#", game.player.female and _t"her" or _t"him")
 			if src.name == game.player.name then
-				srcname = game.player.female and "herself" or "himself"
+				srcname = game.player.female and _t"herself" or _t"himself"
 				killermsg = rng.table{
-					" (the fool)",
-					" in an act of extreme incompetence",
-					" out of supreme humility",
-					", by accident of course,",
-					" in some sort of fetish experiment gone wrong",
-					", providing a free meal to the wildlife",
-					" (how embarrassing)",
+					_t" (the fool)",
+					_t" in an act of extreme incompetence",
+					_t" out of supreme humility",
+					_t", by accident of course,",
+					_t" in some sort of fetish experiment gone wrong",
+					_t", providing a free meal to the wildlife",
+					_t" (how embarrassing)",
 				}
 			end
 			msg = msg:format(
-				game.player.name, game.player.level, game.player.descriptor.subrace:lower(), game.player.descriptor.subclass:lower(),
-				death_mean or "battered",
+				game.player.name, game.player.level, _t(game.player.descriptor.subrace):lower(), _t(game.player.descriptor.subclass):lower(),
+				death_mean or _t"battered",
 				srcname,
-				src.name == top_killer and " (yet again)" or "",
+				src.name == top_killer and _t" (yet again)" or "",
 				killermsg,
 				game.level.level, game.zone.name
 			)
 			short_msg = short_msg:format(
-				game.player.name, game.player.level, game.player.descriptor.subrace:lower(), game.player.descriptor.subclass:lower(),
-				death_mean or "battered",
+				game.player.name, game.player.level, _t(game.player.descriptor.subrace):lower(), _t(game.player.descriptor.subclass):lower(),
+				death_mean or _t"battered",
 				srcname,
 				killermsg,
 				game.zone.name, game.level.level
 			)
 		else
-			msg = "%s the level %d %s %s %s on level %s of %s."
-			short_msg = "%s(%d %s %s) %s on %s %s."
+			msg = _t"%s the level %d %s %s %s on level %s of %s."
+			short_msg = _t"%s(%d %s %s) %s on %s %s."
 			msg = msg:format(
-				game.player.name, game.player.level, game.player.descriptor.subrace:lower(), game.player.descriptor.subclass:lower(),
+				game.player.name, game.player.level, _t(game.player.descriptor.subrace):lower(), _t(game.player.descriptor.subclass):lower(),
 				death_note.special_death_msg,
 				game.level.level, game.zone.name
 			)
 			short_msg = short_msg:format(
-				game.player.name, game.player.level, game.player.descriptor.subrace:lower(), game.player.descriptor.subclass:lower(),
+				game.player.name, game.player.level, _t(game.player.descriptor.subrace):lower(), _t(game.player.descriptor.subclass):lower(),
 				death_note.special_death_msg,
 				game.zone.name, game.level.level
 			)
 		end
 
 		game:playSound("actions/death")
-		game.delayed_death_message = "#{bold}#"..msg.."#{normal}#"
+		game.delayed_death_message = _t"#{bold}#"..msg.."#{normal}#"
 		if (not game.player.easy_mode_lifes or game.player.easy_mode_lifes <= 0) and not game.player.infinite_lifes then
 			profile.chat.uc_ext:sendKillerLink(msg, short_msg, src)
 		end
 	end
+	return true
 end

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Fearscape",
+	name = _t"Fearscape",
 	level_range = {30, 40},
 	level_scheme = "player",
 	max_level = 1,
@@ -66,6 +66,7 @@ return {
 		},
 	},
 	on_enter = function(lev, old_lev, newzone)
+		game.player:attr("planetary_orbit", 1)
 		if newzone then game.party:learnLore("fearscape-entry") end
 	end,
 }

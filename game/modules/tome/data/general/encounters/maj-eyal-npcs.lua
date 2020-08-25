@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@ newEntity{
 	sight = 4,
 	rarity = 3,
 	unit_power = 10,
+	movement_speed = 0.5,
 	cant_be_moved = false,
 	ai = "world_patrol", ai_state = {route_kind="allied-kingdoms"},
 	on_encounter = {
@@ -37,11 +38,12 @@ newEntity{
 		nb={3, 4},
 		filters={{special_rarity="humanoid_random_boss", subtype="human", random_boss={
 			nb_classes=1,
-			rank=3, ai = "tactical",
+			rank=3.2, ai = "tactical",
 			life_rating=function(v) return v * 1.4 + 3 end,
 			loot_quality = "store",
 			loot_quantity = 1,
 			no_loot_randart = true,
+			rnd_boss_final_adjust = function() end,
 		}}}
 	},
 }
@@ -55,6 +57,7 @@ newEntity{
 	sight = 4,
 	rarity = 3,
 	unit_power = 10,
+	movement_speed = 0.5,
 	cant_be_moved = false,
 	ai = "world_patrol", ai_state = {route_kind="allied-kingdoms"},
 	on_encounter = {
@@ -64,11 +67,12 @@ newEntity{
 		nb={3, 4},
 		filters={{special_rarity="humanoid_random_boss", subtype="halfling", random_boss={
 			nb_classes=1,
-			rank=3, ai = "tactical",
+			rank=3.2, ai = "tactical",
 			life_rating=function(v) return v * 1.4 + 3 end,
 			loot_quality = "store",
 			loot_quantity = 1,
 			no_loot_randart = true,
+			rnd_boss_final_adjust = function() end,
 		}}}
 	},
 }
@@ -90,11 +94,12 @@ newEntity{
 		nb={2, 3},
 		filters={{special_rarity="humanoid_random_boss", random_boss={
 			nb_classes=1,
-			rank=3, ai = "tactical",
+			rank=3.2, ai = "tactical",
 			life_rating=function(v) return v * 1.3 + 2 end,
 			loot_quality = "store",
 			loot_quantity = 1,
 			no_loot_randart = true,
+			rnd_boss_final_adjust = function() end,
 			on_die = function(self, src) -- When they die they have a chance to drop an alchemist ingredient
 				if rng.percent(30) then
 					local list = {}
@@ -109,7 +114,7 @@ newEntity{
 newEntity{
 	name = "ziguranth patrol",
 	type = "hostile", subtype = "humanoid",
-	desc = "You have got nothing to fear if you are not using filthy arcane magic. Otherwise: DIE!",
+	desc = _t"You have got nothing to fear if you are not using filthy arcane magic. Otherwise: DIE!",
 	display = '@', color = colors.GREEN,
 	level_range = {14, nil},
 	faction = "zigur",
@@ -127,10 +132,11 @@ newEntity{
 		nb={2, 3},
 		filters={{special_rarity="zigur_random_boss", random_boss={
 			nb_classes=1,
-			rank=3, ai = "tactical",
+			rank=3.2, ai = "tactical",
 			life_rating=function(v) return v * 1.3 + 2 end,
 			loot_quality = "store",
 			loot_quantity = 1,
+			rnd_boss_final_adjust = function() end,
 			class_filter = function(c)
 				if c.power_source and c.power_source.arcane then return false end
 				return true

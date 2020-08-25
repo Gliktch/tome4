@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ newEntity{ base="FLOATING_ROCKS", define_as = "WORMHOLE", nice_tiler = false,
 		if source_talent then st = game.player:getTalentFromId(source_talent) end
 		if st and st.is_spell and game.party:hasMember(src) and not self.change_level then
 			self.change_level = 1
-			self.name = "stable wormhole"
+			self.name = _t"stable wormhole"
 			game.logSeen(src, "#VIOLET#The wormhole absorbs energies and stabilizes. You can now use it to travel.")
 			local q = game.player:hasQuest("start-archmage")
 			if q then q:stabilized() end

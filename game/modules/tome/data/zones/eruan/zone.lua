@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Erúan",
+	name = _t"Erúan",
 	level_range = {30, 45},
 	level_scheme = "player",
 	max_level = 4,
@@ -49,9 +49,9 @@ return {
 				pond = {{0.6, "DEEP_OCEAN_WATER"}, {0.8, "DEEP_OCEAN_WATER"}},
 			},
 
-			nb_rooms = {0,0,0,0,1},
+			nb_rooms = {0,0,1},
 			rooms = {"greater_vault"},
-			greater_vaults_list = {"dragon_lair", "lava_island", "bandit-fortress", "horror-chamber"},
+			greater_vaults_list = {"dragon_lair", "lava_island", "horror-chamber", "living-weapons", "sleeping-dragons"},
 			lite_room_chance = 100,
 		},
 		actor = {

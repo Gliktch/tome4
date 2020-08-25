@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Point Zero",
+	name = _t"Point Zero",
 	level_range = {1, 15},
 	level_scheme = "player",
 	actor_adjust_level = function(zone, level, e) return zone.base_level + e:getRankLevelAdjust() + level.level-1 + rng.range(-1,2) end,
@@ -97,7 +97,7 @@ return {
 				})
 
 				local g = game.level.map(z.x1, z.y1, engine.Map.TERRAIN):cloneFull()
-				g.name = "temporal beam endpoint"
+				g.name = _t"temporal beam endpoint"
 				g:removeAllMOs()
 				g:altered()
 				g.exit = {x=z.x2, y=z.y2}
@@ -116,7 +116,7 @@ return {
 				game.zone:addEntity(game.level, g, "terrain", z.x1, z.y1)
 
 				local g = game.level.map(z.x2, z.y2, engine.Map.TERRAIN):cloneFull()
-				g.name = "temporal beam endpoint"
+				g.name = _t"temporal beam endpoint"
 				g:removeAllMOs()
 				g:altered()
 				g.exit = {x=z.x1, y=z.y1}

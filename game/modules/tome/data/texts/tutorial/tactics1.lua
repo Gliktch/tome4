@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[You have found a nest of snakes! If you let them surround you, you might be in trouble!
+return _t[[You have found a nest of snakes! If you let them surround you, you might be in trouble!
 A basic tactic is to never get surrounded, do not hesitate to backtrack a bit to a safer spot.
 
 #GOLD#Always control the fight.#WHITE#

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Talent Category: #LIGHT_GREEN#Wildfire",
-[[Since the dawn of time mages have experimented with the elements.
+return _t"New Talent Category: #LIGHT_GREEN#Wildfire",
+_t[[Since the dawn of time mages have experimented with the elements.
 While most mages are content using the Fire school, a few of them took their research deeper and created Wildfire magic.
 At its core lies the Wildfire, a fire so hot it can even damage creatures normally immune.
 

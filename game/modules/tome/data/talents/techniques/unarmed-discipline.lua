@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ newTalent{
 	random_ego = "attack",
 	cooldown = 20,
 	stamina = 40,
-	message = "@Source@ unleashes a flurry of disrupting kicks.",
+	message = _t"@Source@ unleashes a flurry of disrupting kicks.",
 	tactical = { ATTACK = { weapon = 2 }, },
 	is_melee = true,
 	range = 1,
@@ -75,7 +75,7 @@ newTalent{
 		talents = table.keys(talents)
 		while #talents > 0 and nb > 0 do
 			local tid = rng.tableRemove(talents)
-			target:forceUseTalent(tid, {ignore_energy=true})
+			target:dispel(tid, self)
 			nb = nb - 1
 			local tt = self:getTalentFromId(tid)
 			if tt.is_spell then dispeltypes.spell = true
@@ -99,11 +99,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t) * 100
-		return ([[Unleash a flurry of disruptive kicks at your target's vulnerable areas.  For each combo point you attack for %d%% weapon damage and deactivate one physical sustain.
+		return ([[Unleash a flurry of disruptive kicks at your target's vulnerable areas. For each combo point you attack for %d%% weapon damage and deactivate one physical sustain.
 			At talent level 3 #DARK_ORCHID#Magical#LAST# sustains will also be effected.
 			At talent level 5 #YELLOW#Mental#LAST# sustains will also be effected.
 			Using this talent removes your combo points.]])
-		:format(damage)
+		:tformat(damage)
 	end,
 }
 
@@ -118,8 +118,8 @@ newTalent{
 	info = function(self, t)
 		local stamina = t.getStamina(self, t)
 		local chance = t.getChance(self, t)
-		return ([[When gaining a combo point, you have a %d%% chance to gain an extra combo point.  Additionally, every time you earn a combo point, you will regain %0.2f stamina, or %0.2f stamina if you would exceed 5 combo points.]])
-		:format(chance, stamina, stamina*2)
+		return ([[When gaining a combo point, you have a %d%% chance to gain an extra combo point. Additionally, every time you earn a combo point, you will regain %0.2f stamina, or %0.2f stamina if you would exceed 5 combo points.]])
+		:tformat(chance, stamina, stamina*2)
 	end,
 }
 
@@ -132,7 +132,7 @@ newTalent{
 	random_ego = "attack",
 	cooldown = 6,
 	stamina = 5,
-	message = "@Source@ prepares to block incoming attacks.",
+	message = _t"@Source@ prepares to block incoming attacks.",
 	tactical = { ATTACK = 3, DEFEND = 3 },
 	requires_target = true,
 	getBlock = function(self, t) return self:combatTalentPhysicalDamage(t, 30, 200) end,
@@ -148,10 +148,10 @@ newTalent{
 		local block = t.getBlock(self, t)
 		local maxblock = block*5
 		return ([[Toughen your body blocking up to %d damage per combo point (Max %d) across 2 turns.
-			Current block value:  %d
+			Current block value: %d
 			Using this talent removes your combo points.
 			The damage absorbed scales with your Physical Power.]])
-		:format(block, block * 5, block * self:getCombo())
+		:tformat(block, block * 5, block * self:getCombo())
 	end,
 }
 
@@ -167,7 +167,7 @@ newTalent{
 	is_melee = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	range = 1,
-	message = "@Source@ strikes a deadly pressure point on the target.",
+	message = _t"@Source@ strikes a deadly pressure point on the target.",
 	tactical = { DISABLE = 3, ATTACK = { weapon = 3 } },
 	requires_target = true,
 	radius = function(self,t) return self:combatTalentScale(t, 1, 3) end,
@@ -214,7 +214,7 @@ newTalent{
 		return ([[Using your deep knowledge of anatomy, you strike a target in a vital pressure point for %d%% weapon damage, bypassing their defense and evasion.
 		This strike inflicts terrible wounds inside the target's body, causing them to take physical damage equal to 100%% of any damage dealt during the attack each turn for 4 turns, increasing by %d%% each turn (so after 4 turns, they would have taken a total of %d%% damage).
 		If the target dies while under or from this effect their body will explode in a radius %d shower of bone and gore, inflicting physical damage equal to the current tick to all enemies and granting you 4 combo points.]])
-		:format(damage, mult, finaldam, radius, life)
+		:tformat(damage, mult, finaldam, radius, life)
 	end,
 }
 

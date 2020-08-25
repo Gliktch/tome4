@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Class Option: #LIGHT_GREEN#Drolem",
-[[You have defeated Tannen with your Alchemist and took some time to figure how he built a mighty Drolem.
+return _t"New Class Option: #LIGHT_GREEN#Drolem",
+_t[[You have defeated Tannen with your Alchemist and took some time to figure how he built a mighty Drolem.
 Drolems are dragon-shaped golems able to breath powerful poison at their foes.
 
 You may now create alchemist characters with a drolem instead of a golem.

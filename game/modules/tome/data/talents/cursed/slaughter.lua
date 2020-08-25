@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ newTalent{
 
 		-- We need to alter behavior slightly to accomodate shields since they aren't used in attackTarget
 		local shield, shield_combat = self:hasShield()
-		local weapon = self:hasMHWeapon().combat
+		local weapon = self:hasMHWeapon() and self:hasMHWeapon().combat or self.combat
 		local hit = false
 		if not shield then
 			hit = self:attackTarget(target, nil, damageMultiplier, true)
@@ -78,7 +78,7 @@ newTalent{
 		At level 3, any wound you inflict with this carries a part of your curse, reducing the effectiveness of healing by %d%% for %d turns. The effect will stack.
 		The damage multiplier increases with your Strength.
 
-		This talent will also attack with your shield, if you have one equipped.]]):format(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, -healFactorChange * 100, woundDuration)
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, -healFactorChange * 100, woundDuration)
 	end,
 }
 
@@ -88,15 +88,15 @@ newTalent{
 	require = cursed_str_req2,
 	points = 5,
 	tactical = { ATTACKAREA = { PHYSICAL = 2 } },
+	is_melee = true,
 	random_ego = "attack",
 	cooldown = 12,
 	hate = 2,
 	getDamageMultiplier = function(self, t, hate)
 		return self:combatTalentIntervalDamage(t, "str", 0.25, 0.8, 0.4) * getHateMultiplier(self, 0.5, 1, false, hate)
 	end,
-	getAttackChange = function(self, t)
-		local level = math.max(3 * self:getTalentTypeMastery(t.type[1]) - 2, self:getTalentLevel(t) - 2)
-		return -self:combatScale(math.max(0,level^0.5 - 0.5) * 15 * (100 + self:getStr()), 0, 0, 20.77, 3696, 0.67)
+	getDefenseChange = function(self, t)
+		return self:combatTalentIntervalDamage(t, "str", 6, 45)
 	end,
 	range = 0,
 	radius = 1,
@@ -118,7 +118,7 @@ newTalent{
 		if #targets <= 0 then return nil end
 
 		local damageMultiplier = t.getDamageMultiplier(self, t)
-		local attackChange = t.getAttackChange(self, t)
+		local defenseChange = t.getDefenseChange(self, t)
 
 		local effStalker = self:hasEffect(self.EFF_STALKER)
 		if effStalker and core.fov.distance(self.x, self.y, effStalker.target.x, effStalker.target.y) > 1 then effStalker = nil end
@@ -132,7 +132,7 @@ newTalent{
 
 			-- We need to alter behavior slightly to accomodate shields since they aren't used in attackTarget
 			local shield, shield_combat = self:hasShield()
-			local weapon = self:hasMHWeapon().combat
+			local weapon = self:hasMHWeapon() and self:hasMHWeapon().combat or self.combat
 			local hit = false
 			if not shield then
 				hit = self:attackTarget(target, nil, damageMultiplier, true)
@@ -142,19 +142,19 @@ newTalent{
 			end
 
 			if hit and self:getTalentLevel(t) >= 3 and not target:hasEffect(target.EFF_OVERWHELMED) then
-				target:setEffect(target.EFF_OVERWHELMED, 3, {src=self, attackChange=attackChange})
+				target:setEffect(target.EFF_OVERWHELMED, 4, {src=self, defenseChange=defenseChange})
 			end
 		end
 
 		return true
 	end,
 	info = function(self, t)
-		local attackChange = t.getAttackChange(self, t)
+		local defenseChange = t.getDefenseChange(self, t)
 		return ([[Assault nearby foes with 4 fast attacks for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage each. Stalked prey are always targeted if nearby.
-		At level 3 the intensity of your assault overwhelms anyone who is struck, reducing their Accuracy by %d for 3 turns.
-		The damage multiplier and Accuracy reduction increase with your Strength.
+		At level 3 the intensity of your assault overwhelms anyone who is struck, reducing their Defense by %d for 4 turns.
+		The damage multiplier and Defense reduction increase with your Strength.
 
-		This talent will also attack with your shield, if you have one equipped.]]):format(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, -attackChange)
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, -defenseChange)
 	end,
 }
 
@@ -168,6 +168,7 @@ newTalent{
 	hate = 5,
 	range = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
 	tactical = { CLOSEIN = 2 },
+	is_melee = true,
 	requires_target = true,
 	getDamageMultiplier = function(self, t, hate)
 		return 0.7 * getHateMultiplier(self, 0.5, 1, false, hate)
@@ -264,7 +265,7 @@ newTalent{
 		else
 			size = "Small"
 		end
-		return ([[Charge through your opponents, attacking anyone near your path for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage. %s opponents may be knocked away from your path. You can attack a maximum of %d times, and can hit targets along your path more than once.]]):format(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, size, maxAttackCount)
+		return ([[Charge through your opponents, attacking anyone near your path for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage. %s opponents may be knocked away from your path. You can attack a maximum of %d times, and can hit targets along your path more than once.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, size, maxAttackCount)
 	end,
 }
 
@@ -287,7 +288,7 @@ newTalent{
 --				local secondTarget = game.level.map(x, y, Map.ACTOR)
 --				if secondTarget and secondTarget ~= target and self:reactionToward(secondTarget) < 0 then
 --					local multiplier = multiplier or 1 * self:combatTalentWeaponDamage(t, 0.2, 0.7) * getHateMultiplier(self, 0.5, 1.0, false)
---					game.logSeen(self, "%s cleaves through another foe!", self.name:capitalize())
+--					game.logSeen(self, "%s cleaves through another foe!", self:getName():capitalize())
 --					self:attackTarget(secondTarget, nil, multiplier, true)
 --					inCleave = false
 --					return
@@ -300,7 +301,7 @@ newTalent{
 --	info = function(self, t)
 --		local chance = 28 + self:getTalentLevel(t) * 7
 --		local multiplier = self:combatTalentWeaponDamage(t, 0.2, 0.7)
---		return ([[Every swing of your weapon has a %d%% chance of striking a second target for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage.]]):format(chance, multiplier * 50, multiplier * 100)
+--		return ([[Every swing of your weapon has a %d%% chance of striking a second target for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage.]]):tformat(chance, multiplier * 50, multiplier * 100)
 --	end,
 --}
 
@@ -369,6 +370,6 @@ newTalent{
 		Cleave, Repel and Surge cannot be active simultaneously, and activating one will place the others in cooldown.
 		Cleave will deal 25%% additional damage while using a two-handed weapon.
 		The Cleave damage increases with your Strength.]]):
-		format( t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100)
+		tformat( t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100)
 	end,
 }

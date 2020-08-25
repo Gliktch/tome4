@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ load("/data/general/objects/objects-maj-eyal.lua")
 newEntity{ base = "BASE_LORE",
 	define_as = "NOTE",
 	name = "journal page", lore="old-forest-note-5",
-	desc = [[A paper scrap, left by an adventurer.]],
+	desc = _t[[A paper scrap, left by an adventurer.]],
 	rarity = false,
 	encumberance = 0,
 }

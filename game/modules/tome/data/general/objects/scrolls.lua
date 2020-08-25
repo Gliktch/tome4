@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 newEntity{
 	define_as = "BASE_SCROLL",
 	type = "scroll", subtype="scroll",
-	unided_name = "scroll", id_by_type = true,
+	unided_name = _t"scroll", id_by_type = true,
 	display = "?", color=colors.WHITE, image="object/scroll.png",
 	encumber = 0.1,
 	stacking = true,
@@ -28,26 +28,26 @@ newEntity{
 	use_no_blind = true,
 	use_no_silence = true,
 	fire_destroy = {{10,1}, {20,2}, {40,5}, {60,10}, {120,20}},
-	desc = [[Magical scrolls can have wildly different effects!]],
+	desc = _t[[Magical scrolls can have wildly different effects!]],
 	egos = "/data/general/objects/egos/scrolls.lua", egos_chance = resolvers.mbonus(10, 5),
 }
 
 newEntity{
 	define_as = "BASE_INFUSION",
 	type = "scroll", subtype="infusion", add_name = " (#INSCRIPTION#)",
-	unided_name = "infusion", id_by_type = true,
+	unided_name = _t"infusion", id_by_type = true,
 	display = "?", color=colors.LIGHT_GREEN, image="object/rune_green.png",
 	encumber = 0.1,
 	use_sound = "actions/read",
 	use_no_blind = true,
 	use_no_silence = true,
 	fire_destroy = {{100,1}, {200,2}, {400,5}, {600,10}, {1200,20}},
-	desc = [[Natural infusions may be grafted onto your body, granting you an on-demand nature talent.]],
+	desc = _t[[Natural infusions may be grafted onto your body, granting you an on-demand nature talent.]],
 	egos = "/data/general/objects/egos/infusions.lua", egos_chance = resolvers.mbonus(30, 5),
 	material_level_min_only = true,
 
 	power_source = {nature=true},
-	use_simple = { name="inscribe your skin with the infusion", use = function(self, who, inven, item)
+	use_simple = { name=_t"inscribe your skin with the infusion", use = function(self, who, inven, item)
 		if who:setInscription(nil, self.inscription_talent, self.inscription_data, true, true, {obj=self, inven=inven, item=item}) then
 			return {used=true, id=true, destroy=true}
 		end
@@ -57,19 +57,19 @@ newEntity{
 newEntity{
 	define_as = "BASE_RUNE",
 	type = "scroll", subtype="rune", add_name = " (#INSCRIPTION#)",
-	unided_name = "rune", id_by_type = true,
+	unided_name = _t"rune", id_by_type = true,
 	display = "?", color=colors.LIGHT_BLUE, image="object/rune_red.png",
 	encumber = 0.1,
 	use_sound = "actions/read",
 	use_no_blind = true,
 	use_no_silence = true,
 	fire_destroy = {{10,1}, {20,2}, {40,5}, {60,10}, {120,20}},
-	desc = [[Magical runes may be inscribed onto your body, granting you an on-demand spell talent.]],
+	desc = _t[[Magical runes may be inscribed onto your body, granting you an on-demand spell talent.]],
 	egos = "/data/general/objects/egos/infusions.lua", egos_chance = resolvers.mbonus(30, 5),
 	material_level_min_only = true,
 
 	power_source = {arcane=true},
-	use_simple = { name="inscribe your skin with the rune", use = function(self, who, inven, item)
+	use_simple = { name=_t"inscribe your skin with the rune", use = function(self, who, inven, item)
 		if who:setInscription(nil, self.inscription_talent, self.inscription_data, true, true, {obj=self, inven=inven, item=item}) then
 			return {used=true, id=true, destroy=true}
 		end
@@ -79,18 +79,18 @@ newEntity{
 newEntity{
 	define_as = "BASE_TAINT",
 	type = "scroll", subtype="taint", add_name = " (#INSCRIPTION#)",
-	unided_name = "taint", id_by_type = true,
+	unided_name = _t"taint", id_by_type = true,
 	display = "?", color=colors.LIGHT_BLUE, image="object/rune_yellow.png",
 	encumber = 0.1,
 	use_sound = "actions/read",
 	use_no_blind = true,
 	use_no_silence = true,
 	fire_destroy = {{10,1}, {20,2}, {40,5}, {60,10}, {120,20}},
-	desc = [[Corrupted taints may be inscribed onto your body, granting you an on-demand ability.]],
+	desc = _t[[Corrupted taints may be inscribed onto your body, granting you an on-demand ability.]],
 	egos = "/data/general/objects/egos/infusions.lua", egos_chance = resolvers.mbonus(30, 5),
 
 	power_source = {arcane=true},
-	use_simple = { name="inscribe your skin with the taint", use = function(self, who, inven, item)
+	use_simple = { name=_t"inscribe your skin with the taint", use = function(self, who, inven, item)
 		if who:setInscription(nil, self.inscription_talent, self.inscription_data, true, true, {obj=self, inven=inven, item=item}) then
 			return {used=true, id=true, destroy=true}
 		end
@@ -100,12 +100,12 @@ newEntity{
 newEntity{
 	define_as = "BASE_LORE",
 	type = "lore", subtype="lore", not_in_stores=true, no_unique_lore=true,
-	unided_name = "scroll", identified=true,
+	unided_name = _t"scroll", identified=true,
 	display = "?", color=colors.ANTIQUE_WHITE, image="object/scroll-lore.png",
 	encumber = 0,
 	checkFilter = function(self) if self.lore and game.party.lore_known and game.party.lore_known[self.lore] then print('[LORE] refusing', self.lore) return false else return true end end,
-	desc = [[This parchment contains some lore.]],
-	use_simple = { name="read it", use = function(self, who, inven, item)
+	desc = _t[[This parchment contains some lore.]],
+	use_simple = { name=_t"read it", use = function(self, who, inven, item)
 		game.party:learnLore(self.lore)
 		return {used=true, id=true, destroy=true}
 	end}
@@ -114,12 +114,12 @@ newEntity{
 newEntity{
 	define_as = "BASE_LORE_RANDOM",
 	type = "lore", subtype="lore", not_in_stores=true, no_unique_lore=true,
-	unided_name = "scroll", identified=true,
+	unided_name = _t"scroll", identified=true,
 	display = "?", color=colors.ANTIQUE_WHITE, image="object/scroll.png",
 	encumber = 0,
 	checkFilter = function(self) if self.lore and game.party.lore_known and game.party.lore_known[self.lore] then print('[LORE] refusing', self.lore) return false else return true end end,
-	desc = [[This parchment contains some lore.]],
-	use_simple = { name="read it", use = function(self, who, inven, item)
+	desc = _t[[This parchment contains some lore.]],
+	use_simple = { name=_t"read it", use = function(self, who, inven, item)
 		game.party:learnLore(self.lore)
 		return {used=true, id=true, destroy=true}
 	end}
@@ -167,7 +167,7 @@ newEntity{ base = "BASE_INFUSION",
 	level_range = {1, 50},
 	rarity = 15,
 	cost = 20,
-	chance = resolvers.mbonus_level(80, -20), -- No chance of 2 cleanses until higher ilvl to discourage rerolling the earliest shops
+	chance = resolvers.mbonus_level(110, -10), -- No chance of 2 cleanses until higher ilvl to discourage rerolling the earliest shops
 	inscription_kind = "utility",
 	inscription_data = resolvers.generic(function(e)
 		local what = {}
@@ -180,7 +180,7 @@ newEntity{ base = "BASE_INFUSION",
 			what[eff2] = true
 		end
 		return {
-			cooldown = rng.range(12, 16),
+			cooldown = rng.range(10, 16),
 			dur = rng.range(2, 4),
 			power = resolvers.mbonus_level(10, 15),  -- Low variance because duration and chance for second debuff type is enough randomness
 			use_stat_mod = 0.2,  -- +20% resist all at 100 stat
@@ -192,7 +192,7 @@ newEntity{ base = "BASE_INFUSION",
 
 newEntity{ base = "BASE_INFUSION",
 	name = "movement infusion",
-	level_range = {10, 50},
+	level_range = {1, 50},
 	rarity = 20,
 	cost = 30,
 
@@ -208,7 +208,7 @@ newEntity{ base = "BASE_INFUSION",
 newEntity{ base = "BASE_INFUSION",
 	name = "heroism infusion",
 	level_range = {20, 50},
-	rarity = 20,
+	rarity = 30,
 	cost = 40,
 
 	inscription_kind = "utility",
@@ -258,7 +258,7 @@ newEntity{ base = "BASE_RUNE",
 newEntity{ base = "BASE_RUNE",
 	name = "biting gale rune",
 	level_range = {10, 50},
-	rarity = 20,
+	rarity = 35,
 	cost = 20,
 
 	inscription_kind = "attack",
@@ -274,7 +274,7 @@ newEntity{ base = "BASE_RUNE",
 newEntity{ base = "BASE_RUNE",
 	name = "acid wave rune",
 	level_range = {10, 50},
-	rarity = 20,
+	rarity = 35,
 	cost = 20,
 
 	inscription_kind = "attack",
@@ -295,7 +295,7 @@ newEntity{ base = "BASE_RUNE",
 
 	inscription_kind = "utility",
 	inscription_data = {
-		cooldown = resolvers.rngrange(15, 20),
+		cooldown = resolvers.rngrange(12, 18),
 		dur = 10,
 		mana = resolvers.mbonus_level(1200, 600, function(e, v) return v * 0.003 end),
 		use_stat_mod = 6,
@@ -311,8 +311,8 @@ newEntity{ base = "BASE_RUNE",
 	material_level = 1,
 	inscription_kind = "movement",
 	inscription_data = {
-		cooldown = resolvers.rngrange(13, 20),
-		range = resolvers.mbonus_level(4, 2, function(e, v) return v * 0.06 end),
+		cooldown = resolvers.rngrange(10, 20),
+		range = resolvers.mbonus_level(5, 3, function(e, v) return v * 0.06 end),
 		power = resolvers.mbonus_level(20, 10, function(e, v) return v * 1 end),
 		use_stat_mod = 0.04, -- +4 range at 100 stat
 	},
@@ -342,7 +342,7 @@ newEntity{ base = "BASE_RUNE",
 	cost = 10,
 	inscription_kind = "utility",
 	inscription_data = {
-		cooldown = resolvers.rngrange(16, 24),
+		cooldown = resolvers.rngrange(12, 22),
 		shield = resolvers.mbonus_level(120, 20, function(e, v) return v * 0.06 end),
 		use_stat_mod = 1 -- 1x, applied up to 3 times
 	},

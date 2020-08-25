@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"CRYSTALINE", 2})
 local is_crystaline = layout == "CRYSTALINE"
 
 return {
-	name = "Old Forest",
+	name = _t"Old Forest",
 	level_range = {7, 16},
 	level_scheme = "player",
 	max_level = 4,
@@ -46,7 +46,7 @@ return {
 			edge_entrances = {4,6},
 			rooms = {"forest_clearing", {"lesser_vault",8}},
 			rooms_config = {forest_clearing={pit_chance=5, filters={{type="insect", subtype="ant"}, {type="insect"}, {type="animal", subtype="snake"}, {type="animal", subtype="canine"}}}},
-			lesser_vaults_list = {"honey_glade", "troll-hideout", "mage-hideout", "thief-hideout", "plantlife", "mold-path", "bandit-fortress","loot-vault"},
+			lesser_vaults_list = {"honey_glade", "troll-hideout", "mage-hideout", "thief-hideout", "plantlife", "mold-path", "loot-vault", "worms", "bandit-fortress"},
 			['.'] = "GRASS",
 			['#'] = "TREE",
 			up = "GRASS_UP4",

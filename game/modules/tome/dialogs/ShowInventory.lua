@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ function _M:init(title, inven, filter, action, actor)
 	self.filter = filter
 	self.action = action
 	self.actor = actor
-	Dialog.init(self, title or "Inventory", math.max(800, game.w * 0.8), math.max(600, game.h * 0.8))
+	Dialog.init(self, title or _t"Inventory", math.max(800, game.w * 0.8), math.max(600, game.h * 0.8))
 
 	local vsep = Separator.new{dir="horizontal", size=self.ih - 10}
 	self.c_desc = TextzoneList.new{scrollbar = true, width=math.floor(self.iw / 2 - vsep.w / 2), height=self.ih}

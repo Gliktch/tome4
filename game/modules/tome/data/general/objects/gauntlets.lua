@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -32,14 +32,14 @@ newEntity{
 	rarity = 9,
 	metallic = true,
 	wielder={combat = {accuracy_effect = "mace"},},
-	desc = [[Metal gloves protecting the hands up to the middle of the lower arm.]],
+	desc = _t[[Metal gloves protecting the hands up to the middle of the lower arm.]],
 	randart_able = "/data/general/objects/random-artifacts/generic.lua",
 	egos = "/data/general/objects/egos/gloves.lua", egos_chance = { prefix=resolvers.mbonus(40, 5), suffix=resolvers.mbonus(40, 5) },
 }
 
 newEntity{ base = "BASE_GAUNTLETS",
 	name = "iron gauntlets", short_name = "iron",
-	level_range = {1, 20},
+	level_range = {1, 10},
 	cost = 5,
 	material_level = 1,
 	wielder = {
@@ -58,9 +58,9 @@ newEntity{ base = "BASE_GAUNTLETS",
 
 newEntity{ base = "BASE_GAUNTLETS",
 	name = "dwarven-steel gauntlets", short_name = "d.steel",
-	level_range = {20, 40},
+	level_range = {10, 30},
 	cost = 7,
-	material_level = 3,
+	material_level = 2, effective_ego_material_level = 3,
 	wielder = {
 		combat_armor = 2,
 		fatigue = 3,
@@ -77,9 +77,9 @@ newEntity{ base = "BASE_GAUNTLETS",
 
 newEntity{ base = "BASE_GAUNTLETS",
 	name = "voratun gauntlets", short_name = "voratun",
-	level_range = {40, 50},
+	level_range = {30, 50},
 	cost = 10,
-	material_level = 5,
+	material_level = 4, effective_ego_material_level = 5,
 	wielder = {
 		combat_armor = 3,
 		fatigue = 5,

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,25 +17,25 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "There and back again"
+name = _t"There and back again"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "Zemekkys in the Gates of Morning can build a portal back to Maj'Eyal for you."
+	desc[#desc+1] = _t"Zemekkys in the Gates of Morning can build a portal back to Maj'Eyal for you."
 
 	if self:isCompleted("athame") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have found a Blood-Runed Athame.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have found a Blood-Runed Athame.#WHITE#"
 	else
-		desc[#desc+1] = "#SLATE#* Find a Blood-Runed Athame.#WHITE#"
+		desc[#desc+1] = _t"#SLATE#* Find a Blood-Runed Athame.#WHITE#"
 	end
 	if self:isCompleted("gem") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have found the Resonating Diamond.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have found the Resonating Diamond.#WHITE#"
 	else
-		desc[#desc+1] = "#SLATE#* Find a Resonating Diamond.#WHITE#"
+		desc[#desc+1] = _t"#SLATE#* Find a Resonating Diamond.#WHITE#"
 	end
 
 	if self:isCompleted() then
-		desc[#desc+1] = ""
-		desc[#desc+1] = "#LIGHT_GREEN#* The portal to Maj'Eyal is now functional and can be used to go back, although, like all portals, it is one-way only.#WHITE#"
+		desc[#desc+1] = _t""
+		desc[#desc+1] = _t"#LIGHT_GREEN#* The portal to Maj'Eyal is now functional and can be used to go back, although, like all portals, it is one-way only.#WHITE#"
 	end
 
 	return table.concat(desc, "\n")
@@ -61,6 +61,7 @@ wyrm_lair = function(self, who)
 		local spot = level:pickSpot{type="zone-pop", subtype="briagh"}
 		game.zone:addEntity(level, g, "terrain", spot.x, spot.y)
 		game.nicer_tiles:updateAround(game.level, spot.x, spot.y)
+		game.state:locationRevealAround(spot.x, spot.y)
 	end)
 
 	game.logPlayer(game.player, "Zemekkys points to the location of Briagh's lair on your map.")
@@ -82,7 +83,8 @@ create_portal = function(self, npc, player)
 	local zemekkys = mod.class.NPC.new{
 		type = "humanoid", subtype = "elf",
 		display = "p", color=colors.AQUAMARINE,
-		name = "High Chronomancer Zemekkys",
+		name = _t"High Chronomancer Zemekkys",
+		image = "npc/humanoid_elf_high_chronomancer_zemekkys.png",
 		size_category = 3, rank = 3,
 		ai = "none",
 		faction = "sunwall",

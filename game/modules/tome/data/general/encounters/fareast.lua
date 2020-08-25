@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ newEntity{
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
 		g:removeAllMOs()
-		g.name = "Entrance to an underwater cave"
+		g.name = _t"Entrance to an underwater cave"
 		g.display='>' g.color_r=colors.AQUAMARINE.r g.color_g=colors.AQUAMARINE.g g.color_b=colors.AQUAMARINE.b g.notice = true
 		g.change_level=1 g.change_zone="flooded-cave" g.glow=true
 		g.add_displays = g.add_displays or {}
@@ -54,7 +54,7 @@ newEntity{
 		if not x then return end
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-		g.name = "Entrance to a dark crypt"
+		g.name = _t"Entrance to a dark crypt"
 		g.display='>' g.color_r=128 g.color_g=128 g.color_b=128 g.notice = true
 		g.change_level=1 g.change_zone="shadow-crypt" g.glow=true
 		g.add_displays = g.add_displays or {}

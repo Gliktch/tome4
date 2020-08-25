@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -57,11 +57,11 @@ if rng.percent(66) then
 else
 	local lore = mod.class.Object.new{
 		type = "lore", subtype="lore",
-		unided_name = "scroll", identified=true,
+		unided_name = _t"scroll", identified=true,
 		display = "?", color=colors.ANTIQUE_WHITE, image="object/scroll.png",
 		encumber = 0,
-		name = "Mocking Note", lore="loot-vault-empty",
-		desc = [[A small scrap of paper written in a mocking tone.]],
+		name = _t"Mocking Note", lore="loot-vault-empty",
+		desc = _t[[A small scrap of paper written in a mocking tone.]],
 		level_range = {1, 20},
 		rarity = false,
 	}

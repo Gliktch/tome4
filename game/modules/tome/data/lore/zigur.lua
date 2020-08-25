@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
 newLore{
 	id = "zigur-post",
 	category = "zigur",
-	name = "Rules of the Ziguranth",
-	lore = [[1. You will not talk about Zigur to the wider world, lest evil ears be listening.
+	name = _t"Rules of the Ziguranth",
+	lore = _t[[1. You will not talk about Zigur to the wider world, lest evil ears be listening.
 2. You will shun the use of all spells and witchcraft.
 3. You will shun the use of magic-cursed items.
 4. You will shun the baneful influence of arcane runes and burn any skin that comes in contact with them.
@@ -43,8 +43,8 @@ These are the rules we live by, these are the rules by which we will save our wo
 newLore{
 	id = "zigur-history",
 	category = "zigur",
-	name = "The Great Evil",
-	lore = [[We live in a world of wonders. All around us are natural energies and wild powers that are a marvel to see and experience. Soaring birds, mighty bears and ice-breathing dragons all abound in towering mountains, deep oceans and luscious forests. And we are part of this glorious environment, with our thoughts and strengths and all our wondrous capabilities. Truly we live in a fantastic world, and we should be glad to have a place amongst the wonders of Maj'Eyal.
+	name = _t"The Great Evil",
+	lore = _t[[We live in a world of wonders. All around us are natural energies and wild powers that are a marvel to see and experience. Soaring birds, mighty bears and ice-breathing dragons all abound in towering mountains, deep oceans and luscious forests. And we are part of this glorious environment, with our thoughts and strengths and all our wondrous capabilities. Truly we live in a fantastic world, and we should be glad to have a place amongst the wonders of Maj'Eyal.
 
 But some are not content. Some seek to pervert the wonders of the world with unnatural powers. With arcane forces they rip the threads of nature apart and sew it back however they see fit, uncaring of the damage they cause. Sometimes it is out of curiosity or a misplaced desire to do good, but normally it is out of greed and malice and a perverse obsession with power. Even those who enter into the banes of magic with good intentions inevitably end up doing harm and becoming themselves corrupted by the gross forces they tamper in.
 
@@ -68,12 +68,12 @@ We must never forget the terrors of the Great Evil, and the suffering brought up
 newLore{
 	id = "zigur-potion",
 	category = "zigur",
-	name = "The story of my salvation",
-	lore = [[I used to be a potion merchant in Derth. I brewed alchemical tonics and elixirs for locals and travellers. My trade was good, and I lived very happily from the gold I earned. For a young woman to have such a business I was very proud.
+	name = _t"The story of my salvation",
+	lore = _t[[I used to be a potion merchant in Derth. I brewed alchemical tonics and elixirs for locals and travellers. My trade was good, and I lived very happily from the gold I earned. For a young woman to have such a business I was very proud.
 
 One day however several people in the town fell ill from a mystery disease. Rumours spread that my potions were to blame, and people stopped coming to my shop. My business was in ruins, and I soon ran the risk of becoming destitute. Then one of the elders died, and though he had been ill for some time, I was blamed for his death. People said I had laid a hex on him, and murmurs arose of witchcraft.
 
-I still remember how peaceful the evening had seemed when the townsfolk came for me. I was looking up at the brightness of the stars and the clear crescent summerglow moon, thinking of how I should restart my business, when I heard shouts from the distance. I saw the crowd appear from round the corner, advancing with their torches. I screamed for help, but they broke through my door, smashed through my windows and grabbed me. They dragged me outside and set their torches to my house. I was stripped to my skin and beaten heavily whilst they cursed and jeered, and even the man who had been my fiancé spat on my face and cursed me.
+I still remember how peaceful the evening had seemed when the townsfolk came for me. I was looking up at the brightness of the stars and the clear crescent Summertide moon, thinking of how I should restart my business, when I heard shouts from the distance. I saw the crowd appear from round the corner, advancing with their torches. I screamed for help, but they broke through my door, smashed through my windows and grabbed me. They dragged me outside and set their torches to my house. I was stripped to my skin and beaten heavily whilst they cursed and jeered, and even the man who had been my fiancé spat on my face and cursed me.
 
 They pulled me over grass and stone to the town square, and though half-blinded by the tears and my swollen flesh I could still make out the wooden stake they were erecting. I tried to cry out, I tried to beg for mercy, but their response was to hold me down by my throat and pull out my tongue with the blacksmith's tongs. As I coughed up blood they put me against the wooden pole and used barbed cords to tie my wrists to it above my head. The pain was unbearable and I passed out, and did not wake until I could feel the burning at my feet. The crowd were cheering as the smoke began to wrap around me, and they cheered louder with every pained scream I released from my lungs.
 
@@ -90,8 +90,8 @@ I have no voice now to tell my story to others, and so I write it down instead, 
 newLore{
 	id = "zigur-purging-trap",
 	category = "zigur",
-	name = "Purging Trap",
-	lore = [[[As you begin to leave, Protector Myssil stops you.]
+	name = _t"Purging Trap",
+	lore = _t[[[As you begin to leave, Protector Myssil stops you.]
 
 Actually...  You fight in a more subtle way than most, do you not?  It is a point of pride for many of us that we stand tall in the face of arcane aggression and give warlocks one chance to repent before purging them, and much of our training reflects that, but I won't deny that less...  #{italic}#traditionally glorious#{normal}# methods can be extremely effective.  Decorum's no reason to let a necromancer get away alive when you could've planted a trap in their escape route.
 

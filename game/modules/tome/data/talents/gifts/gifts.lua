@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,33 +18,33 @@
 -- darkgod@te4.org
 
 -- Wild Gifts
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/call", name = "call of the wild", generic = true, description = "Be at one with nature." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/harmony", name = "harmony", generic = true, description = "Nature heals and cleans you." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, is_antimagic=true, type="wild-gift/antimagic", name = "antimagic", generic = true, description = "The way to combat magic, or even nullify it." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-melee", name = "summoning (melee)", description = "The art of calling creatures adept in melee combat to your aid." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-distance", name = "summoning (distance)", description = "The art of calling creatures adept in elemental destruction to your aid." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-utility", name = "summoning (utility)", description = "The art of calling versatile creatures to your aid." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-augmentation", name = "summoning (augmentation)", description = "The art of manipulating the lifespan and location of your summons." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-advanced", name = "summoning (advanced)", min_lev = 10, description = "The art of improving the quality of your summons." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/slime", name = "slime", description = "Through dedicated consumption of slime mold juice, you have gained an affinity with slime molds." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/fungus", name = "fungus", generic = true, description = "By covering yourself in fungus, you better your healing." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/sand-drake", name = "sand drake aspect", description = "Take on the defining aspects of a Sand Drake." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/fire-drake", name = "fire drake aspect", description = "Take on the defining aspects of a Fire Drake." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/cold-drake", name = "cold drake aspect", description = "Take on the defining aspects of a Cold Drake." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/storm-drake", name = "storm drake aspect", description = "Take on the defining aspects of a Storm Drake." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/venom-drake", name = "venom drake aspect", description = "Take on the defining aspects of a Venom Drake." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/higher-draconic", name = "higher draconic abilities", description = "Take on the aspects of aged and powerful dragons." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/mindstar-mastery", name = "mindstar mastery", generic = true, description = "Learn to channel your mental power through mindstars, forming powerful psionic blades." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/mucus", name = "mucus", description = "Cover the floor with natural mucus." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/ooze", name = "ooze", description = "Your body and internal organs are becoming more ooze-like in nature, allowing you to spawn more of you." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/moss", name = "moss", description = "You learn to control moss, making it grow at will to help you on the battlefield." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/malleable-body", name = "malleable body", description = "Your body's anatomy is starting to blur." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/oozing-blades", name = "oozing blades", description = "You channel ooze through your psiblades." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/corrosive-blades", name = "corrosive blades", description = "You channel acid through your psiblades." }
-newTalentType{ allow_random=true, is_mind=true, is_nature=true, is_antimagic=true, type="wild-gift/eyals-fury", name = "eyal's fury", description = "Unleash nature's fury against foes around you." }
-newTalentType{ allow_random=true, is_nature=true, type="wild-gift/earthen-power", name = "earthen power", description = "Dwarves have learned to imbue their shields with the power of stone itself." }
-newTalentType{ allow_random=true, is_nature=true, type="wild-gift/earthen-vines", name = "earthen vines", description = "Control the stone itself and bring it alive in the form of dreadful vines." }
-newTalentType{ allow_random=true, is_nature=true, type="wild-gift/dwarven-nature", name = "dwarven nature", description = "Learn to harness the innate power of your race." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/call", name = _t"call of the wild", generic = true, description = _t"Be at one with nature." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/harmony", name = _t"harmony", generic = true, description = _t"Nature heals and cleans you." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, is_antimagic=true, type="wild-gift/antimagic", name = _t"antimagic", generic = true, description = _t"The way to combat magic, or even nullify it." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-melee", name = _t"summoning (melee)", description = _t"The art of calling creatures adept in melee combat to your aid." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-distance", name = _t"summoning (distance)", description = _t"The art of calling creatures adept in elemental destruction to your aid." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-utility", name = _t"summoning (utility)", description = _t"The art of calling versatile creatures to your aid." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-augmentation", name = _t"summoning (augmentation)", description = _t"The art of manipulating the lifespan and location of your summons." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/summon-advanced", name = _t"summoning (advanced)", min_lev = 10, description = _t"The art of improving the quality of your summons." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/slime", name = _t"slime", description = _t"Through dedicated consumption of slime mold juice, you have gained an affinity with slime molds." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/fungus", name = _t"fungus", generic = true, description = _t"By covering yourself in fungus, you better your healing." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/sand-drake", name = _t"sand drake aspect", description = _t"Take on the defining aspects of a Sand Drake." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/fire-drake", name = _t"fire drake aspect", description = _t"Take on the defining aspects of a Fire Drake." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/cold-drake", name = _t"cold drake aspect", description = _t"Take on the defining aspects of a Cold Drake." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/storm-drake", name = _t"storm drake aspect", description = _t"Take on the defining aspects of a Storm Drake." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/venom-drake", name = _t"venom drake aspect", description = _t"Take on the defining aspects of a Venom Drake." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/higher-draconic", name = _t"higher draconic abilities", description = _t"Take on the aspects of aged and powerful dragons." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/mindstar-mastery", name = _t"mindstar mastery", generic = true, description = _t"Learn to channel your mental power through mindstars, forming powerful psionic blades." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/mucus", name = _t"mucus", description = _t"Cover the floor with natural mucus." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/ooze", name = _t"ooze", description = _t"Your body and internal organs are becoming more ooze-like in nature, allowing you to spawn more of you." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/moss", name = _t"moss", description = _t"You learn to control moss, making it grow at will to help you on the battlefield." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/malleable-body", name = _t"malleable body", description = _t"Your body's anatomy is starting to blur." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/oozing-blades", name = _t"oozing blades", description = _t"You channel ooze through your psiblades." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, type="wild-gift/corrosive-blades", name = _t"corrosive blades", description = _t"You channel acid through your psiblades." }
+newTalentType{ allow_random=true, is_mind=true, is_nature=true, is_antimagic=true, type="wild-gift/eyals-fury", name = _t"eyal's fury", description = _t"Unleash nature's fury against foes around you." }
+newTalentType{ allow_random=true, is_nature=true, type="wild-gift/earthen-power", name = _t"earthen power", description = _t"Dwarves have learned to imbue their shields with the power of stone itself." }
+newTalentType{ allow_random=true, is_nature=true, type="wild-gift/earthen-vines", name = _t"earthen vines", description = _t"Control the stone itself and bring it alive in the form of dreadful vines." }
+newTalentType{ allow_random=true, is_nature=true, type="wild-gift/dwarven-nature", name = _t"dwarven nature", description = _t"Learn to harness the innate power of your race." }
 
 -- Generic requires for gifts based on talent level
 gifts_req1 = {
@@ -142,22 +142,14 @@ function setupSummon(self, m, x, y, no_control)
 	m:attr("confusion_immune", self:attr("confusion_immune"))
 	m:attr("numbed", self:attr("numbed"))
 	if game.party:hasMember(self) then
-		local can_control = not no_control and self:knowTalent(self.T_SUMMON_CONTROL)
+
 
 		m.remove_from_party_on_death = true
 		game.party:addMember(m, {
 			control=can_control and "full" or "no",
 			type="summon",
-			title="Summon",
+			title=_t"Summon",
 			orders = {target=true, leash=true, anchor=true, talents=true},
-			on_control = function(self)
-				local summoner = self.summoner
-				self:setEffect(self.EFF_SUMMON_CONTROL, 1000, {incdur=summoner:callTalent(summoner.T_SUMMON_CONTROL, "lifetime"), res=summoner:callTalent(summoner.T_SUMMON_CONTROL, "DamReduc")})
-				self:hotkeyAutoTalents()
-			end,
-			on_uncontrol = function(self)
-				self:removeEffect(self.EFF_SUMMON_CONTROL)
-			end,
 		})
 	end
 	m:resolve() m:resolve(nil, true)
@@ -170,7 +162,7 @@ function setupSummon(self, m, x, y, no_control)
 	m.ai_tactic.escape = 0
 
 	local p = self:hasEffect(self.EFF_FRANTIC_SUMMONING)
-	if p then
+	if p and m.wild_gift_summon and not m.wild_gift_summon_ignore_cap then
 		p.dur = p.dur - 1
 		if p.dur <= 0 then self:removeEffect(self.EFF_FRANTIC_SUMMONING) end
 	end
@@ -184,7 +176,7 @@ function setupSummon(self, m, x, y, no_control)
 
 	if m.wild_gift_detonate and self:isTalentActive(self.T_MASTER_SUMMONER) and self:knowTalent(self.T_NATURE_CYCLE) then
 		local t = self:getTalentFromId(self.T_NATURE_CYCLE)
-		for _, tid in ipairs{self.T_RAGE, self.T_DETONATE, self.T_WILD_SUMMON} do
+		for _, tid in ipairs{self.T_SUMMON_CONTROL, self.T_DETONATE, self.T_WILD_SUMMON} do
 			if self.talents_cd[tid] and rng.percent(t.getChance(self, t)) then
 				self.talents_cd[tid] = self.talents_cd[tid] - t.getReduction(self, t)
 				if self.talents_cd[tid] <= 0 then self.talents_cd[tid] = nil end
@@ -193,9 +185,6 @@ function setupSummon(self, m, x, y, no_control)
 		end
 	end
 
-	if self:knowTalent(self.T_BLIGHTED_SUMMONING) then m:incIncStat("mag", self:getMag()) m:incVim(m:getMaxVim()) end
-
-	self:attr("summoned_times", 1)
 end
 
 load("/data/talents/gifts/call.lua")

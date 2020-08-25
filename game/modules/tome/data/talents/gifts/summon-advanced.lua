@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ newTalent{
 	info = function(self, t)
 		local cooldownred = t.getCooldownReduction(self, t)
 		return ([[Reduces the cooldown of all summons by %d%%.]]):
-		format(cooldownred * 100)
+		tformat(cooldownred * 100)
 	end,
 }
 
@@ -64,22 +64,26 @@ newTalent{
 	mode = "passive",
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 1.3, 3.7, "log")) end,
 	effectDuration = function(self, t) return math.floor(self:combatTalentScale(t, 5, 9)) end,
+	poisonDamage = function(self, t) return self:combatTalentMindDamage(t, 20, 133) end,
 	nbEscorts = function(self, t) return math.max(1,math.floor(self:combatTalentScale(t, 0.3, 2.7, "log"))) end,
+	resReduction = function(self, t) return self:combatTalentMindDamage(t, 12, 44) end,
+	amtHealing = function(self, t) return 30 + self:combatTalentMindDamage(t, 10, 350) end,
+	slowStrength = function(self, t) return self:combatLimit(self:combatTalentMindDamage(t, 5, 500), 1, 0.1, 0, 0.47 , 369) end, -- Limit speed loss to <100% 
 	info = function(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[While Master Summoner is active, when a creature you summon appears in the world, it will trigger a wild effect:
-		- Ritch Flamespitter: Reduce fire resistance of all foes in a radius
-		- Hydra: Generates a cloud of lingering poison
-		- Rimebark: Reduce cold resistance of all foes in a radius
+		- Ritch Flamespitter: Reduce fire resistance of all foes in the radius by %d%%
+		- Hydra: Generates a cloud of lingering poison, poisoning all foes caught within for %0.1f nature damage per turn (cumulative)
+		- Rimebark: Reduce cold resistance of all foes in the radius by %d%%
 		- Fire Drake: Appears with %d fire drake hatchling(s)
-		- War Hound: Reduce physical resistance of all foes in a radius
-		- Jelly: Reduce nature resistance of all foes in a radius
-		- Minotaur: Reduces movement speed of all foes in a radius
-		- Stone Golem: Dazes all foes in a radius
-		- Turtle: Heals all friendly targets in a radius
-		- Spider: The spider is so hideous that foes around it are repelled
+		- War Hound: Reduce physical resistance of all foes in the radius by %d%%
+		- Jelly: Reduce nature resistance of all foes in the radius by %d%%
+		- Minotaur: Reduces movement speed of all foes in the radius by %0.1f%%
+		- Stone Golem: Dazes all foes in the radius
+		- Turtle: Heals all friendly targets in the radius %d HP
+		- Spider: Pins all foes in the radius
 		Radius for effects is %d, and the duration of each lasting effect is %d turns.
-		The effects improve with your Willpower.]]):format(t.nbEscorts(self, t), radius, t.effectDuration(self, t))
+		The effects improve with your mindpower.]]):tformat(t.resReduction(self, t), t.poisonDamage(self,t) / 6, t.resReduction(self, t), t.nbEscorts(self, t), t.resReduction(self, t), t.resReduction(self, t), 100*t.slowStrength(self,t), t.amtHealing(self,t), radius, t.effectDuration(self, t))
 	end,
 }
 
@@ -92,8 +96,8 @@ newTalent{
 	getChance = function(self, t) return math.min(100, 30 + self:getTalentLevel(t) * 15) end,
 	getReduction = function(self, t) return math.floor(self:combatTalentLimit(t, 5, 1, 3.1)) end, -- Limit < 5
 	info = function(self, t)
-		return ([[While Master Summoner is active, each new summon will reduce the remaining cooldown of Rage, Detonate and Wild Summon.
-		%d%% chance to reduce them by %d.]]):format(t.getChance(self, t), t.getReduction(self, t))
+		return ([[While Master Summoner is active, each new summon will reduce the remaining cooldown of Pheromones, Detonate and Wild Summon.
+		%d%% chance to reduce them by %d.]]):tformat(t.getChance(self, t), t.getReduction(self, t))
 	end,
 }
 
@@ -110,7 +114,7 @@ newTalent{
 	on_pre_use = function(self, t, silent)
 		return self:isTalentActive(self.T_MASTER_SUMMONER)
 	end,
-	duration = function(self, t) return  math.floor(self:combatTalentLimit(t, 25, 1, 5)) end, -- Limit <25
+	duration = function(self, t) return math.floor(self:combatTalentLimit(t, 15, 1, 6)) end, -- Limit <25
 	action = function(self, t)
 		self:setEffect(self.EFF_WILD_SUMMON, t.duration(self,t), {chance=100})
 		game:playSoundNear(self, "talents/teleport")
@@ -120,16 +124,17 @@ newTalent{
 		return ([[For %d turn(s), you have 100%% chance that your summons appear as a wild version.
 		Each turn the chance disminishes.
 		Wild creatures have one more talent/power than the base versions:
-		- Ritch Flamespitter: sends a blast of flames around it, knocking foes away
-		- Hydra: Can disengage from melee range
-		- Rimebark: Becomes more resistant to magic damage
+		- Ritch Flamespitter: Can fly in the air, spitting its Flamespit past creatures in the path of its target
+		- Hydra: Can concentrate its breath into spits when allies would be caught in a breath, instead spitting a bolt
+		- Rimebark: Can grab foes, pulling them into range of its ice storm
 		- Fire Drake: Can emit a powerful roar to silence its foes
-		- War Hound: Can rage, inreasing its critical chance and armour penetration
-		- Jelly: Can swallow foes that are low on life, regenerating your equilibrium
+		- War Hound: Can rage, inreasing its critical chance and gaining armour penetration
+		- Jelly: Can split into an additional jelly upon taking a large hit (jellies formed by splitting do not count against your summon cap)
 		- Minotaur: Can rush toward its target
-		- Stone Golem: Melee blows can deal a small area of effect damage
+		- Stone Golem: Can disarm its foes
 		- Turtle: Can force all foes in a radius into melee range
 		- Spider: Can project an insidious poison at its foes, reducing their healing
-		This talent requires Master Summoner to be active to be used.]]):format(t.duration(self,t))
+		This talent requires Master Summoner to be active to be used.
+		Effects scale with levels in summon talents.]]):tformat(t.duration(self,t))
 	end,
 }

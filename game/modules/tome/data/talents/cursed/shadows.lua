@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fade from sight, making you invulnerable until the beginning of your next turn.]])
+		return ([[You fade from sight, making you invulnerable until the beginning of your next turn.]]):tformat()
 	end,
 }
 
@@ -58,7 +58,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Teleports you within a small range.]])
+		return ([[Teleports you within a small range.]]):tformat()
 	end,
 }
 
@@ -97,7 +97,7 @@ newTalent{
 		return false
 	end,info = function(self, t)
 		local multiplier = self:combatTalentWeaponDamage(t, 0.9, 1.9)
-		return ([[With blinding speed you suddenly appear next to a target up to %d spaces away and attack for %d%% damage.]]):format(self:getTalentRange(t), multiplier * 100)
+		return ([[With blinding speed you suddenly appear next to a target up to %d spaces away and attack for %d%% damage.]]):tformat(self:getTalentRange(t), multiplier * 100)
 	end,
 }
 
@@ -125,10 +125,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Strikes the target with a spark of lightning doing %0.2f to %0.2f damage.
+		return ([[Strikes the target with a spark of lightning doing %0.2f to %0.2f damage (%0.2f average).
 		The damage will increase with the Magic stat]]):
-		format(damDesc(self, DamageType.LIGHTNING, damage / 3),
-		damDesc(self, DamageType.LIGHTNING, damage))
+		tformat(damDesc(self, DamageType.LIGHTNING, damage / 3),
+		damDesc(self, DamageType.LIGHTNING, damage),
+		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
 	end,
 }
 
@@ -157,7 +158,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Bathes the target in flames doing %0.2f damage
 		The damage will increase with the Magic stat]]):
-		format(damDesc(self, DamageType.FIREBURN, damage))
+		tformat(damDesc(self, DamageType.FIREBURN, damage))
 	end,
 }
 
@@ -172,7 +173,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local chance = t.getChance(self, t)
-		return ([[When a shadow is hit and killed, there is a %d%% chance it will reform unhurt.]]):format(chance)
+		return ([[When a shadow is hit and killed, there is a %d%% chance it will reform unhurt.]]):tformat(chance)
 	end,
 }
 
@@ -422,6 +423,11 @@ newTalent{
 		shadow:feed()
 		game.level.map:particleEmitter(x, y, 1, "teleport_in")
 
+		-- Reduce power of shadows for low level rares
+		if self.inc_damage and self.inc_damage.all and self.inc_damage.all < 0 then
+			shadow.inc_damage.all = (shadow.inc_damage.all or 0) + self.inc_damage.all
+		end
+
 		shadow.no_party_ai = true
 		shadow.unused_stats = 0
 		shadow.unused_talents = 0
@@ -430,7 +436,7 @@ newTalent{
 		shadow.no_points_on_levelup = true
 		if game.party:hasMember(self) then
 			shadow.remove_from_party_on_death = true
-			game.party:addMember(shadow, { control="no", type="summon", title="Summon"})
+			game.party:addMember(shadow, { control="no", type="summon", title=_t"Summon"})
 		end
 
 		game:playSoundNear(self, "talents/spell_generic")
@@ -458,7 +464,7 @@ newTalent{
 		local blindsideLevel = t.getBlindsideLevel(self, t)
 		local avoid_master_damage = t.getAvoidMasterDamage(self, t)
 		return ([[While this ability is active, you will continually call up to %d level %d shadows to aid you in battle. Each shadow costs 5 hate to summon. Shadows are weak combatants that can: Use Arcane Reconstruction to heal themselves (level %d), Blindside their opponents (level %d), and Phase Door from place to place.
-		Shadows ignore %d%% of the damage dealt to them by their master.]]):format(maxShadows, level, healLevel, blindsideLevel, avoid_master_damage)
+		Shadows ignore %d%% of the damage dealt to them by their master.]]):tformat(maxShadows, level, healLevel, blindsideLevel, avoid_master_damage)
 	end,
 }
 
@@ -515,7 +521,7 @@ newTalent{
 		local dominateChance = t.getDominateChance(self, t)
 		local dominateLevel = t.getDominateLevel(self, t)
 		local fadeCooldown = math.max(3, 8 - self:getTalentLevelRaw(t))
-		return ([[Instill hate in your shadows, strengthening their attacks. They gain %d%% extra Accuracy and %d%% extra damage. The fury of their attacks gives them the ability to try to Dominate their foes, increasing all damage taken by that foe for 4 turns (level %d, %d%% chance at range 1). They also gain the ability to Fade when hit, avoiding all damage until their next turn (%d turn cooldown).]]):format(combatAtk, incDamage, dominateLevel, dominateChance, fadeCooldown)
+		return ([[Instill hate in your shadows, strengthening their attacks. They gain %d%% extra Accuracy and %d%% extra damage. The fury of their attacks gives them the ability to try to Dominate their foes, increasing all damage taken by that foe for 4 turns (level %d, %d%% chance at range 1). They also gain the ability to Fade when hit, avoiding all damage until their next turn (%d turn cooldown).]]):tformat(combatAtk, incDamage, dominateLevel, dominateChance, fadeCooldown)
 	end,
 }
 
@@ -591,7 +597,7 @@ newTalent{
 		return ([[Infuse magic into your shadows to give them fearsome spells. Your shadows receive a bonus of %d to their Spellpower.
 		Your shadows can strike adjacent foes with Lightning (level %d, %d%% chance at range 1).
 		At level 3 your shadows can sear their enemies from a distance with Flames (level %d, %d%% chance at range 2 to 6).
-		At level 5 when your shadows are struck down they will attempt to Reform, becoming whole again (50%% chance).]]):format(spellpowerChange, lightningLevel, closeAttackSpellChance, flamesLevel, farAttackSpellChance)
+		At level 5 when your shadows are struck down they will attempt to Reform, becoming whole again (50%% chance).]]):tformat(spellpowerChange, lightningLevel, closeAttackSpellChance, flamesLevel, farAttackSpellChance)
 	end,
 }
 
@@ -606,7 +612,7 @@ newTalent{
 	range = 6,
 	requires_target = true,
 	tactical = { ATTACK = 2 },
-	target = function(self, t) return {type="hit", range=self:getTalentRange(t), nowarning=true} end,
+	target = function(self, t) return {type="hit", range=self:getTalentRange(t), nowarning=true, can_autoaccept=true } end,
 	on_pre_use = function(self, t, silent)
 		return self:isTalentActive(self.T_CALL_SHADOWS)
 	end,
@@ -674,6 +680,6 @@ newTalent{
 		local blindsideChance = t.getBlindsideChance(self, t)
 		return ([[Focus your shadows on a single target. Friendly targets will be defended for %d turns. Hostile targets will be attacked, with a %d%% chance the shadows will blindside the target.
 		If you have less than maximum shadows available, they will automatically be summoned before focusing.
-		This talent has no cost.]]):format(defenseDuration, blindsideChance)
+		This talent has no cost.]]):tformat(defenseDuration, blindsideChance)
 	end,
 }

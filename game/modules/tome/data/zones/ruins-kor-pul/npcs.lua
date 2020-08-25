@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -44,8 +44,8 @@ newEntity{ define_as = "SHADE",
 	name = "The Shade",
 	display = "s", color=colors.VIOLET,
 	shader = "unique_glow",
-	desc = [[This skeleton looks nasty. There are red flames in its empty eye sockets. It wields a nasty sword and strides toward you, throwing spells.]],
-	killer_message = "and left to rot",
+	desc = _t[[This skeleton looks nasty. There are red flames in its empty eye sockets. It wields a nasty sword and strides toward you, throwing spells.]],
+	killer_message = _t"and left to rot",
 	level_range = {7, nil}, exp_worth = 2,
 	max_life = 150, life_rating = 15, fixed_rating = true,
 	max_mana = 85,
@@ -82,15 +82,10 @@ newEntity{ define_as = "SHADE",
 
 	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
 	-- In this case safe_range being set while talent_in is above 1 still results in a lot of kiting, so we lower the safe range too
-	on_added_to_level = function(self)
-		if self.level <= 16 then
-			self.ai_tactic.safe_range = 1
-			self.ai_tactic.escape = 0
-		end
-	end,
+	low_level_tactics_override = {escape=0, safe_range=1},
 
 	on_die = function(self, who)
-		game.state:activateBackupGuardian("KOR_FURY", 3, 35, ".. yes I tell you! The old ruins of Kor'Pul are still haunted!")
+		game.state:activateBackupGuardian("KOR_FURY", 3, 35, _t".. yes I tell you! The old ruins of Kor'Pul are still haunted!")
 		game.player:resolveSource():setQuestStatus("start-allied", engine.Quest.COMPLETED, "kor-pul")
 	end,
 }
@@ -99,8 +94,8 @@ newEntity{ base = "BASE_NPC_THIEF", define_as = "THE_POSSESSED",
 	allow_infinite_dungeon = true,
 	name = "The Possessed", color=colors.VIOLET,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_human_the_possessed.png", display_h=2, display_y=-1}}},
-	desc = [[He is the leader of a gang of bandits that killed the Shade of Kor'Pul, however it is obvious the Shade was merely displaced. It is now possessing the corpse of his killer.]],
-	killer_message = "and used as a new host",
+	desc = _t[[He is the leader of a gang of bandits that killed the Shade of Kor'Pul, however it is obvious the Shade was merely displaced. It is now possessing the corpse of his killer.]],
+	killer_message = _t"and used as a new host",
 	level_range = {7, nil}, exp_worth = 2,
 	unique = true,
 	rank = 4,
@@ -131,15 +126,10 @@ newEntity{ base = "BASE_NPC_THIEF", define_as = "THE_POSSESSED",
 	ai = "tactical", ai_state = { talent_in=2, ai_move="move_astar", },
 
 	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
-	on_added_to_level = function(self)
-		if self.level <= 16 then
-			self.ai_tactic.safe_range = 1
-			self.ai_tactic.escape = 0
-		end
-	end,
+	low_level_tactics_override = {escape=0, safe_range=1},
 	
 	on_die = function(self, who)
-		game.state:activateBackupGuardian("KOR_FURY", 3, 35, ".. yes I tell you! The old ruins of Kor'Pul are still haunted!")
+		game.state:activateBackupGuardian("KOR_FURY", 3, 35, _t".. yes I tell you! The old ruins of Kor'Pul are still haunted!")
 		game.player:resolveSource():setQuestStatus("start-allied", engine.Quest.COMPLETED, "kor-pul")
 		game.player:resolveSource():setQuestStatus("start-allied", engine.Quest.COMPLETED, "kor-pul-invaded")
 	end,
@@ -150,7 +140,7 @@ newEntity{ define_as = "KOR_FURY",
 	type = "undead", subtype = "ghost", unique = true,
 	name = "Kor's Fury",
 	display = "G", color=colors.VIOLET,
-	desc = [[The Shade's colossal will keeps it anchored to this world, now as a vengeful, insane spirit.]],
+	desc = _t[[The Shade's colossal will keeps it anchored to this world, now as a vengeful, insane spirit.]],
 	level_range = {38, nil}, exp_worth = 3,
 	max_life = 250, life_rating = 20, fixed_rating = true,
 	rank = 4,

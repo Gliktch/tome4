@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Sludgenest",
+	name = _t"Sludgenest",
 	level_range = {35, 45},
 	level_scheme = "player",
 	max_level = 3,
@@ -120,7 +120,7 @@ return {
 		local randelite = 10 + (dl / 10) ^ 1.6
 		local randboss = (dl / 10) ^ 1.2 - 3
 
-		if dl == 20 then require("engine.ui.Dialog"):simplePopup("Sludgenest", "It seems the slimes coming from the walls become stronger with time.") end
+		if dl == 20 then require("engine.ui.Dialog"):simplePopup(_t"Sludgenest", _t"It seems the slimes coming from the walls become stronger with time.") end
 		if dl == 100 then world:gainAchievement("SLUDGENEST100", game.player) end
 		if dl == 200 then world:gainAchievement("SLUDGENEST200", game.player) end
 		if dl == 300 then world:gainAchievement("SLUDGENEST300", game.player) end

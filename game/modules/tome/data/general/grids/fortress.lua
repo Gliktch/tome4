@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ newEntity{
 	block_sight = true,
 	block_sense = true,
 	block_esp = true,
-	door_player_stop = "This door seems to be sealed.",
+	door_player_stop = _t"This door seems to be sealed.",
 	is_door = true,
 	door_sound = "ambient/door_creaks/scifi_door",
 	door_opened = "SOLID_DOOR_OPEN",

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ defineTile('~', "DEEP_WATER")
 defineTile('.', "GRASS")
 defineTile('_', "COBBLESTONE")
 
-quickEntity('@', {show_tooltip=true, name="Moss covered statue", display='@', image="terrain/grass.png", add_displays = {mod.class.Grid.new{image="terrain/statue3.png"}}, color=colors.GREEN, block_move=function(self, x, y, e, act, couldpass) if e and e.player and act then game.party:learnLore("thaloren-lament") end return true end})
+quickEntity('@', {show_tooltip=true, name=_t"Moss covered statue", display='@', image="terrain/grass.png", add_displays = {mod.class.Grid.new{image="terrain/statue3.png"}}, color=colors.GREEN, block_move=function(self, x, y, e, act, couldpass) if e and e.player and act then game.party:learnLore("thaloren-lament") end return true end})
 
 defineTile('2', "ROCKY_GROUND", nil, nil, "SWORD_WEAPON_STORE")
 defineTile('3', "ROCKY_GROUND", nil, nil, "MAUL_WEAPON_STORE")

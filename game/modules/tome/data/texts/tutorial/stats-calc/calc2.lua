@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[
+return _t[[
 If you were wearing your #GOLD#Helmet of Accuracy (+6)#WHITE#, then you should have #LIGHT_GREEN#38 Accuracy#WHITE#, while the orc has #LIGHT_GREEN#48 Defense#WHITE#. The difference is ten in the orc's favor, which is apparently too much for you to be able to hit him.
 
 There's another orc ahead with slightly lower defense. Go get him!

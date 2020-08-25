@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -44,9 +44,11 @@ newTalent{
 			tmpid = self:addTemporaryValue("psiblades_active", self:getTalentLevel(t)),
 		}
 
+		self:attr("on_wear_simple_reload", 1)
 		for i, o in ipairs(self:getInven("MAINHAND") or {}) do self:onTakeoff(o, self.INVEN_MAINHAND, true) self:onWear(o, self.INVEN_MAINHAND, true) end
 		for i, o in ipairs(self:getInven("OFFHAND") or {}) do self:onTakeoff(o, self.INVEN_OFFHAND, true) self:onWear(o, self.INVEN_OFFHAND, true) end
 		for i, o in ipairs(self:getInven("PSIONIC_FOCUS") or {}) do self:onTakeoff(o, self.INVEN_PSIONIC_FOCUS, true) self:onWear(o, self.INVEN_PSIONIC_FOCUS, true) end
+		self:attr("on_wear_simple_reload", -1)
 		self:updateModdableTile()
 
 		return r
@@ -54,9 +56,11 @@ newTalent{
 	deactivate = function(self, t, p)
 		self:removeTemporaryValue("psiblades_active", p.tmpid)
 
+		self:attr("on_wear_simple_reload", 1)
 		for i, o in ipairs(self:getInven("MAINHAND") or {}) do self:onTakeoff(o, self.INVEN_MAINHAND, true) self:checkMindstar(o) self:onWear(o, self.INVEN_MAINHAND, true) end
 		for i, o in ipairs(self:getInven("OFFHAND") or {}) do self:onTakeoff(o, self.INVEN_OFFHAND, true) self:checkMindstar(o) self:onWear(o, self.INVEN_OFFHAND, true) end
 		for i, o in ipairs(self:getInven("PSIONIC_FOCUS") or {}) do self:onTakeoff(o, self.INVEN_PSIONIC_FOCUS, true) self:checkMindstar(o) self:onWear(o, self.INVEN_PSIONIC_FOCUS, true) end
+		self:attr("on_wear_simple_reload", -1)
 		self:updateModdableTile()
 
 		return true
@@ -67,7 +71,7 @@ newTalent{
 		return ([[Channel your mental power through your wielded mindstars, generating psionic blades.
 		Mindstar psiblades have their damage modifiers (how much damage they gain from stats) multiplied by %0.2f, their armour penetration by %0.2f and mindpower, willpower and cunning by %0.2f.
 		Also passively increases weapon damage by %d%% and physical power by 30 when using mindstars.]]):
-		format(t.getStatmult(self, t), t.getAPRmult(self, t), t.getPowermult(self, t), 100 * inc) --I5
+		tformat(t.getStatmult(self, t), t.getAPRmult(self, t), t.getPowermult(self, t), 100 * inc) --I5
 	end,
 }
 
@@ -96,7 +100,7 @@ newTalent{
 		return ([[You touch the target with your psiblade, bringing the forces of nature to bear on your foe.
 		Thorny vines will grab the target, slowing it by %d%% and dealing %0.2f nature damage each turn for 10 turns.
 		Damage will increase with your Mindpower and Mindstar power (requires two mindstars, multiplier %2.f).]]):
-		format(100*t.speedPenalty(self,t), damDesc(self, DamageType.NATURE, self:combatTalentMindDamage(t, 15, 250) / 10 * get_mindstar_power_mult(self)), get_mindstar_power_mult(self))
+		tformat(100*t.speedPenalty(self,t), damDesc(self, DamageType.NATURE, self:combatTalentMindDamage(t, 15, 250) / 10 * get_mindstar_power_mult(self)), get_mindstar_power_mult(self))
 	end,
 }
 
@@ -140,8 +144,8 @@ newTalent{
 		return ([[Smash your psiblades into the ground, creating a tide of crystallized leaves circling you in a radius of 3 for 7 turns.
 		All foes hit by the leaves will start bleeding for %0.2f per turn (cumulative).
 		All allies hit will be covered in leaves, granting them %d%% chance to completely avoid any damaging attack.
-		Damage and avoidance will increase with your Mindpower and Mindstar power (requires two mindstars, multiplier %2.f).]]):
-		format(dam, c, get_mindstar_power_mult(self))
+		Damage and avoidance will increase with your Mindpower and Mindstar power (requires two mindstars, multiplier %0.2f).]]):
+		tformat(dam, c, get_mindstar_power_mult(self))
 	end,
 }
 
@@ -195,6 +199,6 @@ newTalent{
 		return ([[You hit a foe with your mainhand psiblade doing %d%% weapon damage, channeling all the damage done through your offhand psiblade with which you touch a friendly creature to heal it.
 		The maximum heal possible is %d. Equilibrium of the healed target will also decrease by 10%% of the heal power.
 		Max heal will increase with your Mindpower and Mindstar power (requires two mindstars, multiplier %2.f).]]):
-		format(self:combatTalentWeaponDamage(t, 2.5, 4) * 100, t.getMaxDamage(self, t), get_mindstar_power_mult(self))
+		tformat(self:combatTalentWeaponDamage(t, 2.5, 4) * 100, t.getMaxDamage(self, t), get_mindstar_power_mult(self))
 	end,
 }

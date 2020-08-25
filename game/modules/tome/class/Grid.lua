@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -64,7 +64,7 @@ function _M:block_move(x, y, e, act, couldpass)
 
 		if self.door_player_check then
 			if e.player then
-				Dialog:yesnoPopup(self.name, self.door_player_check, function(ret)
+				Dialog:yesnoPopup(self:getName(), self.door_player_check, function(ret)
 					if ret then
 						game.level.map(x, y, engine.Map.TERRAIN, door_g)
 						game:playSoundNear({x=x,y=y}, self.door_sound or {"ambient/door_creaks/creak_%d",1,4})
@@ -72,11 +72,11 @@ function _M:block_move(x, y, e, act, couldpass)
 
 						if game.level.map.attrs(x, y, "vault_id") and e.openVault then e:openVault(game.level.map.attrs(x, y, "vault_id")) end
 					end
-				end, "Open", "Leave")
+				end, _t"Open", _t"Leave")
 			end
 		elseif self.door_player_stop then
 			if e.player then
-				Dialog:simplePopup(self.name, self.door_player_stop)
+				Dialog:simplePopup(self:getName(), self.door_player_stop)
 			end
 		else
 			game.level.map(x, y, engine.Map.TERRAIN, door_g)
@@ -152,9 +152,10 @@ end
 
 -- Gets the full name of the grid
 function _M:getName()
-	local name = self.name or "spot"
+	-- I18N grid names.
+	local name = _t(self.name) or _t"spot"
 	if self.summoner and self.summoner.name then
-		return self.summoner.name:capitalize().."'s "..name
+		return ("%s's %s"):tformat(self.summoner:getName():capitalize(), name)
 	else
 		return name
 	end
@@ -164,9 +165,10 @@ function _M:tooltip(x, y)
 	if not x or not y then return tstring("") end
 	local tstr
 	local dist = nil
-	if game.player.x and game.player.y then dist = tstring{" (range: ", {"font", "italic"}, {"color", "LIGHT_GREEN"}, tostring(core.fov.distance(game.player.x, game.player.y, x, y)), {"color", "LAST"}, {"font", "normal"}, ")"} end
+	if game.player.x and game.player.y then dist = tstring{_t" (range: ", {"font", "italic"}, {"color", "LIGHT_GREEN"}, tostring(core.fov.distance(game.player.x, game.player.y, x, y)), {"color", "LAST"}, {"font", "normal"}, ")"} end
 	if self.show_tooltip then
-		local name = ((self.show_tooltip == true) and self.name or self.show_tooltip)
+		-- I18N Grid name
+		local name = ((self.show_tooltip == true) and self:getName() or self.show_tooltip)
 		if self.desc then
 			tstr = tstring{{"uid", self.uid}, name}
 			if dist then tstr:merge(dist) end
@@ -177,7 +179,7 @@ function _M:tooltip(x, y)
 			tstr:add(true)
 		end
 	else
-		tstr = tstring{{"uid", self.uid}, self.name}
+		tstr = tstring{{"uid", self.uid}, self:getName()}
 		if dist then tstr:merge(dist) end
 		tstr:add(true)
 	end
@@ -201,27 +203,27 @@ function _M:tooltip(x, y)
 				if p.level <= data.level_range[1] - 10 then color = "CRIMSON"
 				elseif p.level <= data.level_range[1] - 4 then color = "ORANGE"
 				end
-				tstr:add(true, {"font","bold"}, {"color", color}, "Min.level: "..data.level_range[1], {"color", "LAST"}, {"font","normal"}, true)
+				tstr:add(true, {"font","bold"}, {"color", color}, _t"Min.level: "..data.level_range[1], {"color", "LAST"}, {"font","normal"}, true)
 			end
 		end
 	end
 
 	if game.level.entrance_glow and self.change_zone and not game.visited_zones[self.change_zone] then
-		tstr:add(true, {"font","bold"}, {"color","CRIMSON"}, "Never visited yet", {"color", "LAST"}, {"font","normal"}, true)
+		tstr:add(true, {"font","bold"}, {"color","CRIMSON"}, _t"Never visited yet", {"color", "LAST"}, {"font","normal"}, true)
 	end
 
-	if game.player:hasLOS(x, y) then tstr:add({"color", "CRIMSON"}, "In sight", {"color", "LAST"}, true) end
-	if game.level.map.lites(x, y) then tstr:add({"color", "YELLOW"}, "Lit", {"color", "LAST"}, true) end
-	if self:check("block_sight", x, y) then tstr:add({"color", "UMBER"}, "Blocks sight", {"color", "LAST"}, true) end
-	if self:check("block_move", x, y, game.player) then tstr:add({"color", "UMBER"}, "Blocks movement", {"color", "LAST"}, true) end
-	if self:attr("air_level") and self:attr("air_level") < 0 then tstr:add({"color", "LIGHT_BLUE"}, "Special breathing method required", {"color", "LAST"}, true) end
-	if self:attr("dig") then tstr:add({"color", "LIGHT_UMBER"}, "Diggable", {"color", "LAST"}, true) end
-	if game.level.map.attrs(x, y, "no_teleport") then tstr:add({"color", "VIOLET"}, "Cannot teleport to this place", {"color", "LAST"}, true) end
+	if game.player:hasLOS(x, y) then tstr:add({"color", "CRIMSON"}, _t"In sight", {"color", "LAST"}, true) end
+	if game.level.map.lites(x, y) then tstr:add({"color", "YELLOW"}, _t"Lit", {"color", "LAST"}, true) end
+	if self:check("block_sight", x, y) then tstr:add({"color", "UMBER"}, _t"Blocks sight", {"color", "LAST"}, true) end
+	if self:check("block_move", x, y, game.player) then tstr:add({"color", "UMBER"}, _t"Blocks movement", {"color", "LAST"}, true) end
+	if self:attr("air_level") and self:attr("air_level") < 0 then tstr:add({"color", "LIGHT_BLUE"}, _t"Special breathing method required", {"color", "LAST"}, true) end
+	if self:attr("dig") then tstr:add({"color", "LIGHT_UMBER"}, _t"Diggable", {"color", "LAST"}, true) end
+	if game.level.map.attrs(x, y, "no_teleport") then tstr:add({"color", "VIOLET"}, _t"Cannot teleport to this place", {"color", "LAST"}, true) end
 	
 
 	if config.settings.cheat then
-		tstr:add(true, tostring(rawget(self, "type")), " / ", tostring(rawget(self, "subtype")))
-		tstr:add(true, "UID: ", tostring(self.uid), true, "Coords: ", tostring(x), "x", tostring(y))
+		tstr:add(true, _t(tostring(rawget(self, "type"))), " / ", _t(tostring(rawget(self, "subtype"))))
+		tstr:add(true, "UID: ", tostring(self.uid), true, _t"Coords: ", tostring(x), "x", tostring(y))
 	
 		-- debugging info
 		if game.level.map.room_map then
@@ -232,7 +234,7 @@ function _M:tooltip(x, y)
 		end
 		local attrs = game.level.map.attrs[x+y*game.level.map.w]
 		if attrs then
-			tstr:add(true, {"color", "TAN"}, "map attrs: ")
+			tstr:add(true, {"color", "TAN"}, _t"map attrs: ")
 			for atr, val in pairs(attrs) do
 				tstr:add(("%s=%s%s"):format(atr,val,", "))
 			end

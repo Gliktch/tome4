@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,11 +18,11 @@
 -- darkgod@te4.org
 
 newChat{ id="welcome",
-	text = [[Thank you, @playername@! We both survived for the wealth of the Empire. I will bring them the news and then rest.
+	text = _t[[Thank you, @playername@! We both survived for the wealth of the Empire. I will bring them the news and then rest.
 I do not think I want to see death so closely for some time now.
 Farewell.]],
 	answers = {
-		{"For the Empire! Take care.", action=function(npc, player)
+		{_t"For the Empire! Take care.", action=function(npc, player)
 			npc:disappear()
 			world:gainAchievement("NORGAN_SAVED", player)
 		end},

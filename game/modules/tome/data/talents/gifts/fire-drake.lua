@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -41,7 +41,6 @@ newTalent{
 	radius = function(self, t) return 3 end,
 	direct_hit = true,
 	tactical = { DEFEND = { knockback = 2 }, ESCAPE = { knockback = 2 } },
-	on_pre_use = function(self, t, silent) if not self:hasMHWeapon() then if not silent then game.logPlayer(self, "You require a mainhand weapon to use this talent.") end return false end return true end,
 	requires_target = true,
 	target = function(self, t)
 		return {type="cone", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=false, talent=t}
@@ -51,13 +50,13 @@ newTalent{
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 		local state = {}
+		local shield, shield_combat = self:hasShield()
+		local weapon = self:hasMHWeapon() and self:hasMHWeapon().combat or self.combat
 		self:project(tg, x, y, function(px, py, tg, self)
 			local target = game.level.map(px, py, Map.ACTOR)
 			if target and target ~= self and not state[target] then				
 				-- We need to alter behavior slightly to accomodate shields since they aren't used in attackTarget
 				state[target] = true
-				local shield, shield_combat = self:hasShield()
-				local weapon = self:hasMHWeapon().combat
 				if not shield then
 					self:attackTarget(target, DamageType.PHYSKNOCKBACK, t.getDamage(self, t), true)
 				else
@@ -80,7 +79,7 @@ newTalent{
 		Every level in Wing Buffet additionally raises your Physical Power and Accuracy by 2, passively.
 		Each point in fire drake talents also increases your fire resistance by 1%%.
 
-		This talent will also attack with your shield, if you have one equipped.]]):format(self:getTalentRadius(t),damage*100)
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(self:getTalentRadius(t),damage*100)
 	end,
 }
 
@@ -90,7 +89,7 @@ newTalent{
 	require = gifts_req2,
 	points = 5,
 	random_ego = "attack",
-	message = "@Source@ roars!",
+	message = _t"@Source@ roars!",
 	equilibrium = 8,
 	cooldown = 20,
 	range = 0,
@@ -120,7 +119,7 @@ newTalent{
 		return ([[You let out a powerful roar that sends your foes in radius %d into utter confusion (power: %d%%) for 3 turns.
 		The sound wave is so strong, your foes also take %0.2f physical damage.
 		The damage improves with your Strength.
-		Each point in fire drake talents also increases your fire resistance by 1%%.]]):format(radius, power, self:combatTalentStatDamage(t, "str", 30, 380))
+		Each point in fire drake talents also increases your fire resistance by 1%%.]]):tformat(radius, power, self:combatTalentStatDamage(t, "str", 30, 380))
 	end,
 }
 
@@ -175,7 +174,7 @@ newTalent{
 		return ([[Spit a cloud of flames, doing %0.2f fire damage in a radius of %d each turn for %d turns.
 		The flames will ignore the caster, and will drain 10%% of the damage dealt as the flames consume enemies life force and transfer it to the user.
 		The damage will increase with your Mindpower, and can critical.
-		Each point in fire drake talents also increases your fire resistance by 1%%.]]):format(damDesc(self, DamageType.FIRE, dam), radius, duration)
+		Each point in fire drake talents also increases your fire resistance by 1%%.]]):tformat(damDesc(self, DamageType.FIRE, dam), radius, duration)
 	end,
 }
 
@@ -185,9 +184,9 @@ newTalent{
 	require = gifts_req4,
 	points = 5,
 	random_ego = "attack",
-	equilibrium = 12,
-	cooldown = 12,
-	message = "@Source@ breathes fire!",
+	equilibrium = 20,
+	cooldown = 20,
+	message = _t"@Source@ breathes fire!",
 	tactical = { ATTACKAREA = { FIRE = 2 }},
 	range = 0,
 	radius = function(self, t) return math.min(13, math.floor(self:combatTalentScale(t, 5, 9))) end,
@@ -199,8 +198,8 @@ newTalent{
 		return {type="cone", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=false, talent=t}
 	end,
 	getDamage = function(self, t)
-		local bonus = self:knowTalent(self.T_CHROMATIC_FURY) and self:combatTalentStatDamage(t, "wil", 30, 850) or 0
-		return self:combatTalentStatDamage(t, "str", 30, 850) + bonus
+		local bonus = self:knowTalent(self.T_CHROMATIC_FURY) and self:combatTalentStatDamage(t, "wil", 30, 650) or 0
+		return self:combatTalentStatDamage(t, "str", 30, 650) + bonus
 	end,  -- Higher damage because no debuff and delayed
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -219,6 +218,6 @@ newTalent{
 	info = function(self, t)
 		return ([[You breathe fire in a frontal cone of radius %d. Any target caught in the area will take %0.2f fire damage over 3 turns.
 		The damage will increase with your Strength and the critical chance is based on your Mental crit rate.
-		Each point in fire drake talents also increases your fire resistance by 1%%.]]):format(self:getTalentRadius(t), damDesc(self, DamageType.FIRE, t.getDamage(self, t)))
+		Each point in fire drake talents also increases your fire resistance by 1%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.FIRE, t.getDamage(self, t)))
 	end,
 }

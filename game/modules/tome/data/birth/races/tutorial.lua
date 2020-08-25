@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ newBirthDescriptor{
 	type = "race",
 	name = "Tutorial Human",
 	desc = {
-		"A special tutorial race.",
+		_t"A special tutorial race.",
 	},
 	descriptor_choices =
 	{
@@ -47,7 +47,7 @@ newBirthDescriptor
 	type = "subrace",
 	name = "Tutorial Basic",
 	desc = {
-		"A Human hailing from the northern town of Derth. A common kind of man, unremarkable in all respects.",
+		_t"A Human hailing from the northern town of Derth. A common kind of man, unremarkable in all respects.",
 	},
 	copy = {
 		default_wilderness = {1, 1, "wilderness"},
@@ -64,7 +64,7 @@ newBirthDescriptor
 	type = "subrace",
 	name = "Tutorial Stats",
 	desc = {
-		"A Human hailing from the northern town of Derth. A common kind of man, unremarkable in all respects.",
+		_t"A Human hailing from the northern town of Derth. A common kind of man, unremarkable in all respects.",
 	},
 	copy = {
 		default_wilderness = {1, 1, "wilderness"},

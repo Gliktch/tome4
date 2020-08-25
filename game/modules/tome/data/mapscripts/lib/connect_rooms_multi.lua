@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -24,11 +24,17 @@ local MST = require "engine.algorithms.MST"
 
 local max_links = args.max_links or 3
 local map = args.map
-local rooms = args.rooms
+local orooms = args.rooms
 
-if #rooms <= 1 then return true end -- Easy !
 
 local mstrun = MST.new()
+
+-- Extract usable rooms
+local rooms = {}
+for i, room in ipairs(orooms) do if not room.do_not_connect then
+	rooms[#rooms+1] = room
+end end
+if #rooms <= 1 then return true end -- Easy !
 
 -- Generate all possible edges
 for i, room in ipairs(rooms) do

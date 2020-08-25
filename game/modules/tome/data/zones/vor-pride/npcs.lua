@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -28,8 +28,8 @@ local Talents = require("engine.interface.ActorTalents")
 newEntity{ base="BASE_NPC_ORC_VOR", define_as = "VOR",
 	allow_infinite_dungeon = true,
 	name = "Vor, Grand Geomancer of the Pride", color=colors.VIOLET, unique = true,
-	desc = [[An old orc, wearing multi-colored robes. Ice shards fly around him, leaving a trail of fire and lightning bursts.]],
-	killer_message = "and used as target practice for initiate mages",
+	desc = _t[[An old orc, wearing multi-colored robes. Ice shards fly around him, leaving a trail of fire and lightning bursts.]],
+	killer_message = _t"and used as target practice for initiate mages",
 	level_range = {40, nil}, exp_worth = 1,
 	rank = 5,
 	max_life = 250, life_rating = 19, fixed_rating = true,
@@ -87,11 +87,19 @@ newEntity{ base="BASE_NPC_ORC_VOR", define_as = "VOR",
 		[Talents.T_STAFF_MASTERY]={base=3, every=8, max=5},
 		
 		[Talents.T_METEORIC_CRASH]=1,
-		[Talents.T_ELEMENTAL_SURGE]=1,
 	},
 
 	resolvers.auto_equip_filters("Archmage"),
-	auto_classes={{class="Archmage", start_level=40, level_rate=100}},
+	auto_classes={
+		{class="Archmage", start_level=40, level_rate=100,
+			max_talent_types = 1,  -- Don't waste points on extra elemental trees or learn 20000 sustains
+			banned_talents = {
+				T_INVISIBILITY=true,  -- Reduces damage dramatically, basically a nerf
+				T_PROBABILITY_TRAVEL=true,  -- Does this even work on AI?  Possibly should kill this on all NPCs
+				T_DISRUPTION_SHIELD=true,  -- Stupid scaling with infinite mana
+			},
+		},
+	},
 
 	resolvers.sustains_at_birth(),
 

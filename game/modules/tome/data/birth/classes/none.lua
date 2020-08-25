@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ newBirthDescriptor{
 	type = "class",
 	name = "None",
 	desc = {
-		"Your race cannot select a class; it has its own powers.",
+		_t"Your race cannot select a class; it has its own powers.",
 	},
 	descriptor_choices =
 	{
@@ -37,7 +37,7 @@ newBirthDescriptor{
 	type = "subclass",
 	name = "None",
 	desc = {
-		"Your race cannot select a class; it has its own powers.",
+		_t"Your race cannot select a class; it has its own powers.",
 	},
 	not_on_random_boss = true,
 }

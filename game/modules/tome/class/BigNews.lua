@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ function _M:saySimple(time, txt, ...)
 end
 
 function _M:easingSimple(time, easing, txt, ...)
-	txt = txt:format(...)
+	txt = txt:tformat(...)
 	self.max_time = time or 60
 	self.list, self.max_lines, self.max_w = self.font:draw(txt:toString(), math.floor(game.w * 0.8), 255, 255, 255)
 

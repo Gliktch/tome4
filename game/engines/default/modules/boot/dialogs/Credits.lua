@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -47,28 +47,29 @@ local credits = {
 	{"by"},
 	{img="/data/gfx/background/netcore-logo.png"},
 	false,
-	{"Project Lead", title=1},
+	{_t"Project Lead", title=1},
 	{"Nicolas 'DarkGod' Casalini"},
 	false,
 	false,
 
-	{"Lead Coder", title=2},
+	{_t"Lead Coder", title=2},
 	{"Nicolas 'DarkGod' Casalini"},
 	false,
 	false,
 
-	{"World Builders", title=1},
+	{_t"World Builders", title=1},
 	{"Aaron 'Sage Acrin' Vandegrift"},
 	{"Alexander '0player' Sedov"},
+	{"Ben 'Razakai' Pope"},
 	{"Chris 'Shibari' Davidson"},
 	{"Doctornull"},
 	{"Em 'Susramanian' Jay"},
 	{"Eric 'Edge2054' Wykoff"},
 	{"Evan 'Fortescue' Williams"},
 	{"Hetdegon"},
+	{"Jamie 'Orange' Martin"},
 	{"John 'Benli' Truchard"},
 	{"Nicolas 'DarkGod' Casalini"},
-	{"Ben 'Razakai' Pope"},
 	{"StarKeep"},
 	{"Simon 'HousePet' Curtis"},
 	{"Shoob"},
@@ -77,7 +78,7 @@ local credits = {
 	false,
 	false,
 
-	{"Graphic Artists", title=2},
+	{_t"Graphic Artists", title=2},
 	{"Assen 'Rexorcorum' Kanev"},
 	{"Matt 'Amagad' Hill"},
 	{"Jeffrey 'Jotwebe' Buschhorn"},
@@ -86,25 +87,25 @@ local credits = {
 	false,
 	false,
 
-	{"Expert Shaders Design", title=1},
+	{_t"Expert Shaders Design", title=1},
 	{"Alex 'Suslik' Sannikov"},
 	false,
 	false,
 
-	{"Soundtracks", title=2},
+	{_t"Soundtracks", title=2},
 	{"Anne van Schothorst"},
 	{"Carlos Saura"},
 	{"Matti Paalanen - 'Celestial Aeon Project'"},
 	false,
 	false,
 
-	{"Sound Designer", title=1},
+	{_t"Sound Designer", title=1},
 	{"Kenneth 'Elvisman2001' Toomey"},
 --	{"Ryan Sim"},
 	false,
 	false,
 
-	{"Lore Creation and Writing", title=2},
+	{_t"Lore Creation and Writing", title=2},
 	{"Burb Lulls"},
 	{"Darren Grey"},
 	{"David Mott"},
@@ -114,8 +115,9 @@ local credits = {
 	false,
 	false,
 
-	{"Code Helpers", title=1},
+	{_t"Code Helpers", title=1},
 	{"Antagonist"},
+	{"Bunny"},
 	{"Graziel"},
 	{"Grayswandir"},
 	{"John 'Hachem Muche' Viles"},
@@ -132,7 +134,7 @@ local credits = {
 	false,
 	false,
 
-	{"Community Managers", title=2},
+	{_t"Community Managers", title=2},
 	{"Bradley 'AuraOfTheDawn' Kersey"},
 	{"Faeryan"},
 	{"Erik 'Lord Xandor' Tillford"},
@@ -145,14 +147,14 @@ local credits = {
 	false,
 	false,
 
-	{"Text Editors", title=1},
+	{_t"Text Editors", title=1},
 	{"Brian Jeffears"},
 	{"Greg Wooledge"},
 	{"Ralph Versteegen"},
 	false,
 	false,
 
-	{"The Community", title=2},
+	{_t"The Community", title=2},
 	{"A huge global thank to all members"},
 	{"of the community, for being supportive,"},
 	{"fun and full of great ideas."},
@@ -160,7 +162,7 @@ local credits = {
 	false,
 	false,
 
-	{"Others", title=1},
+	{_t"Others", title=1},
 	{"J.R.R Tolkien - making the world an interesting place"},
 	{"Lua Creators - making the world a better place"},
 	{"Lua - http://lua.org/"},

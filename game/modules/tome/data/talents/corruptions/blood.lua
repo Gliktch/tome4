@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -16,6 +16,27 @@
 --
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
+
+--- get a list of diseases on a target
+local getTargetDiseases = function(self, target)
+	if not target then return end
+	local diseases = self.turn_procs.target_diseases and self.turn_procs.target_diseases[target.uid]
+	if diseases then return diseases end
+
+	local num, dur = 0, 0
+	diseases = {}
+	for eff_id, p in pairs(target.tmp) do
+		local e = target.tempeffect_def[eff_id]
+		if e.subtype.disease then
+			num, dur = num + 1, dur + p.dur
+			diseases[#diseases+1] = {id=eff_id, params=p}
+		end
+	end
+	diseases.num, diseases.dur = num, dur
+	self.turn_procs.target_diseases = self.turn_procs.target_diseases or {}
+	self.turn_procs.target_diseases[target.uid] = diseases
+	return diseases
+end
 
 newTalent{
 	name = "Blood Spray",
@@ -52,7 +73,7 @@ newTalent{
 		return ([[You extract corrupted blood from your own body, hitting everything in a frontal cone of radius %d for %0.2f blight damage.
 		Each creature hit has a %d%% chance of being infected by a random disease, doing %0.2f blight damage and weakening either Constitution, Strength or Dexterity for 6 turns.
 		The damage will increase with your Spellpower.]]):
-		format(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 190)), t.getChance(self, t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 220)))
+		tformat(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 190)), t.getChance(self, t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 220)))
 	end,
 }
 
@@ -83,7 +104,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Project a bolt of corrupted blood, doing %0.2f blight damage and healing you for 20%% the damage dealt.
 			50%% of the damage dealt will be gained as maximum life for 7 turns (before the healing).
-		The damage will increase with your Spellpower.]]):format(damDesc(self, DamageType.BLIGHT, t.getDamage(self, t)))
+		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.BLIGHT, t.getDamage(self, t)))
 	end,
 }
 
@@ -94,7 +115,15 @@ newTalent{
 	points = 5,
 	cooldown = 8,
 	vim = 30,
-	tactical = { ATTACKAREA = {BLIGHT = 0.5} },  -- Needs a better tactical table, setting to low priority for now so it gets used later in the rotation when diseases are up
+	getTargetDiseases = getTargetDiseases,
+	tactical = { DISABLE = function(self, t, target)
+			local diseases = t.getTargetDiseases(self, target)
+			if diseases and diseases.num > 0 then return 3 end
+		end,
+		ATTACKAREA = function(self, t, target)
+			local diseases = t.getTargetDiseases(self, target)
+			if diseases and diseases.num > 0 then return {BLIGHT=1}	end
+		end,},
 	range = 0,
 	radius = function(self, t) return 10 end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 250) end,
@@ -114,7 +143,7 @@ newTalent{
 		self:project(tg, x, y, function(px, py)
 			local target = game.level.map(px, py, Map.ACTOR)
 			if not target then return end
-			local eff = target:removeEffectsFilter(function(e) return e.subtype.poison or e.subtype.disease or e.subtype.wound end, 1)
+			local eff = target:removeEffectsFilter(self, function(e) return e.subtype.poison or e.subtype.disease or e.subtype.wound end, 1)
 			if eff and eff > 0 then
 				local dealt = DamageType:get(DamageType.BLIGHT).projector(self, target.x, target.y, DamageType.BLIGHT, damage)
 				target:setEffect(target.EFF_SLOW, 5, {src=self, power=slow})
@@ -129,7 +158,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Make the impure blood of all creatures around you in radius %d boil.
 				Each enemy afflicted by a disease, poison, or wound will have one removed at random dealing %0.2f blight damage, healing you for %d, and slowing them by %d%% for 5 turns.
-			The damage will increase with your Spellpower.]]):format(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, t.getDamage(self, t)), t.getHeal(self, t), t.getSlow(self, t))
+			The damage will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, t.getDamage(self, t)), t.getHeal(self, t), t.getSlow(self, t))
 	end,
 }
 
@@ -139,7 +168,7 @@ newTalent{
 	mode = "sustained",
 	require = corrs_req4,
 	points = 5,
-	sustain_vim = 60,
+	sustain_vim = 30,
 	cooldown = 30,
 	tactical = { BUFF = 2 },
 	on_crit = function(self, t)
@@ -164,6 +193,6 @@ newTalent{
 		return ([[Concentrate on the corruption you bring, increasing your spell critical chance by %d%%.
 		Each time your spells go critical, you enter a blood rage for 5 turns, increasing your blight and acid damage by %d%%.
 		The critical chance and damage increase will improve with your Spellpower.]]):
-		format(self:combatTalentSpellDamage(t, 10, 14), self:combatTalentSpellDamage(t, 10, 30))
+		tformat(self:combatTalentSpellDamage(t, 10, 14), self:combatTalentSpellDamage(t, 10, 30))
 	end,
 }

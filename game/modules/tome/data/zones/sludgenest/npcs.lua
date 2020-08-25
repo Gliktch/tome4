@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ newEntity{ define_as = "CORRUPTED_OOZEMANCER",
 	type = "giant", subtype = "troll", unique = true,
 	name = "Corrupted Oozemancer",
 	display = "T", color=colors.VIOLET,
-	desc = [[This blight-ridden troll was once a proud defender of Nature. His corruption is spreading, eating away at the forest around him.]],
-	killer_message = "and dissolved into acidic ooze",
+	desc = _t[[This blight-ridden troll was once a proud defender of Nature. His corruption is spreading, eating away at the forest around him.]],
+	killer_message = _t"and dissolved into acidic ooze",
 	level_range = {35, nil}, exp_worth = 2,
 	max_life = 250, life_rating = 18, fixed_rating = true,
 	equilibrium_regen = -10,

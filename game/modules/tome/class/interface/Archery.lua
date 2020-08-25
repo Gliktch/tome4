@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -282,7 +282,7 @@ function _M:archeryAcquireTargets(tg, params, force)
 		local speed = self:combatSpeed(weaponC or pf_weaponC, params.add_speed or 0)
 		print("[SHOOT] speed", speed or 1, "=>", game.energy_to_act * (speed or 1))
 		if not params.no_energy then self:useEnergy(game.energy_to_act * (speed or 1)) end
-		if sound then game:playSoundNear(self, sound) end
+		if not params.no_sound and sound then game:playSoundNear(self, sound) end
 		return targets
 	else
 		return nil
@@ -328,7 +328,7 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 		if eff and eff.parry_ranged then
 			deflect = target:callEffect(target.EFF_PARRY, "doDeflect", self) or 0
 			if deflect > 0 then
-				game:delayedLogDamage(self, target, 0, ("%s(%d parried#LAST#)"):format(DamageType:get(damtype).text_color or "#aaaaaa#", deflect), false)
+				game:delayedLogDamage(self, target, 0, ("%s(%d parried#LAST#)"):tformat(DamageType:get(damtype).text_color or "#aaaaaa#", deflect), false)
 				dam = math.max(dam - deflect , 0)
 				print("[ATTACK] after PARRY", dam)
 			end
@@ -377,7 +377,7 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 		print("[ATTACK ARCHERY] after mult", dam)
 
 		if self:isAccuracyEffect(ammo, "mace") then
-			local bonus = 1 + self:getAccuracyEffect(ammo, atk, def, 0.001, 0.1)
+			local bonus = 1 + self:getAccuracyEffect(ammo, atk, def, 0.002, 0.2)
 			print("[ATTACK] mace accuracy bonus", atk, def, "=", bonus)
 			dam = dam * bonus
 		end
@@ -454,7 +454,12 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 
 		target:fireTalentCheck("callbackOnArcheryMiss", self, tg)
 	end
-
+	
+	if tg.archery.proc_mult then
+		self.__global_accuracy_damage_bonus = self.__global_accuracy_damage_bonus or 1
+		self.__global_accuracy_damage_bonus = self.__global_accuracy_damage_bonus * tg.archery.proc_mult
+	end
+	
 	-- Ranged project
 	local weapon_ranged_project = weapon.ranged_project or {}
 	local ammo_ranged_project = ammo.ranged_project or {}
@@ -657,8 +662,10 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 		target.turn_procs.roll_with_it = true
 	end
 
-	self.turn_procs.weapon_type = nil
+	self.turn_procs.weapon_type = nil	
 	if tg.archery.use_psi_archery then self:attr("use_psi_combat", -1) end
+	self.__global_accuracy_damage_bonus = nil
+
 end
 
 -- Store it for addons

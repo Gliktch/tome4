@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Ruined halfling complex",
+	name = _t"Ruined halfling complex",
 	level_range = {10, 25},
 	level_scheme = "player",
 	max_level = 4,
@@ -35,8 +35,9 @@ return {
 		map = {
 			class = "engine.generator.map.Roomer",
 			nb_rooms = 10,
-			rooms = {"random_room", {"money_vault",5}, {"lesser_vault",8}},
+			rooms = {"random_room", {"money_vault",5}, {"lesser_vault",8}, {"greater_vault",5}},
 			lesser_vaults_list = {"circle","rat-nest","skeleton-mage-cabal"},
+			greater_vaults_list = {"living-weapons"},
 			lite_room_chance = 100,
 			['.'] = "FLOOR",
 			['#'] = "WALL",

@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -251,7 +251,7 @@ function _M:forceWait()
 	print("[SAVEFILE PIPE] force waiting")
 	if #self.pipe == 0 and (not self.waiton or not next(self.waiton)) then return end
 
-	local popup = Dialog:simpleWaiter("Saving...", "Please wait while saving...", nil, 1000, self.total_nb)
+	local popup = Dialog:simpleWaiter(_t"Saving...", _t"Please wait while saving...", nil, 1000, self.total_nb)
 	core.display.forceRedraw()
 
 	local cnt = 0

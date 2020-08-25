@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Cosmetic Option: #LIGHT_GREEN#Bikini and Mankini",
-[[You have saved Melinda again at the beach.
+return _t"New Cosmetic Option: #LIGHT_GREEN#Bikini and Mankini",
+_t[[You have saved Melinda again at the beach.
 
 You may now create characters that start equiped with either bikini or mankini.
 This has no effect on gameplay at all but it is fun!

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
 newEntity{
 	define_as = "BASE_ROD",
 	type = "charm", subtype="rod",
-	unided_name = "rod", id_by_type = true,
+	unided_name = _t"rod", id_by_type = true,
 	display = "-", color=colors.WHITE, image = resolvers.image_material("wand", "wood"),
 	encumber = 2,
 	rarity = 9,
 	add_name = "#CHARGES#",
 	use_sound = "talents/spell_generic",
-	desc = [[]],
+	desc = _t[[]],
 }

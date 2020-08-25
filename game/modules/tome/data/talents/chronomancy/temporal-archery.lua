@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -16,8 +16,6 @@
 --
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
-
-local archerPreUse = Talents.archerPreUse
 
 newTalent{
 	name = "Phase Shot",
@@ -41,7 +39,7 @@ newTalent{
 	info = function(self, t)
 		local weapon = 100 * self:combatTalentWeaponDamage(t, 1.1, 1.9)
 		return ([[You fire a shot that phases out of time and space allowing it to virtually ignore armor.  The shot will deal %d%% weapon damage as temporal damage to its target.]]):
-		format(damDesc(self, DamageType.TEMPORAL, weapon))
+		tformat(damDesc(self, DamageType.TEMPORAL, weapon))
 	end
 }
 
@@ -68,7 +66,7 @@ newTalent{
 	info = function(self, t)
 		local weapon = 100 * self:combatTalentWeaponDamage(t, 1.1, 1.9)
 		return ([[You focus your aim and fire a shot with great accuracy, inflicting %d%% weapon damage.  Afterwords your attack will remain improved for one turn as the chronomantic effects linger.]])
-		:format(weapon)
+		:tformat(weapon)
 	end,
 }
 
@@ -100,7 +98,7 @@ newTalent{
 	info = function(self, t)
 		local power = t.getPower(self, t)
 		return ([[You focus your aim, increasing your critical damage multiplier by %d%% and your physical and spell critical strike chance by %d%%
-		The effect will scale with your Spellpower.]]):format(power, power / 2)
+		The effect will scale with your Spellpower.]]):tformat(power, power / 2)
 	end,
 }
 
@@ -127,6 +125,6 @@ newTalent{
 	info = function(self, t)
 		local weapon = 100 * self:combatTalentWeaponDamage(t, 1, 1.5)
 		return ([[You pause time around you long enough to fire a single shot, doing %d%% damage.
-		The damage will scale with your Paradox and the cooldown will go down with more talent points invested.]]):format(weapon)
+		The damage will scale with your Paradox and the cooldown will go down with more talent points invested.]]):tformat(weapon)
 	end,
 }

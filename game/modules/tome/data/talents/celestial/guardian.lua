@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ newTalent{
 		If you do not have any positive energy, the effect will not trigger.
 		Additionally, once per turn successful melee attacks will trigger a bonus attack with your shield dealing %d%% light damage.
 		The healing done will increase with your Spellpower.]]):
-		format(heal, t.getShieldDamage(self, t)*100)
+		tformat(heal, t.getShieldDamage(self, t)*100)
 	end,
 }
 
@@ -113,7 +113,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Hits the target with your weapon doing %d%% damage, and with a shield strike doing %d%% damage. If the shield strike connects, your shield will explode in a burst of light that inflicts %0.2f light damage on all targets except yourself within radius %d of the target, and light up all tiles in that radius.
 		The light damage will increase with your Spellpower.]]):
-		format(100 * weapondamage, 100 * shielddamage, damDesc(self, DamageType.LIGHT, lightdamage), radius)
+		tformat(100 * weapondamage, 100 * shielddamage, damDesc(self, DamageType.LIGHT, lightdamage), radius)
 	end,
 }
 
@@ -128,6 +128,13 @@ newTalent{
 	range = function(self, t) return math.floor(self:combatTalentScale(t, 2, 6)) end,
 	tactical = { DEFEND = 2 },
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 400) end,
+	iconOverlay = function(self, t, p)
+		local val = self.retribution_absorb or 0
+		if val <= 0 then return "" end
+		local fnt = "buff_font_small"
+		if val >= 1000 then fnt = "buff_font_smaller" end
+		return "#RED#"..tostring(math.ceil(val)).."#LAST#", fnt
+	end,
 	activate = function(self, t)
 		local shield = self:hasShield()
 		if not shield then
@@ -148,22 +155,25 @@ newTalent{
 		self.retribution_strike = nil
 		return true
 	end,
-	callbackOnRest = function(self, t)
-		-- Resting requires no enemies in view so we can safely clear all stored damage
-		-- Clear the stored damage by setting the remaining absorb to the max
-		self.retribution_absorb = self.retribution
+	callbackOnRest = function(self, t)  -- Make sure we've actually started resting/running before disabling the sustain
+		if self.resting.cnt and self.resting.cnt <= 0 then return end
+		self.retribution_absorb = self.retribution		
+	end,
+	callbackOnRun = function(self, t)
+		if self.running.cnt and self.running.cnt <= 0 then return end
+		self.retribution_absorb = self.retribution		
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local absorb_string = ""
 		if self.retribution_absorb and self.retribution_strike then
-			absorb_string = ([[#RED#Absorb Remaining: %d]]):format(self.retribution_absorb)
+			absorb_string = ([[#RED#Absorb Remaining: %d]]):tformat(self.retribution_absorb)
 		end
 
 		return ([[Retribution negates half of all damage you take while it is active. Once Retribution has negated %0.2f damage, your shield will explode in a burst of light, inflicting damage equal to the amount negated in a radius of %d and deactivating the talent.
 		The amount absorbed will increase with your Spellpower.
 		%s]]):
-		format(damage, self:getTalentRange(t), absorb_string)
+		tformat(damage, self:getTalentRange(t), absorb_string)
 	end,
 }
 
@@ -202,7 +212,7 @@ newTalent{
 		if hit then self:talentCooldownFilter(nil, 1, t.getCooldownReduction(self, t), true) end
 
 		local hit2 = self:attackTargetWith(target, shield_combat, DamageType.LIGHT, t.getShieldDamage(self, t))
-		if hit2 then self:removeEffectsFilter({status = "detrimental"}, t.getDebuff(self, t)) end
+		if hit2 then self:removeEffectsFilter(self, {status = "detrimental"}, t.getDebuff(self, t)) end
 
 		return true
 	end,
@@ -214,6 +224,6 @@ newTalent{
 		return ([[You demonstrate your dedication to the light with a measured attack striking once with your weapon for %d%% Light damage and once with your shield for %d%% Light damage.
 			If the first strike connects %d random talent cooldowns are reduced by 1.
 			If the second strike connects you are cleansed of %d debuffs.]]):
-		format(weapon, shield, cooldown, cleanse)
+		tformat(weapon, shield, cooldown, cleanse)
 	end,
 }

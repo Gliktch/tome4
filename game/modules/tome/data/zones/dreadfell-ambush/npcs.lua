@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ newEntity{ base="BASE_NPC_ORC", define_as = "UKRUK",
 	name = "Ukruk the Fierce",
 	faction = "orc-pride",
 	color=colors.VIOLET,
-	desc = [[This ugly orc looks really nasty and vicious. He is obviously looking for something and bears an unknown symbol on his shield.]],
+	desc = _t[[This ugly orc looks really nasty and vicious. He is obviously looking for something and bears an unknown symbol on his shield.]],
 	level_range = {30, nil}, exp_worth = 2,
 	max_life = 1500, life_rating = 18, fixed_rating = true,
 	rank = 4,

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[
+return _t[[
 Now you know the basics: what these eight #GOLD#combat stats#WHITE# mean and when they're used. It's time to look at some numbers.
 
 Head north to the stairs, and descend into the #GOLD#Dungeon of Adventurer Enlightenment.#WHITE#

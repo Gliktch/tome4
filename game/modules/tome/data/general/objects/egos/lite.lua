@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -92,6 +92,8 @@ newEntity{
 	},
 }
 
+-- this makes the item worse
+--[[
 newEntity{
 	power_source = {technique=true},
 	name = "burglar's ", prefix=true, instant_resolve=true,
@@ -108,6 +110,7 @@ newEntity{
 		infravision = resolvers.mbonus_material(5, 4),
 	},
 }
+]]
 
 newEntity{
 	power_source = {psionic=true},

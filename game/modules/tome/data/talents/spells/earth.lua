@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 -- darkgod@te4.org
 
 local Object = require "mod.class.Object"
+local Grid = require "mod.class.Grid"
 
 newTalent{
 	name = "Pulverizing Auger", short_name="DIG",
@@ -25,37 +26,53 @@ newTalent{
 	require = spells_req1,
 	points = 5,
 	mana = 15,
-	cooldown = 6,
-	range = function(self, t) return math.min(10, math.floor(self:combatTalentScale(t, 3, 7))) end,
+	cooldown = 3,
+	is_body_of_stone_affected = true,
+	range = 10,
 	tactical = { ATTACK = {PHYSICAL = 2} },
+	is_beam_spell = true,
 	direct_hit = true,
 	requires_target = true,
 	target = function(self, t)
+		if thaumaturgyCheck(self) then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
 		local tg = {type="beam", range=self:getTalentRange(t), talent=t}
 		return tg
 	end,
+	getBonus = function(self, t) return math.floor(self:combatTalentScale(t, 15, 30)) end,
 	getDigs = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5, "log")) end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 300) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 230) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 
+		self.turn_procs.has_dug = nil
+		tg.range = t.getDigs(self, t)
 		for i = 1, t.getDigs(self, t) do self:project(tg, x, y, DamageType.DIG, 1) end
+		if self.turn_procs.has_dug and self.turn_procs.has_dug > 0 then
+			self:setEffect(self.EFF_AUGER_OF_DESTRUCTION, 6, {power=t.getBonus(self,t)})
+		end
 
-		self:project(tg, x, y, DamageType.PHYSICAL, self:spellCrit(t.getDamage(self, t)), nil)
+		tg.range = self:getTalentRange(t)
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
+		self:project(tg, x, y, DamageType.PHYSICAL, dam, nil)
 		local _ _, x, y = self:canProject(tg, x, y)
-		game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "earth_beam", {tx=x-self.x, ty=y-self.y})
+		if thaumaturgyCheck(self) then 
+			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "earth_beam_wide", {tx=x-self.x, ty=y-self.y})
+		else
+			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "earth_beam", {tx=x-self.x, ty=y-self.y})
+		end
 		game:playSoundNear(self, "talents/earth")
 		return true
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local nb = t.getDigs(self, t)
-		return ([[Fire a powerful beam of stone-shaterring force, digging out any walls in its path up to %d.
-		The beam also affect any creatures in its path, dealing %0.2f physical damage to all.
+		return ([[Fire a powerful beam of stone-shattering force, digging out any walls in its path up to %d range.
+		The beam continues to a range of %d, affecting any creatures in its path, dealing %0.2f physical damage to them.
+		If any walls are dug, you gain %d%% physical damage bonus for 6 turns.
 		The damage will increase with your Spellpower.]]):
-		format(nb, damDesc(self, DamageType.PHYSICAL, damage))
+		tformat(nb, self:getTalentRange(t), damDesc(self, DamageType.PHYSICAL, damage), t.getBonus(self, t))
 	end,
 }
 
@@ -108,18 +125,19 @@ newTalent{
 		return ([[The caster's skin grows as hard as stone, granting a %d bonus to Armour.
 		Each time you are hit in melee, you have a %d%% chance to reduce the cooldown of an Earth or Stone spell by 2 (this effect can only happen once per turn).
 		The bonus to Armour will increase with your Spellpower.]]):
-		format(armor, t.getCDChance(self, t))
+		tformat(armor, t.getCDChance(self, t))
 	end,
 }
 
 newTalent{
 	name = "Mudslide",
-    type = {"spell/earth",3},
+	type = {"spell/earth",3},
 	require = spells_req3,
 	points = 5,
 	random_ego = "attack",
 	mana = 20,
 	cooldown = 12,
+	is_body_of_stone_affected = true,
 	direct_hit = true,
 	tactical = { ATTACKAREA = { PHYSICAL = 2 }, DISABLE = { knockback = 2 }, ESCAPE = { knockback = 1 } },
 	range = 0,
@@ -141,7 +159,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Conjures a mudslide, dealing %0.2f physical damage in a radius of %d. Any creatures caught inside will be knocked back 8 spaces.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.PHYSICAL, damage), self:getTalentRadius(t))
+		tformat(damDesc(self, DamageType.PHYSICAL, damage), self:getTalentRadius(t))
 	end,
 }
 
@@ -197,9 +215,12 @@ newTalent{
 
 				local e = Object.new{
 					old_feat = oe,
-					name = "stone wall", image = "terrain/granite_wall1.png",
+					name = _t"stone wall",
+					image = oe.image,
+					add_mos = table.clone(oe.add_mos or {}, true),
+					add_displays = table.clone(oe.add_displays or {}),
 					display = '#', color_r=255, color_g=255, color_b=255, back_color=colors.GREY,
-					desc = "a summoned wall of stone",
+					desc = _t"a summoned wall of stone",
 					type = "wall", --subtype = "floor",
 					always_remember = true,
 					can_pass = {pass_wall=1},
@@ -228,6 +249,7 @@ newTalent{
 					summoner_gain_exp = true,
 					summoner = self,
 				}
+				e.add_displays[#e.add_displays+1] = Grid.new{image="terrain/spell_stonewall_0"..rng.range(1,3)..".png", z=19}
 				e.tooltip = mod.class.Grid.tooltip
 				game.level:addEntity(e)
 				game.level.map(x + i, y + j, Map.TERRAIN, e)
@@ -244,6 +266,6 @@ newTalent{
 		At level 4, it becomes targetable.
 		Any hostile creature caught in the radius will also suffer %0.2f physical damage.
 		Duration and damage will improve with your Spellpower.]]):
-		format(duration, damDesc(self, DamageType.PHYSICAL, damage))
+		tformat(duration, damDesc(self, DamageType.PHYSICAL, damage))
 	end,
 }

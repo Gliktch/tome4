@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2017 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ function _M:init()
 end
 
 function _M:addItem(id)
-	self.cart[#self.cart+1] = { name="Test", desc="Test desc", kind="cosmetic", cost=100 }
+	self.cart[#self.cart+1] = { name=_t"Test", desc="Test desc", kind="cosmetic", cost=100 }
 end
 
 function _M:purchase()

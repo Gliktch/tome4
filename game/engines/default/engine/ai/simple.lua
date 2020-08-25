@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ newAI("move_dmap", function(self)
 			return self:runAI("move_simple")
 		end
 
-		local c = a:distanceMap(self.x, self.y)
+		local c = a.distanceMap and a:distanceMap(self.x, self.y)
 		local dir = 5
 
 		if c and ax == a.x and ay == a.y then
@@ -109,7 +109,7 @@ newAI("flee_dmap", function(self)
 		local a = self.ai_target.actor
 		local ax, ay = self:aiSeeTargetPos(a)
 
-		local c = a:distanceMap(self.x, self.y)
+		local c = a.distanceMap and a:distanceMap(self.x, self.y)
 		local dir = 5
 		
 		if c and ax == a.x and ay == a.y then

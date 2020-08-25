@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -19,11 +19,11 @@
 
 use_ui = "quest-main"
 
-name = "The Orbs of Command"
+name = _t"The Orbs of Command"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You have found an orb of command that seems to be used to open the shield protecting the High Peak."
-	desc[#desc+1] = "There seems to be a total of four of them. The more you have the weaker the shield will be."
+	desc[#desc+1] = _t"You have found an orb of command that seems to be used to open the shield protecting the High Peak."
+	desc[#desc+1] = _t"There seems to be a total of four of them. The more you have the weaker the shield will be."
 	return table.concat(desc, "\n")
 end
 

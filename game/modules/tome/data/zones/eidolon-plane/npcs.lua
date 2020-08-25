@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ newEntity{ define_as = "EIDOLON",
 	name = "The Eidolon",
 	display = "@", color=colors.GREY,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/unknown_unknown_the_eidolon.png", display_h=2, display_y=-1}}},
-	desc = [[A ripple in the void that somehow seems... alive, this creature stares at you with interest.]],
+	desc = _t[[A ripple in the void that somehow seems... alive, this creature stares at you with interest.]],
 	faction = "neutral",
 	blood_color = colors.DARK,
 	level_range = {200, nil}, exp_worth = 0,

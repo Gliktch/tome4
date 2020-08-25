@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,9 +26,15 @@ local r = rng.range(0, 99)
 if r < 10 then
 	o = game.state:generateRandart{lev=resolvers.current_level+10}
 elseif r < 40 then
-	o = game.zone:makeEntity(game.level, "object", {tome={double_greater=1}}, nil, true)
+	o = game.zone:makeEntity(game.level, "object", 
+			{tome={double_greater=10},  -- note that this can still generate uniques
+			special=function(e) return (e.type and e.type ~= "scroll") and (e.egos or e.unique) end}
+			, nil, true)
 else
-	o = game.zone:makeEntity(game.level, "object", {tome={greater_normal=1}}, nil, true)
+	o = game.zone:makeEntity(game.level, "object", 
+			{tome={greater_normal=10},  -- note that this can still generate uniques
+			special=function(e) return (e.type and e.type ~= "scroll") and (e.egos or e.unique) end}
+			, nil, true)
 end
 r = 99 - r 
 local ms
@@ -51,7 +57,7 @@ if rng.percent(r * 2) then
 end 
 
 local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-g.name = "glowing chest"
+g.name = _t"glowing chest"
 g.display='~' g.color_r=255 g.color_g=215 g.color_b=0 g.notice = true
 g.always_remember = true g.special_minimap = {b=150, g=50, r=90}
 g:removeAllMOs()
@@ -67,7 +73,7 @@ g.block_move = function(self, x, y, who, act, couldpass)
 	if not who or not who.player or not act then return false end
 	if self.chest_opened then return false end
 
-	require("engine.ui.Dialog"):yesnoPopup("Glowing Chest", "Open the chest?", function(ret) if ret then
+	require("engine.ui.Dialog"):yesnoPopup(_t"Glowing Chest", _t"Open the chest?", function(ret) if ret then
 		self.chest_opened = true
 		if self.chest_item then
 			game.zone:addEntity(game.level, self.chest_item, "object", x, y)
@@ -88,14 +94,14 @@ g.block_move = function(self, x, y, who, act, couldpass)
 		self.block_move = nil
 		self.special = nil
 		self.autoexplore_ignore = true
-		self.name = "glowing chest (opened)"
+		self.name = _t"glowing chest (opened)"
 
 		if self.add_displays and self.add_displays[1] then 
 			self.add_displays[1].image = "object/chestopen3.png"
 			self:removeAllMOs()
 			game.level.map:updateMap(x, y)
 		end
-	end end, "Open", "Leave")
+	end end, _t"Open", _t"Leave")
 
 	return false
 end

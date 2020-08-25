@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -43,12 +43,12 @@ newEntity{ define_as = "ASSASSIN_LORD",
 	open_door = true,
 
 	autolevel = "roguemage",
-	ai = "dumb_talented_simple", ai_state = { talent_in=1, },
+	ai = "dumb_talented_simple", ai_state = { talent_in=1, ai_move="move_astar" },
 	stats = { str=8, dex=15, mag=15, cun=15, con=7 },
 
 	resolvers.tmasteries{ ["cunning/stealth"]=1.3, },
 
-	desc = [[He is the leader of a gang of bandits; watch out for his men.]],
+	desc = _t[[He is the leader of a gang of bandits; watch out for his men.]],
 	level_range = {8, 50}, exp_worth = 1,
 	combat_armor = 5, combat_def = 7,
 	max_life = resolvers.rngavg(90,100), life_rating = 14,
@@ -57,11 +57,11 @@ newEntity{ define_as = "ASSASSIN_LORD",
 		[Talents.T_KNIFE_MASTERY] = {base=1, every=8, max=5},
 		[engine.interface.ActorTalents.T_LETHALITY]={base=3, every=4, max=10},
 		[engine.interface.ActorTalents.T_STEALTH]={base=4, every=4, max=10},
-		[engine.interface.ActorTalents.T_VILE_POISONS]={base=3, every=4, max=10},
+		[engine.interface.ActorTalents.T_VILE_POISONS]={base=1, every=8, max=10},
 		[engine.interface.ActorTalents.T_VENOMOUS_STRIKE]={base=3, every=4, max=10},
 		[engine.interface.ActorTalents.T_SHADOWSTEP]={base=3, every=4, max=10},
 		[engine.interface.ActorTalents.T_SHADOW_VEIL]={base=-1, every=4, max=5},
-		[engine.interface.ActorTalents.T_APPLY_POISON]={base=3, every=4, max=10},
+		[engine.interface.ActorTalents.T_APPLY_POISON]={base=1, every=8, max=10},
 	},
 
 	auto_classes={{class="Shadowblade", start_level=20, level_rate=35},},
@@ -70,6 +70,25 @@ newEntity{ define_as = "ASSASSIN_LORD",
 	mana_regen = 1,
 
 	can_talk = "assassin-lord",
+
+	never_act = 1, -- To first talk
+	on_takehit = function(self)
+		self.on_takehit = nil
+		self.never_act = nil
+		self:teleportRandom(self.x, self.y, 10)
+		self:setTarget(game:getPlayer(true))
+		game.logPlayer(game.player, "#DARK_GREY#The assassin lord throws a smoke bomb and disappears!")
+
+		-- Now we don't fool around anymore!
+		for tid, _ in pairs(self.talents) do
+			local t = self:getTalentFromId(tid)
+			if t and t.mode == "sustained" and not self:isTalentActive(tid) then
+				self:forceUseTalent(tid, {ignore_energy=true, ignore_cd=true, no_talent_fail=true, silent=true})
+			end
+		end
+
+		return 0 -- mwawawawa
+	end,
 
 	on_die = function(self, who)
 		local oe = game.level.map(self.x, self.y, game.level.map.TERRAIN)

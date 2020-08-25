@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2014 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,62 +21,6 @@ local DamageType = require "engine.DamageType"
 local Object = require "engine.Object"
 local Map = require "engine.Map"
 
-local weaponCheck = function(self, weapon, ammo, silent, weapon_type)
-	if not weapon then
-		if not silent then
-			-- ammo contains error message
-			game.logPlayer(self, ({
-				["disarmed"] = "You are currently disarmed and cannot use this talent.",
-				["no shooter"] = ("You require a %s to use this talent."):format(weapon_type or "missile launcher"),
-				["no ammo"] = "You require ammo to use this talent.",
-				["bad ammo"] = "Your ammo cannot be used.",
-				["incompatible ammo"] = "Your ammo is incompatible with your missile launcher.",
-				["incompatible missile launcher"] = ("You require a %s to use this talent."):format(weapon_type or "bow"),
-			})[ammo] or "You require a missile launcher and ammo for this talent.")
-		end
-		return false
-	else
-		local infinite = ammo and ammo.infinite or self:attr("infinite_ammo")
-		if not ammo or (ammo.combat.shots_left <= 0 and not infinite) then
-			if not silent then game.logPlayer(self, "You do not have enough ammo left!") end
-			return false
-		end
-	end
-	return true
-end
-
-doWardenPreUse = function(self, weapon, silent)
-	if weapon == "bow" then
-		local bow, ammo, oh, pf_bow= self:hasArcheryWeapon("bow")
-		if not bow and not pf_bow then
-			bow, ammo, oh, pf_bow= self:hasArcheryWeapon("bow", true)
-		end
-		return bow or pf_bow, ammo
-	end
-	if weapon == "dual" then
-		local mh, oh = self:hasDualWeapon()
-		if not mh then
-			mh, oh = self:hasDualWeaponQS()
-		end
-		return mh, oh
-	end
-end
-
-local archerPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
-local wardenPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	if self:attr("warden_swap") and not weapon and weapon_type == nil or weapon_type == "bow" then
-		weapon, ammo = doWardenPreUse(self, "bow")
-	end
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
 local preUse = function(self, t, silent)
 	if not self:hasShield() or not archerPreUse(self, t, true) then
 		if not silent then game.logPlayer("You require a ranged weapon and a shield to use this talent.") end
@@ -84,9 +28,6 @@ local preUse = function(self, t, silent)
 	end
 	return true
 end
-
-Talents.archerPreUse = archerPreUse
-Talents.wardenPreUse = wardenPreUse
 
 archery_range = Talents.main_env.archery_range
 
@@ -152,7 +93,7 @@ newTalent{
 		return ([[Enter a concealed sniping stance, increasing your weapon's attack range and vision range by %d, giving all incoming damage a %d%% chance to miss you, and causing your Headshot, Volley and Called Shots to behave as if the target was marked.
 Any non-instant, non-movement action will break concealment, but the increased range and vision and damage avoidance will persist for 3 turns, with the damage avoidance decreasing in power by 33%% each turn.
 This requires a bow to use, and cannot be used if there are foes in sight within range %d.]]):
-		format(range, avoid, radius)
+		tformat(range, avoid, radius)
 	end,
 }
 
@@ -204,8 +145,8 @@ newTalent{
 		local cooldown = t.getCooldownReduction(self,t)
 		return ([[Fire an arrow tipped with a smoke bomb inflicting %d%% damage and creating a radius %d cloud of thick, disorientating smoke. Those caught within will have their vision range reduced by %d for 5 turns.
 The distraction caused by this effect reduces the cooldown of your Concealment by %d turns. If the cooldown is reduced to 0, you instantly activate Concealment regardless of whether foes are too close.
-The chance for the smoke bomb to affect your targets increases with your Accuracy.]]):
-		format(dam, radius, sight, cooldown)
+The chance for the smoke bomb to affect your targets increases with your Accuracy. This requires a bow to use.]]):
+		tformat(dam, radius, sight, cooldown)
 	end,
 }
 
@@ -252,8 +193,8 @@ newTalent{
 		local mark = t.getMarkChance(self,t)
 		return ([[Enter a calm, focused stance, increasing physical power and accuracy by %d, projectile speed by %d%% and the chance to mark targets by an additional %d%%.
 This makes your shots more effective at range, increasing all damage dealt by %0.1f%% per tile travelled beyond 3, to a maximum of %0.1f%% damage at range 8.
-The physical power and accuracy increase with your Dexterity.]]):
-		format(power, speed, mark, dam, dam*5)
+The physical power and accuracy increase with your Dexterity. This requires a bow to use.]]):
+		tformat(power, speed, mark, dam, dam*5)
 	end,
 }
 
@@ -285,8 +226,9 @@ newTalent{
 		local dam = t.getDamage(self,t)*100
 		local reduction = t.getDamageReduction(self,t)
 		return ([[Take aim for 1 turn, preparing a deadly shot. During the next turn, this talent will be replaced with the ability to fire a lethal shot dealing %d%% damage and marking the target.
-While aiming, your intense focus causes you to shrug of %d%% incoming damage and all negative effects.]]):
-		format(dam, reduction)
+While aiming, your intense focus causes you to shrug off %d%% incoming damage and all negative effects.
+This requires a bow to use.]]):
+		tformat(dam, reduction)
 	end,
 }
 
@@ -327,6 +269,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Fire a lethal shot. This shot will bypass other enemies between you and your target, and gains 100 increased accuracy.]]):
-		format(dam, reduction)
+		tformat(dam, reduction)
 	end,
 }

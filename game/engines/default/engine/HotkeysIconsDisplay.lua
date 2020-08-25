@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -120,7 +120,7 @@ function _M:resize(x, y, w, h, iw, ih)
 	end
 end
 
-local page_to_hotkey = {"", "SECOND_", "THIRD_", "FOURTH_", "FIFTH_"}
+local page_to_hotkey = {"", "SECOND_", "THIRD_", "FOURTH_", "FIFTH_", "SIX_", "SEVEN_"}
 
 local frames_colors = {
 	ok = {0.3, 0.6, 0.3},
@@ -187,7 +187,7 @@ function _M:display()
 							color = {255,0,0}
 							angle = 360 * (1 - (a.talents_cd[t.id] / a:getTalentCooldown(t)))
 						end
-						txt = tostring(a:isTalentCoolingDown(t))
+						txt = tostring(math.ceil(a:isTalentCoolingDown(t)))
 					elseif a:isTalentActive(t.id) then
 						color = {255,255,0}
 						frame = "sustain"
@@ -207,16 +207,16 @@ function _M:display()
 				display_entity = o
 				if o and o.use_talent and o.use_talent.id then
 					local t = a:getTalentFromId(o.use_talent.id)
-					display_entity = t.display_entity
+					display_entity = t and t.display_entity
 				end
 				if o and o.talent_cooldown then
 					local t = a:getTalentFromId(o.talent_cooldown)
 					angle = 360
-					if a:isTalentCoolingDown(t) then
+					if t and a:isTalentCoolingDown(t) then
 						color = {255,0,0}
 						angle = 360 * (1 - (a.talents_cd[t.id] / a:getTalentCooldown(t)))
 						frame = "cooldown"
-						txt = tostring(a:isTalentCoolingDown(t))
+						txt = tostring(math.ceil(a:isTalentCoolingDown(t)))
 					end
 				elseif o and (o.use_talent or o.use_power) then
 					angle = 360 * ((o.power / o.max_power))
@@ -231,6 +231,14 @@ function _M:display()
 				end
 				if o and o.wielded then
 					frame = "sustain"
+				end
+				if o and o.wielded and o.use_talent and o.use_talent.id then
+					local t = a:getTalentFromId(o.use_talent.id)
+					if not a:preUseTalent(t, true, true) then
+						angle = 0
+						color = {190,190,190}
+						frame = "disabled"
+					end
 				end
 			end
 
@@ -385,7 +393,8 @@ function _M:onMouse(button, mx, my, click, on_over, on_click)
 				else
 					if a.hotkey[i][1] == "talent" then
 						local t = self.actor:getTalentFromId(a.hotkey[i][2])
-						local s = t.display_entity:getEntityFinalSurface(nil, 64, 64)
+						local s = nil
+						if t then s = t.display_entity:getEntityFinalSurface(nil, 64, 64) end
 						game.mouse:startDrag(mx, my, s, {kind=a.hotkey[i][1], id=a.hotkey[i][2], source_hotkey_slot=i}, function(drag, used) if not used then self.actor.hotkey[i] = nil self.actor.changed = true end end)
 					elseif a.hotkey[i][1] == "inventory" then
 						local o = a:findInAllInventories(a.hotkey[i][2], {no_add_name=true, force_id=true, no_count=true})
@@ -403,13 +412,15 @@ function _M:onMouse(button, mx, my, click, on_over, on_click)
 					local text = ""
 					if a.hotkey[i] and a.hotkey[i][1] == "talent" then
 						local t = self.actor:getTalentFromId(a.hotkey[i][2])
-						text = tstring{{"color","GOLD"}, {"font", "bold"}, t.name .. (config.settings.cheat and " ("..t.id..")" or ""), {"font", "normal"}, {"color", "LAST"}, true}
-						text:merge(self.actor:getTalentFullDescription(t))
+						if t then
+							text = tstring{{"color","GOLD"}, {"font", "bold"}, t.name .. (config.settings.cheat and " ("..t.id..")" or ""), {"font", "normal"}, {"color", "LAST"}, true}
+							text:merge(self.actor:getTalentFullDescription(t))
+						else text = _t"Unknown!" end
 					elseif a.hotkey[i] and a.hotkey[i][1] == "inventory" then
 						local o = a:findInAllInventories(a.hotkey[i][2], {no_add_name=true, force_id=true, no_count=true})
 						if o then
 							text = o:getDesc()
-						else text = "Missing!" end
+						else text = _t"Missing!" end
 					end
 					on_over(text)
 				end

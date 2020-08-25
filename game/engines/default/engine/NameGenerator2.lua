@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ local lpeg = require "lpeg"
 
 --- Alternate Name Generator
 -- @classmod engine.NameGenerator2
+-- Use with the trainer found in utils/name-generator/
 module(..., package.seeall, class.make)
 
 --- Creates a random name generator using a pregenerated grammar

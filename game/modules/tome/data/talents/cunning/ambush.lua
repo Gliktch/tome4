@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ newTalent{
 		local defence = t.getDefense(self, t)
 		return ([[Your Soothing Darkness talent effect now grants 25%% all damage resistance on exiting stealth.
 		When your life drops below 50%% you become immune to negative detrimental effects for %d turns and gain %d defense and %d spellpower for %d turns.]]):
-		format(duration2, defence, spellpower, duration)
+		tformat(duration2, defence, spellpower, duration)
 	end,
 }
 
@@ -63,8 +63,8 @@ newTalent{
 	requires_target = true,
 	no_break_stealth = true,
 	getDuration = function(self, t) return 3 end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 600) end,
-	speed = "combat",
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 450) end,
+	speed = "spell",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
@@ -76,22 +76,26 @@ newTalent{
 		local sx, sy = util.findFreeGrid(self.x, self.y, 5, true, {[engine.Map.ACTOR]=true})
 		if not sx then return end
 
-		-- Move first so we get the full benefit of Shadowstrike
-		target:move(sx, sy, true)
+		if core.fov.distance(self.x, self.y, target.x, target.y) > 1 then
+			-- Move first so we get the full benefit of Shadowstrike
+			target:move(sx, sy, true)
+		end
+		
 		self:project(tg, target.x, target.y, DamageType.DARKNESS, self:spellCrit(t.getDamage(self, t)))
 
 		if target:canBe("silence") then
 			target:setEffect(target.EFF_SILENCED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the silence!", target.name:capitalize())
+			game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 		end
 
 		if target:canBe("disarm") then
 			target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists the disarm!", target.name:capitalize())
+			game.logSeen(target, "%s resists the disarm!", target:getName():capitalize())
 		end
 
+		game:playSoundNear(self, "talents/arcane")
 		return true
 	end,
 	info = function(self, t)
@@ -100,7 +104,7 @@ newTalent{
 		return ([[You reach out with the shadows silencing and disarming your target for %d turns.
 		The shadows will deal %d darkness damage to the target and pull it to you.
 		The chance to apply debuffs improves with your Accuracy and the damage with your Spellpower.]]):
-		format(duration, damDesc(self, DamageType.DARKNESS, damage))
+		tformat(duration, damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
 
@@ -121,7 +125,7 @@ newTalent{
 		return ([[Your mastery of dark magic empowers you.
 		You gain %d Accuracy, %d Defense, and %d%% Darkness damage penetration.
 		The effects will increase with your Spellpower stat.]])
-		:format(t.getAccuracy(self, t), t.getDefense(self, t), t.getPenetration(self, t))
+		:tformat(t.getAccuracy(self, t), t.getDefense(self, t), t.getPenetration(self, t))
 	end,
 }
 
@@ -191,6 +195,6 @@ newTalent{
 		If a target isn't found this effect ends.
 		The movement is not considered a teleport.
 		The resistance will increase with your Spellpower stat.]]):
-		format(duration, t.getBlinkRange(self, t) ,100 * damage, res)
+		tformat(duration, t.getBlinkRange(self, t) ,100 * damage, res)
 	end,
 }

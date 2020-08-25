@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 -- darkgod@te4.org
 
 return {
-	name = "Ring of Blood",
+	name = _t"Ring of Blood",
 	display_name = function(x, y)
-		if game.level.level < 3 then return "Slavers Compound ("..game.level.level..")" end
-		return "Ring of Blood"
+		if game.level.level < 3 then return ("Slavers Compound (%d)"):tformat(game.level.level) end
+		return _t"Ring of Blood"
 	end,
 	variable_zone_name = true,
 	level_range = {10, 25},

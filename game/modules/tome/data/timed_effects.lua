@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ end
 local getName = function(self)
 	local name = self.effect_id and mod.class.Actor.tempeffect_def[self.effect_id].desc or "effect"
 	if self.src and self.src.name then
-		return name .." from "..self.src.name:capitalize()
+		return ("%s from %s"):tformat(name, self.src:getName():capitalize())
 	else
 		return name
 	end

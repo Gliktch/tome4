@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ newEntity{
 	encumber = 0,
 	rarity = 5,
 	identified = true,
-	desc = [[All that glitters is not gold; all that is gold does not glitter.]],
+	desc = _t[[All that glitters is not gold; all that is gold does not glitter.]],
 	on_prepickup = function(self, who, id)
 		who:incMoney(self.money_value / 10)
 		game.logPlayer(who, "You pickup %0.2f gold pieces.", self.money_value / 10)

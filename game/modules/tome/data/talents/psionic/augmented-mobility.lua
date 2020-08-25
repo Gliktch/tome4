@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ newTalent{
 		return ([[You telekinetically float just off the ground.
 		This allows you to slide around the battle quickly, increasing your movement speed by %d%%.
 		It also makes you more vulnerable to being pushed around (-%d%% knockback resistance).]]):
-		format(t.getSpeed(self, t)*100, t.getKBVulnerable(self, t)*100)
+		tformat(t.getSpeed(self, t)*100, t.getKBVulnerable(self, t)*100)
 	end,
 }
 
@@ -60,7 +60,7 @@ newTalent{
 	no_energy = true,
 	tactical = { BUFF = 2 },
 	getDuration = function(self, t) return math.floor(self:combatLimit(self:combatMindpower(0.1), 10, 4, 0, 6, 6)) end, -- Limit < 10
-	speed = function(self, t) return self:combatTalentScale(t, 0.1, 0.4, 0.75) end,
+	speed = function(self, t) return self:combatTalentScale(t, 0.1, 0.4) end,
 	getBoost = function(self, t)
 		return self:combatScale(self:combatTalentMindDamage(t, 20, 60), 0, 0, 50, 100, 0.75)
 	end,
@@ -76,7 +76,7 @@ newTalent{
 		return ([[Encase your body in a sheath of thought-quick forces, allowing you to control your body's movements directly without the inefficiency of dealing with crude mechanisms like nerves and muscles.
 		Increases Accuracy by %d, your critical strike chance by %0.1f%% and your global speed by %d%% for %d turns.
 		The duration improves with your Mindpower.]]):
-		format(boost, 0.5*boost, percentinc, t.getDuration(self, t))
+		tformat(boost, 0.5*boost, percentinc, t.getDuration(self, t))
 	end,
 }
 
@@ -111,7 +111,7 @@ newTalent{
 		return ([[Briefly extend your telekinetic reach to grab an enemy and haul them towards you.
 		Works on enemies up to %d squares away.
 		The cooldown decreases, and the range increases, with additional talent points spent.]]):
-		format(range)
+		tformat(range)
 	end,
 }
 
@@ -126,7 +126,7 @@ newTalent{
 	range = function(self, t)
 		return math.floor(math.max(1, self:combatTalentLimit(t, 10, 2, 7.5))) -- Limit < 10
 	end,
-	message = "@Source@ performs a telekinetically enhanced leap!",
+	message = _t"@Source@ performs a telekinetically enhanced leap!",
 	target = function(self, t)
 		local range=self:getTalentRange(t)
 		local tg = {talent=t, type="hit", nolock=true, pass_terrain=false, nowarning=true, range=range}
@@ -137,20 +137,16 @@ newTalent{
 	end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
-		local x, y, dist = self:getTarget(tg)
-		if not (x and y) then return end
+		local x, y, target = self:getTargetLimitedWallStop(tg)
+		if not x then return end
+		if x == self.x and y == self.y then return end
+		if target then game.logPlayer(self, "You can not jump onto a creature.") return end
 		
-		local _ _, _, _, fx, fy = self:canProject(tg, x, y)
-		if not (fx and fy) or (fx == self.x and fy == self.y) then return end
-		if fx ~= x or fy ~= y then
-			game.logPlayer(self, "Terrain blocked your trajectory.")
-		end
-		
-		return self:move(fx, fy, true)
+		return self:move(x, y, true)
 	end,
 	info = function(self, t)
 		local range = self:getTalentRange(t)
 		return ([[You perform a precise, telekinetically-enhanced leap, landing up to %d squares from your starting point.]]):
-		format(range)
+		tformat(range)
 	end,
 }

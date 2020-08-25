@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,18 +18,16 @@
 -- darkgod@te4.org
 
 require "engine.class"
-local ActorAI = require "mod.class.interface.ActorAI"
 local Faction = require "engine.Faction"
 local Emote = require("engine.Emote")
 local Chat = require "engine.Chat"
 local Particles = require "engine.Particles"
-require "mod.class.Actor"
+local Actor = require "mod.class.Actor"
 
-module(..., package.seeall, class.inherit(mod.class.Actor, mod.class.interface.ActorAI))
+module(..., package.seeall, class.inherit(mod.class.Actor))
 
 function _M:init(t, no_default)
 	mod.class.Actor.init(self, t, no_default)
-	ActorAI.init(self, t)
 
 	-- Grab default image name if none is set
 	if not self.image and self.name ~= "unknown actor" then self.image = "npc/"..tostring(self.type or "unknown").."_"..tostring(self.subtype or "unknown"):lower():gsub("[^a-z0-9]", "_").."_"..(self.name or "unknown"):lower():gsub("[^a-z0-9]", "_")..".png" end
@@ -53,7 +51,7 @@ function _M:actBase()
 		self.summon_time = self.summon_time - 1
 		if self.summon_time <= 0 then
 			if not self.summon_quiet then
-				game.logPlayer(self.summoner, "#PINK#Your summoned %s disappears.", self.name)
+				game.logPlayer(self.summoner, "#PINK#Your summoned %s disappears.", self:getName())
 			end
 			self:die()
 			self.dead_by_unsummon = true
@@ -79,7 +77,7 @@ function _M:act()
 		if self.emote_random and self.x and self.y and game.level.map.seens(self.x, self.y) and rng.range(0, 999) < self.emote_random.chance * 10 then
 			local e = util.getval(rng.table(self.emote_random))
 			if e then
-				local dur = util.bound(#e, 45, 90)
+				local dur = util.bound(#e, 80, 120)
 				self:doEmote(e, dur)
 			end
 		end
@@ -137,7 +135,7 @@ function _M:automaticTalents()
 		local t = self.talents_def[tid]
 		local spotted = spotHostiles(self)
 		if (t.mode ~= "sustained" or not self.sustain_talents[tid]) and not self.talents_cd[tid] and self:preUseTalent(t, true, true) and (not t.auto_use_check or t.auto_use_check(self, t)) then
-			if (c == 1) or (c == 2 and #spotted <= 0) or (c == 3 and #spotted > 0) then
+			if (c == 1) or (c == 2 and #spotted <= 0) or (c == 3 and #spotted > 0) or (c == 5 and not self.in_combat) then
 				if c ~= 2 then
 					-- Do not fire hostile talents
 					--self:useTalent(tid)
@@ -168,55 +166,12 @@ function _M:lineFOV(tx, ty, extra_block, block, sx, sy)
 	local sees_target = core.fov.distance(sx, sy, tx, ty) <= self.sight and game.level.map.lites(tx, ty) or
 		act and self:canSee(act) and core.fov.distance(sx, sy, tx, ty) <= math.min(self.sight, math.max(self.heightened_senses or 0, self.infravision or 0))
 
-	local darkVisionRange
-	if self:knowTalent(self.T_DARK_VISION) then
-		local t = self:getTalentFromId(self.T_DARK_VISION)
-		darkVisionRange = self:getTalentRange(t)
-	end
-	local inCreepingDark = false
-
 	extra_block = type(extra_block) == "function" and extra_block
 		or type(extra_block) == "string" and function(_, x, y) return game.level.map:checkAllEntities(x, y, extra_block) end
 
 	-- This block function can be called *a lot*, so every conditional statement we move outside the function helps
-	block = block or sees_target and (darkVisionRange and
-			-- target is seen and source actor has dark vision
-			function(_, x, y)
-				if game.level.map:checkAllEntities(x, y, "creepingDark") then
-					inCreepingDark = true
-				end
-				if inCreepingDark and core.fov.distance(sx, sy, x, y) > darkVisionRange then
-					return true
-				end
-				return game.level.map:checkAllEntities(x, y, "block_sight") or
-					game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
-					extra_block and extra_block(self, x, y)
-			end
-			-- target is seen and source actor does NOT have dark vision
-			or function(_, x, y)
-				return game.level.map:checkAllEntities(x, y, "block_sight") or
-					game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
-					extra_block and extra_block(self, x, y)
-			end)
-		or darkVisionRange and
-			-- target is NOT seen and source actor has dark vision (do we even need to check for creepingDark in this case?)
-			function(_, x, y)
-				if game.level.map:checkAllEntities(x, y, "creepingDark") then
-					inCreepingDark = true
-				end
-				if inCreepingDark and core.fov.distance(sx, sy, x, y) > darkVisionRange then
-					return true
-				end
-				if core.fov.distance(sx, sy, x, y) <= self.sight and game.level.map.lites(x, y) then
-					return game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_sight") or
-						game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
-						extra_block and extra_block(self, x, y)
-				else
-					return true
-				end
-			end
-		or
-			-- target is NOT seen and the source actor does NOT have dark vision
+	block = block or sees_target and 
+			-- target is NOT seen
 			function(_, x, y)
 				if core.fov.distance(sx, sy, x, y) <= self.sight and game.level.map.lites(x, y) then
 					return game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_sight") or
@@ -236,12 +191,16 @@ end
 -- @param who = actor acting (updating its FOV info), calling self:seen_by(who)
 -- @see ActorFOV:computeFOV, ActorAI:aiSeeTargetPos, NPC:doAI
 function _M:seen_by(who)
+	if self == who then return end
 	if self:hasEffect(self.EFF_VAULTED) and who and game.party:hasMember(who) then self:removeEffect(self.EFF_VAULTED, true, true) end
 
 	-- Check if we can pass target
 	if self.dont_pass_target then return end -- This means that ghosts can alert other NPC's but not vice versa ;)
 	local who_target = who.ai_target and who.ai_target.actor
 	if not (who_target and who_target.x) then return end
+	if not (who and who.ai_actors_seen and who.ai_actors_seen[who_target]) then return end  -- Only pass target if we've seen them via FOV at least once, this limits chain aggro
+	if self.ai_target and self.ai_target.actor == who_target then return end
+	if who.getRankTalkativeAdjust and not rng.percent(who:getRankTalkativeAdjust()) then return end
 	-- Only receive (usually) hostile targets from allies
 	if self:reactionToward(who) <= 0 or not who.ai_state._pass_friendly_target and who:reactionToward(who_target) > 0 then return end
 	
@@ -250,7 +209,7 @@ function _M:seen_by(who)
 	-- Check if it's actually a being of cold machinery and not of blood and flesh
 	if not who.aiSeeTargetPos then return end
 	if self.ai_target.actor and not who_target:attr("stealthed_prevents_targetting") then
-		-- Pass last seen coordinates
+		-- Pass last seen coordinates if we already have the same target
 		if self.ai_target.actor == who_target then
 			-- Adding some type-safety checks, but this isn't fixing the source of the errors
 			local last_seen = {turn=0}
@@ -278,8 +237,8 @@ function _M:seen_by(who)
 		local range_factor = 1.2
 		if distallyhostile + core.fov.distance(self.x, self.y, who.x, who.y) > math.min(10, math.max(self.sight, self.infravision or 0, self.heightened_senses or 0, self.sense_radius or 0))*range_factor then return end
 
-		-- Don't believe allies if they saw the target over 10 turns ago
-		if (game.turn - (who.ai_state.target_last_seen.turn or game.turn)) / (game.energy_to_act / game.energy_per_tick) > 10 then return end 
+		-- Don't believe allies if they saw the target over 7 turns ago
+		if (game.turn - (who.ai_state.target_last_seen.turn or game.turn)) / (game.energy_to_act / game.energy_per_tick) > 7 then return end
 	end
 
 	print("[NPC:seen_by] Passing target", who_target.name, "from", who.uid, who.name, "to", self.uid, self.name)
@@ -320,7 +279,7 @@ function _M:checkAngered(src, set, value)
 
 	if not was_hostile and self:reactionToward(src) < 0 then
 		if self.anger_emote then
-			self:doEmote(self.anger_emote:gsub("@himher@", src.female and "her" or "him"), 30)
+			self:doEmote(self.anger_emote:gsub("@himher@", src.female and _t"her" or _t"him"), 30)
 		end
 	end
 end
@@ -361,7 +320,7 @@ function _M:onTakeHit(value, src, death_note)
 		if src then
 			if src.targetable and not self.ai_target.actor and not (self.never_anger and self:reactionToward(src) > 0) then self:setTarget(src) end
 			-- Get angry if hurt by a friend
-			if src.faction and self:reactionToward(src) >= 0 and self.fov then
+			if src.faction and self:reactionToward(src) >= 0 and self.fov and self.checkAngered then
 				self:checkAngered(src, false, -50)
 
 				-- Share reaction with allies
@@ -434,8 +393,8 @@ function _M:tooltip(x, y, seen_by)
 	
 	str:add(
 		true,
-		("Killed by you: %s"):format(killed), true,
-		"Target: ", target and target.name or "none"
+		("Killed by you: %s"):tformat(killed), true,
+		_t"Target: ", target and target:getName() or _t"none"
 	)
 	-- Give hints to stealthed/invisible players about where the NPC is looking (if they have LOS)
 	if target == game.player and (game.player:attr("stealth") or game.player:attr("invisible")) and game.player:hasLOS(self.x, self.y) then
@@ -443,14 +402,14 @@ function _M:tooltip(x, y, seen_by)
 		local dx, dy = tx - self.ai_target.actor.x, ty - self.ai_target.actor.y
 		local offset = engine.Map:compassDirection(dx, dy)
 		if offset then
-			str:add(" looking " ..offset)
+			str:add((" looking %s"):tformat(offset))
 			if config.settings.cheat then str:add((" (%+d, %+d)"):format(dx, dy)) end
 		else
-			str:add(" looking at you.")
+			str:add(_t" looking at you.")
 		end
 	end
 	if config.settings.cheat then
-		str:add(true, "UID: "..self.uid, true, self.image)
+		str:add(true, _t"UID: "..self.uid, true, self.image)
 	end
 	return str
 end
@@ -466,12 +425,12 @@ function _M:getTarget(typ)
 	if self:attr("encased_in_ice") then	return self.x, self.y, self end
 	
 	-- get our ai_target according to the targeting parameters (possibly talent-specific)
-	return ActorAI.getTarget(self, typ)
+	return Actor.getTarget(self, typ)
 end
 
 --- Make emotes appear in the log too
 function _M:setEmote(e)
-	game.logSeen(self, "%s says: '%s'", self.name:capitalize(), e.text)
+	game.logSeen(self, "%s says: '%s'", self:getName():capitalize(), e.text)
 	mod.class.Actor.setEmote(self, e)
 end
 
@@ -494,9 +453,13 @@ function _M:addedToLevel(level, x, y)
 			-- increase level of innate talents
 			-- Note: talent levels from added classes are not adjusted for difficulty directly
 			-- This means that the NPC's innate talents are generally higher level, preserving its "character"
-			for tid, lev in pairs(self.talents) do
+
+			-- Copy the table first so we don't insert talents that teach talents during iteration or double dip their scaling
+			local talents = table.clone(self.talents)
+
+			for tid, lev in pairs(talents) do
 				local t = self:getTalentFromId(tid)
-				if t.points ~= 1 then
+				if t.points ~= 1 and not t.no_difficulty_boost then
 					self:learnTalent(tid, true, math.floor(lev*(talent_mult - 1)))
 				end
 			end
@@ -560,7 +523,7 @@ end
 -- it will return estimates, to throw the AI a bit off
 -- @param target the target we are tracking
 -- @return x, y coords to move/cast to
-function _M:aiSeeTargetPos(target)
+function _M:aiSeeTargetPos(target, add_spread, max_spread)
 	if not (target and target.x) then return self.x, self.y end
 	local tx, ty = target.x, target.y
 
@@ -569,5 +532,5 @@ function _M:aiSeeTargetPos(target)
 	if self.rank > 3 and target.canMove and not target:canMove(self.x, self.y, true) then
 		return util.bound(tx, 0, game.level.map.w - 1), util.bound(ty, 0, game.level.map.h - 1)
 	end
-	return ActorAI.aiSeeTargetPos(self, target)
+	return Actor.aiSeeTargetPos(self, target, add_spread, max_spread)
 end

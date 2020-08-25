@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@ newEntity{
 	define_as = "BASE_WAND",
 	slot = "TOOL",
 	type = "charm", subtype="wand",
-	unided_name = "wand", id_by_type = true,
+	unided_name = _t"wand", id_by_type = true,
 	display = "-", color=colors.WHITE, image = resolvers.image_material("wand", "wood"),
 	encumber = 2,
 	rarity = 12,
 	add_name = "#CHARM# #CHARGES#",
 	use_sound = "talents/spell_generic",
-	desc = [[Magical wands are made by powerful Alchemists and Archmagi to store spells. Anybody can use them to release the spells.]],
+	desc = _t[[Magical wands are made by powerful Alchemists and Archmagi to store spells. Anybody can use them to release the spells.]],
 	egos = "/data/general/objects/egos/wands.lua", egos_chance = { prefix=resolvers.mbonus(20, 5), },
 	addons = "/data/general/objects/egos/wands-powers.lua",
 	power_source = {arcane=true},

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -25,12 +25,12 @@ newEntity{ base = "BASE_LITE", define_as = "VOID_STAR",
 	power_source = {arcane=true},
 	unique = true,
 	name = "Void Star", image="object/artifact/void_star.png",
-	unided_name = "tiny black star",
+	unided_name = _t"tiny black star",
 	level_range = {1, 10},
 	color = colors.GREY,
 	encumber = 1,
 	rarity = false,
-	desc = [[It looks like a very tiny star -- deep black -- and yet it somehow shines.]],
+	desc = _t[[It looks like a very tiny star -- deep black -- and yet it somehow shines.]],
 	cost = 120,
 	material_level = 2,
 

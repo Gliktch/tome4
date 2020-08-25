@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,18 +17,18 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "Spellblaze Fallouts"
+name = _t"Spellblaze Fallouts"
 stables = 0
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "The Abashed Expanse is a part of Eyal torn apart by the Spellblaze and thrown into the void between the stars.\n"
-	desc[#desc+1] = "It has recently begun to destabilize, threatening to crash onto Eyal, destroying everything in its path.\n"
-	desc[#desc+1] = "You have entered it and must now stabilize three wormholes by firing any spell at them.\n"
-	desc[#desc+1] = "Remember, the floating islands are not stable and might teleport randomly. However, the disturbances also help you: your Phase Door spell is fully controllable even if not of high level yet.\n"
+	desc[#desc+1] = _t"The Abashed Expanse is a part of Eyal torn apart by the Spellblaze and thrown into the void between the stars.\n"
+	desc[#desc+1] = _t"It has recently begun to destabilize, threatening to crash onto Eyal, destroying everything in its path.\n"
+	desc[#desc+1] = _t"You have entered it and must now stabilize three wormholes by firing any spell at them.\n"
+	desc[#desc+1] = _t"Remember, the floating islands are not stable and might teleport randomly. However, the disturbances also help you: your Phase Door spell is fully controllable even if not of high level yet.\n"
 	if self:isCompleted("abashed") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have explored the expanse and closed all three wormholes.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have explored the expanse and closed all three wormholes.#WHITE#"
 	else
-		desc[#desc+1] = "#SLATE#* You have closed "..self.stables.." wormhole(s).#WHITE#"
+		desc[#desc+1] = ("#SLATE#* You have closed %s wormhole(s).#WHITE#"):tformat(self.stables)
 	end
 	return table.concat(desc, "\n")
 end
@@ -56,6 +56,8 @@ on_grant = function(self, who)
 	if not x or not y then return end
 
 	who:move(x, y, true)
+
+	if config.settings.cheat and __module_extra_info.no_birth_popup then return end
 
 	local Chat = require"engine.Chat"
 	local chat = Chat.new("tarelion-start-archmage", npc, who)

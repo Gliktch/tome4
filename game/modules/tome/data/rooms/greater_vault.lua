@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -73,6 +73,7 @@ return function(gen, id, lev, old_lev)
 	if vault then
 		vault:generate(lev, old_lev)
 		print("generated greater_vault", vaultid)
+		if config.settings.cheat then game.log("#GOLD#PLACED GREATER VAULT: %s", vaultid) end
 	end
 	game.level = old_game_level
 	gen.level.map = old_map
@@ -114,7 +115,9 @@ return function(gen, id, lev, old_lev)
 				end end
 			end end
 			if vault.gen_map.startx and vault.gen_map.starty then
-				gen.spots[#gen.spots+1] = {x=vault.gen_map.startx + x, y=vault.gen_map.starty + y, check_connectivity=not vault.no_tunnels and "entrance", type="vault", subtype="greater"}
+				if not gen.dont_add_vault_check then
+					gen.spots[#gen.spots+1] = {x=vault.gen_map.startx + x, y=vault.gen_map.starty + y, check_connectivity=not vault.no_tunnels and "entrance", type="vault", subtype="greater"}
+				end
 				return vault.gen_map.startx + x, vault.gen_map.starty + y
 			end
 		end,

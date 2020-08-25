@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -49,17 +49,32 @@ Talents.newTalent = function(self, t)
 	if tt.is_nature then t.is_nature = true end
 	if tt.is_antimagic then t.is_antimagic = true end
 	if tt.is_unarmed then t.is_unarmed = true end
+	if tt.is_necromancy then t.is_necromancy = true end
 	if tt.autolearn_mindslayer then t.autolearn_mindslayer = true end
 	if tt.speed and not t.speed then t.speed = tt.speed end
 	if t.tactical then t.tactical = Talents.aiLowerTacticals(t.tactical) end
 	if t.tactical_imp then t.tactical_imp = Talents.aiLowerTacticals(t.tactical_imp) end -- DEBUGGING transitional
-	
+
 	if not t.image then
 		t.image = "talents/"..(t.short_name or t.name):lower():gsub("[^a-z0-9_]", "_")..".png"
 	end
 	if fs.exists(Tiles.baseImageFile(t.image)) then t.display_entity = Entity.new{image=t.image, is_talent=true}
 	else t.display_entity = Entity.new{image="talents/default.png", is_talent=true}
 	end
+
+	if t.is_class_evolution then
+		t.short_name = (t.short_name or t.name):upper():gsub("[ ']", "_")
+		t.name = ("#LIGHT_STEEL_BLUE#%s (Class Evolution)"):tformat(_t(t.name))
+	end
+	if t.is_race_evolution then
+		t.short_name = (t.short_name or t.name):upper():gsub("[ ']", "_")
+		t.name = ("#SANDY_BROWN#%s (Race Evolution)"):tformat(_t(t.name))
+	end
+
+	-- Generate easier, reverse parameters, calls for methods
+	for k, e in pairsclone(t) do if type(e) == "function" and type(k) == "string" then
+		t["_"..k] = function(t, self, ...) return e(self, t, ...) end
+	end end
 
 	return oldNewTalent(self, t)
 end
@@ -69,7 +84,7 @@ damDesc = function(self, type, dam)
 		dam = dam * 0.5
 	end
 	if self:attr("stunned") then
-		dam = dam * 0.4
+		dam = dam * 0.5
 	end
 	if self:attr("invisible_damage_penalty") then
 		dam = dam * util.bound(1 - (self.invisible_damage_penalty / (self.invisible_damage_penalty_divisor or 1)), 0, 1)
@@ -83,18 +98,39 @@ damDesc = function(self, type, dam)
 
 	-- Increases damage
 	if self.inc_damage then
-		local inc = self:combatGetDamageIncrease(type)
-		dam = dam + (dam * inc / 100)
+		if _G.type(type) == "string" then
+			local dt = DamageType:get(type)
+			if dt.damdesc_split then
+				if _G.type(dt.damdesc_split) == "function" then
+					type = dt.damdesc_split(self, type, dam)
+				else
+					type = dt.damdesc_split
+				end
+			end
+		end
+
+		if _G.type(type) == "table" then
+			local basedam = dam
+			for _, ds in ipairs(type) do
+				local inc = self:combatGetDamageIncrease(ds[1])
+				dam = dam + (basedam * inc / 100) * ds[2]
+			end
+		else
+			local inc = self:combatGetDamageIncrease(type)
+			dam = dam + (dam * inc / 100)
+		end
 	end
 	return dam
 end
 
 Talents.is_a_type = {
-	is_spell = "a spell",
-	is_mind = "a mind power",
-	is_nature = "a nature gift",
-	is_antimagic = "an antimagic ability",
-	is_summon = " a summon power",
+	is_spell = _t"a spell",
+	is_mind = _t"a mind power",
+	is_nature = _t"a nature gift",
+	is_antimagic = _t"an antimagic ability",
+	is_summon = _t"a summon power",
+	is_necromancy = _t"necromancy",
+	use_only_arcane = _t"usable during Aether Avatar",
 }
 
 Talents.damDesc = damDesc

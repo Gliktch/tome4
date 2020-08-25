@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ function _M:init(title, file, replace, w, h, on_exit, accept_key)
 	w = math.floor(w or game.w * 0.6)
 	h = math.floor(h or game.h * 0.8)
 
-	Dialog.init(self, title or "Text", w, h)
+	Dialog.init(self, title or _t"Text", w, h)
 
 	self:generateList(file, replace)
 

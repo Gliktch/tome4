@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[
+return _t[[
 Note that all three elves were casting using a #8d55ff#Tier 5#WHITE# #GOLD#combat stat#WHITE#, though they produced effects that varied in duration.
 
 If you hadn't already deduced the rules governing these new status effects, hopefully this helped.

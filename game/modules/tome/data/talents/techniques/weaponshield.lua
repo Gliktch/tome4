@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_STUNNED, t.getStunDuration(self, t), {apply_power=self:combatAttackStr()})
 			else
-				game.logSeen(target, "%s resists the shield bash!", target.name:capitalize())
+				game.logSeen(target, "%s resists the shield bash!", target:getName():capitalize())
 			end
 		end
 
@@ -64,7 +64,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target with two shield strikes, doing %d%% and %d%% shield damage. If it hits a second time, it stuns the target for %d turns.
 		The stun chance increases with your Accuracy and your Strength.]])
-		:format(100 * self:combatTalentWeaponDamage(t, 1, 1.7, self:getTalentLevel(self.T_SHIELD_EXPERTISE)),
+		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.7, self:getTalentLevel(self.T_SHIELD_EXPERTISE)),
 		100 * self:combatTalentWeaponDamage(t, 1.2, 2.1, self:getTalentLevel(self.T_SHIELD_EXPERTISE)),
 		t.getStunDuration(self, t))
 	end,
@@ -82,13 +82,16 @@ newTalent{
 	getCritInc = function(self, t)
 		return self:combatTalentIntervalDamage(t, "dex", 10, 50)
 	end,
+	passives = function(self, t, p)
+		self:talentTemporaryValue(p, "allow_incomplete_blocks", 1)
+	end,
 	info = function(self, t)
 		local inc = t.getDurInc(self, t)
 		return ([[Improves your ability to perform counterstrikes after blocks in the following ways:
 		Allows counterstrikes after incomplete blocks.
-		Increases the duration of the counterstrike debuff on attackers by %d turn%s.
+		Increases the duration of the counterstrike debuff on attackers by %d %s.
 		Increases the number of counterstrikes you can perform on a target while they're vulnerable by %d.
-		Increases the crit chance of counterstrikes by %d%%. This increase scales with your Dexterity.]]):format(inc, (inc > 1 and "s" or ""), inc, t.getCritInc(self, t))
+		Increases the crit chance of counterstrikes by %d%%. This increase scales with your Dexterity.]]):tformat(inc, (inc > 1 and _t"turns" or _t"turn"), inc, t.getCritInc(self, t))
 	end,
 }
 
@@ -119,18 +122,19 @@ newTalent{
 		if not target or not self:canProject(tg, x, y) then return nil end
 
 		local damage = t.getShieldDamage(self, t)
-		self:forceUseTalent(self.T_BLOCK, {ignore_energy=true, ignore_cd = true, silent = true})
 
 		self:attackTargetWith(target, shield_combat, nil, damage)
 		self:attackTargetWith(target, shield_combat, nil, damage)
 		self:attackTargetWith(target, shield_combat, nil, damage)
+
+		self:forceUseTalent(self.T_BLOCK, {ignore_energy=true, ignore_cd = true, silent = true})
 
 		return true
 	end,
 	info = function(self, t)
 		local damage = t.getShieldDamage(self, t)*100
 		return ([[Hit your target with your shield 3 times for %d%% damage then quickly return to a blocking position.  The bonus block will not check or trigger Block cooldown.]])
-		:format(damage)
+		:tformat(damage)
 	end,
 }
 
@@ -148,11 +152,12 @@ newTalent{
 	is_special_melee = true,
 	range = 1,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
-	on_pre_use = function(self, t, silent) if not self:hasShield() then if not silent then game.logPlayer(self, "You require a weapon and a shield to use this talent.") end return false end return true end,
+	on_pre_use = function(self, t, silent) if not (self:hasShield() and self:hasMHWeapon() ) then if not silent then game.logPlayer(self, "You require a weapon and a shield to use this talent.") end return false end return true end,
 	action = function(self, t)
 		local shield, shield_combat = self:hasShield()
-		if not shield then
-			game.logPlayer(self, "You cannot use Assault without a shield!")
+		local weapon = self:hasMHWeapon() and self:hasMHWeapon().combat
+		if not shield or not weapon then
+			game.logPlayer(self, "You cannot use Assault without a mainhand weapon and shield!")
 			return nil
 		end
 
@@ -166,7 +171,6 @@ newTalent{
 		-- Second & third attack with weapon
 		if hit then
 			self.turn_procs.auto_phys_crit = true
-			local weapon = self:hasMHWeapon().combat
 			self:attackTargetWith(target, weapon, nil, self:combatTalentWeaponDamage(t, 0.8, 1.3))
 			self:attackTargetWith(target, weapon, nil, self:combatTalentWeaponDamage(t, 0.8, 1.3))
 			self.turn_procs.auto_phys_crit = nil
@@ -176,7 +180,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target with your shield, doing %d%% damage. If it hits, you follow up with two automatic critical hits with your weapon, doing %d%% base damage each.]]):
-		format(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3, self:getTalentLevel(self.T_SHIELD_EXPERTISE)), 100 * self:combatTalentWeaponDamage(t, 0.8, 1.3))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3, self:getTalentLevel(self.T_SHIELD_EXPERTISE)), 100 * self:combatTalentWeaponDamage(t, 0.8, 1.3))
 	end,
 }
 
@@ -194,7 +198,7 @@ newTalent{
 	sustain_stamina = 30,
 	tactical = { DEFEND = 2 },
 	on_pre_use = function(self, t, silent) if not self:hasShield() then if not silent then game.logPlayer(self, "You require a weapon and a shield to use this talent.") end return false end return true end,
-	getArmor = function(self,t) return self:combatTalentStatDamage(t, "str", 6, 40) + self:combatTalentStatDamage(t, "dex", 6, 40) end,
+	getArmor = function(self,t) return self:combatTalentStatDamage(t, "str", 6, 30) + self:combatTalentStatDamage(t, "dex", 6, 30) end,
 	getBlock = function(self, t) return self:combatTalentStatDamage(t, "str", 20, 75) + self:combatTalentStatDamage(t, "dex", 20, 75) end,
 	stunKBresist = function(self, t) return self:combatTalentLimit(t, 1, 0.15, 0.50) end, -- Limit <100%
 	activate = function(self, t)
@@ -229,7 +233,7 @@ newTalent{
 		Increases Armour by %d, Block value by %d, and reduces Block cooldown by 2.
 		Increases stun and knockback resistance by %d%%.
 		The Armor and Block bonuses increase equally with your Dexterity and Strength.]]):
-		format(t.getArmor(self, t), t.getBlock(self, t), 100*t.stunKBresist(self, t))
+		tformat(t.getArmor(self, t), t.getBlock(self, t), 100*t.stunKBresist(self, t))
 	end,
 }
 
@@ -262,7 +266,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		self:project(tg, self.x, self.y, function(px, py, tg, self)
 			local target = game.level.map(px, py, Map.ACTOR)
-			if target then
+			if target and self:reactionToward(target) < 0 then
 				local damage = t.getShieldDamage(self, t)
 				local speed, hit = self:attackTargetWith(target, shield_combat, nil, damage)
 				if hit and self:getTalentFromId(game.player.T_RUSH) then self.talents_cd["T_RUSH"] = nil end
@@ -270,7 +274,7 @@ newTalent{
 					target:knockback(self.x, self.y, t.getDist(self, t))
 					if target:canBe("stun") then target:setEffect(target.EFF_DAZED, t.getDuration(self, t), {}) end
 				else
-					game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+					game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 				end
 			end
 		end)
@@ -281,7 +285,7 @@ newTalent{
 		return ([[Smash your shield into the face of all adjacent foes dealing %d%% shield damage and knocking them back %d grids.
 		In addition, all creatures knocked back will also be dazed for %d turns.
 		If known, activating this talent will refresh your Rush cooldown if the attack hits.
-		The distance increases with your talent level, and the Daze duration with your Strength.]]):format(t.getShieldDamage(self, t)*100, t.getDist(self, t), t.getDuration(self, t))
+		The distance increases with your talent level, and the Daze duration with your Strength.]]):tformat(t.getShieldDamage(self, t)*100, t.getDist(self, t), t.getDuration(self, t))
 	end,
 }
 
@@ -298,7 +302,7 @@ newTalent{
 		self:talentTemporaryValue(p, "combat_spellresist", t.getSpell(self, t))
 	end,
 	info = function(self, t)
-		return ([[Improves your damage with shield-based skills, and increases your Spell (+%d) and Physical (+%d) Saves.]]):format(t.getSpell(self, t), t.getPhysical(self, t))
+		return ([[Improves your damage with shield-based skills, and increases your Spell (+%d) and Physical (+%d) Saves.]]):tformat(t.getSpell(self, t), t.getPhysical(self, t))
 	end,
 }
 
@@ -311,8 +315,7 @@ newTalent{
 	cooldown = 8,
 	sustain_stamina = 30,
 	tactical = { DEFEND = 3 },
-	callbackOnRest = function(self, t) self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_energy=true}) end,
-	callbackOnRun = function(self, t) self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_energy=true}) end,
+	deactivate_on = {no_combat=true, run=true, rest=true},
 	no_npc_use = true,
 	no_energy = true,
 	on_pre_use = function(self, t, silent) if not self:hasShield() then if not silent then game.logPlayer(self, "You require a weapon and a shield to use this talent.") end return false end return true end,
@@ -346,6 +349,7 @@ newTalent{
 		self:removeTemporaryValue("never_move", p.nomove)
 		self:removeTemporaryValue("die_at", p.dieat)
 		self:removeTemporaryValue("life", p.extra_life)
+		if self.life <= 0 then self.life = 1 end  -- Don't kill players on deactivation, this does let you use die_at tricks to heal though
 		return true
 	end,
 	info = function(self, t)
@@ -357,7 +361,8 @@ newTalent{
 		end
 		return ([[You brace yourself for the final stand, increasing Defense and Armor by %d, maximum and current life by %d, but making you unable to move.
 		Your stand lets you concentrate on every blow, allowing you to avoid death from normally fatal wounds. You can only die when reaching -%d life.
+		If your life is below 0 when Last Stand ends it will be set to 1.
 		The increase in Defense and Armor is based on your Dexterity, and the increase in life is based on your Constitution and normal maximum life.]]):
-		format(t.getDefense(self, t), hp, hp)
+		tformat(t.getDefense(self, t), hp, hp)
 	end,
 }

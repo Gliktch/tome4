@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Tempest Peak",
+	name = _t"Tempest Peak",
 	level_range = {15, 22},
 	level_scheme = "player",
 	max_level = 2,
@@ -36,7 +36,7 @@ return {
 			class = "engine.generator.map.Roomer",
 			nb_rooms = 14,
 			rooms = {"random_room", {"money_vault",5}, {"lesser_vault",8}},
-			lesser_vaults_list = {"circle"},
+			lesser_vaults_list = {"circle", "perilous-cliffs"},
 			lite_room_chance = 100,
 			['.'] = "ROCKY_GROUND",
 			['#'] = "MOUNTAIN_WALL",

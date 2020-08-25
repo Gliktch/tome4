@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"TWISTED", 2})
 if layout == "TWISTED" then
 
 return {
-	name = "Scintillating Caves",
+	name = _t"Scintillating Caves",
 	level_range = {1, 7},
 	level_scheme = "player",
 	max_level = 5,
@@ -40,7 +40,8 @@ return {
 		map = {
 			class = "engine.generator.map.Roomer",
 			nb_rooms = 5,
-			rooms = {"random_room", {"money_vault",5}},
+			rooms = {"random_room", {"money_vault",5}, {"lesser_vault",8}},
+			lesser_vaults_list = {"amon-sul-crypt","skeleton-mage-cabal","crystal-cabal","snake-pit"},
 			lite_room_chance = 20,
 			['.'] = "CRYSTAL_FLOOR",
 			['#'] = {"CRYSTAL_WALL","CRYSTAL_WALL2","CRYSTAL_WALL3","CRYSTAL_WALL4","CRYSTAL_WALL5","CRYSTAL_WALL6","CRYSTAL_WALL7","CRYSTAL_WALL8","CRYSTAL_WALL9","CRYSTAL_WALL10","CRYSTAL_WALL11","CRYSTAL_WALL12","CRYSTAL_WALL13","CRYSTAL_WALL14","CRYSTAL_WALL15","CRYSTAL_WALL16","CRYSTAL_WALL17","CRYSTAL_WALL18","CRYSTAL_WALL19","CRYSTAL_WALL20",},
@@ -95,7 +96,7 @@ return {
 	on_enter = function(lev)
 		if lev == 1 and not game.level.data.warned then
 			game.level.data.warned = true
-			require("engine.ui.Dialog"):simplePopup("Caves...", "As you enter the caves you notice the magic here has distorted the land, making sharp angles and turns.")
+			require("engine.ui.Dialog"):simplePopup(_t"Caves...", _t"As you enter the caves you notice the magic here has distorted the land, making sharp angles and turns.")
 		end
 	end,
 }
@@ -103,7 +104,7 @@ return {
 else
 
 return {
-	name = "Scintillating Caves",
+	name = _t"Scintillating Caves",
 	level_range = {1, 5},
 	level_scheme = "player",
 	max_level = 3,

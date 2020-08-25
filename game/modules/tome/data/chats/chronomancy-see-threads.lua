@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -39,11 +39,11 @@ local function select(id)
 end
 
 newChat{ id="welcome",
-	text = [[You have lived ]]..turns..[[ turns in three different timelines. Which do you choose to be the real timeline?]],
+	text = ([[You have lived %d turns in three different timelines. Which do you choose to be the real timeline?]]):tformat(turns),
 	answers = {
-		{"The first.", action=function(npc, player) select(1) end},
-		{"The second.", action=function(npc, player) select(2) end},
-		{"The third.", action=function(npc, player) select(3) end},
+		{_t"The first.", action=function(npc, player) select(1) end},
+		{_t"The second.", action=function(npc, player) select(2) end},
+		{_t"The third.", action=function(npc, player) select(3) end},
 	}
 }
 

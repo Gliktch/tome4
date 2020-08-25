@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ newBirthDescriptor{
 	type = "class",
 	name = "Mage",
 	desc = {
-		"Mages are the wielders of arcane powers, able to cast powerful spells of destruction or to heal their wounds with nothing but a thought.",
+		_t"Mages are the wielders of arcane powers, able to cast powerful spells of destruction or to heal their wounds with nothing but a thought.",
 	},
 	descriptor_choices =
 	{
@@ -50,7 +50,7 @@ newBirthDescriptor{
 	copy = {
 		mana_regen = 0.5,
 		mana_rating = 7,
-		resolvers.inscription("RUNE:_MANASURGE", {cooldown=25, dur=10, mana=620}, 3),
+		resolvers.inscription("RUNE:_MANASURGE", {cooldown=15, dur=10, mana=820}, 3),
 	},
 }
 
@@ -58,15 +58,15 @@ newBirthDescriptor{
 	type = "subclass",
 	name = "Alchemist",
 	desc = {
-		"An Alchemist is a manipulator of materials using magic.",
-		"They do not use the forbidden arcane arts practised by the mages of old - such perverters of nature have been shunned or actively hunted down since the Spellblaze.",
-		"Alchemists can transmute gems to bring forth elemental effects, turning them into balls of fire, torrents of acid, and other effects.  They can also reinforce armour with magical effects using gems, and channel arcane staffs to produce bolts of energy.",
-		"Though normally physically weak, most alchemists are accompanied by magical golems which they construct and use as bodyguards.  These golems are enslaved to their master's will, and can grow in power as their master advances through the arts.",
-		"Their most important stats are: Magic and Constitution",
-		"#GOLD#Stat modifiers:",
-		"#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +3 Constitution",
-		"#LIGHT_BLUE# * +5 Magic, +1 Willpower, +0 Cunning",
-		"#GOLD#Life per level:#LIGHT_BLUE# -1",
+		_t"An Alchemist is a manipulator of materials using magic.",
+		_t"They do not use the forbidden arcane arts practised by the mages of old - such perverters of nature have been shunned or actively hunted down since the Spellblaze.",
+		_t"Alchemists can transmute gems to bring forth elemental effects, turning them into balls of fire, torrents of acid, and other effects.  They can also reinforce armour with magical effects using gems, and channel arcane staffs to produce bolts of energy.",
+		_t"Though normally physically weak, most alchemists are accompanied by magical golems which they construct and use as bodyguards.  These golems are enslaved to their master's will, and can grow in power as their master advances through the arts.",
+		_t"Their most important stats are: Magic and Constitution",
+		_t"#GOLD#Stat modifiers:",
+		_t"#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +3 Constitution",
+		_t"#LIGHT_BLUE# * +5 Magic, +1 Willpower, +0 Cunning",
+		_t"#GOLD#Life per level:#LIGHT_BLUE# -1",
 	},
 	power_source = {arcane=true},
 	stats = { mag=5, con=3, wil=1, },
@@ -88,7 +88,7 @@ newBirthDescriptor{
 		["spell/frost-alchemy"]={true, 0.3},
 		["spell/energy-alchemy"]={false, 0.3},
 		["spell/staff-combat"]={true, 0.3},
-		["cunning/survival"]={false, -0.1},
+		["cunning/survival"]={false, 0.0},
 	},
 	talents = {
 		[ActorTalents.T_CREATE_ALCHEMIST_GEMS] = 1,
@@ -130,8 +130,8 @@ newBirthDescriptor{
 		life_rating = -1,
 	},
 	cosmetic_options = {
-		special = {
-			{name="Golem becomes a Drolem", on_actor=function(actor) actor.alchemist_golem_is_drolem = true end, unlock="cosmetic_class_alchemist_drolem"},
+		golem = {
+			{name=_t"Golem becomes a Drolem", on_actor=function(actor) actor.alchemist_golem_is_drolem = true end, unlock="cosmetic_class_alchemist_drolem"},
 		},
 	},
 }
@@ -140,17 +140,17 @@ newBirthDescriptor{
 	type = "subclass",
 	name = "Archmage",
 	locked = function() return profile.mod.allow_build.mage end,
-	locked_desc = "Hated, harrowed, hunted, hidden... Our ways are forbidden, but our cause is just. In our veiled valley we find solace from the world's wrath, free to study our arts. Only through charity and friendship can you earn our trust.",
+	locked_desc = _t"Hated, harrowed, hunted, hidden... Our ways are forbidden, but our cause is just. In our veiled valley we find solace from the world's wrath, free to study our arts. Only through charity and friendship can you earn our trust.",
 	desc = {
-		"An Archmage devotes his whole life to the study of magic above anything else.",
-		"Most Archmagi lack basic skills that others take for granted (like general fighting sense), but they make up for it by their raw magical power.",
-		"Archmagi start with knowledge of many schools of magic. However, they usually refuse to have anything to do with Necromancy.",
-		"Most Archmagi have been trained in the secret town of Angolwen and possess a unique spell to teleport to it directly.",
-		"Their most important stats are: Magic and Willpower",
-		"#GOLD#Stat modifiers:",
-		"#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution",
-		"#LIGHT_BLUE# * +5 Magic, +3 Willpower, +1 Cunning",
-		"#GOLD#Life per level:#LIGHT_BLUE# -4",
+		_t"An Archmage devotes his whole life to the study of magic above anything else.",
+		_t"Most Archmagi lack basic skills that others take for granted (like general fighting sense), but they make up for it by their raw magical power.",
+		_t"Archmagi start with knowledge of many schools of magic. However, they usually refuse to have anything to do with Necromancy.",
+		_t"Most Archmagi have been trained in the secret town of Angolwen and possess a unique spell to teleport to it directly.",
+		_t"Their most important stats are: Magic and Willpower",
+		_t"#GOLD#Stat modifiers:",
+		_t"#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution",
+		_t"#LIGHT_BLUE# * +5 Magic, +3 Willpower, +1 Cunning",
+		_t"#GOLD#Life per level:#LIGHT_BLUE# -4",
 	},
 	power_source = {arcane=true},
 	stats = { mag=5, wil=3, cun=1, },
@@ -188,22 +188,20 @@ newBirthDescriptor{
 		["spell/arcane"]={true, 0.3},
 		["spell/aether"]={false, 0.3},
 		["spell/fire"]={true, 0.3},
+		["spell/wildfire"]={false, 0.3},
 		["spell/earth"]={true, 0.3},
+		["spell/stone"]={false, 0.3},
 		["spell/water"]={true, 0.3},
+		["spell/ice"]={false, 0.3},
 		["spell/air"]={true, 0.3},
+		["spell/storm"]={false, 0.3},
 		["spell/phantasm"]={true, 0.3},
-		["spell/temporal"]={false, 0.3},
+		["spell/temporal"]={true, 0.3},
 		["spell/meta"]={false, 0.3},
 		["spell/divination"]={true, 0.3},
 		["spell/conveyance"]={true, 0.3},
 		["spell/aegis"]={true, 0.3},
-		["cunning/survival"]={false, -0.1},
-	},
-	unlockable_talents_types = {
-		["spell/wildfire"]={false, 0.3, "mage_pyromancer"},
-		["spell/ice"]={false, 0.3, "mage_cryomancer"},
-		["spell/stone"]={false, 0.3, "mage_geomancer"},
-		["spell/storm"]={false, 0.3, "mage_tempest"},
+		["cunning/survival"]={false, 0.0},
 	},
 	talents = {
 		[ActorTalents.T_MANATHRUST] = 1,
@@ -222,6 +220,9 @@ newBirthDescriptor{
 				self.starting_intro = "archmage"
 				self.faction = "angolwen"
 				self:learnTalent(self.T_TELEPORT_ANGOLWEN, true, nil, {no_unlearn=true})
+			end
+			if not profile.mod.allow_build.mage_thaumaturgist then
+				self:learnTalent(self.T_THAUMATURGIST_UNLOCK_CHECKER, true)
 			end
 			self:triggerHook{"BirthStartZone:archmage"}
 		end,
@@ -242,35 +243,38 @@ newBirthDescriptor{
 	type = "subclass",
 	name = "Necromancer",
 	locked = function() return profile.mod.allow_build.mage_necromancer end,
-	locked_desc = "The road to necromancy is a macabre path indeed. Walk with the dead, and drink deeply of their black knowledge.",
+	locked_desc = _t"The road to necromancy is a macabre path indeed. Walk with the dead, and drink deeply of their black knowledge.",
 	desc = {
-		"While most magic is viewed with suspicion since the Spellblaze, the stigma surrounding the black art of Necromancy has been around since time immemorial.",
-		"These dark spellcasters extinguish life, twist death, and raise armies of undead monsters to sate their lust for power and pursue their ultimate goal: Eternal life.",
-		"Their most important stats are: Magic and Willpower",
-		"#GOLD#Stat modifiers:",
-		"#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution",
-		"#LIGHT_BLUE# * +5 Magic, +3 Willpower, +1 Cunning",
-		"#GOLD#Life per level:#LIGHT_BLUE# -3",
+		_t"While most magic is viewed with suspicion since the Spellblaze, the stigma surrounding the black art of Necromancy has been around since time immemorial.",
+		_t"These dark spellcasters extinguish life, twist death, and raise armies of undead monsters to sate their lust for power and pursue their ultimate goal: Eternal life.",
+		_t"Their most important stats are: Magic and Willpower",
+		_t"#GOLD#Stat modifiers:",
+		_t"#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution",
+		_t"#LIGHT_BLUE# * +5 Magic, +3 Willpower, +1 Cunning",
+		_t"#GOLD#Life per level:#LIGHT_BLUE# -3",
 	},
 	power_source = {arcane=true},
 	stats = { mag=5, wil=3, cun=1, },
 	talents_types = {
-		["spell/conveyance"]={true, 0.2},
-		["spell/divination"]={true, 0.2},
-		["spell/necrotic-minions"]={true, 0.3},
-		["spell/advanced-necrotic-minions"]={false, 0.3},
-		["spell/shades"]={false, 0.3},
-		["spell/necrosis"]={true, 0.3},
-		["spell/nightfall"]={true, 0.3},
+		["spell/master-of-bones"]={true, 0.3},
+		["spell/master-of-flesh"]={true, 0.3},
+		["spell/master-necromancer"]={false, 0.3},
 		["spell/grave"]={true, 0.3},
+		["spell/glacial-waste"]={true, 0.3},
+		["spell/rime-wraith"]={false, 0.3},
+		["spell/nightfall"]={true, 0.3},
+		["spell/dreadmaster"]={true, 0.3},
+		["spell/age-of-dusk"]={false, 0.3},
+		["spell/death"]={true, 0.3},
 		["spell/animus"]={true, 0.3},
-		["cunning/survival"]={true, -0.1},
-	},
-	unlockable_talents_types = {
-		["spell/ice"]={false, 0.2, "mage_cryomancer"},
+		["spell/eradication"]={false, 0.3},
+		["spell/spectre"]={true, 0.3},
+		["spell/necrosis"]={true, 0.3},
+		["cunning/survival"]={true, 0.0},
 	},
 	birth_example_particles = {
 		"necrotic-aura",
+		-- DGDGDGDG: update
 		function(actor)
 			if core.shader.active(4) then local x, y = actor:attachementSpot("back", true) actor:addParticles(Particles.new("shader_wings", 1, {x=x, y=y, infinite=1, img="darkwings"}))
 			end
@@ -285,11 +289,10 @@ newBirthDescriptor{
 		end,
 	},
 	talents = {
-		[ActorTalents.T_NECROTIC_AURA] = 1,
-		[ActorTalents.T_CREATE_MINIONS] = 1,
-		[ActorTalents.T_ARCANE_EYE] = 1,
-		[ActorTalents.T_INVOKE_DARKNESS] = 1,
+		[ActorTalents.T_CALL_OF_THE_CRYPT] = 1,
 		[ActorTalents.T_BLURRED_MORTALITY] = 1,
+		[ActorTalents.T_INVOKE_DARKNESS] = 1,
+		[ActorTalents.T_SOUL_LEECH] = 1,
 	},
 	copy = {
 		soul = 1,
@@ -299,6 +302,10 @@ newBirthDescriptor{
 			{type="weapon", subtype="staff", name="elm staff", autoreq=true, ego_chance=-1000},
 			{type="armor", subtype="cloth", name="linen robe", autoreq=true, ego_chance=-1000},
 		},
+		resolvers.for_campaign("Maj'Eyal", function()
+			local p = game:getPlayer(true)
+			if p:callTalent(p.T_LICH, "canGrantQuest") then p:grantQuest("lichform") end
+		end)
 	},
 	copy_add = {
 		life_rating = -3,

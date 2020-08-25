@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -22,4 +22,5 @@ return { one_per_level=true,
 	{name="whistling-vortex", minor=true, percent=50},
 	{name="necrotic-air", minor=true, percent=100, max_repeat=3},
 	{name="glowing-chest", minor=true, percent=30},
+	{name="sub-vault", minor=true, percent=100}, -- one per floor
 }

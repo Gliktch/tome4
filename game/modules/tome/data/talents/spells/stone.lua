@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ newTalent{
 	random_ego = "attack",
 	mana = 10,
 	cooldown = 6,
+	is_body_of_stone_affected = true,
 	tactical = { ATTACK = { PHYSICAL = 1, cut = 1} },
 	range = 10,
 	direct_hit = true,
@@ -65,7 +66,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Conjures %d missile-shaped rocks that you target individually at any target or targets in range.  Each missile deals %0.2f physical damage, and an additional %0.2f bleeding damage every turn for 5 turns.
 		At talent level 5, you can conjure one additional missile.
-		The damage will increase with your Spellpower.]]):format(count,damDesc(self, DamageType.PHYSICAL, damage/2), damDesc(self, DamageType.PHYSICAL, damage/12))
+		The damage will increase with your Spellpower.]]):tformat(count,damDesc(self, DamageType.PHYSICAL, damage/2), damDesc(self, DamageType.PHYSICAL, damage/12))
 	end,
 }
 
@@ -88,16 +89,20 @@ newTalent{
 	activate = function(self, t)
 		local cdr = t.getCooldownReduction(self, t)
 		game:playSoundNear(self, "talents/earth")
+
+		local cd_recution = {}
+		for cdtid, _ in pairs(self.talents) do
+			local cdt = self:getTalentFromId(cdtid)
+			if cdt.is_body_of_stone_affected then
+				cd_recution[cdtid] = math.floor(cdr*(self:getTalentCooldown(cdt) or 0)/100)
+			end
+		end
+
 		return {
 			particle = self:addParticles(Particles.new("stone_skin", 1)),
 			move = self:addTemporaryValue("never_move", 1),
 			stun = self:addTemporaryValue("stun_immune", t.getStunRes(self, t)),
-			cdred = self:addTemporaryValue("talent_cd_reduction", {
-				[self.T_EARTHEN_MISSILES] = math.floor(cdr*self:getTalentCooldown(self.talents_def.T_EARTHEN_MISSILES)/100),
-				[self.T_MUDSLIDE] = math.floor(cdr*self:getTalentCooldown(self.talents_def.T_MUDSLIDE)/100),
-				[self.T_DIG] = math.floor(cdr*self:getTalentCooldown(self.talents_def.T_DIG)/100),
-				[self.T_EARTHQUAKE] = math.floor(cdr*self:getTalentCooldown(self.talents_def.T_EARTHQUAKE)/100),
-			}),
+			cdred = self:addTemporaryValue("talent_cd_reduction", cd_recution),
 			
 			res = self:addTemporaryValue("resists", {
 				[DamageType.FIRE] = t.getFireRes(self, t),
@@ -125,7 +130,7 @@ newTalent{
 		* Reduces the cooldown of Earthen Missiles, Pulverizing Auger, Earthquake, and Mudslide by %d%%.
 		* Grants %d%% Fire Resistance, %d%% Lightning Resistance, %d%% Acid Resistance, and %d%% Stun Resistance.
 		Resistances scale with your Spellpower.]])
-		:format(cooldownred, fireres, lightningres, acidres, stunres*100)
+		:tformat(cooldownred, fireres, lightningres, acidres, stunres*100)
 	end,
 }
 
@@ -137,6 +142,7 @@ newTalent{
 	random_ego = "attack",
 	mana = 50,
 	cooldown = 30,
+	is_body_of_stone_affected = true,
 	tactical = { ATTACKAREA = { PHYSICAL = 2 }, DISABLE = { stun = 3 } },
 	range = 10,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 2.5, 4.5)) end,
@@ -151,11 +157,12 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.PHYSICAL)
 		local _ _, _, _, x, y = self:canProject(tg, x, y)
 		-- Add a lasting map effect
 		game.level.map:addEffect(self,
 			x, y, t.getDuration(self, t),
-			DamageType.PHYSICAL_STUN, t.getDamage(self, t),
+			DamageType.PHYSICAL_STUN, self:spellCrit(t.getDamage(self, t)),
 			self:getTalentRadius(t),
 			5, nil,
 			{type="quake"},
@@ -171,7 +178,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[Causes a violent earthquake that deals %0.2f physical damage in a radius of %d each turn for %d turns, and potentially stuns any and all creatures it affects.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.PHYSICAL, damage), radius, duration)
+		tformat(damDesc(self, DamageType.PHYSICAL, damage), radius, duration)
 	end,
 }
 
@@ -185,7 +192,7 @@ newTalent{
 	cooldown = 30,
 	tactical = { BUFF = 2 },
 	getPhysicalDamageIncrease = function(self, t) return self:combatTalentScale(t, 2.5, 10) end,
-	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 100, 17, 50, true) end,  -- Limit to < 100%
+	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 60, 17, 50, true) end,  -- Limit to < 60%
 	getSaves = function(self, t) return self:getTalentLevel(t) * 5 end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/earth")
@@ -217,6 +224,6 @@ newTalent{
 		local saves = t.getSaves(self, t)
 		return ([[Concentrate on maintaining a Crystalline Focus, increasing all your physical damage by %0.1f%% and ignoring %d%% physical resistance of your targets.
 		Also raises your physical and magical saves by %d.]])
-		:format(damageinc, ressistpen, saves)
+		:tformat(damageinc, ressistpen, saves)
 	end,
 }

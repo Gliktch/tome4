@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -31,7 +31,8 @@ newTalent{
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 1.25, 2.25)) end,
 	target = function(self, t) return {type="ball", radius=self:getTalentRadius(t), range=self:getTalentRange(t), talent=t} end,
 	getDuration = function(self, t) return math.ceil(self:combatTalentScale(t, 2.1, 3.5)) end,
-	getInsomniaPower= function(self, t)
+	getInsomniaPower = function(self, t)
+		if not self:knowTalent(self.T_SANDMAN) then return 20 end
 		local t = self:getTalentFromId(self.T_SANDMAN)
 		local reduction = t.getInsomniaPower(self, t)
 		return 20 - reduction
@@ -78,7 +79,7 @@ newTalent{
 					target:setEffect(target.EFF_SLEEP, t.getDuration(self, t), {src=self, power=power,  contagious=is_contagious, waking=is_waking, insomnia=t.getInsomniaPower(self, t), no_ct_effect=true, apply_power=self:combatMindpower()})
 					game.level.map:particleEmitter(target.x, target.y, 1, "generic_charge", {rm=0, rM=0, gm=180, gM=255, bm=180, bM=255, am=35, aM=90})
 				else
-					game.logSeen(self, "%s resists the sleep!", target.name:capitalize())
+					game.logSeen(self, "%s resists the sleep!", target:getName():capitalize())
 				end
 			end
 		end)
@@ -93,7 +94,7 @@ newTalent{
 		return([[Puts targets in a radius of %d to sleep for %d turns, rendering them unable to act.  Every %d points of damage the target suffers will reduce the effect duration by one turn.
 		When Sleep ends, the target will suffer from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it %d%% sleep immunity for each turn of the Insomnia effect.
 		At talent level 5 Sleep will become contagious and has a 25%% chance to spread to nearby targets each turn.
-		The damage threshold will scale with your Mindpower.]]):format(radius, duration, power, insomnia)
+		The damage threshold will scale with your Mindpower.]]):tformat(radius, duration, power, insomnia)
 	end,
 }
 
@@ -131,7 +132,7 @@ newTalent{
 		local power = t.getPower(self, t)
 		return ([[Slip into a lucid dream.  While in this state, you are considered sleeping, but can still act, are immune to insomnia, inflict %d%% more damage to targets under the effects of Insomnia, and your Physical, Mental, and Spell saves are increased by %d.
 		Note that being asleep may make you more vulnerable to certain effects (such as Inner Demons, Night Terror, and Waking Nightmare).
-		The saving throw bonuses scale with your Mindpower.]]):format(power, power)
+		The saving throw bonuses scale with your Mindpower.]]):tformat(power, power)
 	end,
 }
 
@@ -187,7 +188,7 @@ newTalent{
 	info = function(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[You move through the dream world, reappearing at a nearby location.
-		If there is a sleeping creature at the target location, you'll appear as close to them as possible, otherwise, you'll appear within %d tiles of your intended destination.]]):format(radius)
+		If there is a sleeping creature at the target location, you'll appear as close to them as possible, otherwise, you'll appear within %d tiles of your intended destination.]]):tformat(radius)
 	end,
 }
 
@@ -227,6 +228,6 @@ newTalent{
 		local drain = t.getDrain(self, t)
 		return ([[Imprisons all sleeping targets within range in their dream state, effectively extending sleeping effects for as long as Dream Prison is maintainted.
 		This powerful effect constantly drains %0.2f%% of your maximum Psi (excluding this talent) per turn, and is considered a psionic channel; as such it will break if you move.
-		(Note that sleeping effects that happen each turn, such as Nightmare's damage and Sleep's contagion, will cease to function for the duration of the effect.)]]):format(drain)
+		(Note that sleeping effects that happen each turn, such as Nightmare's damage and Sleep's contagion, will cease to function for the duration of the effect.)]]):tformat(drain)
 	end,
 }

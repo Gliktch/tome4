@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 -- darkgod@te4.org
 
 return {
-	name = "Lost Dwarven Kingdom of Reknor",
+	name = _t"Lost Dwarven Kingdom of Reknor",
 	level_range = {18, 35},
 	level_scheme = "player",
 	max_level = 4,
 	decay = {300, 800},
 	actor_adjust_level = function(zone, level, e) return zone.base_level + e:getRankLevelAdjust() + level.level-1 + rng.range(-1,2) end,
-	width = 70, height = 70,
+	width = 42, height = 42,
 --	all_remembered = true,
 --	all_lited = true,
 	persistent = "zone",
@@ -64,6 +64,7 @@ return {
 		},
 		[4] = {
 			decay = false,
+			width = 70, height = 70,
 			generator = {
 				map = {
 					class = "engine.generator.map.Static",

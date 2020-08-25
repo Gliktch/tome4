@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@ newEntity{ base = "BASE_RING",
 	power_source = {psionic=true},
 	define_as = "RING_OF_BLOOD", rarity=false,
 	name = "Bloodcaller", unique=true, image = "object/artifact/jewelry_ring_bloodcaller.png",
-	desc = [[You won the Ring of Blood trial, and this is your reward.]],
-	unided_name = "bloody ring",
-	special_desc = function(self) return ("You heal for 2.5%% of the damage you deal.\nHealing during current combat:  #GREEN#%0.2f#LAST#"):format(self.bloodcaller_heal_amt or 0) end,
+	desc = _t[[You won the Ring of Blood trial, and this is your reward.]],
+	unided_name = _t"bloody ring",
+	special_desc = function(self) return ("You heal for 2.5%% of the damage you deal.\nHealing during current combat:  #GREEN#%0.2f#LAST#"):tformat(self.bloodcaller_heal_amt or 0) end,
 	rarity = false,
 	cost = 300,
 	material_level = 4,

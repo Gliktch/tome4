@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
 -- darkgod@te4.org
 
 return {
-	name = "Ruins of Telmur",
+	name = _t"Ruins of Telmur",
 	level_range = {30, 40},
 	level_scheme = "player",
 	max_level = 5,
 	decay = {300, 800},
 	actor_adjust_level = function(zone, level, e) return zone.base_level + e:getRankLevelAdjust() + level.level-1 + rng.range(-1,2) end,
 	width = 20, height = 20,
-	all_remembered = true,
+	-- all_remembered = true,
 	all_lited = true,
 	persistent = "zone",
 	ambient_music = "Remembrance.ogg",
@@ -59,7 +59,7 @@ return {
 	},
 	on_enter = function(lev, old_lev, newzone)
 		if newzone and not game.level.shown_warning then
-			require("engine.ui.Dialog"):simplePopup("Telmur", "As you approach the tower you notice it is utterly destroyed, only the basement remaining.")
+			require("engine.ui.Dialog"):simplePopup(_t"Telmur", _t"As you approach the tower you notice it is utterly destroyed, only the basement remaining.")
 			game.level.shown_warning = true
 		end
 	end,

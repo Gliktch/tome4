@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Charred Scar",
+	name = _t"Charred Scar",
 	level_range = {30, 50},
 	level_scheme = "player",
 	max_level = 1,
@@ -60,7 +60,7 @@ return {
 	post_process = function(level)
 		level.turn_counter = 550 * 10
 		level.max_turn_counter = 550 * 10
-		level.turn_counter_desc = "Hurry down south while the sun-paladins are holding off the orcs. Make their sacrifice worth it!"
+		level.turn_counter_desc = _t"Hurry down south while the sun-paladins are holding off the orcs. Make their sacrifice worth it!"
 	end,
 
 	on_enter = function(lev, old_lev, newzone)

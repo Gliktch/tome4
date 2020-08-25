@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[During your adventures you will find quests.
+return _t[[During your adventures you will find quests.
 A quest can come from performing an action, finding an item, speaking to somebody, and more.
 
 You can view your current quests by pressing 'j' or right-clicking yourself.

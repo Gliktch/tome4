@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ newEntity{ define_as = "CELIA",
 	female = true,
 	display = "p", color=colors.GREY,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_human_celia.png", display_h=2, display_y=-1}}},
-	desc = [[A tall woman stands before you in a stained robe. Her sallow skin is marked by pox and open sores, but her eyes are bright and keen. The bulge around her abdomen would indicate that she is several months pregnant.]],
+	desc = _t[[A tall woman stands before you in a stained robe. Her sallow skin is marked by pox and open sores, but her eyes are bright and keen. The bulge around her abdomen would indicate that she is several months pregnant.]],
 	autolevel = "caster",
 	stats = { str=12, dex=17, mag=22, wil=22, con=12 },
 
@@ -61,22 +61,22 @@ newEntity{ define_as = "CELIA",
 	resolvers.talents{
 		[Talents.T_STAFF_MASTERY]={base=2, every=8, max = 5},
 		[Talents.T_INVOKE_DARKNESS]={base=5, every=5, max=10},
-		[Talents.T_NECROTIC_AURA]=1,
-		[Talents.T_CREATE_MINIONS]=2,
-		[Talents.T_AURA_MASTERY]=5,
+		[Talents.T_NECROTIC_AURA]={base=2, every=5, max=10},
+		[Talents.T_SOUL_LEECH]={base=5, every=5, max=10},
+		[Talents.T_CALL_OF_THE_CRYPT]={base=2, every=4, max=7},
+		[Talents.T_CALL_OF_THE_MAUSOLEUM]={base=2, every=4, max=7},
 		[Talents.T_SURGE_OF_UNDEATH]={base=2, every=4, max=7},
-		[Talents.T_CHILL_OF_THE_TOMB]={base=3, every=5, max=10},
-		[Talents.T_WILL_O__THE_WISP]={base=3, every=5, max=10},
-		[Talents.T_COLD_FLAMES]={base=4, every=5, max=10},
-		[Talents.T_VAMPIRIC_GIFT]={base=2, every=5, max=10},
+		[Talents.T_CONSUME_SOUL]={base=3, every=5, max=10},
+		[Talents.T_TORTURE_SOULS]={base=3, every=5, max=10},
+		[Talents.T_RIME_WRAITH]={base=4, every=5, max=10},
+		[Talents.T_ETERNAL_NIGHT]={base=3, every=5, max=10},
 		[Talents.T_BLURRED_MORTALITY]={base=5, every=5, max=10},
 		[Talents.T_CIRCLE_OF_DEATH]={base=3, every=5, max=10},
 		[Talents.T_RIGOR_MORTIS]={base=3, every=5, max=10},
-		[Talents.T_FORGERY_OF_HAZE]={base=3, every=5, max=10},
-		[Talents.T_FROSTDUSK]={base=3, every=5, max=10},
+		[Talents.T_CORPSELIGHT]={base=3, every=5, max=10},
+		[Talents.T_GRIM_SHADOW]={base=3, every=5, max=10},
+		[Talents.T_REAPING]={base=5, every=5, max=10},
 	},
-
-	ai_talents = {[Talents.T_CREATE_MINIONS] = 4, [Talents.T_FORGERY_OF_HAZE] = 4},  -- Iconic Necromancer antics
 
 	resolvers.sustains_at_birth(),
 
@@ -110,7 +110,7 @@ newEntity{ define_as = "CELIA",
 			end
 
 			local Dialog = require("engine.ui.Dialog")
-			Dialog:simpleLongPopup("Celia", "As you deal the last blow you quickly carve out Celia's heart for your Lichform ritual.\nCarefully weaving magic around it to keep it beating.", 400)
+			Dialog:simpleLongPopup(_t"Celia", _t"As you deal the last blow you quickly carve out Celia's heart for your Lichform ritual.\nCarefully weaving magic around it to keep it beating.", 400)
 			p:setQuestStatus("grave-necromancer", engine.Quest.COMPLETED, "kill-necromancer")
 		else
 			if game.party:knownLore("necromancer-primer-1") and

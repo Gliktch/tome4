@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[A wave of fire emanates from you with a radius of %d, knocking back anything caught inside and setting them ablaze, doing %0.2f fire damage over 3 turns.
-		The damage will increase with your Spellpower.]]):format(radius, damDesc(self, DamageType.FIRE, damage))
+		The damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.FIRE, damage))
 	end,
 }
 
@@ -91,7 +91,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Your Flame, Flameshock, Fireflash and Blastwave spells leave a burning wake on the ground, burning all within for %0.2f fire damage for 4 turns.
-		The damage will increase with your Spellpower.]]):format(damDesc(self, DamageType.FIRE, damage))
+		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.FIRE, damage))
 	end,
 }
 
@@ -99,13 +99,47 @@ newTalent{
 	name = "Cleansing Flames",
 	type = {"spell/wildfire",3},
 	require = spells_req_high3,
-	mode = "passive",
+	mana = 20,
+	cooldown = 20,
+	tactical = { CURE = function(self, t, aitarget)
+			local nb = 0
+			for eff_id, p in pairs(self.tmp) do
+				local e = self.tempeffect_def[eff_id]
+				if e.type == "magical" and e.status == "detrimental" then nb = nb + 1 end
+			end
+			return nb
+		end,
+		DISABLE = function(self, t, aitarget)
+			local nb = 0
+			for eff_id, p in pairs(aitarget.tmp) do
+				local e = self.tempeffect_def[eff_id]
+				if e.type == "magical" and e.status == "beneficial" then nb = nb + 1 end
+			end
+			for tid, act in pairs(aitarget.sustain_talents) do
+				if act then
+					local talent = aitarget:getTalentFromId(tid)
+					if talent.is_spell then nb = nb + 1 end
+				end
+			end
+			return nb^0.5
+		end},
 	points = 5,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 55) end,
+	getDur = function(self, t) return math.ceil(self:combatTalentScale(t, 6, 15)) end,
 	getChance = function(self, t) return self:getTalentLevelRaw(t) * 10 end,
+	on_pre_use = function(self, t) return game.level and self.x and game.level.map:hasEffectType(self.x, self.y, DamageType.INFERNO) end,
+	action = function(self, t)
+		self:setEffect(self.EFF_CLEANSING_FLAMES, t:_getDur(self), {chance=t:_getChance(self)})
+		return true
+	end,
 	info = function(self, t)
-		return ([[When your Burning Wake talent is active, your Inferno and Burning Wake effects have a %d%% chance, each turn, to remove a status effect (physical or magical) from the targets.
+		local damage = t.getDamage(self, t)
+		return ([[When you stand in your Burning Wake or Inferno ground effect, you can self immolate to trigger Cleansing Flames for %d turns.
+		While the effect lasts you will take %0.2f fire damage per turn.
+		Each turn there is a %d%% chance for any creature taking damage from Burning Wake, Inferno or Cleansing Flames to remove a status effect (physical or magical).
 		If the target is hostile, it will remove a beneficial effect.
-		If the target is friendly, it will remove a detrimental effect (but still burn).]]):format(t.getChance(self, t))
+		If the target is friendly, it will remove a detrimental effect.]]):
+		tformat(t:_getDur(self), damDesc(self, DamageType.FIRE, damage), t.getChance(self, t))
 	end,
 }
 
@@ -119,7 +153,7 @@ newTalent{
 	cooldown = 30,
 	tactical = { BUFF = 2 },
 	getFireDamageIncrease = function(self, t) return self:combatTalentScale(t, 2.5, 10) end,
-	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 100, 17, 50) end, --Limit < 100%
+	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 60, 17, 50) end, --Limit < 60%
 	getResistSelf = function(self, t) return math.min(100, self:getTalentLevel(t) * 14) end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/fire")
@@ -150,6 +184,6 @@ newTalent{
 		local ressistpen = t.getResistPenalty(self, t)
 		local selfres = t.getResistSelf(self, t)
 		return ([[Surround yourself with Wildfire, increasing all your fire damage by %0.1f%%, ignoring %d%% fire resistance of your targets and reducing self-inflicted fire damage by %d%%.]])
-		:format(damageinc, ressistpen, selfres)
+		:tformat(damageinc, ressistpen, selfres)
 	end,
 }

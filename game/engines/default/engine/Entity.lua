@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ local entities_load_functions = {}
 
 _M.__mo_final_repo = {}
 --- Fields we shouldn't save
-_M._no_save_fields = { _shader = true }
+_M._no_save_fields = { _shader = true, _temp_data = true, ai_state_volatile = true }
  --- Subclasses can change it to know where they are on the map
 _M.__position_aware = false
 
@@ -71,7 +71,7 @@ end
 -- @param[type=table] t
 -- @param[type=table] base
 local function importBase(t, base)
-	local temp = table.clone(base, true, {uid=true, define_as = true})
+	local temp = table.clone(base, true, {uid=true, define_as = true}, true)
 	if base.onEntityMerge then base:onEntityMerge(temp) end
 	table.mergeAppendArray(temp, t, true)
 	t = temp
@@ -106,24 +106,13 @@ function _M:init(t, no_default)
 	for k, e in pairs(t) do
 		if k ~= "__CLASSNAME" and k ~= "uid" then
 			local ee = e
-			if type(e) == "table" and not e.__ATOMIC and not e.__CLASSNAME then ee = table.clone(e, true) end
+			if type(e) == "table" and not e.__ATOMIC and not e.__CLASSNAME then ee = table.clone(e, true, nil, true) end
 			self[k] = ee
 		end
 	end
 
 	if config.settings.cheat and not self._no_upvalues_check then
-		local ok, err = table.check(
-			self,
-			function(t, where, v, tv)
-				if tv ~= "function" then return true end
-				local n, v = debug.getupvalue(v, 1)
-				if not n then return true end
-				return nil, ("%s has upvalue %s"):format(tostring(where), tostring(n))
-			end,
-			function(value) return not value._allow_upvalues end)
-		if not ok then
-			error("Entity definition has a closure: "..err)
-		end
+		self:checkForUpvalues()
 	end
 	if self.color then
 		self.color_r = self.color.r
@@ -170,6 +159,25 @@ function _M:init(t, no_default)
 		end
 	end
 
+end
+
+function _M:getName()
+	return self.name
+end
+
+function _M:checkForUpvalues()
+	local ok, err = table.check(
+		self,
+		function(t, where, v, tv)
+			if tv ~= "function" then return true end
+			local n, v = debug.getupvalue(v, 1)
+			if not n then return true end
+			return nil, ("%s has upvalue %s"):format(tostring(where), tostring(n))
+		end,
+		function(value) return not value._allow_upvalues end)
+	if not ok then
+		error(("Entity %s/%s definition has a closure: %s"):format(tostring(self.uid), tostring(self.name), err))
+	end
 end
 
 --- If we are cloned we need a new uid
@@ -909,11 +917,11 @@ function _M:addTemporaryValue(prop, v, noupdate)
 				table.sort(b, function(a, b) return a[1] > b[1] end)
 				base[prop] = b[1] and b[1][2]
 			else
-if type(base[prop] or 0) ~= "number" or type(v) ~= "number" then
-	print("ERROR: Attempting to add value", v, "property", prop, "to", base[prop]) table.print(base[prop]) table.print(v)
-	print("Entity:", self) -- table.print(self)
-	game.debug._debug_entity = self
-end
+-- if type(base[prop] or 0) ~= "number" or type(v) ~= "number" then
+-- 	print("ERROR: Attempting to add value", v, "property", prop, "to", base[prop]) table.print(base[prop]) table.print(v)
+-- 	print("Entity:", self) -- table.print(self)
+-- 	game.debug._debug_entity = self
+-- end
 				base[prop] = (base[prop] or 0) + v
 			end
 			self:onTemporaryValueChange(prop, v, base)
@@ -926,6 +934,19 @@ end
 			end
 		elseif type(v) == "string" then
 			-- Only last works on strings
+			if true or method == "last" then
+				base["__tlast_"..prop] = base["__tlast_"..prop] or {[-1] = base[prop]}
+				local b = base["__tlast_"..prop]
+				b[id] = v
+				b = table.listify(b)
+				table.sort(b, function(a, b) return a[1] > b[1] end)
+				base[prop] = b[1] and b[1][2]
+			else
+				base[prop] = (base[prop] or 0) + v
+			end
+--			print("addTmpVal", base, prop, v, " :=: ", #t, id, method)
+		elseif type(v) == "function" then
+			-- Only last works on functions
 			if true or method == "last" then
 				base["__tlast_"..prop] = base["__tlast_"..prop] or {[-1] = base[prop]}
 				local b = base["__tlast_"..prop]
@@ -1024,6 +1045,22 @@ function _M:removeTemporaryValue(prop, id, noupdate)
 			end
 		elseif type(v) == "string" then
 			-- Only last works on strings
+			if true or method == "last" then
+				base["__tlast_"..prop] = base["__tlast_"..prop] or {}
+				local b = base["__tlast_"..prop]
+				b[id] = nil
+				b = table.listify(b)
+				table.sort(b, function(a, b) return a[1] > b[1] end)
+				base[prop] = b[1] and b[1][2]
+				if b[1] and b[1][1] == -1 then base["__tlast_"..prop][-1] = nil end
+				if not next(base["__tlast_"..prop]) then base["__tlast_"..prop] = nil end
+			else
+				if not base[prop] then util.send_error_backtrace("Error removing property "..tostring(prop).." with value "..tostring(v).." : base[prop] is nil") return end
+				base[prop] = base[prop] - v
+			end
+--			print("delTmpVal", prop, v, method)
+		elseif type(v) == "function" then
+			-- Only last works on functions
 			if true or method == "last" then
 				base["__tlast_"..prop] = base["__tlast_"..prop] or {}
 				local b = base["__tlast_"..prop]
@@ -1179,6 +1216,7 @@ function _M:loadList(file, no_default, res, mod, loaded)
 		entity_mod = mod,
 		loading_list = res,
 		ignoreLoaded = function(v) res.ignore_loaded = v end,
+		applyAll = function(...) local args = {...} return function(e) for _, f in ipairs(args) do f(e) end end end,
 		rarity = function(add, mult) add = add or 0; mult = mult or 1; return function(e) if e.rarity then e.rarity = math.ceil(e.rarity * mult + add) end end end,
 		switchRarity = function(name) return function(e) if e.rarity then e[name], e.rarity = e.rarity, nil end end end,
 		newEntity = function(t)
@@ -1192,6 +1230,7 @@ function _M:loadList(file, no_default, res, mod, loaded)
 
 			local e = newenv.class.new(t, no_default)
 			if type(mod) == "function" then mod(e) end
+			if _M.alter_entity_load then _M.alter_entity_load(e) end
 
 			res[#res+1] = e
 			if t.define_as then res[t.define_as] = e end
@@ -1200,6 +1239,7 @@ function _M:loadList(file, no_default, res, mod, loaded)
 		importEntity = function(t)
 			local e = t:cloneFull()
 			if mod then mod(e) end
+			if _M.alter_entity_load then _M.alter_entity_load(e) end
 			res[#res+1] = e
 			if t.define_as then res[t.define_as] = e end
 		end,

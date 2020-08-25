@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ newEntity{
 	identified = true,
 	stacking = true,
 	auto_pickup = true, pickup_sound = "actions/gem",
-	desc = [[Gems can be sold for money or used in arcane rituals.]],
+	desc = _t[[Gems can be sold for money or used in arcane rituals.]],
 }
 
 local gem_color_attributes = {
@@ -98,7 +98,7 @@ newGem("Diamond",	"object/diamond.png",5,		18,	"white",	40,	50, 5, 70,
 )
 newGem("Pearl",	"object/pearl.png",	5,		18,	"white",	40,	50, 5, 70,
 	{ resists = {all=5}, combat_armor = 5 },
-	{ splash={type="LITE", dam=100, desc = "Lights terrain (power 100)"} }
+	{ splash={type="LITE", dam=100, desc = _t"Lights terrain (power 100)"} }
 )
 newGem("Moonstone",	"object/moonstone.png",5,	18,	"white",	40,	50, 5, 70,
 	{ combat_def=10, combat_mentalresist=10, combat_spellresist=10, combat_physresist=10, },
@@ -121,12 +121,12 @@ newGem("Amber",		"object/amber.png",	4,	16,	"yellow",	30,	40, 4, 65,
 	{ stun={chance=10, dur=2} }
 )
 newGem("Turquoise",	"object/turquoise.png",4,	16,	"green",	30,	40, 4, 65,
-	{ see_invisible=10, see_stealth=10 },
+	{ resists_pen = {all=10}, combat_atk = 10 },
 	{ splash={type="ACID", dam=30} }
 )
 newGem("Jade",		"object/jade.png",	4,	16,	"green",	30,	40, 4, 65,
 	{ resists = {all=4}, combat_armor = 4 },
-	{ splash={type="SLOW", dam= 1 - 1 / (1 + 0.20), desc = "Slows by 17%"} }
+	{ splash={type="SLOW", dam= 1 - 1 / (1 + 0.20), desc = _t"Slows by 17%"} }
 )
 newGem("Sapphire",	"object/sapphire.png",4,	16,	"blue",		30,	40, 4, 65,
 	{ combat_def=8, combat_mentalresist=8, combat_spellresist=8, combat_physresist=8, },
@@ -170,7 +170,7 @@ newGem("Aquamarine",	"object/aquamarine.png",2,	10,	"blue",		10,	20, 2, 35,
 )
 newGem("Ametrine",	"object/ametrine.png",1,	8,	"yellow",	1,	10, 1, 20,
 	{ inc_damage = {all=2}, combat_physcrit=1, combat_mindcrit=1, combat_spellcrit=1, },
-	{ splash={type="LITE", dam=10, desc = "Lights terrain (power 10)"} }
+	{ splash={type="LITE", dam=10, desc = _t"Lights terrain (power 10)"} }
 )
 newGem("Zircon",	"object/zircon.png",1,	8,	"yellow",	1,	10, 1, 20,
 	{ resists = {all=1}, combat_armor = 1 },
@@ -181,7 +181,7 @@ newGem("Spinel",	"object/spinel.png",1,	8,	"green",	1,	10, 1, 20,
 	{ mana=10 }
 )
 newGem("Citrine",	"object/citrine.png",1,	8,	"yellow",	1,	10, 1, 20,
-	{ lite=1, infravision=2, },
+	{ lite=4, infravision=4, },
 	{ range=1 }
 )
 newGem("Agate",		"object/agate.png",	1,	8,	"black",	1,	10, 1, 20,

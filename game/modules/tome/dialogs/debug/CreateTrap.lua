@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init()
 	self:generateList()
-	Dialog.init(self, "DEBUG -- Create Trap", 1, 1)
+	Dialog.init(self, _t"DEBUG -- Create Trap", 1, 1)
 
 	local list = List.new{width=400, height=500, list=self.list, fct=function(item) self:use(item) end}
 

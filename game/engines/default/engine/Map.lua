@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -830,6 +830,27 @@ function _M:rememberAll(x, y, w, h, v)
 	end end
 end
 
+--- Apply function to all entities of all the map
+function _M:applyAll(fct)
+	for x = 0, self.w - 1 do for y = 0, self.h - 1 do
+		local tile = self.map[x + y * self.w]
+		if tile then
+			-- Collect the keys so we can modify the table while iterating
+			local keys = {}
+			for k, _ in pairs(tile) do
+				table.insert(keys, k)
+			end
+			-- Now iterate over the stored keys, checking if the entry exists
+			for i = 1, #keys do
+				local e = tile[keys[i]]
+				if e then
+					fct(x, y, keys[i], e)
+				end
+			end
+		end
+	end end
+end
+
 --- Sets the current view at a precise location
 function _M:setScroll(x, y)
 	if self.mx == x and self.my == y then return end
@@ -1124,15 +1145,21 @@ function _M:addEffect(src, x, y, duration, damtype, dam, radius, dir, angle, ove
 
 	while overlay_particle do
 		e.particles = e.particles or {}
-		if overlay_particle.only_one then
-			e.particles[#e.particles+1] = self:particleEmitter(x, y, 1, overlay_particle.type, overlay_particle.args, nil, overlay_particle.zdepth)
+		if overlay_particle.stack then
+			for _, def in ipairs(overlay_particle.stack) do
+				e.particles[#e.particles+1] = self:particleEmitter(x, y, 1, def.type, def.args, def.shader, def.zdepth)
+				e.particles[#e.particles].__map_effect = e
+			end
+			e.particles_only_one = true
+		elseif overlay_particle.only_one then
+			e.particles[#e.particles+1] = self:particleEmitter(x, y, 1, overlay_particle.type, overlay_particle.args, overlay_particle.shader, overlay_particle.zdepth)
 			e.particles[#e.particles].__map_effect = e
 			e.particles_only_one = true
 		else
 			e.fake_overlay = overlay_particle
 			for lx, ys in pairs(grids) do
 				for ly, _ in pairs(ys) do
-					e.particles[#e.particles+1] = self:particleEmitter(lx, ly, 1, overlay_particle.type, overlay_particle.args, nil, overlay_particle.zdepth)
+					e.particles[#e.particles+1] = self:particleEmitter(lx, ly, 1, overlay_particle.type, overlay_particle.args, overlay_particle.shader, overlay_particle.zdepth)
 					e.particles[#e.particles].__map_effect = e
 				end
 			end
@@ -1253,15 +1280,17 @@ function _M:processEffects(update_shape_only)
 		if e.duration <= 0 then
 			table.insert(todel, i)
 		elseif e.update_fct then
-			if e:update_fct(update_shape_only) then
+			if e:update_fct(update_shape_only, todel, i) then
 				if type(dir) == "table" then e.grids = core.fov.beam_any_angle_grids(e.x, e.y, e.radius, e.angle, e.dir.source_x or e.src.x or e.x, e.dir.source_y or e.src.y or e.y, e.dir.delta_x, e.dir.delta_y, true)
 				elseif e.dir == 5 then e.grids = core.fov.circle_grids(e.x, e.y, e.radius, true)
 				else e.grids = core.fov.beam_grids(e.x, e.y, e.radius, e.dir, e.angle, true) end
 				if e.particles then
 					if e.particles_only_one then
-						e.particles[1]:shiftCustom(self.tile_w * (e.particles[1].x - e.x), self.tile_h * (e.particles[1].y - e.y))
-						e.particles[1].x = e.x
-						e.particles[1].y = e.y
+						for i, p in ipairs(e.particles) do
+							p:shiftCustom(self.tile_w * (p.x - e.x), self.tile_h * (p.y - e.y))
+							p.x = e.x
+							p.y = e.y
+						end
 					else
 						for j, ps in ipairs(e.particles) do self:removeParticleEmitter(ps) end
 						e.particles = {}
@@ -1289,6 +1318,25 @@ function _M:processEffects(update_shape_only)
 	end
 end
 
+function _M:removeEffect(e)
+	if e.particles then
+		for j, ps in ipairs(e.particles) do self:removeParticleEmitter(ps) end
+	end
+	if e.overlay then
+		self.z_effects[e.overlay.zdepth][e] = nil
+	end
+	for i, ee in ipairs(self.effects) do if ee == e then
+		table.remove(self.effects, i)
+		break
+	end end
+end
+
+--- Returns the first effect matching the given damage type, if any
+function _M:hasEffectType(x, y, type)
+	for i, e in ipairs(self.effects) do
+		if e.damtype == type and e.grids[x] and e.grids[x][y] then return e end
+	end
+end
 
 -------------------------------------------------------------
 -------------------------------------------------------------
@@ -1456,6 +1504,7 @@ end
 
 -- Returns the compass direction from a vector
 -- dx, dy = x change (+ is east), y change (+ is south)
+-- I18N-TODO: It should be done with I18n support version
 function _M:compassDirection(dx, dy)
 	local dir = ""
 	if dx == 0 and dy == 0 then
@@ -1466,7 +1515,7 @@ function _M:compassDirection(dx, dy)
 		if dxdy < -0.5 then dir = dir.."west"
 		elseif dxdy > 0.5 then dir = dir.."east" end
 	end
-	return dir
+	return _t(dir)
 end
 -------------------------------------------------------------
 -------------------------------------------------------------

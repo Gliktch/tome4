@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,19 +17,19 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "Future Echoes"
+name = _t"Future Echoes"
 stables = 0
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "The unhallowed morass is the name of the 'zone' surrounding Point Zero."
-	desc[#desc+1] = "The temporal spiders that inhabit it are growing restless and started attacking at random. You need to investigate what is going on."
+	desc[#desc+1] = _t"The unhallowed morass is the name of the 'zone' surrounding Point Zero."
+	desc[#desc+1] = _t"The temporal spiders that inhabit it are growing restless and started attacking at random. You need to investigate what is going on."
 	if self:isCompleted("morass") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have explored the morass and destroyed the weaver queen, finding strange traces on it.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have explored the morass and destroyed the weaver queen, finding strange traces on it.#WHITE#"
 	else
-		desc[#desc+1] = "#SLATE#* You must explore the morass.#WHITE#"
+		desc[#desc+1] = _t"#SLATE#* You must explore the morass.#WHITE#"
 	end
 	if self:isCompleted("saved") then
-		desc[#desc+1] = "#LIGHT_GREEN#* You have helped defend Point Zero.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* You have helped defend Point Zero.#WHITE#"
 	end
 	return table.concat(desc, "\n")
 end

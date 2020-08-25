@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,5 +21,18 @@
 newAI("summoned", function(self)
 	if self:runAI(self.ai_state.ai_target or "target_simple") then
 		return self:runAI(self.ai_real)
+	end
+end)
+
+newAI("mirror_image", function(self)
+	if self:runAI(self.ai_state.ai_target or "target_simple") then
+		local eff = self.summoner:hasEffect(self.summoner.EFF_MIRROR_IMAGE_REAL)
+		if self.ai_state.use_taunt and not (eff and eff.last_talent) then
+			self:forceUseTalent(self.T_TAUNT, {ignore_cd=true, no_talent_fail = true})
+		else
+			self:useEnergy()
+		end
+		if eff then eff.last_talent = nil end
+		return true
 	end
 end)

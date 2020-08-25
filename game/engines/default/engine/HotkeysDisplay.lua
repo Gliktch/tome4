@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -221,7 +221,7 @@ function _M:onMouse(button, mx, my, click, on_over, on_click)
 						text:merge(self.actor:getTalentFullDescription(t))
 					elseif a.hotkey[i] and a.hotkey[i][1] == "inventory" then
 						local o = a:findInAllInventories(a.hotkey[i][2])
-						if o then text = o:getDesc() else text = "Missing!" end
+						if o then text = o:getDesc() else text = _t"Missing!" end
 					end
 					on_over(text)
 				end

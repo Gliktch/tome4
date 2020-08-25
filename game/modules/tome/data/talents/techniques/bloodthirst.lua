@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ newTalent{
 		if target:canBe("stun") then
 			target:setEffect(target.EFF_DAZED, 5, {apply_power=self:combatPhysicalpower()})
 		else
-			game.logSeen(target, "%s resists the terror!", target.name:capitalize())
+			game.logSeen(target, "%s resists the terror!", target:getName():capitalize())
 		end
 	end,
 	passives = function(self, t, p)
@@ -47,7 +47,7 @@ newTalent{
 		return ([[Your mighty blows inspire utter terror on your foes. Any melee strike you do that deals more than %d%% of the target's total life puts them in a mortal terror, dazing them for 5 turns.
 		Your critical strike chance also increase by %d%%.
 		The daze chance increase with your Physical Power.]]):
-		format(t.threshold(self, t), self:getTalentLevelRaw(t) * 2.8)
+		tformat(t.threshold(self, t), self:getTalentLevelRaw(t) * 2.8)
 	end,
 }
 
@@ -71,7 +71,7 @@ newTalent{
 		local max_health = t.getHealth(self,t)
 		return ([[Delight in spilling the blood of your foes.  After scoring a critical hit, your maximum hit points will be increased by %d%%, your life regeneration by %0.2f per turn, and your stamina regeneration by %0.2f per turn for %d turns.
 		The life and stamina regeneration will stack up to five times, for a maximum of %0.2f and %0.2f each turn, respectively.]]):
-		format(t.getHealth(self, t), regen, regen/5, t.getDuration(self, t),max_regen, max_regen/5)
+		tformat(t.getHealth(self, t), regen, regen/5, t.getDuration(self, t),max_regen, max_regen/5)
 	end,
 }
 
@@ -87,7 +87,7 @@ newTalent{
 		return ([[You delight in the inflicting of wounds, providing %d physical power.
 		In addition when you make a creature bleed its physical damage resistance is reduced by %d%% (but never below 0%%).
 		Physical power depends on your Strength stat.]]):
-		format(t.getDam(self, t), t.getResist(self, t))
+		tformat(t.getDam(self, t), t.getResist(self, t))
 	end,
 }
 
@@ -99,6 +99,7 @@ newTalent{
 	cooldown = 45,
 	stamina = 120,
 	fixed_cooldown = true,
+	random_boss_rarity = 20,
 	tactical = { DEFEND = 4, STAMINA = -2,
 		HEAL = function(self, t, target) -- up to 2 if there are enemies near
 			local val = 0
@@ -112,7 +113,7 @@ newTalent{
 		end
 	},
 	getHealPercent = function(self,t) return self:combatTalentLimit(t, 50, 3.5, 17.5) end, -- Limit <50%
-	getDuration = function(self, t) return math.floor(self:combatTalentLimit(t, 15, 3, 7, true)) end, -- Limit < 25
+	getDuration = function(self, t) return math.floor(self:combatTalentLimit(t, 10, 3, 6, true)) end, -- Limit < 10
 	action = function(self, t)
 		self:setEffect(self.EFF_UNSTOPPABLE, t.getDuration(self, t), {hp_per_kill=t.getHealPercent(self,t)})
 		return true
@@ -121,6 +122,6 @@ newTalent{
 		return ([[You enter a battle frenzy for %d turns. During that time, you can not use items, healing has no effect, and your health cannot drop below 1.
 		At the end of the frenzy, you regain %d%% of your health per foe slain during the frenzy.
 		While Unstoppable is active, Berserker Rage critical bonus is disabled as you lose the thrill of the risk of death.]]):
-		format(t.getDuration(self, t), t.getHealPercent(self,t))
+		tformat(t.getDuration(self, t), t.getHealPercent(self,t))
 	end,
 }

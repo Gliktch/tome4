@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -29,10 +29,10 @@ DONE = 100
 FAILED = 101
 
 status_text = {
-	[PENDING] = "active",
-	[COMPLETED] = "completed",
-	[DONE] = "done",
-	[FAILED] = "failed",
+	[PENDING] = _t"active",
+	[COMPLETED] = _t"completed",
+	[DONE] = _t"done",
+	[FAILED] = _t"failed",
 }
 
 function _M:init(q, who)

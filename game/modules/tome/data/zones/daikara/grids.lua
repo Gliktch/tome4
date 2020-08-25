@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -28,11 +28,11 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[The rift leads... somewhere.]],
+	desc=_t[[The rift leads... somewhere.]],
 	change_level = 1, change_zone = "temporal-rift",
 	change_level_check = function() -- Forbid going back
 		if not game.player:hasQuest("temporal-rift") then
-			require("engine.ui.Dialog"):yesnoPopup("Temporal Rift", "Are you sure you want to enter? There's no telling where you will end up or if you will be able to make it back.", function(ret)
+			require("engine.ui.Dialog"):yesnoPopup(_t"Temporal Rift", _t"Are you sure you want to enter? There's no telling where you will end up or if you will be able to make it back.", function(ret)
 				if ret then game:changeLevel(1, "temporal-rift") end
 			end)
 			return true

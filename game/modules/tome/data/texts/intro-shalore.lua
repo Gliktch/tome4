@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[Welcome #LIGHT_GREEN#@name@#WHITE#.
+return _t[[Welcome #LIGHT_GREEN#@name@#WHITE#.
 You are of the Shaloren, the Elven race with the closest ties to magic, and you are despised.
 While your people are at peace with the other kingdoms, many have not forgotten it was your race that created the terrible Spellblaze, thousands of years ago.
 

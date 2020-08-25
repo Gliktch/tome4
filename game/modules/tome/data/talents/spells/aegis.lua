@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ newTalent{
 	points = 5,
 	mana = 25,
 	cooldown = 16,
-	use_only_arcane = 2,
+	use_only_arcane = 3,
 	tactical = { HEAL = 2 },
 	getHeal = function(self, t) return 40 + self:combatTalentSpellDamage(t, 10, 520) end,
 	is_heal = true,
@@ -43,7 +43,7 @@ newTalent{
 		local heal = t.getHeal(self, t)
 		return ([[Imbues your body with arcane forces, reconstructing it to a default state, healing for %d life.
 		The life healed will increase with your Spellpower.]]):
-		format(heal)
+		tformat(heal)
 	end,
 }
 
@@ -54,7 +54,7 @@ newTalent{
 	points = 5,
 	mode = "sustained",
 	sustain_mana = 40,
-	use_only_arcane = 2,
+	use_only_arcane = 3,
 	cooldown = 14,
 	tactical = { BUFF = 2 },
 	getDur = function(self, t) return self:getTalentLevel(t) >= 5 and 1 or 0 end,
@@ -82,7 +82,7 @@ newTalent{
 		Every damage shield, time shield, displacement shield, and disruption shield affecting you has its power increased by %d%%.
 		At level 5, it also increases the duration of all shields by 1 turn.
 		The shield value will increase with your Spellpower.]]):
-		format(shield, dur)
+		tformat(shield, dur)
 	end,
 }
 
@@ -93,7 +93,7 @@ newTalent{
 	points = 5,
 	mode = "sustained",
 	sustain_mana = 50,
-	use_only_arcane = 2,
+	use_only_arcane = 3,
 	cooldown = 30,
 	tactical = { BUFF = 2 },
 	getShield = function(self, t) return self:combatLimit(self:combatTalentSpellDamage(t, 5, 500), 100, 20, 0, 55.4, 354) end,	 -- Limit < 100%
@@ -116,7 +116,7 @@ newTalent{
 		Each time you receive a direct heal (not a life regeneration effect), you automatically gain a damage shield equal to %d%% of the heal value for 3 turns.
 		This will replace an existing damage shield if the new shield value and duration would be greater than or equal to the old.
 		The shield value will increase with your Spellpower.]]):
-		format(shield)
+		tformat(shield)
 	end,
 }
 
@@ -127,11 +127,11 @@ newTalent{
 	points = 5,
 	mana = 50,
 	cooldown = 25,
-	use_only_arcane = 2,
+	use_only_arcane = 3,
 	no_energy = true,
 	tactical = { DEFEND = 2 },
 	getShield = function(self, t) return 40 + self:combatTalentSpellDamage(t, 5, 500) / 10 end,
-	getDisruption = function(self, t) return 20 + self:combatTalentSpellDamage(t, 1, 10) end,
+	getDisruption = function(self, t) return 20 + self:combatTalentSpellDamage(t, 1, 40) end,
 	getNumEffects = function(self, t) return math.max(1,math.floor(self:combatTalentScale(t, 3, 7, "log"))) end,
 	on_pre_use = function(self, t)
 		for eff_id, p in pairs(self.tmp) do
@@ -153,17 +153,16 @@ newTalent{
 			end
 		end
 
-		for i = 1, t.getNumEffects(self, t) do
+		local nb_left = t.getNumEffects(self, t)
+		while nb_left > 0 do
 			if #effs == 0 then break end
 			local eff = rng.tableRemove(effs)
 			eff.e.on_aegis(self, eff.p, shield)
+			nb_left = nb_left - 1
 		end
 
-		if self:isTalentActive(self.T_DISRUPTION_SHIELD) then
-			local absorb = self.disruption_shield_absorb or 0
-			local mana = t.getDisruption(self, t) / 100 * absorb + 50
-			self:incMana(mana)
-			game.logSeen(self, "%s gains %d mana from Aegis!", self.name, mana)
+		if nb_left > 0 and self:isTalentActive(self.T_DISRUPTION_SHIELD) then
+			self:callTalent(self.T_DISRUPTION_SHIELD, "doAegis", t.getDisruption(self, t))
 		end
 
 		game:playSoundNear(self, "talents/heal")
@@ -171,12 +170,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local shield = t.getShield(self, t)
-		local disruption = (self.disruption_shield_absorb or 0) * t.getDisruption(self, t) / 100
 		return ([[Release arcane energies into most magical shields currently protecting you.
 		It will affect at most %d shield effects.
 		Damage Shield, Time Shield, Displacement Shield:  Increase the damage absorption value by %d%%.
-		Disruption Shield:  Gain %d%% of the damage absorbed + 50 as mana (%d).
+		Disruption Shield: Tap into the stored energies to restore the shield (at a rate of 2 energy per 1 shield power). Any leftover energy is converted back into mana at a rate of %0.2f energy per mana.
 		The charging will increase with your Spellpower.]]):
-		format(t.getNumEffects(self, t), shield, t.getDisruption(self, t), disruption + 50)
+		tformat(t.getNumEffects(self, t), shield, 100 / t.getDisruption(self, t))
 	end,
 }

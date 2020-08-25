@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ local is_bigworm = layout == "BIGWORM"
 if layout == "DEFAULT" then
 
 return {
-	name = "Sandworm lair",
+	name = _t"Sandworm lair",
 	level_range = {7, 16},
 	level_scheme = "player",
 	max_level = 4,
@@ -87,7 +87,7 @@ return {
 elseif layout == "BIGWORM" then
 
 return {
-	name = "Sandworm lair",
+	name = _t"Sandworm lair",
 	level_range = {7, 16},
 	level_scheme = "player",
 	max_level = 2,

@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -51,6 +51,7 @@ _M.cosmetic_options_config = {
 	tatoos = "single",
 	horns = "single",
 	special = "multiple",
+	golem = "single",
 }
 
 function _M:setSubclassIcon(t)
@@ -75,7 +76,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	self.selected_cosmetic_options = nil
 	self.tiles = Tiles.new(64, 64, nil, nil, true, nil)
 
-	Dialog.init(self, title and title or "Character Creation", w or 600, h or 400)
+	Dialog.init(self, title and title or _t"Character Creation", w or 600, h or 400)
 
 	self.obj_list = Object:loadList("/data/general/objects/objects.lua")
 	self.obj_list_by_name = {}
@@ -86,40 +87,40 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 
 	self.to_reset_cosmetic = {}
 
-	self.c_ok = Button.new{text="     Play!     ", fct=function() self:atEnd("created") end}
-	self.c_random = Button.new{text="Random!", fct=function() self:randomBirth() end}
-	self.c_premade = Button.new{text="Load premade", fct=function() self:loadPremadeUI() end}
-	self.c_tile = Button.new{text="Select custom tile", fct=function() self:selectTile() end}
-	self.c_cancel = Button.new{text="Cancel", fct=function() self:atEnd("quit") end}
-	self.c_tut = Button.new{text="Tutorial", fct=function() self:tutorial() end}
-	self.c_options = Button.new{text="Customize", fct=function() self:customizeOptions() end}
+	self.c_ok = Button.new{text=_t"     Play!     ", fct=function() self:atEnd("created") end}
+	self.c_random = Button.new{text=_t"Random!", fct=function() self:randomBirth() end}
+	self.c_premade = Button.new{text=_t"Load premade", fct=function() self:loadPremadeUI() end}
+	self.c_tile = Button.new{text=_t"Select custom tile", fct=function() self:selectTile() end}
+	self.c_cancel = Button.new{text=_t"Cancel", fct=function() self:atEnd("quit") end}
+	self.c_tut = Button.new{text=_t"Tutorial", fct=function() self:tutorial() end}
+	self.c_options = Button.new{text=_t"Customize", fct=function() self:customizeOptions() end}
 	self.c_options.hide = true
-	self.c_extra_options = Button.new{text="Extra Options", fct=function() self:extraOptions() end}
+	self.c_extra_options = Button.new{text=_t"Extra Options", fct=function() self:extraOptions() end}
 	self.c_extra_options.hide = not game.extra_birth_option_defs or #game.extra_birth_option_defs == 0
 
-	self.c_name = Textbox.new{title="Name: ", text=(not config.settings.cheat and game.player_name == "player") and "" or game.player_name, chars=30, max_len=50, fct=function()
+	self.c_name = Textbox.new{title=_t"Name: ", text=(not config.settings.cheat and game.player_name == "player") and "" or game.player_name, chars=30, max_len=50, fct=function()
 		if config.settings.cheat then self:makeDefault() end
 	end, on_change=function() self:setDescriptor() end, on_mouse = function(button) if button == "right" then self:randomName() end end}
 
-	self.c_female = Checkbox.new{title="Female", default=true,
+	self.c_female = Checkbox.new{title=_t"Female", default=true,
 		fct=function() end,
 		on_change=function(s) self.c_male.checked = not s self:setDescriptor("sex", s and "Female" or "Male") end
 	}
-	self.c_male = Checkbox.new{title="Male", default=false,
+	self.c_male = Checkbox.new{title=_t"Male", default=false,
 		fct=function() end,
 		on_change=function(s) self.c_female.checked = not s self:setDescriptor("sex", s and "Male" or "Female") end
 	}
 
 	self:generateCampaigns()
-	self.c_campaign_text = Textzone.new{auto_width=true, auto_height=true, text="Campaign: "}
+	self.c_campaign_text = Textzone.new{auto_width=true, auto_height=true, text=_t"Campaign: "}
 	self.c_campaign = Dropdown.new{width=400, fct=function(item) self:campaignUse(item) end, on_select=function(item) self:updateDesc(item) end, list=self.all_campaigns, nb_items=#self.all_campaigns}
 
 	self:generateDifficulties()
-	self.c_difficulty_text = Textzone.new{auto_width=true, auto_height=true, text="Difficulty: "}
+	self.c_difficulty_text = Textzone.new{auto_width=true, auto_height=true, text=_t"Difficulty: "}
 	self.c_difficulty = Dropdown.new{width=100, fct=function(item) self:difficultyUse(item) end, on_select=function(item) self:updateDesc(item) end, list=self.all_difficulties, nb_items=#self.all_difficulties}
 
 	self:generatePermadeaths()
-	self.c_permadeath_text = Textzone.new{auto_width=true, auto_height=true, text="Permadeath: "}
+	self.c_permadeath_text = Textzone.new{auto_width=true, auto_height=true, text=_t"Permadeath: "}
 	self.c_permadeath = Dropdown.new{width=150, fct=function(item) self:permadeathUse(item) end, on_select=function(item) self:updateDesc(item) end, list=self.all_permadeaths, nb_items=#self.all_permadeaths}
 
 	self.c_desc = TextzoneList.new{width=math.floor(self.iw / 3 - 10), height=self.ih - self.c_female.h - self.c_ok.h - self.c_difficulty.h - self.c_campaign.h - 10, scrollbar=true, pingpong=20, no_color_bleed=true}
@@ -219,9 +220,9 @@ function _M:checkNew(fct)
 	local function checkfct()
 		local savename = self.c_name.text:gsub("[^a-zA-Z0-9_-.]", "_")
 		if fs.exists(("/save/%s/game.teag"):format(savename)) then
-			Dialog:yesnoPopup("Overwrite character?", "There is already a character with this name, do you want to overwrite it?", function(ret)
+			Dialog:yesnoPopup(_t"Overwrite character?", _t"There is already a character with this name, do you want to overwrite it?", function(ret)
 				if not ret then fct() end
-			end, "No", "Yes")
+			end, _t"No", _t"Yes")
 		else
 			fct()
 		end
@@ -243,15 +244,15 @@ function _M:checkNew(fct)
 	end
 
 	if is_magic and is_antimagic then
-		Dialog:yesnoPopup("Antimagic Magic combo", "The selected race/class has both magic and antimagic, this is unlikely to work. Continue?", function(ret) if not ret then
+		Dialog:yesnoPopup(_t"Antimagic Magic combo", _t"The selected race/class has both magic and antimagic, this is unlikely to work. Continue?", function(ret) if not ret then
 			checkfct()
-		end end, "No", "Yes I'm sure")
+		end end, _t"No", _t"Yes I'm sure")
 	else
 		checkfct()
 	end
 end
 
-function _M:applyingDescriptor(i, d)
+function _M:applyingDescriptor(i, d, self_contained)
 	if d.unlockable_talents_types then
 		for t, v in pairs(d.unlockable_talents_types) do
 			if profile.mod.allow_build[v[3]] then
@@ -266,17 +267,19 @@ function _M:applyingDescriptor(i, d)
 			end
 		end
 	end
-	if d.party_copy then
-		local copy = table.clone(d.party_copy, true)
-		-- Append array part
-		while #copy > 0 do
-			local f = table.remove(copy)
-			table.insert(game.party, f)
+	if not self_contained then
+		if d.party_copy then
+			local copy = table.clone(d.party_copy, true)
+			-- Append array part
+			while #copy > 0 do
+				local f = table.remove(copy)
+				table.insert(game.party, f)
+			end
+			-- Copy normal data
+			table.merge(game.party, copy, true)
 		end
-		-- Copy normal data
-		table.merge(game.party, copy, true)
+		self:applyGameState(d)
 	end
-	self:applyGameState(d)
 end
 
 function _M:applyGameState(d)
@@ -390,6 +393,8 @@ function _M:makeDefault()
 	self:setDescriptor("permadeath", "Adventure")
 	self:setDescriptor("race", "Human")
 	self:setDescriptor("subrace", "Cornac")
+	-- self:setDescriptor("class", "Mage")
+	-- self:setDescriptor("subclass", "Archmage")
 	self:setDescriptor("class", "Warrior")
 	self:setDescriptor("subclass", "Berserker")
 	__module_extra_info.no_birth_popup = true
@@ -411,10 +416,10 @@ function _M:tutorial()
 		self:atEnd("created")
 	end
 
-	local d = Dialog.new("Tutorials", 280, 100)
-	local basic = Button.new{text="Basic Gameplay (recommended)", fct=function() run("Basic") d.key:triggerVirtual("EXIT") end}
---	local stats = Button.new{text="Stats and effects (advanced players)", fct=function() run("Stats") d.key:triggerVirtual("EXIT") end}
-	local cancel = Button.new{text="Cancel", fct=function() d.key:triggerVirtual("EXIT") end}
+	local d = Dialog.new(_t"Tutorials", 280, 100)
+	local basic = Button.new{text=_t"Basic Gameplay (recommended)", fct=function() run("Basic") d.key:triggerVirtual("EXIT") end}
+--	local stats = Button.new{text=_t"Stats and effects (advanced players)", fct=function() run("Stats") d.key:triggerVirtual("EXIT") end}
+	local cancel = Button.new{text=_t"Cancel", fct=function() d.key:triggerVirtual("EXIT") end}
 	local sep = Separator.new{dir="vertical", size=230}
 
 	d:loadUI{
@@ -486,10 +491,15 @@ end
 function _M:randomName()
 	if not self.descriptors_by_type.sex or not self.descriptors_by_type.subrace then return end
 	local sex_def = self.birth_descriptor_def.sex[self.descriptors_by_type.sex]
-	local race_def = self.birth_descriptor_def.subrace[self.descriptors_by_type.subrace]
-	if race_def.copy.random_name_def then
-		local namegen = NameGenerator2.new("/data/languages/names/"..race_def.copy.random_name_def:gsub("#sex#", sex_def.copy.female and "female" or "male")..".txt")
-		self.c_name:setText(namegen:generate(nil, race_def.copy.random_name_min_syllables, race_def.copy.random_name_max_syllables))
+	local race_def = self.birth_descriptor_def.race[self.descriptors_by_type.race]
+	local subrace_def = self.birth_descriptor_def.subrace[self.descriptors_by_type.subrace]
+	local name_def = nil
+	if subrace_def.copy and subrace_def.copy.random_name_def then name_def = subrace_def
+	elseif race_def.copy and race_def.copy.random_name_def then name_def = race_def end
+
+	if name_def then
+		local namegen = NameGenerator2.new("/data/languages/names/"..name_def.copy.random_name_def:gsub("#sex#", sex_def.copy.female and "female" or "male")..".txt")
+		self.c_name:setText(namegen:generate(nil, name_def.copy.random_name_min_syllables, name_def.copy.random_name_max_syllables))
 	else
 		local namegen = NameGenerator.new((not sex_def.copy.female) and {
 			phonemesVocals = "a, e, i, o, u, y",
@@ -510,7 +520,7 @@ function _M:randomName()
 end
 
 function _M:on_focus(id, ui)
-	if self.focus_ui and self.focus_ui.ui == self.c_name then self.c_desc:switchItem(self.c_name, "This is the name of your character.\nRight mouse click to generate a random name based on race and sex.")
+	if self.focus_ui and self.focus_ui.ui == self.c_name then self.c_desc:switchItem(self.c_name, _t"This is the name of your character.\nRight mouse click to generate a random name based on race and sex.")
 	elseif self.focus_ui and self.focus_ui.ui == self.c_female then self.c_desc:switchItem(self.c_female, self.birth_descriptor_def.sex.Female.desc)
 	elseif self.focus_ui and self.focus_ui.ui == self.c_male then self.c_desc:switchItem(self.c_male, self.birth_descriptor_def.sex.Male.desc)
 	elseif self.focus_ui and self.focus_ui.ui == self.c_campaign then
@@ -666,7 +676,7 @@ function _M:updateDescriptors()
 
 			if #clist > 0 then
 				table.sort(clist, function(a, b) return a.name < b.name end)
-				table.insert(self.cosmetic_options, {name=kind:gsub("_", " "):capitalize(), kind=kind, color=function() return colors.simple(colors.GOLD) end, nodes=clist})
+				table.insert(self.cosmetic_options, {name=_t(kind:gsub("_", " "):capitalize()), kind=kind, color=function() return colors.simple(colors.GOLD) end, nodes=clist})
 			end
 		end
 	end end
@@ -787,7 +797,7 @@ function _M:getLock(d)
 end
 
 function _M:generateCampaigns()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 	local list = {}
 
 	for i, d in ipairs(self.birth_descriptor_def.world) do
@@ -809,7 +819,7 @@ function _M:generateCampaigns()
 end
 
 function _M:generateDifficulties()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 	local list = {}
 
 	local oldsel = nil
@@ -841,7 +851,7 @@ function _M:generateDifficulties()
 end
 
 function _M:generatePermadeaths()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 	local list = {}
 
 	local oldsel = nil
@@ -873,7 +883,7 @@ function _M:generatePermadeaths()
 end
 
 function _M:generateRaces()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 
 	local oldtree = {}
 	for i, t in ipairs(self.all_races or {}) do oldtree[t.id] = t.shown end
@@ -927,7 +937,7 @@ function _M:generateRaces()
 end
 
 function _M:generateClasses()
-	local locktext = "\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
+	local locktext = _t"\n\n#GOLD#This is a locked birth option. Performing certain actions and completing certain quests will make locked campaigns, races and classes permanently available."
 
 	local oldtree = {}
 	for i, t in ipairs(self.all_classes or {}) do oldtree[t.id] = t.shown end
@@ -941,7 +951,7 @@ function _M:generateClasses()
 				if (d.descriptor_choices.subclass[sd.name] == "allow" or d.descriptor_choices.subclass[sd.name] == "allow-nochange" or d.descriptor_choices.subclass[sd.name] == "nolore") and self:isDescriptorAllowed(sd, {subclass=true, class=true}) then
 					local locked = self:getLock(sd)
 					if locked == true then
-						nodes[#nodes+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}, id=sd.name, pid=d.name, locked=true, desc=util.getval(sd.locked_desc, self)..locktext }
+						nodes[#nodes+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}, id=sd.name, pid=d.name, locked=true, desc=util.getval(sd.locked_desc, self)..locktext }
 					elseif locked == false then
 						local old = self.descriptors_by_type.subclass
 						self.descriptors_by_type.subclass = nil
@@ -950,7 +960,7 @@ function _M:generateClasses()
 						local desc = sd.desc
 						if type(desc) == "table" then desc = table.concat(sd.desc, "\n") end
 						if how == "nolore" and self.descriptors_by_type.subrace then
-							desc = "#CRIMSON#Playing this class with the race you selected does not make much sense lore-wise. You can still do it but might miss on some special quests/...#WHITE#\n" .. desc
+							desc = _t"#CRIMSON#Playing this class with the race you selected does not make much sense lore-wise. You can still do it but might miss on some special quests/...#WHITE#\n" .. desc
 						end
 						nodes[#nodes+1] = { name = sd.display_name, basename=sd.display_name, id=sd.name, pid=d.name, desc=desc, def=sd }
 						if self.sel_class and self.sel_class.id == sd.name then newsel = nodes[#nodes] end
@@ -960,7 +970,7 @@ function _M:generateClasses()
 
 			local locked = self:getLock(d)
 			if locked == true then
-				tree[#tree+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}, id=d.name, shown=oldtree[d.name], nodes = nodes, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
+				tree[#tree+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}, id=d.name, shown=oldtree[d.name], nodes = nodes, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end
@@ -1078,7 +1088,7 @@ end
 
 function _M:loadPremadeUI()
 	local lss = Module:listVaultSavesForCurrent()
-	local d = Dialog.new("Characters Vault", 600, 550)
+	local d = Dialog.new(_t"Characters Vault", 600, 550)
 
 	local sel = nil
 	local sep = Separator.new{dir="horizontal", size=400}
@@ -1096,9 +1106,9 @@ function _M:loadPremadeUI()
 		select=function(item) desc:switchItem(item, item.description) end
 	}
 
-	local load = Button.new{text=" Load ", fct=function() if sel then self:loadPremade(sel) game:unregisterDialog(d) end end}
-	local del = Button.new{text="Delete", fct=function() if sel then
-		self:yesnoPopup(sel.name, "Really delete premade: "..sel.name, function(ret) if ret then
+	local load = Button.new{text=_t" Load ", fct=function() if sel then self:loadPremade(sel) game:unregisterDialog(d) end end}
+	local del = Button.new{text=_t"Delete", fct=function() if sel then
+		self:yesnoPopup(sel.name, ("Really delete premade: %s"):tformat(sel.name), function(ret) if ret then
 			local vault = CharacterVaultSave.new(sel.short_name)
 			vault:delete()
 			vault:close()
@@ -1351,8 +1361,8 @@ function _M:applyCosmeticActor(last)
 end
 
 function _M:selectExplorationNoDonations()
-	Dialog:yesnoLongPopup("Exploration mode",
-	[[Exploration mode provides the characters using it with infinite lives.
+	Dialog:yesnoLongPopup(_t"Exploration mode",
+	_t[[Exploration mode provides the characters using it with infinite lives.
 Tales of Maj'Eyal is meant to be a very replayable game in which you get better by learning from mistakes (and thus from dying too).
 I realize this can not please everybody and after multiple requests I have decided to grant exploration mode to donators, because it will allow player that like the game to see it all if they wish.
 Beware though, infinite lives does not mean the difficulty is reduced, only that you can try as much as you want without restarting.
@@ -1365,12 +1375,12 @@ Donators will also gain access to the custom tiles for their characters.]], 400,
 		if not ret then
 			game:registerDialog(require("mod.dialogs.Donation").new("exploration-mode"))
 		end
-	end, "Later", "Donate!")
+	end, _t"Later", _t"Donate!")
 end
 
 function _M:selectTileNoDonations()
-	Dialog:yesnoLongPopup("Custom tiles",
-	[[Custom Tiles have been added as a thank you to everyone that has donated to ToME.
+	Dialog:yesnoLongPopup(_t"Custom tiles",
+	_t[[Custom Tiles have been added as a thank you to everyone that has donated to ToME.
 They are a fun cosmetic feature that allows you to choose a tile for your character from a list of nearly 180 (with more to be added over time), ranging from special humanoid tiles to downright wonky ones!
 
 If you'd like to use this feature and find this game good you should consider donating. It will help ensure its survival.
@@ -1381,11 +1391,11 @@ Donators will also gain access to the Exploration Mode featuring infinite lives.
 		if not ret then
 			game:registerDialog(require("mod.dialogs.Donation").new("custom-tiles"))
 		end
-	end, "Later", "Donate!")
+	end, _t"Later", _t"Donate!")
 end
 
 function _M:selectTile()
-	local d = Dialog.new("Select a Tile", 600, 550)
+	local d = Dialog.new(_t"Select a Tile", 600, 550)
 
 	local list = {
 		"npc/alchemist_golem.png",
@@ -1629,19 +1639,19 @@ function _M:selectTile()
 	end
 
 	self:triggerHook{"Birther:donatorTiles", list=list}
-	local remove = Button.new{text="Use default tile", width=240, fct=function()
+	local remove = Button.new{text=_t"Use default tile", width=240, fct=function()
 		game:unregisterDialog(d)
 		self.has_custom_tile = nil
 		self:setTile()
 	end}
-	local custom = Button.new{text="Use custom-made tile", width=240, fct=function()
-		self:simpleLongPopup("Howto: Custom-made tiles", ([[You can use your own custom tiles if you are a donator.
+	local custom = Button.new{text=_t"Use custom-made tile", width=240, fct=function()
+		self:simpleLongPopup(_t"Howto: Custom-made tiles", ([[You can use your own custom tiles if you are a donator.
 For the game to use them you must simply respect a few rules:
 - they must be 64x64 or 64x128 tiles
 - they must be saved as PNG files
 - you must place them in folder #LIGHT_BLUE#%s#WHITE#
 
-Once you have done so, simply restart the game and the tiles will be listed at the bottom of the list.]]):format(fs.getRealPath("/data/gfx/custom-tiles/")), 500)
+Once you have done so, simply restart the game and the tiles will be listed at the bottom of the list.]]):tformat(fs.getRealPath("/data/gfx/custom-tiles/")), 500)
 	end}
 	local list = ImageList.new{width=500, height=500, tile_w=64, tile_h=64, padding=10, scrollbar=true, list=list, fct=function(item)
 		game:unregisterDialog(d)
@@ -1677,12 +1687,12 @@ function _M:customizeOptions(cosmetic_actor, on_exit, title)
 		self.actor = oldactor
 	end
 
-	local d = Dialog.new(title or "Cosmetic Options", 600, 550)
+	local d = Dialog.new(title or _t"Cosmetic Options", 600, 550)
 
 	local sel = nil
 	local list list = TreeList.new{width=450, tree=self.cosmetic_options, height=400, scrollbar=true, all_clicks=true,
 		columns={
-			{name="Name", width=100, display_prop="name"},
+			{name=_t"Name", width=100, display_prop="name"},
 		},
 		fct=function(item, sel, button)
 			if item.nodes then
@@ -1704,9 +1714,9 @@ function _M:customizeOptions(cosmetic_actor, on_exit, title)
 			end
 
 			if not self:isDonator() then
-				self:yesnoPopup("Donator Feature", "Cosmetic customization is a donator-only feature.", function(ret) if ret then
+				self:yesnoPopup(_t"Donator Feature", _t"Cosmetic customization is a donator-only feature.", function(ret) if ret then
 					game:registerDialog(require("mod.dialogs.Donation").new())
-				end end, "I want to help!", "Dismiss")
+				end end, _t"I want to help!", _t"Dismiss")
 			end
 
 			local selected = false
@@ -1755,7 +1765,7 @@ function _M:customizeOptions(cosmetic_actor, on_exit, title)
 end
 
 function _M:extraOptions()
-	local options = OptionTree.new(game.extra_birth_option_defs, 'Birth Options', 600, 550)
+	local options = OptionTree.new(game.extra_birth_option_defs, _t'Birth Options', 600, 550)
 	options:initialize()
 	game:registerDialog(options)
 end
@@ -1779,7 +1789,7 @@ function _M:showCosmeticCustomizer(actor, title, on_end)
 	birther:setDescriptor("subrace", actor.descriptor.subrace)
 
 	birther:customizeOptions(clone, function()
-		self:yesnoPopup("Confirm", "Apply the selected cosmetics to "..actor.name.."?", function(ret) if ret then
+		self:yesnoPopup(_t"Confirm", ("Apply the selected cosmetics to %s?"):tformat(actor:getName()), function(ret) if ret then
 			local oldactor = birther.actor
 			birther.actor = actor
 			birther:applyCosmeticActor(true)

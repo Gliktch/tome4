@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Talent Category: #LIGHT_GREEN#Poisons",
-[[Extracted from plants, wildlife or more exotic locations, poisons have always existed.
+return _t"New Talent Category: #LIGHT_GREEN#Poisons",
+_t[[Extracted from plants, wildlife or more exotic locations, poisons have always existed.
 Many creatures use them, along with some shady people.
 
 You have made a deal with such a person and can now create new Rogue or Archer characters that can learn the #LIGHT_GREEN#Poisons talents#WHITE#.

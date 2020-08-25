@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ newTalent{
 	points = 1,
 	cooldown = 5,
 	requires_target = false,
-	tactical = { PROTECT = 2 },
+	tactical = { PROTECT = 10 },
 	range = 0,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
 	action = function(self, t)
@@ -37,10 +37,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Forces all hostile foes in radius %d to attack you.]]):format(self:getTalentRadius(t))
+		return ([[Forces all hostile foes in radius %d to attack you.]]):tformat(self:getTalentRadius(t))
 	end,
 }
-
 
 newTalent{
 	name = "Shell Shield",
@@ -55,7 +54,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Under the cover of your shell, gain %d%% global resistance for %d turns]]):format(t.resistPower(self, t), t.getDuration(self, t))
+		return ([[Under the cover of your shell, gain %d%% all resistance for %d turns]]):tformat(t.resistPower(self, t), t.getDuration(self, t))
 	end,
 }
 
@@ -82,7 +81,7 @@ newTalent{ short_name="SPIDER_WEB",
 		return true
 	end,
 	info = function(self, t)
-		return ([[Spread a web and throw it toward your target. If caught, it won't be able to move for %d turns.]]):format(t.getDuration(self, t))
+		return ([[Spread a web and throw it toward your target. If caught, it won't be able to move for %d turns.]]):tformat(t.getDuration(self, t))
 	end,
 }
 
@@ -92,7 +91,7 @@ newTalent{
 	require = gifts_req1,
 	random_ego = "attack",
 	points = 5,
-	message = "@Source@ summons a Turtle!",
+	message = _t"@Source@ summons a Turtle!",
 	equilibrium = 2,
 	cooldown = 10,
 	range = 5,
@@ -110,28 +109,30 @@ newTalent{
 	on_pre_use_ai = aiSummonPreUse,
 	on_detonate = function(self, t, m)
 		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y, ignore_nullify_all_friendlyfire=true}
+		local shellShielding = self:callTalent(self.T_DETONATE,"shellShielding")
 		self:project(tg, m.x, m.y, function(px, py)
 			local target = game.level.map(px, py, Map.ACTOR)
 			if not target or self:reactionToward(target) < 0 then return end
-			target:setEffect(target.EFF_SHELL_SHIELD, 4, {power=self:mindCrit(self:combatTalentMindDamage(t, 10, 35))})
+			target:setEffect(target.EFF_SHELL_SHIELD, 5, {power=self:mindCrit(shellShielding)})
 		end, nil, {type="flame"})
 	end,
-	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t) + self:getTalentLevel(self.T_RESILIENCE), 5, 0, 10, 5)) end,
+	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 5, 0, 10, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t,fake)
 		local mp = self:combatMindpower()
-		return{ 
-			con=15 + (fake and mp or self:mindCrit(mp)) * 2.1 * self:combatTalentScale(t, 0.2, 1, 0.75) + self:callTalent(self.T_RESILIENCE, "incCon"),
+		return{
+			con=15 + (fake and mp or self:mindCrit(mp)) * 2.1 * self:combatTalentScale(t, 0.2, 1, 0.75),
 			wil = 18,
-			dex=10 + self:combatTalentScale(t, 2, 10, 0.75),
+			dex=10 + self:combatTalentScale(t, 2, 10, 0.75)
 		}
 	end,
 	on_arrival = function(self, t, m)
 		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y, ignore_nullify_all_friendlyfire=true}
+		local healing = self:callTalent(self.T_GRAND_ARRIVAL,"amtHealing")
 		self:project(tg, m.x, m.y, function(px, py)
 			local target = game.level.map(px, py, Map.ACTOR)
 			if not target or self:reactionToward(target) < 0 then return end
 			target:attr("allow_on_heal", 1)
-			target:heal(30 + self:combatTalentMindDamage(t, 10, 350), m)
+			target:heal(healing, m)
 			target:attr("allow_on_heal", -1)
 			if core.shader.active(4) then
 				target:addParticles(Particles.new("shader_shield_temp", 1, {toback=true,size_factor=1.5, y=-0.3, img="healgreen", life=25}, {type="healing", time_factor=2000, beamsCount=20, noup=2.0}))
@@ -186,10 +187,20 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_BATTLE_CALL]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
+
+		if self:knowTalent(self.T_RESILIENCE) then
+			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
+			m.max_life = m.max_life * incLife
+			m.life = m.max_life
+		end
+
+		m:forceUseTalent(m.T_TAUNT, {ignore_energy=true})
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
@@ -197,9 +208,9 @@ newTalent{
 		local incStats = t.incStats(self, t, true)
 		return ([[Summon a Turtle for %d turns to distract your foes. Turtles are resilient, but not very powerful. However, they will periodically force any foes to attack them, and can protect themselves with their shell.
 		It will get %d Constitution, %d Dexterity and 18 willpower.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Constitution will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.con, incStats.dex)
+		:tformat(t.summonTime(self, t), incStats.con, incStats.dex)
 	end,
 }
 
@@ -209,7 +220,7 @@ newTalent{
 	require = gifts_req2,
 	points = 5,
 	random_ego = "attack",
-	message = "@Source@ summons a Spider!",
+	message = _t"@Source@ summons a Spider!",
 	equilibrium = 5,
 	cooldown = 10,
 	range = 5,
@@ -226,27 +237,23 @@ newTalent{
 	end,
 	on_pre_use_ai = aiSummonPreUse,
 	on_detonate = function(self, t, m)
-		local tg = {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y}
-		self:project(tg, m.x, m.y, function(px, py)
-			local target = game.level.map(px, py, Map.ACTOR)
-			if not target or self:reactionToward(target) >= 0 then return end
-			if target:canBe("pin") then
-				target:setEffect(target.EFF_PINNED, 3, {apply_power=self:mindCrit(self:combatMindpower())})
-			end
-		end, nil, {type="flame"})
+		local knockbackDist = self:callTalent(self.T_DETONATE,"spiderKnockback")
+		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), friendlyfire=false, talent=t, x=m.x, y=m.y}
+		self:project(tg, m.x, m.y, DamageType.FEARKNOCKBACK, {dist=knockbackDist, x=m.x, y=m.y}, {type="acid"})
 	end,
 	on_arrival = function(self, t, m)
-		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), friendlyfire=false, talent=t, x=m.x, y=m.y}
-		self:project(tg, m.x, m.y, DamageType.FEARKNOCKBACK, {dist=1+self:getTalentLevelRaw(t), x=m.x, y=m.y}, {type="acid"})
+		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y}
+		local duration = self:callTalent(self.T_GRAND_ARRIVAL,"effectDuration")
+		self:project(tg, m.x, m.y, DamageType.TEMP_EFFECT, {foes=true, eff=self.EFF_PINNED, check_immune="pin", dur=duration, p={}}, {type="slime"})
 	end,
-	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t) + self:getTalentLevel(self.T_RESILIENCE), 5, 0, 10, 5)) end,
+	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 5, 0, 10, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t,fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			dex=15 + (fake and mp or self:mindCrit(mp)) * 2 * self:combatTalentScale(t, 0.2, 1, 0.75),
 			wil = 18,
 			str=10 + self:combatTalentScale(t, 2, 10, 0.75),
-			con=10 + self:callTalent(self.T_RESILIENCE, "incCon")
+			con=10
 		}
 	end,
 	action = function(self, t)
@@ -296,10 +303,18 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.inscription("INFUSION:_INSIDIOUS_POISON", {cooldown=12, range=6, heal_factor=60, power=self:getTalentLevel(t) * 60})
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
+
+		if self:knowTalent(self.T_RESILIENCE) then
+			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
+			m.max_life = m.max_life * incLife
+			m.life = m.max_life
+		end
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
@@ -307,9 +322,9 @@ newTalent{
 		local incStats = t.incStats(self, t,true)
 		return ([[Summon a Spider for %d turns to harass your foes. Spiders can poison your foes and throw webs to pin them to the ground.
 		It will get %d Dexterity, %d Strength, 18 Willpower and %d Constitution.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Dexterity will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.dex, incStats.str, incStats.con)
+		:tformat(t.summonTime(self, t), incStats.dex, incStats.str, incStats.con)
 	end,
 }
 
@@ -324,7 +339,7 @@ newTalent{
 	on_pre_use_ai = aiSummonPreUse,
 	aiSummonGrid = aiSummonGridRanged,
 	tactical = { BUFF = 0.2 },
-	getReduc = function(self, t) return self:combatTalentLimit(t, 100, 25, 75)  end, -- Limit <100%
+	getReduc = function(self, t) return self:combatTalentLimit(t, 85, 25, 70)  end, -- Limit <85%
 	getDuration = function(self, t) return math.floor(self:combatTalentLimit(t, 25, 2.7, 5.6)) end, -- Limit <25
 	action = function(self, t)
 		self:setEffect(self.EFF_FRANTIC_SUMMONING, t.getDuration(self, t), {power=t.getReduc(self, t)})
@@ -332,30 +347,44 @@ newTalent{
 	end,
 	info = function(self, t)
 		local reduc = t.getReduc(self, t)
-		return ([[You focus yourself on nature, allowing you to summon creatures much faster (%d%% of a normal summon time) and with no chance to fail from high equilibrium for %d turns.
+		return ([[You focus yourself on nature, allowing you to summon natural creatures much faster (%d%% of a normal summon time) and with no chance to fail from high equilibrium for %d turns.
 		When activating this power, a random summoning talent will come off cooldown.
 		Each time you summon, the duration of the frantic summoning effect will reduce by 1.]]):
-		format(100 - reduc, t.getDuration(self, t))
+		tformat(100 - reduc, t.getDuration(self, t))
 	end,
 }
 
 newTalent{
-	name = "Summon Control",
+	name = "Pheromones",
+	short_name = "SUMMON_CONTROL", --Backwards compatibility
 	type = {"wild-gift/summon-utility", 4},
 	require = gifts_req4,
-	mode = "passive",
 	points = 5,
-	no_npc_use = true,
-	-- Effects implemented in setupsummon function in data\talents\gifts\gifts.lua
-	lifetime = function(self,t)	return math.floor(self:combatTalentScale(t, 5, 17, "log", 0, 4)) end,
-	DamReduc = function(self,t)
-		return self:combatLimit(self:getCun(7, true) * self:getTalentLevelRaw(t), 100, 0, 0, 35, 35) --Limit < 100%
+	equilibrium = 7,
+	cooldown = 10,
+	tactical = { DISABLE = 2 },
+	no_energy = true,
+	requires_target = true,
+	range = 10,
+	direct_hit = true,
+	getRad = function(self, t) return self:combatTalentScale(t, 3, 7) end,
+	getDur = function(self, t) return math.floor(self:combatTalentScale(t, 3, 5.5)) end,
+	getDamage = function(self, t) return 10 + self:combatTalentMindDamage(t, 10, 25) end,
+	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y, target = self:getTargetLimited(tg)
+		if not target or target == self then return nil
+
+		else
+			target:setEffect(target.EFF_SUMMON_CONTROL, t.getDur(self, t), {range=t.getRad(self,t), src=self, power=t.getDamage(self,t)})
+		end
+
+		game:playSoundNear(self, "talents/spell_generic")
+		return true
 	end,
 	info = function(self, t)
-		return ([[Allows you to take direct control of any of your summons.
-		The summons will appear on the interface; a simple click on them will let you switch control.
-		You can also press control+tab to switch.
-		When taking control, your summon has its lifetime increased by %d turns, and it takes %d%% less damage.
-		The damage reduction is based on your Cunning.]]):format(t.lifetime(self,t), t.DamReduc(self,t))
+		return ([[Mark a creature with pheromones, signalling to all of your summons within %d tiles to shift aggression towards the marked creature for %d turns. Marked targets will receive %d%% increased damage from your summons and your summons will change target to it.
+		The increased damage from your summons will increase with your Mindpower]]):tformat(t.getRad(self,t), t.getDur(self,t), t.getDamage(self,t))
 	end,
 }

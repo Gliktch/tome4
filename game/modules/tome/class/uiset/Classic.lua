@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ local LogFlasher = require "engine.LogFlasher"
 local FlyingText = require "engine.FlyingText"
 local Tooltip = require "mod.class.Tooltip"
 local Dialog = require "engine.ui.Dialog"
+local FontPackage = require "engine.FontPackage"
 
 module(..., package.seeall, class.inherit(UISet))
 
@@ -38,17 +39,8 @@ end
 
 function _M:activate()
 	local size, size_mono, font, font_mono, font_mono_h, font_h
-	if config.settings.tome.fonts.type == "fantasy" then
-		size = ({normal=16, small=14, big=18})[config.settings.tome.fonts.size]
-		size_mono = ({normal=14, small=10, big=16})[config.settings.tome.fonts.size]
-		font = "/data/font/USENET_.ttf"
-		font_mono = "/data/font/SVBasicManual.ttf"
-	else
-		size = ({normal=12, small=10, big=14})[config.settings.tome.fonts.size]
-		size_mono = ({normal=12, small=10, big=14})[config.settings.tome.fonts.size]
-		font = "/data/font/Vera.ttf"
-		font_mono = "/data/font/VeraMono.ttf"
-	end
+	local font, size = FontPackage:getFont("classic")
+	local font_mono, size_mono = FontPackage:getFont("classic_mono")
 	local f = core.display.newFont(font, size)
 	font_h = f:lineSkip()
 	f = core.display.newFont(font_mono, size_mono)
@@ -157,6 +149,7 @@ local _sep_left = {core.display.loadImage("/data/gfx/ui/separator-left.png")} _s
 local _sep_leftl = {core.display.loadImage("/data/gfx/ui/separator-left_line_end.png")} _sep_leftl.tex = {_sep_leftl[1]:glTexture()}
 local _sep_rightl = {core.display.loadImage("/data/gfx/ui/separator-right_line_end.png")} _sep_rightl.tex = {_sep_rightl[1]:glTexture()}
 
+local _coin_icon, _coin_icon_w, _coin_icon_h = core.display.loadImage("/data/gfx/ui/playerframe/mtx_coin_button_framed.png"):glTexture()
 local _log_icon, _log_icon_w, _log_icon_h = core.display.loadImage("/data/gfx/ui/log-icon.png"):glTexture()
 local _chat_icon, _chat_icon_w, _chat_icon_h = core.display.loadImage("/data/gfx/ui/chat-icon.png"):glTexture()
 local _talents_icon, _talents_icon_w, _talents_icon_h = core.display.loadImage("/data/gfx/ui/talents-icon.png"):glTexture()
@@ -199,6 +192,7 @@ function _M:displayUI()
 	else
 		_mm_passive_icon:toScreenFull(x, y, _mm_passive_icon_w, _mm_passive_icon_h, _mm_passive_icon_w, _mm_passive_icon_h)
 	end
+	_coin_icon:toScreenFull(icon_x, icon_y - _inventory_icon_h, _coin_icon_w, _coin_icon_h, _coin_icon_w, _coin_icon_h)
 
 	-- Separators
 	_sep_horiz.tex[1]:toScreenFull(map_left + 16, self.map_h_stop - _sep_horiz[3], game.w - map_left - 16, _sep_horiz[3], _sep_horiz.tex[2], _sep_horiz.tex[3])
@@ -216,7 +210,7 @@ end
 
 function _M:createSeparators()
 	local icon_x = 0
-	local icon_y = game.h - (_talents_icon_h * 1)
+	local icon_y = game.h - (_talents_icon_h * 2)
 	self.icons = {
 		display_x = icon_x,
 		display_y = icon_y,
@@ -226,70 +220,89 @@ function _M:createSeparators()
 end
 
 function _M:clickIcon(bx, by)
-	if bx < _talents_icon_w then
-		game.key:triggerVirtual("TOGGLE_NPC_LIST")
-	elseif bx < 2*_talents_icon_w then
-		game.key:triggerVirtual("SHOW_INVENTORY")
-	elseif bx < 3*_talents_icon_w then
-		game.key:triggerVirtual("SHOW_CHARACTER_SHEET")
-	elseif bx < 4*_talents_icon_w then
-		game.key:triggerVirtual("EXIT")
-	elseif bx < 5*_talents_icon_w then
-		game.key:triggerVirtual("SHOW_MESSAGE_LOG")
-	elseif bx < 6*_talents_icon_w then
-		game.key:triggerVirtual("TOGGLE_BUMP_ATTACK")
+	if by >= _talents_icon_h then
+		if bx < _talents_icon_w then
+			game.key:triggerVirtual("TOGGLE_NPC_LIST")
+		elseif bx < 2*_talents_icon_w then
+			game.key:triggerVirtual("SHOW_INVENTORY")
+		elseif bx < 3*_talents_icon_w then
+			game.key:triggerVirtual("SHOW_CHARACTER_SHEET")
+		elseif bx < 4*_talents_icon_w then
+			game.key:triggerVirtual("EXIT")
+		elseif bx < 5*_talents_icon_w then
+			game.key:triggerVirtual("SHOW_MESSAGE_LOG")
+		elseif bx < 6*_talents_icon_w then
+			game.key:triggerVirtual("TOGGLE_BUMP_ATTACK")
+		end
+	else
+		if bx < _talents_icon_w then
+			package.loaded["engine.dialogs.microtxn.MTXMain"] = nil
+			game:registerDialog(require("engine.dialogs.microtxn.MTXMain").new())
+		end
 	end
 end
 
 function _M:mouseIcon(bx, by)
-	local virtual
-	local key
+	local virtual, virtual2
+	local key, key2
 
-	if bx < _talents_icon_w then
-		virtual = "TOGGLE_NPC_LIST"
-		key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
-		key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
-		if (not game.show_npc_list) then
-			game:tooltipDisplayAtMap(game.w, game.h, "Displaying talents (#{bold}##GOLD#"..key.."#LAST##{normal}#)\nToggle for creature display")
-		else
-			game:tooltipDisplayAtMap(game.w, game.h, "Displaying creatures (#{bold}##GOLD#"..key.."#LAST##{normal}#)\nToggle for talent display#")
+	if by >= _talents_icon_h then
+		if bx < _talents_icon_w then
+			virtual = "TOGGLE_NPC_LIST"
+			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
+			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
+			if (not game.show_npc_list) then
+				game:tooltipDisplayAtMap(game.w, game.h, ("Displaying talents (#{bold}##GOLD#%s#LAST##{normal}#)\nToggle for creature display"):tformat(key))
+			else
+				game:tooltipDisplayAtMap(game.w, game.h, ("Displaying creatures (#{bold}##GOLD#%s#LAST##{normal}#)\nToggle for talent display#"):tformat(key))
+			end
+		elseif bx < 2*_talents_icon_w then
+			virtual = "SHOW_INVENTORY"
+			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
+			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
+			if (key == "I") then
+				game:tooltipDisplayAtMap(game.w, game.h, _t"#{bold}##GOLD#I#LAST##{normal}#nventory")
+			else
+				game:tooltipDisplayAtMap(game.w, game.h, ("Inventory (#{bold}##GOLD#%s#LAST##{normal}#)"):tformat(key))
+			end
+		elseif bx < 3*_talents_icon_w then
+			virtual = "SHOW_CHARACTER_SHEET"
+			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
+			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
+			if (key == "C") then
+				game:tooltipDisplayAtMap(game.w, game.h, _t"#{bold}##GOLD#C#LAST##{normal}#haracter Sheet")
+			else
+				game:tooltipDisplayAtMap(game.w, game.h, ("Character Sheet (#{bold}##GOLD#%s#LAST##{normal}#)"):tformat(key))
+			end
+		elseif bx < 4*_talents_icon_w then
+			virtual = "EXIT"
+			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
+			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
+			game:tooltipDisplayAtMap(game.w, game.h, ("Main menu (#{bold}##GOLD#%s#LAST##{normal}#)"):tformat(key))
+		elseif bx < 5*_talents_icon_w then
+			virtual = "SHOW_MESSAGE_LOG"
+			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
+			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
+			game:tooltipDisplayAtMap(game.w, game.h, ("Show message/chat log (#{bold}##GOLD#%s#LAST##{normal}#)"):tformat(key))
+		elseif bx < 6*_talents_icon_w then
+			virtual = "TOGGLE_BUMP_ATTACK"
+			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
+			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
+			if (not config.settings.tome.actor_based_movement_mode and not self.bump_attack_disabled) or (config.settings.tome.actor_based_movement_mode and not game.player.bump_attack_disabled) then
+				game:tooltipDisplayAtMap(game.w, game.h, ("Movement: #LIGHT_GREEN#Default#LAST# (#{bold}##GOLD#%s#LAST##{normal}#)\nToggle for passive mode"):tformat(key))
+			else
+				game:tooltipDisplayAtMap(game.w, game.h, ("Movement: #LIGHT_RED#Passive#LAST# (#{bold}##GOLD#%s#LAST##{normal}#)\nToggle for default mode"):tformat(key))
+			end
 		end
-	elseif bx < 2*_talents_icon_w then
-		virtual = "SHOW_INVENTORY"
-		key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
-		key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
-		if (key == "I") then
-			game:tooltipDisplayAtMap(game.w, game.h, "#{bold}##GOLD#I#LAST##{normal}#nventory")
-		else
-			game:tooltipDisplayAtMap(game.w, game.h, "Inventory (#{bold}##GOLD#"..key.."#LAST##{normal}#)")
-		end
-	elseif bx < 3*_talents_icon_w then
-		virtual = "SHOW_CHARACTER_SHEET"
-		key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
-		key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
-		if (key == "C") then
-			game:tooltipDisplayAtMap(game.w, game.h, "#{bold}##GOLD#C#LAST##{normal}#haracter Sheet")
-		else
-			game:tooltipDisplayAtMap(game.w, game.h, "Character Sheet (#{bold}##GOLD#"..key.."#LAST##{normal}#)")
-		end
-	elseif bx < 4*_talents_icon_w then
-		virtual = "EXIT"
-		key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
-		key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
-		game:tooltipDisplayAtMap(game.w, game.h, "Main menu (#{bold}##GOLD#"..key.."#LAST##{normal}#)")
-	elseif bx < 5*_talents_icon_w then
-		virtual = "SHOW_MESSAGE_LOG"
-		key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
-		key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
-		game:tooltipDisplayAtMap(game.w, game.h, "Show message/chat log (#{bold}##GOLD#"..key.."#LAST##{normal}#)")
-	elseif bx < 6*_talents_icon_w then
-		virtual = "TOGGLE_BUMP_ATTACK"
-		key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
-		key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
-		if (not config.settings.tome.actor_based_movement_mode and not self.bump_attack_disabled) or (config.settings.tome.actor_based_movement_mode and not game.player.bump_attack_disabled) then
-			game:tooltipDisplayAtMap(game.w, game.h, "Movement: #LIGHT_GREEN#Default#LAST# (#{bold}##GOLD#"..key.."#LAST##{normal}#)\nToggle for passive mode")
-		else
-			game:tooltipDisplayAtMap(game.w, game.h, "Movement: #LIGHT_RED#Passive#LAST# (#{bold}##GOLD#"..key.."#LAST##{normal}#)\nToggle for default mode")
+	else
+		if bx < _talents_icon_w then
+			virtual = "MTXN_PURCHASE"
+			key = game.key.binds_remap[virtual] ~= nil and game.key.binds_remap[virtual][1] or game.key:findBoundKeys(virtual)
+			key = (key ~= nil and game.key:formatKeyString(key) or "unbound"):capitalize()
+			virtual2 = "MTXN_USE"
+			key2 = game.key.binds_remap[virtual2] ~= nil and game.key.binds_remap[virtual2][1] or game.key:findBoundKeys(virtual2)
+			key2 = (key2 ~= nil and game.key:formatKeyString(key2) or "unbound"):capitalize()
+			game:tooltipDisplayAtMap(game.w, game.h, ("Cosmetics & Events shop (#{bold}##GOLD#%s#LAST##{normal}#, #{bold}##GOLD#%s#LAST##{normal}#)"):tformat(key, key2))
 		end
 	end
 end
@@ -349,7 +362,7 @@ function _M:setupMouse(mouse)
 		self.hotkeys_display:onMouse(button, mx, my, event == "button",
 			function(text)
 				text = text:toTString()
-				text:add(true, "---", true, {"font","italic"}, {"color","GOLD"}, "Left click to use", true, "Right click to configure", true, "Press 'm' to setup", {"color","LAST"}, {"font","normal"})
+				text:add(true, "---", true, {"font","italic"}, {"color","GOLD"}, _t"Left click to use", true, _t"Right click to configure", true, _t"Press 'm' to setup", {"color","LAST"}, {"font","normal"})
 				game:tooltipDisplayAtMap(game.w, game.h, text)
 			end,
 			function(i, hk)
@@ -358,7 +371,7 @@ function _M:setupMouse(mouse)
 					d:use({talent=hk[2], name=game.player:getTalentFromId(hk[2]).name}, "right")
 					return true
 				elseif button == "right" and hk and hk[1] == "inventory" then
-					Dialog:yesnoPopup("Unbind "..hk[2], "Remove this object from your hotkeys?", function(ret) if ret then
+					Dialog:yesnoPopup(("Unbind %s"):tformat(hk[2]), _t"Remove this object from your hotkeys?", function(ret) if ret then
 						for i = 1, 12 * game.player.nb_hotkey_pages do
 							if game.player.hotkey[i] and game.player.hotkey[i][1] == "inventory" and game.player.hotkey[i][2] == hk[2] then game.player.hotkey[i] = nil end
 						end
@@ -394,25 +407,25 @@ function _M:setupMouse(mouse)
 
 		local str = tstring{{"color","GOLD"}, {"font","bold"}, user.name, {"color","LAST"}, {"font","normal"}, true}
 		if user.donator and user.donator ~= "none" then
-			local text, color = "Donator", colors.WHITE
-			if user.status and user.status == 'dev' then text, color = "Developer", colors.CRIMSON
-			elseif user.status and user.status == 'mod' then text, color = "Moderator / Helper", colors.GOLD
-			elseif user.donator == "oneshot" then text, color = "Donator", colors.LIGHT_GREEN
-			elseif user.donator == "recurring" then text, color = "Recurring Donator", colors.LIGHT_BLUE end
+			local text, color = _t"Donator", colors.WHITE
+			if user.status and user.status == 'dev' then text, color = _t"Developer", colors.CRIMSON
+			elseif user.status and user.status == 'mod' then text, color = _t"Moderator / Helper", colors.GOLD
+			elseif user.donator == "oneshot" then text, color = _t"Donator", colors.LIGHT_GREEN
+			elseif user.donator == "recurring" then text, color = _t"Recurring Donator", colors.LIGHT_BLUE end
 			str:add({"color",unpack(colors.simple(color))}, text, {"color", "LAST"}, true)
 		end
-		str:add({"color","ANTIQUE_WHITE"}, "Playing: ", {"color", "LAST"}, user.current_char, true)
-		str:add({"color","ANTIQUE_WHITE"}, "Game: ", {"color", "LAST"}, user.module, "(", user.valid, ")",true)
+		str:add({"color","ANTIQUE_WHITE"}, _t"Playing: ", {"color", "LAST"}, user.current_char, true)
+		str:add({"color","ANTIQUE_WHITE"}, _t"Game: ", {"color", "LAST"}, user.module, "(", user.valid, ")",true)
 
 		local extra = {}
 		if item.extra_data and item.extra_data.mode == "tooltip" then
-			local rstr = tstring{item.extra_data.tooltip, true, "---", true, "Linked by: "}
+			local rstr = tstring{item.extra_data.tooltip, true, "---", true, _t"Linked by: "}
 			rstr:merge(str)
 			extra.log_str = rstr
 		else
 			extra.log_str = str
 			if button == "right" and event == "button" then
-				extra.add_map_action = { name="Show chat user", fct=function() profile.chat:showUserInfo(user.login) end }
+				extra.add_map_action = { name=_t"Show chat user", fct=function() profile.chat:showUserInfo(user.login) end }
 			end
 		end
 		game.mouse:delegate(button, mx, my, xrel, yrel, nil, nil, event, "playmap", extra)

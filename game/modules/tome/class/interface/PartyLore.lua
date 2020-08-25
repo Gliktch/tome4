@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -86,7 +86,12 @@ function _M:getLore(lore, silent)
 
 	if l.template then
 		local tpl = slt2.loadstring(l.lore)
-		l.lore = slt2.render(tpl, {player=self:findMember{main=true}, self=self, Lore=_M})
+		local ok, err = pcall(function()
+			l.lore = slt2.render(tpl, {player=self:findMember{main=true}, self=self, Lore=_M})
+		end)
+		if not ok and err then
+			error("Error while lore learning '"..tostring(lore).."' : "..tostring(err))
+		end
 	end	
 
 	return l
@@ -126,7 +131,7 @@ function _M:learnLore(lore, nopopup, silent, nostop)
 	if learnt then if l.on_learn then l.on_learn(self:findMember{main=true}) end end
 
 	if game.player.runStop and not nostop then
-		game.player:runStop("learnt lore")
-		game.player:restStop("learnt lore")
+		game.player:runStop(_t"learnt lore")
+		game.player:restStop(_t"learnt lore")
 	end
 end

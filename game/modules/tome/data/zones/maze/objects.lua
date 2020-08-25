@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,13 +23,13 @@ for i = 1, 2 do
 newEntity{ base = "BASE_LORE",
 	define_as = "NOTE"..i,
 	name = "torn diary page", lore="maze-note-"..i,
-	desc = [[A diary, left by an adventurer.]],
+	desc = _t[[A diary, left by an adventurer.]],
 	rarity = false,
 }
 end
 
 newEntity{ base = "BASE_LORE", define_as = "NOTE_LEARN_TRAP",
 	name = "the perfect killing device", lore="maze-note-trap", unique=true, no_unique_lore=true,
-	desc = [[Some notes describing how to create poison gas traps, left by an unfortunate rogue.]],
+	desc = _t[[Some notes describing how to create poison gas traps, left by an unfortunate rogue.]],
 	rarity = false,
 }

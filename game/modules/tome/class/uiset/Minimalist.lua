@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -59,6 +59,7 @@ local frames_colors = {
 air_c = {0x92/255, 0xe5, 0xe8}
 air_sha = Shader.new("resources", {require_shader=4, delay_load=true, color=air_c, speed=100, amp=0.8, distort={2,2.5}})
 life_c = {0xc0/255, 0, 0}
+neg_life_c = {0x50/255, 0, 0}
 life_sha = Shader.new("resources", {require_shader=4, delay_load=true, color=life_c, speed=1000, distort={1.5,1.5}})
 shield_c = {0.5, 0.5, 0.5}
 shield_sha = Shader.new("resources", {require_shader=4, delay_load=true, color=shield_c, speed=5000, a=0.5, distort={0.5,0.5}})
@@ -289,7 +290,7 @@ function _M:initialize_resources()
 		end
 		-- generate default tooltip if needed
 		res_gfx[rname].tooltip = _M["TOOLTIP_"..rname:upper()] or ([[#GOLD#%s#LAST#
-%s]]):format(res_def.name, res_def.description or "no description")
+%s]]):tformat(res_def.name, res_def.description or _t"no description")
 
 	end
 	self.res_gfx = res_gfx
@@ -307,15 +308,15 @@ function _M:init()
 	self.locked = true
 
 	self.mhandle_pos = {
-		player = {x=296, y=73, name="Player Infos"},
-		resources = {x=fshat[6] / 2 - move_handle[6], y=0, name="Resources"},
-		minimap = {x=208, y=176, name="Minimap"},
-		buffs = {x=40 - move_handle[6], y=0, name="Current Effects"},
-		party = {x=portrait[6] - move_handle[6], y=0, name="Party Members"},
-		gamelog = {x=function(self) return self.logdisplay.w - move_handle[6] end, y=function(self) return self.logdisplay.h - move_handle[6] end, name="Game Log"},
-		chatlog = {x=function(self) return profile.chat.w - move_handle[6] end, y=function(self) return profile.chat.h - move_handle[6] end, name="Online Chat Log"},
-		hotkeys = {x=function(self) return self.places.hotkeys.w - move_handle[6] end, y=function(self) return self.places.hotkeys.h - move_handle[6] end, name="Hotkeys"},
-		mainicons = {x=0, y=0, name="Game Actions"},
+		player = {x=296, y=73, name=_t"Player Infos"},
+		resources = {x=fshat[6] / 2 - move_handle[6], y=0, name=_t"Resources"},
+		minimap = {x=208, y=176, name=_t"Minimap"},
+		buffs = {x=40 - move_handle[6], y=0, name=_t"Current Effects"},
+		party = {x=portrait[6] - move_handle[6], y=0, name=_t"Party Members"},
+		gamelog = {x=function(self) return self.logdisplay.w - move_handle[6] end, y=function(self) return self.logdisplay.h - move_handle[6] end, name=_t"Game Log"},
+		chatlog = {x=function(self) return profile.chat.w - move_handle[6] end, y=function(self) return profile.chat.h - move_handle[6] end, name=_t"Online Chat Log"},
+		hotkeys = {x=function(self) return self.places.hotkeys.w - move_handle[6] end, y=function(self) return self.places.hotkeys.h - move_handle[6] end, name=_t"Hotkeys"},
+		mainicons = {x=0, y=0, name=_t"Game Actions"},
 	}
 
 	self:resetPlaces()
@@ -358,7 +359,7 @@ end
 
 function _M:getMainMenuItems()
 	return {
-		{"Reset interface positions", function() Dialog:yesnoPopup("Reset UI", "Reset all the interface?", function(ret) if ret then
+		{_t"Reset interface positions", function() Dialog:yesnoPopup(_t"Reset UI", _t"Reset all the interface?", function(ret) if ret then
 			self:resetPlaces() self:saveSettings() 
 		end end) end},
 	}
@@ -466,6 +467,7 @@ function _M:activate()
 
 	self.buff_font = core.display.newFont(font_mono, size_mono * 2, true)
 	self.buff_font_small = core.display.newFont(font_mono, size_mono * 1.4, true)
+	self.buff_font_smallmed = core.display.newFont(font_mono, size_mono * 1.2, true)
 	self.buff_font_smaller = core.display.newFont(font_mono, size_mono * 1, true)
 
 	self.hotkeys_display_text = HotkeysDisplay.new(nil, self.places.hotkeys.x, self.places.hotkeys.y, self.places.hotkeys.w, self.places.hotkeys.h, nil, font_mono, size_mono)
@@ -570,7 +572,7 @@ end
 
 function _M:getMapSize()
 	local w, h = core.display.size()
-	return 0, 0, w, (self.map_h_stop or 80) - 16
+	return 0, 0, w, (self.map_h_stop or 80)
 end
 
 function _M:uiMoveResize(what, button, mx, my, xrel, yrel, bx, by, event, mode, on_change, add_text)
@@ -578,7 +580,7 @@ function _M:uiMoveResize(what, button, mx, my, xrel, yrel, bx, by, event, mode, 
 
 	mode = mode or "rescale"
 
-	game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, self.mhandle_pos[what].name.."\n---\nLeft mouse drag&drop to move the frame\nRight mouse drag&drop to scale up/down\nMiddle click to reset to default scale"..(add_text or ""))
+	game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, ("%s\n---\nLeft mouse drag&drop to move the frame\nRight mouse drag&drop to scale up/down\nMiddle click to reset to default scale%s"):tformat(self.mhandle_pos[what].name, (add_text or "")))
 	if event == "button" and button == "middle" then self.places[what].scale = 1 self:saveSettings()
 	elseif event == "motion" and button == "left" then
 		self.ui_moving = what
@@ -695,16 +697,16 @@ function _M:showResourceTooltip(x, y, w, h, id, desc, is_first)
 								list[#list+1] = {name=res_def.name, id=rname}
 							end
 						end
-						if player:knowTalent(player.T_FEEDBACK_POOL) then list[#list+1] = {name="Feedback", id="feedback"} end
-						if player.is_fortress and player:hasQuest("shertul-fortress") then list[#list+1] = {name="Fortress Energy", id="fortress"} end
+						if player:knowTalent(player.T_FEEDBACK_POOL) then list[#list+1] = {name=_t"Feedback", id="feedback"} end
+						if player.is_fortress and player:hasQuest("shertul-fortress") then list[#list+1] = {name=_t"Fortress Energy", id="fortress"} end
 						
-						Dialog:listPopup("Display/Hide resources", "Toggle:", list, 300, util.bound((8+#list)*(self.init_font_h+1), 14*(self.init_font_h+1), game.h*.75), function(sel)
+						Dialog:listPopup(_t"Display/Hide resources", _t"Toggle:", list, 300, util.bound((8+#list)*(self.init_font_h+1), 14*(self.init_font_h+1), game.h*.75), function(sel)
 							if not sel or not sel.id then return end
 							game.player["_hide_resource_"..sel.id] = not game.player["_hide_resource_"..sel.id]
 						end)
 						return
 					end
-					self:uiMoveResize("resources", button, mx, my, xrel, yrel, bx, by, event, nil, nil, "\nRight click to toggle resources bars visibility")
+					self:uiMoveResize("resources", button, mx, my, xrel, yrel, bx, by, event, nil, nil, _t"\nRight click to toggle resources bars visibility")
 					return
 				end
 			end
@@ -767,10 +769,14 @@ function _M:displayResources(scale, bx, by, a)
 		-- Life & shield
 		sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a)
 		bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a)
-		if life_sha.shad then life_sha:setUniform("a", a) life_sha.shad:use(true) end
-		local p = math.min(1, math.max(0, player.life / player.max_life))
-		shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], life_c[1], life_c[2], life_c[3], a)
+		local bar_c = player.life < 0 and neg_life_c or life_c
+		if life_sha.shad then life_sha:setUniform("a", a) life_sha:setUniform("color", bar_c) life_sha.shad:use(true) end
+		local p = math.min(1, math.max(0, (player.life - player.die_at) / (player.max_life - player.die_at)))
+		shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], bar_c[1], bar_c[2], bar_c[3], a)
 		if life_sha.shad then life_sha.shad:use(false) end
+		if player.die_at ~= 0 then
+			core.display.drawQuad(x+49 + shat[6] * (-player.die_at / (player.max_life - player.die_at)), y+10, 2, shat[7], 0, 0, 0, 255)
+		end
 
 		local life_regen = player.life_regen * util.bound((player.healing_factor or 1), 0, 2.5)
 		if not self.res.life or self.res.life.vc ~= player.life or self.res.life.vm ~= player.max_life or self.res.life.vr ~= life_regen then
@@ -787,6 +793,7 @@ function _M:displayResources(scale, bx, by, a)
 		if player:attr("time_shield") then shield = shield + (player.time_shield_absorb or 0) max_shield = max_shield + (player.time_shield_absorb_max or 0) end
 		if player:attr("damage_shield") then shield = shield + (player.damage_shield_absorb or 0) max_shield = max_shield + (player.damage_shield_absorb_max or 0) end
 		if player:attr("displacement_shield") then shield = shield + (player.displacement_shield or 0) max_shield = max_shield + (player.displacement_shield_max or 0) end
+		if player:attr("disruption_shield_power") then shield = shield + (player.disruption_shield_power or 0) max_shield = max_shield + (player:callTalent(player.T_DISRUPTION_SHIELD, "getMaxAbsorb") or 0) end
 		
 		local front = fshat_life_dark
 		if max_shield > 0 then
@@ -915,7 +922,7 @@ function _M:displayResources(scale, bx, by, a)
 			
 			if not self.res.feedback or self.res.feedback.vc ~= player:getFeedback() or self.res.feedback.vm ~= player:getMaxFeedback() or self.res.feedback.vr ~= player:getFeedbackDecay() then
 				self.res.feedback = {
-					hidable = "Feedback",
+					hidable = _t"Feedback",
 					vc = player:getFeedback(), vm = player:getMaxFeedback(), vr = player:getFeedbackDecay(),
 					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(player:getFeedback(), player:getMaxFeedback()), 255, 255, 255):glTexture()},
 					regen={core.display.drawStringBlendedNewSurface(sfont_sha, ("%+0.2f"):format(-player:getFeedbackDecay()), 255, 255, 255):glTexture()},
@@ -1046,41 +1053,41 @@ function _M:displayResources(scale, bx, by, a)
 				surf[1]:toScreenFull(_x, _y, surf[6], surf[7], surf[2], surf[3], 1, 1, 1, a)
 			end
 			if arena.score > world.arena.scores[1].score then
-				aprint(px, py, ("Score[1st]: %d"):format(arena.score), 255, 255, 100)
+				aprint(px, py, ("Score[1st]: %d"):tformat(arena.score), 255, 255, 100)
 			else
-				aprint(px, py, ("Score: %d"):format(arena.score), 255, 255, 255)
+				aprint(px, py, ("Score: %d"):tformat(arena.score), 255, 255, 255)
 			end
 			local _event = ""
 			if arena.event > 0 then
 				if arena.event == 1 then
-					_event = "[MiniBoss]"
+					_event = _t"[MiniBoss]"
 				elseif arena.event == 2 then
-					_event = "[Boss]"
+					_event = _t"[Boss]"
 				elseif arena.event == 3 then
-					_event = "[Final]"
+					_event = _t"[Final]"
 				end
 			end
 			py = py + h
 			if arena.currentWave > world.arena.bestWave then
-				aprint(px, py, ("Wave(TOP) %d %s"):format(arena.currentWave, _event), 255, 255, 100)
+				aprint(px, py, ("Wave(TOP) %d %s"):tformat(arena.currentWave, _event), 255, 255, 100)
 			elseif arena.currentWave > world.arena.lastScore.wave then
-				aprint(px, py, ("Wave %d %s"):format(arena.currentWave, _event), 100, 100, 255)
+				aprint(px, py, ("Wave %d %s"):tformat(arena.currentWave, _event), 100, 100, 255)
 			else
-				aprint(px, py, ("Wave %d %s"):format(arena.currentWave, _event), 255, 255, 255)
+				aprint(px, py, ("Wave %d %s"):tformat(arena.currentWave, _event), 255, 255, 255)
 			end
 			py = py + h
 			if arena.pinch == true then
-				aprint(px, py, ("Bonus: %d (x%.1f)"):format(arena.bonus, arena.bonusMultiplier), 255, 50, 50)
+				aprint(px, py, ("Bonus: %d (x%.1f)"):tformat(arena.bonus, arena.bonusMultiplier), 255, 50, 50)
 			else
-				aprint(px, py, ("Bonus: %d (x%.1f)"):format(arena.bonus, arena.bonusMultiplier), 255, 255, 255)
+				aprint(px, py, ("Bonus: %d (x%.1f)"):tformat(arena.bonus, arena.bonusMultiplier), 255, 255, 255)
 			end
 			py = py + h
 			if arena.display then
 				aprint(px, py, arena.display[1], 255, 0, 255)
-				aprint(px, py + h, " VS", 255, 0, 255)
+				aprint(px, py + h, _t" VS", 255, 0, 255)
 				aprint(px, py + h + h,  arena.display[2], 255, 0, 255)
 			else
-				aprint(px, py, "Rank: "..arena.printRank(arena.rank, arena.ranks), 255, 255, 255)
+				aprint(px, py, _t"Rank: "..arena.printRank(arena.rank, arena.ranks), 255, 255, 255)
 			end
 		end
 
@@ -1107,7 +1114,7 @@ function _M:displayResources(scale, bx, by, a)
 			if not self.res.save or self.res.save.vc ~= p then
 				self.res.save = {
 					vc = p,
-					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("Saving... %d%%"):format(p * 100), 255, 255, 255):glTexture()},
+					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("Saving... %d%%"):tformat(p * 100), 255, 255, 255):glTexture()},
 				}
 			end
 			local dt = self.res.save.cur
@@ -1144,14 +1151,14 @@ function _M:handleEffect(player, eff_id, e, p, x, y, hs, bx, by, is_first, scale
 	if not self.tbuff[eff_id..":"..dur..":"..charges] then
 		local name = e.desc
 		local desc = nil
-		local eff_subtype = table.concat(table.keys(e.subtype), "/")
+		local eff_subtype = table.concat(table.ts(table.keys(e.subtype), "effect subtype"), "/")
 		if e.display_desc then name = e.display_desc(self, p) end
 		if p.save_string and p.amount_decreased and p.maximum and p.total_dur then
-			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):format(name, e.type, eff_subtype)..e.long_desc(player, p).." "..("%s reduced the duration of this effect by %d turns, from %d to %d."):format(p.save_string, p.amount_decreased, p.maximum, p.total_dur)
+			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):format(name, _t(e.type), eff_subtype)..e.long_desc(player, p).." "..("%s reduced the duration of this effect by %d turns, from %d to %d."):tformat(p.save_string, p.amount_decreased, p.maximum, p.total_dur)
 		else
-			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):format(name, e.type, eff_subtype)..e.long_desc(player, p)
+			desc = ("#{bold}##GOLD#%s\n(%s: %s)#WHITE##{normal}#\n"):tformat(name, _t(e.type), eff_subtype)..e.long_desc(player, p)
 		end
-		if allow_remove then desc = desc.."\n---\nRight click to cancel early." end
+		if allow_remove then desc = desc.._t"\n---\nRight click to cancel early." end
 
 		local txt = nil
 		local txt2 = nil
@@ -1162,7 +1169,8 @@ function _M:handleEffect(player, eff_id, e, p, x, y, hs, bx, by, is_first, scale
 			txt.fw, txt.fh = font:size(dur)
 		end
 		if e.charges then
-			local font = e.decrease > 0 and self.buff_font_small or self.buff_font
+			local font = (e.decrease > 0 or e.charges_smallfont) and self.buff_font_smallmed or self.buff_font
+
 			txt2 = font:draw(charges, 40, colors.WHITE.r, colors.WHITE.g, colors.WHITE.b, true)[1]
 			txt2.fw, txt2.fh = font:size(charges)
 			dur = dur..":"..charges
@@ -1184,7 +1192,7 @@ function _M:handleEffect(player, eff_id, e, p, x, y, hs, bx, by, is_first, scale
 					p.dur = p.dur - 1
 				end
 			elseif allow_remove and event == "button" and button == "right" then
-				Dialog:yesnoPopup(name, "Really cancel "..name.."?", function(ret)
+				Dialog:yesnoPopup(name, ("Really cancel %s?"):tformat(name), function(ret)
 					if ret then
 						player:removeEffect(eff_id)
 					end
@@ -1239,9 +1247,9 @@ function _M:handleEffect(player, eff_id, e, p, x, y, hs, bx, by, is_first, scale
 					shader:uniOutlineSize(1, 1)
 					shader:uniTextSize(txt2._tex_w, txt2._tex_h)
 				else
-					txt2._tex:toScreenFull(x+4+2, y+4+2 + (32 - txt2.fh)/2+5, txt2.w, txt2.h, txt2._tex_w, txt2._tex_h, 0, 0, 0, 0.7)
+					txt2._tex:toScreenFull(x+4+1, y+4+6 + (32 - txt2.fh)/2+5, txt2.w, txt2.h, txt2._tex_w, txt2._tex_h, 0, 0, 0, 0.7)
 				end
-				txt2._tex:toScreenFull(x+4, y+4 + (32 - txt2.fh)/2+5, txt2.w, txt2.h, txt2._tex_w, txt2._tex_h, 0, 1, 0, 1)
+				txt2._tex:toScreenFull(x+3, y+8 + (32 - txt2.fh)/2+5, txt2.w, txt2.h, txt2._tex_w, txt2._tex_h, 0, 1, 0, 1)
 			end
 
 			if shader and (txt or txt2) then shader:use(false) end
@@ -1410,9 +1418,9 @@ function _M:displayParty(scale, bx, by)
 			if not self.party[a] then
 				local def = game.party.members[a]
 
-				local text = "#GOLD##{bold}#"..a.name.."\n#WHITE##{normal}#Life: "..math.floor(100 * a.life / a.max_life).."%\nLevel: "..a.level.."\n"..def.title
+				local text = ("#GOLD##{bold}#%s\n#WHITE##{normal}#Life: %d%%\nLevel: %d\n%s"):tformat(a:getName(), math.floor(100 * a.life / a.max_life), a.level, def.title)
 				if a.summon_time then
-					text = text.."\nTurns remaining: "..a.summon_time
+					text = text..("\nTurns remaining: %s"):tformat(a.summon_time)
 				end
 				local is_first = is_first
 				local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
@@ -1454,7 +1462,7 @@ function _M:displayParty(scale, bx, by)
 						p = (game.player == a) and portrait_lev or portrait_unsel_lev
 					end
 					p[1]:toScreenFull(x, y, p[6], p[7], p[2], p[3])
-					-- Display turns remaining on summon's portrait — Marson
+					-- Display turns remaining on summon's portrait ?? Marson
 					if a.summon_time and a.name ~= "shadow" then
 						local gtxt = self.party[a].txt_summon_time
 						if not gtxt or self.party[a].cur_summon_time ~= a.summon_time then
@@ -1557,7 +1565,7 @@ function _M:displayPlayer(scale, bx, by)
 	if not self.res.plevel or self.res.plevel.vc ~= player.level then
 		self.res.plevel = {
 			vc = player.level,
-			cur = {core.display.drawStringBlendedNewSurface(font_sha, "Lvl "..player.level, 255, 255, 255):glTexture()},
+			cur = {core.display.drawStringBlendedNewSurface(font_sha, ("Lvl %d"):tformat(player.level), 255, 255, 255):glTexture()},
 		}
 	end
 	local dt = self.res.plevel.cur
@@ -1586,20 +1594,23 @@ function _M:displayPlayer(scale, bx, by)
 
 			-- Attack/defend
 			if bx >= 22 and bx <= 22 + pf_defend[6] and by >= 67 and by <= 67 + pf_defend[7] then
-				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Toggle for movement mode.\nDefault: when trying to move onto a creature it will attack if hostile.\nPassive: when trying to move onto a creature it will not attack (use ctrl+direction, or right click to attack manually)")
+				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Toggle for movement mode.\nDefault: when trying to move onto a creature it will attack if hostile.\nPassive: when trying to move onto a creature it will not attack (use ctrl+direction, or right click to attack manually)")
 				if event == "button" and button == "left" then game.key:triggerVirtual("TOGGLE_BUMP_ATTACK") end
 			-- Character sheet
 			elseif bx >= 22 and bx <= 22 + 40 and by >= 22 and by <= 22 + 40 then
-				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Show character infos")
+				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Show character infos")
 				if event == "button" and button == "left" then game.key:triggerVirtual("SHOW_CHARACTER_SHEET") end
 			-- Levelup
 			elseif bx >= 269 and bx <= 269 + pf_levelup[6] and by >= 78 and by <= 78 + pf_levelup[7] and (player.unused_stats > 0 or player.unused_talents > 0 or player.unused_generics > 0 or player.unused_talents_types > 0) then
-				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Click to assign stats and talents!")
+				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Click to assign stats and talents!")
 				if event == "button" and button == "left" then game.key:triggerVirtual("LEVELUP") end
 			-- MTX
 			elseif bx >= 298 + pf_mtx_x and bx <= 298 + pf_mtx_x + pf_mtx[6] and by >= 6 + pf_mtx_y and by <= 6 + pf_mtx_y + pf_mtx[7] and profile:canMTXN() then
-				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Show available cosmetic & fun microtransation")
-				if event == "button" and button == "left" then game.key:triggerVirtual("MTXN_PURCHASE") end
+				game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Show available cosmetic & fun microtransation")
+				if event == "button" and button == "left" then
+					package.loaded["engine.dialogs.microtxn.MTXMain"] = nil
+					game:registerDialog(require("engine.dialogs.microtxn.MTXMain").new())
+				end
 			-- Move handle
 			elseif not self.locked and bx >= self.mhandle_pos.player.x and bx <= self.mhandle_pos.player.x + move_handle[6] and by >= self.mhandle_pos.player.y and by <= self.mhandle_pos.player.y + move_handle[7] then
 				self:uiMoveResize("player", button, mx, my, xrel, yrel, bx, by, event)
@@ -1641,7 +1652,7 @@ function _M:displayMinimap(scale, bx, by)
 			else self.mhandle.minimap = true end
 			if self.no_minimap then return end
 
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to move\nRight mouse to scroll\nMiddle mouse to show full map")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to move\nRight mouse to scroll\nMiddle mouse to show full map")
 
 			-- Move handle
 			if not self.locked and bx >= self.mhandle_pos.minimap.x and bx <= self.mhandle_pos.minimap.x + move_handle[6] and by >= self.mhandle_pos.minimap.y and by <= self.mhandle_pos.minimap.y + move_handle[7] then
@@ -1802,7 +1813,7 @@ function _M:displayHotkeys(scale, bx, by)
 			self.hotkeys_display:onMouse(button, mx, my, event == "button",
 				function(text)
 					text = text:toTString()
-					text:add(true, "---", true, {"font","italic"}, {"color","GOLD"}, "Left click to use", true, "Right click to configure", true, "Press 'm' to setup", {"color","LAST"}, {"font","normal"})
+					text:add(true, "---", true, {"font","italic"}, {"color","GOLD"}, _t"Left click to use", true, _t"Right click to configure", true, _t"Press 'm' to setup", {"color","LAST"}, {"font","normal"})
 					game:tooltipDisplayAtMap(game.w, game.h, text)
 				end,
 				function(i, hk)
@@ -1811,7 +1822,7 @@ function _M:displayHotkeys(scale, bx, by)
 						d:use({talent=hk[2], name=game.player:getTalentFromId(hk[2]).name}, "right")
 						return true
 					elseif button == "right" and hk and hk[1] == "inventory" then
-						Dialog:yesnoPopup("Unbind "..hk[2], "Remove this object from your hotkeys?", function(ret) if ret then
+						Dialog:yesnoPopup(("Unbind %s"):tformat(hk[2]), _t"Remove this object from your hotkeys?", function(ret) if ret then
 							for i = 1, 12 * game.player.nb_hotkey_pages do
 								if game.player.hotkey[i] and game.player.hotkey[i][1] == "inventory" and game.player.hotkey[i][2] == hk[2] then game.player.hotkey[i] = nil end
 							end
@@ -1850,8 +1861,9 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_inven")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.inven = 0.6 return else self.tbbuttons.inven = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show inventory")
-			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("SHOW_INVENTORY") end
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show inventory\nRight mouse to show ingredients")
+			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("SHOW_INVENTORY")
+			elseif button == "right" and not xrel and not yrel and event == "button" then game:registerDialog(require("mod.dialogs.ShowIngredients").new(game.party)) end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_inven[6], tb_inven[7], desc_fct, nil, "tb_inven", true, scale)
 	end
@@ -1863,7 +1875,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_talents")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.talents = 0.6 return else self.tbbuttons.talents = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show known talents")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show known talents")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("USE_TALENTS") end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_talents[6], tb_talents[7], desc_fct, nil, "tb_talents", true, scale)
@@ -1876,7 +1888,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_quest")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.quest = 0.6 return else self.tbbuttons.quest = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show message/chat log.")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show message/chat log.")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("SHOW_MESSAGE_LOG") end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_quest[6], tb_quest[7], desc_fct, nil, "tb_quest", true, scale)
@@ -1889,9 +1901,9 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_lore")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.lore = 0.6 return else self.tbbuttons.lore = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show quest log.\nRight mouse to show all known lore.")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show quest log.\nRight mouse to show all known lore.")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("SHOW_QUESTS")
-			elseif button == "right" and not xrel and not yrel and event == "button" then game:registerDialog(require("mod.dialogs.ShowLore").new("Tales of Maj'Eyal Lore", game.party)) end
+			elseif button == "right" and not xrel and not yrel and event == "button" then game:registerDialog(require("mod.dialogs.ShowLore").new(_t"Tales of Maj'Eyal Lore", game.party)) end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_lore[6], tb_lore[7], desc_fct, nil, "tb_lore", true, scale)
 	end
@@ -1903,7 +1915,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("tb_mainmenu")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.mainmenu = 0.6 return else self.tbbuttons.mainmenu = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, "Left mouse to show main menu")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, _t"Left mouse to show main menu")
 			if button == "left" and not xrel and not yrel and event == "button" then game.key:triggerVirtual("EXIT") end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, tb_mainmenu[6], tb_mainmenu[7], desc_fct, nil, "tb_mainmenu", true, scale)
@@ -1917,7 +1929,7 @@ function _M:displayToolbar(scale, bx, by)
 		game.mouse:unregisterZone("padlock")
 		local desc_fct = function(button, mx, my, xrel, yrel, bx, by, event)
 			if event == "out" then self.tbbuttons.padlock = 0.6 return else self.tbbuttons.padlock = 1 end
-			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, self.locked and "Unlock all interface elements so they can be moved and resized." or "Lock all interface elements so they can not be moved nor resized.")
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, self.locked and _t"Unlock all interface elements so they can be moved and resized." or _t"Lock all interface elements so they can not be moved nor resized.")
 			if button == "left" and not xrel and not yrel and event == "button" then self:switchLocked() end
 		end
 		game.mouse:registerZone(bx + x * scale, by +y*scale, padlock[6], padlock[7], desc_fct, nil, "padlock", true, scale)
@@ -2056,7 +2068,7 @@ function _M:setupMouse(mouse)
 			end
 		end end
 		if item.url then
-			table.append(tooltips, tstring{"Clicking will open ", {"color", "LIGHT_BLUE"}, {"font", "italic"}, item.url, {"color", "WHITE"}, {"font", "normal"}, " in your browser"})
+			table.append(tooltips, (_t"Clicking will open#LIGHT_BLUE##{italic}#%s#WHITE##{normal}# in your browser"):toTString() )
 		end
 
 		local extra = {}
@@ -2072,18 +2084,18 @@ function _M:setupMouse(mouse)
 
 		local str = tstring{{"color","GOLD"}, {"font","bold"}, user.name, {"color","LAST"}, {"font","normal"}, true}
 		if (user.donator and user.donator ~= "none") or (user.status and user.status == 'dev') then
-			local text, color = "Donator", colors.WHITE
-			if user.status and user.status == 'dev' then text, color = "Developer", colors.CRIMSON
-			elseif user.status and user.status == 'mod' then text, color = "Moderator / Helper", colors.GOLD
-			elseif user.donator == "oneshot" then text, color = "Donator", colors.LIGHT_GREEN
-			elseif user.donator == "recurring" then text, color = "Recurring Donator", colors.LIGHT_BLUE end
+			local text, color = _t"Donator", colors.WHITE
+			if user.status and user.status == 'dev' then text, color = _t"Developer", colors.CRIMSON
+			elseif user.status and user.status == 'mod' then text, color = _t"Moderator / Helper", colors.GOLD
+			elseif user.donator == "oneshot" then text, color = _t"Donator", colors.LIGHT_GREEN
+			elseif user.donator == "recurring" then text, color = _t"Recurring Donator", colors.LIGHT_BLUE end
 			str:add({"color",unpack(colors.simple(color))}, text, {"color", "LAST"}, true)
 		end
-		str:add({"color","ANTIQUE_WHITE"}, "Playing: ", {"color", "LAST"}, user.current_char, true)
-		str:add({"color","ANTIQUE_WHITE"}, "Game: ", {"color", "LAST"}, user.module, "(", user.valid, ")",true)
+		str:add({"color","ANTIQUE_WHITE"}, _t"Playing: ", {"color", "LAST"}, user.current_char, true)
+		str:add({"color","ANTIQUE_WHITE"}, _t"Game: ", {"color", "LAST"}, user.module, "(", user.valid, ")",true)
 
 		if item.url then
-			str:add(true, "---", true, "Clicking will open ", {"color", "LIGHT_BLUE"}, {"font", "italic"}, item.url, {"color", "WHITE"}, {"font", "normal"}, " in your browser")
+			str:add(true, "---", true, _t"Clicking will open ", {"color", "LIGHT_BLUE"}, {"font", "italic"}, item.url, {"color", "WHITE"}, {"font", "normal"}, " in your browser")
 		end
 
 		local extra = {}
@@ -2095,20 +2107,20 @@ function _M:setupMouse(mouse)
 			extra.log_str = str
 			if button == "right" and event == "button" then
 				extra.add_map_action = {
-					{ name="Show chat user", fct=function() profile.chat:showUserInfo(user.login) end },
-					{ name="Whisper", fct=function() profile.chat:setCurrentTarget(false, user.login) profile.chat:talkBox() end },
-					{ name="Ignore", fct=function() Dialog:yesnoPopup("Ignore user", "Really ignore all messages from: "..user.login, function(ret) if ret then profile.chat:ignoreUser(user.login) end end) end },
-					{ name="Report user for bad behavior", fct=function()
-						game:registerDialog(require('engine.dialogs.GetText').new("Reason to report: "..user.login, "Reason", 4, 500, function(text)
+					{ name=_t"Show chat user", fct=function() profile.chat:showUserInfo(user.login) end },
+					{ name=_t"Whisper", fct=function() profile.chat:setCurrentTarget(false, user.login) profile.chat:talkBox() end },
+					{ name=_t"Ignore", fct=function() Dialog:yesnoPopup(_t"Ignore user", ("Really ignore all messages from: %s"):tformat(user.login), function(ret) if ret then profile.chat:ignoreUser(user.login) end end) end },
+					{ name=_t"Report user for bad behavior", fct=function()
+						game:registerDialog(require('engine.dialogs.GetText').new(("Reason to report: %s"):tformat(user.login), _t"Reason", 4, 500, function(text)
 							profile.chat:reportUser(user.login, text)
 							game.log("#VIOLET#", "Report sent.")
 						end))
 					end },
 				}
 				if profile.chat:isFriend(user.login) then
-					table.insert(extra.add_map_action, 3, { name="Remove Friend", fct=function() Dialog:yesnoPopup("Remove Friend", "Really remove "..user.login.." from your friends?", function(ret) if ret then profile.chat:removeFriend(user.login, user.id) end end) end })
+					table.insert(extra.add_map_action, 3, { name=_t"Remove Friend", fct=function() Dialog:yesnoPopup(_t"Remove Friend", ("Really remove %s from your friends?"):tformat(user.login), function(ret) if ret then profile.chat:removeFriend(user.login, user.id) end end) end })
 				else
-					table.insert(extra.add_map_action, 3, { name="Add Friend", fct=function() Dialog:yesnoPopup("Add Friend", "Really add "..user.login.." to your friends?", function(ret) if ret then profile.chat:addFriend(user.login, user.id) end end) end })
+					table.insert(extra.add_map_action, 3, { name=_t"Add Friend", fct=function() Dialog:yesnoPopup(_t"Add Friend", ("Really add %s to your friends?"):tformat(user.login), function(ret) if ret then profile.chat:addFriend(user.login, user.id) end end) end })
 				end
 			end
 		end

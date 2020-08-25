@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You set your mind toward a single goal: the destruction of all your foes.
 		Increases the maximum amount of vim you can store by %d.]]):
-		format(t.VimBonus(self, t))
+		tformat(t.VimBonus(self, t))
 	end,
 }
 
@@ -65,7 +65,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Reach out and touch the blood and health of your foes. Any creatures caught in the radius 2 ball will be unable to heal above their current life value (at the time of the casting) for %d turns.]]):
-		format(t.getDuration(self, t))
+		tformat(t.getDuration(self, t))
 	end,
 }
 
@@ -84,10 +84,15 @@ newTalent{
 
 		self.turn_procs.overkilling = true
 		local dam = (target.die_at - target.life) * t.getOversplash(self, t) / 100
-		local incdam = self.inc_damage
-		self.inc_damage = {}
+		
+		local incdam = {}
+		for t, v in pairs(self.inc_damage) do incdam[t] = -v end
+		local tmpid = self:addTemporaryValue("inc_damage", incdam)
+
 		local ok, err = pcall(function() self:project({type="ball", radius=2, selffire=false, x=target.x, y=target.y, talent=t}, target.x, target.y, DamageType.BLIGHT, dam, {type="acid"}) end)
-		self.inc_damage = incdam
+
+		self:removeTemporaryValue("inc_damage", tmpid)
+
 		self.turn_procs.overkilling = nil
 		if not ok then error(err) end
 	end,
@@ -100,7 +105,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[When you kill a creature, the remainder of the damage done will not be lost. Instead, %d%% of it will splash in a radius 2 as blight damage.
-		The splash damage will increase with your Spellpower.]]):format(t.getOversplash(self,t))
+		The splash damage will increase with your Spellpower.]]):tformat(t.getOversplash(self,t))
 	end,
 }
 
@@ -131,18 +136,18 @@ newTalent{
 	callbackPriorities={callbackOnHit = -1},  -- Before Bone Shield but after Rot
 	callbackOnHit = function(self, t, cb)
 		local eff = self:hasEffect(self.EFF_BLOOD_GRASP)
-		local life = self.max_life + (eff and eff.life or 0)
+		local max_life = self.max_life - (eff and eff.life or 0)
 		local l, c = t.getPower(self, t)
-		if cb.value >= self.max_life * l  / 100 then
+		if cb.value >= max_life * l  / 100 then
 		
 		local alt = {}
 		for tid, cd in pairs(self.talents_cd) do
-			if rng.percent(c) then alt[tid] = true end
+			if rng.percent(c) and not self:getTalentFromId(tid).fixed_cooldown then alt[tid] = true end
 		end
 		for tid, cd in pairs(alt) do
 			self:alterTalentCoolingdown(tid, -1)
 		end
-		game.logSeen(self, "#RED#The powerful blow energizes %s reducing their cooldowns!#LAST#", self.name)
+		game.logSeen(self, "#RED#The powerful blow energizes %s reducing their cooldowns!#LAST#", self:getName())
 		end
 		return cb.value
 
@@ -152,6 +157,6 @@ newTalent{
 		return ([[When you are dealt a blow that reduces your life by at least %d%%, you have a %d%% chance to reduce the remaining cooldown of all your talents by 1.
 		Temporary life from Sanguine Infusion will not count against the damage threshold.
 		The chance will increase with your Spellpower.]]):
-		format(l, c)
+		tformat(l, c)
 	end,
 }

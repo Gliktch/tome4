@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -28,9 +28,11 @@ newTalent{
 	tactical = { ATTACK = { FIRE = 2 } },
 	range = 10,
 	reflectable = true,
+	is_beam_spell = true,
 	proj_speed = 20,
 	requires_target = true,
 	target = function(self, t)
+		if thaumaturgyCheck(self) then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
 		local tg = {type="bolt", range=self:getTalentRange(t), talent=t, display={particle="bolt_fire", trail="firetrail"}}
 		if self:getTalentLevel(t) >= 5 then tg.type = "beam" end
 		return tg
@@ -39,20 +41,29 @@ newTalent{
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 25, 290) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
+		table.print(tg)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 		local grids = nil
-		if self:getTalentLevel(t) < 5 then
-			self:projectile(tg, x, y, DamageType.FIREBURN, self:spellCrit(t.getDamage(self, t)), function(self, tg, x, y, grids)
-				game.level.map:particleEmitter(x, y, 1, "flame")
-				if self:attr("burning_wake") then
-					game.level.map:addEffect(self, x, y, 4, engine.DamageType.INFERNO, self:attr("burning_wake"), 0, 5, nil, {type="inferno"}, nil, self:spellFriendlyFire())
-				end
-			end)
-		else
-			grids = self:project(tg, x, y, DamageType.FIREBURN, self:spellCrit(t.getDamage(self, t)))
+
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
+		if thaumaturgyCheck(self) then
+			grids = self:project(tg, x, y, DamageType.FIREBURN, dam)
 			local _ _, x, y = self:canProject(tg, x, y)
-			game.level.map:particleEmitter(self.x, self.y, tg.radius, "flamebeam", {tx=x-self.x, ty=y-self.y})
+			game.level.map:particleEmitter(self.x, self.y, tg.radius, "flamebeam_wide", {tx=x-self.x, ty=y-self.y})
+		else
+			if self:getTalentLevel(t) < 5 then
+				self:projectile(tg, x, y, DamageType.FIREBURN, dam, function(self, tg, x, y, grids)
+					game.level.map:particleEmitter(x, y, 1, "flame")
+					if self:attr("burning_wake") then
+						game.level.map:addEffect(self, x, y, 4, engine.DamageType.INFERNO, self:attr("burning_wake"), 0, 5, nil, {type="inferno"}, nil, self:spellFriendlyFire())
+					end
+				end)
+			else
+				grids = self:project(tg, x, y, DamageType.FIREBURN, dam)
+				local _ _, x, y = self:canProject(tg, x, y)
+				game.level.map:particleEmitter(self.x, self.y, tg.radius, "flamebeam", {tx=x-self.x, ty=y-self.y})
+			end
 		end
 
 		if self:attr("burning_wake") and grids then
@@ -71,7 +82,7 @@ newTalent{
 		return ([[Conjures up a bolt of fire, setting the target ablaze and doing %0.2f fire damage over 3 turns.
 		At level 5, it will create a beam of flames.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.FIRE, damage))
+		tformat(damDesc(self, DamageType.FIRE, damage))
 	end,
 }
 
@@ -99,6 +110,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.FIRE)
 		self:project(tg, x, y, DamageType.FLAMESHOCK, {dur=t.getStunDuration(self, t), dam=self:spellCrit(t.getDamage(self, t))})
 
 		if self:attr("burning_wake") then
@@ -121,7 +133,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Conjures up a cone of flame with radius %d. Any targets caught in the area will suffer Burning Shock, stunning them and dealing %0.2f fire damage over %d turns.
 		The damage will increase with your Spellpower.]]):
-		format(radius, damDesc(self, DamageType.FIRE, damage), stunduration)
+		tformat(radius, damDesc(self, DamageType.FIRE, damage), stunduration)
 	end,
 }
 
@@ -139,7 +151,7 @@ newTalent{
 	direct_hit = true,
 	requires_target = true,
 	target = function(self, t)
-		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=self:spellFriendlyFire(), talent=t, display={particle="bolt_fire", particle_args={size_factor=1.5}, trail="firetrail"}, sound_stop="talents/fireflash"}
+		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), player_selffire=true, selffire=self:spellFriendlyFire(), talent=t, display={particle="bolt_fire", particle_args={size_factor=1.5}, trail="firetrail"}, sound_stop="talents/fireflash"}
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 28, 330) end,
 	action = function(self, t)
@@ -167,7 +179,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Conjures up a bolt of fire that moves toward the target and explodes into a flash of fire, doing %0.2f fire damage in a radius of %d.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.FIRE, damage), radius)
+		tformat(damDesc(self, DamageType.FIRE, damage), radius)
 	end,
 }
 
@@ -176,8 +188,8 @@ newTalent{
 	type = {"spell/fire",4},
 	require = spells_req4,
 	points = 5,
-	mana = 100,
-	cooldown = 30,
+	mana = 30,
+	cooldown = 20,
 	tactical = { ATTACKAREA = { FIRE = 3 } },
 	range = 10,
 	radius = 5,
@@ -192,6 +204,7 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.FIRE)
 		local _ _, _, _, x, y = self:canProject(tg, x, y)
 		-- Add a lasting map effect
 		game.level.map:addEffect(self,
@@ -212,7 +225,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Raging flames burn foes and allies alike, doing %0.2f fire damage in a radius of %d each turn for %d turns.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.FIRE, damage), radius, duration)
+		tformat(damDesc(self, DamageType.FIRE, damage), radius, duration)
 	end,
 }
 

@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -127,7 +127,7 @@ end
 --- Replace some keywords in the given text
 -- @string text @playername@, @npcname@, @playerdescriptor.(.-)@
 function _M:replace(text)
-	text = text:gsub("@playername@", self.player.name):gsub("@npcname@", self.npc.name)
-	text = text:gsub("@playerdescriptor.(.-)@", function(what) return self.player.descriptor["fake_"..what] or self.player.descriptor[what] end)
+	text = text:noun_sub("@playername@", self.player:getName()):noun_sub("@npcname@", self.npc.getName and self.npc:getName() or _t(self.npc.name, "entity name"))
+	text = text:gsub("@playerdescriptor.(.-)@", function(what) return _t(self.player.descriptor["fake_"..what] or self.player.descriptor[what]) end)
 	return text
 end

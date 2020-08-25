@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[Welcome #LIGHT_GREEN#@name@#WHITE#.
+return _t[[Welcome #LIGHT_GREEN#@name@#WHITE#.
 You died ages ago, but that did not stop you. You were raised as an undead ghoul.
 
 Your Necromancer master has plans for you, but something is wrong: you seem to have kept your free will.

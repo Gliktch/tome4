@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,9 +18,60 @@
 -- darkgod@te4.org
 
 newTalent{
-	name = "Glacial Vapour",
+	name = "Ice Shards",
 	type = {"spell/water",1},
 	require = spells_req1,
+	points = 5,
+	mana = 12,
+	cooldown = 3,
+	tactical = { ATTACKAREA = { COLD = 1, stun = 1 } },
+	range = 10,
+	radius = 1,
+	is_beam_spell = true,
+	proj_speed = 8,
+	requires_target = true,
+	target = function(self, t)
+		if thaumaturgyCheck(self) then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()}
+		else return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t} end
+	end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 18, 200) end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y = self:getTarget(tg)
+		if not x or not y then return nil end
+
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
+		if thaumaturgyCheck(self) then
+			self:project(tg, x, y, DamageType.ICE, {chance=25, do_wet=true, dam=dam})
+			game.level.map:particleEmitter(self.x, self.y, tg.radius, "ice_beam_wide", {tx=x-self.x, ty=y-self.y})
+		else
+			self:project(tg, x, y, function(px, py)
+				local actor = game.level.map(px, py, Map.ACTOR)
+				if actor and actor ~= self then
+					local tg2 = {type="bolt", range=self:getTalentRange(t), talent=t, display={particle="arrow", particle_args={tile="particles_images/ice_shards"}}}
+					self:projectile(tg2, px, py, DamageType.ICE, {chance=25, do_wet=true, dam=dam}, {type="freeze"})
+				end
+			end)
+		end
+
+		game:playSoundNear(self, "talents/ice")
+		return true
+	end,
+	info = function(self, t)
+		local damage = t.getDamage(self, t)
+		return ([[Hurl ice shards at the targets in the selected area. Each shard travels slowly and does %0.2f ice damage, hitting all adjacent targets on impact with 25%% chance to freeze them.
+		If the target resists being frozen, it instead get wet.
+		If the target is wet the damage increases by 30%% and the ice freeze chance increases to 50%%.
+		This spell will never hit the caster.
+		The damage will increase with your Spellpower.]]):
+		tformat(damDesc(self, DamageType.COLD, damage))
+	end,
+}
+
+newTalent{
+	name = "Glacial Vapour",
+	type = {"spell/water",2},
+	require = spells_req2,
 	points = 5,
 	mana = 12,
 	cooldown = 8,
@@ -32,12 +83,13 @@ newTalent{
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
 	end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 4, 50) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 15, 70) end,
 	getDuration = function(self, t) return 8 end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.COLD)
 		local _ _, _, _, x, y = self:canProject(tg, x, y)
 		-- Add a lasting map effect
 		game.level.map:addEffect(self,
@@ -57,53 +109,7 @@ newTalent{
 		return ([[Glacial fumes rise from the ground, doing %0.2f cold damage in a radius of 3 each turn for %d turns.
 		Creatures that are wet will take 30%% more damage and have 15%% chance to get frozen.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.COLD, damage), duration)
-	end,
-}
-
-newTalent{
-	name = "Freeze",
-	type = {"spell/water", 2},
-	require = spells_req2,
-	points = 5,
-	random_ego = "attack",
-	mana = 14,
-	cooldown = function(self, t)
-		local mod = 1
-		if self:attr("freeze_next_cd_reduce") then mod = 1 - self.freeze_next_cd_reduce self:attr("freeze_next_cd_reduce", -self.freeze_next_cd_reduce) end
-		return math.floor(self:combatTalentLimit(t, 20, 8, 12, true)) * mod
-	end, -- Limit cooldown <20
-	tactical = { ATTACK = { COLD = 2.5 }, DISABLE = { stun = 1.5 } },
-	range = 10,
-	direct_hit = true,
-	reflectable = true,
-	requires_target = true,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 12, 180) * t.cooldown(self,t) / 6 end, -- Gradually increase burst potential with c/d
-	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 3, 7)) end,
-	action = function(self, t)
-		local tg = {type="hit", range=self:getTalentRange(t), talent=t}
-		local x, y = self:getTarget(tg)
-		if not x or not y then return nil end
-		local _ _, _, _, x, y = self:canProject(tg, x, y)
-		local target = game.level.map(x, y, Map.ACTOR)
-		if not x or not y then return nil end
-
-		local dam = self:spellCrit(t.getDamage(self, t))
-		self:project(tg, x, y, DamageType.COLD, dam, {type="freeze"})
-		self:project(tg, x, y, DamageType.FREEZE, {dur=t.getDuration(self, t), hp=70 + dam * 1.5})
-
-		if target and self:reactionToward(target) >= 0 then
-			self:attr("freeze_next_cd_reduce", 0.5)
-		end
-
-		game:playSoundNear(self, "talents/water")
-		return true
-	end,
-	info = function(self, t)
-		local damage = t.getDamage(self, t)
-		return ([[Condenses ambient water on a target, freezing it for %d turns and damaging it for %0.2f.
-		If this is used on a friendly target the cooldown is halved.
-		The damage will increase with your Spellpower.]]):format(t.getDuration(self, t), damDesc(self, DamageType.COLD, damage))
+		tformat(damDesc(self, DamageType.COLD, damage), duration)
 	end,
 }
 
@@ -129,6 +135,7 @@ newTalent{
 	action = function(self, t)
 		-- Add a lasting map effect
 		game.logSeen(self, "A #LIGHT_BLUE#wave of icy water#LAST# erupts from the ground!")
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.COLD)
 		game.level.map:addEffect(self,
 			self.x, self.y, t.getDuration(self, t),
 			DamageType.WAVE, {dam=t.getDamage(self, t), x=self.x, y=self.y, apply_wet=5},
@@ -153,7 +160,7 @@ newTalent{
 		The tidal wave lasts for %d turns.
 		All creatures hit gain the wet effect, which reduces their stun/freeze immunity by half and interacts with other cold spells.
 		The damage and duration will increase with your Spellpower.]]):
-		format(radius, damDesc(self, DamageType.COLD, damage/2), damDesc(self, DamageType.PHYSICAL, damage/2), duration)
+		tformat(radius, damDesc(self, DamageType.COLD, damage/2), damDesc(self, DamageType.PHYSICAL, damage/2), duration)
 	end,
 }
 
@@ -186,10 +193,17 @@ newTalent{
 	info = function(self, t)
 		local power = t.getPower(self, t)
 		local dur = t.getDuration(self, t)
+
+		local t_is = self:getTalentFromId(self.T_ICE_STORM)
+		local icestorm = self:getTalentFullDescription(t_is, self:getTalentLevelRaw(t))
+
 		return ([[You absorb latent cold around you, turning into an ice elemental - a shivgoroth - for %d turns.
 		While transformed, you do not need to breathe, gain access to the Ice Storm talent at level %d, gain %d%% resistance to cuts and stuns, gain %d%% cold resistance, and all cold damage heals you for %d%% of the damage done.
-		The power will increase with your Spellpower.]]):
-		format(dur, self:getTalentLevelRaw(t), power * 100, power * 100 / 2, 50 + power * 100)
+		The power will increase with your Spellpower.
+
+		#AQUAMARINE#Ice storm:#LAST#
+		%s]]):
+		tformat(dur, self:getTalentLevelRaw(t), power * 100, power * 100 / 2, 50 + power * 100, tostring(icestorm or ""))
 	end,
 }
 
@@ -211,6 +225,7 @@ newTalent{
 	getDuration = function(self, t) return 5 + self:combatSpellpower(0.05) + self:getTalentLevel(t) end,
 	action = function(self, t)
 		-- Add a lasting map effect
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.COLD)
 		game.level.map:addEffect(self,
 			self.x, self.y, t.getDuration(self, t),
 			DamageType.ICE_STORM, t.getDamage(self, t),
@@ -231,9 +246,9 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[A furious ice storm rages around the caster ,doing %0.2f cold damage in a radius of 3 each turn for %d turns.
+		return ([[A furious ice storm rages around the caster, doing %0.2f cold damage in a radius of 3 each turn for %d turns.
 		It has a 25%% chance to freeze damaged targets.
 		If the target is wet the damage increases by 30%% and the freeze chance increases to 50%%.
-		The damage and duration will increase with your Spellpower.]]):format(damDesc(self, DamageType.COLD, damage), duration)
+		The damage and duration will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.COLD, damage), duration)
 	end,
 }

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -28,10 +28,9 @@ newTalent{
 	range = 1,
 	is_melee = true,
 	tactical = { ATTACK = { PHYSICAL = 1, COLD = 1, FIRE = 1, LIGHTNING = 1, ACID = 1 } },
-	on_pre_use = function(self, t, silent) if not self:hasMHWeapon() then if not silent then game.logPlayer(self, "You require a mainhand weapon to use this talent.") end return false end return true end,
 	requires_target = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
-	getWeaponDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1.6, 2.3) end,
+	getWeaponDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1.2, 2.0) end,
 	getBurstDamage = function(self, t) return self:combatTalentMindDamage(t, 20, 230) end,
 	getPassiveSpeed = function(self, t) return (self:combatTalentScale(t, 2, 10, 0.5)/100) end,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 1.5, 3.5)) end,
@@ -50,7 +49,7 @@ newTalent{
 		-- We need to alter behavior slightly to accomodate shields since they aren't used in attackTarget
 		local attack_mode = function(self, target, dt, dam)
 			local shield, shield_combat = self:hasShield()
-			local weapon = self:hasMHWeapon().combat
+			local weapon = self:hasMHWeapon() and self:hasMHWeapon().combat or self.combat
 			if not shield then
 				self:attackTarget(target, dt, dam, true)
 			else
@@ -101,7 +100,7 @@ newTalent{
 		Additionally, you will cause a burst that deals %0.2f of that damage to creatures in radius %d, regardless of if you hit with the blow.
 		Levels in Prismatic Slash increase your Physical and Mental attack speeds by %d%%.
 
-		This talent will also attack with your shield, if you have one equipped.]]):format(100 * self:combatTalentWeaponDamage(t, 1.2, 2.0), burstdamage, radius, 100*speed)
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1.2, 2.0), burstdamage, radius, 100*speed)
 	end,
 }
 
@@ -113,7 +112,7 @@ newTalent{
 	random_ego = "attack",
 	equilibrium = 12,
 	cooldown = 12,
-	message = "@Source@ breathes venom!",
+	message = _t"@Source@ breathes venom!",
 	tactical = { ATTACKAREA = { poison = 2 } },
 	range = 0,
 	radius = function(self, t) return math.min(13, math.floor(self:combatTalentScale(t, 5, 9))) end,
@@ -160,7 +159,7 @@ newTalent{
 		return ([[You breathe crippling poison in a frontal cone of radius %d. Any target caught in the area will take %0.2f nature damage each turn for 6 turns.
 		The poison also gives enemies a %d%% chance to fail actions more complicated than basic attacks and movement, while it is in effect.
 		The damage will increase with your Strength, and the critical chance is based on your Mental crit rate.
-		Each point in Venomous Breath also increases your nature resistance by 3%%, and your nature damage by 4%%.]] ):format(self:getTalentRadius(t), damDesc(self, DamageType.NATURE, t.getDamage(self,t)/6), effect)
+		Each point in Venomous Breath also increases your nature resistance by 3%%, and your nature damage by 4%%.]] ):tformat(self:getTalentRadius(t), damDesc(self, DamageType.NATURE, t.getDamage(self,t)/6), effect)
 	end,
 }
 
@@ -172,18 +171,14 @@ newTalent{
 	mode = "passive",
 	resistKnockback = function(self, t) return self:combatTalentLimit(t, 1, .17, .5) end, -- Limit < 100%
 	resistBlindStun = function(self, t) return self:combatTalentLimit(t, 1, .07, .25) end, -- Limit < 100%
-	getStat = function(self, t) return self:combatTalentScale(t, 1, 12) end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "knockback_immune", t.resistKnockback(self, t))
 		self:talentTemporaryValue(p, "stun_immune", t.resistBlindStun(self, t))
 		self:talentTemporaryValue(p, "blind_immune", t.resistBlindStun(self, t))
-		self:talentTemporaryValue(p, "inc_stats", {[self.STAT_STR] = t.getStat(self, t)})
-		self:talentTemporaryValue(p, "inc_stats", {[self.STAT_WIL] = t.getStat(self, t)})
 	end,
 	info = function(self, t)
 		return ([[You have mastered your draconic nature.
-		Your Strength and Willpower are increased by %d.
-		You gain %d%% knockback resistance, and your blindness and stun resistances are increased by %d%%.]]):format(t.getStat(self, t), 100*t.resistKnockback(self, t), 100*t.resistBlindStun(self, t))
+		You gain %d%% knockback resistance, and your blindness and stun resistances are increased by %d%%.]]):tformat(100*t.resistKnockback(self, t), 100*t.resistBlindStun(self, t))
 	end,
 }
 
@@ -193,9 +188,10 @@ newTalent{
 	require = gifts_req_high4,
 	points = 5,
 	mode = "passive",
-	getDamageIncrease = function(self, t) return self:combatTalentScale(t, 2.5, 20) end,
+	no_npc_use = true, -- breaths are high damage on rares already; should really change this to be less binary in general, this is weird design
+	getDamageIncrease = function(self, t) return self:combatTalentLimit(t, 50, 5, 15) end, -- Limit < 50%
 	getResists = function(self, t) return self:combatTalentScale(t, 0.6, 2.5) end,
-	getResistPen = function(self, t) return self:combatTalentLimit(t, 50, 5, 30) end, -- Limit < 50%
+	getResistPen = function(self, t) return self:combatTalentLimit(t, 50, 5, 15) end, -- Limit < 50%
 	passives = function(self, t, p)
 		local dam_inc = t.getDamageIncrease(self, t)
 		local resists = t.getResists(self, t)
@@ -236,6 +232,6 @@ newTalent{
 		Your resistance to these elements is increased by %0.1f%% and all damage you deal with them is increased by %0.1f%% with %0.1f%% resistance penetration.
 
 		Learning this talent will add a Willpower bonus to your breath talent damage with the same scaling as Strength, effectively doubling it when the stats are equal.]])
-		:format(t.getResists(self, t), t.getDamageIncrease(self, t), t.getResistPen(self, t))
+		:tformat(t.getResists(self, t), t.getDamageIncrease(self, t), t.getResistPen(self, t))
 	end,
 }

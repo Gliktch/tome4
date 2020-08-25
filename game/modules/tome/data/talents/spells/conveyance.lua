@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -55,14 +55,21 @@ local teleport_tactical = function(self, t, aitarget)
 	return tacs
 end
 
+-- Reduce accuracy when teleporting to the target based on their distance
+local closeinSpread = function(self, t, aitarget)
+	local dist = core.fov.distance(self.x, self.y, aitarget.x, aitarget.y)
+	local tx, ty = self:aiSeeTargetPos(aitarget, dist, 20)  -- Add distance to target to the random spread radius, cap total spread at 20
+	return tx, ty
+end
+
 newTalent{
 	name = "Phase Door",
 	type = {"spell/conveyance",1},
 	require = spells_req1,
 	points = 5,
 	random_ego = "utility",
-	mana = function(self, t) return game.zone and game.zone.force_controlled_teleport and 1 or 30 end,
-	cooldown = function(self, t) return game.zone and game.zone.force_controlled_teleport and 3 or 12 end,
+	mana = function(self, t) return self:attr("phase_door_force_precise") and 1 or 30 end,
+	cooldown = function(self, t) return self:attr("phase_door_force_precise") and 3 or 12 end,
 	tactical = teleport_tactical,
 	getRange = function(self, t) return self:combatLimit(self:combatTalentSpellDamage(t, 10, 15), 40, 4, 0, 13.4, 9.4) end, -- Limit to range 40
 	range = function(self, t) return self:getTalentLevel(t) >= 4 and 10 or 0 end, -- for targeting enemies
@@ -98,15 +105,19 @@ newTalent{
 		local x, y = self.x, self.y
 		local range = t.getRange(self, t)
 		local radius = t.getRadius(self, t)
-		if self:getTalentLevel(t) >= 5 or game.zone.force_controlled_teleport then
+		if self:getTalentLevel(t) >= 5 or self:attr("phase_door_force_precise") then
 			game.logPlayer(self, "Select a teleport location...")
-			local tg = {type="ball", nolock=true, pass_terrain=true, nowarning=true, range=range, radius=radius, requires_knowledge=false}
-			if self.aiSeeTargetPos then -- ai code for NPCs
+			--copy the block_path function from the engine so that we can call it for normal block_path checks
+			local old_block_path = engine.Target.defaults.block_path
+			--use an adjusted block_path to check if we have a tile in LOS; display targeting in yellow if we don't so we can warn the player their spell may fizzle
+			--note: we only use this if the original block_path would permit targeting 
+			local tg = {type="ball", nolock=true, pass_terrain=true, nowarning=true, range=range, radius=radius, requires_knowledge=false, block_path=function(typ, lx, ly, for_highlights) if not self:hasLOS(lx, ly) and not old_block_path(typ, lx, ly, for_highlights) then return false, "unknown", true else return old_block_path(typ, lx, ly, for_highlights) end end}
+			if not self:playerControlled() then -- ai code for NPCs
 				tx, ty = self:aiSeeTargetPos(aitarget)
 				if self.ai_state.tactic == "closein" then -- NPC trying to close in
 					local dx, dy = self.x - tx, self.y - ty
 					if target == self then -- teleport ourselves to target
-						x, y = tx, ty
+						x, y = closeinSpread(self, t, aitarget)
 					else -- teleport target to ourselves
 						x, y = self.x, self.y
 					end
@@ -152,7 +163,7 @@ newTalent{
 		At level 4, it allows you to specify which creature to teleport.
 		At level 5, it allows you to choose the target area (radius %d).
 		If the target area is not in line of sight, there is a chance the spell will partially fail and teleport the target randomly.
-		The range will increase with your Spellpower.]]):format(range, radius)
+		The range will increase with your Spellpower.]]):tformat(range, radius)
 	end,
 }
 
@@ -202,15 +213,19 @@ newTalent{
 		local range = t.getRange(self, t)
 		local radius = t.getRadius(self, t)
 		local newpos
-		if self:getTalentLevel(t) >= 5 or game.zone.force_controlled_teleport then
+		if self:getTalentLevel(t) >= 5 or self:attr("phase_door_force_precise") then
 			game.logPlayer(self, "Select a teleport location...")
-			local tg = {type="ball", nolock=true, pass_terrain=true, nowarning=true, range=range, radius=radius, requires_knowledge=false}
-			if self.aiSeeTargetPos then -- ai code for NPCs
+			--copy the block_path function from the engine so that we can call it for normal block_path checks
+			local old_block_path = engine.Target.defaults.block_path
+			--use an adjusted block_path to check if we have a tile in LOS; display targeting in yellow if we don't so we can warn the player their spell may fizzle
+			--note: we only use this if the original block_path would permit targeting 
+			local tg = {type="ball", nolock=true, pass_terrain=true, nowarning=true, range=range, radius=radius, requires_knowledge=false, block_path=function(typ, lx, ly, for_highlights) if not self:hasLOS(lx, ly) and not old_block_path(typ, lx, ly, for_highlights) then return false, "unknown", true else return old_block_path(typ, lx, ly, for_highlights) end end}
+			if not self:playerControlled() then -- ai code for NPCs
 				tx, ty = self:aiSeeTargetPos(aitarget)
 				if self.ai_state.tactic == "closein" then -- NPC trying to close in
 					local dx, dy = self.x - tx, self.y - ty
 					if target == self then -- teleport ourselves to target
-						x, y = tx, ty
+						x, y = closeinSpread(self, t, aitarget)
 					else -- teleport target to ourselves
 						x, y = self.x, self.y
 					end
@@ -228,6 +243,7 @@ newTalent{
 			_, _, _, x, y = self:canProject(tg, x, y)
 			range = radius
 			-- Check LOS
+			-- Should this even be able to fizzle? The point of teleport is to go far away, i.e. out of line of sight, and teleport isn't particularly accurate anyway 
 			if not self:hasLOS(x, y) and rng.percent(35 + (game.level.map.attrs(self.x, self.y, "control_teleport_fizzle") or 0)) then
 				game.logPlayer(self, "The targetted teleport fizzles and works randomly!")
 				x, y = self.x, self.y
@@ -261,8 +277,9 @@ newTalent{
 		return ([[Teleports you randomly within a large range (%d).
 		At level 4, it allows you to specify which creature to teleport.
 		At level 5, it allows you to choose the target area (radius %d).
+		If the target area is not in line of sight, there is a chance the spell will partially fail and teleport the target randomly.
 		Random teleports have a minimum range of %d.
-		The range will increase with your Spellpower.]]):format(range, radius, t.minRange)
+		The range will increase with your Spellpower.]]):tformat(range, radius, t.minRange)
 	end,
 }
 
@@ -276,7 +293,7 @@ newTalent{
 	tactical = { DEFEND = 2 },
 	range = 8,
 	requires_target = true,
-	getTransferChange = function(self, t) return 40 + self:getTalentLevel(t) * 5 end,
+	getTransferChange = function(self, t) return math.min(40 + self:getTalentLevel(t) * 5, 100) end,
 	getMaxAbsorb = function(self, t) return 50 + self:combatTalentSpellDamage(t, 20, 400) end,
 	getDuration = function(self, t) return util.bound(10 + math.floor(self:getTalentLevel(t) * 3), 10, 25) end,
 	action = function(self, t)
@@ -294,13 +311,13 @@ newTalent{
 	end,
 	info = function(self, t)
 		local chance = t.getTransferChange(self, t)
-		local maxabsorb = t.getMaxAbsorb(self, t) * (100 + (self:attr("shield_factor") or 0)) / 100
-		local duration = t.getDuration(self, t)
+		local maxabsorb = self:getShieldAmount(t.getMaxAbsorb(self, t))
+		local duration = self:getShieldDuration(t.getDuration(self, t))
 		return ([[This intricate spell erects a space distortion around the caster that is linked to another distortion, placed around a target.
 		Any time the caster should take damage, there is a %d%% chance that it will instead be warped by the shield and hit the designated target.
 		Once the maximum damage (%d) is absorbed, the time runs out (%d turns), or the target dies, the shield will crumble.
 		The max damage the shield can absorb will increase with your Spellpower.]]):
-		format(chance, maxabsorb, duration)
+		tformat(chance, maxabsorb, duration)
 	end,
 }
 
@@ -312,6 +329,7 @@ newTalent{
 	points = 5,
 	cooldown = 40,
 	sustain_mana = 200,
+	no_npc_use = true,
 	tactical = { ESCAPE = 1, CLOSEIN = 1 },
 	getRange = function(self, t) return math.floor(self:combatScale(self:combatSpellpower(0.06) * self:getTalentLevel(t), 4, 0, 20, 16)) end,
 	activate = function(self, t)
@@ -332,6 +350,6 @@ newTalent{
 		Teleports up to %d grids.
 		After a successful probability travel you are left unstable, unable to do it again for a number of turns equal to %d%% of the number of tiles you blinked through.
 		The range will improve with your Spellpower.]]):
-		format(range, (2 + (5 - math.min(self:getTalentLevelRaw(t), 5)) / 2) * 100)
+		tformat(range, (2 + (5 - math.min(self:getTalentLevelRaw(t), 5)) / 2) * 100)
 	end,
 }

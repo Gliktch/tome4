@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -244,6 +244,8 @@ function _M:generate(lev, old_lev)
 			if rng.percent(self.data.segment_wide_chance) then self.map(i, j+1, Map.TERRAIN, self:resolve(self.map.room_map[i][j].segment)) end
 			if rng.percent(self.data.segment_wide_chance) then self.map(i, j-1, Map.TERRAIN, self:resolve(self.map.room_map[i][j].segment)) end
 		end
+		self.map.room_map[i][j].segment_group = nil
+		self.map.room_map[i][j].segment = nil
 	end end
 
 	-- Stairs

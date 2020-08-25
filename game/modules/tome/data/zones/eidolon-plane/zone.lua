@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return {
-	name = "Eidolon Plane",
+	name = _t"Eidolon Plane",
 	level_range = {1, 1},
 	level_scheme = "player",
 	max_level = 1,
@@ -174,6 +174,14 @@ return {
 			game.player:updateMainShader()
 			game.nicer_tiles:postProcessLevelTilesOnLoad(game.level)
 			game:onLevelLoadRun()
+
+			if game.level.data.effects then
+				for uid, act in pairs(game.level.entities) do
+					if act.setEffect then for _, effid in ipairs(game.level.data.effects) do
+						act:setEffect(effid, 1, {})
+					end end
+				end
+			end
 		end)
 	end,
 }

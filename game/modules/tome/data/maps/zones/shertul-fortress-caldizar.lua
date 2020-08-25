@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -39,8 +39,8 @@ defineTile("*", "COMMAND_ORB")
 -- addSpot section
 
 -- addZone section
-addZone({2, 2, 14, 14}, "zonename", "Control Room")
-addZone({19, 5, 26, 11}, "zonename", "Exploratory Farportal")
+addZone({2, 2, 14, 14}, "zonename", _t"Control Room")
+addZone({19, 5, 26, 11}, "zonename", _t"Exploratory Farportal")
 addZone({8, 8, 9, 9}, "particle", "house_orbcontrol")
 
 -- ASCII map section

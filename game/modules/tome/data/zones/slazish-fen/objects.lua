@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ for i = 1, 3 do
 newEntity{ base = "BASE_LORE",
 	define_as = "SLAZISH_NOTE"..i,
 	name = "weird conch", lore="slazish-note-"..i, image = "terrain/shell1.png",
-	desc = [[A conch; it seems the naga was using it as a communication tool.]],
+	desc = _t[[A conch; it seems the naga was using it as a communication tool.]],
 	rarity = false,
 	encumberance = 0,
 }
@@ -36,8 +36,8 @@ newEntity{ base = "BASE_CLOTH_ARMOR", define_as = "ROBES_DEFLECTION",
 	power_source = {arcane=true},
 	unique = true,
 	name = "Robes of Deflection", color = colors.UMBER, image = "object/artifact/robes_of_deflection.png",
-	unided_name = "iridescent robe",
-	desc = [[This set of robes seems to shine with metallic colors.]],
+	unided_name = _t"iridescent robe",
+	desc = _t[[This set of robes seems to shine with metallic colors.]],
 	level_range = {1, 10},
 	rarity = false,
 	cost = 70,
@@ -46,7 +46,7 @@ newEntity{ base = "BASE_CLOTH_ARMOR", define_as = "ROBES_DEFLECTION",
 		combat_armor_hardiness = 30,
 		combat_armor = 7,
 		inc_stats = { [Stats.STAT_CON] = 3, [Stats.STAT_MAG] = 3, },
-		combat_spellpower = 4,
+		combat_spellpower = 5,
 	},
 	talent_on_spell = { {chance=4, talent=Talents.T_EVASION, level=1} },
 }

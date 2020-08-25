@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -85,7 +85,7 @@ newTalent{
 
 		local def = self.tempeffect_def[curse]
 		local ego = Entity.new{
-			name = "curse",
+			name = _t"curse",
 			display_string = " ("..def.short_desc..")",
 			curse = curse,
 			fake_ego = true, unvault_ego = true,
@@ -162,21 +162,21 @@ newTalent{
 
 			if choose then
 				Dialog:yesnoLongPopup(
-					"Cursed Fate",
-					("The %s lying nearby catches your attention. What draws you to it is not the thing itself, but something burning inside you. You feel contempt for it and all worldly things. This feeling is not new but the power of it overwhelms you. You reach out to touch the object, to curse it, to defile it. And you notice it begin to change. The colors of it begin to fade and are replaced with an insatiable hate. For a moment you hesitate. You know you must choose to resist this manifestation of your curse now and forever, or fall further into your madness."):format(item.name),
+					_t"Cursed Fate",
+					("The %s lying nearby catches your attention. What draws you to it is not the thing itself, but something burning inside you. You feel contempt for it and all worldly things. This feeling is not new but the power of it overwhelms you. You reach out to touch the object, to curse it, to defile it. And you notice it begin to change. The colors of it begin to fade and are replaced with an insatiable hate. For a moment you hesitate. You know you must choose to resist this manifestation of your curse now and forever, or fall further into your madness."):tformat(item:getName()),
 					300,
 					function(ret)
 						if ret then
-							Dialog:simpleLongPopup("Cursed Fate", ("The %s lies defiled at your feet. An aura of hatred surrounds you and you now feel truly cursed. You have gained the Cursed Aura talent tree and 1 point in Defiling Touch, but at the cost of 2 Willpower."):format(item.name), 300)
+							Dialog:simpleLongPopup(_t"Cursed Fate", ("The %s lies defiled at your feet. An aura of hatred surrounds you and you now feel truly cursed. You have gained the Cursed Aura talent tree and 1 point in Defiling Touch, but at the cost of 2 Willpower."):tformat(item:getName()), 300)
 							self:learnTalentType("cursed/cursed-aura", true)
 							self:learnTalent(self.T_DEFILING_TOUCH, true, 1, {no_unlearn=true})
 							self:incIncStat(Stats.STAT_WIL, -2)
 						else
-							Dialog:simplePopup("Cursed Fate", ("The %s returns to normal and your hate subsides."):format(item.name))
+							Dialog:simplePopup(_t"Cursed Fate", ("The %s returns to normal and your hate subsides."):tformat(item:getName()))
 						end
 					end,
-					"Release your hate upon the object",
-					"Suppress your affliction")
+					_t"Release your hate upon the object",
+					_t"Suppress your affliction")
 			end
 			return choose
 		end
@@ -269,7 +269,7 @@ newTalent{
 		level 10 -- ammunition
 		At level 5, you can activate this talent to surround yourself with an aura that adds 2 levels to a curse of your choosing. (%s chosen)
 		Also, talent levels above 5 reduce the negative effects of your curses (currently %d%% reduction).]]):
-		format(t.getCursedAuraName(self, t), (1-t.cursePenalty(self, t))*100)
+		tformat(t.getCursedAuraName(self, t), (1-t.cursePenalty(self, t))*100)
 	end,
 }
 
@@ -296,7 +296,7 @@ newTalent{
 		local xs = t.curseBonusLevel(self,t)
 		return ([[Your curses bring you dark gifts. Unlocks bonus level %d effects on all of your curses, allowing you to gain that effect when the power level of your curse reaches that level. At talent level 5, the luck penalty of cursed effects is reduced to 1.
 		Talent levels above 5 add bonus power levels to your curses, increasing their effects (currently %0.1f).]]):
-		format(level, xs)
+		tformat(level, xs)
 	end,
 }
 
@@ -344,7 +344,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local incDamage = t.getIncDamage(self, t)
 
-		return ([[Curse the earth around you in a radius of %d for %d turns. Any who stand upon it are weakened, reducing the damage they inflict by %d%%]]):format(range, duration, incDamage)
+		return ([[Curse the earth around you in a radius of %d for %d turns. Any who stand upon it are weakened, reducing the damage they inflict by %d%%]]):tformat(range, duration, incDamage)
 	end,
 }
 
@@ -356,14 +356,14 @@ newTalent{
 	action = function(self, t)
 		local ct = self:getTalentFromId(self.T_CURSED_SENTRY)
 		local inven = self:getInven("INVEN")
-		local d = self:showInventory("Which weapon will be your sentry?", inven, function(o) return ct.filterObject(self, ct, o) end, nil)
+		local d = self:showInventory(_t"Which weapon will be your sentry?", inven, function(o) return ct.filterObject(self, ct, o) end, nil)
 		d.action = function(o, item) self:talentDialogReturn(true, o, item) return false end
 		local ret, o, item = self:talentDialog(d)
 		if not ret then return nil end
 		self.cursed_sentry = o
 		return true
 	end,
-	info = function(self, t) return [[Choose a sentry to instill your affliction into.]] end,
+	info = function(self, t) return _t[[Choose a sentry to instill your affliction into.]] end,
 }
 
 newTalent{
@@ -402,7 +402,11 @@ newTalent{
 		local tx, ty = self:getTarget(tg)
 		if not tx or not ty then return nil end
 		local _ _, _, _, x, y = self:canProject(tg, tx, ty)
-		if game.level.map(x, y, Map.ACTOR) or game.level.map:checkEntity(x, y, game.level.map.TERRAIN, "block_move") then return nil end
+		if game.level.map(x, y, Map.ACTOR) or game.level.map:checkEntity(x, y, game.level.map.TERRAIN, "block_move") then
+			local fx, fy = util.findFreeGrid(x, y, 3, true, {[Map.ACTOR]=true})
+			if not fx then return nil end
+			x, y = fx, fy
+		end
 
 		-- select the item
 		if not self.cursed_sentry or not self:findInInventoryByObject(inven, self.cursed_sentry) or not t.filterObject(self, t, self.cursed_sentry) then
@@ -423,10 +427,10 @@ newTalent{
 		local sentry = NPC.new {
 			type = "construct", subtype = "weapon",
 			display = o.display, color=o.color, image = o.image, blood_color = colors.GREY,
-			name = "animated "..o:getName(),
+			name = ("animated %s"):tformat(o:getName()),
 			neuter = true,
 			faction = self.faction,
-			desc = "A weapon imbued with a living curse. It seems to be searching for its next victim.",
+			desc = _t"A weapon imbued with a living curse. It seems to be searching for its next victim.",
 			faction = self.faction,
 			body = { INVEN = 10, MAINHAND=1, QUIVER=1 },
 			rank = 2,
@@ -481,7 +485,8 @@ newTalent{
 				-- Add weapon to inventory
 				local _, item, id = self:findInAllInventoriesByObject(self.cursed_item)
 				if item then self:removeObject(id, item) end
-				self.summoner:addObject(self.summoner.INVEN_INVEN, self.cursed_item )
+				self.summoner:addObject(self.summoner.INVEN_INVEN, self.cursed_item)
+				game.logPlayer(self.summoner, "#ffa0ff#%s returns to your bags!", self.cursed_item:getName{do_color=1})
 			end,
 		}
 
@@ -500,27 +505,19 @@ newTalent{
 		end
 
 		o.__special_boss_drop = nil  -- lol @ artifact transmutation
-		o.old_auto_pickup = o.auto_pickup
-		o.auto_pickup = true  -- allow to reautopickup
-		o.old_on_pickup = o.on_pickup
-		o.on_pickup = function(self, who)
-			self.auto_pickup = self.old_auto_pickup
-			self.on_pickup = self.old_on_pickup
-			if self.old_on_pickup then self.old_on_pickup(self, who) end
-		end
 		local charges = o.power --don't cool down any activatable abilities :)
 		result = sentry:wearObject(o, true, false)
 		o.power = charges
 		if not result then
 			game.logPlayer(self, "Your animated sentry struggles for a moment and then returns to your inventory inexplicably.")
-			self.summoner:addObject(self.summoner.INVEN_INVEN, self.cursed_item )
+			self:addObject(self.INVEN_INVEN, o)
 			return nil
 		end
 		local qo = nil
 		if o.archery then
 			local level = o.material_level or 1
 			-- Trying to replicate the ego pattern on the weapon. Kinky.
-			local egos = o.egos_number or (o.ego_list and #o.ego_list) or (e.egoed and 1) or 0
+			local egos = o.egos_number or (o.ego_list and #o.ego_list) or (o.egoed and 1) or 0
 			local greater = o.greater_ego or 0
 			local double_greater = (o.unique and egos == 0) or greater > 1  -- artifact or purple
 			local greater_normal = (o.unique and egos > 2) or greater == 1 and egos > 1 -- randart or blue
@@ -540,9 +537,10 @@ newTalent{
 		local stats = sentry.unused_stats
 		local use_stats = {}
 		local total = 0
-		local dammod = sentry:getDammod(o.combat.dammod or {})
+		local dammod = sentry:getDammod(o.combat or {})
 		if qo then
-			for stat, mod in pairs(sentry:getDammod(qo.combat.dammod or {})) do
+			dammod = {}
+			for stat, mod in pairs(sentry:getDammod(qo.combat or {})) do
 				dammod[stat] = (dammod[stat] or 0) + mod
 			end
 		end
@@ -567,7 +565,7 @@ newTalent{
 		sentry.cursed_item = o
 		if game.party:hasMember(self) then
 			sentry.remove_from_party_on_death = true
-			game.party:addMember(sentry, { control="no", type="summon", title="Summon"})
+			game.party:addMember(sentry, { control="no", type="summon", title=_t"Cursed Sentry"})
 		end
 
 		game:playSoundNear(self, "talents/spell_generic")
@@ -582,6 +580,6 @@ newTalent{
 			Cursed Sentry attack speed (currently %d%%) will improve with talent level.
 			When you first select a weapon, it will be remembered and used as long as it's in your inventory. Use Choose Cursed Sentry talent to alter your selection.
 			At talent level 3, you get the ability to afflict powerful mundane objects (greater egos).
-			At talent level 5, you can corrupt artifacts.]]):format(duration, attackSpeed)
+			At talent level 5, you can corrupt artifacts.]]):tformat(duration, attackSpeed)
 	end,
 }

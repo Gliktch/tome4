@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -116,7 +116,7 @@ newTalent{
 		if self:knowTalent(self.T_SOOTHING_DARKNESS) then
 			local shadowguard = self:knowTalent(self.T_SHADOWGUARD) and 25 or 0
 			local life = self:callTalent(self.T_SOOTHING_DARKNESS, "getLife") * 5
-			local sta = self:callTalent(self.T_SOOTHING_DARKNESS, "getStamina")
+			local sta = self:callTalent(self.T_SOOTHING_DARKNESS, "getStamina") * 5
 			local dur = self:callTalent(self.T_SOOTHING_DARKNESS, "getDuration")
 			self:setEffect(self.EFF_SOOTHING_DARKNESS, dur, {life=life, stamina=sta, shadowguard = shadowguard})
 		end
@@ -141,7 +141,7 @@ newTalent{
 	info = function(self, t)
 		local stealthpower = t.getStealthPower(self, t) + (self:attr("inc_stealth") or 0)
 		local radius, rad_dark = t.getRadius(self, t, true)
-		xs = rad_dark ~= radius and (" (range %d in an unlit grid)"):format(rad_dark) or ""
+		xs = rad_dark ~= radius and (" (range %d in an unlit grid)"):tformat(rad_dark) or ""
 		return ([[Enters stealth mode (power %d, based on Cunning), making you harder to detect.
 		If successful (re-checked each turn), enemies will not know exactly where you are, or may not notice you at all.
 		Stealth reduces your light radius to 0, increases your infravision by 3, and will not work with heavy or massive armours.
@@ -149,8 +149,8 @@ newTalent{
 		Any non-instant, non-movement action will break stealth if not otherwise specified.
 
 		Enemies uncertain of your location will still make educated guesses at it.
-		While stealthed, enemies cannot share information about your location with each other and will be delayed in relaying that you exist at all.]]):
-		format(stealthpower, radius, xs)
+		While stealthed, enemies cannot share information about your location with each other and will be delayed in telling their allies that you exist at all.]]):
+		tformat(stealthpower, radius, xs)
 	end,
 }
 
@@ -162,6 +162,7 @@ newTalent{
 	points = 5,
 	getMultiplier = function(self, t) return self:combatTalentScale(t, 0.15, 0.40, 0.1) end,
 	getDuration = function(self,t) if self:getTalentLevel(t) >= 3 then return 4 else return 3 end end,
+	no_npc_use = true,  -- Massive damage scaler on almost all forms of attack	
 	passives = function(self, t, p) -- attribute that increases crit multiplier vs targets that cannot see us
 		self:talentTemporaryValue(p, "unseen_critical_power", t.getMultiplier(self, t))
 	end,
@@ -171,7 +172,7 @@ newTalent{
 		return ([[You know how to make the most out of being unseen.
 		When striking from stealth, your attacks are automatically critical if the target does not notice you just before you land it.  (Spell and mind attacks critically strike even if the target notices you.)
 		Your critical multiplier against targets that cannot see you is increased by up to %d%%. (You must be able to see your target and the bonus is reduced from its full value at range 3 to 0 at range 10.)
-		Also, after exiting stealth for any reason, the critical multiplier persists for %d turns (with no range limitation).]]):format(multiplier, dur)
+		Also, after exiting stealth for any reason, the critical multiplier persists for %d turns (with no range limitation).]]):tformat(multiplier, dur)
 	end,
 }
 
@@ -191,8 +192,8 @@ newTalent{
 	info = function(self, t)
 		return ([[You have a special affinity for darkness and shadows.
 		When standing in an unlit grid, the minimum range to your foes for activating stealth or for maintaining it after a Shadow Dance is reduced by %d.
-		While stealthed, your life regeneration is increased by %0.1f (based on your Cunning) and your stamina regeneration is increased by %0.1f.  The regeneration effects persist for %d turns after exiting stealth, with 5 times the normal life regeneration rate.]]):
-		format(t.getRadius(self, t, true), t.getLife(self,t), t.getStamina(self,t), t.getDuration(self, t))
+		While stealthed, your life regeneration is increased by %0.1f (based on your Cunning) and your stamina regeneration is increased by %0.1f.  The regeneration effects persist for %d turns after exiting stealth, with 5 times the normal rate.]]):
+		tformat(t.getRadius(self, t, true), t.getLife(self,t), t.getStamina(self,t), t.getDuration(self, t))
 	end,
 }
 
@@ -219,6 +220,6 @@ newTalent{
 	info = function(self, t)
 		return ([[Your mastery of stealth allows you to vanish from sight at any time.
 		You automatically enter stealth and cause it to not break from unstealthy actions for %d turns.]]):
-		format(t.getDuration(self, t))
+		tformat(t.getDuration(self, t))
 	end,
 }

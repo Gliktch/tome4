@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[
+return _t[[
 This is fairly close to saying that you knock a turn off the duration of timed effects for every five points that your defensive #GOLD#combat stat#WHITE# score beats the attacker's offensive #GOLD#combat stat#WHITE#.
 
 There are some subtle differences, however.

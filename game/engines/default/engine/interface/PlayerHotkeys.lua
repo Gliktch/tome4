@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ module(..., package.seeall, class.make)
 _M.quickhotkeys = {}
 _M.quickhotkeys_specifics = {}
 
-_M.nb_hotkey_pages = 5
+_M.nb_hotkey_pages = 7
 
 function _M:init(t)
 	self.hotkey = self.hotkey or {}
@@ -161,7 +161,7 @@ function _M:activateHotkey(id)
 	if self.hotkey[id] then
 		self["hotkey"..self.hotkey[id][1]:capitalize()](self, self.hotkey[id][2])
 	else
-		Dialog:simplePopup("Hotkey not defined", "You may define a hotkey by pressing 'm' and following the instructions there.")
+		Dialog:simplePopup(_t"Hotkey not defined", _t"You may define a hotkey by pressing 'm' and following the instructions there.")
 	end
 end
 
@@ -174,7 +174,7 @@ end
 function _M:hotkeyInventory(name)
 	local o, item, inven = self:findInAllInventories(name)
 	if not o then
-		Dialog:simplePopup("Item not found", "You do not have any "..name..".")
+		Dialog:simplePopup(_t"Item not found", ("You do not have any %s ."):tformat(name))
 	else
 		self:playerUseItem(o, item, inven)
 	end
@@ -308,7 +308,7 @@ function _M:updateQuickHotkeys(actor)
 	end
 end
 
-local page_to_hotkey = {"", "SECOND_", "THIRD_", "FOURTH_", "FIFTH_"}
+local page_to_hotkey = {"", "SECOND_", "THIRD_", "FOURTH_", "FIFTH_", "SIX_", "SEVEN_"}
 
 function _M:bindAllHotkeys(key, fct)
 	for page = 1, self.nb_hotkey_pages do for x = 1, 12 do

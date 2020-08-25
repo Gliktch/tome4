@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 -- darkgod@te4.org
 
 newEntity{
-	type = "event",	subtype = "event", id_by_type=false, unided_name = "trap",
+	type = "event",	subtype = "event", id_by_type=false, unided_name = _t"trap",
 	display = ' ', color=colors.WHITE,
 	name = "creeping darkness",
 	detect_power = 99999, disarm_power = 99999,
 	rarity = 3, level_range = {1, nil},
 	pressure_trap = false,
-	message = "A creeping darkness spreads through the air!",
+	message = _t"A creeping darkness spreads through the air!",
 	triggered = function(self, x, y, who)
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{
@@ -41,13 +41,13 @@ newEntity{
 }
 
 newEntity{
-	type = "event",	subtype = "event", id_by_type=false, unided_name = "trap",
+	type = "event",	subtype = "event", id_by_type=false, unided_name = _t"trap",
 	display = ' ', color=colors.WHITE,
 	name = "summon shadow",
 	detect_power = 99999, disarm_power = 99999,
 	rarity = 3, level_range = {1, nil},
 	pressure_trap = false,
-	message = "A shadow traces across the floor.",
+	message = _t"A shadow traces across the floor.",
 	triggered = function(self, x, y, who)
 		if (game.level.remaining_summons or 5) <= 0 then return false end
 	

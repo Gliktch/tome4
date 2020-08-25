@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2014 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -20,48 +20,6 @@
 local DamageType = require "engine.DamageType"
 local Object = require "engine.Object"
 local Map = require "engine.Map"
-
-local weaponCheck = function(self, weapon, ammo, silent, weapon_type)
-	if not weapon then
-		if not silent then
-			-- ammo contains error message
-			game.logPlayer(self, ({
-				["disarmed"] = "You are currently disarmed and cannot use this talent.",
-				["no shooter"] = ("You require a %s to use this talent."):format(weapon_type or "missile launcher"),
-				["no ammo"] = "You require ammo to use this talent.",
-				["bad ammo"] = "Your ammo cannot be used.",
-				["incompatible ammo"] = "Your ammo is incompatible with your missile launcher.",
-				["incompatible missile launcher"] = ("You require a %s to use this talent."):format(weapon_type or "bow"),
-			})[ammo] or "You require a missile launcher and ammo for this talent.")
-		end
-		return false
-	else
-		local infinite = ammo and ammo.infinite or self:attr("infinite_ammo")
-		if not ammo or (ammo.combat.shots_left <= 0 and not infinite) then
-			if not silent then game.logPlayer(self, "You do not have enough ammo left!") end
-			return false
-		end
-	end
-	return true
-end
-
-local archerPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
-local wardenPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	if self:attr("warden_swap") and not weapon and weapon_type == nil or weapon_type == "bow" then
-		weapon, ammo = doWardenPreUse(self, "bow")
-	end
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
-Talents.archerPreUse = archerPreUse
-Talents.wardenPreUse = wardenPreUse
 
 archery_range = Talents.main_env.archery_range
 
@@ -109,7 +67,7 @@ Venomous - Shots deal %0.2f nature damage and inflict numbing poison, dealing a 
 Piercing - Shots reduce armor and saves by %d for 3 turns, and your physical penetration is increased by %d%%.
 You can only have 1 type of ammunition loaded at a time.
 The poison damage dealt, armor penetration and save reduction will increase with your Physical Power.]]):
-		format(t.getIncendiaryDamage(self, t)*100, t.getIncendiaryRadius(self,t), damDesc(self, DamageType.NATURE, t.getPoisonDamage(self, t)/5), damDesc(self, DamageType.NATURE, t.getPoisonDamage(self, t)), t.getNumb(self, t), t.getArmorSaveReduction(self, t), t.getResistPenalty(self,t))
+		tformat(t.getIncendiaryDamage(self, t)*100, t.getIncendiaryRadius(self,t), damDesc(self, DamageType.NATURE, t.getPoisonDamage(self, t)/5), damDesc(self, DamageType.NATURE, t.getPoisonDamage(self, t)), t.getNumb(self, t), t.getArmorSaveReduction(self, t), t.getResistPenalty(self,t))
 	end,
 }
 
@@ -195,7 +153,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Load incendiary ammunition, causing attacks to deal an additional %d%% weapon damage as fire in a radius %d ball around your target. 
 		This cannot trigger more than once per turn.
-		The damage will scale with your Physical Power.]]):format(damage, radius)
+		The damage will scale with your Physical Power.]]):tformat(damage, radius)
 	end,
 }
 
@@ -259,7 +217,7 @@ newTalent{
 		local damage = t.getPoisonDamage(self, t)
 		local numb = t.getNumb(self,t)
 		return ([[Load venomous ammunition, causing ranged attacks to deal %0.2f nature damage and inflict numbing poison, dealing %0.2f nature damage over 5 turns and reducing all damage dealt by %d%%. 
-		The damage will scale with your Physical Power.]]):format(damDesc(self, DamageType.NATURE, damage/5), damDesc(self, DamageType.NATURE, damage), numb)
+		The damage will scale with your Physical Power.]]):tformat(damDesc(self, DamageType.NATURE, damage/5), damDesc(self, DamageType.NATURE, damage), numb)
 	end,
 }
 
@@ -310,7 +268,7 @@ newTalent{
 		local reduce = t.getArmorSaveReduction(self, t)
 		local resist = t.getResistPenalty(self,t)
 		return ([[Load piercing ammunition, causing attacks to reduce the target's armor and saves by %d for 3 turns, and increasing your physical penetration by %d%%.
-		The armor and save reduction will scale with your Physical Power.]]):format(reduce, resist)
+		The armor and save reduction will scale with your Physical Power.]]):tformat(reduce, resist)
 	end,
 }
 	
@@ -432,7 +390,7 @@ Incendiary - Fire a shot that deals %d%% weapon damage as fire and covers target
 Venomous - Fire a shot that deals %d%% weapon damage as nature and explodes into a radius %d cloud of crippling poison for %d turns, dealing %0.2f nature damage each turn and giving affected targets a %d%% chance to fail talent usage.
 Piercing - Fire a shot that explodes into a radius %d burst of shredding shrapnel, dealing %d%% weapon damage as physical and removing %d beneficial physical effects or sustains.
 The poison damage dealt increases with your Physical Power, and status chance increases with your Accuracy.]]):
-		format(dam, radius, dur, slow, fire, dam, radius, dur, damDesc(self, DamageType.NATURE, poison), fail, radius, dam, nb)
+		tformat(dam, radius, dur, slow, fire, dam, radius, dur, damDesc(self, DamageType.NATURE, poison), fail, radius, dam, nb)
 	end,
 }
 
@@ -457,7 +415,7 @@ Venomous - Inflicts leeching poison, dealing %0.2f nature damage over 3 turns an
 Piercing - Punctures the target’s armor, increasing all damage they take by %d%% for 3 turns.
 You only have a limited amount of this ammo, causing this talent to have a cooldown.
 The damage dealt will increase with your Physical Power, and status chance increases with your Accuracy.]]):
-		format(damDesc(self, DamageType.FIRE, fire), damDesc(self, DamageType.NATURE, poison), resist)
+		tformat(damDesc(self, DamageType.FIRE, fire), damDesc(self, DamageType.NATURE, poison), resist)
 	end,
 }
 
@@ -485,6 +443,6 @@ Incendiary - Targets struck by the explosion have their armor and saves reduced 
 Venomous - Shots deal an additional %d%% weapon damage as nature in a radius %d ball, which applies numbing poison as per Exotic Munitions. This cannot occur more than once per turn.
 Piercing - Shots deal %0.2f physical damage and maim the target, bleeding them for a further %0.2f physical damage over 5 turns and reducing all damage dealt by %d%%.
 The physical damage dealt, armor penetration and save reduction will increase with your Physical Power.]]):
-		format(armor, resist, poison, radius, bleed/5, bleed, numb)
+		tformat(armor, resist, poison, radius, bleed/5, bleed, numb)
 	end,
 }

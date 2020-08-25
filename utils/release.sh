@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if test $# -lt 3 ; then
-	echo "Usage: release.sh [engine version for teae] [tome version for team] [version for public]"
+if test $# -lt 1 ; then
+	echo "Usage: release.sh [version] [beta, if any] [if beta, allowed addons list or 'all' or 'no-dlc' or 'with-dlc']"
 	exit
 fi
 
@@ -37,21 +37,27 @@ fi
 echo "...done"
 
 ever="$1"
-tver="$2"
-ver="$3"
+tver="$1"
+ver="$1"
+filever="$1"
+beta="$2"
+
+if test -n "$beta"; then
+	filever="$filever-$beta"
+fi
 
 rm -rf tmp
 mkdir tmp
 cd tmp
-mkdir t-engine4-windows-"$ver"
-mkdir t-engine4-src-"$ver"
-mkdir t-engine4-linux32-"$ver"
-mkdir t-engine4-linux64-"$ver"
-mkdir t-engine4-osx-"$ver"
+mkdir t-engine4-windows-"$filever"
+mkdir t-engine4-src-"$filever"
+mkdir t-engine4-linux32-"$filever"
+mkdir t-engine4-linux64-"$filever"
+mkdir t-engine4-osx-"$filever"
 
 # src
 echo "******************** Src"
-cd t-engine4-src-"$ver"
+cd t-engine4-src-"$filever"
 cp -a ../../bootstrap/  ../../game/ ../../C* ../../premake4.lua ../../src/ ../../build/ ../../mac/  .
 rm -rf mac/base_app/
 rm -rf game/modules/angband
@@ -62,6 +68,23 @@ find . -name '*~' -or -name '.svn' -or -name '.keep' | xargs rm -rf
 # stamp the releases
 echo "version_desc = '$ver'" >> game/engines/default/modules/boot/init.lua
 echo "version_desc = '$ver'" >> game/modules/tome/init.lua
+if test -n "$beta"; then
+	if test $# -lt 3 ; then
+		echo "Usage: release.sh [version] [beta] [allowed addons list or 'all' or 'no-dlc' or 'with-dlc']"
+		exit
+	fi
+	addons="$3"
+	if test "$addons" = "all"; then
+		echo "return '$beta'" > game/engines/default/engine/version_beta.lua
+	elif test "$addons" = "no-dlc"; then
+		echo "return '$beta', "'{"possessors", "items-vault", "^cosmetic%-shimmer%-.+"}' > game/engines/default/engine/version_beta.lua
+	elif test "$addons" = "with-dlc"; then
+		echo "return '$beta', "'{"possessors", "items-vault", "^cosmetic%-shimmer%-.+", function(add) return add.id_dlc end}' > game/engines/default/engine/version_beta.lua
+	else
+		addons_check=`echo "$addons" | sed -e 's/\([^,]\+\)/"\1"/g' -e 's/^/{/' -e 's/$/}/'`
+		echo "return '$beta', '$addons_check'" > game/engines/default/engine/version_beta.lua
+	fi
+fi
 
 # create teae/teams
 cd game/engines
@@ -80,50 +103,50 @@ rm -rf tome
 cd ../../
 
 cd ..
-tar cvjf t-engine4-src-"$ver".tar.bz2 t-engine4-src-"$ver"
+tar cvjf t-engine4-src-"$filever".tar.bz2 t-engine4-src-"$filever"
 
 # windows
 echo "******************** Windows"
-cd t-engine4-windows-"$ver"
-cp -a ../../bootstrap/  ../t-engine4-src-"$ver"/game/ ../../C* ../../dlls/* .
+cd t-engine4-windows-"$filever"
+cp -a ../../bootstrap/  ../t-engine4-src-"$filever"/game/ ../../C* ../../dlls/* .
 find . -name '*~' -or -name '.svn' | xargs rm -rf
 cd ..
-zip -r -9 t-engine4-windows-"$ver".zip t-engine4-windows-"$ver"
+zip -r -9 t-engine4-windows-"$filever".zip t-engine4-windows-"$filever"
 
 # linux 32
 echo "******************** linux32"
-cd t-engine4-linux32-"$ver"
-cp -a ../../bootstrap/  ../t-engine4-src-"$ver"/game/ ../../C* ../../linux-bin/* .
+cd t-engine4-linux32-"$filever"
+cp -a ../../bootstrap/  ../t-engine4-src-"$filever"/game/ ../../C* ../../linux-bin/* .
 find . -name '*~' -or -name '.svn' | xargs rm -rf
 cd ..
-tar -cvjf t-engine4-linux32-"$ver".tar.bz2 t-engine4-linux32-"$ver"
+tar -cvjf t-engine4-linux32-"$filever".tar.bz2 t-engine4-linux32-"$filever"
 
 # linux 64
 echo "******************** linux64"
-cd t-engine4-linux64-"$ver"
-cp -a ../../bootstrap/  ../t-engine4-src-"$ver"/game/ ../../C* ../../linux-bin64/* .
+cd t-engine4-linux64-"$filever"
+cp -a ../../bootstrap/  ../t-engine4-src-"$filever"/game/ ../../C* ../../linux-bin64/* .
 find . -name '*~' -or -name '.svn' | xargs rm -rf
 cd ..
-tar -cvjf t-engine4-linux64-"$ver".tar.bz2 t-engine4-linux64-"$ver"
+tar -cvjf t-engine4-linux64-"$filever".tar.bz2 t-engine4-linux64-"$filever"
 
 # OSX
 echo "******************** OSX"
-cd t-engine4-osx-"$ver"
+cd t-engine4-osx-"$filever"
 mkdir T-Engine.app/
 cp -a ../../mac/base_app/* T-Engine.app/
 cp -a ../../bootstrap/ T-Engine.app/Contents/MacOS/
 cp ../../utils/boot-osx-standalone-apple-sucks.lua T-Engine.app/Contents/MacOS/bootstrap/boot.lua
-cp -a ../t-engine4-src-"$ver"/game/ T-Engine.app/Contents/Resources/
+cp -a ../t-engine4-src-"$filever"/game/ T-Engine.app/Contents/Resources/
 cp -a ../../C* .
 find . -name '*~' -or -name '.svn' | xargs rm -rf
-zip -r -9 ../t-engine4-osx-"$ver".zip *
+zip -r -9 ../t-engine4-osx-"$filever".zip *
 cd ..
 
 #### Music less
 
 # src
 echo "******************** Src n/m"
-cd t-engine4-src-"$ver"
+cd t-engine4-src-"$filever"
 IFS=$'\n'; for i in `find game/ -name '*.ogg'`; do
 	echo "$i"|grep '/music/' -q
 	if test $? -eq 0; then rm "$i"; fi
@@ -132,11 +155,11 @@ rm game/modules/tome*-music.team
 rm game/modules/boot*team
 cp /foreign/eyal/var/www/te4.org/htdocs/dl/engines/boot-te4-"$ever"-nomusic.team game/modules/
 cd ..
-tar cvjf t-engine4-src-"$ver"-nomusic.tar.bz2 t-engine4-src-"$ver"
+tar cvjf t-engine4-src-"$filever"-nomusic.tar.bz2 t-engine4-src-"$filever"
 
 # windows
 echo "******************** Windows n/m"
-cd t-engine4-windows-"$ver"
+cd t-engine4-windows-"$filever"
 IFS=$'\n'; for i in `find game/ -name '*.ogg'`; do
 	echo "$i"|grep '/music/' -q
 	if test $? -eq 0; then rm "$i"; fi
@@ -145,11 +168,11 @@ rm game/modules/tome*-music.team
 rm game/modules/boot*team
 cp /foreign/eyal/var/www/te4.org/htdocs/dl/engines/boot-te4-"$ever"-nomusic.team game/modules/
 cd ..
-zip -r -9 t-engine4-windows-"$ver"-nomusic.zip t-engine4-windows-"$ver"
+zip -r -9 t-engine4-windows-"$filever"-nomusic.zip t-engine4-windows-"$filever"
 
 # linux 32
 echo "******************** linux32 n/m"
-cd t-engine4-linux32-"$ver"
+cd t-engine4-linux32-"$filever"
 IFS=$'\n'; for i in `find game/ -name '*.ogg'`; do
 	echo "$i"|grep '/music/' -q
 	if test $? -eq 0; then rm "$i"; fi
@@ -158,11 +181,11 @@ rm game/modules/tome*-music.team
 rm game/modules/boot*team
 cp /foreign/eyal/var/www/te4.org/htdocs/dl/engines/boot-te4-"$ever"-nomusic.team game/modules/
 cd ..
-tar -cvjf t-engine4-linux32-"$ver"-nomusic.tar.bz2 t-engine4-linux32-"$ver"
+tar -cvjf t-engine4-linux32-"$filever"-nomusic.tar.bz2 t-engine4-linux32-"$filever"
 
 # linux 64
 echo "******************** linux64 n/m"
-cd t-engine4-linux64-"$ver"
+cd t-engine4-linux64-"$filever"
 IFS=$'\n'; for i in `find game/ -name '*.ogg'`; do
 	echo "$i"|grep '/music/' -q
 	if test $? -eq 0; then rm "$i"; fi
@@ -171,7 +194,7 @@ rm game/modules/tome*-music.team
 rm game/modules/boot*team
 cp /foreign/eyal/var/www/te4.org/htdocs/dl/engines/boot-te4-"$ever"-nomusic.team game/modules/
 cd ..
-tar -cvjf t-engine4-linux64-"$ver"-nomusic.tar.bz2 t-engine4-linux64-"$ver"
+tar -cvjf t-engine4-linux64-"$filever"-nomusic.tar.bz2 t-engine4-linux64-"$filever"
 
 cp *zip *bz2 *dmg.gz /foreign/eyal/var/www/te4.org/htdocs/dl/t-engine
 
@@ -179,33 +202,20 @@ cp *zip *bz2 *dmg.gz /foreign/eyal/var/www/te4.org/htdocs/dl/t-engine
 
 echo
 echo "Download links:"
-echo "http://te4.org/dl/t-engine/t-engine4-windows-$ver.zip"
-echo "http://te4.org/dl/t-engine/t-engine4-src-$ver.tar.bz2"
-echo "http://te4.org/dl/t-engine/t-engine4-linux32-$ver.tar.bz2"
-echo "http://te4.org/dl/t-engine/t-engine4-linux64-$ver.tar.bz2"
-echo "http://te4.org/dl/t-engine/t-engine4-windows-$ver-nomusic.zip"
-echo "http://te4.org/dl/t-engine/t-engine4-src-$ver-nomusic.tar.bz2"
-echo "http://te4.org/dl/t-engine/t-engine4-linux32-$ver-nomusic.tar.bz2"
-echo "http://te4.org/dl/t-engine/t-engine4-linux64-$ver-nomusic.tar.bz2"
-echo "http://te4.org/dl/t-engine/t-engine4-osx-$ver.zip"
-
-########## MD5
-echo "Computing MD5s..."
-cd t-engine4-linux64-"$ver"
-rm lib64/libopenal.so.1
-rm -f all.md5
-while true; do
-	DISPLAY=:1 ./t-engine -Mtome -n -E'compute_md5_only="all.md5" sleep_on_auth=2' > /dev/null 2>&1
-	if test $? -eq 0; then break; fi
-done
-cd ..
-echo "..done"
-echo
+echo "https://te4.org/dl/t-engine/t-engine4-windows-$filever.zip"
+echo "https://te4.org/dl/t-engine/t-engine4-src-$filever.tar.bz2"
+echo "https://te4.org/dl/t-engine/t-engine4-linux32-$filever.tar.bz2"
+echo "https://te4.org/dl/t-engine/t-engine4-linux64-$filever.tar.bz2"
+echo "https://te4.org/dl/t-engine/t-engine4-windows-$filever-nomusic.zip"
+echo "https://te4.org/dl/t-engine/t-engine4-src-$filever-nomusic.tar.bz2"
+echo "https://te4.org/dl/t-engine/t-engine4-linux32-$filever-nomusic.tar.bz2"
+echo "https://te4.org/dl/t-engine/t-engine4-linux64-$filever-nomusic.tar.bz2"
+echo "https://te4.org/dl/t-engine/t-engine4-osx-$filever.zip"
 
 ######### SQL
 echo "*********** Publish release? (Y/n)"
 cd ..
 read ok
 if test "$ok" '!=' 'n'; then
-	sh utils/publish_release.sh "$ver" tmp/t-engine4-linux64-"$ver"/all.md5
+	sh utils/publish_release.sh "$filever" "$ver"
 fi

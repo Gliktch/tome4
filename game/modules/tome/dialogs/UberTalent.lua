@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ function _M:init(actor, levelup_end_prodigies)
 	self.actor_dup = actor:clone()
 	self.actor_dup.uid = actor.uid -- Yes ...
 
-	Dialog.init(self, "Prodigies: "..actor.name, 800, game.h * 0.9)
+	Dialog.init(self, ("Prodigies: %s"):tformat(actor:getName()), 800, game.h * 0.9)
 
 	self:generateList()
 
@@ -62,30 +62,70 @@ function _M:init(actor, levelup_end_prodigies)
 	self.actor:learnTalentType("uber/magic", true)
 	self.actor:learnTalentType("uber/willpower", true)
 	self.actor:learnTalentType("uber/cunning", true)
+
+	self.fake_evol_attr = 0
+	for tid, v in pairs(self.levelup_end_prodigies) do if v then
+		local t = self.actor:getTalentFromId(tid)
+		if t.is_class_evolution or t.is_race_evolution then
+			self.fake_evol_attr = self.fake_evol_attr + 1
+			self.actor:attr("has_evolution", 1)
+		end
+	end end
+	self.actor.is_in_uber_dialog = self
 end
 
 function _M:on_register()
 	game:onTickEnd(function() self.key:unicodeInput(true) end)
 end
 
-function _M:generateList()
+function _M:unload()
+	if self.fake_evol_attr > 0 then self.actor:attr("has_evolution", -self.fake_evol_attr) end
+	self.actor.is_in_uber_dialog = nil
+end
 
+function _M:ignoreUnlocks()
+	return false
+end
+
+function _M:generateList()
 	-- Makes up the list
 	local max = 0
 	local cols = {}
 	local list = {}
 	for tid, t in pairs(self.actor.talents_def) do
 		if t.uber and not t.not_listed then
-			cols[t.type[1]] = cols[t.type[1]] or {}
-			local c = cols[t.type[1]]
-			c[#c+1] = t
+			if 
+			    (
+			    	not t.is_class_evolution or
+			    	((type(t.is_class_evolution) == "string" and self.actor:hasDescriptor("subclass", t.is_class_evolution))) or
+			    	((type(t.is_class_evolution) == "function" and t.is_class_evolution(self.actor, t)))
+			    ) and
+			    (
+			    	not t.is_race_evolution or
+			    	((type(t.is_race_evolution) == "string" and self.actor:hasDescriptor("subrace", t.is_race_evolution))) or
+			    	((type(t.is_race_evolution) == "function" and t.is_race_evolution(self.actor, t)))
+			    ) and
+			    (not t.requires_unlock or profile.mod.allow_build[t.requires_unlock] or self:ignoreUnlocks())
+			    then
+				cols[t.type[1]] = cols[t.type[1]] or {}
+				local c = cols[t.type[1]]
+				c[#c+1] = t
+			end
 		end
 	end
 	max = math.max(#cols["uber/strength"], #cols["uber/dexterity"], #cols["uber/constitution"], #cols["uber/magic"], #cols["uber/willpower"], #cols["uber/cunning"])
 
 	for _, s in ipairs{"uber/strength", "uber/dexterity", "uber/constitution", "uber/magic", "uber/willpower", "uber/cunning"} do
 		local n = {}
-		table.sort(cols[s], function(a,b) return a.name < b.name end)
+		table.sort(cols[s], function(a,b)
+			if a.is_class_evolution ~= b.is_class_evolution then
+				return b.is_class_evolution and true or false
+			elseif a.is_race_evolution ~= b.is_race_evolution then
+				return b.is_race_evolution and true or false
+			else
+				return a.name < b.name
+			end
+		end)
 
 		for i = 1, max do
 			if not cols[s][i] then
@@ -122,8 +162,8 @@ end
 -- UI Stuff
 -----------------------------------------------------------------
 
-_M.tuttext = [[Prodigies are special talents that only the most powerful of characters can attain.
-All of them require at least 50 in a core stat and many also have more special demands. You can learn a new prodigy at level 30 and 42.
+_M.tuttext = _t[[Prodigies are special talents that only the most powerful of characters can attain.
+All of them require at least 50 in a core stat and many also have more special demands. You can learn a new prodigy at level 25 and 42.
 #LIGHT_GREEN#Prodigies available: %d]]
 
 function _M:createDisplay()
@@ -161,16 +201,26 @@ function _M:createDisplay()
 end
 
 function _M:use(item)
+	local t = self.actor:getTalentFromId(item.talent)
 	if self.actor:knowTalent(item.talent) then
 	elseif self.levelup_end_prodigies[item.talent] then
 		self.levelup_end_prodigies[item.talent] = false
 		self.actor.unused_prodigies = self.actor.unused_prodigies + 1
+		if t.is_class_evolution or t.is_race_evolution then
+			self.actor:attr("has_evolution", -1)
+			self.fake_evol_attr = self.fake_evol_attr - 1
+		end
 		self.c_tut.text = self.tuttext:format(self.actor.unused_prodigies or 0)
 		self.c_tut:generate()
-	elseif (self.actor:canLearnTalent(self.actor:getTalentFromId(item.talent)) and self.actor.unused_prodigies > 0) or config.settings.cheat then
+	elseif (self.actor:canLearnTalent(self.actor:getTalentFromId(item.talent)) and self.actor.unused_prodigies > 0) then
+	-- elseif (self.actor:canLearnTalent(self.actor:getTalentFromId(item.talent)) and self.actor.unused_prodigies > 0) or config.settings.cheat then
 		if not self.levelup_end_prodigies[item.talent] then
 			self.levelup_end_prodigies[item.talent] = true
 			self.actor.unused_prodigies = math.max(0, self.actor.unused_prodigies - 1)
+			if t.is_class_evolution or t.is_race_evolution then
+				self.actor:attr("has_evolution", 1)
+				self.fake_evol_attr = self.fake_evol_attr + 1
+			end
 		end
 		self.c_tut.text = self.tuttext:format(self.actor.unused_prodigies or 0)
 		self.c_tut:generate()

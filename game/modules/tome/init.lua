@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@ long_name = "Tales of Maj'Eyal: Age of Ascendancy"
 short_name = "tome"
 author = { "DarkGod", "darkgod@te4.org" }
 homepage = "https://te4.org/"
-version = {1,6,0}
-engine = {1,6,0,"te4"}
+version = {1,7,0}
+engine = {1,7,0,"te4"}
 description = [[
 Welcome to Maj'Eyal.
 
@@ -59,8 +59,9 @@ teams = {
 	{ "#name#-gfx.team", "optional", "/" },
 }
 
+i18n_support = true
 show_funfacts = true
-loading_wait_ticks = 260
+loading_wait_ticks = 280
 profile_stats_fields = {"artifacts", "characters", "deaths", "uniques", "scores", "lore", "escorts"}
 allow_userchat = true -- We can talk to the online community
 no_get_name = true -- Name setting for new characters is done by the module itself

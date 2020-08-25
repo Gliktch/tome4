@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -16,8 +16,6 @@
 --
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
-
-local archerPreUse = Talents.archerPreUse
 
 newTalent{
 	name = "Bow Mastery",
@@ -38,7 +36,7 @@ newTalent{
 		local inc = t.getPercentInc(self, t)
 		local reloads = t.ammo_mastery_reload(self, t)
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using bows.
-		Also, increases your reload rate by %d.]]):format(inc * 100, reloads)
+		Also, increases your reload rate by %d.]]):tformat(inc * 100, reloads)
 	end,
 }
 
@@ -63,7 +61,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fire an arrow that cuts right through anything, piercing multiple targets if possible with nigh infinite armor penetration, doing %d%% damage.]]):format(100 * self:combatTalentWeaponDamage(t, 1, 1.5))
+		return ([[You fire an arrow that cuts right through anything, piercing multiple targets if possible with nigh infinite armor penetration, doing %d%% damage.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5))
 	end,
 }
 
@@ -93,7 +91,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire two arrows at your target, hitting it and a nearby foe if possible, doing %d%% damage
-		This talent does not use any stamina.]]):format(100 * self:combatTalentWeaponDamage(t, 1.2, 1.9))
+		This talent does not use any stamina.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1.2, 1.9))
 	end,
 }
 
@@ -125,6 +123,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire multiple arrows at an area of %d radius, doing %d%% damage with each arrow.]])
-		:format(self:getTalentRadius(t), 100 * self:combatTalentWeaponDamage(t, 0.6, 1.3))
+		:tformat(self:getTalentRadius(t), 100 * self:combatTalentWeaponDamage(t, 0.6, 1.3))
 	end,
 }

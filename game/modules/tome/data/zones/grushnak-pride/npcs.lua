@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
 
 load("/data/general/npcs/orc.lua", rarity(3))
 load("/data/general/npcs/orc-grushnak.lua", rarity(0))
+load("/data/general/npcs/jelly.lua", function(e) e.slime_rarity, e.rarity = e.rarity, nil end)
+load("/data/general/npcs/ooze.lua", function(e) e.slime_rarity, e.rarity = e.rarity, nil end)
 
 load("/data/general/npcs/all.lua", rarity(4, 35))
 
@@ -27,8 +29,8 @@ local Talents = require("engine.interface.ActorTalents")
 newEntity{ base="BASE_NPC_ORC_GRUSHNAK", define_as = "GRUSHNAK",
 	allow_infinite_dungeon = true,
 	name = "Grushnak, Battlemaster of the Pride", color=colors.VIOLET, unique = true,
-	desc = [[An old orc, covered in battle scars, he looks fierce and very, very, dangerous.]],
-	killer_message = "and mounted on the barracks wall",
+	desc = _t[[An old orc, covered in battle scars, he looks fierce and very, very, dangerous.]],
+	killer_message = _t"and mounted on the barracks wall",
 	level_range = {45, nil}, exp_worth = 1,
 	rank = 5,
 	max_life = 700, life_rating = 25, fixed_rating = true,

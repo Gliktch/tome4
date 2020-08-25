@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ local Savefile = require "engine.Savefile"
 module(..., package.seeall, class.inherit(engine.Dialog))
 
 function _M:init()
-	engine.Dialog.init(self, "Really exit Example Module?", 300, 100)
+	engine.Dialog.init(self, _t"Really exit Example Module?", 300, 100)
 	self:keyCommands({
 		__DEFAULT = function()
 			game:unregisterDialog(self)

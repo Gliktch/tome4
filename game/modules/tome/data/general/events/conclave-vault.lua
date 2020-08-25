@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,8 +26,9 @@ local Talents = require("engine.interface.ActorTalents")
 
 local skeletons = mod.class.NPC:loadList("/data/general/npcs/skeleton.lua")
 local m = mod.class.NPC:fromBase{ base = skeletons.BASE_NPC_SKELETON,
-	name = "Director Hompalan", color=colors.PURPLE,
-	desc = [[Only crumbling bones are left of what once was the proud Director Hompalan, chief of this facility.
+	name = _t"Director Hompalan", color=colors.PURPLE,
+	image = "npc/undead_skeleton_director_hompalan.png",
+	desc=_t[[Only crumbling bones are left of what once was the proud Director Hompalan, chief of this facility.
 Now those remains look at you with empty eyes but you can not mistake their intent.]],
 	level_range = {10, nil}, exp_worth = 2,
 	rank = 3.5,

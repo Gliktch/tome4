@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,12 +27,12 @@ newEntity{
 	moddable_tile = resolvers.moddable_tile("sling"),
 	encumber = 4,
 	rarity = 7,
-	combat = { talented = "sling", accuracy_effect = "mace", sound = "actions/sling", sound_miss = "actions/sling", },
+	combat = { talented = "sling", accuracy_effect = "mace", physspeed=1, sound = "actions/sling", sound_miss = "actions/sling", },
 	archery_kind = "sling",
 	archery = "sling",
 	require = { talent = { Talents.T_SHOOT }, },
 	proj_image = resolvers.image_material("shot_s", "metal"),
-	desc = [[Slings are used to hurl stones or metal shots at your foes.]],
+	desc = _t[[Slings are used to hurl stones or metal shots at your foes.]],
 	randart_able = "/data/general/objects/random-artifacts/ranged.lua",
 	egos = "/data/general/objects/egos/sling.lua", egos_chance = { prefix=resolvers.mbonus(40, 5), suffix=resolvers.mbonus(40, 5) },
 }
@@ -107,7 +107,7 @@ newEntity{
 	combat = { talented = "sling", accuracy_effect = "mace", damrange = 1.2},
 	proj_image = resolvers.image_material("shot_s", "metal"),
 	archery_ammo = "sling",
-	desc = [[Shots are used with slings to pummel your foes to death.]],
+	desc = _t[[Shots are used with slings to pummel your foes to death.]],
 	randart_able = "/data/general/objects/random-artifacts/ammo.lua",
 	egos = "/data/general/objects/egos/ammo.lua", egos_chance = { prefix=resolvers.mbonus(40, 5), suffix=resolvers.mbonus(40, 5) },
 	resolvers.shooter_capacity(),

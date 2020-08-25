@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ newEntity{ define_as = "UKLLMSWWIK",
 	name = "Ukllmswwik the Wise",
 	faction="water-lair",
 	display = "D", color=colors.VIOLET,
-	desc = [[It looks like a cross between a shark and a dragon, only nastier.]],
+	desc = _t[[It looks like a cross between a shark and a dragon, only nastier.]],
 	global_speed_base = 1.4,
 	level_range = {30, nil}, exp_worth = 4,
 	max_life = 250, life_rating = 27, fixed_rating = true,

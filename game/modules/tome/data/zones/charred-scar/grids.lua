@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use.]],
+	desc = _t[[A farportal is a way to travel incredible distances in the blink of an eye. They usually require an external item to use.]],
 	nice_editer = lava_editer,
 
 	orb_portal = {
@@ -39,7 +39,7 @@ newEntity{
 		change_wilderness = {
 			spot = {type="farportal-end", subtype="fareast"},
 		},
-		message = "#VIOLET#You enter the swirling portal and in the blink of an eye you are back to the far east.",
+		message = _t"#VIOLET#You enter the swirling portal and in the blink of an eye you are back to the far east.",
 	},
 }
 

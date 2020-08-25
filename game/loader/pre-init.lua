@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -61,6 +61,23 @@ function rng.mbonus(max, level, max_level)
 	if val > max then val = max end
 
 	return val
+end
+
+local printlog = {}
+local oprint = print
+function print(...)
+	local t = {}
+	for k, e in pairs{...} do t[k] = tostring(e) end
+	printlog[#printlog+1] = t
+	oprint(...)
+end
+
+function get_printlog()
+	return printlog
+end
+
+function truncate_printlog(nb)
+	while #printlog > nb do table.remove(printlog, 1) end
 end
 
 local rngavg = rng.avg

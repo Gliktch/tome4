@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -207,6 +207,7 @@ local function clonerecurs(d)
 		if type(e) == "table" and not e.__ATOMIC and not e.__CLASSNAME then ne = clonerecurs(e) end
 		n[nk] = ne
 	end
+	setmetatable(n, getmetatable(d))
 	return n
 end
 --[[
@@ -296,7 +297,7 @@ local function cloneCustomRecurs(clonetable, d, noclonecall, use_saveinstead, al
 	while k do
 		local skip = false
 		local nk_alt, ne_alt = nil, nil
-		if alt_nodes then
+		if alt_nodes and first then
 			for node, alt in pairs(alt_nodes) do
 				if node == k or node == e then
 					if alt == false then 

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ newTalent{
 	cooldown = 30,
 	no_energy = true,
 	tactical = { DEFEND = 1, ESCAPE = 1, CLOSEIN = 1 },
-	getDuration = function(self, t) return math.floor(self:combatTalentLimit(t, 30, 5, 9)) end, -- Limit < 30 (make sure they can't hide forever)
+	getDuration = function(self, t) return math.floor(self:combatTalentLimit(t, 15, 5, 9)) end, -- Limit < 30 (make sure they can't hide forever)
 	getDefs = function(self, t) return self:combatTalentScale(t, 5, 20), self:combatTalentScale(t, 5, 16) end,
 	action = function(self, t)
 		local def, armor = t.getDefs(self, t)
@@ -38,7 +38,7 @@ newTalent{
 		Also increases your defense and armour by %d and %d, respectively.
 		If you are still in a wall when the effect ends you will randomly teleport.
 		]]):
-		format(t.getDuration(self, t), t.getDefs(self, t))
+		tformat(t.getDuration(self, t), t.getDefs(self, t))
 	end,
 }
 
@@ -73,7 +73,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Conjures up a bolt of shadowflame that moves toward the target and explodes into a flash of darkness and fire, doing %0.2f fire damage and %0.2f darkness damage in a radius of %d.
-		The damage will increase with your Spellpower.]]):format(
+		The damage will increase with your Spellpower.]]):tformat(
 			damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 28, 220) / 2),
 			damDesc(self, DamageType.DARKNESS, self:combatTalentSpellDamage(t, 28, 220) / 2),
 			self:getTalentRadius(t)
@@ -90,7 +90,7 @@ newTalent{
 	sustain_vim = 90,
 	cooldown = 30,
 	tactical = { DEFEND = 1, BUFF = 2 },
-	getSpeed = function(self, t) return self:combatTalentScale(t, 0.03, 0.15, 0.75) end,
+	getSpeed = function(self, t) return self:combatTalentScale(t, 0.03, 0.15) end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/flame")
 		self.__old_type = {self.type, self.subtype}
@@ -117,7 +117,7 @@ newTalent{
 		While in demon form, you gain %d%% fire resistance, %d%% darkness resistance, and your global speed is increased by %d%%.
 		The flames of the Fearscape will heal you while in demon form.
 		The resistances and heal will increase with your Spellpower.]]):
-		format(self:combatTalentSpellDamage(t, 20, 30), self:combatTalentSpellDamage(t, 20, 35), t.getSpeed(self, t)*100)
+		tformat(self:combatTalentSpellDamage(t, 20, 30), self:combatTalentSpellDamage(t, 20, 35), t.getSpeed(self, t)*100)
 	end,
 }
 
@@ -138,7 +138,10 @@ newTalent{
 	requires_target = true,
 	cooldown = 60,
 	no_sustain_autoreset = true,
-	random_boss_rarity = 10,
+	random_boss_rarity = 5,
+	rnd_boss_restrict = function(self, t, data)
+		return data.level < 20
+	end,
 	tactical = {
 		-- heals (negative attack) demons hurts others
 		ATTACKAREA = {FIRE = function(self, t, target) return target:attr("demon") and -2 or 2 end},
@@ -154,7 +157,7 @@ newTalent{
 			return {type="ball", nolock=true, pass_terrain=true, nowarning=true, range=20, radius=20, requires_knowledge=false, selffire=false, block_path=false, block_radius=false}
 		else -- always hit the primary target
 			local tgt = self.ai_target.actor
-			if tgt then return {type="hit", range=self:getTalentRange(t), talent=t, x=tgt.x, y=tgt.y} end
+			return {type="hit", range=self:getTalentRange(t), talent=t, x=tgt and tgt.x, y=tgt and tgt.y}
 		end
 	end,
 	range = 5,
@@ -165,8 +168,6 @@ newTalent{
 		local p = self:isTalentActive(t.id)
 		if not p then return end
 		p.drain_add = (p.drain_add or 0) + 1
-		self:removeTemporaryValue("vim_regen", p.vim_drain)
-		p.vim_drain = self:addTemporaryValue("vim_regen", -p.drain_add)
 	end,
 	activate = function(self, t)
 		if game.zone.is_demon_plane then
@@ -189,7 +190,7 @@ newTalent{
 		if target == self then return end
 		if target:attr("negative_status_effect_immune") or target:attr("status_effect_immune") then return nil end
 
-		if not self:canBe("planechange") or target.summon_time or target.summon then
+		if not self:canBe("planechange") or target.summon_time or target.summoner then
 			game.logPlayer(self, "The spell fizzles...")
 			return
 		end
@@ -279,7 +280,6 @@ newTalent{
 		if not self.on_die then return true end
 		
 		if p.particle then self:removeParticles(p.particle) end
-		self:removeTemporaryValue("vim_regen", p.vim_drain)
 
 		game:onTickEnd(function()
 			-- Collect objects
@@ -360,6 +360,6 @@ newTalent{
 		When the spell ends, only you and the target (if still alive) plus any loose objects are taken back to your home plane; all summons are left in the Fearscape.
 		This powerful spell drains 5 vim per turn initially, increasing by +1 for each turn it has been active, and ends when your vim is depleted.
 		It has no effect if cast from within the Fearscape.
-		The damage will increase with your Spellpower.]]):format(damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 12, 140)))
+		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 12, 140)))
 	end,
 }

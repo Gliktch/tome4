@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ newTalent{
 	name = "Infectious Bite",
 	type = {"technique/other", 1},
 	points = 5,
-	message = "@Source@ bites blight poison into @target@.",
+	message = _t"@Source@ bites blight poison into @target@.",
 	cooldown = 3,
 	tactical = { ATTACK = {BLIGHT = 2}, },
 	requires_target = true,
@@ -53,45 +53,44 @@ newTalent{
 		return ([[Bite the target, dealing %d%% melee damage  
 		If the attack hits you'll inject blight poison into the target, dealing %0.2f blight damage and a further %0.2f blight damage over 4 turns.
 		The bonus damage improves with your Spellpower.]])
-		:format(damage, damDesc(self, DamageType.BLIGHT, poison/4), damDesc(self, DamageType.BLIGHT, poison) )
+		:tformat(damage, damDesc(self, DamageType.BLIGHT, poison/4), damDesc(self, DamageType.BLIGHT, poison) )
 	end
 }
 
 
 carrionworm = function(self, target, duration, x, y)
 	local m = mod.class.NPC.new{
-			type = "vermin", subtype = "worms",
-			display = "w", color=colors.SANDY_BROWN, image = "npc/vermin_worms_carrion_worm_mass.png",
-			name = "carrion worm mass", faction = self.faction,
-			desc = [[A worm spawned from a damaged horror.  Destroying it may have consequences.]],
-			autolevel = "none",
-			ai = "summoned", ai_real = "tactical",
-			ai_state = { ai_move="move_complex", talent_in=1, ally_compassion=10, ai_target="target_closest", },
-			ai_tactic = resolvers.tactic"melee",
-			stats = { str=10, dex=15, mag=3, con=3 },
-			level_range = {1, self.level}, exp_worth = 0,
-			global_speed_base = 1.0,
+		type = "vermin", subtype = "worms",
+		display = "w", color=colors.SANDY_BROWN, image = "npc/vermin_worms_carrion_worm_mass.png",
+		name = "carrion worm mass", faction = self.faction,
+		desc = _t[[A worm spawned from a damaged horror.  Destroying it may have consequences.]],
+		autolevel = "none",
+		ai = "summoned", ai_real = "tactical",
+		ai_state = { ai_move="move_complex", talent_in=1, ally_compassion=10, ai_target="target_closest", },
+		ai_tactic = resolvers.tactic"melee",
+		stats = { str=10, dex=15, mag=3, con=3 },
+		level_range = {1, self.level}, exp_worth = 0,
+		global_speed_base = 1.0,
 
-			max_life = resolvers.rngavg(5,9),
-			size_category = 1,
-			cut_immune = 1,
-			blind_immune = 1,
-			life_rating = 6,
-			disease_immune = 1,
-			movement_speed = 1.5,
-			melee_project={[DamageType.PESTILENT_BLIGHT] = self:callTalent(self.T_PESTILENT_BLIGHT, "getChance")/2,},
-			resists = { [DamageType.PHYSICAL] = 50, [DamageType.ACID] = 100, [DamageType.BLIGHT] = 100, [DamageType.FIRE] = -50},
-			
-			combat_armor = 1, combat_def = 1,
-			combat = { dam=40, atk=900, apr=900 },  -- We only care about making sure we do at least 1 damage for on hit stuff
-			autolevel = "warriormage",
-			resolvers.talents{ 
-			[Talents.T_INFECTIOUS_BITE]=math.floor(self:getTalentLevelRaw(self.T_INFESTATION)),
-			},
-			summoner = self, summoner_gain_exp=true, carrion_worm = true,
-			summon_time = 5,
-			carrion_worm = true,  -- This prevents combat log spam from blight pools dealing 0 damage and lets the AI pick targets for Worm Rot
-
+		max_life = resolvers.rngavg(5,9),
+		size_category = 1,
+		cut_immune = 1,
+		blind_immune = 1,
+		life_rating = 6,
+		disease_immune = 1,
+		movement_speed = 1.5,
+		melee_project={[DamageType.PESTILENT_BLIGHT] = self:callTalent(self.T_PESTILENT_BLIGHT, "getChance")/2,},
+		resists = { [DamageType.PHYSICAL] = 50, [DamageType.ACID] = 100, [DamageType.BLIGHT] = 100, [DamageType.FIRE] = -50},
+		
+		combat_armor = 1, combat_def = 1,
+		combat = { dam=40, atk=900, apr=900 },  -- We only care about making sure we do at least 1 damage for on hit stuff
+		autolevel = "warriormage",
+		resolvers.talents{ 
+		[Talents.T_INFECTIOUS_BITE]=math.floor(self:getTalentLevelRaw(self.T_INFESTATION)),
+		},
+		summoner = self, summoner_gain_exp=true, carrion_worm = true,
+		summon_time = 5,
+		carrion_worm = true,  -- This prevents combat log spam from blight pools dealing 0 damage and lets the AI pick targets for Worm Rot
 	}
 	m.unused_stats = 0
 	m.unused_talents = 0
@@ -105,15 +104,13 @@ carrionworm = function(self, target, duration, x, y)
 	-- Try to use stored AI talents to preserve tweaking over multiple summons
 	m.ai_talents = self.stored_ai_talents and self.stored_ai_talents[m.name] or {}
 	m.on_die = function(self, src)
-				local t = self.summoner:getTalentFromId(self.summoner.T_INFESTATION)
-				game.level.map:addEffect(self,
-				self.x, self.y, 5,
-				engine.DamageType.WORMBLIGHT, t.getDamage(self.summoner, t),
-					2,
-					5, nil,
-					engine.MapEffect.new{alpha=90, color_br=1, color_bg=1, color_bb=1, effect_shader="shader_images/poison_effect.png"}
-				)
-				game.logSeen(self, "%s exudes a corrupted gas as it dies.", self.name:capitalize())
+		local t = self.summoner:getTalentFromId(self.summoner.T_INFESTATION)
+		game.level.map:addEffect(self, self.x, self.y, 5,
+			engine.DamageType.WORMBLIGHT, t.getDamage(self.summoner, t),
+			2, 5, nil,
+			engine.MapEffect.new{alpha=90, color_br=1, color_bg=1, color_bb=1, effect_shader="shader_images/poison_effect.png"}
+		)
+		game.logSeen(self, "%s exudes a corrupted gas as it dies.", self:getName():capitalize())
 	end
 
 	-- Snapshot the casters effective (not base) spellpower
@@ -133,7 +130,7 @@ carrionworm = function(self, target, duration, x, y)
 			control=false,
 			temporary_level = true,
 			type="summon",
-			title="Summon",
+			title=_t"Summon",
 		})
 	end
 	return m
@@ -196,13 +193,17 @@ newTalent{
 
 				local grids = {}
 				self:project({type="ball", radius=4, x=self.x, y=self.y}, self.x, self.y, function(px, py)
-					table.insert(grids, {x=px, y=py})
+					if not game.level.map:checkAllEntities(px, py, "block_move") then
+						table.insert(grids, {x=px, y=py})
+					end
 				end)
 
 				local spot = rng.table(grids)
-				local gx, gy = util.findFreeGrid(spot.x, spot.y, 4, true, {[Map.ACTOR]=true})
-				if gx and gy then 
-					carrionworm(self, self, 5, gx, gy)
+				if spot then
+					local gx, gy = util.findFreeGrid(spot.x, spot.y, 4, true, {[Map.ACTOR]=true})
+					if gx and gy then 
+						carrionworm(self, self, 5, gx, gy)
+					end
 				end
 			end
 			return {dam = dam}
@@ -217,7 +218,7 @@ newTalent{
 On taking damage greater than 15%% of your maximum health, the damage will be reduced by %d%% and a carrion worm mass will burst forth onto a nearby tile, attacking your foes for 5 turns.
 You can never have more than 5 worms active from any source at a time.
 When a carrion worm dies it will explode into a radius 2 pool of blight for 5 turns, dealing %0.2f blight damage each turn and healing you for 33%% of that amount.]]):
-		format(resist, affinity, reduction, damDesc(self, DamageType.BLIGHT, dam), dam)
+		tformat(resist, affinity, reduction, damDesc(self, DamageType.BLIGHT, dam), dam)
 	end,
 }
 
@@ -287,7 +288,7 @@ newTalent{
 		local vim = t.getVim(self, t)
 		return ([[You disperse into a mass of carrion worms, reforming near the target location (%d teleport accuracy).
 If used on a worm mass, you merge with it, moving to it's location, healing you for %d, restoring %d vim, and destroying the mass.]]):
-format (radius, heal, vim)
+tformat (radius, heal, vim)
 	end,
 }
 
@@ -332,7 +333,7 @@ info = function(self, t)
 At talent level 4, this affects targets in a radius 1 ball.
 Your worms also have a %d%% chance to blind, silence, disarm or pin with their melee attacks, lasting 2 turns.
 The chance to apply this effect will increase with your Spellpower.]]):
-		format(chance, duration, chance/2)
+		tformat(chance, duration, chance/2)
 	end,
 }
 
@@ -348,22 +349,19 @@ newTalent{
 	tactical = { ATTACK = { ACID = 1, BLIGHT = 1 }, DISABLE = 4 },
 	getBurstDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 150) end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 55) end,
-	getChance = function(self, t) return math.min(100,self:combatTalentScale(t, 20, 90)) end,
+	getChance = function(self, t) return math.min(100, self:combatTalentScale(t, 20, 90)) end,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t), talent=t, display={particle="bolt_slime"}} end,
-	spawn_carrion_worm = function (self, target, t)
+	spawn_carrion_worm = function(self, t, target)
+		if not game.level then return end
 		local nb = 0 
-		if game.level then
-			for _, act in pairs(game.level.entities) do
-				if act.summoner and act.summoner == self and act.carrion_worm then nb = nb + 1 end
-			end
+		for _, act in pairs(game.level.entities) do
+			if act.summoner and act.summoner == self and act.carrion_worm then nb = nb + 1 end
 		end
-		
 		if nb >= 5 then return nil end
 
 		local x, y = util.findFreeGrid(target.x, target.y, 10, true, {[Map.ACTOR]=true})
 		if not x then return nil end
-		local m = carrionworm(self, self, 10, x, y)
-		
+		local m = carrionworm(self, self, 10, x, y)		
 	end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -374,9 +372,9 @@ newTalent{
 			local target = game.level.map(px, py, engine.Map.ACTOR)
 			if not target then return end
 			if target:canBe("disease") then
-				target:setEffect(target.EFF_WORM_ROT, 5, {src=self, dam=t.getDamage(self, t), burst=t.getBurstDamage(self, t), rot_timer = 5, apply_power=self:combatSpellpower()})
+				target:setEffect(target.EFF_WORM_ROT, 5, {src=self, chance=t.getChance(self,t), dam=t.getDamage(self, t), burst=t.getBurstDamage(self, t), apply_power=self:combatSpellpower()})
 			else
-				game.logSeen(target, "%s resists the worm rot!", target.name:capitalize())
+				game.logSeen(target, "%s resists the worm rot!", target:getName():capitalize())
 			end
 			game.level.map:particleEmitter(px, py, 1, "slime")
 		end)
@@ -393,6 +391,6 @@ If not cleared after five turns it will inflict %0.2f blight damage as the larva
 Even if this disease is removed early, there is still a %d%% chance for the larvae to hatch.
 You can never have more than 5 worms active from any source at a time.
 The damage dealt will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.ACID, (damage/2)), damDesc(self, DamageType.BLIGHT, (damage/2)), damDesc(self, DamageType.BLIGHT, (burst)), chance)
+		tformat(damDesc(self, DamageType.ACID, (damage/2)), damDesc(self, DamageType.BLIGHT, (damage/2)), damDesc(self, DamageType.BLIGHT, (burst)), chance)
 	end,
 }

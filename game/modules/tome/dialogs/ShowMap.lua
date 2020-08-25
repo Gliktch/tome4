@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ function _M:init(mm_mode)
 
 	local t_per_w, t_per_h = math.floor(mw / self.bsize), math.floor(mh / self.bsize)
 
-	Dialog.init(self, "Map: #0080FF#"..game.old_zone_name, 1, 1)
+	Dialog.init(self, ("Map: #0080FF#%s"):tformat(game.old_zone_name), 1, 1)
 
 	local mc = GenericContainer.new{width=mw, height=mh}
 	local uis = { {left=0, top=0, ui=mc} }

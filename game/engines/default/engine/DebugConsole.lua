@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@
 
 require "engine.class"
 require "engine.Dialog"
+local FontPackage = require "engine.FontPackage"
 
 --- Debug Console
 -- @classmod engine.DebugConsole
@@ -133,7 +134,7 @@ function _M:init()
 	self.blink_period = 20
 	self.blink = self.blink_period
 	local w, h = core.display.size()
-	engine.Dialog.init(self, "Lua Console", w, h, 0, 0, nil, core.display.newFont("/data/font/DroidSansMono.ttf", 12))
+	engine.Dialog.init(self, _t"Lua Console", w, h, 0, 0, nil, core.display.newFont(FontPackage:getFont("terminal"), 12))
 	game:onTickEnd(function() self.key:unicodeInput(true) end)
 	self:keyCommands{
 		_RETURN = function()

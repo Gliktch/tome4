@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 --	uses t.base_tactical and t.adept_deac_tactical
 local hymn_tactical = function(self, t, aitarget)
 	local bt_type, tacs = type(t.base_tactical)
-	if bt_type == "function" then 
+	if bt_type == "function" then
 		tacs = t.base_tactical(self, t, aitarget)
 	elseif bt_type == "table" then
 		tacs = table.clone(t.base_tactical)
@@ -34,7 +34,7 @@ local hymn_tactical = function(self, t, aitarget)
 	lvl = self:getTalentLevel(self.T_HYMN_ADEPT)
 	if lvl > 0 and self:isTalentActive(t.id) then
 		if t.adept_deac_tactical then
-			table.mergeAdd(tacs, t.adept_deac_tactical) 
+			table.mergeAdd(tacs, t.adept_deac_tactical)
 		end
 		tacs.special = (tacs.special or 0) + 0.01 -- forces some "inertia" in toggling hymns
 	end
@@ -71,35 +71,33 @@ newTalent{
 		self:talentTemporaryValue(ret, "movement_speed", t.moveSpeed(self, t)/100)
 		self:talentTemporaryValue(ret, "combat_spellspeed", t.castSpeed(self, t)/100)
 		ret.particle = self:addParticles(Particles.new("darkness_shield", 1))
-		
+
 		if self:knowTalent(self.T_HYMN_INCANTOR) then
 			local t2 = self:getTalentFromId(self.T_HYMN_INCANTOR)
 			self:talentTemporaryValue(ret, "on_melee_hit", {[DamageType.DARKNESS]=t2.getDamageOnMeleeHit(self, t2)})
 			self:talentTemporaryValue(ret, "inc_damage", {[DamageType.DARKNESS] = t2.getDarkDamageIncrease(self, t2)})
 		end
-		
+
 		if self:knowTalent(self.T_HYMN_ADEPT) then
 			local t2 = self:getTalentFromId(self.T_HYMN_ADEPT)
 			self:talentTemporaryValue(ret, "infravision", t2.getBonusInfravision(self, t2))
 		end
-		
+
 		if self:isTalentActive(self.T_HYMN_NOCTURNALIST) then
 			local t2 = self:getTalentFromId(self.T_HYMN_NOCTURNALIST)
-			self:talentTemporaryValue(ret, "negative_regen", t2.getBonusRegen(self, t2))
-			self:talentTemporaryValue(ret, "negative_regen_ref_mod", t2.getBonusRegen(self, t2))
 		end
-		
+
 		return ret
 	end,
 	deactivate = function(self, t, p)
 		self:removeParticles(p.particle)
 		if self.turn_procs.resetting_talents then return true end
-		
+
 		if self:knowTalent(self.T_HYMN_ADEPT) then
 			local t2 = self:getTalentFromId(self.T_HYMN_ADEPT)
 			game:onTickEnd(function() self:setEffect(self.EFF_WILD_SPEED, 1, {power=t2.getSpeed(self, t2), no_talents=0}) end)
 		end
-		
+
 		return true
 	end,
 	info = function(self, t)
@@ -107,7 +105,7 @@ newTalent{
 		This increases your movement speed by %d%% and your spell speed by %d%%.
 		You may only have one Hymn active at once.
 		The effects will increase with your Spellpower.]]):
-		format(t.moveSpeed(self, t), t.castSpeed(self, t))
+		tformat(t.moveSpeed(self, t), t.castSpeed(self, t))
 	end,
 }
 
@@ -126,7 +124,7 @@ newTalent{
 	adept_deac_tactical = {escape = -0.5}, -- adept tactic adjustments when deactivating (negated)
 	base_tactical = function(self, t, aitarget) -- buff tactic up to +3 depending on how much the talent helps to see a stealthed/invisible target or a target that is out of sense range
 		local buff, max_buff = 0, 4
-		if not aitarget then -- out of combat, stay vigilant for enemies
+		if not aitarget or not self.aiSeeTargetPos then -- out of combat, stay vigilant for enemies
 			buff = max_buff
 		else
 			if self:attr("blind") or self:attr("esp_all") then return end -- target automatically seen or unseen
@@ -135,7 +133,7 @@ newTalent{
 			if dist <= self.sight then -- target within sight range
 				local is_active = self:isTalentActive(t.id)
 				local see, see_chance = self:canSeeNoCache(aitarget)
-				if see_chance < 100 then -- detecting hidden is useful (rules out esp, etc.)
+				if see_chance and see_chance < 100 then -- detecting hidden is useful (rules out esp, etc.)
 					local tgt_inv = aitarget:attr("invisible")
 					if tgt_inv then -- buff value increases depending on relative invisibility detection
 						local base_det = self:combatSeeInvisible() - (is_active and self.compute_vals[is_active.invis] or 0)
@@ -154,7 +152,7 @@ newTalent{
 			end
 		end
 		buff=math.min(buff, max_buff)
-		return {buff=buff + 0.25, special = buff/2} 
+		return {buff=buff + 0.25, special = buff/2}
 	end,
 	range = 0,
 	sustain_slots = 'celestial_hymn',
@@ -176,45 +174,43 @@ newTalent{
 		self:talentTemporaryValue(ret, "blindfight", 1)
 		self:talentTemporaryValue(ret, "combat_critical_power", t.critPower(self, t))
 		ret.particle = self:addParticles(Particles.new("darkness_shield", 1))
-		
+
 		if self:knowTalent(self.T_HYMN_INCANTOR) then
 			local t2 = self:getTalentFromId(self.T_HYMN_INCANTOR)
 			self:talentTemporaryValue(ret, "on_melee_hit", {[DamageType.DARKNESS]=t2.getDamageOnMeleeHit(self, t2)})
 			self:talentTemporaryValue(ret, "inc_damage", {[DamageType.DARKNESS] = t2.getDarkDamageIncrease(self, t2)})
 		end
-		
+
 		if self:knowTalent(self.T_HYMN_ADEPT) then
 			local t2 = self:getTalentFromId(self.T_HYMN_ADEPT)
 			self:talentTemporaryValue(ret, "infravision", t2.getBonusInfravision(self, t2))
 		end
-		
+
 		if self:isTalentActive(self.T_HYMN_NOCTURNALIST) then
 			local t2 = self:getTalentFromId(self.T_HYMN_NOCTURNALIST)
-			self:talentTemporaryValue(ret, "negative_regen", t2.getBonusRegen(self, t2))
-			self:talentTemporaryValue(ret, "negative_regen_ref_mod", t2.getBonusRegen(self, t2))
 		end
-		
+
 		return ret
 	end,
 	deactivate = function(self, t, p)
 		self:removeParticles(p.particle)
 		if self.turn_procs.resetting_talents then return true end
-		
+
 		if self:knowTalent(self.T_HYMN_ADEPT) then
 			local t2 = self:getTalentFromId(self.T_HYMN_ADEPT)
 			self:setEffect(self.EFF_INVISIBILITY, t2.invisDur(self, t2), {power=t2.invisPower(self, t2), penalty=0.4})
 		end
-		
+
 		return true
 	end,
 	info = function(self, t)
 		local invis = t.getSeeInvisible(self, t)
 		local stealth = t.getSeeStealth(self, t)
-		return ([[Chant the glory of the Moons, granting you stealth detection (+%d power), and invisibility detection (+%d power). 
+		return ([[Chant the glory of the Moons, granting you stealth detection (+%d power), and invisibility detection (+%d power).
 		You may also attack creatures you cannot see without penalty and your critical hits do %d%% more damage.
 		You may only have one Hymn active at once.
 		The stealth and invisibility detection will increase with your Spellpower.]]):
-		format(stealth, invis, t.critPower(self, t))
+		tformat(stealth, invis, t.critPower(self, t))
 	end,
 }
 
@@ -248,24 +244,22 @@ newTalent{
 		self:talentTemporaryValue(ret, "confusion_immune", t.getImmunities(self, t))
 		self:talentTemporaryValue(ret, "blind_immune", t.getImmunities(self, t))
 		ret.particle = self:addParticles(Particles.new("darkness_shield", 1))
-		
+
 		if self:knowTalent(self.T_HYMN_INCANTOR) then
 			local t2 = self:getTalentFromId(self.T_HYMN_INCANTOR)
 			self:talentTemporaryValue(ret, "on_melee_hit", {[DamageType.DARKNESS]=t2.getDamageOnMeleeHit(self, t2)})
 			self:talentTemporaryValue(ret, "inc_damage", {[DamageType.DARKNESS] = t2.getDarkDamageIncrease(self, t2)})
 		end
-		
+
 		if self:knowTalent(self.T_HYMN_ADEPT) then
 			local t2 = self:getTalentFromId(self.T_HYMN_ADEPT)
 			self:talentTemporaryValue(ret, "infravision", t2.getBonusInfravision(self, t2))
 		end
-		
+
 		if self:isTalentActive(self.T_HYMN_NOCTURNALIST) then
 			local t2 = self:getTalentFromId(self.T_HYMN_NOCTURNALIST)
-			self:talentTemporaryValue(ret, "negative_regen", t2.getBonusRegen(self, t2))
-			self:talentTemporaryValue(ret, "negative_regen_ref_mod", t2.getBonusRegen(self, t2))
 		end
-		
+
 		return ret
 	end,
 	deactivate = function(self, t, p)
@@ -276,14 +270,14 @@ newTalent{
 			local t2 = self:getTalentFromId(self.T_HYMN_ADEPT)
 			self:setEffect(self.EFF_DAMAGE_SHIELD, t2.shieldDur(self, t2), {power=t2.shieldPower(self, t2)})
 		end
-		
+
 		return true
 	end,
 	info = function(self, t)
 		local immunities = t.getImmunities(self, t)
 		return ([[Chant the glory of the Moons, granting you %d%% stun, blindness and confusion resistance.
 		You may only have one Hymn active at once.]]):
-		format(100 * (immunities))
+		tformat(100 * (immunities))
 	end,
 }
 
@@ -342,12 +336,12 @@ newTalent{
 	sustain_slots = 'celestial_hymn',
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/spell_generic")
-		game.logSeen(self, "#DARK_GREY#A shroud of shadow dances around %s!", self.name)
-		return { name=self.name:capitalize().."'s "..t.name
+		game.logSeen(self, "#DARK_GREY#A shroud of shadow dances around %s!", self:getName())
+		return { name=("%s's %s"):tformat(self:getName():capitalize(), t.name)
 		}
 	end,
 	deactivate = function(self, t, p)
-		game.logSeen(self, "#DARK_GREY#The shroud of shadows around %s disappears.", self.name)
+		game.logSeen(self, "#DARK_GREY#The shroud of shadows around %s disappears.", self:getName())
 		return true
 	end,
 	info = function(self, t)
@@ -359,7 +353,7 @@ newTalent{
 		This powerful spell will drain %0.1f negative energy for each beam; no beam will fire if your negative energy is too low.
 		You may only have one Hymn active at once.
 		The damage will increase with your Spellpower.]]):
-		format(targetcount, damDesc(self, DamageType.DARKNESS, damage), drain)
+		tformat(targetcount, damDesc(self, DamageType.DARKNESS, damage), drain)
 	end,
 }
 
@@ -404,7 +398,7 @@ Hymn of Detection: Increases your ability to see stealthy creatures by %d and in
 Hymn of Perseverance: Increases your resistance to stun, confusion and blinding by %d%%.
 
 You may only have one Hymn active at a time.]]):
-			format(t1.moveSpeed(self, t1), t1.castSpeed(self, t1), t2.getSeeStealth(self, t2), t2.getSeeInvisible(self, t2), t2.critPower(self, t2), t3.getImmunities(self, t3)*100)
+			tformat(t1.moveSpeed(self, t1), t1.castSpeed(self, t1), t2.getSeeStealth(self, t2), t2.getSeeInvisible(self, t2), t2.critPower(self, t2), t3.getImmunities(self, t3)*100)
 		end)
 		self.talents[self.T_HYMN_OF_SHADOWS] = old1
 		self.talents[self.T_HYMN_OF_DETECTION] = old2
@@ -423,7 +417,7 @@ newTalent{
 	getDarkDamageIncrease = function(self, t) return self:combatTalentSpellDamage(t, 10, 30) end,
 	info = function(self, t)
 		return ([[Your Hymns now focus darkness near you, which increases your darkness damage by %d%% and does %0.2f darkness damage to anyone who hits you in melee.
-		These values scale with your Spellpower.]]):format(t.getDarkDamageIncrease(self, t), damDesc(self, DamageType.DARKNESS, t.getDamageOnMeleeHit(self, t)))
+		These values scale with your Spellpower.]]):tformat(t.getDarkDamageIncrease(self, t), damDesc(self, DamageType.DARKNESS, t.getDamageOnMeleeHit(self, t)))
 	end,
 }
 
@@ -445,8 +439,7 @@ newTalent{
 		Also, when you end a Hymn, you will gain a buff of a type based on which Hymn you ended.
 		Hymn of Shadows increases your movement speed by %d%% for one turn.
 		Hymn of Detection makes you invisible (power %d) for %d turns.
-		Hymn of Perseverance grants a damage shield (power %d) for %d turns.]]):format(t.getBonusInfravision(self, t), t.getSpeed(self, t), 
-			t.invisPower(self, t), t.invisDur(self, t), t.shieldPower(self, t), t.shieldDur(self, t) * (100 + (self:attr("shield_factor") or 0)) / 100)
+		Hymn of Perseverance grants a damage shield (power %d) for %d turns.]]):tformat(t.getBonusInfravision(self, t), t.getSpeed(self, t), t.invisPower(self, t), t.invisDur(self, t), self:getShieldAmount(t.shieldPower(self, t)), self:getShieldDuration(t.shieldDur(self, t)))
 	end,
 }
 
@@ -469,15 +462,9 @@ newTalent{
 	target = function(self, t) -- for AI only
 		 return {type="ball", friendlyfire=false, friendlyblock=false, radius=t.range, range=0, talent=t}
 	end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 7, 80) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 50) end,
 	getTargetCount = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5)) end,
-	getNegativeDrain = function(self, t) return self:combatTalentLimit(t, 0, 5, 3) end,
-	getBonusRegen = function(self, t) return self:combatTalentScale(t, 0.7, 4.0, 0.75) / 10 end,
-	callbackOnRest = function(self, t)
-		if not self:knowTalent(self.T_NEGATIVE_POOL) then return false end
-		if self.negative_regen > 0 and self.negative < self.max_negative then return true end
-		return false
-	end,
+	getNegativeDrain = function(self, t) return 5 end,
 	do_beams = function(self, t)
 		if self:getNegative() < t.getNegativeDrain(self, t) then return end
 
@@ -491,22 +478,21 @@ newTalent{
 		end end
 
 		if #tgts <= 0 then return end
-		
+
 		local drain = t.getNegativeDrain(self, t)
-		local dam = rng.avg(1, self:spellCrit(t.getDamage(self, t)), 3)
+		self:incNegative(-drain)  -- Make sure to pay before Corona procs
+		local dam = self:spellCrit(t.getDamage(self, t))
 
 		-- Randomly take targets
 		local tg = {type="hit", range=self:getTalentRange(t), talent=t}
 		for i = 1, t.getTargetCount(self, t) do
 			if #tgts <= 0 then break end
-			if self:getNegative() - 1 < drain then break end
 			local a, id = rng.table(tgts)
 			table.remove(tgts, id)
 
 			self:project(tg, a.x, a.y, DamageType.DARKNESS_BLIND, dam)
 			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(a.x-self.x), math.abs(a.y-self.y)), "shadow_beam", {tx=a.x-self.x, ty=a.y-self.y})
 			game:playSoundNear(self, "talents/spell_generic")
-			self:incNegative(-drain)
 		end
 	end,
 	activate = function(self, t)
@@ -534,9 +520,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Your passion for singing the praises of the Moons reaches its zenith; your hymns increase your negative energy regeneration by %0.2f per turn.
+		return ([[Your passion for singing the praises of the Moons reaches its zenith.
 		Your Hymns now fire shadowy beams that will hit up to %d of your foes within radius 5 for 1 to %0.2f damage, with a 20%% chance of blinding.
-		This powerful effect will drain %0.1f negative energy for each beam; no beam will fire if your negative energy is too low.
-		These values scale with your Spellpower.]]):format(t.getBonusRegen(self, t), t.getTargetCount(self, t), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), t.getNegativeDrain(self, t))
+		This powerful effect will drain %0.1f negative energy each time it fires at at least 1 target; no beam will fire if your negative energy is too low.
+		These values scale with your Spellpower.]]):tformat(t.getTargetCount(self, t), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), t.getNegativeDrain(self, t))
 	end,
 }

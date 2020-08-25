@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -63,6 +63,7 @@ for _, edge in pairs(mstrun.mst) do
 end
 
 bsp:applyOnGroups(bsp:findGroupsOf{'.', '+'}, function(room, idx)
+	room:submap(tm)
 	if room.map.data_size:area() < 10 then
 		room.map:carveArea('#', room.map:point(1, 1), room.map.data_size)
 	end

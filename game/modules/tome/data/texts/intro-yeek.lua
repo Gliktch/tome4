@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[Welcome #LIGHT_GREEN#@name@#WHITE#.
+return _t[[Welcome #LIGHT_GREEN#@name@#WHITE#.
 You are a Yeek Wayist of Irkkk.
 All Yeeks follow the Way, which is both a global psionic link that unifies the whole Yeek race, and a way of life.
 Your whole life is dedicated to serving the Yeek race. You feel compelled by the Way to protect your race at all costs - even your own life.

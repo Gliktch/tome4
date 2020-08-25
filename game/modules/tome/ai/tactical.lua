@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -58,8 +58,8 @@ newAI("use_tactical", function(self)
 	-- Find available talents
 	local avail = {}
 	local want = {}
-	self.ai_state._avail = avail
-	self.ai_state._wants = want
+	self.ai_state_volatile._avail = avail
+	self.ai_state_volatile._want = want
 	local log_detail = config.settings.log_detail_ai or 0
 	local ok, _ = false
 	local aitarget = self.ai_target.actor

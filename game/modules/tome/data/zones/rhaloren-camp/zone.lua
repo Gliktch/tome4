@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ if layout == "DEFAULT" then
 
 -- Underground
 return {
-	name = "Rhaloren Camp",
+	name = _t"Rhaloren Camp",
 	level_range = {1, 7},
 	level_scheme = "player",
 	max_level = 3,
@@ -92,7 +92,7 @@ elseif layout == "OVERGROUND" then
 
 -- Overground
 return {
-	name = "Rhaloren Camp",
+	name = _t"Rhaloren Camp",
 	level_range = {1, 5},
 	level_scheme = "player",
 	max_level = 3,
@@ -124,9 +124,9 @@ return {
 			['.'] = "FLOOR",
 			['+'] = "DOOR",
 
-			nb_rooms = {0,1,1,2},
+			nb_rooms = {1,1,2},
 			rooms = {"lesser_vault"},
-			lesser_vaults_list = {"circle","amon-sul-crypt","rat-nest","skeleton-mage-cabal"},
+			lesser_vaults_list = {"circle","amon-sul-crypt","skeleton-mage-cabal","collapsed-tower"},
 			lite_room_chance = 100,
 		},
 		actor = {

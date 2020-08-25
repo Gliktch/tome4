@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 -- darkgod@te4.org
 
 require "engine.class"
+local I18N = require "engine.I18N"
 local Savefile = require "engine.Savefile"
 local UIBase = require "engine.ui.Base"
 local FontPackage = require "engine.FontPackage"
@@ -500,6 +501,11 @@ function _M:loadAddon(mod, add, hashlist, hooks_list)
 		elseif add.teaa then fs.mount("subdir:/data/|"..fs.getRealPath(add.teaa), "/data-"..add.short_name, true)
 		else fs.mount(base.."/data", "/data-"..add.short_name, true)
 		end
+
+		-- Load localizations, addons just need to provide the file and it's autoloaded
+		if mod.i18n_support and config.settings.locale then
+			I18N:loadLocale("/data-"..add.short_name.."/locales/"..config.settings.locale..".lua")
+		end
 	end
 	if add.superload then 
 		print(" * with superload")
@@ -550,6 +556,7 @@ function _M:loadAddons(mod, saveuse)
 	if saveuse then saveuse = table.reverse(saveuse) end
 
 	local force_remove_addons = {}
+	local beta_removed = {}
 
 	-- Filter based on settings
 	for i = #adds, 1, -1 do
@@ -579,6 +586,10 @@ function _M:loadAddons(mod, saveuse)
 					print("Removing addon "..add.short_name..": not allowed by config")
 					table.remove(adds, i) removed = true
 				end
+			elseif not config.settings.cheat and not engine.beta_allow_addon(add) then
+				print("Removing addon "..add.short_name..": game beta forbids")
+				table.remove(adds, i) removed = true
+				beta_removed[#beta_removed+1] = add.long_name
 			else
 				-- Forbidden by version
 				if not add.natural_compatible then
@@ -619,6 +630,12 @@ You may try to force loading if you are sure the savefile does not use that addo
 			if add.disable_addons then
 				table.merge(force_remove_addons, table.reverse(add.disable_addons))
 			end
+		end
+	end
+	if #beta_removed > 0 then
+		mod.post_load_exec = mod.post_load_exec or {}
+		mod.post_load_exec[#mod.post_load_exec+1] = function()
+			require("engine.ui.Dialog"):simpleLongPopup(_t"Beta Addons Disabled", _t"This beta version is meant to be tested without addons, as such the following ones are currently disabled:\n#GREY#"..table.concat(beta_removed, '#LAST#, #GREY#').."#LAST#\n\n".._t"#{italic}##PINK#Addons developers can still test their addons by enabling developer mode.#{normal}#", 600)
 		end
 	end
 
@@ -683,6 +700,15 @@ You may try to force loading if you are sure the savefile does not use that addo
 		f()
 	end
 	self:setCurrentHookDir(nil)
+
+	local add_check = {}
+	for i, add in ipairs(adds) do
+		if add_check[add.short_name] then
+			util.showMainMenu(false, nil, nil, nil, nil, nil, ("duplicate_addon=%q"):format(add.long_name), nil)
+		end
+		add_check[add.short_name] = add
+	end
+
 	return hashlist
 end
 
@@ -755,7 +781,7 @@ function _M:loadScreen(mod)
 				local i = core.display.loadImage(l.image)
 				if i then img = {i:glTexture()} end
 			end
-			local text = bfont:draw(l.text, dw - (img and img[6] or 0), 255, 255, 255)
+			local text = bfont:draw(_t(l.text), dw - (img and img[6] or 0), 255, 255, 255)
 			local text_h = #text * text[1].h
 
 			local Base = require "engine.ui.Base"
@@ -909,6 +935,9 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	-- Make sure locale is correct
 	core.game.resetLocale()
 
+	-- Reset white space breaking
+	core.display.breakTextAllCharacter(false)
+
 	-- Turn based by default
 	core.game.setRealtime(0)
 
@@ -924,6 +953,12 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	-- Init the module directories
 	fs.mount(engine.homepath, "/")
 	mod.load("setup")
+
+	-- Load localizations
+	if mod.i18n_support and config.settings.locale then
+		I18N:loadLocale("/data/locales/"..config.settings.locale..".lua")
+		I18N:resetBreakTextAllCharacter()
+	end
 
 	-- Load font packages
 	FontPackage:loadDefinition("/data/font/packages/default.lua")
@@ -1048,6 +1083,9 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 		_G.world:run()
 	end
 
+	-- TODO: Replace this with loading quickhotkeys from the profile.
+	if engine.interface.PlayerHotkeys then engine.interface.PlayerHotkeys:loadQuickHotkeys(mod.short_name, Savefile.hotkeys_file) end
+
 	-- Load the savefile if it exists, or create a new one if not (or if requested)
 	local save = engine.Savefile.new(_G.game.save_name)
 	if save:check() and not new_game then
@@ -1111,15 +1149,14 @@ function _M:instanciate(mod, name, new_game, no_reboot, extra_module_info)
 	profile:saveGenericProfile("modules_loaded", {name=mod.short_name, nb={"inc", 1}})
 	profile:setConfigsBatch(false)
 
-	-- TODO: Replace this with loading quickhotkeys from the profile.
-	if engine.interface.PlayerHotkeys then engine.interface.PlayerHotkeys:loadQuickHotkeys(mod.short_name, Savefile.hotkeys_file) end
-
 	core.wait.disable()
 	profile.waiting_auth_no_redraw = false
 
 	core.display.resetAllFonts("normal")
 
 	if mod.short_name ~= "boot" then profile:noMoreAuthWait() end
+
+	if mod.post_load_exec then for _, fct in ipairs(mod.post_load_exec) do fct() end end
 end
 
 --- Setup write dir for a module

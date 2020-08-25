@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -104,17 +104,18 @@ newEntity{
 		local tts = {}
 		local p = game:getPlayer(true)
 		for i, def in ipairs(engine.interface.ActorTalents.talents_types_def) do
-            if p and def.allow_random and p:knowTalentType(def.type) or p:knowTalentType(def.type) == false then 
-                if not (e.power_source.antimagic and def.is_spell) or (e.power_source.arcane and def.is_antimagic) then
-                    tts[#tts+1] = def.type
-                end
-            end
-        end
-		local tt = tts[rng.range(1, #tts)]
+			if p and def.allow_random and p:knowTalentType(def.type) or p:knowTalentType(def.type) == false then 
+				if not (e.power_source.antimagic and def.is_spell) or (e.power_source.arcane and def.is_antimagic) then
+					tts[#tts+1] = def.type
+				end
+			end
+		end
+		local tt = rng.table(tts)
+		if not tt then tt = "technique/combat-training" end
 
-		e.wielder.talents_types_mastery = {}
+		e.wielder.talents_types_mastery = e.wielder.talents_types_mastery or {}
 		local v = (10 + rng.mbonus(math.ceil(30 * e.material_level / 5), resolvers.current_level, 50)) / 100
-		e.wielder.talents_types_mastery[tt] = v
+		e.wielder.talents_types_mastery[tt] = (e.wielder.talents_types_mastery[tt] or 0) + v
 		e.cost = e.cost + v * 60
 	end),
 }
@@ -551,10 +552,10 @@ newEntity{
 		local tt = rng.tableRemove(tts)
 		local tt2 = rng.tableRemove(tts)
 
-		e.wielder.talents_types_mastery = {}
+		e.wielder.talents_types_mastery = e.wielder.talents_types_mastery or {}
 		local v = (10 + rng.mbonus(math.ceil(30 * e.material_level / 5), resolvers.current_level, 50)) / 100
-		if tt then e.wielder.talents_types_mastery[tt] = v end
-		if tt2 then e.wielder.talents_types_mastery[tt2] = v end
+		if tt then e.wielder.talents_types_mastery[tt] = (e.wielder.talents_types_mastery[tt] or 0) + v end
+		if tt2 then e.wielder.talents_types_mastery[tt2] = (e.wielder.talents_types_mastery[tt2] or 0) + v end
 		e.cost = e.cost + v * 60
 	end),
 }

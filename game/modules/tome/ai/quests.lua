@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -42,9 +42,9 @@ newAI("move_quest_limmir", function(self)
 	else
 		game.level.turn_counter = 370 * 10
 		game.level.max_turn_counter = 370 * 10
-		game.level.turn_counter_desc = "Protect Limmir from the demons coming from north-east. Hold them off!"
+		game.level.turn_counter_desc = _t"Protect Limmir from the demons coming from north-east. Hold them off!"
 		game.player.changed = true
 		self.ai = "none"
-		self:doEmote("This place is corrupted! I will cleanse it! Protect me while I do it!", 120)
+		self:doEmote(_t"This place is corrupted! I will cleanse it! Protect me while I do it!", 120)
 	end
 end)

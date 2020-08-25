@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ newTalent{
 		local inc = t.getPercentInc(self, t)
 		return ([[The first time you take damage each turn, you regenerate %d%% of the damage dealt as mana (up to a maximum of %0.2f) and %d%% as equilibrium (up to %0.2f).
 		Increases Physical Power by %d, increases damage done with shields by %d%%, and allows you to dual-wield shields.
-		Also, all of your melee attacks will perform a shield bash in addition to their normal effects.]]):format(100 * m, mm, 100 * e, em, damage, inc*100)
+		Also, all of your melee attacks will perform a shield bash in addition to their normal effects.]]):tformat(100 * m, mm, 100 * e, em, damage, inc*100)
 	end,
 }
 
@@ -66,7 +66,7 @@ newTalent{
 	info = function(self, t)
 		return ([[When you use your Resilience of the Dwarves racial power your skin becomes so tough that it even absorbs damage from non-physical attacks.
 		Non-physical damage is reduced by %d%% of your total armour value (ignoring hardiness).]]):
-		format(t.getPercent(self, t))
+		tformat(t.getPercent(self, t))
 	end,
 }
 
@@ -89,7 +89,7 @@ newTalent{
 		return ([[Sharp shards of stone grow from your shields.
 		When you are hit in melee, you will get a free attack against the attacker with the shards doing %d%% shield damage (as Nature).
 		This effect can only happen once per turn.]]):
-		format(self:combatTalentWeaponDamage(t, 0.4, 1) * 100)
+		tformat(self:combatTalentWeaponDamage(t, 0.4, 1) * 100)
 	end,
 }
 
@@ -103,24 +103,26 @@ newTalent{
 	tactical = { DEFEND = 2, EQUILIBRIUM=1, MANA=1 },
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 2.5, 4.5)) end,
 	getPower = function(self, t) return 70 + self:combatTalentStatDamage(t, "wil", 5, 400) end,
+	getDuration = function(self, t) return 7 end,
 	manaRegen = function(self, t) return self:combatTalentScale(t, 0.25, 1, 0.75) end,
 	maxDamage = function(self, t) return self:combatTalentScale(t, 150, 500) end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "mana_regen_on_rest", t.manaRegen(self, t))
 	end,
 	action = function(self, t)
-		self:setEffect(self.EFF_ELDRITCH_STONE, 7, {power=t.getPower(self, t), radius=self:getTalentRadius(t), maxdam = t.maxDamage(self, t)})
+		self:setEffect(self.EFF_ELDRITCH_STONE, t.getDuration(self, t), {power=t.getPower(self, t), radius=self:getTalentRadius(t), maxdam = t.maxDamage(self, t)})
 		game:playSoundNear(self, "talents/stone")
 		return true
 	end,
 	info = function(self, t)
-		local power = t.getPower(self, t)
+		local dur = self:getShieldDuration(t.getDuration(self, t))
+		local power = self:getShieldAmount(t.getPower(self, t))
 		local radius = self:getTalentRadius(t)
-		return ([[Creates a shield of impenetrable stone around you for 7 turns, absorbing up to %d damage.
+		return ([[Creates a shield of impenetrable stone around you for %d turns, absorbing up to %d damage.
 		Your equilibrium will increase by twice the damage absorbed.
-		When the effect ends, all equilibrium above minimum will be converted to mana in a storm of arcane energy.
+		When the effect ends, all equilibrium above minimum will be converted to mana in a storm of arcane energy and the cooldown of your Block is reset.
 		The storm inflicts Arcane damage equal to the converted equilibrium (maximum %d) against everyone around you in a radius %d.
 		Also while resting you will passively regenerate %0.2f mana each turn.
-		The shield strength will increase with Willpower]]):format(power, t.maxDamage(self, t), radius, t.manaRegen(self, t))
+		The shield strength will increase with Willpower]]):tformat(dur, power, t.maxDamage(self, t), radius, t.manaRegen(self, t))
 	end,
 }

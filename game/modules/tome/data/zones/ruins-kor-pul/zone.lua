@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"HIDEOUT", 2})
 local is_hideout = layout == "HIDEOUT"
 
 return {
-	name = "Ruins of Kor'Pul",
+	name = _t"Ruins of Kor'Pul",
 	level_range = {1, 7},
 	level_scheme = "player",
 	max_level = 3,
@@ -42,7 +42,7 @@ return {
 			class = "engine.generator.map.Roomer",
 			nb_rooms = 10,
 			rooms = {"random_room", {"money_vault",5}, {"lesser_vault",8}},
-			lesser_vaults_list = {"circle","amon-sul-crypt","rat-nest","skeleton-mage-cabal"},
+			lesser_vaults_list = {"circle","amon-sul-crypt","rat-nest","skeleton-mage-cabal","crystal-cabal","snake-pit"},
 			lite_room_chance = 100,
 			['.'] = "FLOOR",
 			['#'] = "WALL",

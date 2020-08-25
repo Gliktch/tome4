@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -53,6 +53,9 @@ function _M:newEffect(t)
 	t.status = t.status or "detrimental"
 	t.decrease = t.decrease or 1
 
+	-- I18N
+	t.desc = _t(t.desc)
+
 	self.tempeffect_def["EFF_"..t.name] = t
 	t.id = "EFF_"..t.name
 	self["EFF_"..t.name] = "EFF_"..t.name
@@ -74,18 +77,26 @@ end
 function _M:timedEffects(filter)
 	local todel = {}
 	local def
+	local effs = {}
 	for eff, p in pairs(self.tmp) do
+		effs[eff] = p
+	end
+	for eff, p in pairs(effs) do
 		def = _M.tempeffect_def[eff]
 		if not filter or filter(def, p) then
 			if p.dur <= 0 then
 				todel[#todel+1] = eff
 			else
 				if def.on_timeout then
-					if p.src then p.src.__project_source = p end -- intermediate projector source
+					local old_source
+					if p.src then
+						old_source = p.src.__project_source
+						p.src.__project_source = p 
+					end -- intermediate projector source
 					if def.on_timeout(self, p, def) then
 						todel[#todel+1] = eff
 					end
-					if p.src then p.src.__project_source = nil end
+					if p.src then p.src.__project_source = old_source end
 				end
 			end
 			p.dur = p.dur - def.decrease
@@ -108,6 +119,8 @@ function _M:setEffect(eff_id, dur, p, silent)
 	-- Beware, setting to 0 means removing
 	if dur <= 0 then return self:removeEffect(eff_id) end
 	dur = math.floor(dur)
+
+	p.__orig_params = table.clone(p, true)
 
 	local ed = _M.tempeffect_def[eff_id]
 	for k, e in pairs(ed.parameters) do
@@ -135,7 +148,7 @@ function _M:setEffect(eff_id, dur, p, silent)
 		local ret, fly = ed.on_gain(self, p)
 		if not silent and not had then
 			if ret then
-				game.logSeen(self, ret:gsub("#Target#", self.name:capitalize()):gsub("#target#", self.name):gsub("#himher#", self.female and "her" or "him"):gsub("#hisher#", self.female and "her" or "his"))
+				game.logSeen(self, ret:noun_sub("#Target#", self:getName():capitalize()):noun_sub("#target#", self:getName()):gsub("#himher#", self:him_her()):gsub("#hisher#", self:his_her()))
 			end
 			if fly and game.flyers and self.x and self.y and game.level.map.seens(self.x, self.y) then
 				if fly == true then fly = "+"..ed.desc end
@@ -196,7 +209,7 @@ function _M:removeEffect(eff, silent, force)
 		local ret, fly = ed.on_lose(self, p)
 		if not silent then
 			if ret then
-				game.logSeen(self, ret:gsub("#Target#", self.name:capitalize()):gsub("#target#", self.name):gsub("#himher#", self.female and "her" or "him"))
+				game.logSeen(self, ret:noun_sub("#Target#", self:getName():capitalize()):noun_sub("#target#", self:getName()):gsub("#himher#", self:him_her()))
 			end
 			if fly and game.flyers and self.x and self.y then
 				if fly == true then fly = "-"..ed.desc end
@@ -246,6 +259,18 @@ function _M:copyEffect(eff_id)
 	param.__tmpvals = nil
 	--param.__tmpparticles = nil
 	return param
+end
+
+--- Clone the given effect on the given target
+function _M:cloneEffect(eff_id, target, alter)
+	local p = self:hasEffect(eff_id)
+	if not p then return end
+	local param = table.clone(p.__orig_params or {}, true)
+	for k, e in pairs(alter or {}) do param[k] = e end
+	target:setEffect(eff_id, p.dur, param)
+
+	local ed = target:getEffectFromId(eff_id)
+	if ed.on_clone then ed.on_clone(target, target.tmp[eff_id], ed, self) end
 end
 
 --- Reduces time remaining

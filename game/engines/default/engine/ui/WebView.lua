@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -62,6 +62,10 @@ end
 function _M:generate()
 	self.mouse:reset()
 	self.key:reset()
+	if not core.webview then
+		self.unusable = true
+		return
+	end
 
 	local handlers = {
 		on_title = function(title) if self.on_title then self.on_title(title) end end,
@@ -164,8 +168,8 @@ function _M:makeDownloadbox(downid, file)
 	local Waitbar = require "engine.ui.Waitbar"
 	local Button = require "engine.ui.Button"
 
-	local d = Dialog.new("Download: "..file, 600, 100)
-	local b = Button.new{text="Cancel", fct=function() self.view:downloadAction(downid, false) game:unregisterDialog(d) end}
+	local d = Dialog.new(("Download: "):tformat(file), 600, 100)
+	local b = Button.new{text=_t"Cancel", fct=function() self.view:downloadAction(downid, false) game:unregisterDialog(d) end}
 	local w = Waitbar.new{size=600, text=file}
 	d:loadUI{
 		{left=0, top=0, ui=w},
@@ -192,7 +196,7 @@ function _M:onDownload(handlers)
 			if path then
 				local name = file
 				if self._next_download_name and os.time() - self._next_download_name.time <= 3 then name = self._next_download_name.name self._next_download_name = nil end
-				Dialog:yesnoPopup("Confirm addon install/update", "Are you sure you want to install this addon: #LIGHT_GREEN##{bold}#"..name.."#{normal}##LAST# ?", function(ret)
+				Dialog:yesnoPopup(_t"Confirm addon install/update", _t("Are you sure you want to install this addon: #LIGHT_GREEN##{bold}#%s#{normal}##LAST# ?"):tformat(name), function(ret)
 					if ret then
 						print("Accepting addon download to:", path..file)
 						self.download_dialog = self:makeDownloadbox(downid, file)
@@ -210,7 +214,7 @@ function _M:onDownload(handlers)
 			if path then
 				local name = file
 				if self._next_download_name and os.time() - self._next_download_name.time <= 3 then name = self._next_download_name.name self._next_download_name = nil end
-				Dialog:yesnoPopup("Confirm module install/update", "Are you sure you want to install this module: #LIGHT_GREEN##{bold}#"..name.."#{normal}##LAST# ?", function(ret)
+				Dialog:yesnoPopup(_t"Confirm module install/update", ("Are you sure you want to install this module: #LIGHT_GREEN##{bold}#%s#{normal}##LAST#?"):tformat(name), function(ret)
 					if ret then
 						print("Accepting module download to:", path..file)
 						self.download_dialog = self:makeDownloadbox(downid, file)
@@ -236,9 +240,9 @@ function _M:onDownload(handlers)
 		if not self.download_dialog then return end
 		game:unregisterDialog(self.download_dialog)
 		if self.download_dialog.install_kind == "Addon" then
-			Dialog:simplePopup("Addon installed!", "Addon installation successful. New addons are only active for new characters.")
+			Dialog:simplePopup(_t"Addon installed!", _t"Addon installation successful. New addons are only active for new characters.")
 		elseif self.download_dialog.install_kind == "Game Module" then
-			Dialog:simplePopup("Game installed!", "Game installation successful. Have fun!")
+			Dialog:simplePopup(_t"Game installed!", _t"Game installation successful. Have fun!")
 		end
 		self.download_dialog = nil
 	end
@@ -259,7 +263,7 @@ function _M:display(x, y, nb_keyframes, screen_x, screen_y, offset_x, offset_y, 
 		self.view:toScreen(x, y)
 	end
 
-	if self.loading < 1 then
+	if self.loading < 1 and not self.hide_loading then
 		self.loading_rotation = self.loading_rotation + nb_keyframes * 8
 		core.display.glMatrix(true)
 		core.display.glTranslate(x + self.loading_icon.w / 2, y + self.loading_icon.h / 2, 0)

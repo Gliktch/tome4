@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ newBirthDescriptor{
 	type = "class",
 	name = "Tutorial Adventurer",
 	desc = {
-		"Adventurers have a generic talent set to teach to young ones.",
+		_t"Adventurers have a generic talent set to teach to young ones.",
 	},
 	descriptor_choices =
 	{
@@ -46,7 +46,7 @@ newBirthDescriptor{
 	type = "subclass",
 	name = "Tutorial Adventurer",
 	desc = {
-		"Adventurers have a generic talent set to teach to young ones.",
+		_t"Adventurers have a generic talent set to teach to young ones.",
 	},
 	not_on_random_boss = true,
 	stats = { str=10, con=5, dex=8, mag=10, wil=5, cun=5 },

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -51,9 +51,9 @@ else
 		name = "Norgos, the Frozen",
 		display = "q", color=colors.VIOLET,
 		resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/animal_bear_norgos_the_frozen.png", display_h=2, display_y=-1}}},
-		desc = [[This ancient bear long guarded the western side of the forest, but as of late he started growing mad, attacking even the Thaloren.
+		desc = _t[[This ancient bear long guarded the western side of the forest, but as of late he started growing mad, attacking even the Thaloren.
 It seems to have fallen prey to the shivgoroth invading the area. Dead and frozen, it seems like a statue, animated by the elementals.]],
-		killer_message = "and was turned into icicles",
+		killer_message = _t"and was turned into icicles",
 		level_range = {7, nil}, exp_worth = 2,
 		max_life = 200, life_rating = 17, fixed_rating = true, life_regen = 0,
 		max_stamina = 85,
@@ -96,8 +96,8 @@ newEntity{ base="BASE_NPC_BEAR", define_as = "NORGOS",
 	name = "Norgos, the Guardian",
 	display = "q", color=colors.VIOLET,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/animal_bear_norgos_the_guardian.png", display_h=2, display_y=-1}}},
-	desc = [[This ancient bear long guarded the western side of the forest, but as of late he started growing mad, attacking even the Thaloren.]],
-	killer_message = "and was feasted upon by wolves",
+	desc = _t[[This ancient bear long guarded the western side of the forest, but as of late he started growing mad, attacking even the Thaloren.]],
+	killer_message = _t"and was feasted upon by wolves",
 	level_range = {7, nil}, exp_worth = 2,
 	max_life = 200, life_rating = 17, fixed_rating = true,
 	max_stamina = 85,
@@ -130,11 +130,7 @@ newEntity{ base="BASE_NPC_BEAR", define_as = "NORGOS",
 	auto_classes={{class="Brawler", start_level=12, level_rate=50}},
 
 	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
-	on_added_to_level = function(self)
-		if self.level <= 16 then
-			self.ai_tactic.escape = 0
-		end
-	end,
+	low_level_tactics_override = {escape=0},
 
 	resolvers.inscriptions(1, "infusion"),
 

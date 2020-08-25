@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New game difficulty mode: #LIGHT_GREEN#Insane",
-[[You won the game on Nightmare mode.  You are a big tough player!
+return _t"New game difficulty mode: #LIGHT_GREEN#Insane",
+_t[[You won the game on Nightmare mode.  You are a big tough player!
 You thought you had seen it all, done it all...
 
 But no! If nightmare mode couldn't bring you down, Insane mode will!

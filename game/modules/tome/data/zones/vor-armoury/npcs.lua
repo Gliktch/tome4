@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ local Talents = require("engine.interface.ActorTalents")
 newEntity{ base="BASE_NPC_ORC_GRUSHNAK", define_as = "GNARG",
 	allow_infinite_dungeon = true,
 	name = "Warmaster Gnarg", color=colors.VIOLET, unique = true,
-	desc = [[This ugly orc looks really nasty and vicious. He wields a huge two-handed sword and means to use it.]],
+	desc = _t[[This ugly orc looks really nasty and vicious. He wields a huge two-handed sword and means to use it.]],
 	level_range = {35, nil}, exp_worth = 2,
 	rank = 4,
 	max_life = 250, life_rating = 27, fixed_rating = true,

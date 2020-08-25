@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ newEntity{
 	rarity = 5,
 	encumber = 7,
 	metallic = true,
-	desc = [[Handheld deflection devices.]],
+	desc = _t[[Handheld deflection devices.]],
 	require = { flag = { "allow_wear_shield" }, },
 	randart_able = "/data/general/objects/random-artifacts/shields.lua",
 	special_combat = { talented="shield", accuracy_effect="staff", damrange = 1.2, no_offhand_penalty=true },

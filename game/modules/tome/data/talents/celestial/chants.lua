@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -45,27 +45,25 @@ newTalent{
 		self:talentTemporaryValue(ret, "combat_mentalresist", power)
 		self:talentTemporaryValue(ret, "max_life", t.getLifePct(self, t)*self.max_life)
 		ret.particle = self:addParticles(Particles.new("golden_shield", 1))
-		
+
 		if self:knowTalent(self.T_CHANT_ILLUMINATE) then
 			local t2 = self:getTalentFromId(self.T_CHANT_ILLUMINATE)
 			self:talentTemporaryValue(ret, "on_melee_hit", {[DamageType.LIGHT]=t2.getDamageOnMeleeHit(self, t2)})
 			self:talentTemporaryValue(ret, "mana_regen", t2.getBonusRegen(self, t2))
 			self:talentTemporaryValue(ret, "stamina_regen", t2.getBonusRegen(self, t2))
 		end
-		
+
 		if self:knowTalent(self.T_CHANT_ADEPT) then
 			local t2 = self:getTalentFromId(self.T_CHANT_ADEPT)
 			self:talentTemporaryValue(ret, "lite", t2.getBonusLight(self, t2))
 			t2.doCure(self, t2, "mental")
 		end
-		
+
 		if self:knowTalent(self.T_CHANT_RADIANT) then
 			local t2 = self:getTalentFromId(self.T_CHANT_RADIANT)
 			self:talentTemporaryValue(ret, "inc_damage", {[DamageType.LIGHT] = t2.getLightDamageIncrease(self, t2), [DamageType.FIRE] = t2.getLightDamageIncrease(self, t2)})
-			self:talentTemporaryValue(ret, "positive_regen", t2.getBonusRegen(self, t2))
-			self:talentTemporaryValue(ret, "positive_regen_ref_mod", t2.getBonusRegen(self, t2))
 		end
-		
+
 		return ret
 	end,
 	deactivate = function(self, t, p)
@@ -78,7 +76,7 @@ newTalent{
 		return ([[You chant the glory of the Sun, granting you %d Mental Save and increasing your maximum life by %0.1f%% (Currently:  %d).
 		You may only have one Chant active at once.
 		The effects will increase with your Spellpower.]]):
-		format(saves, life*100, life*self.max_life)
+		tformat(saves, life*100, life*self.max_life)
 	end,
 }
 
@@ -108,27 +106,25 @@ newTalent{
 		self:talentTemporaryValue(ret, "combat_armor", t.getPhysicalResistance(self, t))
 		self:talentTemporaryValue(ret, "combat_armor_hardiness", 15)
 		ret.particle = self:addParticles(Particles.new("golden_shield", 1))
-		
+
 		if self:knowTalent(self.T_CHANT_ILLUMINATE) then
 			local t2 = self:getTalentFromId(self.T_CHANT_ILLUMINATE)
 			self:talentTemporaryValue(ret, "on_melee_hit", {[DamageType.LIGHT]=t2.getDamageOnMeleeHit(self, t2)})
 			self:talentTemporaryValue(ret, "mana_regen", t2.getBonusRegen(self, t2))
 			self:talentTemporaryValue(ret, "stamina_regen", t2.getBonusRegen(self, t2))
 		end
-		
+
 		if self:knowTalent(self.T_CHANT_ADEPT) then
 			local t2 = self:getTalentFromId(self.T_CHANT_ADEPT)
 			self:talentTemporaryValue(ret, "lite", t2.getBonusLight(self, t2))
 			t2.doCure(self, t2, "physical")
 		end
-		
+
 		if self:knowTalent(self.T_CHANT_RADIANT) then
 			local t2 = self:getTalentFromId(self.T_CHANT_RADIANT)
 			self:talentTemporaryValue(ret, "inc_damage", {[DamageType.LIGHT] = t2.getLightDamageIncrease(self, t2), [DamageType.FIRE] = t2.getLightDamageIncrease(self, t2)})
-			self:talentTemporaryValue(ret, "positive_regen", t2.getBonusRegen(self, t2))
-			self:talentTemporaryValue(ret, "positive_regen_ref_mod", t2.getBonusRegen(self, t2))
 		end
-		
+
 		return ret
 	end,
 	deactivate = function(self, t, p)
@@ -141,7 +137,7 @@ newTalent{
 		return ([[You chant the glory of the Sun, granting you %d%% physical damage resistance, %d physical save, %d armour and +15%% armour hardiness.
 		You may only have one Chant active at once.
 		The effects will increase with your Spellpower.]]):
-		format(physicalresistance, saves, physicalresistance)
+		tformat(physicalresistance, saves, physicalresistance)
 	end,
 }
 
@@ -189,27 +185,25 @@ newTalent{
 		})
 		self:talentTemporaryValue(ret, "combat_spellresist", spell)
 		ret.particle = self:addParticles(Particles.new("golden_shield", 1))
-		
+
 		if self:knowTalent(self.T_CHANT_ILLUMINATE) then
 			local t2 = self:getTalentFromId(self.T_CHANT_ILLUMINATE)
 			self:talentTemporaryValue(ret, "on_melee_hit", {[DamageType.LIGHT]=t2.getDamageOnMeleeHit(self, t2)})
 			self:talentTemporaryValue(ret, "mana_regen", t2.getBonusRegen(self, t2))
 			self:talentTemporaryValue(ret, "stamina_regen", t2.getBonusRegen(self, t2))
 		end
-		
+
 		if self:knowTalent(self.T_CHANT_ADEPT) then
 			local t2 = self:getTalentFromId(self.T_CHANT_ADEPT)
 			self:talentTemporaryValue(ret, "lite", t2.getBonusLight(self, t2))
 			t2.doCure(self, t2, "magical")
 		end
-		
+
 		if self:knowTalent(self.T_CHANT_RADIANT) then
 			local t2 = self:getTalentFromId(self.T_CHANT_RADIANT)
 			self:talentTemporaryValue(ret, "inc_damage", {[DamageType.LIGHT] = t2.getLightDamageIncrease(self, t2), [DamageType.FIRE] = t2.getLightDamageIncrease(self, t2)})
-			self:talentTemporaryValue(ret, "positive_regen", t2.getBonusRegen(self, t2))
-			self:talentTemporaryValue(ret, "positive_regen_ref_mod", t2.getBonusRegen(self, t2))
 		end
-		
+
 		return ret
 	end,
 	deactivate = function(self, t, p)
@@ -223,7 +217,7 @@ newTalent{
 		return ([[You chant the glory of the Sun, granting you %d%% fire, lightning, acid and cold damage resistance, %d spell save and reduces the damage from enemies 3 or more spaces away by %d%%.
 	You may only have one Chant active at once.
 	The effects will increase with your Spellpower.]]):
-		format(resists, saves, range)
+		tformat(resists, saves, range)
 	end,
 }
 
@@ -270,7 +264,7 @@ newTalent{
 		Your lite radius is also increased by %d.
 		You may only have one Chant active at once and this Chant costs less power to sustain.
 		The effects will increase with your Spellpower.]]):
-		format(damageinc, damDesc(self, DamageType.LIGHT, damage), lite)
+		tformat(damageinc, damDesc(self, DamageType.LIGHT, damage), lite)
 	end,
 }
 
@@ -309,10 +303,10 @@ newTalent{
 			local t3 = self:getTalentFromId(self.T_CHANT_OF_RESISTANCE)
 			ret = ([[You have learned to sing the praises of the Sun, in the form of three defensive Chants.
 			Chant of Fortitude: Increases your mental save by %d and maximum life by %d%%.
-			Chant of Fortress: Increases your physical save by %d, your physical resistance by %d%%, your armour by %d and your armour hardiness by 10%%.
+			Chant of Fortress: Increases your physical save by %d, your physical resistance by %d%%, your armour by %d and your armour hardiness by 15%%.
 			Chant of Resistance: Increases you spell save by %d, your fire/cold/lightning/acid resistances by %d%% and reduces all damage that comes from distant enemies (3 spaces or more) by %d%%.
 			You may only have one Chant active at a time.]]):
-			format(t1.getResists(self, t1), t1.getLifePct(self, t1)*100, t2.getResists(self, t2), t2.getPhysicalResistance(self, t2), t2.getPhysicalResistance(self, t2), t3.getSpellResists(self, t3), t3.getResists(self, t3), t3.getDamageChange(self, t3))
+			tformat(t1.getResists(self, t1), t1.getLifePct(self, t1)*100, t2.getResists(self, t2), t2.getPhysicalResistance(self, t2), t2.getPhysicalResistance(self, t2), t3.getSpellResists(self, t3), t3.getResists(self, t3), t3.getDamageChange(self, t3))
 		end)
 		self.talents[self.T_CHANT_OF_FORTITUDE] = old1
 		self.talents[self.T_CHANT_OF_FORTRESS] = old2
@@ -333,7 +327,7 @@ newTalent{
 	getBonusRegen = function(self, t) return self:combatTalentSpellDamage(t, 10, 20) / 10 end,
 	info = function(self, t)
 		return ([[Your Chants now bathe you in a cloak of light, which increases your stamina and mana regenerations by %0.2f per turn and does %0.2f light damage to anyone who hits you in melee.
-		These values scale with your Spellpower.]]):format(t.getBonusRegen(self, t), damDesc(self, DamageType.LIGHT, t.getDamageOnMeleeHit(self, t)))
+		These values scale with your Spellpower.]]):tformat(t.getBonusRegen(self, t), damDesc(self, DamageType.LIGHT, t.getDamageOnMeleeHit(self, t)))
 	end,
 }
 
@@ -384,7 +378,7 @@ newTalent{
 			end
 		end
 		if known then
-			game.logSeen(self, "%s is cured!", self.name:capitalize())
+			game.logSeen(self, "%s is cured!", self:getName():capitalize())
 		end
 	end,
 	info = function(self, t)
@@ -392,7 +386,7 @@ newTalent{
 		Also, when you start a new Chant, you will be cured of all cross-tier effects and cured of up to %d debuffs.
 		Chant of Fortitude cures mental effects.
 		Chant of Fortress cures physical effects.
-		Chant of Resistance cures magical effects.]]):format(t.getBonusLight(self, t), t.getDebuffCures(self, t))
+		Chant of Resistance cures magical effects.]]):tformat(t.getBonusLight(self, t), t.getDebuffCures(self, t))
 	end,
 }
 
@@ -403,15 +397,27 @@ newTalent{
 	points = 5,
 	mode = "passive",
 	getLightDamageIncrease = function(self, t) return self:combatTalentSpellDamage(t, 10, 30) end,
-	getBonusRegen = function(self, t) return self:combatTalentScale(t, 0.7, 4.0, 0.75) / 10 + 0.5 end,
-	callbackOnRest = function(self, t)
-		if not self:knowTalent(self.T_POSITIVE_POOL) then return false end
-		if self.positive_regen > 0 and self.positive < self.max_positive then return true end
-		return false
+	getPos = function(self, t) return self:combatTalentScale(t, 2, 5) end,
+	getTurnLimit = function(self, t) return self:combatTalentScale(t, 0.5, 3) end,
+	callbackOnMeleeHit = function(self, t, src)
+		if not (self:isTalentActive(self.T_CHANT_OF_FORTRESS) or self:isTalentActive(self.T_CHANT_OF_FORTITUDE) or self:isTalentActive(self.T_CHANT_OF_RESISTANCE)) then return end
+		if src == self then return end
+		if self.turn_procs.chant_radiant and self.turn_procs.chant_radiant > t.getTurnLimit(self, t) then return end
+		self.turn_procs.chant_radiant = self.turn_procs.chant_radiant or 0
+		self:incPositive(t.getPos(self, t))
+		self.turn_procs.chant_radiant = self.turn_procs.chant_radiant + 1
+	end,
+	callbackOnArcheryHit = function(self, t, dam, src)
+		if not (self:isTalentActive(self.T_CHANT_OF_FORTRESS) or self:isTalentActive(self.T_CHANT_OF_FORTITUDE) or self:isTalentActive(self.T_CHANT_OF_RESISTANCE)) then return end
+		if src == self then return end
+		if self.turn_procs.chant_radiant and self.turn_procs.chant_radiant > t.getTurnLimit(self, t) then return end
+		self.turn_procs.chant_radiant = self.turn_procs.chant_radiant or 0
+		self:incPositive(t.getPos(self, t))
+		self.turn_procs.chant_radiant = self.turn_procs.chant_radiant + 1
 	end,
 	info = function(self, t)
 		return ([[Your passion for singing the praises of the Sun reaches its zenith.
-		Your Chanting now increases your light and fire damage by %d%% and increases your positive energy regeneration by %0.2f per turn.
-		These values scale with your Spellpower.]]):format(t.getLightDamageIncrease(self, t), t.getBonusRegen(self, t))
+		Your Chanting now increases your light and fire damage by %d%% and up to %d times per turn, when you are hit by a weapon attack, you will gain %0.1f Positive.
+		These values scale with your Spellpower.]]):tformat(t.getLightDamageIncrease(self, t), t.getTurnLimit(self, t), t.getPos(self, t))
 	end,
 }

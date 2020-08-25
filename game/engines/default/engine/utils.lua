@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -19,6 +19,9 @@
 
 --- Utility functionality used by a lot of the base classes
 -- @script engine.utils
+
+if not core.game.stdout_write then core.game.stdout_write = print end
+if not core.display.breakTextAllCharacter then core.display.breakTextAllCharacter = function()end end
 
 local lpeg = require "lpeg"
 
@@ -56,6 +59,23 @@ function math.scale(i, imin, imax, dmin, dmax)
 	return bi * dm / bm + dmin
 end
 
+function math.boundscale(i, imin, imax, dmin, dmax)
+	local bi = i - imin
+	local bm = imax - imin
+	local dm = dmax - dmin
+	return util.bound(bi * dm / bm + dmin, dmin, dmax)
+end
+
+function math.triangle_area(p1, p2, p3)
+	local u = {x=p2.x - p1.x, y=p2.y - p1.y}
+	local v = {x=p3.x - p1.x, y=p3.y - p1.y}
+	local au = math.atan2(u.y, u.x)
+	local av = math.atan2(v.y, v.x)
+	local lu = math.sqrt(u.x*u.x + u.y*u.y)
+	local lv = math.sqrt(v.x*v.x + v.y*v.y)
+	return math.abs(0.5 * lu * lv * math.sin(av - au))
+end
+
 function lpeg.anywhere (p)
 	return lpeg.P{ p + 1 * lpeg.V(1) }
 end
@@ -79,6 +99,21 @@ table.to_strings = function(src, fmt)
 	return tt
 end
 
+--- Same as ipairs but first shallow clone the table so that the base table can be altered safely
+function ipairsclone(t)
+	return ipairs(table.clone(t, false))
+end
+
+--- Same as pairs but first shallow clone the table so that the base table can be altered safely
+function pairsclone(t)
+	return pairs(table.clone(t, false))
+end
+
+--- Same as ripairs but first shallow clone the table so that the base table can be altered safely
+function ripairsclone(t)
+	return ripairs(table.clone(t, false))
+end
+
 function ripairs(t)
 	local i = #t
 	return function()
@@ -87,6 +122,18 @@ function ripairs(t)
 		i = i - 1
 		return oi, t[oi]
 	end
+end
+
+function table.weak_keys(t)
+	t = t or {}
+	setmetatable(t, {__mode="k"})
+	return t
+end
+
+function table.weak_values(t)
+	t = t or {}
+	setmetatable(t, {__mode="v"})
+	return t
 end
 
 function table.empty(t)
@@ -197,8 +244,9 @@ end
 -- @param tbl The original table to be cloned
 -- @param deep Boolean allow recursive cloning (unless .__ATOMIC or .__CLASSNAME is defined)
 -- @param k_skip A table containing key values set to true if you want to skip them.
+-- @param clone_meta If true table and subtables that have a metatable will have it assigned to the clone too
 -- @return The cloned table.
-function table.clone(tbl, deep, k_skip)
+function table.clone(tbl, deep, k_skip, clone_meta)
 	if not tbl then return nil end
 	local n = {}
 	k_skip = k_skip or {}
@@ -206,11 +254,14 @@ function table.clone(tbl, deep, k_skip)
 		if not k_skip[k] then
 			-- Deep copy subtables, but not objects!
 			if deep and type(e) == "table" and not e.__ATOMIC and not e.__CLASSNAME then
-				n[k] = table.clone(e, true, k_skip)
+				n[k] = table.clone(e, true, k_skip, clone_meta)
 			else
 				n[k] = e
 			end
 		end
+	end
+	if clone_meta then
+		setmetatable(n, getmetatable(tbl))
 	end
 	return n
 end
@@ -314,6 +365,43 @@ function table.keys(t)
 	for k, e in pairs(t) do tt[#tt+1] = k end
 	return tt
 end
+
+function table.ts(t, tag)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = _t(e, tag) end
+	return tt
+end
+
+function table.lower(t)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = e:lower() end
+	return tt
+end
+
+function table.capitalize(t)
+	local tt = {}
+	for i, e in ipairs(t) do tt[i] = e:capitalize() end
+	return tt
+end
+
+function string.tslash(str, tag)
+	if str:find("/") then
+		local pos, _ = str:find("/")
+		return _t(str:sub(1, pos - 1), tag) .. "/" .. string.tslash(str:sub(pos + 1), tag)
+	else
+		return _t(str, tag)
+	end
+end
+
+function string.ttype(str, type)
+	if str:find("/") then
+		local pos, _ = str:find("/")
+		return _t(str:sub(1, pos - 1), type.. " type") .. "/" .. _t(str:sub(pos + 1), type.." subtype")
+	else
+		return _t(str, type.." type")
+	end
+end
+
 
 function table.values(t)
 	local tt = {}
@@ -522,6 +610,18 @@ function table.compareKeys(left, right)
 	return result
 end
 
+--- Checks if a (sub)subentry of a table exists
+function table.has(t, ...)
+	if type(t) ~= 'table' then return false end
+	local args = {...}
+	local last = table.remove(args)
+	for _, key in ipairs(args) do
+		t = t[key]
+		if type(t) ~= 'table' then return false end
+	end
+	return t[last]
+end
+
 --[=[
   Decends recursively through a table by the given list of keys.
 
@@ -608,7 +708,7 @@ function table.orderedPairs(t)
 	return function ()
 		if i < n then
 			i = i + 1
-			return sorted_keys[i], t[sorted_keys[i]]
+			return sorted_keys[i], t[sorted_keys[i]], i == n
 		end
 	end
 end
@@ -624,7 +724,7 @@ function table.orderedPairs2(t, ordering)
 		if index <= #t then
 			value = t[index]
 			index = index + 1
-			return value[1], value[2]
+			return value[1], value[2], index == #t + 1
 		end
 	end
 end
@@ -757,18 +857,20 @@ function table.ruleMergeAppendAdd(dst, src, rules, state)
 	table.applyRules(dst, src, rules, state)
 end
 
+string.nextUTF = core.display.stringNextUTF
+
 function string.ordinal(number)
-	local suffix = "th"
+	local suffix = _t"%dth"
 	number = tonumber(number)
 	local base = number % 10
 	if base == 1 then
-		suffix = "st"
+		suffix = _t"%dst"
 	elseif base == 2 then
-		suffix = "nd"
+		suffix = _t"%dnd"
 	elseif base == 3 then
-		suffix = "rd"
+		suffix = _t"%drd"
 	end
-	return number..suffix
+	return (suffix):tformat(number)
 end
 
 function string.trim(str)
@@ -777,35 +879,35 @@ end
 
 function string.a_an(str)
 	local first = str:sub(1, 1)
-	if first == "a" or first == "e" or first == "i" or first == "o" or first == "u" or first == "y" then return "an "..str
-	else return "a "..str end
+	if first == "a" or first == "e" or first == "i" or first == "o" or first == "u" or first == "y" then return _t"an "..str
+	else return _t"a "..str end
 end
 
 function string.he_she(actor)
-	if actor.female then return "she"
-	elseif actor.neuter then return "it"
-	else return "he"
+	if actor.female then return _t"she"
+	elseif actor.neuter then return _t"it"
+	else return _t"he"
 	end
 end
 
 function string.his_her(actor)
-	if actor.female then return "her"
-	elseif actor.neuter then return "its"
-	else return "his"
+	if actor.female then return _t"her"
+	elseif actor.neuter then return _t"its"
+	else return _t"his"
 	end
 end
 
 function string.him_her(actor)
-	if actor.female then return "her"
-	elseif actor.neuter then return "it"
-	else return "him"
+	if actor.female then return _t"her"
+	elseif actor.neuter then return _t"it"
+	else return _t"him"
 	end
 end
 
 function string.his_her_self(actor)
-	if actor.female then return "herself"
-	elseif actor.neuter then return "itself"
-	else return "himself"
+	if actor.female then return _t"herself"
+	elseif actor.neuter then return _t"itself"
+	else return _t"himself"
 	end
 end
 
@@ -839,8 +941,22 @@ function string.bookCapitalize(str)
 	return table.concat(words, " ")
 end
 
+local function default_noun_sub(str, type, noun)
+	return str:gsub(type, noun)
+end
+function string.noun_sub(str, type, noun)
+	local proc = _getFlagI18N("noun_target_sub") or default_noun_sub
+	return proc(str, type, noun)
+end
+
 function string.lpegSub(s, patt, repl)
 	patt = lpeg.P(patt)
+	patt = lpeg.Cs((patt / repl + 1)^0)
+	return lpeg.match(patt, s)
+end
+
+function string.lpegSubT(s, patt, repl, fct)
+	patt = lpeg.Cmt(lpeg.P(patt), function(s, i, c) fct(c, i - #c, i - 1) return true end)
 	patt = lpeg.Cs((patt / repl + 1)^0)
 	return lpeg.match(patt, s)
 end
@@ -853,6 +969,23 @@ end
 function string.suffix(s, p)
 	if s:sub(#s - #p + 1) == p then return true end
 	return false
+end
+
+function string.iterateUTF(str, pos, get_char)
+	pos = pos or 1
+	return function()
+		if not pos then return nil end
+		local op = pos
+		pos = str:nextUTF(pos)
+		local np = pos
+		if not np then np = #str + 1 end
+		local s = nil
+		if get_char == "char" then s = str:sub(op, np-1)
+		elseif get_char == "to" then s = str:sub(1, np-1)
+		elseif get_char == "from" then s = str:sub(op)
+		end
+		return op, np-1, s
+	end
 end
 
 -- Those matching patterns are used both by splitLine and drawColorString*
@@ -870,8 +1003,67 @@ function string.removeColorCodes(str)
 	return str:lpegSub("#" * (Puid + Pcolorcodefull + Pcolorname + Pfontstyle + Pextra) * "#", "")
 end
 
+function string.removeColorCodesT(str)
+	local posmap = {}
+	local last = 0
+	local res = str:lpegSubT("#" * (Puid + Pcolorcodefull + Pcolorname + Pfontstyle + Pextra) * "#", "", function(c, p1, p2)
+		for i = last + 1, p1 - 1 do
+			posmap[#posmap+1] = i
+		end
+		last = p2
+	end)
+
+	for i = last + 1, #str do
+		posmap[#posmap+1] = i
+	end
+
+	return res, posmap
+end
+
 function string.removeUIDCodes(str)
 	return str:lpegSub("#" * Puid * "#", "")
+end
+
+function string.splitAtSizeSimple(str, size, font)
+	local fontoldsize = font.simplesize or font.size
+	local left, right
+	local cs = 0
+
+	local oldleft
+	for pos, pos2, left in str:iterateUTF(1, "to") do
+		if not oldleft then oldleft = left end
+
+		local ps = fontoldsize(font, left)
+		if ps > size then
+			right = str:sub(pos)
+			return oldleft, fontoldsize(font, oldleft), right, fontoldsize(font, right)
+		end
+
+		oldleft = left
+	end
+	return str, fontoldsize(font, str), "", 0
+end
+
+function string.splitAtSize(bstr, size, font)
+	local str, posmap = bstr:removeColorCodesT()
+	local fontoldsize = font.simplesize or font.size
+	local left, right
+	local cs = 0
+
+	local oldpos2
+	for pos, pos2, left in str:iterateUTF(1, "to") do
+		if not oldpos2 then oldpos2 = pos2 end
+
+		local ps = fontoldsize(font, left)
+		if ps > size then
+			local left = bstr:sub(1, posmap[oldpos2])
+			right = bstr:sub(posmap[pos])
+			return left, fontoldsize(font, left), right, fontoldsize(font, right)
+		end
+
+		oldpos2 = pos2
+	end
+	return str, fontoldsize(font, str), "", 0
 end
 
 function string.splitLine(str, max_width, font)
@@ -880,19 +1072,47 @@ function string.splitLine(str, max_width, font)
 	local lines = {}
 	local cur_line, cur_size = "", 0
 	local v
+	local break_all_chars = core.display.getBreakTextAllCharacter()
 	local ls = str:split(lpeg.S"\n ")
 	for i = 1, #ls do
 		local v = ls[i]
-		local shortv = v:lpegSub("#" * (Puid + Pcolorcodefull + Pcolorname + Pfontstyle + Pextra) * "#", "")
+		local shortv = v:removeColorCodes()
 		local w, h = fontoldsize(font, shortv)
 
 		if cur_size + space_w + w < max_width then
 			cur_line = cur_line..(cur_size==0 and "" or " ")..v
 			cur_size = cur_size + (cur_size==0 and 0 or space_w) + w
 		else
-			lines[#lines+1] = cur_line
-			cur_line = v
-			cur_size = w
+			-- Normal whitespace breaking
+			if not break_all_chars then
+				lines[#lines+1] = cur_line
+				cur_line = v
+				cur_size = w
+			-- Break on any characters
+			else
+				local left, left_size, right, right_size
+				while true do
+					left, left_size, right, right_size = v:splitAtSize(max_width - cur_size, font)
+
+					-- Add to current line
+					cur_line = cur_line..(cur_size==0 and "" or " ")..left
+					cur_size = cur_size + (cur_size==0 and 0 or space_w) + left_size
+					lines[#lines+1] = cur_line
+
+					-- If the right side can fit on a line, we're done, otherwise we split again
+					if right_size <= max_width then
+						break
+					else
+						cur_line = ""
+						cur_size = 0
+						v = right
+					end
+				end
+
+				-- Put the rest on new line
+				cur_line = right
+				cur_size = right_size
+			end
 		end
 	end
 	if cur_size > 0 then lines[#lines+1] = cur_line end
@@ -959,7 +1179,7 @@ function string.fromValue(v, recurse, offset, prefix, suffix)
 			local abv = {}
 			if v.__CLASSNAME then abv[#abv+1] = "__CLASSNAME="..tostring(v.__CLASSNAME) end
 			if v.__ATOMIC then abv[#abv+1] = "ATOMIC" end
-			vs = ("%s\"%s%s%s\"%s"):format(prefix, v, v.__CLASSNAME and ", __CLASSNAME="..tostring(v.__CLASSNAME) or "", v.__ATOMIC and ", ATOMIC" or "", suffix)
+			vs = ("%s\"%s%s%s\"%s"):format(prefix, v, v.__CLASSNAME and ", __CLASSname=_t"..tostring(v.__CLASSNAME) or "", v.__ATOMIC and ", ATOMIC" or "", suffix)
 		elseif recurse > 0 then -- get recursive string
 			vs = string.fromTable(v, recurse - 1, offset, prefix, suffix)
 		else vs = prefix.."\""..tostring(v).."\""..suffix
@@ -1004,6 +1224,48 @@ function string.fromTable(src, recurse, offset, prefix, suffix, sort, key_recurs
 	if sort then table.sort(tt, sort) end
 	-- could sort here if desired
 	return prefix..table.concat(tt, offset)..suffix, tt
+end
+
+--- Returns the Levenshtein distance between the two given strings
+function string.levenshtein_distance(str1, str2)
+	local len1 = string.len(str1)
+	local len2 = string.len(str2)
+	local matrix = {}
+	local cost = 0
+	
+        -- quick cut-offs to save time
+	if (len1 == 0) then
+		return len2
+	elseif (len2 == 0) then
+		return len1
+	elseif (str1 == str2) then
+		return 0
+	end
+	
+        -- initialise the base matrix values
+	for i = 0, len1, 1 do
+		matrix[i] = {}
+		matrix[i][0] = i
+	end
+	for j = 0, len2, 1 do
+		matrix[0][j] = j
+	end
+	
+        -- actual Levenshtein algorithm
+	for i = 1, len1, 1 do
+		for j = 1, len2, 1 do
+			if (str1:byte(i) == str2:byte(j)) then
+				cost = 0
+			else
+				cost = 1
+			end
+			
+			matrix[i][j] = math.min(matrix[i-1][j] + 1, matrix[i][j-1] + 1, matrix[i-1][j-1] + cost)
+		end
+	end
+	
+        -- return the last value - this is the Levenshtein distance
+	return matrix[len1][len2]
 end
 
 -- Split a string by the given character(s)
@@ -1329,11 +1591,14 @@ function tstring:toTString() return self end
 function tstring:format() return self end
 
 function tstring:splitLines(max_width, font, max_lines)
+	local break_all_chars = core.display.getBreakTextAllCharacter()
 	local fstyle = font:getStyle()
+	local old_fstyle = fstyle
 	local ret = tstring{}
 	local cur_size = 0
 	local max_w = 0
 	local v, tv
+	local mustexit = false
 	for i = 1, #self do
 		v = self[i]
 		tv = type(v)
@@ -1347,7 +1612,7 @@ function tstring:splitLines(max_width, font, max_lines)
 					cur_size = 0
 					if max_lines then
 						max_lines = max_lines - 1
-						if max_lines <= 0 then break end
+						if max_lines <= 0 then mustexit = true break end
 					end
 				else
 					local w, h = fontcachewordsize(font, fstyle, vv)
@@ -1355,17 +1620,47 @@ function tstring:splitLines(max_width, font, max_lines)
 						cur_size = cur_size + w
 						ret[#ret+1] = vv
 					else
-						ret[#ret+1] = true
-						max_w = math.max(max_w, cur_size)
-						if max_lines then
-							max_lines = max_lines - 1
-							if max_lines <= 0 then break end
+						-- Normal whitespace breaking
+						if not break_all_chars then
+							ret[#ret+1] = true
+							max_w = math.max(max_w, cur_size)
+							if max_lines then max_lines = max_lines - 1 if max_lines <= 0 then mustexit = true break end end
+							ret[#ret+1] = vv
+							cur_size = w
+						-- Break on any characters
+						else
+							local left, left_size, right, right_size
+							while true do
+								left, left_size, right, right_size = vv:splitAtSizeSimple(max_width - cur_size, font)
+
+								-- Add to current line
+								ret[#ret+1] = left
+								cur_size = cur_size + left_size
+								max_w = math.max(max_w, cur_size)
+
+								-- If the right side can fit on a line, we're done, otherwise we split again
+								if right_size <= max_width then
+									break
+								else
+									if max_lines then max_lines = max_lines - 1 if max_lines <= 0 then mustexit = true break end end
+									ret[#ret+1] = true
+									cur_size = 0
+									vv = right
+								end
+							end
+							if mustexit then break end
+
+							-- Put the rest on new line
+							if max_lines then max_lines = max_lines - 1 if max_lines <= 0 then mustexit = true break end end
+							ret[#ret+1] = true
+							ret[#ret+1] = right
+							cur_size = right_size
+							max_w = math.max(max_w, cur_size)
 						end
-						ret[#ret+1] = vv
-						cur_size = w
 					end
 				end
 			end
+			if mustexit then break end
 		elseif tv == "table" and v[1] == "font" then
 			font:setStyle(v[2])
 			fstyle = v[2]
@@ -1402,17 +1697,19 @@ function tstring:splitLines(max_width, font, max_lines)
 		end
 	end
 	max_w = math.max(max_w, cur_size)
+	if fstyle ~= old_fstyle then font:setStyle(old_fstyle) end
 	return ret, max_w
 end
 
 function tstring:tokenize(tokens)
+	if type(tokens) == "string" then tokens = lpeg.S("\n"..tokens) end
 	local ret = tstring{}
 	local v, tv
 	for i = 1, #self do
 		v = self[i]
 		tv = type(v)
 		if tv == "string" then
-			local ls = v:split(lpeg.S("\n"..tokens), true)
+			local ls = v:split(tokens, true)
 			for i = 1, #ls do
 				local vv = ls[i]
 				if vv == "\n" then
@@ -1587,6 +1884,27 @@ function tstring:diffWith(str2, on_diff)
 			res:add(self[i])
 		end
 		j = j + 1
+	end
+	return res
+end
+
+function tstring:diffMulti(list, on_diff)
+	local res = tstring{}
+	for i = 1, #list[1] do
+		local diffs = {}
+		local has_diffs = false
+		for j = 2, #list do
+			if type(list[1][i]) == "string" and list[1][i] ~= list[j][i] then has_diffs = true break end
+		end
+
+		if not has_diffs then
+			res:add(list[1][i])
+		else
+			for j = 1, #list do
+				diffs[#diffs+1] = {id=j, str=list[j][i]}
+			end
+			on_diff(diffs, res)
+		end
 	end
 	return res
 end
@@ -2034,6 +2352,16 @@ function util.getval(val, ...)
 	end
 end
 
+function util.finalize(init, uninit, fct)
+	return function(...)
+		local myenv = {}
+		init(myenv, ...)
+		local rets = {fct(myenv, ...)}
+		uninit(myenv, ...)
+		return unpack(rets)
+	end
+end
+
 function fs.reset()
 	local list = fs.getSearchPath(true)
 	for i, m in ipairs(list) do
@@ -2295,6 +2623,103 @@ function core.fov.beam_any_angle_grids(x, y, radius, angle, source_x, source_y, 
 	return grids
 end
 
+local function is_point_in_triangle(P, A, B, C)
+	local vector = require "vector"
+	local P, A, B, C = vector.newFrom(P), vector.newFrom(A), vector.newFrom(B), vector.newFrom(C)
+
+	if P == A or P == B or P == C then return true end
+
+	-- Compute vectors
+	local v0 = C - A
+	local v1 = B - A
+	local v2 = P - A
+
+	-- Compute dot products
+	local dot00 = v0:dot(v0)
+	local dot01 = v0:dot(v1)
+	local dot02 = v0:dot(v2)
+	local dot11 = v1:dot(v1)
+	local dot12 = v1:dot(v2)
+
+	-- Compute barycentric coordinates
+	local invDenom = 1 / (dot00 * dot11 - dot01 * dot01)
+	local u = (dot11 * dot02 - dot01 * dot12) * invDenom
+	local v = (dot00 * dot12 - dot01 * dot02) * invDenom
+
+	-- Check if point is in triangle
+	return (u >= 0) and (v >= 0) and (u + v < 1)
+end
+
+-- Very naive implementation, this will do for now
+function core.fov.calc_triangle(x, y, w, h, points, mode, block, apply)
+	local p1 = {x=x+points[1].x, y=y+points[1].y}
+	local p2 = {x=x+points[2].x, y=y+points[2].y}
+	local p3 = {x=x+points[3].x, y=y+points[3].y}
+
+	local mx, Mx = math.min(p1.x, p2.x, p3.x), math.max(p1.x, p2.x, p3.x)
+	local my, My = math.min(p1.y, p2.y, p3.y), math.max(p1.y, p2.y, p3.y)
+
+	local checkline = function(fx, fy, i, j)
+		local l = core.fov.line(fx, fy, i, j)
+		while true do
+			local lx, ly = l:step(true)
+			if not lx then break end
+			if lx == i and ly == j then return true end
+			if block(_, lx, ly) then break end
+		end
+		return false
+	end
+
+	local check
+	if mode == "corners" then
+		check = function(i, j)
+			return checkline(p1.x, p1.y, i, j) or checkline(p2.x, p2.y, i, j) or checkline(p3.x, p3.y, i, j)
+		end
+	else
+		check = function(i, j)
+			return checkline(x, y, i, j)
+		end
+	end
+
+	for i = mx, Mx do if i >= 0 and i < w then
+		for j = my, My do if j >= 0 and j < h then
+			if is_point_in_triangle({x=i,y=j}, {x=p1.x, y=p1.y}, {x=p2.x, y=p2.y}, {x=p3.x, y=p3.y}) and check(i, j) then
+				apply(nil, i, j)
+			end
+		end end
+	end end
+end
+
+
+-- Very naive implementation, this will do for now
+function core.fov.calc_wide_beam(x, y, w, h, sx, sy, radius, block, apply)
+	local tgts = {}
+	local dist = core.fov.distance(sx, sy, x, y)
+
+	-- Compute the line
+	local path = {}
+	local l = core.fov.line(sx, sy, x, y)
+	local lx, ly = l:step()
+	while lx and ly do
+		path[#path+1] = {x=lx, y=ly}
+		lx, ly = l:step()
+	end
+
+	for _, p in ipairs(path) do
+		if dist > 1 and p.x == x and p.y == y then
+		else
+			core.fov.calc_circle(p.x, p.y, w, h, radius, block, function(_, ppx, ppy)
+				tgts[ppy*game.level.map.w+ppx] = {x=ppx, y=ppy}
+			end, nil)
+		end
+	end
+
+	for _, p in pairs(tgts) do
+		apply(nil, p.x, p.y)
+	end
+end
+
+
 function core.fov.set_corner_block(l, block_corner)
 	block_corner = type(block_corner) == "function" and block_corner or
 		block_corner == false and function(_, x, y) return end or
@@ -2403,6 +2828,18 @@ function core.fov.set_vision_shape(val)
 	end
 	core.fov.set_vision_shape_base(val)
 	return val
+end
+
+function core.fov.lineIterator(sx, sy, tx, ty, what)
+	what = what or "block_move"
+	local l = core.fov.line(sx, sy, tx, ty, what)
+	local lx, ly = l:step()
+	return function()
+		if not lx or not ly then return nil end
+		local rx, ry = lx, ly
+		lx, ly = l:step()
+		return rx, ry
+	end
 end
 
 --- create a basic bresenham line (or hex equivalent)
@@ -2519,6 +2956,12 @@ function rng.rarityTable(t, rarity_field)
 	end
 end
 
+function util.has_upvalues(fct)
+	local n, v = debug.getupvalue(fct, 1)
+	if not n then return false end
+	return true
+end
+
 function util.show_function_calls()
 	debug.sethook(function(event, line)
 		local t = debug.getinfo(2)
@@ -2541,17 +2984,41 @@ end
 
 function util.send_error_backtrace(msg)
 	local level = 2
-	local trace = {}
+	local errs = {}
 
-	trace[#trace+1] = "backtrace:"
+	errs[#errs+1] = "backtrace:"
 	while true do
 		local stacktrace = debug.getinfo(level, "nlS")
 		if stacktrace == nil then break end
-		trace[#trace+1] = (("    function: %s (%s) at %s:%d"):format(stacktrace.name or "???", stacktrace.what, stacktrace.source or stacktrace.short_src or "???", stacktrace.currentline))
+		local src = stacktrace.source or stacktrace.short_src or "???"
+		errs[#errs+1] = (("    function: %s (%s) at %s:%d"):format(stacktrace.name or "???", stacktrace.what, src, stacktrace.currentline))
+		if src:prefix("@") then pcall(function()
+			local rpath = fs.getRealPath(src:sub(2))
+			local sep = fs.getPathSeparator()
+			if rpath then errs[#errs+1] = (("      =from= %s"):format(rpath:gsub("^.*"..sep.."game"..sep, ""))) end
+		end) end
 		level = level + 1
 	end
 
-	profile:sendError(msg, table.concat(trace, "\n"))
+	pcall(function()
+		local beta = engine.version_hasbeta()
+		if game.getPlayer and game:getPlayer(true) and game:getPlayer(true).__created_in_version then
+			table.insert(errs, 1, "Game version (character creation): "..game:getPlayer(true).__created_in_version)
+		end
+		table.insert(errs, 1, "Game version: "..game.__mod_info.version_name..(beta and "-"..beta or ""))
+		local addons = {}
+		for name, data in pairs(game.__mod_info.addons or {}) do
+			local extra = ""
+			-- So ugly!!! :<
+			if data.for_module == "tome" then
+				extra = "["..(data.author[1]=="DarkGod" and "O" or "X")..(engine.version_patch_same(game.__mod_info.version, data.version) and "" or "!").."]"
+			end
+			addons[#addons+1] = name.."-"..data.version_txt..extra
+		end
+		table.insert(errs, 2, "Addons: "..table.concat(addons, ", ").."\n")
+	end)
+
+	profile:sendError(msg, table.concat(errs, "\n"))
 end
 
 function util.uuid()

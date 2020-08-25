@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,8 +23,8 @@ for i = 1, 6 do
 newEntity{ base = "BASE_LORE",
 	define_as = "FOUNDATION_NOTE"..i,
 	subtype = "last hope foundation", unique=true, no_unique_lore=true, not_in_stores=false,
-	name = "The Diaries of King Toknor the Brave ("..i..")", lore="last-hope-foundation-note-"..i,
-	desc = [[A part of the history of Last Hope, and King Toknor the Brave.]],
+	name = ("The Diaries of King Toknor the Brave (%d)"):tformat(i), lore="last-hope-foundation-note-"..i,
+	desc = _t[[A part of the history of Last Hope, and King Toknor the Brave.]],
 	rarity = false,
 	encumberance = 0,
 	cost = 2,
@@ -47,8 +47,8 @@ for i = 1, 2 do
 newEntity{ base = "BASE_LORE",
 	define_as = "SOUTHSPAR_NOTE"..i,
 	subtype = "southspar", unique=true, no_unique_lore=true, not_in_stores=false,
-	name = "the Pale King part "..(i==1 and "one" or "two"), lore="southspar-note-"..i,
-	desc = [[A study of Southspar's most unusual ruler.]],
+	name = ("the Pale King part %s"):tformat(i==1 and _t"one" or _t"two"), lore="southspar-note-"..i,
+	desc = _t[[A study of Southspar's most unusual ruler.]],
 	rarity = false,
 	encumberance = 0,
 	cost = 2,
@@ -59,7 +59,7 @@ newEntity{ base = "BASE_LORE",
 	define_as = "OCEANS_OF_EYAL",
 	subtype = "oceans", unique=true, no_unique_lore=true, not_in_stores=false,
 	name = "The Oceans of Eyal", lore="oceans-of-yeal",
-	desc = [[Thoughts about the impossibility of sea travel.]],
+	desc = _t[[Thoughts about the impossibility of sea travel.]],
 	rarity = false,
 	encumberance = 0,
 	cost = 10,

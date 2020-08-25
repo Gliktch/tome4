@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,11 +27,11 @@ newTalent{
 	require = techs_req1,
 	points = 5,
 	cooldown = 10,
-	range = 5,
+	range = 8,
 	stamina = 5,
 	requires_target = true,
 	target = function(self, t)
-		return {type="bolt", range=self:getTalentRange(t), min_range=2}
+		return {type="hit", range=self:getTalentRange(t)}
 	end,
 	is_melee = true,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.8, 1.6) end,
@@ -44,32 +44,20 @@ newTalent{
 		game.target.source_actor = self
 		local x, y, target = self:getTarget(tg)
 		game.target.source_actor = olds
-		if not target or not self:canProject(tg, x, y) then return nil end
+		if not target then return nil end
 
 		if self.ai_target then self.ai_target.target = target end
 
 		if core.fov.distance(self.x, self.y, x, y) > 1 then
-			local block_actor = function(_, bx, by) return game.level.map:checkEntity(bx, by, Map.TERRAIN, "block_move", self) end
-			local l = self:lineFOV(x, y, block_actor)
-			local lx, ly, is_corner_blocked = l:step()
-			if is_corner_blocked or game.level.map:checkAllEntities(lx, ly, "block_move", self) then
-				game.logPlayer(self, "You are too close to build up momentum!")
-				return
-			end
-			local tx, ty = lx, ly
-			lx, ly, is_corner_blocked = l:step()
-			while lx and ly do
-				if is_corner_blocked or game.level.map:checkAllEntities(lx, ly, "block_move", self) then break end
-				tx, ty = lx, ly
-				lx, ly, is_corner_blocked = l:step()
-			end
-
-			local ox, oy = self.x, self.y
-			self:move(tx, ty, true)
-			if config.settings.tome.smooth_move > 0 then
-				self:resetMoveAnim()
-				self:setMoveAnim(ox, oy, 8, 5)
-			end
+			tg.radius = 1 tg.type = "ball"
+			local grids = {}
+			self:projectApply(tg, x, y, Map.TERRAIN, function(_, px, py) grids[#grids+1] = {x=px, y=py, dist=core.fov.distance(self.x, self.y, px, py, true)} end, function(_, px, py) return
+				not game.level.map:checkAllEntities(px, py, "block_move", self) and
+				self:hasLOS(px, py)
+			end, nil, true)
+			table.sort(grids, "dist")
+			if #grids == 0 then return end
+			self:forceMoveAnim(grids[1].x, grids[1].y)
 		end
 
 		-- Attack ?
@@ -82,7 +70,7 @@ newTalent{
 				target:knockback(self.x, self.y, 3)
 				target:crossTierEffect(target.EFF_OFFBALANCE, self:combatPhysicalpower())
 			else
-				game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+				game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 			end
 		end
 
@@ -91,7 +79,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Your golem rushes to the target, dealing %d%% damage and knocking it back.
-		Knockback chance will increase with talent level.]]):format(100 * damage)
+		Knockback chance will increase with talent level.
+		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):tformat(100 * damage)
 	end,
 }
 
@@ -130,7 +119,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[The golem taunts targets in a radius of %d, forcing them to attack it.]]):format(self:getTalentRadius(t))
+		return ([[The golem taunts targets in a radius of %d, forcing them to attack it.]]):tformat(self:getTalentRadius(t))
 	end,
 }
 
@@ -140,7 +129,7 @@ newTalent{
 	require = techs_req3,
 	points = 5,
 	cooldown = 10,
-	range = 5,
+	range = 8,
 	stamina = 5,
 	requires_target = true,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.8, 1.6) end,
@@ -156,32 +145,20 @@ newTalent{
 		game.target.source_actor = self
 		local x, y, target = self:getTarget(tg)
 		game.target.source_actor = olds
-		if not target or not self:canProject(tg, x, y) then return nil end
+		if not target then return nil end
 
 		if self.ai_target then self.ai_target.target = target end
 
 		if core.fov.distance(self.x, self.y, x, y) > 1 then
-			local block_actor = function(_, bx, by) return game.level.map:checkEntity(bx, by, Map.TERRAIN, "block_move", self) end
-			local l = self:lineFOV(x, y, block_actor)
-			local lx, ly, is_corner_blocked = l:step()
-			if is_corner_blocked or game.level.map:checkAllEntities(lx, ly, "block_move", self) then
-				game.logPlayer(self, "You are too close to build up momentum!")
-				return
-			end
-			local tx, ty = lx, ly
-			lx, ly, is_corner_blocked = l:step()
-			while lx and ly do
-				if is_corner_blocked or game.level.map:checkAllEntities(lx, ly, "block_move", self) then break end
-				tx, ty = lx, ly
-				lx, ly, is_corner_blocked = l:step()
-			end
-
-			local ox, oy = self.x, self.y
-			self:move(tx, ty, true)
-			if config.settings.tome.smooth_move > 0 then
-				self:resetMoveAnim()
-				self:setMoveAnim(ox, oy, 8, 5)
-			end
+			tg.radius = 1 tg.type = "ball"
+			local grids = {}
+			self:projectApply(tg, x, y, Map.TERRAIN, function(_, px, py) grids[#grids+1] = {x=px, y=py, dist=core.fov.distance(self.x, self.y, px, py, true)} end, function(_, px, py) return
+				not game.level.map:checkAllEntities(px, py, "block_move", self) and
+				self:hasLOS(px, py)
+			end, nil, true)
+			table.sort(grids, "dist")
+			if #grids == 0 then return end
+			self:forceMoveAnim(grids[1].x, grids[1].y)
 		end
 
 		-- Attack ?
@@ -193,7 +170,7 @@ newTalent{
 			if target:canBe("pin") then
 				target:setEffect(target.EFF_PINNED, t.getPinDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the crushing!", target.name:capitalize())
+				game.logSeen(target, "%s resists the crushing!", target:getName():capitalize())
 			end
 		end
 
@@ -203,8 +180,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getPinDuration(self, t)
 		return ([[Your golem rushes to the target, crushing it into the ground for %d turns and doing %d%% damage.
-		Pinning chance will increase with talent level.]]):
-		format(duration, 100 * damage)
+		Pinning chance will increase with talent level.
+		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):
+		tformat(duration, 100 * damage)
 	end,
 }
 
@@ -214,7 +192,7 @@ newTalent{
 	require = techs_req4,
 	points = 5,
 	cooldown = 15,
-	range = 5,
+	range = 8,
 	radius = 2,
 	stamina = 5,
 	requires_target = true,
@@ -234,30 +212,18 @@ newTalent{
 		game.target.source_actor = self
 		local x, y, target = self:getTarget(tg)
 		game.target.source_actor = olds
-		if not target or not self:canProject(tg, x, y) then return nil end
+		if not target then return nil end
 
 		if core.fov.distance(self.x, self.y, x, y) > 1 then
-			local block_actor = function(_, bx, by) return game.level.map:checkEntity(bx, by, Map.TERRAIN, "block_move", self) end
-			local l = self:lineFOV(x, y, block_actor)
-			local lx, ly, is_corner_blocked = l:step()
-			if is_corner_blocked or game.level.map:checkAllEntities(lx, ly, "block_move", self) then
-				game.logPlayer(self, "You are too close to build up momentum!")
-				return
-			end
-			local tx, ty = lx, ly
-			lx, ly, is_corner_blocked = l:step()
-			while lx and ly do
-				if is_corner_blocked or game.level.map:checkAllEntities(lx, ly, "block_move", self) then break end
-				tx, ty = lx, ly
-				lx, ly, is_corner_blocked = l:step()
-			end
-
-			local ox, oy = self.x, self.y
-			self:move(tx, ty, true)
-			if config.settings.tome.smooth_move > 0 then
-				self:resetMoveAnim()
-				self:setMoveAnim(ox, oy, 8, 5)
-			end
+			tg.radius = 1 tg.type = "ball"
+			local grids = {}
+			self:projectApply(tg, x, y, Map.TERRAIN, function(_, px, py) grids[#grids+1] = {x=px, y=py, dist=core.fov.distance(self.x, self.y, px, py, true)} end, function(_, px, py) return
+				not game.level.map:checkAllEntities(px, py, "block_move", self) and
+				self:hasLOS(px, py)
+			end, nil, true)
+			table.sort(grids, "dist")
+			if #grids == 0 then return end
+			self:forceMoveAnim(grids[1].x, grids[1].y)
 		end
 
 		if self.ai_target then self.ai_target.target = target end
@@ -271,7 +237,7 @@ newTalent{
 				if target:canBe("stun") then
 					target:setEffect(target.EFF_DAZED, t.getDazeDuration(self, t), {apply_power=self:combatPhysicalpower()})
 				else
-					game.logSeen(target, "%s resists the dazing blow!", target.name:capitalize())
+					game.logSeen(target, "%s resists the dazing blow!", target:getName():capitalize())
 				end
 			end
 		end)
@@ -282,8 +248,9 @@ newTalent{
 		local duration = t.getDazeDuration(self, t)
 		local damage = t.getGolemDamage(self, t)
 		return ([[Your golem rushes to the target and creates a shockwave with radius 2, dazing all foes for %d turns and doing %d%% damage.
-		Daze chance increases with talent level.]]):
-		format(duration, 100 * damage)
+		Daze chance increases with talent level.
+		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):
+		tformat(duration, 100 * damage)
 	end,
 }
 
@@ -302,7 +269,7 @@ newTalent{
 	mana = 10,
 	requires_target = true,
 	target = function(self, t)
-		return {type="beam", range=self:getTalentRange(t), talent=t}
+		return {type="beam", range=self:getTalentRange(t), force_max_range=true, talent=t, friendlyfire=false}
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 25, 320) end,
 	tactical = { ATTACK = { FIRE = 1, COLD = 1, LIGHTNING = 1 } },
@@ -313,24 +280,6 @@ newTalent{
 		if self.x == x and self.y == y then return nil end
 
 		-- We will always project the beam as far as possible
-		local l = self:lineFOV(x, y)
-		l:set_corner_block()
-		local lx, ly, is_corner_blocked = l:step(true)
-		local target_x, target_y = lx, ly
-		-- Check for terrain and friendly actors
-		while lx and ly and not is_corner_blocked and core.fov.distance(self.x, self.y, lx, ly) <= tg.range do
-			local actor = game.level.map(lx, ly, engine.Map.ACTOR)
-			if actor and (self:reactionToward(actor) >= 0) then
-				break
-			elseif game.level.map:checkEntity(lx, ly, engine.Map.TERRAIN, "block_move") then
-				target_x, target_y = lx, ly
-				break
-			end
-			target_x, target_y = lx, ly
-			lx, ly = l:step(true)
-		end
-		x, y = target_x, target_y
-
 		local typ = rng.range(1, 3)
 
 		if typ == 1 then
@@ -353,8 +302,9 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Your golem fires a beam from his eyes, doing %0.2f fire damage, %0.2f cold damage or %0.2f lightning damage.
+		The beam will always be the maximun range it can be and will not harm friendly creatures.
 		The damage will increase with your golem's Spellpower.]]):
-		format(damDesc(self, DamageType.FIRE, damage), damDesc(self, DamageType.COLD, damage), damDesc(self, DamageType.LIGHTNING, damage))
+		tformat(damDesc(self, DamageType.FIRE, damage), damDesc(self, DamageType.COLD, damage), damDesc(self, DamageType.LIGHTNING, damage))
 	end,
 }
 
@@ -388,7 +338,7 @@ newTalent{
 		Any damage it takes is partly reflected (%d%%) to the attacker.
 		The golem still takes full damage.
 		Damage returned will increase with your golem's Spellpower.]]):
-		format(t.getReflect(self, t))
+		tformat(t.getReflect(self, t))
 	end,
 }
 
@@ -432,7 +382,7 @@ newTalent{
 		local rad = self:getTalentRadius(t)
 		local dam = t.getDamage(self, t)
 		return ([[Your golem pulls all foes within radius %d toward itself while dealing %0.2f arcane damage.]]):
-		format(rad, dam)
+		tformat(rad, dam)
 	end,
 }
 
@@ -446,7 +396,7 @@ newTalent{
 	range = 0,
 	radius = 3,
 	target = function(self, t)
-		return {type="ball", range=self:getTalentRange(t), selffire=false, radius=self:getTalentRadius(t)}
+		return {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=self:getTalentRadius(t)}
 	end,
 	tactical = { ATTACKAREA = { FIRE = 2 } },
 	action = function(self, t)
@@ -474,8 +424,8 @@ newTalent{
 		return ([[Turns the golem's skin into molten rock. The heat generated sets ablaze everything inside a radius of 3, doing %0.2f fire damage in 3 turns for %d turns.
 		Burning is cumulative; the longer they stay within range, they higher the fire damage they take.
 		In addition the golem gains %d%% fire resistance.
-		Molten Skin damage will not affect the golem's master.
-		The damage and resistance will increase with your Spellpower.]]):format(damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 12, 120)), 5 + self:getTalentLevel(t), 30 + self:combatTalentSpellDamage(t, 12, 60))
+		Molten Skin damage will not affect friendly creatures.
+		The damage and resistance will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 12, 120)), 5 + self:getTalentLevel(t), 30 + self:combatTalentSpellDamage(t, 12, 60))
 	end,
 }
 
@@ -505,7 +455,7 @@ newTalent{
 	info = function(self, t)
 		local rad = self:getTalentRadius(t)
 		return ([[The golem self-destructs, destroying itself and generating a blast of fire in a radius of %d, doing %0.2f fire damage.
-		This spell is only usable when the golem's master is dead.]]):format(rad, damDesc(self, DamageType.FIRE, 50 + 10 * self.level))
+		This spell is only usable when the golem's master is dead.]]):tformat(rad, damDesc(self, DamageType.FIRE, 50 + 10 * self.level))
 	end,
 }
 
@@ -523,10 +473,10 @@ newTalent{
 		local hardiness = t.getArmorHardiness(self, t)
 		local armor = t.getArmor(self, t)
 		local critreduce = t.getCriticalChanceReduction(self, t)
-		local dir = self:getTalentLevelRaw(t) >= 3 and "In" or "De"
+		local dir = self:getTalentLevelRaw(t) >= 3 and _t"Increases" or _t"Decreases"
 		return ([[The golem automatically reconfigures heavy mail and massive armours designed for living creatures to protect its own vital areas.
-	%screases armour value by %d, armour hardiness by %d%%, and provides %d%% critical hit reduction when wearing heavy mail or massive armour.]]):
-		format(dir, armor, hardiness, critreduce)
+	%s armour value by %d, armour hardiness by %d%%, and provides %d%% critical hit reduction when wearing heavy mail or massive armour.]]):
+		tformat(dir, armor, hardiness, critreduce)
 	end,
 }
 
@@ -537,7 +487,7 @@ newTalent{
 	points = 5,
 	mana = 25,
 	cooldown = 8,
-	message = "@Source@ breathes poison!",
+	message = _t"@Source@ breathes poison!",
 	tactical = { ATTACKAREA = { NATURE = {1, poison = 1 } }},
 	range = 0,
 	radius = 5,
@@ -556,6 +506,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Breathe poison on your foes, doing %d damage over a few turns.
-		The damage will increase with your Magic.]]):format(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "mag", 30, 460)))
+		The damage will increase with your Magic.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "mag", 30, 460)))
 	end,
 }

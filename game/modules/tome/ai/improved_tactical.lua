@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -102,11 +102,11 @@ For example:
 defines a tactical bias towards disabling the target (2x) and escape (3x, with a further increase if the target is closer than range 4).
 
 ALGORITHM and IMPLEMENTATION:
-The main (local) variables used by this AI are want, actions, and avail.  The want table (stored in SELF.ai_state._want) contains the WANT VALUEs for each TACTIC considered:
+The main (local) variables used by this AI are want, actions, and avail.  The want table (stored in SELF.ai_state_volatile._want) contains the WANT VALUEs for each TACTIC considered:
 
 	want = {TACTIC1 = value1, TACTIC2 = value2, ...}
 	
-The actions table (stored in SELF.ai_state._actions) contains a list of all available actions (each either a talent or another AI) and the parameters to perform them:
+The actions table (stored in SELF.ai_state_volatile._actions) contains a list of all available actions (each either a talent or another AI) and the parameters to perform them:
 
 	actions = {{action1 parameters, ...}, {action2 parameters, ...})
 	
@@ -127,7 +127,7 @@ while for AI's they are:
 	speed:		relative energy cost to perform the action (minimum 0.1)
 	... :		indexed parameters to be passed to the action AI as SELF:runAI(action.ai, unpack(action))
 	
-The avail table (stored in SELF.ai_state._avail) contains data on each TACTIC supported by the available actions:
+The avail table (stored in SELF.ai_state_volatile._avail) contains data on each TACTIC supported by the available actions:
 
 	avail = {TACTIC1 = {data1, ...}, TACTIC2 = {data2, ...}, ...}
 	
@@ -178,7 +178,7 @@ During its processing, the AI gathers some statistics about SELF's talents and t
 		actions: total number of actions taken in the current fight
 		attacks: total number of attacks performed in the current fight
 
-	talent_stats (SELF.ai_state._talent_stats, updated every 100 game turns -- every 10 actions, usually):
+	talent_stats (SELF.ai_state_volatile._talent_stats, updated every 100 game turns -- every 10 actions, usually):
 		talent_count: number of non-passive talents known
 		is_attack: list of talents fulfilling the ATTACK, ATTACKAREA, or ATTACKALL TACTICs
 		attack_count: number of talents considered to be attacks
@@ -369,9 +369,9 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 	-- avail holds information on TACTICs for which available actions are available
 	local avail = {attack={num=0, best=base_attack/2}, escape={num=0, best=0}}
 	-- make tactical data accessible outside of this AI
-	self.ai_state._actions = actions
-	self.ai_state._want = want
-	self.ai_state._avail = avail
+	self.ai_state_volatile._actions = actions
+	self.ai_state_volatile._want = want
+	self.ai_state_volatile._avail = avail
 	local _
 	local aitarget = self.ai_target.actor
 	local ax, ay = self:aiSeeTargetPos(aitarget)
@@ -384,10 +384,10 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 	local ally_compassion = (self.ai_state.ally_compassion == false and 0) or self.ai_state.ally_compassion or 1
 
 	-- update talent stats every 100 game turns (accounts for actors (i.e. party members) learning new talents)
-	local update_stats = not self.ai_state._talent_stats or (self.ai_state._talent_stats.last_update or 0) + 100 < game.turn and next(t_list)
+	local update_stats = not self.ai_state_volatile._talent_stats or (self.ai_state_volatile._talent_stats.last_update or 0) + 100 < game.turn and next(t_list)
 
 	if update_stats then
-		self.ai_state._talent_stats = {last_update=game.turn, combat_only={},
+		self.ai_state_volatile._talent_stats = {last_update=game.turn, combat_only={},
 			talent_count=0,
 			attack_ranges={},
 			attack_desired_range = self.ai_tactic.safe_range or 1, -- default
@@ -396,7 +396,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 		update_stats = next(t_list)
 		--print("[tactical AI] updating talent stats for", self.name, self.uid)
 	end
-	local talent_stats = self.ai_state._talent_stats
+	local talent_stats = self.ai_state_volatile._talent_stats
 	
 	-- keep track of the current fight (reset if no hostile target)
 	self.ai_state._fight_data = self.ai_state._fight_data or {actions=0, attacks=0}
@@ -454,7 +454,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 	--== LIFE ==--
 	local life -- fraction of maximum life
 	local life_regen, psi_regen = self:regenLife(true) -- regeneration, accounting for caps
-	life_regen, psi_regen = life_regen/self.global_speed, psi_regen/self.global_speed
+	life_regen, psi_regen = (life_regen or 0)/self.global_speed, (psi_regen or 0)/self.global_speed
 	local effect_life, life_range = self.life - self.die_at, self.max_life - self.die_at -- effective total life and maximum used by buff/disable calculation
 	
 	-- Note: The want function defined in the psi resource definition adjusts for Solipsism
@@ -481,7 +481,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 
 	--== PROTECT ==--
 	-- like LIFE but for SELF's summoner
-	if self.summoner and self.summoner.ai_target.actor then
+	if self.summoner then
 		local life = math.max(0, self.summoner.life)/(self.summoner.max_life - self.summoner.die_at/2)
 		life = (1 - life)/(math.max(.001, life)) -- modified life loss
 		want.protect = 10*(life*ally_compassion/(life*ally_compassion + 2.5))^2
@@ -719,7 +719,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 		end
 
 		-- add escape by normal movement to the action list, in case it's better than using a talent		
-		if want.escape > 0.1 and not self:attr("never_move") then
+		if want.escape > 0.1 and not self:attr("never_move") and not self.ai_tactic.never_move_escape then
 			local can_flee, fx, fy
 			-- Note: values are <= weight of move_safe_grid if present
 			-- Could use better testing to make sure fleeing is possible (and prevent back and forth movement)
@@ -789,9 +789,9 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 
 		if avail.buff or avail.disable then -- buff and disable depend on target's condition and fight_data
 			-- note: effect_life, life_range, calculated above for want.life
-			local aitarget_life, aitarget_life_range = aitarget.life - aitarget.die_at, aitarget.max_life - aitarget.die_at
+			local aitarget_life, aitarget_life_range = (aitarget.life or 1) - (aitarget.die_at or 0), (aitarget.max_life or 1) - (aitarget.die_at or 0)
 			
-			if aitarget:knowTalent(aitarget.T_SOLIPSISM) then
+			if aitarget.knowTalent and aitarget:knowTalent(aitarget.T_SOLIPSISM) then
 				local ratio = aitarget:callTalent(aitarget.T_SOLIPSISM, "getConversionRatio")
 				aitarget_life = math.min(aitarget_life/(1 - ratio), aitarget_life + aitarget:getPsi())
 				aitarget_life_range = math.min(aitarget_life_range/(1 - ratio), aitarget_life_range + aitarget:getMaxPsi())
@@ -865,7 +865,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 			local dist_weight, want_closer = aitarget and 1 or 0.1
 			want_closer = util.bound((want.closein or 0)*(self.ai_tactic.closein or 1) + (want.attack or 0)*(self.ai_tactic.attack or 1) - (want.escape or 0)*(self.ai_tactic.excape or 1), -1, 1)
 			grid = self.ai_state.safe_grid
-			if not (grid and grid.path and #grid.path > 1 and core.fov.distance(self.x, self.y, grid.path[1].x, grid.path[1].y) == 1) then -- find a safer grid if needed/possible
+			if not (self.x and grid and grid.path and #grid.path > 1 and grid.path[1] and grid.path[1].x and core.fov.distance(self.x, self.y, grid.path[1].x, grid.path[1].y) == 1) then -- find a safer grid if needed/possible
 				grid = self:aiFindSafeGrid(10, want.life, want.air, dist_weight, want_closer)
 			else
 				grid.start_haz = self:aiGridHazard()
@@ -940,6 +940,9 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 			want.closein = util.bound(want.closein - want.escape, -10, 10)
 			if log_detail >= 2 then print("--want.closein adjusted for want.escape:", want.closein) end
 		end
+
+		-- DGDGDGDG; this is a temporary measure (so I suppose it'll stay like that for a few years :/ )
+		if want.escape then want.escape = want.escape * 0.6 end
 
 --		if log_detail > 0 then print("[use_tactical AI] ### Final Wants (ai_tactic applied):") local tt = table.to_strings(want, "[%s]=%0.3f") table.sort(tt) print(table.concat(tt, ", ")) end
 		if log_detail > 0 then print("[use_tactical AI] ### Final Wants (ai_tactic applied):\n\t", (string.fromTable(want, nil, nil, nil, nil, true))) end

@@ -13,8 +13,6 @@
 -- You should have received a copy of the GNU General Public License
 -- along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-local archerPreUse = Talents.archerPreUse
-
 -- Currently just a copy of Sling Mastery.
 newTalent {
 	short_name = "SKIRMISHER_SLING_SUPREMACY",
@@ -37,7 +35,7 @@ newTalent {
 		local inc = t.getPercentInc(self, t)
 		local reloads = t.ammo_mastery_reload(self, t)
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using slings.
-		Also, increases your reload rate by %d.]]):format(inc * 100, reloads)
+		Also, increases your reload rate by %d.]]):tformat(inc * 100, reloads)
 	end,
 }
 
@@ -59,6 +57,7 @@ newTalent {
 		return self:combatTalentWeaponDamage(t, 0.4, 1.6)
 	end,
 	callbackOnMove = function(self, t, moved, force, ox, oy)
+		if (self.x == ox and self.y == oy) or force then return end
 		local cooldown = self.talents_cd[t.id] or 0
 		if cooldown > 0 then
 			self.talents_cd[t.id] = math.max(cooldown - 1, 0)
@@ -68,7 +67,7 @@ newTalent {
 	getAttackSpeed = function(self,t) return self:combatTalentLimit(t, 40, 10, 25) end,
 	display_speed = function(self, t)
 		return ("Double Archery (#LIGHT_GREEN#%d%%#LAST# of a turn)"):
-			format(self:getSpeed('archery') * 50)
+			tformat(self:getSpeed('archery') * 50)
 	end,
 	action = function(self, t)
 		local targets = self:archeryAcquireTargets(nil, {one_shot=true, add_speed=self.combat_physspeed})
@@ -90,7 +89,7 @@ newTalent {
 	info = function(self, t)
 		return ([[Fire off a quick sling bullet for %d%% damage at double your normal attack speed, as well as increasing your attack speed by %d%% for 5 turns.
 		Each time you move, the cooldown of this talent is reduced by 1.]])
-			:format(t.getDamage(self, t) * 100, t.getAttackSpeed(self,t))
+			:tformat(t.getDamage(self, t) * 100, t.getAttackSpeed(self,t))
 	end,
 }
 
@@ -147,14 +146,12 @@ newTalent {
 		table.shuffle(targets)
 
 		-- Fire each shot individually.
-		local old_target_forced = game.target.forced
 		local limit_shots = t.limit_shots(self, t)
 		local shot_params_base = {mult = t.damage_multiplier(self, t), phasing = true}
 		local fired = nil -- If we've fired at least one shot.
 		for i = 1, math.min(limit_shots, #targets) do
 			local target = targets[i]
-			game.target.forced = {target.x, target.y, target}
-			local targets = self:archeryAcquireTargets({type = "hit", speed = 200}, {one_shot=true, no_energy = fired})
+			local targets = self:archeryAcquireTargets({type = "hit", speed = 200}, {one_shot=true, no_energy = fired, x = target.x, y = target.y})
 			if targets then
 				local params = table.clone(shot_params_base)
 				local target = targets.dual and targets.main[1] or targets[1]
@@ -167,16 +164,13 @@ newTalent {
 			end
 		end
 
-		game.target.forced = old_target_forced
 		return fired
 	end,
 	info = function(self, t)
-		return ([[Take aim and unload up to %d shots for %d%% weapon damage each against random enemies inside a cone. Each enemy can only be hit once (twice for talent level 3 and higher). Using Swift Shot lowers the cooldown by 1.]]):format(t.limit_shots(self, t),	t.damage_multiplier(self, t) * 100)
+		return ([[Take aim and unload up to %d shots for %d%% weapon damage each against random enemies inside a cone. Each enemy can only be hit once (twice for talent level 3 and higher). Using Swift Shot lowers the cooldown by 1.]]):tformat(t.limit_shots(self, t),	t.damage_multiplier(self, t) * 100)
 	end,
 }
 
--- The cost on this is extreme because its a completely ridiculous talent
--- We don't have any other talents like this, really, that are incredibly hard to use for much of anything until late.  Should be interesting.
 newTalent {
 	short_name = "SKIRMISHER_BOMBARDMENT",
 	name = "Bombardment",
@@ -185,7 +179,7 @@ newTalent {
 	points = 5,
 	mode = "sustained",
 	no_energy = true,
-	tactical = { BUFF = 2, STAMINA = -2 },
+	no_npc_use = true, -- let's not allow NPCs to attack three times a turn for over 100% weapon damage at high TL
 	on_pre_use = function(self, t, silent) return archerPreUse(self, t, silent, "sling") end,
 	cooldown = function(self, t)
 		return 10
@@ -194,7 +188,7 @@ newTalent {
 		return 3
 	end,
 	shot_stamina = function(self, t)
-		return 25 * (1 + self:combatFatigue() * 0.01)
+		return 20
 	end,
 	damage_multiplier = function(self, t)
 		return self:combatTalentWeaponDamage(t, 0.1, 0.6)
@@ -202,7 +196,7 @@ newTalent {
 	activate = function(self, t) return {} end,
 	deactivate = function(self, t, p) return true end,
 	info = function(self, t)
-		return ([[While activated, your basic Shot talent now fires %d times, with each attack dealing %d%% Ranged damage, at a cost of %d Stamina per attack.]])
-		:format(t.bullet_count(self, t), t.damage_multiplier(self, t) * 100, t.shot_stamina(self, t))
+		return ([[Your Shoot talent now costs %d stamina but fires %d times for %d%% damage per shot.]])
+		:tformat(t.shot_stamina(self, t), t.bullet_count(self, t), t.damage_multiplier(self, t) * 100 )
 	end,
 }

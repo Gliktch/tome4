@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,12 +18,12 @@
 -- darkgod@te4.org
 
 newChat{ id="welcome",
-	text = [[@playername@, I am one of a party of Sun Paladins sent by Aeryn. We arrived here tracking the orcs.
+	text = _t[[@playername@, I am one of a party of Sun Paladins sent by Aeryn. We arrived here tracking the orcs.
 They have gone through the portal, and a few of my friends were pulled in with them.
 We captured an orc earlier.  He revealed that the staff you seek is to be used to absorb the power of a remote place for dark rituals.
 You must traverse this portal, if you have any means to, and stop the orcs.]],
 	answers = {
-		{"I think I can use the portal. Do not worry!"},
+		{_t"I think I can use the portal. Do not worry!"},
 	}
 }
 

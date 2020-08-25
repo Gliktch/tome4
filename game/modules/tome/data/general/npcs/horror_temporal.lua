@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ newEntity{
 newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 	dredge = 1,
 	name = "dredgling", color=colors.TAN,
-	desc = "A small pink-skinned humanoid with large bulbous eyes.",
+	desc = _t"A small pink-skinned humanoid with large bulbous eyes.",
 	level_range = {10, nil}, exp_worth = 1,
 	rarity = 1,
 	rank = 2,
@@ -71,7 +71,7 @@ newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 	subtype = "temporal",
 	dredge = 1,
 	name = "dredge", color=colors.PINK,
-	desc = "A hulking pink-skinned creature with long arms as thick as tree trunks.  It drags its knuckles on the ground as it lumbers toward you.",
+	desc = _t"A hulking pink-skinned creature with long arms as thick as tree trunks.  It drags its knuckles on the ground as it lumbers toward you.",
 	level_range = {15, nil}, exp_worth = 1,
 	rarity = 2,
 	rank = 2,
@@ -99,7 +99,7 @@ newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 	subtype = "temporal",
 	dredge = 1,
 	name = "dredge captain", color=colors.SALMON,
-	desc = "A thin pink-skinned creature with long spindly arms.  Half its body is old and wrinkly, and the other half appears quite young.",
+	desc = _t"A thin pink-skinned creature with long spindly arms.  Half its body is old and wrinkly, and the other half appears quite young.",
 	level_range = {20, nil}, exp_worth = 1,
 	rarity = 5,
 	rank = 3,
@@ -130,7 +130,7 @@ newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 	subtype = "temporal",
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/horror_temporal_temporal_stalker.png", display_h=2, display_y=-1}}},
 	name = "temporal stalker", color=colors.STEEL_BLUE,
-	desc = "A slender metallic monstrosity with long claws in place of fingers, and razor-sharp teeth.",
+	desc = _t"A slender metallic monstrosity with long claws in place of fingers, and razor-sharp teeth.",
 	level_range = {20, nil}, exp_worth = 1,
 	rarity = 3,
 	size_category = 3,
@@ -141,14 +141,14 @@ newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 	ai = "dumb_talented_simple", ai_state = { ai_move="move_complex", talent_in=2, },
 	combat_armor = 10, combat_def = 10,
 	combat = { dam=resolvers.levelup(resolvers.rngavg(25,100), 1, 1.2), atk=resolvers.rngavg(25,100), apr=25, dammod={dex=1.1} },
-
+	combat_critical_power = 20,
 	resists = {all = 10, [DamageType.TEMPORAL] = 50},
 
 	resolvers.talents{
 		[Talents.T_FATEWEAVER]={base=5, every=7, max=8},
 		[Talents.T_SPIN_FATE]={base=5, every=7, max=8},
 		[Talents.T_STEALTH]={base=3, every=7, max=5},
-		[Talents.T_SHADOWSTRIKE]={base=3, every=7, max=5},
+		-- [Talents.T_SHADOWSTRIKE]={base=3, every=7, max=5},
 	},
 
 	resolvers.inscriptions(1, "rune"),
@@ -160,7 +160,7 @@ newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 	subtype = "temporal",
 	name = "void horror", color=colors.GREY,
-	desc = "It looks like a hole in spacetime, but you get the impression it's somehow more than that.",
+	desc = _t"It looks like a hole in spacetime, but you get the impression it's somehow more than that.",
 	level_range = {20, nil}, exp_worth = 1,
 	rarity = 4,
 	rank = 2,
@@ -193,7 +193,7 @@ newEntity{ base = "BASE_NPC_HORROR_TEMPORAL",
 			if t.type[1] == "chronomancy/anomalies" then ts[#ts+1] = id end
 		end
 		self:forceUseTalent(rng.table(ts), {ignore_energy=true})
-		game.logSeen(self, "%s has collapsed in upon itself.", self.name:capitalize())
+		game.logSeen(self, "%s has collapsed in upon itself.", self:getName():capitalize())
 	end,
 
 	resolvers.sustains_at_birth(),

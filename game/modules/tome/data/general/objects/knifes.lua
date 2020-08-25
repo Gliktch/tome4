@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -25,10 +25,10 @@ newEntity{
 	display = "/", color=colors.WHITE, image = resolvers.image_material("knife", "metal"),
 	moddable_tile = resolvers.moddable_tile("dagger"),
 	encumber = 1,
-	rarity = 5,
+	rarity = 4,
 	metallic = true,
 	combat = { talented = "knife", accuracy_effect="axe", damrange = 1.3, physspeed = 1, sound = {"actions/melee", pitch=1.2, vol=1.2}, sound_miss = {"actions/melee", pitch=1.2, vol=1.2} },
-	desc = [[Sharp, short and deadly.]],
+	desc = _t[[Sharp, short and deadly.]],
 	randart_able = "/data/general/objects/random-artifacts/melee.lua",
 	egos = "/data/general/objects/egos/weapon.lua", egos_chance = { prefix=resolvers.mbonus(40, 5), suffix=resolvers.mbonus(40, 5) },
 }

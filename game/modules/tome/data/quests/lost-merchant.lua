@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "Trapped!"
+name = _t"Trapped!"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You heard a plea for help and decided to investigate..."
-	desc[#desc+1] = "Only to find yourself trapped inside an unknown tunnel complex."
+	desc[#desc+1] = _t"You heard a plea for help and decided to investigate..."
+	desc[#desc+1] = _t"Only to find yourself trapped inside an unknown tunnel complex."
 	return table.concat(desc, "\n")
 end
 

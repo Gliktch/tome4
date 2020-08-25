@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -110,7 +110,7 @@ function _M:onTalentCooledDown(tid)
 	local t = self:getTalentFromId(tid)
 
 	local x, y = game.level.map:getTileToScreen(self.x, self.y, true)
-	game.flyers:add(x, y, 30, -0.3, -3.5, ("%s available"):format(t.name:capitalize()), {0,255,00})
+	game.flyers:add(x, y, 30, -0.3, -3.5, ("%s available"):tformat(t.name:capitalize()), {0,255,00})
 	game.log("#00ff00#Talent %s is ready to use.", t.name)
 end
 
@@ -118,5 +118,5 @@ function _M:levelup()
 	mod.class.NPC.levelup(self)
 
 	local x, y = game.level.map:getTileToScreen(self.x, self.y, true)
-	game.flyers:add(x, y, 80, 0.5, -2, "LEVEL UP!", {0,255,255})
+	game.flyers:add(x, y, 80, 0.5, -2, _t"LEVEL UP!", {0,255,255})
 end

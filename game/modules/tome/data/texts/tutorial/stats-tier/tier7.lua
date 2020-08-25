@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[
+return _t[[
 Be very careful about neglecting your defensive #GOLD#combat stats#WHITE#. A long-lasting #GOLD#cross-tier effect#WHITE# is dangerous!
 
 At the same time, be on the lookout for enemies a very low defensive #GOLD#combat stat#WHITE#, and consider hitting them with something appropriate to inflict a #GOLD#cross-tier effect#WHITE#!

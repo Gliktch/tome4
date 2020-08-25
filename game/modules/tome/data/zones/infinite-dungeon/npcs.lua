@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -65,8 +65,13 @@ local function loadOuter(file)
 	end)
 end
 
-for i, zone in ipairs(fs.list("/data/zones/")) do
-	local file = "/data/zones/"..zone.."/npcs.lua"
---	if fs.exists(file) and not zone:find("infinite%-dungeon") then loadOuter(file) end
-	if fs.exists(file) and not zone:find("infinite%-dungeon") and not zone:find("noxious%-caldera") then loadOuter(file) end --Bug fix
+local function loadZonesNPCs(zones_folder, filter)
+	for i, zone in ipairs(fs.list(zones_folder)) do
+		local file = zones_folder..zone.."/npcs.lua"
+		if fs.exists(file) and filter(zone) then loadOuter(file) end
+	end
 end
+
+loadZonesNPCs("/data/zones/", function(zone) return not zone:find("infinite%-dungeon") and not zone:find("noxious%-caldera") end)
+
+class:triggerHook{"Zone:InfiniteDungeon:loadNPCs", load=load, loadOuter=loadOuter, loadZonesNPCs=loadZonesNPCs}

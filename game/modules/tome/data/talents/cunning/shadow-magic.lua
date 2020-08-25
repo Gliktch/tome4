@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ newTalent{
 		if not p then return "" end
 		return tostring(math.floor(damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)))), "buff_font_smaller"
 	end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 90) end,  -- This doesn't crit or generally scale easily so its safe to be aggressive
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 70)+10 end,  -- This doesn't crit or generally scale easily so its safe to be aggressive
 	getManaCost = function(self, t) return 0 end,
 	activate = function(self, t)
 		local ret = {}
@@ -41,6 +41,7 @@ newTalent{
 			local h1x, h1y = self:attachementSpot("hand1", true) if h1x then self:talentParticles(ret, {type="shader_shield", args={img="shadowhands_01", dir=180, a=0.7, size_factor=0.4, x=h1x, y=h1y-0.1}, shader={type="flamehands", time_factor=slow and 700 or 1000}}) end
 			local h2x, h2y = self:attachementSpot("hand2", true) if h2x then self:talentParticles(ret, {type="shader_shield", args={img="shadowhands_01", dir=180, a=0.7, size_factor=0.4, x=h2x, y=h2y-0.1}, shader={type="flamehands", time_factor=not slow and 700 or 1000}}) end
 		end
+		game:playSoundNear(self, "talents/arcane")
 		return ret
 	end,
 	deactivate = function(self, t, p)
@@ -50,7 +51,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Channel raw magical energy into your melee attacks; each blow you land will do an additional %.2f darkness damage.
 		The damage will improve with your Spellpower.]]):
-		format(damDesc(self, DamageType.DARKNESS, damage))
+		tformat(damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
 
@@ -64,8 +65,9 @@ newTalent{
 	getSpellpower = function(self, t) return self:combatTalentScale(t, 20, 40, 0.75) end,
 	info = function(self, t)
 		local spellpower = t.getSpellpower(self, t)
-		return ([[Your preparations give you greater magical capabilities. You gain a bonus to Spellpower equal to %d%% of your Cunning.]]):
-		format(spellpower)
+		local bonus = self:getCun()*spellpower/100
+		return ([[Your preparations give you greater magical capabilities. You gain a bonus to Spellpower equal to %d%% of your Cunning (Current bonus: %d).]]):
+		tformat(spellpower, bonus)
 	end,
 }
 
@@ -79,10 +81,11 @@ newTalent{
 	sustain_mana = 20,
 	require = cuns_req3,
 	tactical = { BUFF = 2 },
-	getManaRegen = function(self, t) return self:combatTalentScale(t, 1.5/5, 1, 0.75) / (1 - t.getAtkSpeed(self, t)/100) end,
-	getAtkSpeed = function(self, t) return self:combatTalentScale(t, 2.2, 11, 0.75) end,
+	getManaRegen = function(self, t) return self:combatTalentLimit(t, 1, 0.3, 0.8) * (1+t.getAtkSpeed(self, t)/100) end,
+	getAtkSpeed = function(self, t) return self:combatTalentScale(t, 2.2, 15) end,
 	activate = function(self, t)
 		local speed = t.getAtkSpeed(self, t)/100
+		game:playSoundNear(self, "talents/arcane")
 		return {
 			regen = self:addTemporaryValue("mana_regen", t.getManaRegen(self, t)),
 			ps = self:addTemporaryValue("combat_physspeed", speed),
@@ -99,7 +102,7 @@ newTalent{
 		local manaregen = t.getManaRegen(self, t)
 		return ([[You draw energy from the depths of the shadows.
 		While sustained, you regenerate %0.2f mana per turn, and your physical and spell attack speed increases by %0.1f%%.]]):
-		format(manaregen, t.getAtkSpeed(self, t))
+		tformat(manaregen, t.getAtkSpeed(self, t))
 	end,
 }
 
@@ -120,6 +123,7 @@ newTalent{
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t), talent=t} end,
 	getDuration = function(self, t) return math.min(5, 2 + math.ceil(self:getTalentLevel(t) / 2)) end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.8, 2) end,
+	on_pre_use = function(self, t, silent) if self:attr("never_move") then if not silent then game.logPlayer(self, "You require to be able to move to use this talent.") end return false end return true end,
 	action = function(self, t)
 		if self:attr("never_move") then game.logPlayer(self, "You cannot do that currently.") return end
 		
@@ -140,9 +144,11 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_DAZED, t.getDuration(self, t), {})
 			else
-				game.logSeen(target, "%s is not dazed!", target.name:capitalize())
+				game.logSeen(target, "%s is not dazed!", target:getName():capitalize())
 			end
 		end
+		
+		game:playSoundNear(self, "talents/arcane")
 		return true
 	end,
 	info = function(self, t)
@@ -150,6 +156,6 @@ newTalent{
 		return ([[Step through the shadows to your target, dazing it for %d turns and hitting it with all your weapons for %d%% darkness weapon damage.
 		Dazed targets are significantly impaired, but any damage will free them.
 		To Shadowstep, you need to be able to see the target.]]):
-		format(duration, t.getDamage(self, t) * 100)
+		tformat(duration, t.getDamage(self, t) * 100)
 	end,
 }

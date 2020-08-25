@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,15 +30,15 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	show_tooltip = true,
-	desc = [[This portal seems to be connected with Last Hope; you could probably use it to go back.]],
+	desc=_t[[This portal seems to be connected with Last Hope; you could probably use it to go back.]],
 
 	on_move = function(self, x, y, who)
 		if who == game.player then
-			require("engine.ui.Dialog"):yesnoPopup("Back and there again", "Enter the portal back to Last Hope?", function(ret)
+			require("engine.ui.Dialog"):yesnoPopup(_t"Back and there again", _t"Enter the portal back to Last Hope?", function(ret)
 				if not ret then
 					game.player:hasQuest("east-portal"):back_to_last_hope()
 				end
-			end, "Stay", "Enter")
+			end, _t"Stay", _t"Enter")
 		end
 	end,
 }

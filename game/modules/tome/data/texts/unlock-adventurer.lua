@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Class: #LIGHT_GREEN#Adventurer",
-[[Congratulations, you have won the game!
+return _t"New Class: #LIGHT_GREEN#Adventurer",
+_t[[Congratulations, you have won the game!
 You can now create new characters with the #LIGHT_GREEN#Adventurer class#WHITE#.
 
 Adventurers start the game with 7 talent category points and all possible class and generic trees in the game.

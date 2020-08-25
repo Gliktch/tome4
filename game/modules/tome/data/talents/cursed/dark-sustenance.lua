@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ newTalent{
 		local range = self:getTalentRange(t)
 		local tg = {type="hit", range=range}
 		local x, y, target = self:getTarget(tg)
-		if not x or not y or not target or core.fov.distance(self.x, self.y, x, y) > range then return nil end
+		if not x or not y or not target or not self:canProject(tg, x, y) then return nil end
 		if target == self then return nil end -- avoid targeting while frozen
 
 		if self:reactionToward(target) >= 0 or target.summoner == self then
@@ -70,7 +70,7 @@ newTalent{
 			lifeRegenGain = devour.getLifeRegen(self, devour, target)
 		end
 
-		self:setEffect(self.EFF_FEED, 40, { target=target, range=range, hateGain=hateGain, constitutionGain=constitutionGain, lifeRegenGain=lifeRegenGain, damageGain=damageGain, resistGain=resistGain })
+		self:setEffect(self.EFF_FEED, 40, { target=target, tg=tg, range=range, hateGain=hateGain, constitutionGain=constitutionGain, lifeRegenGain=lifeRegenGain, damageGain=damageGain, resistGain=resistGain })
 
 		return true
 	end,
@@ -83,7 +83,8 @@ newTalent{
 		local act
 		for i = 1, #self.fov.actors_dist do
 			act = self.fov.actors_dist[i]
-			if act and self:reactionToward(act) < 0 and core.fov.distance(self.x, self.y, act.x, act.y) <= self:getTalentRange(t) and self:canSee(act) and self:hasLOS(act.x, act.y) then 
+			local tg = {type="hit", range=self:getTalentRange(t)}
+			if act and self:reactionToward(act) < 0 and self:canSee(act) and self:canProject(tg, act.x, act.y) then 
 				local hateGain = t.getHateGain(self, t)
 				local constitutionGain = 0
 				local lifeRegenGain = 0
@@ -105,7 +106,7 @@ newTalent{
 					lifeRegenGain = devour.getLifeRegen(self, devour, target)
 				end
 				self:setEffect(self.EFF_FEED, 40, 
-					{ target=act, range=range, hateGain=hateGain, constitutionGain=constitutionGain, lifeRegenGain=lifeRegenGain, damageGain=damageGain, resistGain=resistGain })
+					{ target=act, tg=tg, range=range, hateGain=hateGain, constitutionGain=constitutionGain, lifeRegenGain=lifeRegenGain, damageGain=damageGain, resistGain=resistGain })
 			end
 		end		
 
@@ -114,7 +115,7 @@ newTalent{
 		local hateGain = t.getHateGain(self, t)
 		return ([[Feed from the essence of your enemy. Draws %0.1f hate per turn from a targeted foe, as long as they remain in your line of sight.
 			If you aren't already feeding this will be automatically applied to the nearest enemy.
-		Hate gain improves with your Mindpower.]]):format(hateGain)
+		Hate gain improves with your Mindpower.]]):tformat(hateGain)
 	end,
 }
 
@@ -130,7 +131,7 @@ newTalent{
 	info = function(self, t)
 		local regen = t.getLifeRegen(self, t)
 		return ([[Devours life from the target of your feeding reducing their life regeneration by %d and adding half of that to yours.
-		Improves with your Mindpower.]]):format(regen)
+		Improves with your Mindpower.]]):tformat(regen)
 	end,
 }
 
@@ -158,7 +159,7 @@ newTalent{
 		local constitutionGain = t.getConstitutionGain(self, t)
 		local lifeRegenGain = t.getLifeRegenGain(self, t)
 		return ([Enhances your feeding by transferring %d constitution and %0.1f life per turn from a targeted foe to you.
-		Improves with the Willpower stat.]):format(constitutionGain, lifeRegenGain)
+		Improves with the Willpower stat.]):tformat(constitutionGain, lifeRegenGain)
 	end,
 }
 ]]
@@ -174,7 +175,7 @@ newTalent{
 	info = function(self, t)
 		local damageGain = t.getDamageGain(self, t)
 		return ([[Enhances your feeding by reducing your targeted foe's damage by %d%%, and increasing yours by the same amount.
-		Improves with your Mindpower.]]):format(damageGain)
+		Improves with your Mindpower.]]):tformat(damageGain)
 	end,
 }
 
@@ -190,6 +191,6 @@ newTalent{
 	info = function(self, t)
 		local resistGain = t.getResistGain(self, t)
 		return ([[Enhances your feeding by reducing your targeted foe's resistances, multiplying them by %0.2f and increasing your resistances by the amount drained. Resistance to "all" is not affected.
-		Improves with your Mindpower.]]):format((1-(resistGain/100)))
+		Improves with your Mindpower.]]):tformat((1-(resistGain/100)))
 	end,
 }

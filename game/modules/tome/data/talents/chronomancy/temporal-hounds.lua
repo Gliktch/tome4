@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ summonTemporalHound = function(self, t)
 		display = "C", color=colors.LIGHT_DARK, image = ("npc/temp_hound_0%d.png"):format(rng.range(1, 12)),
 		shader = "shadow_simulacrum", shader_args = { color = {0.4, 0.4, 0.1}, base = 0.8, time_factor = 1500 },
 		name = "temporal hound", faction = self.faction,
-		desc = [[A trained hound that appears to be all at once a little puppy and a toothless old dog.]],
+		desc=_t[[A trained hound that appears to be all at once a little puppy and a toothless old dog.]],
 		sound_moam = {"creatures/wolves/wolf_hurt_%d", 1, 2}, sound_die = {"creatures/wolves/wolf_hurt_%d", 1, 1},
 		
 		autolevel = "none",
@@ -64,6 +64,10 @@ summonTemporalHound = function(self, t)
 	m.no_inventory_access = true
 	m.no_points_on_levelup = true
 	
+	-- Never flee
+	m.ai_tactic = m.ai_tactic or {}
+	m.ai_tactic.escape = 0
+
 	m:resolve()
 	m:resolve(nil, true)
 	
@@ -95,6 +99,7 @@ summonTemporalHound = function(self, t)
 	
 	-- Make sure to update sustain counter when we die
 	m.on_die = function(self)
+		if not self.summoner then return end
 		local p = self.summoner:isTalentActive(self.summoner.T_TEMPORAL_HOUNDS)
 		local tid = self.summoner:getTalentFromId(self.summoner.T_TEMPORAL_HOUNDS)
 		if p then
@@ -103,6 +108,7 @@ summonTemporalHound = function(self, t)
 	end
 	-- Make sure hounds stay close
 	m.on_act = function(self)
+		if not self.summoner then return end
 		local x, y = self.summoner.x, self.summoner.y
 		if game.level:hasEntity(self.summoner) and core.fov.distance(self.x, self.y, x, y) > 10 then
 			-- Clear it's targeting on teleport
@@ -118,6 +124,7 @@ summonTemporalHound = function(self, t)
 	end
 	-- Unravel?
 	m.on_takehit = function(self, value, src)
+		if not self.summoner then return end
 		if value >= self.life and self.summoner:knowTalent(self.summoner.T_TEMPORAL_VIGOUR) then
 			self.summoner:callTalent(self.summoner.T_TEMPORAL_VIGOUR, "doUnravel", self, value)
 		end
@@ -135,16 +142,16 @@ summonTemporalHound = function(self, t)
 		game.party:addMember(m, {
 			control="no",
 			type="hound",
-			title="temporal-hound",
+			title=_t"temporal-hound",
 			orders = {target=true, leash=true, anchor=true, talents=true},
 		})
 	end
 	
-	self:attr("summoned_times", 1)
 end
 
 countHounds = function(self)
 	local hounds = 0
+	if not game.level then return 0 end
 	for _, e in pairs(game.level.entities) do
 		if e and e.summoner and e.summoner == self and e.name == "temporal hound" then 
 			hounds = hounds + 1 
@@ -228,7 +235,7 @@ newTalent{
 		return ([[Upon activation summon a Temporal Hound.  Every %d turns another hound will be summoned, up to a maximum of three hounds. If a hound dies you'll summon a new hound in %d turns.  
 		Your hounds inherit your increased damage percent, have %d%% physical resistance and %d%% temporal resistance, and are immune to teleportation effects.
 		Hounds will get, %d Strength, %d Dexterity, %d Constitution, %d Magic, %d Willpower, and %d Cunning, based on your Magic stat.]])
-		:format(cooldown, cooldown, resists/2, math.min(100, resists*2), incStats.str + 1, incStats.dex + 1, incStats.con + 1, incStats.mag + 1, incStats.wil +1, incStats.cun + 1)
+		:tformat(cooldown, cooldown, resists/2, math.min(100, resists*2), incStats.str + 1, incStats.dex + 1, incStats.con + 1, incStats.mag + 1, incStats.wil +1, incStats.cun + 1)
 	end
 }
 
@@ -322,7 +329,7 @@ newTalent{
 		return ([[Command your Temporal Hounds to teleport to the targeted location.  If you target an enemy your hounds will set that enemy as their target.
 		When you learn this talent, your hounds gain %d defense and %d%% resist all after any teleport.
 		At talent level five, if you're not at your maximum number of hounds when you cast this spell a new one will be summoned.
-		The teleportation bonuses scale with your Spellpower.]]):format(defense, defense, defense/2, defense/2)
+		The teleportation bonuses scale with your Spellpower.]]):tformat(defense, defense, defense/2, defense/2)
 	end,
 }
 
@@ -361,7 +368,7 @@ newTalent{
 		return ([[Your hounds can now survive for up to %d turns after their hit points are reduced below 1.  While in this state they deal 50%% less damage but are immune to additional damage.
 		Command Blink will now regenerate your hounds for %d life per turn and increase their global speed by %d%% for five turns.  Hounds below 1 life when this effect occurs will have the bonuses doubled.
 		When you learn this talent, your hounds gain %d%% stun, blind, confusion, and pin resistance.
-		The regeneration scales with your Spellpower.]]):format(duration, regen, haste, immunities)
+		The regeneration scales with your Spellpower.]]):tformat(duration, regen, haste, immunities)
 	end
 }
 
@@ -451,6 +458,6 @@ newTalent{
 		local affinity = t.getResists(self, t)
 		return ([[Command your Temporal Hounds to breathe time, dealing %0.2f temporal damage and reducing the three highest stats of all targets in a radius %d cone.
 		Affected targets will have their stats reduced by %d for %d turns.  You are immune to the breath of your own hounds and your hounds are immune to stat damage from other hounds.
-		When you learn this talent, your hounds gain %d%% temporal damage affinity.]]):format(damDesc(self, DamageType.TEMPORAL, damage), radius, stat_damage, duration, affinity)
+		When you learn this talent, your hounds gain %d%% temporal damage affinity.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), radius, stat_damage, duration, affinity)
 	end,
 }

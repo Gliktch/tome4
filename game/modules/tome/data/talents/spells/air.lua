@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,20 +30,26 @@ newTalent{
 	reflectable = true,
 	requires_target = true,
 	target = function(self, t)
+		if thaumaturgyCheck(self) then return {type="widebeam", radius=1, range=self:getTalentRange(t), talent=t, selffire=false, friendlyfire=self:spellFriendlyFire()} end
 		return {type="beam", range=self:getTalentRange(t), talent=t}
 	end,
 	allow_for_arcane_combat = true,
+	is_beam_spell = true,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 350) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		local dam = self:spellCrit(t.getDamage(self, t))
+		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
 		self:project(tg, x, y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(dam / 3, dam, 3), daze=self:attr("lightning_daze_tempest") or 0})
 		local _ _, x, y = self:canProject(tg, x, y)
-		if core.shader.active() then game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "lightning_beam", {tx=x-self.x, ty=y-self.y}, {type="lightning"})
-		else game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "lightning_beam", {tx=x-self.x, ty=y-self.y})
+
+		if thaumaturgyCheck(self) then
+			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "lightning_beam_wide", {tx=x-self.x, ty=y-self.y}, core.shader.active() and {type="lightning"} or nil)
+		else
+			game.level.map:particleEmitter(self.x, self.y, math.max(math.abs(x-self.x), math.abs(y-self.y)), "lightning_beam", {tx=x-self.x, ty=y-self.y}, core.shader.active() and {type="lightning"} or nil)
 		end
+
 		game:playSoundNear(self, "talents/lightning")
 		return true
 	end,
@@ -51,7 +57,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Conjures up mana into a powerful beam of lightning, doing %0.2f to %0.2f damage (%0.2f average)
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.LIGHTNING, damage / 3),
+		tformat(damDesc(self, DamageType.LIGHTNING, damage / 3),
 		damDesc(self, DamageType.LIGHTNING, damage),
 		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
 
@@ -135,7 +141,7 @@ newTalent{
 		return ([[Invokes a forking beam of lightning doing %0.2f to %0.2f damage (%0.2f average) and forking to another target.
 		It can hit up to %d targets up to 10 grids apart, and will never hit the same one twice; nor will it hit the caster.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.LIGHTNING, damage / 3),
+		tformat(damDesc(self, DamageType.LIGHTNING, damage / 3),
 			damDesc(self, DamageType.LIGHTNING, damage),
 			damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2),
 			targets)
@@ -190,7 +196,7 @@ newTalent{
 		return ([[A gentle wind circles around the caster, increasing carrying capacity by %d, defense against projectiles by %d, pin immunity by %d%% and stun immunity by %d%%.
 		At level 4 it also makes you levitate slightly above the ground, allowing you to ignore some traps.
 		At level 5 it also grants %d%% movement speed and removes %d fatigue.]]):
-		format(encumberance, rangedef, pin*100, stun*100, t.getSpeed(self, t) * 100, t.getFatigue(self, t))
+		tformat(encumberance, rangedef, pin*100, stun*100, t.getSpeed(self, t) * 100, t.getFatigue(self, t))
 	end,
 }
 
@@ -232,20 +238,21 @@ newTalent{
 	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/thunderstorm")
-		game.logSeen(self, "#0080FF#A furious lightning storm forms around %s!", self.name)
+		game.logSeen(self, "#0080FF#A furious lightning storm forms around %s!", self:getName())
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.LIGHTNING)
 		return {
 		}
 	end,
 	deactivate = function(self, t, p)
-		game.logSeen(self, "#0080FF#The furious lightning storm around %s calms down and disappears.", self.name)
+		game.logSeen(self, "#0080FF#The furious lightning storm around %s calms down and disappears.", self:getName())
 		return true
 	end,
 	info = function(self, t)
 		local targetcount = t.getTargetCount(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Conjures a furious, raging lightning storm with a radius of 6 that follows you as long as this spell is active.
-		Each turn, a random lightning bolt will hit up to %d of your foes for 1 to %0.2f damage (%0.2f average) in a radius of 1.
+		Each turn, a random lightning bolt will hit up to %d of your foes for 1.00 to %0.2f damage (%0.2f average) in a radius of 1.
 		The damage will increase with your Spellpower.]]):
-		format(targetcount, damDesc(self, DamageType.LIGHTNING, damage), damDesc(self, DamageType.LIGHTNING, damage / 2))
+		tformat(targetcount, damDesc(self, DamageType.LIGHTNING, damage), damDesc(self, DamageType.LIGHTNING, damage / 2))
 	end,
 }

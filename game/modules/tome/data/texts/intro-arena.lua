@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[Welcome #LIGHT_GREEN#@name@#WHITE#.
+return _t[[Welcome #LIGHT_GREEN#@name@#WHITE#.
 As you walk forward, you hear the increasingly loud cheers coming from outside.
 As you step into the arena, the scorching sun blinds your eyes temporarily.
 You look up, and meet your target eye to eye: The Master of the Arena, carefully examining

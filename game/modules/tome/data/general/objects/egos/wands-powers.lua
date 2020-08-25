@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ newEntity{
 
 	charm_power_def = {add=8, max=10, floor=true},
 	resolvers.charm(function(self, who)
-		return ("reveal the area around you, dispelling darkness (radius %d, power %d based on Magic), and detect the presence of nearby creatures for 10 turns"):format(self.use_power.radius(self, who), self.use_power.litepower(self, who))
+		return ("reveal the area around you, dispelling darkness (radius %d, power %d based on Magic), and detect the presence of nearby creatures for 10 turns"):tformat(self.use_power.radius(self, who), self.use_power.litepower(self, who))
 	end,
 	15,
 	function(self, who)
@@ -34,7 +34,7 @@ newEntity{
 			range = rad,
 			actor = 1,
 		})
-		game.logSeen(who, "%s uses %s %s!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+		game.logSeen(who, "%s uses %s %s!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 		who:project({type="ball", range=0, selffire=true, radius=rad}, who.x, who.y, engine.DamageType.LITE, self.use_power.litepower(self, who))
 
 		return {id=true, used=true}
@@ -47,25 +47,25 @@ newEntity{
 
 newEntity{
 	name = " of lightning storm", addon=true, instant_resolve=true,
-	keywords = {lightning_storm=true},
+	keywords = {['lightning storm']=true},
 	level_range = {1, 50},
 	rarity = 10,
 
-	charm_power_def = {add=0, max=800, floor=true},
+	charm_power_def = {add=50, max=600, floor=true},
 	resolvers.charm(function(self, who)
 		local dam = who:damDesc(engine.DamageType.LIGHTNING, self.use_power.damage(self, who))
 		local radius = self.use_power.radius
 		local duration = 5
 		return ("create a radius %d storm for %d turns. Each turn, creatures within take %d lightning damage and will be dazed for 1 turn (%d total damage)"):
-			format(radius, duration, math.floor(dam / duration), math.floor(dam))
+			tformat(radius, duration, math.floor(dam / duration), math.floor(dam))
 	end,
 	15,
 	function(self, who)
 		local tg = self.use_power.target(self, who)
 		local x, y = who:getTarget(tg)
 		if not x or not y then return nil end
-		local dam = {dam = who:spellCrit(self.use_power.damage(self, who)) / 5, daze = 100, daze_duration = 1}
-		game.logSeen(who, "%s conjures a lightning storm from %s %s!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+		local dam = {dam = self.use_power.damage(self, who) / 5, daze = 100, daze_duration = 1}
+		game.logSeen(who, "%s conjures a lightning storm from %s %s!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
 		local DamageType = require "engine.DamageType"
 		local MapEffect = require "engine.MapEffect"
 		who:project(tg, x, y, function(px, py)
@@ -102,10 +102,11 @@ newEntity{
 		}
 	end),
 
-	charm_power_def = {add=0, max=1000, floor=true},
+	charm_power_def = {add=50, max=500, floor=true},
 	resolvers.charm(function(self, who)
-			local dam = self.use_power.damage(self, who)
-			return ("fire a magical bolt dealing %d %s damage"):format(dam, self.elem[3] )
+			local dt = engine.DamageType[self.elem[3]:upper()]
+			local dam = who:damDesc(dt, self.use_power.damage(self, who))
+			return ("fire a magical bolt dealing %d %s damage"):tformat(dam, engine.DamageType:get(dt).name)
 		end,
 		15,
 		function(self, who)
@@ -114,8 +115,8 @@ newEntity{
 			if not x or not y then return nil end
 			local dam = self.use_power.damage(self, who)
 			local elem = self.elem
-			game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
-			who:project(tg, x, y, elem[1], who:spellCrit(dam), {type=elem[2]})
+			game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName({no_add_name = true, do_color = true}))
+			who:project(tg, x, y, elem[1], dam, {type=elem[2]})
 			game:playSoundNear(who, "talents/fire")
 			return {id=true, used=true}
 		end,
@@ -135,17 +136,17 @@ newEntity{
 	level_range = {1, 50},
 	rarity = 8,
 
-	charm_power_def = {add=0, max=600, floor=true},
+	charm_power_def = {add=50, max=600, floor=true},
 	resolvers.charm(
 		function(self, who) 
-			local shield = self.use_power.shield(self, who) * (100 + (who:attr("shield_factor") or 0)) / 100
+			local shield = who:getShieldAmount(self.use_power.shield(self, who))
 			return ("create a shield absorbing up to %d damage on yourself and all friendly characters within 10 spaces for %d turns"):
-				format(shield, 4) end,
+				tformat(shield, who:getShieldDuration(4)) end,
 		20,
 		function(self, who)
 			local tg = self.use_power.target(self, who)
-			local shield = who:spellCrit(self.use_power.shield(self, who))
-			game.logSeen(who, "%s activates %s %s!", who.name:capitalize(), who:his_her(), self:getName{no_add_name = true, do_color = true})
+			local shield = self.use_power.shield(self, who)
+			game.logSeen(who, "%s activates %s %s!", who:getName():capitalize(), who:his_her(), self:getName{no_add_name = true, do_color = true})
 			who:project(tg, who.x, who.y, function(px, py)
 				local target = game.level.map(px, py, engine.Map.ACTOR)
 				if not target then return end
@@ -160,7 +161,7 @@ newEntity{
 	{
 	radius = function(self, who) return 10 end,
 	shield = function(self, who) return self:getCharmPower(who) end,
-	target = function(self, who) return {type="ball", nowarning=true, radius=self.use_power.radius(self, who)} end,
+	target = function(self, who) return {type="ball", nowarning=true, radius=self.use_power.radius(self, who), ignore_nullify_all_friendlyfire=true} end,
 	tactical = {HEAL = 1},
 	})
 }

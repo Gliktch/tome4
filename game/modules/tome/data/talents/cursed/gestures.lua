@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -124,7 +124,7 @@ newTalent{
 		local damage = 0
 		if self:checkHit(mindpower, target:combatMentalResist()) then
 			damage = self:mindCrit(baseDamage * rng.float(0.5, 1) + bonusDamage, bonusCritical)
-			self:project({type="hit", x=target.x,y=target.y}, target.x, target.y, DamageType.MIND, { dam=damage,alwaysHit=true,crossTierChance=25 })
+			self:project({type="hit", x=target.x,y=target.y, talent=t}, target.x, target.y, DamageType.MIND, { dam=damage,alwaysHit=true,crossTierChance=25 })
 			game:playSoundNear(self, "actions/melee_hit_squish")
 			hit = true
 
@@ -132,7 +132,7 @@ newTalent{
 			   target:removeEffect(target.EFF_DISMAYED)
 			end
 		else
-			game.logSeen(self, "%s resists the Gesture of Pain.", target.name:capitalize())
+			game.logSeen(self, "%s resists the Gesture of Pain.", target:getName():capitalize())
 			game:playSoundNear(self, "actions/melee_miss")
 		end
 
@@ -203,7 +203,7 @@ newTalent{
 		This talent requires two free or mindstar-equipped hands and has a 25%% chance to inflict brainlock, which can critically hit. The damage will increase with your Mindpower.
 		If attacking with two mindstars the attack will trigger their proc effects, if any.
 		Mindstars bonuses from damage and physical criticals: (+%d damage, +%d critical chance)]])
-		:format(damDesc(self, DamageType.MIND, baseDamage * 0.5), damDesc(self, DamageType.MIND, baseDamage), stunChance, bonusDamage, bonusCritical)
+		:tformat(damDesc(self, DamageType.MIND, baseDamage * 0.5), damDesc(self, DamageType.MIND, baseDamage), stunChance, bonusDamage, bonusCritical)
 	end,
 }
 
@@ -224,7 +224,7 @@ newTalent{
 		local resistAllChange = t.getResistAllChange(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Enhance your Gesture of Pain with a malicious curse that causes any victim that is struck to have all resistances lowered by %d%% for %d turns.
-		]]):format(-resistAllChange, duration)
+		]]):tformat(-resistAllChange, duration)
 	end,
 }
 
@@ -249,7 +249,7 @@ newTalent{
 		local mindpowerChange = t.getMindpowerChange(self, t, 2)
 		local mindCritChange = t.getMindCritChange(self, t)
 		return ([[Enhance your mental attacks with a single gesture. You gain +%d mindpower and +%d%% chance to inflict critical damage with mind-based attacks (current chance is %d%%).
-		Requires two free or mindstar-equipped hands; does not require Gesture of Pain to be sustained.]]):format(mindpowerChange, mindCritChange, self:combatMindCrit())
+		Requires two free or mindstar-equipped hands; does not require Gesture of Pain to be sustained.]]):tformat(mindpowerChange, mindCritChange, self:combatMindCrit())
 	end,
 }
 
@@ -301,8 +301,8 @@ newTalent{
 	info = function(self, t)
 		local damageChange = t.getDamageChange(self, t, true)
 		local counterAttackChance = t.getCounterAttackChance(self, t, true)
-		return ([[You guard against melee damage with a sweep of your hand. So long as you can use Gestures (Requires two free or mindstar-equipped hands), you deflect up to %d damage (%0.1f%% of your best free hand melee damage) from up to %0.1f melee attack(s) each turn (based on your cunning).  Deflected attacks cannot be crits.
+		return ([[You guard against melee damage with a sweep of your hand. So long as you can use Gestures (Requires two free or mindstar-equipped hands), you deflect up to %d damage (%0.1f%% of your best free hand melee damage) from up to %0.1f melee attack(s) each turn (based on your cunning). Deflected attacks cannot be crits.
 		If Gesture of Pain is active, you also have a %0.1f%% chance to counterattack.]]):
-		format(damageChange, t.getGuardPercent(self, t), t.getDeflects(self, t, true), counterAttackChance)
+		tformat(damageChange, t.getGuardPercent(self, t), t.getDeflects(self, t, true), counterAttackChance)
 	end,
 }

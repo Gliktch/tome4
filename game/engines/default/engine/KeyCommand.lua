@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -61,6 +61,7 @@ function _M:setupRebootKeys()
 end
 
 function _M:receiveKey(sym, ctrl, shift, alt, meta, unicode, isup, key)
+	if not self:isEnabled() then return end
 	self:handleStatus(sym, ctrl, shift, alt, meta, unicode, isup)
 
 	if self.ignore[sym] then return end

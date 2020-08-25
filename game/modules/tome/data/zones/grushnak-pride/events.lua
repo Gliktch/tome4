@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,4 +21,5 @@ return { one_per_level=true,
 	{group="fareast-generic", percent_factor=1.5},
 	{name="antimagic-bush", minor=true, percent=80, max_repeat=3, forbid={1,3,5}},
 	{name="glowing-chest", minor=true, percent=30},
+	{name="sub-vault", minor=true, percent=100}, -- one per floor
 }

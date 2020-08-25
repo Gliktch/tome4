@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ return { generator = function()
 	local angle = math.rad(rng.range(0, 360))
 	local distribution = (math.sin(angle + distributionOffset) + 1) / 2
 	local distance = engine.Map.tile_w * rng.float(0.2, 0.2 + 0.08 * power)
-	local alpha = (80 - distribution * 50) / 255
+	local alpha = (255 - distribution * 50) / 255
 	local vel = 4 * distance / life
 	
 	return {

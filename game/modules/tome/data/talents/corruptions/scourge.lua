@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -36,12 +36,16 @@ newTalent{
 	requires_target = true,
 	getIncrease = function(self, t) return math.floor(self:combatTalentLimit(t, 4, 1, 3.5)) end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.8, 1.6) end,
+	on_pre_use = function(self, t, silent)
+		if not self:hasDualWeapon() then
+			if not silent then game.logPlayer(self, "You cannot use Virulent Strike without two weapons!") end
+			return false
+		end
+		return true
+	end,
 	action = function(self, t)
 		local weapon, offweapon = self:hasDualWeapon()
-		if not weapon then
-			game.logPlayer(self, "You cannot use Virulent Strike without two weapons!")
-			return nil
-		end
+		if not weapon then return nil end
 
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
@@ -80,7 +84,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Strike the target with both weapons dealing %d%% damage with each hit.  Each strike that hits will increase the duration of the lowest duration disease effect by %d.]]):
-		format(100 * t.getDamage(self, t), t.getIncrease(self, t))
+		tformat(100 * t.getDamage(self, t), t.getIncrease(self, t))
 	end,
 }
 
@@ -110,7 +114,7 @@ newTalent{
 		local dam = damDesc(self, DamageType.BLIGHT, t.getDamage(self, t))
 		return ([[Concentrate on the corruption you bring, enhancing each of your melee strikes with %0.2f blight damage (which also heals you for %0.2f each hit).
 		The damage will increase with your Spellpower.]]):
-		format(dam, dam * 0.4)
+		tformat(dam, dam * 0.4)
 	end,
 }
 
@@ -132,12 +136,16 @@ newTalent{
 	end,
 	getSplash = function(self, t) return self:combatTalentSpellDamage(t, 10, 200) end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.8, 1.6) end,
+	on_pre_use = function(self, t, silent)
+		if not self:hasDualWeapon() then
+			if not silent then game.logPlayer(self, "You cannot use Acid Strike without two weapons!") end
+			return false
+		end
+		return true
+	end,
 	action = function(self, t)
 		local weapon, offweapon = self:hasDualWeapon()
-		if not weapon then
-			game.logPlayer(self, "You cannot use Acid Strike without two weapons!")
-			return nil
-		end
+		if not weapon then return nil end
 
 		local tg = {type="hit", range=self:getTalentRange(t)}
 		local x, y, target = self:getTarget(tg)
@@ -154,6 +162,8 @@ newTalent{
 			tg.x = target.x
 			tg.y = target.y
 			self:project(tg, target.x, target.y, DamageType.ACID, self:spellCrit(t.getSplash(self, t)))
+			game.level.map:particleEmitter(target.x, target.y, tg.radius, "ball_acid", {radius=tg.radius})
+			game:playSoundNear(self, "talents/slime")
 		end
 
 		return true
@@ -162,7 +172,7 @@ newTalent{
 		return ([[Strike with each of your weapons, doing %d%% acid weapon damage with each hit.
 		If at least one of the strikes hits, an acid splash is generated, doing %0.2f acid damage to all enemies in radius %d around the foe you struck.
 		The splash damage will increase with your Spellpower.]]):
-		format(100 * t.getDamage(self, t), damDesc(self, DamageType.ACID, t.getSplash(self, t)), self:getTalentRadius(t))
+		tformat(100 * t.getDamage(self, t), damDesc(self, DamageType.ACID, t.getSplash(self, t)), self:getTalentRadius(t))
 	end,
 }
 
@@ -180,19 +190,23 @@ newTalent{
 	tactical = { ATTACK = {BLIGHT = 1},},
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1, 2) end,
+	on_pre_use = function(self, t, silent)
+		if not self:hasDualWeapon() then
+			if not silent then game.logPlayer(self, "You cannot use Corrupting Strike without two weapons!") end
+			return false
+		end
+		return true
+	end,
 	action = function(self, t)
 		local weapon, offweapon = self:hasDualWeapon()
-		if not weapon then
-			game.logPlayer(self, "You cannot use Corrupting Strike without two weapons!")
-			return nil
-		end
+		if not weapon then return nil end
 
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
 		if not target or not self:canProject(tg, x, y) then return nil end
 
 		-- Awkward to have this happen first, but part of the point of the talent is to help guarantee any misc disease on hit effects can't be immuned
-		target:removeSustainsFilter(function(e) return e.is_nature end, 2)
+		target:removeSustainsFilter(self, function(e) return e.is_nature end, 2)
 		target:setEffect(target.EFF_CORRUPTING_STRIKE, 2, {})
 
 		DamageType:projectingFor(self, {project_type={talent=t}})
@@ -204,6 +218,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Corrupt the target reducing disease immunity by 100%% for 2 turns and stripping up to 2 nature sustains then strike with both your weapons dealing %d%% damage.]]):
-		format(100 * t.getDamage(self, t))
+		tformat(100 * t.getDamage(self, t))
 	end,
 }

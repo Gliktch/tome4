@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Race: #LIGHT_GREEN#Yeek",
-[[
+return _t"New Race: #LIGHT_GREEN#Yeek",
+_t[[
 Yeeks are a mysterious race of small humanoids native to the tropical island of Rel.
 Their body is covered with white fur and their disproportionate heads give them a ridiculous look, yet they are a cunning and willful race.
 Although they are now nearly unheard of in Maj'Eyal, they spent many centuries as secret slaves to the Halfling nation of Nargol.

@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -58,19 +58,19 @@ newTalent{
 		return false
 	end,
 	applyEffect = function(self, t, target, no_fearRes)
-		
+
 		--tyrant mindpower bonus
 		local tTyrant = nil
 		if self:knowTalent(self.T_TYRANT) then tTyrant = self:getTalentFromId(self.T_TYRANT) end
 		local mindpowerChange = 0
-		
+
 		--mindpower check
 		local mindpower = self:combatMindpower()
 		if not target:checkHit(mindpower, target:combatMentalResist()) then
-			game.logSeen(target, "%s resists the fear!", target.name:capitalize())
+			game.logSeen(target, "%s resists the fear!", target:getName():capitalize())
 			return nil
 		end
-		
+
 		--apply heighten fear
 		local tHeightenFear = nil
 		if self:knowTalent(self.T_HEIGHTEN_FEAR) then tHeightenFear = self:getTalentFromId(self.T_HEIGHTEN_FEAR) end
@@ -80,24 +80,24 @@ newTalent{
 			local damage = tHeightenFear.getDamage(self, t)
 			target:setEffect(target.EFF_HEIGHTEN_FEAR, dur, {src=self, range=self:getTalentRange(tHeightenFear), turns=turnsUntilTrigger, turns_left=turnsUntilTrigger, damage=damage })
 		end
-		
+
 		--fear res check & heighten fear bypass
 		if not no_fearRes and not target:canBe("fear") then
-			game.logSeen(target, "#F53CBE#%s resists the fear!", target.name:capitalize())
+			game.logSeen(target, "#F53CBE#%s resists the fear!", target:getName():capitalize())
 			return true
 		end
-		
+
 		--build table of possible fears
 		local effects = {}
 		if not target:hasEffect(target.EFF_PARANOID) then table.insert(effects, target.EFF_PARANOID) end
 		if not target:hasEffect(target.EFF_DISPAIR) then table.insert(effects, target.EFF_DISPAIR) end
 		if not target:hasEffect(target.EFF_TERRIFIED) then table.insert(effects, target.EFF_TERRIFIED) end
 		if not target:hasEffect(target.EFF_HAUNTED) then table.insert(effects, target.EFF_HAUNTED) end
-		
+
 		--choose fear
 		if #effects == 0 then return nil end
 		local effectId = rng.table(effects)
-		
+
 		--data for fear effects
 		local duration = t.getDuration(self, t)
 		local eff = {src=self, duration=duration }
@@ -115,7 +115,7 @@ newTalent{
 		else
 			print("* fears: failed to get effect", effectId)
 		end
-		
+
 		--tyrant stuff
 		if tTyrant then
 			--tyrant buff data
@@ -143,10 +143,10 @@ newTalent{
 				F.dur = math.max(F.dur, math.min(8, F.dur + extendFear))
 			end
 		end
-		
+
 		--set fear
 		target:setEffect(effectId, duration, eff)
-		
+
 		return effectId
 	end,
 	endEffect = function(self, t)
@@ -164,8 +164,8 @@ newTalent{
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
-		if not x or not y or core.fov.distance(self.x, self.y, x, y) > self:getTalentRange(t) then return nil end
-		
+		if not x or not y then return nil end
+		local _ _, x, y = self:canProject(tg, x, y)
 		self:project(
 			tg, x, y,
 			function(px, py)
@@ -194,7 +194,7 @@ newTalent{
 		#ORANGE#Despair:#LAST# Reduces mind resist, mindsave, armour and defence by %d.
 		#ORANGE#Terrified:#LAST# Deals %0.2f mind and %0.2f darkness damage per turn and increases cooldowns by %d%%.
 		#ORANGE#Haunted:#LAST# Causes the target to suffer %0.2f mind and %0.2f darkness damage for each detrimental mental effect every turn.
-		]]):format(self:getTalentRadius(t), damDesc(self, DamageType.MIND, damInstil), damDesc(self, DamageType.DARKNESS, damInstil), t.getDuration(self, t),
+		]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.MIND, damInstil), damDesc(self, DamageType.DARKNESS, damInstil), t.getDuration(self, t),
 		t.getParanoidAttackChance(self, t),
 		-t.getDespairStatChange(self, t),
 		damDesc(self, DamageType.MIND, damTerri), damDesc(self, DamageType.DARKNESS, damTerri), t.getTerrifiedPower(self, t),
@@ -228,9 +228,9 @@ newTalent{
 		local turnsUntilTrigger = t.getTurnsUntilTrigger(self, t)
 		local duration = tInstillFear.getDuration(self, tInstillFear)
 		local damage = t.getDamage(self, t)
-		return ([[Heighten the fears of those near to you. Any foe you attempt to inflict a fear upon and who remains in a radius of %d and in sight of you for %d (non-consecutive) turns, will take %0.2f mind and %0.2f darkness damage and gain a new fear that lasts for %d turns. 
+		return ([[Heighten the fears of those near to you. Any foe you attempt to inflict a fear upon and who remains in a radius of %d and in sight of you for %d (non-consecutive) turns, will take %0.2f mind and %0.2f darkness damage and gain a new fear that lasts for %d turns.
 			This effect completely ignores fear resistance, but can be saved against.]]):
-			format(range, turnsUntilTrigger, damDesc(self, DamageType.MIND, t.getDamage(self, t) / 2), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t) / 2 ), duration)
+			tformat(range, turnsUntilTrigger, damDesc(self, DamageType.MIND, t.getDamage(self, t) / 2), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t) / 2 ), duration)
 	end,
 }
 
@@ -251,7 +251,7 @@ newTalent{
 	getExtendChance = function(self, t) return self:combatTalentLimit(t, 60, 20, 50) end,
 	info = function(self, t)
 		return ([[Impose your tyranny on the minds of those who fear you. When a foe gains a new fear, you have a %d%% chance to increase the duration of their heightened fear and one random existing fear effect by %d turns, to a maximum of 8 turns.
-		Additionally, you gain %d Mindpower and Physical power for 5 turns every time you apply a fear, stacking up to %d times.]]):format(t. getExtendChance(self, t), t.getExtendFear(self, t), t.getTyrantPower(self, t), t.getMaxStacks(self, t))
+		Additionally, you gain %d Mindpower and Physical power for 5 turns every time you apply a fear, stacking up to %d times.]]):tformat(t. getExtendChance(self, t), t.getExtendFear(self, t), t.getTyrantPower(self, t), t.getMaxStacks(self, t))
 	end,
 }
 
@@ -281,11 +281,11 @@ newTalent{
 				local actor = game.level.map(px, py, engine.Map.ACTOR)
 				if actor and self:reactionToward(actor) < 0 and actor ~= self then
 					if not actor:canBe("fear") then
-						game.logSeen(actor, "#F53CBE#%s ignores the panic!", actor.name:capitalize())
+						game.logSeen(actor, "#F53CBE#%s ignores the panic!", actor:getName():capitalize())
 					elseif actor:checkHit(self:combatMindpower(), actor:combatMentalResist(), 0, 95) then
 						actor:setEffect(actor.EFF_PANICKED, duration, {src=self, range=10, chance=chance, tyrantPower=tyrantPower, maxStacks=maxStacks, tyrantDur=tyrantDur})
 					else
-						game.logSeen(actor, "#F53CBE#%s resists the panic!", actor.name:capitalize())
+						game.logSeen(actor, "#F53CBE#%s resists the panic!", actor:getName():capitalize())
 					end
 				end
 			end,
@@ -296,6 +296,6 @@ newTalent{
 		local range = self:getTalentRange(t)
 		local duration = t.getDuration(self, t)
 		local chance = t.getChance(self, t)
-		return ([[Panic your enemies within a range of %d for %d turns. Anyone who fails to make a mental save against your Mindpower has a %d%% chance each turn of trying to run away from you.]]):format(range, duration, chance)
+		return ([[Panic your enemies within a range of %d for %d turns. Anyone who fails to make a mental save against your Mindpower has a %d%% chance each turn of trying to run away from you.]]):tformat(range, duration, chance)
 	end,
 }

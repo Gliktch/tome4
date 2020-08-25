@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,9 +18,6 @@
 -- darkgod@te4.org
 
 -- EDGE TODO: Particles, Timed Effect Particles
-
-
-local wardenPreUse = Talents.wardenPreUse
 
 newTalent{
 	name = "Arrow Stitching",
@@ -121,10 +118,10 @@ newTalent{
 		local damage = t.getDamage(self, t) * 100
 		local penalty = t.getDamagePenalty(self, t)
 		return ([[Fire an arrow for %d%% weapon damage and call up to 2 wardens, depending on available space, that will each fire a single arrow before returning to their timelines.
-		The wardens are out of phase with normal reality and deal %d%% less damage but shoot through friendly targets.  All your arrows, including arrows from Shoot and other talents, now phase through friendly targets without causing them harm.
+		The wardens are out of phase with normal reality and deal %d%% less damage but shoot through friendly targets. All your arrows, including arrows from Shoot and other talents, now phase through friendly targets without causing them harm.
 		
-		Bow Threading talents will freely swap to your bow when activated if you have one in your secondary slot.  You may use the Shoot talent in a similar manner.]])
-		:format(damage, penalty)
+		Bow Threading talents will freely swap to your bow when activated if you have one in your secondary slot. You may use the Shoot talent in a similar manner.]])
+		:tformat(damage, penalty)
 	end
 }
 
@@ -168,13 +165,13 @@ newTalent{
 						if target:checkHit(getParadoxSpellpower(self, t), target:combatPhysicalResist(), 0, 95) and target:canBe("knockback") then -- Deprecated Checkhit call
 							return true
 						else
-							game.logSeen(target, "%s resists the knockback!", target.name:capitalize())
+							game.logSeen(target, "%s resists the knockback!", target:getName():capitalize())
 						end
 					end
 					if can(target) then
 						target:pull(x, y, tg.radius, can)
 						tgts[#tgts+1] = target
-						game.logSeen(target, "%s is drawn in by the singularity!", target.name:capitalize())
+						game.logSeen(target, "%s is drawn in by the singularity!", target:getName():capitalize())
 						target:crossTierEffect(target.EFF_OFFBALANCE, getParadoxSpellpower(self, t))
 					end
 				end
@@ -218,11 +215,11 @@ newTalent{
 		local damage = t.getDamage(self, t) * 100
 		local radius = self:getTalentRadius(t)
 		local aoe = t.getDamageAoE(self, t)
-		return ([[Fire an arrow for %d%% weapon damage.  When the arrow reaches its destination or hits a target it will draw in all other targets in a radius of %d and inflict %0.2f physical damage.
+		return ([[Fire an arrow for %d%% weapon damage. When the arrow reaches its destination or hits a target it will draw in all other targets in a radius of %d and inflict %0.2f physical damage.
 		Each target moved beyond the first increases the damage %0.2f (up to %0.2f bonus damage).
 		Targets take reduced damage the further they are from the epicenter (20%% less per tile).
 		The additional damage scales with your Spellpower.]])
-		:format(damage, radius, damDesc(self, DamageType.PHYSICAL, aoe), damDesc(self, DamageType.PHYSICAL, aoe/8), damDesc(self, DamageType.PHYSICAL, aoe/2))
+		:tformat(damage, radius, damDesc(self, DamageType.PHYSICAL, aoe), damDesc(self, DamageType.PHYSICAL, aoe/8), damDesc(self, DamageType.PHYSICAL, aoe/2))
 	end
 }
 
@@ -280,7 +277,7 @@ newTalent{
 		local damage = t.getDamage(self, t) * 100
 		return ([[Over the next %d turns you'll fire up to %d arrows at this target from this location, each dealing %d%% weapon damage to the target. 
 		These shots do not consume ammo.]])
-		:format(duration, duration, damage)
+		:tformat(duration, duration, damage)
 	end
 }
 
@@ -299,7 +296,7 @@ newTalent{
 	info = function(self, t)
 		local tune = t.getTuning(self, t)
 		return ([[Your arrows now tune your Paradox %0.2f points towards your preferred Paradox on hit.]])
-		:format(tune)
+		:tformat(tune)
 	end
 
 }

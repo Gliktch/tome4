@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ defineAction{
 	default = { "sym:_l:true:false:false:false" },
 	type = "LUA_CONSOLE",
 	group = "debug",
-	name = "Show Lua console",
+	name = _t"Show Lua console",
 	only_on_cheat = true,
 }
 
@@ -29,6 +29,6 @@ defineAction{
 	default = { "sym:_a:true:false:false:false" },
 	type = "DEBUG_MODE",
 	group = "debug",
-	name = "Debug Mode",
+	name = _t"Debug Mode",
 	only_on_cheat = true,
 }

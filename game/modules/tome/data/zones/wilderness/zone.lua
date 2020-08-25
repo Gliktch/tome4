@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
 -- darkgod@te4.org
 
 return {
-	name = "World of Eyal",
-	display_name = function(x, y) return game.level and game.level.map.attrs(x or game.player.x, y or game.player.y, "zonename") or "Eyal" end,
+	name = _t"World of Eyal",
+	display_name = function(x, y) return game.level and game.level.map.attrs(x or game.player.x, y or game.player.y, "zonename") or _t"Eyal" end,
 	variable_zone_name = true,
 	level_range = {1, 1},
 	max_level = 1,
@@ -69,8 +69,13 @@ return {
 				if e.immediate then
 					e = e:clone()
 					e:resolve() e:resolve(nil, true)
-					local where = game.level:pickSpotRemove{type=e.immediate[1], subtype=e.immediate[2]}
-					while where and (game.level.map:checkAllEntities(where.x, where.y, "block_move") or not game.level.map:checkAllEntities(where.x, where.y, "can_encounter")) do where = game.level:pickSpotRemove{type=e.immediate[1], subtype=e.immediate[2]} end
+					local where
+					if e.immediate.force_spot then
+						where = e.immediate.force_spot
+					else
+						where = game.level:pickSpotRemove{type=e.immediate[1], subtype=e.immediate[2]}
+						while where and (game.level.map:checkAllEntities(where.x, where.y, "block_move") or not game.level.map:checkAllEntities(where.x, where.y, "can_encounter")) do where = game.level:pickSpotRemove{type=e.immediate[1], subtype=e.immediate[2]} end
+					end
 					if e:check("on_encounter", where) then
 						e:added()
 						print("[Encounter] Immediate set", e.name, where.x, where.y)

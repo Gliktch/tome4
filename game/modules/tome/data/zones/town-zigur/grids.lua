@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ load("/data/general/grids/forest.lua")
 newEntity{
 	define_as = "POST",
 	name = "Zigur Postsign", lore="zigur-post",
-	desc = [[The laws of the Ziguranth]],
+	desc=_t[[The laws of the Ziguranth]],
 	image = "terrain/grass.png",
 	display = '_', color=colors.UMBER, back_color=colors.DARK_GREEN,
 	add_displays = {class.new{image="terrain/signpost.png"}},

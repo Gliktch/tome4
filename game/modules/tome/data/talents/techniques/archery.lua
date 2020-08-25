@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -19,48 +19,6 @@
 
 -- Default archery attack
 
-local weaponCheck = function(self, weapon, ammo, silent, weapon_type)
-	if not weapon then
-		if not silent then
-			-- ammo contains error message
-			game.logPlayer(self, ({
-				["disarmed"] = "You are currently disarmed and cannot use this talent.",
-				["no shooter"] = ("You require a %s to use this talent."):format(weapon_type or "missile launcher"),
-				["no ammo"] = "You require ammo to use this talent.",
-				["bad ammo"] = "Your ammo cannot be used.",
-				["incompatible ammo"] = "Your ammo is incompatible with your missile launcher.",
-				["incompatible missile launcher"] = ("You require a %s to use this talent."):format(weapon_type or "bow"),
-			})[ammo] or "You require a missile launcher and ammo for this talent.")
-		end
-		return false
-	else
-		local infinite = ammo and ammo.infinite or self:attr("infinite_ammo")
-		if not ammo or (ammo.combat.shots_left <= 0 and not infinite) then
-			if not silent then game.logPlayer(self, "You do not have enough ammo left!") end
-			return false
-		end
-	end
-	return true
-end
-
-local archerPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
-local wardenPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	if self:attr("warden_swap") and not weapon and weapon_type == nil or weapon_type == "bow" then
-		weapon, ammo = doWardenPreUse(self, "bow")
-	end
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
-Talents.archerPreUse = archerPreUse
-Talents.wardenPreUse = wardenPreUse
-
 newTalent{
 	name = "Shoot",
 	type = {"technique/archery-base", 1},
@@ -69,6 +27,13 @@ newTalent{
 	hide = true,
 	innate = true,
 	points = 1,
+	target = function(self, t)
+		local ff = true
+		if self.archery_pass_friendly then ff = false end
+		return {type="bolt", range=self:getTalentRange(t), talent=t, display = {particle=particle, trail=trail}, friendlyfire=ff,
+			friendlyblock=ff,
+		}
+	end,
 	stamina = function(self, t)
 		if not self:isTalentActive("T_SKIRMISHER_BOMBARDMENT") or not wardenPreUse(self, t, false, "sling") then return nil end
 
@@ -76,7 +41,7 @@ newTalent{
 		return b.shot_stamina(self, b)
 	end,
 	range = archery_range,
-	message = "@Source@ shoots!",
+	message = _t"@Source@ shoots!",
 	requires_target = true,
 	tactical = { ATTACK = { weapon = 1 } },
 	on_pre_use = function(self, t, silent) return wardenPreUse(self, t, silent) end,
@@ -147,24 +112,16 @@ newTalent{
 		local mult = bombardment.damage_multiplier(self, bombardment)
 
 		-- Do targeting.
-		local old_target_forced = game.target.forced
 		local tg = {type = "bolt", range = archery_range(self),	talent = t}
 		local x, y, target = self:getTarget(tg)
 		if not x or not y then return end
-		game.target.forced = {x, y, target}
 
-		-- Fire all shots, limited by stamina
+		-- Fire all shots
 		local count = 0
-		local stam = t.stamina(self, t)*self.resources_def[self.RS_STAMINA].cost_factor(self, t)
 		for i = 1, shots do
-			local targets = self:archeryAcquireTargets(nil, {no_energy=true, one_shot=true, type="sling"})
+			local targets = self:archeryAcquireTargets(nil, {no_energy=true, one_shot=true, type="sling", x=x, y=y})
 			if not targets then break end
 			
-			if count > 0 then 
-				if self:getStamina() < stam*2 then break end
-				
-				self:incStamina(-stam)
-			end
 			count = i
 			self:archeryShoot(targets, t, nil, {mult=mult, type="sling"})
 		end
@@ -172,12 +129,11 @@ newTalent{
 			local speed = self:combatSpeed(weapon or pf_weapon)
 			self:useEnergy(game.energy_to_act * (speed or 1))
 		end
-		game.target.forced = old_target_forced
 
 		return count > 0
 	end,
 	info = function(self, t)
-		return ([[Shoot your bow, sling or other missile launcher!]])
+		return ([[Shoot your bow, sling or other missile launcher!]]):tformat()
 	end,
 }
 
@@ -257,7 +213,7 @@ newTalent{
 		local chance = t.getChance(self,t)
 		return ([[Fire a steady shot, doing %d%% damage with a %d%% chance to mark the target.
 If Steady Shot is not on cooldown, this talent will automatically replace your normal attacks (and trigger the cooldown).]]):
-		format(dam, chance)
+		tformat(dam, chance)
 	end,
 }
 
@@ -310,7 +266,7 @@ newTalent{
 		return ([[You fire a shot for %d%% damage that attempts to pin your target to the ground for %d turns, as well as giving your next Steady Shot or Shoot 100%% increased chance to critically hit and mark (regardless of whether the pin succeeds).
 		This shot has a 20%% chance to mark the target.
 		The chance to pin increases with your Accuracy.]]):
-		format(dam, dur, mark, chance)
+		tformat(dam, dur, mark, chance)
 	end,
 }
 
@@ -365,7 +321,7 @@ newTalent{
 		return ([[Fires a shot that explodes into a radius %d ball of razor sharp fragments on impact, dealing %d%% weapon damage and leaving targets crippled for %d turns, reducing their attack, spell and mind speed by %d%%.
 		Each target struck has a %d%% chance to be marked.
 		The status chance increases with your Accuracy.]])
-		:format(rad, dam, dur, speed, chance)
+		:tformat(rad, dam, dur, speed, chance)
 	end,
 }
 
@@ -403,7 +359,7 @@ newTalent{
 			if target:canBe("knockback") and dist > 0 then target:knockback(self.x, self.y, dist) end
 			if target:canBe("stun") then target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {}) end
 		else	
-			game.logSeen(target, "%s resists the scattershot!", target.name:capitalize())
+			game.logSeen(target, "%s resists the scattershot!", target:getName():capitalize())
 		end
 		local chance = t.getChance(self,t)
 		if rng.percent(chance) then target:setEffect(target.EFF_MARKED, 5, {src=self}) end
@@ -426,13 +382,11 @@ newTalent{
 		table.shuffle(targets)
 
 		-- Fire each shot individually.
-		local old_target_forced = game.target.forced
 		local shot_params_base = {mult = t.getDamage(self, t), phasing = true}
 		local fired = nil -- If we've fired at least one shot.
 		for i = 1, #targets do
 			local target = targets[i]
-			game.target.forced = {target.x, target.y, target}
-			local targets = self:archeryAcquireTargets({type = "hit", speed = 200}, {one_shot=true, no_energy = fired})
+			local targets = self:archeryAcquireTargets({type = "hit", speed = 200}, {one_shot=true, no_energy = fired, x = target.x, y = target.y})
 			if targets then
 				local params = table.clone(shot_params_base)
 				local target = targets.dual and targets.main[1] or targets[1]
@@ -445,7 +399,6 @@ newTalent{
 			end
 		end
 
-		game.target.forced = old_target_forced
 		return fired
 	end,
 	info = function(self, t)
@@ -456,7 +409,7 @@ newTalent{
 		return ([[Fires a wave of projectiles in a radius %d cone, dealing %d%% weapon damage. All targets struck by this will be knocked back to the maximum range of the cone and stunned for %d turns.
 		Each target struck has a %d%% chance to be marked.
 		The chance to knockback and stun increases with your Accuracy.]])
-		:format(rad, dam, dur, chance)
+		:tformat(rad, dam, dur, chance)
 	end,
 }
 
@@ -531,7 +484,7 @@ newTalent{
 		local dam = t.getDamage(self,t)*100
 		return ([[Fire a precise shot dealing %d%% weapon damage, with 100 increased accuracy. This shot will bypass other enemies between you and your target.
 Only usable against marked targets, and consumes the mark on hit.]]):
-		format(dam)
+		tformat(dam)
 	end,
 }
 
@@ -591,13 +544,11 @@ newTalent{
 			table.shuffle(targets)
 	
 			-- Fire each shot individually.
-			local old_target_forced = game.target.forced
 			local shot_params_base = {mult = dam/2, phasing = true}
 			local fired = nil -- If we've fired at least one shot.
 			for i = 1, #targets do
 				local target = targets[i]
-				game.target.forced = {target.x, target.y, target}
-				local targets = self:archeryAcquireTargets({type = "hit", speed = 200}, {one_shot=true, infinite=true, no_energy = true})
+				local targets = self:archeryAcquireTargets({type = "hit", speed = 200}, {one_shot=true, infinite=true, no_energy = true, x = target.x, y = target.y})
 				if targets then
 					local params = table.clone(shot_params_base)
 					local target = targets.dual and targets.main[1] or targets[1]
@@ -616,7 +567,6 @@ newTalent{
 				if self:knowTalent(self.T_BULLSEYE) then self:callTalent(self.T_BULLSEYE, "proc") end
 			end
 		end 
-		game.target.forced = old_target_forced
 		return true
 	end,
 	info = function(self, t)
@@ -624,7 +574,7 @@ newTalent{
 		local dam = t.getDamage(self,t)*100
 		return ([[You fire countless shots into the sky to rain down around your target, inflicting %d%% weapon damage to all within radius %d.
 If the primary target is marked, you consume the mark to fire a second volley of arrows for %d%% damage at no ammo cost.]])
-		:format(dam, rad, dam*0.75)
+		:tformat(dam, rad, dam*0.75)
 	end,
 }
 
@@ -659,21 +609,21 @@ newTalent{
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, t.getDuration(self, t), {apply_power=self:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the silence!", target.name:capitalize())
+				game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 			end
 		elseif not target.turn_procs.called_shot_disarm then
 			target.turn_procs.called_shot_disarm = true
 			if target:canBe("disarm") then
 				target:setEffect(target.EFF_DISARMED, t.getDuration(self, t), {apply_power=self:combatAttack(), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists the disarm!", target.name:capitalize())
+				game.logSeen(target, "%s resists the disarm!", target:getName():capitalize())
 			end
 		elseif not target.turn_procs.called_shot_slow then
 			target.turn_procs.called_shot_slow = true
 			if target:canBe("slow") then
 				target:setEffect(target.EFF_SLOW_MOVE, t.getDuration(self, t), {power=0.5, apply_power=self:combatAttack(), no_ct_effect=true})
 			else
-				game.logSeen(target, "%s resists the slow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the slow!", target:getName():capitalize())
 			end
 		end
 	end,
@@ -707,7 +657,7 @@ newTalent{
 		return ([[You fire a disabling shot at a target's throat (or equivalent), dealing %d%% weapon damage and silencing them for %d turns.
 If the target is marked, you consume the mark to fire two secondary shots at their arms and legs (or other appendages) dealing %d%% damage, reducing their movement speed by 50%% and disarming them for the duration.
 The status chance increases with your Accuracy.]]):
-		format(dam, dur, dam*0.25)
+		tformat(dam, dur, dam*0.25)
 	end,
 }
 
@@ -753,7 +703,7 @@ newTalent{
 		local nb = t.getTalentCount(self,t)
 		local cd = t.getCooldown(self,t)
 		return ([[Each time you consume a mark, you gain %d%% increased attack speed for 2 turns and the cooldown of %d random techniques are reduced by %d turns.]]):
-		format(speed, nb, cd)
+		tformat(speed, nb, cd)
 	end,
 }
 
@@ -782,7 +732,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire a shot without putting much strength into it, doing %d%% damage.
-		That brief moment of relief allows you to regain %d stamina.]]):format(self:combatTalentWeaponDamage(t, 0.5, 1.1) * 100, 12 + self:getTalentLevel(t) * 8)
+		That brief moment of relief allows you to regain %d stamina.]]):tformat(self:combatTalentWeaponDamage(t, 0.5, 1.1) * 100, 12 + self:getTalentLevel(t) * 8)
 	end,
 }
 
@@ -811,7 +761,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire a crippling shot, doing %d%% damage and reducing your target's speed by %d%% for 7 turns.
-		The status power and status hit chance improve with your Accuracy.]]):format(self:combatTalentWeaponDamage(t, 1, 1.5) * 100, util.bound((self:combatAttack() * 0.15 * self:getTalentLevel(t)) / 100, 0.1, 0.4) * 100)
+		The status power and status hit chance improve with your Accuracy.]]):tformat(self:combatTalentWeaponDamage(t, 1, 1.5) * 100, util.bound((self:combatAttack() * 0.15 * self:getTalentLevel(t)) / 100, 0.1, 0.4) * 100)
 	end,
 }
 
@@ -834,7 +784,7 @@ newTalent{
 		if target:canBe("pin") then
 			target:setEffect(target.EFF_PINNED, t.getDur(self, t), {apply_power=self:combatAttack()})
 		else
-			game.logSeen(target, "%s resists!", target.name:capitalize())
+			game.logSeen(target, "%s resists!", target:getName():capitalize())
 		end
 	end,
 	action = function(self, t)
@@ -846,7 +796,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You fire a pinning shot, doing %d%% damage and pinning your target to the ground for %d turns.
 		The pinning chance increases with your Dexterity.]])
-		:format(self:combatTalentWeaponDamage(t, 1, 1.4) * 100,
+		:tformat(self:combatTalentWeaponDamage(t, 1, 1.4) * 100,
 		t.getDur(self, t))
 	end,
 }

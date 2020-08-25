@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -121,7 +121,7 @@ newEntity{
 		combat_physcrit = resolvers.mbonus_material(10, 5),
 	},
 	combat = {
-		special_on_crit = {desc="Cripple the target reducing mind, spell, and combat action speeds by 30%", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"Cripple the target reducing mind, spell, and combat action speeds by 30%", fct=function(combat, who, target)
 			target:setEffect(target.EFF_CRIPPLE, 4, {src=who, apply_power=who:combatAttack(combat)})
 		end},
 	},
@@ -144,7 +144,7 @@ newEntity{
 		special_on_crit = {
 			desc=function(self, who, special)
 				local dam, hf = special.wound(self.combat, who)
-				return ("Wound the target dealing #RED#%d#LAST# physical damage across 5 turns and reducing healing by %d%%"):format(dam, hf)
+				return ("Wound the target dealing #RED#%d#LAST# physical damage across 5 turns and reducing healing by %d%%"):tformat(dam, hf)
 			end,
 			wound=function(combat, who)
 				local dam = math.max(15, math.floor(who:combatStatScale(who:combatPhysicalpower(), 1, 350)))  -- Doesn't stack
@@ -228,7 +228,7 @@ newEntity{
 		special_on_crit = {
 			desc=function(self, who, special)
 				local dam = special.acid_splash(who)
-				return ("Splash the target with acid dealing #VIOLET#%d#LAST# damage over 5 turns and reducing armor and accuracy by #VIOLET#%d#LAST#"):format(dam, math.ceil(dam / 8))
+				return ("Splash the target with acid dealing #VIOLET#%d#LAST# damage over 5 turns and reducing armor and accuracy by #VIOLET#%d#LAST#"):tformat(dam, math.ceil(dam / 8))
 			end,
 			acid_splash=function(who)
 				local dam = math.max(15, math.floor(who:combatStatScale(who:combatSpellpower(), 1, 250)))
@@ -255,7 +255,7 @@ newEntity{
 		special_on_hit = {
 			desc=function(self, who, special)
 				local dam = special.arc(who)
-				return ("#LIGHT_GREEN#25%%#LAST# chance for lightning to strike from the target to a second target dealing #VIOLET#%d#LAST# damage"):format(dam)
+				return ("#LIGHT_GREEN#25%%#LAST# chance for lightning to strike from the target to a second target dealing #VIOLET#%d#LAST# damage"):tformat(dam)
 			end,
 			arc=function(who)
 				local dam = math.max(15, math.floor(who:combatStatScale(who:combatSpellpower(), 1, 150)))
@@ -381,33 +381,32 @@ newEntity{
 -- laggy/blocks view, needs new gfx
 newEntity{
 	power_source = {arcane=true},
-	name = "elemental ", prefix=true, instant_resolve=true,
+	name = "elemental ", prefix=true, instant_resolve="last",
 	keywords = {elemental=true},
 	level_range = {20, 50},
 	greater_ego = 1,
 	unique_ego = 1,
 	rarity = 25,
 	cost = 35,
-	elemental_values = {dam=resolvers.mbonus_material(25, 5), pen=resolvers.mbonus_material(25, 5)},  -- We can't add this until the element is picked for sure
+	elemental_values = {dam=resolvers.mbonus_material(25, 5), pen=resolvers.mbonus_material(25, 5)},  -- We can't add this until the element is picked
 	wielder = {
-		resists_pen = resolvers.genericlast(function(e)
-			return {[e.combat.elemental_element[1]] = e.elemental_values.dam}
-		end),
-		inc_damage = resolvers.genericlast(function(e)
-			return {[e.combat.elemental_element[1]] = e.elemental_values.pen}
+		resolvers.genericlast(function(e, ego)
+			ego.wielder.resists_pen = {[ego.combat.elemental_element[1]] = ego.elemental_values.pen}
+			ego.wielder.inc_damage = {[ego.combat.elemental_element[1]] = ego.elemental_values.dam}
 		end)
 	},
 	combat = {
-		elemental_element = resolvers.rngtable{
-			{engine.DamageType.FIRE, "flame", "fire"},
-			{engine.DamageType.COLD, "freeze", "cold"},
-			{engine.DamageType.LIGHTNING, "lightning_explosion", "lightning"},
-			{engine.DamageType.ACID, "acid", "acid"},
+		elemental_element = resolvers.rngtable{  -- We put this in the combat table because special_on_hit isn't passed the full object
+			{engine.DamageType.FIRE, "flame", _t"fire"},
+			{engine.DamageType.COLD, "freeze", _t"cold"},
+			{engine.DamageType.LIGHTNING, "lightning_explosion", _t"lightning"},
+			{engine.DamageType.ACID, "acid", _t"acid"},
 		},
 		special_on_hit = {
+			on_kill = 1,
 			desc=function(self, who, special)
 				local dam = special.explosion(who)
-				return ("Create an explosion dealing #VIOLET#%d#LAST# %s damage (1/turn)"):format(dam, self.combat.elemental_element and self.combat.elemental_element[3] or "<random on generation>" )
+				return ("Create an explosion dealing #VIOLET#%d#LAST# %s damage (1/turn)"):tformat(dam, self.combat.elemental_element and self.combat.elemental_element[3] or "<random on generation>" )
 			end,
 			explosion=function(who)
 				local dam = math.max(15, math.floor(who:combatStatScale(who:combatSpellpower(), 1, 150)))
@@ -550,7 +549,7 @@ newEntity{
 	rarity = 30,
 	cost = 40,
 	wielder = {
-		movement_speed = resolvers.mbonus_material(0.3, 0.2),
+		movement_speed = resolvers.mbonus_material(30, 20, function(e, v) v=v/100 return 0, v end),
 		resists_pen = {
 			[DamageType.COLD] = resolvers.mbonus_material(20, 5),
 			[DamageType.LIGHTNING] = resolvers.mbonus_material(20, 5),
@@ -607,7 +606,7 @@ newEntity{
 	power_source = {antimagic=true},
 	name = "manaburning ", prefix=true, instant_resolve=true,
 	keywords = {manaburning=true},
-	level_range = {1, 50},
+	level_range = {20, 50},
 	rarity = 20,
 	cost = 40,
 	combat = {
@@ -660,7 +659,7 @@ newEntity{
 			desc=function(self, who, special)
 				local manaburn = special.manaburn(who)
 				return ("Deals #YELLOW#%d#LAST# Manaburn damage and puts 1 random spell talent on cooldown for #YELLOW#%d#LAST# turns (checks Confusion immunity)"):
-					format(manaburn or 0, 1 + math.ceil(who:combatMindpower() / 20))
+					tformat(manaburn or 0, 1 + math.ceil(who:combatMindpower() / 20))
 			end,
 			manaburn=function(who)
 				local dam = math.max(15, math.floor(who:combatStatScale(who:combatMindpower(), 1, 150)))
@@ -684,7 +683,7 @@ newEntity{
 				local t = rng.tableRemove(tids)
 				if not t then return end
 				target.talents_cd[t.id] = turns
-				game.logSeen(target, "#YELLOW#%s has their %s spell disrupted for for %d turns!", target.name:capitalize(), t.name, turns)
+				game.logSeen(target, "#YELLOW#%s has their %s spell disrupted for for %d turns!", target:getName():capitalize(), t.name, turns)
 			end
 		},
 	},
@@ -705,7 +704,7 @@ newEntity{
 		},
 		special_on_hit = {
 			desc=function(self, who, special)
-				return ("Cause the target to have a 10%% chance to fail spellcasting and 10%% chance to lose a magical sustain each turn, stacking up to 50%%"):format()
+				return ("Cause the target to have a 10%% chance to fail spellcasting and 10%% chance to lose a magical sustain each turn, stacking up to 50%%"):tformat()
 			end,
 			fct=function(combat, who, target, dam, special)
 				local check = math.max(who:combatSpellpower(), who:combatMindpower(), who:combatAttack())
@@ -765,7 +764,7 @@ newEntity{
 			on_kill = 1,
 			desc=function(self, who, special)
 				local targets = self.combat.projection_targets
-				return ("Projects up to %d attacks dealing 30%% weapon damage to other random targets in range 7 as mind damage (1/turn)"):format(targets or 0)
+				return ("Projects up to %d attacks dealing 30%% weapon damage to other random targets in range 7 as mind damage (1/turn)"):tformat(targets or 0)
 			end,
 			fct=function(combat, who, target, dam, special)
 				if table.get(who.turn_procs, "ego_projection", combat) then return end
@@ -823,7 +822,7 @@ newEntity{
 	combat = {
 		special_on_hit = {
 			desc=function(self, who, special)
-				return ("#LIGHT_GREEN#50%%#LAST# chance to put 1 talent on cooldown for #YELLOW#%d#LAST# turns (checks Confusion immunity)"):format(1 + math.ceil(who:combatMindpower() / 20))
+				return ("#LIGHT_GREEN#50%%#LAST# chance to put 1 talent on cooldown for #YELLOW#%d#LAST# turns (checks Confusion immunity)"):tformat(1 + math.ceil(who:combatMindpower() / 20))
 			end,
 			fct=function(combat, who, target, dam, special)
 				if not rng.percent(50) then return nil end
@@ -842,7 +841,7 @@ newEntity{
 					local t = rng.tableRemove(tids)
 					if not t then break end
 					target.talents_cd[t.id] = turns
-					game.logSeen(target, "#YELLOW#%s has temporarily forgotten %s for %d turns!", target.name:capitalize(), t.name, turns)
+					game.logSeen(target, "#YELLOW#%s has temporarily forgotten %s for %d turns!", target:getName():capitalize(), t.name, turns)
 				end
 			end
 		},
@@ -860,7 +859,7 @@ newEntity{
 	cost = 30,
 	combat = {
 		special_on_hit = {
-			desc="#LIGHT_GREEN#20%#LAST# chance to stun, blind, pin, confuse, or silence the target for 3 turns", 
+			desc=_t"#LIGHT_GREEN#20%#LAST# chance to stun, blind, pin, confuse, or silence the target for 3 turns",
 			fct=function(combat, who, target, dam, special)
 				if not rng.percent(20) then return end
 				local eff = rng.table{"stun", "blind", "pin", "confusion", "silence",}

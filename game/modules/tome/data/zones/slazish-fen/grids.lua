@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ newEntity{ base="BOGWATER",
 			return true
 		end
 
-		who:restInit(20, "destroying the portal", "destroyed the portal", function(cnt, max)
+		who:restInit(20, _t"destroying the portal", _t"destroyed the portal", function(cnt, max)
 			if cnt > max then
 				game.log("#VIOLET#The portal starts to break down, run!")
 				self.broken = true

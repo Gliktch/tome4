@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2014 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -20,48 +20,6 @@
 local DamageType = require "engine.DamageType"
 local Object = require "engine.Object"
 local Map = require "engine.Map"
-
-local weaponCheck = function(self, weapon, ammo, silent, weapon_type)
-	if not weapon then
-		if not silent then
-			-- ammo contains error message
-			game.logPlayer(self, ({
-				["disarmed"] = "You are currently disarmed and cannot use this talent.",
-				["no shooter"] = ("You require a %s to use this talent."):format(weapon_type or "missile launcher"),
-				["no ammo"] = "You require ammo to use this talent.",
-				["bad ammo"] = "Your ammo cannot be used.",
-				["incompatible ammo"] = "Your ammo is incompatible with your missile launcher.",
-				["incompatible missile launcher"] = ("You require a %s to use this talent."):format(weapon_type or "bow"),
-			})[ammo] or "You require a missile launcher and ammo for this talent.")
-		end
-		return false
-	else
-		local infinite = ammo and ammo.infinite or self:attr("infinite_ammo")
-		if not ammo or (ammo.combat.shots_left <= 0 and not infinite) then
-			if not silent then game.logPlayer(self, "You do not have enough ammo left!") end
-			return false
-		end
-	end
-	return true
-end
-
-local archerPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
-local wardenPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	if self:attr("warden_swap") and not weapon and weapon_type == nil or weapon_type == "bow" then
-		weapon, ammo = doWardenPreUse(self, "bow")
-	end
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
-Talents.archerPreUse = archerPreUse
-Talents.wardenPreUse = wardenPreUse
 
 archery_range = Talents.main_env.archery_range
 
@@ -91,7 +49,7 @@ newTalent{
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using bows or slings, as well as your reload rate by %d.
 		In addition, your Shoot has a %d%% chance to mark targets on hit.
 The mark lasts for 5 turns, grants you visibility of the target (even through walls and other concealment), and causes them to become vulnerable to Headshot, Volley and Called Shots.]]):
-format(inc * 100, reload, chance)
+tformat(inc * 100, reload, chance)
 	end,
 }
 
@@ -108,7 +66,7 @@ newTalent{
 		local sta = t.getStamina(self,t)
 		return ([[You take advantage of unwary foes (those at or above 90%% life). Against these targets, Shoot, Steady Shot and Headshot bleed targets for %d%% additional damage over 5 turns and have a 50%% increased chance to mark (if capable of marking).
 In addition, your Steady Shot, Shoot and Headshot now restore %0.1f stamina on hit.]])
-		:format(bleed, sta)
+		:tformat(bleed, sta)
 	end,
 }
 
@@ -157,7 +115,7 @@ newTalent{
 		local def = t.getDefensePenalty(self,t)
 		return ([[Fire a shot at the target tile that blinds enemies for %d turns, marks them for 2 turns and illuminates the area within radius %d for %d turns. Enemies within the illuminated area lose %d defence and stealth power and cannot benefit from concealment.
 		The status chance increases with your Accuracy, and the defense reduction with your Dexterity.]])
-		:format(blind, rad, dur, def)
+		:tformat(blind, rad, dur, def)
 	end,
 }
 
@@ -185,6 +143,6 @@ newTalent{
 		local speed = t.getSpeed(self,t)*100
 		local mark = t.getMarkChance(self,t)
 		return ([[Enter a state of heightened focus for %d turns. While in this state your ranged attack speed is increased by %d%%, your shots do not consume ammo, and all shots capable of marking have their chance to mark increased by %d%%.]]):
-		format(dur, speed, mark)
+		tformat(dur, speed, mark)
 	end,
 }

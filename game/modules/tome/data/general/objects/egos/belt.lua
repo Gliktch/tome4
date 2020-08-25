@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -375,10 +375,12 @@ newEntity{
 	
 	charm_power = resolvers.mbonus_material(80, 30),
 	charm_power_def = {add=80, max=300, floor=true},
-	resolvers.charm("create a temporary shield that absorbs %d damage", 30, function(self, who)
+	resolvers.charm(function (self, who)
+		local power = self:getCharmPower(who)
+		return ("create a temporary shield that absorbs %d damage"):tformat(who:getShieldAmount(power)) end, 30, function(self, who)
 		local power = self:getCharmPower(who)
 		who:setEffect(who.EFF_DAMAGE_SHIELD, 10, {power=power})
-		game.logSeen(who, "%s uses %s!", who.name:capitalize(), self:getName{no_add_name=true, do_color=true})
+		game.logSeen(who, "%s uses %s!", who:getName():capitalize(), self:getName{no_add_name=true, do_color=true})
 		return {id=true, used=true}
 	end,
 	"T_GLOBAL_CD",

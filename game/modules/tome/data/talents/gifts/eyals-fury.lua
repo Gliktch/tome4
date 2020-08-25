@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ newTalent{
 		return ([[You focus the inexorable pull of nature against a single creature, eroding it and allowing it to be reclaimed by the cycle of life.
 		This deals %0.1f Nature and %0.1f Acid damage to the target, and is particularly devastating against undead and constructs, dealing %d%% more damage to them.
 		The damage increases with your Mindpower.]]):
-		format(damDesc(self, DamageType.NATURE, dam/2), damDesc(self, DamageType.ACID, dam/2), t.undeadBonus)
+		tformat(damDesc(self, DamageType.NATURE, dam/2), damDesc(self, DamageType.ACID, dam/2), t.undeadBonus)
 	end,
 }
 
@@ -77,7 +77,7 @@ newTalent{
 		You gain %d Spell save, %0.1f%% Arcane resistance, and %0.1f%% Nature damage affinity.
 		You defy arcane forces, so that any time you take damage from a spell, you restore %0.1f Equilibrium each turn for %d turns.
 		The effects increase with your Mindpower.]]):
-		format(t.getSave(self, t), t.getResist(self, t), t.getAffinity(self, t), t.getPower(self, t), t.getDuration(self, t))
+		tformat(t.getSave(self, t), t.getResist(self, t), t.getAffinity(self, t), t.getPower(self, t), t.getDuration(self, t))
 	end,
 }
 
@@ -99,7 +99,7 @@ newTalent{
 	getDuration = function(self, t) return 5 end,
 	getDamage = function(self, t) return self:combatTalentMindDamage(t, 10, 120) end,
 	getChance = function(self, t) return self:combatTalentLimit(t, 100, 20, 40) end, --Limit < 100%
-	removeEffect = function(target) -- remove one random beneficial magical effect or sustain
+	removeEffect = function(self, target) -- remove one random beneficial magical effect or sustain
 	-- Go through all beneficial magical effects
 		local effs = {}
 		for eff_id, p in pairs(target.tmp) do
@@ -119,11 +119,7 @@ newTalent{
 		if #effs == 0 then return end
 		local eff = rng.tableRemove(effs)
 
-		if eff[1] == "effect" then
-			target:removeEffect(eff[2])
-		else
-			target:forceUseTalent(eff[2], {ignore_energy=true})
-		end
+		target:dispel(eff[2], self)
 	end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
@@ -133,7 +129,7 @@ newTalent{
 		-- Add a lasting map effect
 		local eff = game.level.map:addEffect(self,
 			x, y, t.getDuration(self, t), -- duration
-			engine.DamageType.ACID_BLIND, t.getDamage(self, t),
+			engine.DamageType.ACID_BLIND, self:mindCrit(t.getDamage(self, t)),
 			self:getTalentRadius(t), -- radius
 			5, nil,
 			{type="vapour"},
@@ -144,7 +140,7 @@ newTalent{
 						act = game.level.map(i, j, engine.Map.ACTOR)
 						if act then
 							if rng.percent(eff.chance) then
-								eff.removeEffect(act)
+								eff.removeEffect(eff.src, act)
 							end
 						end
 					end
@@ -155,7 +151,7 @@ newTalent{
 		)
 		eff.chance = t.getChance(self, t)
 		eff.removeEffect = t.removeEffect
-		eff.name = "Acidfire cloud"
+		eff.name = _t"Acidfire cloud"
 		game:playSoundNear(self, "talents/cloud")
 		return true
 	end,
@@ -163,7 +159,7 @@ newTalent{
 		return ([[You call upon the earth to create a blinding, corrosive cloud in an area of radius %d for %d turns.
 		Each turn, this cloud deals %0.1f acid damage to each foe with a 25%% chance to blind and a %d%% chance of burning away one magical sustain or beneficial magical effect.
 		The damage increases with your Mindpower.]]):
-		format(self:getTalentRadius(t), t.getDuration(self, t), damDesc(self, DamageType.ACID, t.getDamage(self, t)), t.getChance(self, t))
+		tformat(self:getTalentRadius(t), t.getDuration(self, t), damDesc(self, DamageType.ACID, t.getDamage(self, t)), t.getChance(self, t))
 	end,
 }
 
@@ -188,15 +184,15 @@ newTalent{
 		act:incMana(-mana); act:incVim(-vim); act:incPositive(-positive); act:incNegative(-negative)
 		local drain = mana + vim + positive + negative
 		if drain > 0 then
-			game:delayedLogMessage(eff.src, act, "Eyal's Wrath", ("#CRIMSON#%s drains magical energy!"):format(eff:getName())) 
+			game:delayedLogMessage(eff.src, act, "Eyal's Wrath", ("#CRIMSON#%s drains magical energy!"):tformat(eff:getName())) 
 			eff.src:incEquilibrium(-drain/10)
 		end
 	end,
 	action = function(self, t)
 		-- Add a lasting map effect
 		local eff = game.level.map:addEffect(self,
-			self.x, self.y, 7,
-			DamageType.NATURE, t.getDamage(self, t),
+			self.x, self.y, t.getDuration(self, t),
+			DamageType.NATURE, self:mindCrit(t.getDamage(self, t)),
 			t.radius(self, t),
 			5, nil,
 			{type="generic_vortex", args = {radius = t.radius(self, t), rm = 5, rM=55, gm=250, gM=255, bm = 180, bM=255, am= 35, aM=90, density = 100}, only_one=true },
@@ -220,7 +216,7 @@ newTalent{
 		)
 		eff.drain = t.getDrain(self, t)
 		eff.drainMagic = t.drainMagic
-		eff.name = "Eyal's Wrath"
+		eff.name = _t"Eyal's Wrath"
 		game:playSoundNear(self, "talents/thunderstorm")
 		return true
 	end,
@@ -230,6 +226,6 @@ newTalent{
 		This storm moves with you and deals %0.1f Nature damage each turn to all foes it hits.
 		In addtion, it will drain up to %d Mana, %d Vim, %d Positive, and %d Negative energy from each enemy within it's area every turn, while you restore Equilibrium equal to 10%% of the amount drained.
 		The damage and drain increase with your Mindpower.]]):
-		format(self:getTalentRadius(t), t.getDuration(self, t), damDesc(self, DamageType.NATURE, t.getDamage(self, t)), drain, drain/2, drain/4, drain/4)
+		tformat(self:getTalentRadius(t), t.getDuration(self, t), damDesc(self, DamageType.NATURE, t.getDamage(self, t)), drain, drain/2, drain/4, drain/4)
 	end,
 }

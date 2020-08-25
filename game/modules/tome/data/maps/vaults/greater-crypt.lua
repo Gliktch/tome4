@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ defineTile('1', mod.class.Grid.new{
 		end
 		actor:move(fx, fy, true)
 
-		game.logPlayer(actor, "Something in the floor clicks ominously%s", actor.lite > 0 and not actor:attr("blind") and ", and suddenly the world spins around you!" or ".")
+		game.logPlayer(actor, "Something in the floor clicks ominously%s", actor.lite > 0 and not actor:attr("blind") and _t", and suddenly the world spins around you!" or ".")
 		local g = game.zone:makeEntityByName(game.level, "terrain", "FLOOR")
 		if not g then return end
 		game.zone:addEntity(game.level, g, "terrain", x, y)
@@ -115,7 +115,7 @@ defineTile('2', mod.class.Grid.new{
 		game.zone:addEntity(game.level, f, "terrain", x, y)
 		game.nicer_tiles:updateAround(game.level, x, y)
 
-		game.logPlayer(actor, "Something in the floor clicks ominously%s", actor.lite > 0 and not actor:attr("blind") and ", and the crypt rearranges itself around you!" or ".")
+		game.logPlayer(actor, "Something in the floor clicks ominously%s", actor.lite > 0 and not actor:attr("blind") and _t", and the crypt rearranges itself around you!" or ".")
 
 	end,
 }
@@ -167,7 +167,7 @@ defineTile('4', mod.class.Grid.new{
 		game.zone:addEntity(game.level, f, "terrain", x, y)
 		game.nicer_tiles:updateAround(game.level, x, y)
 
-		game.logPlayer(actor, "Something in the floor clicks ominously%s", actor.lite > 0 and not actor:attr("blind") and ", and the crypt rearranges itself around you!" or ".")
+		game.logPlayer(actor, "Something in the floor clicks ominously%s", actor.lite > 0 and not actor:attr("blind") and _t", and the crypt rearranges itself around you!" or ".")
 	end,
 }
 )
@@ -194,7 +194,6 @@ defineTile('5', mod.class.Grid.new{
 )
 startx, starty = 0, 17
 return {
-
 [[###############################MMM#]],
 [[#..+.#..z.S+...#......u....z.,MMMMM]],
 [[#..#.#.~~~.###.#..V....z.....,MMMM#]],

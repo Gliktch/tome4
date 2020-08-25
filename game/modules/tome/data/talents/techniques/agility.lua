@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2014 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,45 +21,6 @@ local DamageType = require "engine.DamageType"
 local Object = require "engine.Object"
 local Map = require "engine.Map"
 
-local weaponCheck = function(self, weapon, ammo, silent, weapon_type)
-	if not weapon then
-		if not silent then
-			-- ammo contains error message
-			game.logPlayer(self, ({
-				["disarmed"] = "You are currently disarmed and cannot use this talent.",
-				["no shooter"] = ("You require a %s to use this talent."):format(weapon_type or "missile launcher"),
-				["no ammo"] = "You require ammo to use this talent.",
-				["bad ammo"] = "Your ammo cannot be used.",
-				["incompatible ammo"] = "Your ammo is incompatible with your missile launcher.",
-				["incompatible missile launcher"] = ("You require a %s to use this talent."):format(weapon_type or "bow"),
-			})[ammo] or "You require a missile launcher and ammo for this talent.")
-		end
-		return false
-	else
-		local infinite = ammo and ammo.infinite or self:attr("infinite_ammo")
-		if not ammo or (ammo.combat.shots_left <= 0 and not infinite) then
-			if not silent then game.logPlayer(self, "You do not have enough ammo left!") end
-			return false
-		end
-	end
-	return true
-end
-
-local archerPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
-local wardenPreUse = function(self, t, silent, weapon_type)
-	local weapon, ammo, offweapon, pf_weapon = self:hasArcheryWeapon(weapon_type)
-	weapon = weapon or pf_weapon
-	if self:attr("warden_swap") and not weapon and weapon_type == nil or weapon_type == "bow" then
-		weapon, ammo = doWardenPreUse(self, "bow")
-	end
-	return weaponCheck(self, weapon, ammo, silent, weapon_type)
-end
-
 local preUse = function(self, t, silent)
 	if not self:hasShield() or not archerPreUse(self, t, true) then
 		if not silent then game.logPlayer("You require a ranged weapon and a shield to use this talent.") end
@@ -67,9 +28,6 @@ local preUse = function(self, t, silent)
 	end
 	return true
 end
-
-Talents.archerPreUse = archerPreUse
-Talents.wardenPreUse = wardenPreUse
 
 archery_range = Talents.main_env.archery_range
 
@@ -110,14 +68,14 @@ newTalent{
 
 		dam = math.max(dam - reduce, 0)
 		print("[PROJECTOR] after static reduction dam", dam)
-		game:delayedLogDamage(src or self, self, 0, ("%s(%d deflected)#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", lastdam - dam), false)
+		game:delayedLogDamage(src or self, self, 0, ("%s(%d deflected)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", lastdam - dam), false)
 		return {dam=dam}
 	end,
 	info = function(self, t)
 		local chance = t.getChance(self, t)
 		return ([[You are trained in an agile, mobile fighting technique combining sling and shield. This allows shields to be equipped, using Dexterity instead of Strength as a requirement.
 While you have a shield equip and your Block talent is not on cooldown, you have a %d%% chance to deflect any incoming damage, reducing it by 50%% of your shield’s block value.]])
-			:format(chance)
+			:tformat(chance)
 	end,
 }
 
@@ -178,7 +136,7 @@ newTalent{
 			if target:canBe("stun") then
 				target:setEffect(target.EFF_DAZED, 2, {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the daze!", target.name:capitalize())
+				game.logSeen(target, "%s resists the daze!", target:getName():capitalize())
 			end
 		end
 		
@@ -202,7 +160,7 @@ newTalent{
 		return ([[Leap onto an adjacent target with your shield, striking them for %d%% damage and dazing them for 2 turns, then using them as a springboard to leap to a tile within range %d.
 The shield bash will use Dexterity instead of Strength for the shield's bonus damage.
 At talent level 5, you will immediately enter a blocking stance on landing.]])
-		:format(dam, range)
+		:tformat(dam, range)
 	end,
 }
 
@@ -225,6 +183,7 @@ newTalent{
 		return true
 	end,
 	callbackOnMove = function(self, t, moved, force, ox, oy)
+		if (self.x == ox and self.y == oy) or force then return end
 		local cooldown = self.talents_cd[t.id] or 0
 		if cooldown > 0 then
 			self.talents_cd[t.id] = math.max(cooldown - 1, 0)
@@ -276,7 +235,7 @@ newTalent{
 		The shot does %d%% weapon damage and knocks back your target by %d.
 		The cooldown of this talent is reduced by 1 each time you move.
 		This requires a sling to use.]]):
-		format(t.getDamage(self,t)*100, t.getDist(self, t))
+		tformat(t.getDamage(self,t)*100, t.getDist(self, t))
 	end,
 }
 
@@ -338,6 +297,6 @@ newTalent{
 		return ([[Enter a fluid, mobile shooting stance that excels at close combat. Your ranged attack speed is increased by %d%% and each time you shoot you gain %d%% increased movement speed for 2 turns.
 Ranged attacks against targets will also grant you up to %d%% of a turn. This is 100%% effective against targets within 3 tiles, and decreases by 20%% for each tile beyond that (to 0%% at 8 tiles). This cannot occur more than once per turn.
 Requires a sling to use.]]):
-		format(atk, move, turn)
+		tformat(atk, move, turn)
 	end,
 }

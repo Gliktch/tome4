@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ newEntity{
 
 newEntity{
 	name = "quick ", prefix=true,
-	keywords = {quick_greater=true},
+	keywords = {quick=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_quick",
 	greater_ego = 1,
@@ -104,7 +104,7 @@ newEntity{
 
 newEntity{
 	name = "supercharged ", prefix=true,
-	keywords = {['supercharged_greater']=true},
+	keywords = {['supercharged']=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_supercharged",
 	greater_ego = 1,
@@ -153,7 +153,7 @@ newEntity{
 
 newEntity{
 	name = "overpowered ", prefix=true,
-	keywords = {['overpower_greater']=true},
+	keywords = {['overpower']=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_overpowered",
 	greater_ego = 1,
@@ -185,7 +185,7 @@ newEntity{
 	cost = 5,
 	focusing_amt = resolvers.mbonus_material(2, 1),
 	charm_on_use = {
-		{100, function(self, who) return ("reduce %d talent cooldowns by 2"):format(self.focusing_amt, self.focusing_reduction) end, function(self, who)
+		{100, function(self, who) return ("reduce %d talent cooldowns by 2"):tformat(self.focusing_amt, self.focusing_reduction) end, function(self, who)
 			who:talentCooldownFilter(nil, self.focusing_amt, 2, true)
 		end},
 	},
@@ -194,7 +194,7 @@ newEntity{
 
 newEntity{
 	name = "focusing ", prefix=true,
-	keywords = {focusing_greater=true},
+	keywords = {focusing=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_focusing",
 	greater_ego = 1,
@@ -202,7 +202,7 @@ newEntity{
 	cost = 5,
 	focusing_amt = resolvers.mbonus_material(2, 1),
 	charm_on_use = {
-		{100, function(self, who) return ("reduce %d talent cooldowns by 2"):format(self.focusing_amt, self.focusing_reduction) end, function(self, who)
+		{100, function(self, who) return ("reduce %d talent cooldowns by 2"):tformat(self.focusing_amt, self.focusing_reduction) end, function(self, who)
 			who:talentCooldownFilter(nil, self.focusing_amt, 2, true)
 		end},
 	},
@@ -221,7 +221,7 @@ newEntity{
 	extending_dur = resolvers.mbonus_material(1.5, 1),
 
 	charm_on_use = {
-		{100, function(self, who) return ("increase the duration of %d beneficial effects by %d"):format(self.extending_amt, self.extending_dur) end, function(self, who)
+		{100, function(self, who) return ("increase the duration of %d beneficial effects by %d"):tformat(self.extending_amt, self.extending_dur) end, function(self, who)
 			local effs = who:effectsFilter(function(eff)
 				if eff.status == "beneficial" and eff.type ~= "other" then return true end
 			end)
@@ -239,7 +239,7 @@ newEntity{
 
 newEntity{
 	name = "extending ", prefix=true,
-	keywords = {extending_greater=true},
+	keywords = {extending=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_extending",
 	greater_ego = 1,
@@ -249,7 +249,7 @@ newEntity{
 	extending_dur = resolvers.mbonus_material(1.5, 1),
 
 	charm_on_use = {
-		{100, function(self, who) return ("increase the duration of %d beneficial effects by %d"):format(self.extending_amt, self.extending_dur) end, function(self, who)
+		{100, function(self, who) return ("increase the duration of %d beneficial effects by %d"):tformat(self.extending_amt, self.extending_dur) end, function(self, who)
 			local effs = who:effectsFilter(function(eff)
 				if eff.status == "beneficial" and eff.type ~= "other" then return true end
 			end)
@@ -275,7 +275,7 @@ newEntity{
 	cost = 5,
 	evasive_chance = resolvers.mbonus_material(30, 10),
 	charm_on_use = {
-		{100, function(self, who) return ("gain a %d%% chance to evade weapon attacks for 2 turns"):format(self.evasive_chance) end, function(self, who)
+		{100, function(self, who) return ("gain a %d%% chance to evade weapon attacks for 2 turns"):tformat(self.evasive_chance) end, function(self, who)
 			who:setEffect(who.EFF_ITEM_CHARM_EVASIVE, 2, {chance = self.evasive_chance})
 		end},
 	},
@@ -284,7 +284,7 @@ newEntity{
 
 newEntity{
 	name = "evasive ", prefix=true,
-	keywords = {evasive_greater=true},
+	keywords = {evasive=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_evasive",
 	greater_ego = 1,
@@ -292,7 +292,7 @@ newEntity{
 	cost = 5,
 	evasive_chance = resolvers.mbonus_material(30, 10),
 	charm_on_use = {
-		{100, function(self, who) return ("gain a %d%% chance to evade weapon attacks for 2 turns"):format(self.evasive_chance) end, function(self, who)
+		{100, function(self, who) return ("gain a %d%% chance to evade weapon attacks for 2 turns"):tformat(self.evasive_chance) end, function(self, who)
 			who:setEffect(who.EFF_ITEM_CHARM_EVASIVE, 2, {chance = self.evasive_chance})
 		end},
 	},
@@ -308,7 +308,7 @@ newEntity{
 	cost = 5,
 	soothing_heal = resolvers.mbonus_material(80, 30),
 	charm_on_use = {
-		{100, function(self, who) return ("heal for %d"):format(self.soothing_heal) end, function(self, who)
+		{100, function(self, who) return ("heal for %d"):tformat(self.soothing_heal) end, function(self, who)
 			who:attr("allow_on_heal", 1)
 			who:heal(who:mindCrit(self.soothing_heal), who)
 			who:attr("allow_on_heal", -1)		
@@ -319,7 +319,7 @@ newEntity{
 
 newEntity{
 	name = "soothing ", prefix=true,
-	keywords = {soothing_greater=true},
+	keywords = {soothing=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_soothing",
 	greater_ego = 1,
@@ -327,7 +327,7 @@ newEntity{
 	cost = 5,
 	soothing_heal = resolvers.mbonus_material(80, 30),
 	charm_on_use = {
-		{100, function(self, who) return ("heal for %d"):format(self.soothing_heal) end, function(self, who)
+		{100, function(self, who) return ("heal for %d"):tformat(self.soothing_heal) end, function(self, who)
 			who:attr("allow_on_heal", 1)
 			who:heal(who:mindCrit(self.soothing_heal), who)
 			who:attr("allow_on_heal", -1)		
@@ -345,8 +345,8 @@ newEntity{
 	cost = 5,
 	cleansing_amount = resolvers.mbonus_material(2, 1),
 	charm_on_use = {
-		{100, function(self, who) return ("cleanse %d total effects of type disease, wound, or poison"):format(self.cleansing_amount) end, function(self, who)
-			who:removeEffectsFilter(function(e) return e.subtype.poison or e.subtype.wound or e.subtype.disease end, self.cleansing_amount)	
+		{100, function(self, who) return ("cleanse %d total effects of type disease, wound, or poison"):tformat(self.cleansing_amount) end, function(self, who)
+			who:removeEffectsFilter(who, function(e) return e.subtype.poison or e.subtype.wound or e.subtype.disease end, self.cleansing_amount)	
 		end},
 	},
 	use_power = {tactical = {CURE = 0.2}}
@@ -354,7 +354,7 @@ newEntity{
 
 newEntity{
 	name = "cleansing ", prefix=true,
-	keywords = {cleansing_greater=true},
+	keywords = {cleansing=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_cleansing",
 	greater_ego = 1,
@@ -362,8 +362,8 @@ newEntity{
 	cost = 5,
 	cleansing_amount = resolvers.mbonus_material(2, 1),
 	charm_on_use = {
-		{100, function(self, who) return ("cleanse %d total effects of type disease, wound, or poison"):format(self.cleansing_amount) end, function(self, who)
-			who:removeEffectsFilter(function(e) return e.subtype.poison or e.subtype.wound or e.subtype.disease end, self.cleansing_amount)	
+		{100, function(self, who) return ("cleanse %d total effects of type disease, wound, or poison"):tformat(self.cleansing_amount) end, function(self, who)
+			who:removeEffectsFilter(who, function(e) return e.subtype.poison or e.subtype.wound or e.subtype.disease end, self.cleansing_amount)	
 		end},
 	},
 	use_power = {tactical = {CURE = 0.2}}
@@ -378,7 +378,7 @@ newEntity{
 	cost = 5,
 	piercing_penetration = resolvers.mbonus_material(20, 10),
 	charm_on_use = {
-		{100, function(self, who) return ("increase all damage penetration by %d%% for 2 turns"):format(self.piercing_penetration) end, function(self, who)
+		{100, function(self, who) return ("increase all damage penetration by %d%% for 2 turns"):tformat(self.piercing_penetration) end, function(self, who)
 			who:setEffect(who.EFF_ITEM_CHARM_PIERCING, 2, {penetration = self.piercing_penetration})
 		end},
 	},
@@ -387,7 +387,7 @@ newEntity{
 
 newEntity{
 	name = "piercing ", prefix=true,
-	keywords = {piercing_greater=true},
+	keywords = {piercing=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_piercing",
 	greater_ego = 1,
@@ -395,7 +395,7 @@ newEntity{
 	cost = 5,
 	piercing_penetration = resolvers.mbonus_material(20, 10),
 	charm_on_use = {
-		{100, function(self, who) return ("increase all damage penetration by %d%% for 2 turns"):format(self.piercing_penetration) end, function(self, who)
+		{100, function(self, who) return ("increase all damage penetration by %d%% for 2 turns"):tformat(self.piercing_penetration) end, function(self, who)
 			who:setEffect(who.EFF_ITEM_CHARM_PIERCING, 2, {penetration = self.piercing_penetration})
 		end},
 	},
@@ -411,7 +411,7 @@ newEntity{
 	cost = 5,
 	powerful_damage = resolvers.mbonus_material(20, 10),
 	charm_on_use = {
-		{100, function(self, who) return ("increase all damage by %d%% for 2 turns"):format(self.powerful_damage) end, function(self, who)
+		{100, function(self, who) return ("increase all damage by %d%% for 2 turns"):tformat(self.powerful_damage) end, function(self, who)
 			who:setEffect(who.EFF_ITEM_CHARM_POWERFUL, 2, {damage = self.powerful_damage})
 		end},
 	},
@@ -420,7 +420,7 @@ newEntity{
 
 newEntity{
 	name = "powerful ", prefix=true,
-	keywords = {powerful_greater=true},
+	keywords = {powerful=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_powerful",
 	greater_ego = 1,
@@ -428,7 +428,7 @@ newEntity{
 	cost = 5,
 	powerful_damage = resolvers.mbonus_material(20, 10),
 	charm_on_use = {
-		{100, function(self, who) return ("increase all damage by %d%% for 2 turns"):format(self.powerful_damage) end, function(self, who)
+		{100, function(self, who) return ("increase all damage by %d%% for 2 turns"):tformat(self.powerful_damage) end, function(self, who)
 			who:setEffect(who.EFF_ITEM_CHARM_POWERFUL, 2, {damage = self.powerful_damage})
 		end},
 	},
@@ -444,7 +444,7 @@ newEntity{
 	cost = 5,
 	innervating_fatigue = resolvers.mbonus_material(40, 20),
 	charm_on_use = {
-		{100, function(self, who) return ("reduce fatigue by %d%% for 2 turns"):format(self.innervating_fatigue) end, function(self, who)
+		{100, function(self, who) return ("reduce fatigue by %d%% for 2 turns"):tformat(self.innervating_fatigue) end, function(self, who)
 			who:setEffect(who.EFF_ITEM_CHARM_INNERVATING, 2, {fatigue = self.innervating_fatigue})
 		end},
 	},
@@ -454,7 +454,7 @@ newEntity{
 
 newEntity{
 	name = "innervating ", prefix=true,
-	keywords = {innervating_greater=true},
+	keywords = {innervating=true},
 	level_range = {1, 50},
 	unique_ego = "charm_proc_innervating",
 	greater_ego = 1,
@@ -462,7 +462,7 @@ newEntity{
 	cost = 5,
 	innervating_fatigue = resolvers.mbonus_material(40, 20),
 	charm_on_use = {
-		{100, function(self, who) return ("reduce fatigue by %d%% for 2 turns"):format(self.innervating_fatigue) end, function(self, who)
+		{100, function(self, who) return ("reduce fatigue by %d%% for 2 turns"):tformat(self.innervating_fatigue) end, function(self, who)
 			who:setEffect(who.EFF_ITEM_CHARM_INNERVATING, 2, {fatigue = self.innervating_fatigue})
 		end},
 	},

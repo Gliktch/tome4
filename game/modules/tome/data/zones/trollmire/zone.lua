@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ local layout = game.state:alternateZoneTier1(short_name, {"FLOODED", 1})
 if layout == "FLOODED" then
 
 return {
-	name = "Trollmire",
+	name = _t"Trollmire",
 	level_range = {1, 7},
 	level_scheme = "player",
 	max_level = 3,
@@ -61,9 +61,9 @@ return {
 			road = "GRASS_ROAD_DIRT",
 			add_road = true,
 
-			nb_rooms = {0,0,0,1},
+			nb_rooms = {0,1},
 			rooms = {"lesser_vault"},
-			lesser_vaults_list = {"honey_glade", "forest-ruined-building1", "forest-ruined-building2", "forest-ruined-building3", "forest-snake-pit", "mage-hideout"},
+			lesser_vaults_list = {"honey_glade", "forest-ruined-building1", "forest-ruined-building2", "forest-ruined-building3", "snake-pit", "mage-hideout", "collapsed-tower"},
 			lite_room_chance = 100,
 		},
 		actor = {
@@ -152,7 +152,7 @@ return {
 elseif layout == "DEFAULT" then
 
 return {
-	name = "Trollmire",
+	name = _t"Trollmire",
 	level_range = {1, 5},
 	level_scheme = "player",
 	max_level = 3,
@@ -189,9 +189,9 @@ return {
 				pond = {{0.6, "DEEP_WATER"}, {0.8, "DEEP_WATER"}},
 			},
 
-			nb_rooms = {0,0,0,1},
+			nb_rooms = {0,1},
 			rooms = {"lesser_vault"},
-			lesser_vaults_list = {"honey_glade", "forest-ruined-building1", "forest-ruined-building2", "forest-ruined-building3", "forest-snake-pit", "mage-hideout"},
+			lesser_vaults_list = {"honey_glade", "forest-ruined-building1", "forest-ruined-building2", "forest-ruined-building3", "snake-pit", "mage-hideout", "collapsed-tower"},
 			lite_room_chance = 100,
 		},
 		actor = {

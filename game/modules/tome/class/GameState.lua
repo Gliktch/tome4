@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -236,7 +236,7 @@ local randart_name_rules = {
 }
 
 --- Unided name possibilities for randarts
-local unided_names = {"glowing","scintillating","rune-covered","unblemished","jewel-encrusted","humming","gleaming","immaculate","flawless","crackling","glistening","plated","twisted","silvered","faceted","faded","sigiled","shadowy","laminated"}
+local unided_names = {_t"glowing",_t"scintillating",_t"rune-covered",_t"unblemished",_t"jewel-encrusted",_t"humming",_t"gleaming",_t"immaculate",_t"flawless",_t"crackling",_t"glistening",_t"plated",_t"twisted",_t"silvered",_t"faceted",_t"faded",_t"sigiled",_t"shadowy",_t"laminated"}
 
 --- defined power themes, affects equipment generation
 _M.power_themes = {
@@ -372,6 +372,9 @@ function _M:updatePowers(forbid_ps, allow_ps, randthemes, force_themes)
 	return not_ps, yes_ps, themes
 end
 
+function _M:getRandartNameRule()
+	return _getFlagI18N("randart_name_rules") or randart_name_rules
+end
 --- Generate randarts for this state with optional parameters:
 -- @param data.base = base object to add powers to (base.randart_able must be defined) <random object>
 -- @param data.base_filter = filter passed to makeEntity when making base object
@@ -483,7 +486,7 @@ function _M:generateRandart(data)
 	for i = 1, nb_powers do
 		local p = game.zone:pickEntity(lst)
 		if p then
-			for t, _ in pairs(p.theme) do if themes[t] and randart_name_rules[t] then power_themes[t] = (power_themes[t] or 0) + 1 end end
+			for t, _ in pairs(p.theme) do if themes[t] and self:getRandartNameRule()[t] then power_themes[t] = (power_themes[t] or 0) + 1 end end
 			powers[#powers+1] = p:clone()
 		end
 	end
@@ -496,25 +499,30 @@ function _M:generateRandart(data)
 	-----------------------------------------------------------
 	local themename = power_themes[#power_themes]
 	themename = themename and themename[1] or nil
-	local ngd = NameGenerator.new(rng.chance(2) and randart_name_rules.default or randart_name_rules.default2)
-	local ngt = (themename and randart_name_rules[themename] and NameGenerator.new(randart_name_rules[themename])) or ngd
+	local ngd
+	if self.birth.world_base_random_name_def then
+		ngd = NameGenerator2.new("/data/languages/names/"..self.birth.world_base_random_name_def:gsub("#sex#", rng.chance(2) and "female" or "male")..".txt")
+	else
+		ngd = NameGenerator.new(rng.chance(2) and self:getRandartNameRule().default or self:getRandartNameRule().default2)
+	end
+	local ngt = (themename and self:getRandartNameRule()[themename] and NameGenerator.new(self:getRandartNameRule()[themename])) or ngd
 	local name
 	local namescheme = data.namescheme or ((ngt ~= ngd) and rng.range(1, 4) or rng.range(1, 3))
 	if namescheme == 1 then
-		name = "%s '"..ngt:generate().."'"
+		name = ("%s '%s'"):tformat("%s", ngt:generate())
 	elseif namescheme == 2 then
-		name = ngt:generate().." the %s"
+		name = ("%s the %s"):tformat(ngt:generate(),"%s")
 	elseif namescheme == 3 then
 		name = ngt:generate()
 	elseif namescheme == 4 then
-		name = ngd:generate().." the "..ngt:generate()
+		name = ("%s the %s"):tformat(ngd:generate(),ngt:generate())
 	end
 	o.unided_namescheme = rng.table(unided_names).." %s"
-	o.unided_name = o.unided_namescheme:format(o.unided_name or o.name)
+	o.unided_name = o.unided_namescheme:format(_t(o.unided_name) or _t(o.name))
 	o.namescheme = name
 	o.define_as = name:format(o.name):upper():gsub("[^A-Z]", "_")
 	o.unique = name:format(o.name)
-	o.name = name:format(o.name)
+	o.name = name:format(o:getName{trans_only=true})
 	o.randart = true
 	o.no_unique_lore = true
 	o.rarity = rng.range(200, 290)
@@ -811,7 +819,7 @@ function _M:spawnWorldAmbush(enc, dx, dy, kind)
 	terrains[gen.up].change_level_shift_back = true
 
 	local zone = mod.class.Zone.new("ambush", {
-		name = "Ambush!",
+		name = _t"Ambush!",
 		level_range = {game.player.level, game.player.level},
 		level_scheme = "player",
 		max_level = 1,
@@ -828,7 +836,11 @@ function _M:spawnWorldAmbush(enc, dx, dy, kind)
 		},
 
 		reload_lists = false,
-		npc_list = mod.class.NPC:loadList("/data/general/npcs/all.lua", nil, nil, function(e) e.make_escort=nil end),
+		npc_list = mod.class.NPC:loadList(enc.npc_list or "/data/general/npcs/all.lua", nil, nil, 
+			function(e) 
+				e.make_escort=nil
+				e.instakill_immune = 1
+			end),
 		grid_list = terrains,
 		object_list = mod.class.Object:loadList("/data/general/objects/objects.lua"),
 		trap_list = {},
@@ -855,7 +867,7 @@ function _M:spawnWorldAmbush(enc, dx, dy, kind)
 	game.player.energy.value = game.energy_to_act
 	game.paused = true
 	game:changeLevel(1, zone, {temporary_zone_shift=true})
-	engine.ui.Dialog:simplePopup("Ambush!", "You have been ambushed!")
+	engine.ui.Dialog:simplePopup(_t"Ambush!", _t"You have been ambushed!")
 
 	end)
 end
@@ -981,6 +993,12 @@ function _M:dayNightCycle()
 
 	local hour, minute = game.calendar:getTimeOfDay(game.turn)
 	hour = hour + (minute / 60)
+	
+	local player = game:getPlayer(true)
+	if player and player.visual_force_day_time then
+		hour = player.visual_force_day_time
+	end
+
 	local tint = {r = 0.1, g = 0.1, b = 0.1}
 	local startTint = {r = 0.1, g = 0.1, b = 0.1}
 	local endTint = {r = 0.1, g = 0.1, b = 0.1}
@@ -1485,7 +1503,7 @@ local standard_rnd_boss_adjust = function(b)
 		-- Damage reduction is applied in all cases, acknowledging the frontloaded strength of randbosses and the potential for players to lack tools early
 		b.inc_damage = b.inc_damage or {}
 		--local change =  (70 * (30 - b.level + 1) / 30) + 20
-		local change =  95 - b.level * 3
+		local change = math.max(0, 95 - b.level * 4)
 		b.inc_damage.all = math.max(-80, (b.inc_damage.all or 0) - change)  -- Minimum of 20% damage
 		
 		-- Things prone to binary outcomes (0 damage, 0 hit rate, ...) like armor and defense are only reduced if they exceed a cap per level regardless of source
@@ -1528,28 +1546,30 @@ local standard_rnd_boss_adjust = function(b)
 		end
 
 		-- Early game melee don't have much mobility which makes randbosses too good at running and pulling more enemies in or being generally frustrating
-		b.ai_tactic.escape = -1
+		b.ai_tactic.escape = 0
 		b.ai_tactic.safe_range = 1
 
-		-- Cap the talent level of crippling debuffs (stun, ...) at 1 + floor(level / 10)
-		-- rnd_boss_restrict is the right way to handle this for most things
-		-- Tactical tables can have a variety of structures, so we just look in all subtables for a key named "stun"
-		for id, level in pairs(b.talents) do
-			local talent = b:getTalentFromId(id)
-			if talent and talent.tactical and _G.type(talent.tactical) == "table" then
-				table.check(
-					talent.tactical,
-					function(t, where, v, tv)
-						if tv == "string" and (v:lower() == "stun") then
-							b.talents[id] = math.min(b.talents[id], math.floor(b.level / 10) + 1)
-							return false
-						else 
-							return true 
-						end
-					end)
+		-- Cap the talent level of disabling talents at the minimum of 1 and floor(level / 10)
+		-- rnd_boss_restrict is the right way to handle this for most things, but the early game we can assume players have no reasonable way to deal with debuff spam
+		-- Tactical tables can have a variety of structures, so we just look in all subtables for a key named "disable"
+		if b.level <= 25 then
+			for id, level in pairs(b.talents) do
+				local talent = b:getTalentFromId(id)
+				if talent and talent.tactical and _G.type(talent.tactical) == "table" then
+					table.check(
+						talent.tactical,
+						function(t, where, v, tv)
+							if tv == "string" and (v:lower() == "disable") then
+								b.talents[id] = math.min(b.talents[id], math.max(1, math.floor(b.level / 10)))
+								return false
+							else 
+								return true 
+							end
+						end)
+				end
 			end
 		end
-	print("[entityFilterPost]:  Done nerfing randboss")
+	_G.print("[entityFilterPost]:  Done nerfing randboss")
 	end
 end  -- End of standard_rnd_boss_adjust
 
@@ -1590,7 +1610,8 @@ function _M:entityFilterPost(zone, level, type, e, filter)
 				post = function(b, data)
 					-- Drop
 					for i = 1, data.nb_rares do -- generate rares as weak (1 ego) randarts with more and stronger powers
-						local fil = {lev=lev, egos=1, greater_egos_bias = 0, power_points_factor = 3, nb_themes_add = 1, nb_powers_add = 2, forbid_power_source=b.not_power_source,
+						local bonus = 1.5 + lev / 25  -- Scale power point bonus with level to account for egos gaining a lot of power per level relative
+						local fil = {lev=lev, egos=1, greater_egos_bias = 0, power_points_factor = bonus, nb_themes_add = 1, nb_powers_add = 2, forbid_power_source=b.not_power_source,
 							base_filter = {no_tome_drops=true, ego_filter={keep_egos=true, ego_chance=-1000}, 
 							special=function(e)
 								return (not e.unique and e.randart_able) and (not e.material_level or e.material_level >= 1) and true or false
@@ -1962,7 +1983,7 @@ function _M:createRandomZone(zbase)
 	------------------------------------------------------------
 	-- Name
 	------------------------------------------------------------
-	local ngd = NameGenerator.new(randart_name_rules.default2)
+	local ngd = NameGenerator.new(self:getRandartNameRule().default2)
 	local name = ngd:generate()
 	local short_name = name:lower():gsub("[^a-z]", "_")
 
@@ -2037,6 +2058,24 @@ function _M:applyRandomClass(b, data, instant)
 		end
 		if not mclass then return end
 
+		-- THE MOTHER OF ALL HACKS!
+		-- Make sure brawlers rares dont get absurdly powerful
+		if class.npc_class_use_default_combat_table then
+			b.combat_old = table.clone(b.combat or {}, true)
+			b.combat = {
+				dam=1,
+				atk=1, apr=0,
+				physcrit=0,
+				physspeed =1,
+				dammod = { str=1 },
+				damrange=1.1,
+				talented = "unarmed",
+				npc_brawler_combat_hack_enabled = true,
+			}
+			if b.combat_old.sound then b.combat.sound = b.combat_old.sound end
+			if b.combat_old.sound_miss then b.combat.sound_miss = b.combat_old.sound_miss end
+		end
+
 		print("[applyRandomClass]", b.uid, b.name, "Adding class", class.name, mclass.name)
 		-- add class to list and build inherent power sources
 		b.descriptor = b.descriptor or {}
@@ -2063,10 +2102,11 @@ function _M:applyRandomClass(b, data, instant)
 		if data.autolevel ~= false then b.autolevel = data.autolevel or "random_boss" end
 		
 		-- Class talent categories
-		for tt, d in pairs(mclass.talents_types or {}) do b:learnTalentType(tt, true) b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d[2]) end
-		for tt, d in pairs(mclass.unlockable_talents_types or {}) do b:learnTalentType(tt, true) b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d[2]) end
-		for tt, d in pairs(class.talents_types or {}) do b:learnTalentType(tt, true) b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d[2]) end
-		for tt, d in pairs(class.unlockable_talents_types or {}) do b:learnTalentType(tt, true) b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d[2]) end
+		local ttypes = {}
+		for tt, d in pairs(mclass.talents_types or {}) do b:learnTalentType(tt, true) b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d[2]) ttypes[tt] = table.clone(d) end
+		for tt, d in pairs(mclass.unlockable_talents_types or {}) do b:learnTalentType(tt, true) b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d[2]) ttypes[tt] = table.clone(d) end
+		for tt, d in pairs(class.talents_types or {}) do b:learnTalentType(tt, true) b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d[2]) ttypes[tt] = table.clone(d) end
+		for tt, d in pairs(class.unlockable_talents_types or {}) do b:learnTalentType(tt, true) b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d[2]) ttypes[tt] = table.clone(d) end
 
 		-- Non-class talent categories
 		if data.add_trees then
@@ -2075,9 +2115,11 @@ function _M:applyRandomClass(b, data, instant)
 					if type(d) ~= "number" then d = rng.range(1, 3)*0.1 end
 					b:learnTalentType(tt, true)
 					b:setTalentTypeMastery(tt, (b:getTalentTypeMastery(tt) or 1) + d)
+					ttypes[tt] = {true, d}
 				end
 			end
 		end
+
 		-- Add starting equipment
 		local apply_resolvers = function(k, resolver)
 			if type(resolver) == "table" and resolver.__resolver then
@@ -2122,78 +2164,138 @@ function _M:applyRandomClass(b, data, instant)
 		if not tres then tres = resolvers.talents{} b[#b+1] = tres end
 		for tid, v in pairs(class.talents or {}) do
 			local t = b:getTalentFromId(tid)
-			if not t.no_npc_use and not t.no_npc_autolevel and (not t.random_boss_rarity or rng.chance(t.random_boss_rarity)) and not (t.rnd_boss_restrict and t.rnd_boss_restrict(b, t, data) ) then
+			if not t.no_npc_use and not t.no_npc_autolevel and (not t.random_boss_rarity or rng.chance(t.random_boss_rarity)) and not (t.rnd_boss_restrict and util.getval(t.rnd_boss_restrict, b, t, data) ) then
 				local max = (t.points == 1) and 1 or math.ceil(t.points * 1.2)
-				local step = max / 50
+				local step = max / 70
 				tres[1][tid] = v + math.ceil(step * data.level)
 			end
 		end
 
-		-- Select additional talents from the class
-		local known_types = {}
-		for tt, d in pairs(b.talents_types) do
-			known_types[tt] = b:numberKnownTalent(tt)
+		-- learn talents based on trees: focus trees we take 3-4 talents from with a decent amount of point investment, shallow trees we only take 1 or 2 with not many points
+		-- ideally rares should feel different even within the same class based on what focus trees they get
+		local nb_focus, nb_shallow = 0, 0
+		local rank = b.rank
+		if rank <= 3.2 then 	--rare
+			nb_focus = math.floor(0.2 + rng.float(0.22, 0.35)*(math.max(0,data.level-3))^0.5)
+			nb_shallow = 2 + math.floor(0.25 + rng.float(0.08, 0.2)*(math.max(0,data.level-6))^0.5)
+		elseif rank >= 4 then 	--boss/elite boss 
+			nb_focus = 1 + math.floor(0.25 + rng.float(0.15, 0.35)*(math.max(0,data.level-6))^0.5)
+			nb_shallow = 1 + math.floor(0.3 + rng.float(0.1, 0.2)*(math.max(0,data.level-4))^0.5)
+		else 					--unique
+			nb_focus = 1 + math.floor(0.2 + rng.float(0.15, 0.3)*(math.max(0,data.level-10))^0.5)
+			nb_shallow = 1 + math.floor(0.55 + rng.float(0.1, 0.2)*(math.max(0,data.level-8))^0.5)
 		end
+		print("Adding "..nb_focus.." primary trees to boss")
+		print("Adding "..nb_shallow.." secondary trees to boss")
 
-		local list = {}
-		for _, t in pairs(b.talents_def) do
-			if b.talents_types[t.type[1]] then
+ 		local tt_choices = {}
+		for tt, d in pairs(ttypes) do
+			d.tt = tt
+			table.insert(tt_choices, d)
+		end
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		table.print(tt_choices)
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+		
+		local fails = 0
+		local focus_trees = {}
+		local shallow_trees = {}
+		local tt, tt_idx, tt_def
+		local t, t_idx
+		while #focus_trees < nb_focus or #shallow_trees < nb_shallow do
+			local ok = false
+			while not ok do
+				tt = rng.tableRemove(tt_choices)
+				if not tt or not tt.tt then break end
+				if not (tt.tt=="technique/combat-training" or tt.tt=="cunning/survival") then ok=true end
+			end
+			if not ok then break end
+			tt = tt.tt
+			tt_def = tt and b:knowTalentType(tt) and b.talents_types_def[tt]
+			if not tt_def then break end
+			print("[applyRandomClass] Attempting to add tree "..tt.." to boss")
+			local t_choices = {}
+			local nb_known = b:numberKnownTalent(tt)
+			for i, t in ipairs(tt_def.talents) do
+				local ok = true
 				if t.no_npc_use or t.not_on_random_boss then
-					known_types[t.type[1]] = known_types[t.type[1]] + 1 -- allows higher tier talents to be learnt
-				else
-					local ok = true
-					if t.rnd_boss_restrict and t.rnd_boss_restrict(b, t, data) then
+					nb_known = nb_known + 1 -- treat as known to allow later talents to be learned
+					print(" * Random boss forbade talent because talent not allowed on random bosses", t.name, t.id, data.level)
+					ok = false
+				end
+				if t.rnd_boss_restrict and util.getval(t.rnd_boss_restrict, b, t, data) and ok then
+					print(" * Random boss forbade talent because of special talent restriction", t.name, t.id, data.level)
+					nb_known = nb_known + 1 -- treat as known to allow later talents to be learned
+					ok = false
+				end
+				if t.random_boss_rarity and rng.percent(t.random_boss_rarity) and ok then
+					print(" * Random boss forbade talent because of random boss rarity random chance", t.name, t.id, data.level)
+					nb_known = nb_known + 1 -- treat as known to allow later talents to be learned
+					ok = false
+				end
+				if data.check_talents_level and rawget(t, 'require') and ok then
+					local req = t.require
+					if type(req) == "function" then req = req(b, t) end
+					if req and req.level and util.getval(req.level, 1) > math.ceil(data.level) then
+						print(" * Random boss forbade talent because of level", t.name, t.id, data.level)
 						ok = false
-						print("[applyRandomClass] Random boss forbade talent because of special talent restriction", t.name, t.id, data.level)
 					end
-					if data.check_talents_level and rawget(t, 'require') then
-						local req = t.require
-						if type(req) == "function" then req = req(b, t) end
-						if req and req.level and util.getval(req.level, 1) > math.ceil(data.level/2) then
-							print("[applyRandomClass] Random boss forbade talent because of level", t.name, t.id, data.level)
-							ok = false
+				end
+				if ok then
+					table.insert(t_choices, t)
+				end
+			end
+			print(" Talent choices for "..tt..":")	for i, t in ipairs(t_choices) do print("\t", i, t.id, t.name) end
+			if #t_choices <= 2 or #focus_trees >= nb_focus then 
+				if #t_choices > 0 and #shallow_trees < nb_shallow then
+					table.insert(shallow_trees, tt) -- record that we added the tree as a minor tree
+					max_talents_from_tree = rng.percent(65) and 2 or 1
+					print("Adding secondary tree "..tt.." to boss with "..max_talents_from_tree.." talents")
+					for i = max_talents_from_tree,1,-1 do
+						local t = table.remove(t_choices, 1)
+						if not t then break end
+						local max = (t.points == 1) and 1 or math.ceil(t.points * 1.2)
+						local step = max / 60
+						local lev = math.max(1, math.round(rng.float(0.75,1.15)*math.ceil(step * data.level)))
+						print(#shallow_trees, " * talent:", t.id, lev)
+						if instant then -- affected by game difficulty settings
+							if b:getTalentLevelRaw(t) < lev then b:learnTalent(t.id, true, lev - b:getTalentLevelRaw(t.id)) end
+							if t.mode == "sustained" and data.auto_sustain then b:forceUseTalent(t, {ignore_energy=true}) end
+						else  -- applied when added to the level (unaffected by game difficulty settings)
+							b.learn_tids[t.id] = lev
 						end
 					end
-					if t.type[1]:find("/other$") then
-						print("[applyRandomClass] Random boss forbase talent because category /other", t.name, t.id, t.type[1])
-						ok = false
-					end
-					if ok then list[t.id] = true end
+				else 
+					print("Tree "..tt.." rejected")
 				end
-			end
-		end
-
-		local nb = 4 + 0.38*data.level^.75 -- = 11 at level 50
-		nb = math.max(rng.range(math.floor(nb * 0.7), math.ceil(nb * 1.3)), 1)
-		print("Adding "..nb.." random class talents to boss")
-
-		local count, fails = 0, 0
-		while count < nb do
-			local tid = rng.tableIndex(list, b.learn_tids)
-			if not tid or fails > nb * 5 then break end
-			local t = b:getTalentFromId(tid)
-			if t then
-				if t.type[2] and known_types[t.type[1]] < t.type[2] - 1 then -- not enough of talents of type
-					fails = fails + 1
-				else -- ok to add
-					count = count + 1
+			else
+				table.insert(focus_trees, tt) --record that we added the tree as a major tree
+				local max_talents_from_tree = rng.percent(75) and 4 or 3 
+				print("Adding primary tree "..tt.." to boss with "..max_talents_from_tree.." talents")
+				for i = max_talents_from_tree,1,-1 do
+					local t = table.remove(t_choices, 1)
+					if not t then break end
 					local max = (t.points == 1) and 1 or math.ceil(t.points * 1.2)
 					local step = max / 50
-					local lev = math.ceil(step * data.level)
-					print(count, " * talent:", tid, lev)
+					local lev = math.max(1, math.round(rng.float(0.75,1.25)*math.ceil(step * data.level)))
+					print(#focus_trees, " * talent:", t.id, lev)
 					if instant then -- affected by game difficulty settings
-						if b:getTalentLevelRaw(tid) < lev then b:learnTalent(tid, true, lev - b:getTalentLevelRaw(tid)) end
-						if t.mode == "sustained" and data.auto_sustain then b:forceUseTalent(tid, {ignore_energy=true}) end
+						if b:getTalentLevelRaw(t) < lev then b:learnTalent(t.id, true, lev - b:getTalentLevelRaw(t.id)) end
+						if t.mode == "sustained" and data.auto_sustain then b:forceUseTalent(t, {ignore_energy=true}) end
 					else  -- applied when added to the level (unaffected by game difficulty settings)
-						b.learn_tids[tid] = lev
+						b.learn_tids[t.id] = lev
 					end
-					known_types[t.type[1]] = known_types[t.type[1]] + 1
-					list[tid] = nil
 				end
-			else list[tid] = nil
 			end
-		end
-		print(" ** Finished adding", count, "of", nb, "random class talents")
+		end	
+		print(" ** Finished adding", #focus_trees, "of", nb_focus, "primary class trees") for i, tt in ipairs(focus_trees) do print("\t * ", tt) end
+		print(" ** Finished adding", #shallow_trees, "of", nb_shallow, "secondary class trees") for i, tt in ipairs(shallow_trees) do print("\t * ", tt) end
 
 		return true
 	end
@@ -2260,6 +2362,7 @@ end
 --	@param data.ai = ai_type <"tactical" if rank>3 or base.ai>
 --	@param data.ai_tactic = tactical weights table for the tactical ai <nil - generated based on talents>
 --	@param data.no_loot_randart set true to not drop a randart <nil>
+--  @param data.loot_fixedart set true to drop a fixedart <nil>
 --	@param data.on_die set true to run base.rng_boss_on_die and base.rng_boss_on_die_custom on death <nil>
 --	@param data.name_scheme <randart_name_rules.default>
 --	@param data.post = function(b, data) to run last to finish generation
@@ -2274,17 +2377,19 @@ function _M:createRandomBoss(base, data)
 	-- Basic stuff, name, rank, ...
 	------------------------------------------------------------
 	local ngd, name
-	if base.random_name_def then
-		ngd = NameGenerator2.new("/data/languages/names/"..base.random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
+	local random_name_def = base.random_name_def
+	if not random_name_def and self.birth.world_base_random_name_def then random_name_def = self.birth.world_base_random_name_def end
+	if random_name_def then
+		ngd = NameGenerator2.new("/data/languages/names/"..random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
 		name = ngd:generate(nil, base.random_name_min_syllables, base.random_name_max_syllables)
 	else
-		ngd = NameGenerator.new(randart_name_rules.default)
+		ngd = NameGenerator.new(self:getRandartNameRule().default)
 		name = ngd:generate()
 	end
 	if data.name_scheme then
-		b.name = data.name_scheme:gsub("#rng#", name):gsub("#base#", b.name)
+		b.name = data.name_scheme:gsub("#rng#", name):gsub("#base#", _t(b.name))
 	else
-		b.name = name.." the "..b.name
+		b.name = ("%s the %s"):tformat(name,_t(b.name))
 	end
 	print("[createRandomBoss] Creating random boss ", b.name, data.level, "level", data.nb_classes, "classes")
 	if data.force_classes then print("  * force_classes:", (string.fromTable(data.force_classes))) end
@@ -2353,6 +2458,7 @@ function _M:createRandomBoss(base, data)
 	-- Boss worthy drops
 	b[#b+1] = resolvers.drops{chance=100, nb=data.loot_quantity or 3, {tome_drops=data.loot_quality or "boss"} }
 	if not data.no_loot_randart then b[#b+1] = resolvers.drop_randart{} end
+	if data.loot_unique then b[#b+1] = resolvers.drops{chance=100, nb=1, {unique=true, not_properties={"lore"}} } end
 
 	-- On die
 	if data.on_die then
@@ -2475,11 +2581,29 @@ function _M:applyRandomClassNew(b, data, instant)
 			if data.descriptor_choices and data.descriptor_choices.subclass and data.descriptor_choices.subclass[class.name] then mclass = data break end
 		end
 		if not mclass then
-			print("[applyRandomClass] ### ABORTING ###", b.uid, b.name, "No main class type for", class.name)
+			print("[applyRandomClassNew] ### ABORTING ###", b.uid, b.name, "No main class type for", class.name)
 			return
 		end
 
-		print("[applyRandomClass]", b.uid, b.name, "Adding class", class.name, mclass.name, "level_rate", level_rate)
+		-- THE MOTHER OF ALL HACKS!
+		-- Make sure brawlers rares dont get absurdly powerful
+		if class.npc_class_use_default_combat_table then
+			b.combat_old = table.clone(b.combat or {}, true)
+			b.combat = {
+				dam=1,
+				atk=1, apr=0,
+				physcrit=0,
+				physspeed =1,
+				dammod = { str=1 },
+				damrange=1.1,
+				talented = "unarmed",
+				npc_brawler_combat_hack_enabled = true,
+			}
+			if b.combat_old.sound then b.combat.sound = b.combat_old.sound end
+			if b.combat_old.sound_miss then b.combat.sound_miss = b.combat_old.sound_miss end
+		end
+
+		print("[applyRandomClassNew]", b.uid, b.name, "Adding class", class.name, mclass.name, "level_rate", level_rate)
 
 		-- Add starting equipment and update filters as needed
 		local apply_resolvers = function(k, resolver)
@@ -2578,7 +2702,7 @@ function _M:applyRandomClassNew(b, data, instant)
 	
 	-- apply random classes
 	local to_apply = data.nb_classes or 1.5 -- 1.5 is one primary class and one secondary class @ 50% stats/talents
-	print("[applyRandomClass] applying", to_apply, "classes at", data.level_rate, "%%")
+	print("[applyRandomClassNew] applying", to_apply, "classes at", data.level_rate, "%%")
 	while to_apply > 0 do
 		local c = rng.tableRemove(list)
 		if not c then break end --repeat attempts until list is exhausted
@@ -2619,6 +2743,7 @@ end
 --	@field data.ai = ai_type <"tactical" if rank>3 or base.ai>
 --	@field data.ai_tactic = tactical weights table for the tactical ai <nil - generated based on talents>
 --	@field data.no_loot_randart set true to not drop a randart <nil>
+--  @field data.loot_fixedart set true to drop a fixedart <nil>
 --	@field data.on_die set true to run base.rng_boss_on_die and base.rng_boss_on_die_custom on death <nil>
 --	@field data.name_scheme <randart_name_rules.default>
 --	@field data.post = function(b, data) to run last to finish generation
@@ -2632,17 +2757,19 @@ function _M:createRandomBossNew(base, data)
 	-- Basic stuff, name, rank, ...
 	------------------------------------------------------------
 	local ngd, name
-	if base.random_name_def then
-		ngd = NameGenerator2.new("/data/languages/names/"..base.random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
+	local random_name_def = base.random_name_def
+	if not random_name_def and self.birth.world_base_random_name_def then random_name_def = self.birth.world_base_random_name_def end
+	if random_name_def then
+		ngd = NameGenerator2.new("/data/languages/names/"..random_name_def:gsub("#sex#", base.female and "female" or "male")..".txt")
 		name = ngd:generate(nil, base.random_name_min_syllables, base.random_name_max_syllables)
 	else
-		ngd = NameGenerator.new(randart_name_rules.default)
+		ngd = NameGenerator.new(self:getRandartNameRule().default)
 		name = ngd:generate()
 	end
 	if data.name_scheme then
-		b.name = data.name_scheme:gsub("#rng#", name):gsub("#base#", b.name)
+		b.name = data.name_scheme:gsub("#rng#", name):gsub("#base#", _t(b.name))
 	else
-		b.name = name.." the "..b.name
+		b.name = ("%s the %s"):tformat(name, _t(b.name))
 	end
 	print("Creating random boss ", b.name, data.level, "level", data.nb_classes, "classes")
 	if data.force_classes then print("  * force_classes:", (string.fromTable(data.force_classes))) end
@@ -2707,7 +2834,8 @@ function _M:createRandomBossNew(base, data)
 	-- Boss worthy drops
 	b[#b+1] = resolvers.drops{chance=100, nb=data.loot_quantity or 3, {tome_drops=data.loot_quality or "boss"} }
 	if not data.no_loot_randart then b[#b+1] = resolvers.drop_randart{} end
-
+	if data.loot_unique then b[#b+1] = resolvers.drops{chance=100, nb=1, {unique=true, not_properties={"lore"}} } end
+	
 	-- On die
 	if data.on_die then
 		b.rng_boss_on_die = b.on_die
@@ -3042,6 +3170,82 @@ function _M:startEvents()
 	end
 end
 
+function _M:dynamicZoneEntry(g, id, zone_def, zone_lists, zone_alter)
+	if zone_alter and config.settings.cheat then
+		if util.has_upvalues(zone_alter) then
+			error("Zone alter method has upvalues. This will explode upon save reload! Fix it!")
+		end
+	end
+
+	id = id.."-"..game.turn.."-"..core.game.getTime()
+
+	local g = g:clone()
+	g.name = zone_def.name
+	g.always_remember = true
+	g.change_level = 1
+	g.change_zone = id
+	g.glow = true
+	g:removeAllMOs()
+	g:altered()
+	g:initGlow()
+	g.dynamic_zone = { id=id, def=zone_def, lists=zone_lists, alter=zone_alter }
+	g.real_change = function(self)
+		local def = self.dynamic_zone.def
+
+		-- Dynamic zones ALWAYS embed their lists
+		def.reload_lists = true
+
+		def.__embed_lists_def = self.dynamic_zone.lists
+		if self.dynamic_zone.alter then
+			def.__alter_back_def = {short_name=game.zone.short_name, name=game.zone.name}
+			def.__alter_back_fct = function(zone, backdef, name, base_terrain)
+				local terrain = base_terrain:cloneFull()
+				terrain.change_level_shift_back = true
+				terrain.change_zone_auto_stairs = true
+				terrain.name = name:format(backdef.name)
+				terrain.change_zone = backdef.short_name
+				terrain.define_as = "DYNAMIC_ZONE_EXIT"
+				terrain:altered()
+				zone.grid_list.DYNAMIC_ZONE_EXIT = terrain
+			end
+			def.__alter_back_custom = self.dynamic_zone.alter
+		end
+		def.embed_lists = function(zone)
+			-- A few default lists
+			zone.npc_list = {}
+			zone.object_list = {}
+			zone.trap_list = {}
+			zone.grid_list = {}
+
+			-- Now load the ones we are given, either with default classes or custom ones
+			for list, listdef in pairs(zone.__embed_lists_def) do
+				local entries = listdef
+				local class = "engine.Entity"
+				if entries.class_name then class = entries.class_name
+				elseif list == "npc_list" then class = "mod.class.NPC"
+				elseif list == "object_list" then class = "mod.class.Object"
+				elseif list == "trap_list" then class = "mod.class.Trap"
+				elseif list == "grid_list" then class = "mod.class.Grid"
+				end
+				zone[list] = require(class):loadList(entries)
+			end
+
+			-- Alter whatever we need. Most likely the exit, so we provide an easy function for that
+			if zone.__alter_back_fct then
+				zone.__alter_back_custom(zone, function(name, base_terrain) zone:__alter_back_fct(zone.__alter_back_def, name, base_terrain) end)
+			end
+		end
+		return mod.class.Zone.new(self.dynamic_zone.id, def)
+	end
+	g.change_level_check = function(self)
+		game:changeLevel(1, self:real_change(), {temporary_zone_shift=true, direct_switch=true})
+		self.change_level_check = nil
+		self.real_change = nil
+		return true
+	end
+	return g
+end
+
 function _M:alternateZone(short_name, ...)
 	if not world:hasSeenZone(short_name) and not config.settings.cheat and not world:hasAchievement("VAMPIRE_CRUSHER") then print("Alternate layout for "..short_name.." refused: never visited") return "DEFAULT" end
 
@@ -3122,7 +3326,7 @@ function _M:makeChallengeQuest(level, name, desc, data, alter_effect)
 	if p:hasQuest(qid) then return end -- sanity check
 	local q = {
 		id = qid,
-		name = "Infinite Dungeon Challenge (Level "..level.level.."): "..name,
+		name = ("Infinite Dungeon Challenge (Level %s): %s"):tformat(level.level, name),
 		use_ui = "quest-idchallenge",
 		challenge_desc = desc,
 		check_level = level, -- level the quest is granted for
@@ -3194,7 +3398,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 	
 	if id_challenge == "pacifist" then
 		level.data.record_player_kills = 0
-		self:makeChallengeQuest(level, "Pacifist", "Leave the level (to the next level) without killing a single creature. You will get #{italic}#two#{normal}# rewards.", {
+		self:makeChallengeQuest(level, _t"Pacifist", _t"Leave the level (to the next level) without killing a single creature. You will get #{italic}#two#{normal}# rewards.", {
 			on_exit_check = function(self, who)
 				if not self.check_level then return end
 				if self.check_level.data.record_player_kills == 0 then who:setQuestStatus(self.id, self.COMPLETED) end
@@ -3213,12 +3417,12 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			end
 			return nb
 		end
-		self:makeChallengeQuest(level, "Exterminator", "Exterminate every foe on the level.", {
+		self:makeChallengeQuest(level, _t"Exterminator", _t"Exterminate every foe on the level.", {
 			enemies_left = enemies_left,
 			dynamic_desc = function(self, desc, who)
 				if not self.check_level then return end
 				local nb = self:enemies_left(who)
-				desc[#desc+1] = "Foes left: #LIGHT_RED#"..nb
+				desc[#desc+1] = ("Foes left: #LIGHT_RED#%s"):tformat(nb)
 			end,
 			on_grant = function(self, who)
 				game:onTickEnd(function()
@@ -3226,7 +3430,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 					for uid, e in pairs(self.check_level.entities) do
 						if who:reactionToward(e) < 0 then
 							e[self.id] = true
-							e.desc = "#LIGHT_RED#EXTERMINATE THIS FOE#LAST#\n"..(e.desc or "")
+							e.desc = ("#LIGHT_RED#EXTERMINATE THIS FOE#LAST#\n%s"):tformat(e.desc or "")
 						end
 					end
 				end)
@@ -3247,10 +3451,10 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 		local path = a:calc(level.default_up.x, level.default_up.y, level.default_down.x, level.default_down.y)
 		if path and #path > 5 then
 			local turns = #path * 3 + 20
-			self:makeChallengeQuest(level, "Rush Hour ("..turns..")", "Proceed directly to the next Infinite Dungeon level in less than "..turns.." turns (an exit is revealed on your map).", {
+			self:makeChallengeQuest(level, ("Rush Hour (%d)"):tformat(turns), ("Proceed directly to the next Infinite Dungeon level in less than %d turns (an exit is revealed on your map)."):tformat(turns), {
 				turns_left = turns,
 				dynamic_desc = function(self, desc)
-					desc[#desc+1] = "Turns left: #LIGHT_GREEN#"..self.turns_left
+					desc[#desc+1] = ("Turns left: #LIGHT_GREEN#%d"):tformat(self.turns_left)
 				end,
 				on_exit_check = function(self, who)
 					if self.turns_left >= 0 then
@@ -3274,7 +3478,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			self:locationRevealAround(level.default_down.x, level.default_down.y)
 			level.turn_counter = turns * 10
 			level.max_turn_counter = turns * 10
-			level.turn_counter_desc = "Proceed to the next Infinite Dungeon level! An exit has been marked on your map."
+			level.turn_counter_desc = _t"Proceed to the next Infinite Dungeon level! An exit has been marked on your map."
 		end
 	elseif id_challenge == "dream-horror" then
 		local m = zone:makeEntity(level, "actor", {name="dreaming horror", random_boss=true}, nil, true)
@@ -3286,7 +3490,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 				tries = tries + 1
 			end
 			if tries < 100 then
-				local q = self:makeChallengeQuest(level, "Dream Hunter", "Wake up and kill the dreaming horror boss '"..m.name.."'.", {
+				local q = self:makeChallengeQuest(level, _t"Dream Hunter", ("Wake up and kill the dreaming horror boss '%s'."):tformat(m.name), {
 				on_exit_check = function(self, who)
 					if not self:isEnded() then who:setQuestStatus(self.id, self.FAILED) end
 				end
@@ -3306,7 +3510,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			)
 		if x and y then
 			print("[Infinite Dungeon Challenge] spawning Mirror-Match at", x, y)
-			local q = self:makeChallengeQuest(level, "Mirror Match", "Find, challenge, and kill your mirror clone on the level.", {
+			local q = self:makeChallengeQuest(level, _t"Mirror Match", _t"Find, challenge, and kill your mirror clone on the level.", {
 				on_exit_check = function(self, who)
 					if not self:isEnded() then who:setQuestStatus(self.id, self.FAILED) end
 				end,
@@ -3321,9 +3525,9 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			a.energy.value = 0
 			a.player = nil
 			a.rank = 4
-			a.desc = "An evil twin of "..a.name..(a.desc and ":\n"..a.desc or "")
-			a.name = "Mirror Challenge of "..a.name
-			a.killer_message = "but nobody knew why #sex# suddenly became evil"
+			a.desc = ("An evil twin of %s%s"):tformat(a.name, (a.desc and ":\n"..a.desc or ""))
+			a.name = ("Mirror Challenge of %s"):tformat(a.name)
+			a.killer_message = _t"but nobody knew why #sex# suddenly became evil"
 			a.color_r = 150 a.color_g = 150 a.color_b = 150
 			a:removeAllMOs()
 			a.ai = "none"
@@ -3341,10 +3545,10 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			a.on_bump = function(self, who)
 				local p = game:getPlayer(true)
 				if who ~= p then
-					game.logPlayer(who, "#ORCHID#%s does not recognize you.", self.name:capitalize())
+					game.logPlayer(who, "#ORCHID#%s does not recognize you.", self:getName():capitalize())
 					return
 				end
-				require("engine.ui.Dialog"):yesnoPopup("Challenge: #PURPLE#Mirror Match", "Challenge your mirror clone and triumph!", function(r) if not r then
+				require("engine.ui.Dialog"):yesnoPopup(_t"Challenge: #PURPLE#Mirror Match", _t"Challenge your mirror clone and triumph!", function(r) if not r then
 					self:attr("invulnerable", -1)
 					self:attr("negative_status_effect_immune", -1)
 					self:attr("stealth", 1000)
@@ -3354,7 +3558,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 					self:setTarget(p)
 					self:teleportRandom(p.x, p.y, 20, 10)
 					game.bignews:say(60, "#CRIMSON#The Fight Is Joined!")
-				end end, "Refuse", "Accept", true)
+				end end, _t"Refuse", _t"Accept", true)
 			end
 			a.on_die = function(self, who)
 				who:setQuestStatus(self.id_challenge_quest, engine.Quest.COMPLETED)
@@ -3379,21 +3583,21 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			end
 		end
 	elseif id_challenge == "near-sighted" then
-		Dialog:yesnoPopup("Challenge: #PURPLE#Near Sighted", "Proceed to the next Infinite Dungeon level with -7 sight range for a reward.", function(r) if not r then
-			self:makeChallengeQuest(level, "Near Sighted", "Proceed to the next Infinite Dungeon level with -7 sight range.", {
+		Dialog:yesnoPopup(_t"Challenge: #PURPLE#Near Sighted", _t"Proceed to the next Infinite Dungeon level with -7 sight range for a reward.", function(r) if not r then
+			self:makeChallengeQuest(level, _t"Near Sighted", _t"Proceed to the next Infinite Dungeon level with -7 sight range.", {
 				on_exit_check = function(self, who) who:setQuestStatus(self.id, self.COMPLETED) end,
 			}, function(actor, eff)
 				actor:effectTemporaryValue(eff, "sight", -7)
 			end)
 
-		end end, "Refuse", "Accept", true)
+		end end, _t"Refuse", _t"Accept", true)
 	elseif id_challenge == "multiplicity" then
 		local turns = level.map.h + level.map.w
-		Dialog:yesnoPopup("Challenge: #PURPLE#Multiplicity", "All foes (including bosses) gain the ability to multiply up to 3 times.  You must survive for at least "..turns.." turns before exiting.", function(r) if not r then
-			self:makeChallengeQuest(level, "Multiplicity", "All foes have the multiply talent!", {
+		Dialog:yesnoPopup(_t"Challenge: #PURPLE#Multiplicity", ("All foes (including bosses) gain the ability to multiply up to 3 times.  You must survive for at least %d turns before exiting."):tformat(turns), function(r) if not r then
+			self:makeChallengeQuest(level, _t"Multiplicity", _t"All foes have the multiply talent!", {
 				turns_left = turns,
 				dynamic_desc = function(self, desc)
-					desc[#desc+1] = "Turns left: #LIGHT_GREEN#"..math.max(0, self.turns_left)
+					desc[#desc+1] = ("Turns left: #LIGHT_GREEN#%d"):tformat(math.max(0, self.turns_left))
 				end,
 				on_exit_check = function(self, who)
 					if who.dead and not self:isEnded() then who:setQuestStatus(self.id, self.FAILED); return end
@@ -3425,8 +3629,8 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			end)
 			level.turn_counter = turns * 10
 			level.max_turn_counter = turns * 10
-			level.turn_counter_desc = "Survive the multiplicative madness!."
-		end end, "Refuse", "Accept", true)
+			level.turn_counter_desc = _t"Survive the multiplicative madness!"
+		end end, _t"Refuse", _t"Accept", true)
 	elseif id_challenge == "headhunter" then
 		local mlist = {} -- add random elite "spawns of Urh'Rok"
 		for i = 1, rng.range(2, 4) do
@@ -3437,7 +3641,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 				loot_quantity=2,
 				nb_rares=2, -- make this difficult challenge (usually) worth trying and failing
 				no_loot_randart=true,
-				name_scheme = "#rng# the Spawn of Urh'Rok",
+				name_scheme = _t"#rng# the Spawn of Urh'Rok",
 			}}, nil, true)
 			if m then
 				local x, y = self:findEventGrid(level, function(self, level, x, y)
@@ -3452,18 +3656,18 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			end
 		end
 		if #mlist > 0 then
-			Dialog:yesnoPopup("Challenge: #PURPLE#Headhunter", "Kill "..#mlist.." spawns of Urh'Rok on the level before killing any other elite (or higher rank) creatures, for an uncommon reward.", function(r)
+			Dialog:yesnoPopup(_t"Challenge: #PURPLE#Headhunter", ("Kill %d spawns of Urh'Rok on the level before killing any other elite (or higher rank) creatures, for an uncommon reward."):tformat(#mlist), function(r)
 				if not r then
-					local quest = self:makeChallengeQuest(level, "Headhunter", "Kill "..#mlist.." spawns of Urh'Rok on the level before killing any elite creatures.", {
+					local quest = self:makeChallengeQuest(level, _t"Headhunter", ("Kill %d spawns of Urh'Rok on the level before killing any elite creatures."):tformat(#mlist), {
 						dynamic_desc = function(self, desc)
-							desc[#desc+1] = ("%d / %d demon spawn killed."):format(self.nb_killed, self.to_kill)
+							desc[#desc+1] = ("%d / %d demon spawn killed."):tformat(self.nb_killed, self.to_kill)
 						end,
 						nb_killed = 0, to_kill = #mlist, mlist = mlist,
 						on_kill_foe = function(self, who, target)
 							if self:isEnded() then return end
 							if target.is_headhunter_npc then -- killed target spawn
 								self.nb_killed = self.nb_killed + 1
-								game.bignews:say(60, "#ORCHID#You claim the head of "..target.name..", giving pause to all foes on the level.")
+								game.bignews:say(60, "#ORCHID#You claim the head of %s, giving pause to all foes on the level.", target:getName())
 								if self.nb_killed >= self.to_kill then
 									who:setQuestStatus(self.id, self.COMPLETED)
 								end
@@ -3501,7 +3705,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 				else
 					for _, m in ipairs(mlist) do m:disappear() m:removed() end
 				end
-			end, "Refuse", "Accept", true)
+			end, _t"Refuse", _t"Accept", true)
 		end
 	else
 		self:triggerHook{"InfiniteDungeon:setupChallenge", id_challenge=id_challenge, zone=zone, level=level}
@@ -3512,7 +3716,7 @@ end
 --- Grant (random) awards for an id-challenge quest
 function _M:infiniteDungeonChallengeReward(quest, who)
 	local rewards = {
-		{name = "Random Artifact", id="randart", rarity=1,
+		{name = _t"Random Artifact", id="randart", rarity=1,
 		give=function(who)
 			local tries = 100
 			-- make sure randart is compatible with recipient
@@ -3525,7 +3729,7 @@ function _M:infiniteDungeonChallengeReward(quest, who)
 					o:identify(true)
 					who:addObject(who.INVEN_INVEN, o)
 					who:sortInven()
-					return "Random Artifact: "..o:getName{do_color=true}
+					return ("Random Artifact: %s"):tformat(o:getName{do_color=true})
 				end
 				tries = tries - 1
 			end
@@ -3533,17 +3737,17 @@ function _M:infiniteDungeonChallengeReward(quest, who)
 			who.unused_stats = who.unused_stats + 3
 			return "+3 Stat Points"
 		end},
-		{name = "+3 Stat Points", id="stat_pts", rarity=3, give=function(who) who.unused_stats = who.unused_stats + 3 end},
-		{name = "+1 Class Point", id="class_pt", rarity=5, give=function(who) who.unused_talents = who.unused_talents + 1 end},
-		{name = "+1 Generic Point", id="generic_pt", rarity=4, give=function(who) who.unused_generics = who.unused_generics + 1 end},
-		{name = "+1 Category Point", id="category_pt",
+		{name = _t"+3 Stat Points", id="stat_pts", rarity=3, give=function(who) who.unused_stats = who.unused_stats + 3 end},
+		{name = _t"+1 Class Point", id="class_pt", rarity=5, give=function(who) who.unused_talents = who.unused_talents + 1 end},
+		{name = _t"+1 Generic Point", id="generic_pt", rarity=4, give=function(who) who.unused_generics = who.unused_generics + 1 end},
+		{name = _t"+1 Category Point", id="category_pt",
 			rarity=13.5*((self.id_challenge.rewarded["category_pt"] or 1)*30/math.max(30, who.level - self.id_challenge.level_entering_id)),
 			-- Note: rarity is adjusted to give ~ 1 category point every 30 character levels gained in the I.D.
 			-- a rarity of 30 with a challenge every level ~= 13.5 rarity with 45% challenge frequency (avg. first 50 I.D. levels, decreases with depth)
 			-- Rarity reduced if fewer than 1 category point has been awarded per 30 character levels
 			give=function(who) who.unused_talents_types = who.unused_talents_types + 1 end
 		},
-		{name = "+1 Prodigy Point", id="prodigy_pt",
+		{name = _t"+1 Prodigy Point", id="prodigy_pt",
 			rarity=60*((self.id_challenge.rewarded["prodigy_pt"] or 0)*5 + 1), -- make more than 1 bonus prodigy extremely rare
 			give=function(who) who.unused_prodigies = who.unused_prodigies + 1 end
 		},
@@ -3566,9 +3770,9 @@ function _M:infiniteDungeonChallengeReward(quest, who)
 		self.id_challenge.rewarded[reward.id] = (self.id_challenge.rewarded[reward.id] or 0) + 1
 		nb = nb + 1
 	end
-	reward_name = table.concatNice(reward_name, ", ", " and ")
-	quest.popup_text[engine.Quest.DONE] = "#OLIVE_DRAB#Reward"..(nb>0 and "s" or "")..": "..reward_name
-	game.log("#LIGHT_BLUE#%s has received: %s.", who.name:capitalize(), reward_name)
+	reward_name = table.concatNice(reward_name, ", ", _t" and ")
+	quest.popup_text[engine.Quest.DONE] = ("#OLIVE_DRAB#%s: %s"):tformat((nb>0 and _t"Rewards" or _t"Reward"), reward_name)
+	game.log("#LIGHT_BLUE#%s has received: %s.", who:getName():capitalize(), reward_name)
 	return reward_name
 end
 
@@ -3587,7 +3791,7 @@ function _M:unlockTalent(tid, who, v)
 		if new_unlock then -- test the unlock
 			local unlock = self:unlockTalentCheck(tid, who)
 			if unlock then 
-				game.logPlayer(who, "#LIGHT_GREEN#%s", type(unlock) == "string" and unlock or ("You have unlocked a new talent: %s!"):format(t.name))
+				game.logPlayer(who, "#LIGHT_GREEN#%s", type(unlock) == "string" and unlock or ("You have unlocked a new talent: %s!"):tformat(t.name))
 			end
 		end
 	end

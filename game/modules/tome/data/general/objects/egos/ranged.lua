@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -222,7 +222,7 @@ newEntity{
 		},
 	},
 	combat = {
-		talent_on_hit = { [Talents.T_ARCANE_VORTEX] = {level=3, chance=10} },
+		talent_on_hit = { [Talents.T_ARCANE_VORTEX] = {level=resolvers.genericlast(function(e) return e.material_level end), chance=10}, },
 	}
 }
 
@@ -288,9 +288,9 @@ newEntity{
 	},
 	charm_power = resolvers.mbonus_material(100, 5),
 	charm_power_def = {add=50, max=200, floor=true},
-	resolvers.charm("regenerate %d life over 5 turns", 20,
+	resolvers.charm(_t"regenerate %d life over 5 turns", 20,
 		function(self, who)
-			game.logSeen(who, "%s uses %s %s!", who.name:capitalize(), who:his_her(), self:getName{no_add_name=true, do_color=true})
+			game.logSeen(who, "%s uses %s %s!", who:getName():capitalize(), who:his_her(), self:getName{no_add_name=true, do_color=true})
 			who:setEffect(who.EFF_REGENERATION, 5, {power=self:getCharmPower(who)/5})
 			return {id=true, used=true}
 		end,
@@ -353,7 +353,7 @@ newEntity{
 	rarity = 30,
 	cost = 40,
 	wielder = {
-		movement_speed = resolvers.mbonus_material(0.3, 0.2),
+		movement_speed = resolvers.mbonus_material(30, 20, function(e, v) v=v/100 return 0, v end),
 		resists_pen = {
 			[DamageType.COLD] = resolvers.mbonus_material(20, 5),
 			[DamageType.LIGHTNING] = resolvers.mbonus_material(20, 5),
@@ -465,7 +465,7 @@ newEntity{
 		ranged_project = { 
 			[DamageType.NATURE] = resolvers.mbonus_material(20, 5),
 		},
-		special_on_crit = {desc="silences the target", fct=function(combat, who, target)
+		special_on_crit = {desc=_t"silences the target", fct=function(combat, who, target)
 			if target:canBe("silence") then
 				target:setEffect(target.EFF_SILENCED, 2, {apply_power=who:combatAttack(), no_ct_effect=true})
 			end

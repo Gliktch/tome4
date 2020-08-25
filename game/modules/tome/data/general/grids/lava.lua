@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -69,3 +69,35 @@ newEntity{
 	nice_tiler = { method="replace", base={"LAVA", 10, 2, 5} },
 }
 for i = 2, 5 do newEntity{ base="LAVA", define_as = "LAVA"..i, image = "terrain/lava/molten_lava_5_0"..i..".png"} end
+
+
+-----------------------------------------
+-- Cavy exits
+-----------------------------------------
+newEntity{
+	define_as = "LAVA_LADDER_DOWN",
+	type = "floor", subtype = "cave",
+	name = "ladder to the next level", image = "terrain/lava_floor.png", add_displays = {class.new{image="terrain/cave/cave_stairs_down_3_01.png"}},
+	display = '>', color_r=255, color_g=255, color_b=0,
+	notice = true,
+	always_remember = true,
+	change_level = 1,
+}
+newEntity{
+	define_as = "LAVA_LADDER_UP",
+	type = "floor", subtype = "cave",
+	name = "ladder to the previous level", image = "terrain/lava_floor.png", add_displays = {class.new{image="terrain/cave/cave_stairs_up_2_01.png"}},
+	display = '<', color_r=255, color_g=255, color_b=0,
+	notice = true,
+	always_remember = true,
+	change_level = -1,
+}
+newEntity{
+	define_as = "LAVA_LADDER_UP_WILDERNESS",
+	type = "floor", subtype = "cave",
+	name = "ladder to worldmap", image = "terrain/lava_floor.png", add_displays = {class.new{image="terrain/cave/cave_stairs_up_2_01.png"}},
+	display = '<', color_r=255, color_g=255, color_b=0,
+	notice = true,
+	change_level = 1,
+	change_zone = "wilderness",
+}

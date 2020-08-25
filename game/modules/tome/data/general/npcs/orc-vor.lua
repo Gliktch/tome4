@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ newEntity{
 
 newEntity{ base = "BASE_NPC_ORC_VOR",
 	name = "orc pyromancer", color=colors.RED,
-	desc = [[An orc dressed in bright red robes. He mumbles in a harsh tongue.]],
+	desc = _t[[An orc dressed in bright red robes. He mumbles in a harsh tongue.]],
 	level_range = {35, nil}, exp_worth = 1,
 	rarity = 1,
 	max_life = resolvers.rngavg(100,110), life_rating = 7,
@@ -76,7 +76,7 @@ newEntity{ base = "BASE_NPC_ORC_VOR",
 
 newEntity{ base = "BASE_NPC_ORC_VOR",
 	name = "orc high pyromancer", color=colors.LIGHT_RED,
-	desc = [[An orc dressed in bright red robes. He mumbles in a harsh tongue.]],
+	desc = _t[[An orc dressed in bright red robes. He mumbles in a harsh tongue.]],
 	level_range = {37, nil}, exp_worth = 1,
 	rarity = 4,
 	max_life = resolvers.rngavg(100,110), life_rating = 10,
@@ -107,7 +107,7 @@ newEntity{ base = "BASE_NPC_ORC_VOR",
 
 newEntity{ base = "BASE_NPC_ORC_VOR",
 	name = "orc cryomancer", color=colors.BLUE,
-	desc = [[An orc dressed in cold blue robes. He mumbles in a harsh tongue.]],
+	desc = _t[[An orc dressed in cold blue robes. He mumbles in a harsh tongue.]],
 	level_range = {35, nil}, exp_worth = 1,
 	rarity = 1,
 	max_life = resolvers.rngavg(100,110), life_rating = 10,
@@ -130,7 +130,7 @@ newEntity{ base = "BASE_NPC_ORC_VOR",
 
 newEntity{ base = "BASE_NPC_ORC_VOR",
 	name = "orc high cryomancer", color=colors.LIGHT_BLUE,
-	desc = [[An orc dressed in cold blue robes. He mumbles in a harsh tongue.]],
+	desc = _t[[An orc dressed in cold blue robes. He mumbles in a harsh tongue.]],
 	level_range = {37, nil}, exp_worth = 1,
 	rarity = 4,
 	max_life = resolvers.rngavg(100,110), life_rating = 10,

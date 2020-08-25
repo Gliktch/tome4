@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New birth equipment: #LIGHT_GREEN#Transmogrification Chest",
-[[You have discovered an old Fortress belonging to the mysterious Sher'tul race.
+return _t"New birth equipment: #LIGHT_GREEN#Transmogrification Chest",
+_t[[You have discovered an old Fortress belonging to the mysterious Sher'tul race.
 The Fortress shadow gave you a transmogrification chest which shall make your dealing with storage and gold much easier.
 
 All your new characters will now start with a transmogrification chest at birth. All items transmogrified before you find the Fortress with them will only yield gold.

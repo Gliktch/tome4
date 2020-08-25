@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -68,6 +68,21 @@ for i = 1, 30 do
 		{"oak", {tall=-1, "shadow", {"trunk_%02d",1,2}, {"foliage_winter_%02d",1,2}}},
 	}))
 end
+
+newEntity{ define_as = "CLIFFSIDE",
+	type = "floor", subtype = "rock",
+	name = "cliffside",  image = "terrain/rocky_ground.png", add_displays = {class.new{z = 16, image = "terrain/half_wall.png"}},
+	display = 'v', color=colors.UMBER, back_color=colors.LIGHT_UMBER,
+	always_remember = true,
+
+	does_block_move = true,
+	block_sight = false,
+	pass_projectile = true,
+
+	can_pass = {pass_wall=1},
+
+	dig = "ROCKY_GROUND",
+}
 
 newEntity{
 	define_as = "HARDMOUNTAIN_WALL",

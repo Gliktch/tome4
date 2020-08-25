@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@ newEntity{ base = "BASE_NPC_YAECH", define_as = "MURGOL",
 	unique = true,
 	name = "Murgol, the Yaech Lord",
 	color=colors.VIOLET,
-	desc = [[You can feel the psionic waves of power come from this yaech.]],
-	killer_message = "and flushed out to sea",
+	desc = _t[[You can feel the psionic waves of power come from this yaech.]],
+	killer_message = _t"and flushed out to sea",
 	level_range = {7, nil}, exp_worth = 2,
 	max_life = 100, life_rating = 13, fixed_rating = true,
 	psi_regen = 10,
@@ -66,11 +66,7 @@ newEntity{ base = "BASE_NPC_YAECH", define_as = "MURGOL",
 	auto_classes={{class="Mindslayer", start_level=12, level_rate=75}},
 
 	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
-	on_added_to_level = function(self)
-		if self.level <= 16 then
-			self.ai_tactic.escape = 0
-		end
-	end,
+	low_level_tactics_override = {escape=0},
 
 	on_die = function(self, who)
 		game.player:setQuestStatus("start-yeek", engine.Quest.COMPLETED, "murgol")
@@ -128,7 +124,7 @@ newEntity{ base = "BASE_NPC_NAGA", define_as = "NAGA_TIDEWARDEN",
 newEntity{ base = "BASE_NPC_NAGA", define_as = "NAGA_TIDECALLER",
 	name = "naga tidecaller", color=colors.BLUE,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_naga_naga_tidecaller.png", display_h=2, display_y=-1}}},
-	desc = [[A slithering noise accompanies the movement of this strange creature, whose snake-like tail gives rise to the body of a beautiful elf-like woman. As she moves her delicate hands water rises from the ground, and you feel that here is no mere monster, but a creature of awe and power.]],
+	desc = _t[[A slithering noise accompanies the movement of this strange creature, whose snake-like tail gives rise to the body of a beautiful elf-like woman. As she moves her delicate hands water rises from the ground, and you feel that here is no mere monster, but a creature of awe and power.]],
 	level_range = {2, nil}, exp_worth = 3, female = true,
 	rarity = 1,
 	max_life = resolvers.rngavg(50,60), life_rating = 9,
@@ -145,7 +141,7 @@ newEntity{ base = "BASE_NPC_NAGA", define_as = "NAGA_TIDECALLER",
 
 newEntity{ base = "BASE_NPC_NAGA",
 	name = "naga nereid", color=colors.YELLOW, resolvers.nice_tile{tall=1},
-	desc = [[Green eyes stare out from behind strands of long, golden hair, which falls down in waves over smooth, pale skin. Your eyes are drawn to the bare flesh, but as they look further they see dark scales stretching out into a long serpent's tail. You look up as she moves, her hair parting to reveal a slim and beautiful face with high cheekbones and full lips. Yet for all the allure of this wondrous creature the terror of the serpentine tail sends shivers down your spine.]],
+	desc = _t[[Green eyes stare out from behind strands of long, golden hair, which falls down in waves over smooth, pale skin. Your eyes are drawn to the bare flesh, but as they look further they see dark scales stretching out into a long serpent's tail. You look up as she moves, her hair parting to reveal a slim and beautiful face with high cheekbones and full lips. Yet for all the allure of this wondrous creature the terror of the serpentine tail sends shivers down your spine.]],
 	level_range = {2, nil}, exp_worth = 3, female = true,
 	rarity = 1,
 	max_life = resolvers.rngavg(80,90), life_rating = 10,
@@ -166,8 +162,8 @@ newEntity{ base="BASE_NPC_NAGA", define_as = "NASHVA",
 	name = "Lady Nashva the Streambender",
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_naga_lady_nashva_the_streambender.png", display_h=2, display_y=-1}}},
 	color=colors.VIOLET, female = true,
-	desc = [[Water circles slowly on the ground around this naga's tail. Her dark tail is coiled tight, making her look short, but her calm and confident stare assure you that she will not be easily overcome. As the water begins to rise around her the air starts to shimmer, and you feel her dark eyes are penetrating into you deeper than is comfortable.]],
-	killer_message = "and brought back to Vargh for experimentations",
+	desc = _t[[Water circles slowly on the ground around this naga's tail. Her dark tail is coiled tight, making her look short, but her calm and confident stare assure you that she will not be easily overcome. As the water begins to rise around her the air starts to shimmer, and you feel her dark eyes are penetrating into you deeper than is comfortable.]],
+	killer_message = _t"and brought back to Vargh for experimentations",
 	level_range = {7, nil}, exp_worth = 2,
 	max_life = 150, life_rating = 13, fixed_rating = true,
 	max_stamina = 85,
@@ -201,11 +197,7 @@ newEntity{ base="BASE_NPC_NAGA", define_as = "NASHVA",
 	auto_classes={{class="Mindslayer", start_level=12, level_rate=75}},
 	
 	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
-	on_added_to_level = function(self)
-		if self.level <= 16 then
-			self.ai_tactic.escape = 0
-		end
-	end,
+	low_level_tactics_override = {escape=0},
 
 	on_die = function(self, who)
 		game.player:setQuestStatus("start-yeek", engine.Quest.COMPLETED, "murgol")

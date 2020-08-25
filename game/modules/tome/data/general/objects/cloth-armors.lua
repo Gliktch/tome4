@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,9 +26,12 @@ newEntity{
 	moddable_tile = resolvers.moddable_tile("robe"),
 	encumber = 2,
 	rarity = 5,
-	desc = [[A cloth vestment. It offers no intrinsic protection but can be enchanted.]],
+	desc = _t[[A cloth vestment. It offers no intrinsic protection but can be enchanted.]],
 	randart_able = "/data/general/objects/random-artifacts/generic.lua",
 	egos = "/data/general/objects/egos/robe.lua", egos_chance = { prefix=resolvers.mbonus(30, 15), suffix=resolvers.mbonus(30, 15) },
+	wielder = {
+		resolvers.robe_stats(),
+	}
 }
 
 newEntity{ base = "BASE_CLOTH_ARMOR",
@@ -36,7 +39,6 @@ newEntity{ base = "BASE_CLOTH_ARMOR",
 	level_range = {1, 10},
 	cost = 0.5,
 	material_level = 1,
-	combat_def = 5,
 }
 
 newEntity{ base = "BASE_CLOTH_ARMOR",
@@ -44,7 +46,6 @@ newEntity{ base = "BASE_CLOTH_ARMOR",
 	level_range = {10, 20},
 	cost = 1.5,
 	material_level = 2,
-	combat_def = 10,
 }
 
 newEntity{ base = "BASE_CLOTH_ARMOR",
@@ -52,9 +53,6 @@ newEntity{ base = "BASE_CLOTH_ARMOR",
 	level_range = {20, 30},
 	cost = 2.5,
 	material_level = 3,
-	wielder = {
-		combat_def = 15,
-	},
 }
 
 newEntity{ base = "BASE_CLOTH_ARMOR",
@@ -62,9 +60,6 @@ newEntity{ base = "BASE_CLOTH_ARMOR",
 	level_range = {30, 40},
 	cost = 3.5,
 	material_level = 4,
-	wielder = {
-		combat_def = 20,
-	},
 }
 
 newEntity{ base = "BASE_CLOTH_ARMOR",
@@ -72,7 +67,4 @@ newEntity{ base = "BASE_CLOTH_ARMOR",
 	level_range = {40, 50},
 	cost = 5.5,
 	material_level = 5,
-	wielder = {
-		combat_def = 25,
-	},
 }

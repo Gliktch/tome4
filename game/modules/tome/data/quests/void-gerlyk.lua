@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "In the void, no one can hear you scream"
+name = _t"In the void, no one can hear you scream"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You have destroyed the sorcerers. Sadly, the portal to the Void remains open; the Creator is coming."
-	desc[#desc+1] = "This cannot be allowed to happen. After thousands of years trapped in the Void between the stars, Gerlyk is mad with rage."
-	desc[#desc+1] = "You must now finish what the Sher'tuls started. Take the Staff of Absorption and become a Godslayer yourself."
+	desc[#desc+1] = _t"You have destroyed the sorcerers. Sadly, the portal to the Void remains open; the Creator is coming."
+	desc[#desc+1] = _t"This cannot be allowed to happen. After thousands of years trapped in the Void between the stars, Gerlyk is mad with rage."
+	desc[#desc+1] = _t"You must now finish what the Sher'tuls started. Take the Staff of Absorption and become a Godslayer yourself."
 	return table.concat(desc, "\n")
 end

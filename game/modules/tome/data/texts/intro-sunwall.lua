@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[Welcome #LIGHT_GREEN#@name@#WHITE#.
+return _t[[Welcome #LIGHT_GREEN#@name@#WHITE#.
 You are a citizen of the Sunwall, and like many of your age you have been trained in combat and magic. It can be a harsh life, and though you dream at times of venturing to distant lands you know your duty is to help defend the outpost against the vicious onslaught from the Orc Prides. But now High Sun Paladin Aeryn has advised you of a new threat.
 
 Nagas have been sighted in the Slazish Fens on the other side of the Sunwall Mountains. Their objective is unclear, but an assault from both sides would be truly devastating at such a pivotal time for your people. Though there are few forces to spare on the front line against the Prides, you have volunteered to investigate the naga threat and stop them if need be.

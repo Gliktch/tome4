@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,10 +17,10 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-name = "Tutorial"
+name = _t"Tutorial"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = "You must venture in the heart of the forest and kill the Lone Wolf, who randomly attacks villagers."
+	desc[#desc+1] = _t"You must venture in the heart of the forest and kill the Lone Wolf, who randomly attacks villagers."
 	return table.concat(desc, "\n")
 end
 
@@ -32,6 +32,6 @@ on_status_change = function(self, who, status, sub)
 end
 
 on_grant = function(self)
-	local d = require("engine.dialogs.ShowText").new("Tutorial: Movement", "tutorial/move")
+	local d = require("engine.dialogs.ShowText").new(_t"Tutorial: Movement", "tutorial/move")
 	game:registerDialog(d)
 end

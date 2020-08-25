@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -20,9 +20,13 @@
 local basetrap = function(self, t, x, y, dur, add)
 	local Trap = require "mod.class.Trap"
 	local trap = {
-		id_by_type=true, unided_name = "trap",
+		id_by_type=true, unided_name = _t"trap",
 		display = '^',
+		disarmable = false,
+		no_disarm_message = true,
+		message = false,
 		faction = self.faction,
+		canTrigger = function() return false end,
 		summoner = self, summoner_gain_exp = true,
 		temporary = dur,
 		x = x, y = y,
@@ -65,7 +69,7 @@ newTalent{
 		if game.level.map:checkEntity(x, y, Map.TERRAIN, "block_move") then game.logPlayer(self, "You somehow fail to set the aether beam.") return nil end
 
 		local t = basetrap(self, t, x, y, 44, {
-			type = "aether", name = "aether beam", color=colors.VIOLET, image = "trap/aether_beam.png",
+			type = "aether", name = _t"aether beam", color=colors.VIOLET, image = "trap/aether_beam.png",
 			dam = self:spellCrit(t.getDamage(self, t)),
 			triggered = function(self, x, y, who) return true, true end,
 			combatSpellpower = function(self) return self.summoner:combatSpellpower() end,
@@ -101,9 +105,10 @@ newTalent{
 				self.list.i = util.boundWrap(self.list.i + 1, 1, #self.list)
 
 				local tg = {type="beam", x=self.x, y=self.y, range=self.rad, selffire=self.summoner:spellFriendlyFire()}
+				print()
 				self.summoner.__project_source = self
 				self.summoner:project(tg, self.x, self.y, engine.DamageType.ARCANE, self.dam/10, nil)
-				self:project(tg, x, y, function(tx, ty)
+				self.summoner:project(tg, x, y, function(tx, ty)
 					-- In rare circumstances this can hit the same target 4-7 times so we need to sanity check it
 					local target = game.level.map(tx, ty, engine.Map.ACTOR)
 					if not target then return end
@@ -125,6 +130,7 @@ newTalent{
 		game.level:addEntity(t)
 		game.zone:addEntity(game.level, t, "trap", x, y)
 		game.level.map:particleEmitter(x, y, 1, "summon")
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.ARCANE)
 
 		return true
 	end,
@@ -134,7 +140,7 @@ newTalent{
 		The beam will also damage its epicenter each turn for 10%% of the damage (but it will not silence).
 		The beam spins with incredible speed (1600%%) and can only hit the same target up to 3 times inbetween their turns.
 		The damage will increase with your Spellpower.]]):
-		format(damDesc(self, DamageType.ARCANE, dam))
+		tformat(damDesc(self, DamageType.ARCANE, dam))
 	end,
 }
 
@@ -168,6 +174,7 @@ newTalent{
 		local list = {}
 		self:project(tg, x, y, function(px, py) list[#list+1] = {x=px, y=py} end)
 
+		self:callTalent(self.T_ENERGY_ALTERATION, "forceActivate", DamageType.ARCANE)
 		self:setEffect(self.EFF_AETHER_BREACH, t.getNb(self, t), {src=self, x=x, y=y, radius=tg.radius, list=list, level=game.zone.short_name.."-"..game.level.level, dam=self:spellCrit(t.getDamage(self, t))})
 
 		game:playSoundNear(self, "talents/arcane")
@@ -177,8 +184,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Rupture reality to temporarily open a passage to the aether, triggering %d random arcane explosions in the target area.
 		Each explosion does %0.2f arcane damage in radius 2, and will each trigger at one turn intervals.
+		Subsequent casts will stack but the explosions will still only occur once per turn and will be centered at the last area targeted.
 		The damage will increase with your Spellpower.]]):
-		format(t.getNb(self, t), damDesc(self, DamageType.ARCANE, damage))
+		tformat(t.getNb(self, t), damDesc(self, DamageType.ARCANE, damage))
 	end,
 }
 
@@ -202,24 +210,56 @@ newTalent{
 	callbackOnTalentPost = function(self, t, ab)
 		if not self:hasEffect(self.EFF_AETHER_AVATAR) then return end
 		if ab.mode == "sustained" then return end
-		if ab.use_only_arcane then return end
-		if ab.type[1] == "spell/aegis" and self:hasEffect(self.EFF_AETHER_AVATAR).aegis then return end
+		if ab.use_only_arcane and self:getTalentLevel(t) >= ab.use_only_arcane then return end
+		if self:attr("force_talent_ignore_ressources") then return end
 		if self.turn_procs.aether_avatar_penalty then return end
 		self:incMana(-50)
-		game.logSeen(self, "#VIOLET#%s loses 50 mana from using a non-Arcane talent!#LAST#", self.name:capitalize())
+		game.logSeen(self, "#VIOLET#%s loses 50 mana from using a non-Arcane talent!#LAST#", self:getName():capitalize())
 
 		self.turn_procs.aether_avatar_penalty = true
 	end,
+	getSpellsList = function(self, t)
+		local levels = {}
+		local tids = {}
+		local function check(tid)
+			if tids[tid] then return end
+			tids[tid] = true
+			local tt = self:getTalentFromId(tid)
+			if tt.use_only_arcane then
+				levels[tt.use_only_arcane] = levels[tt.use_only_arcane] or {}
+				table.insert(levels[tt.use_only_arcane], tt.name)
+			end
+		end
+
+		for tid, _ in pairs(self.talents) do check(tid) end
+		for tree, _ in pairs(self.talents_types) do
+			for _, checkt in ipairs(self.talents_types_def[tree] and self.talents_types_def[tree].talents or {}) do check(checkt.id) end
+		end
+
+		local list = {}
+		for i = 1, 10 do if levels[i] then
+			table.sort(levels[i])
+			list[#list+1] = ("At level %d: #AQUAMARINE#%s#LAST#"):tformat(i, table.concatNice(levels[i], '#LAST#, #AQUAMARINE#', _t'#LAST# and #AQUAMARINE#'))
+		end end
+		return table.concat(list, "\n")
+	end,
 	action = function(self, t)
 		local aegis
-		self:setEffect(self.EFF_AETHER_AVATAR, t.getNb(self, t), {aegis = (self:getTalentLevel(t) > 4 )})
+		self:setEffect(self.EFF_AETHER_AVATAR, t.getNb(self, t), {})
+		if self:isTalentActive(self.T_PURE_AETHER) and self:getTalentLevel(self.T_PURE_AETHER) >= 5 then
+			self:removeEffectsFilter(self, {type="physical", status="detrimental"}, self:callTalent(self.T_PURE_AETHER, "getNbRemove"))
+		end
 		game:playSoundNear(self, "talents/arcane")
 		return true
 	end,
 	info = function(self, t)
-		return ([[Fill yourself with aether forces, completely surrounding your body for %d turns.
-		While active, you lose 50 mana the first time you use a non-sustain, non-Arcane or Aether talent each turn, your cooldown for them is divided by 3, your arcane damage and penetration is increased by 25%%, your Disruption Shield radius is increased to 10, and your maximum mana is increased by 33%%.]]):
-		format(t.getNb(self, t))
+		return ([[Infuse your body with untethered aether forces for %d turns.
+		While active, the cooldown for Arcane and Aether spells is divided by 3, your arcane damage and penetration is increased by 25%%, your Disruption Shield radius is increased to 10, and your maximum mana is increased by 33%%.
+		Using non arcane based spells in this state is hard and makes you lose 50 mana each time (up to once per turn).
+		
+		Spells considered arcane for the purpose of not-losing mana are:
+		%s]]):
+		tformat(t.getNb(self, t), t.getSpellsList(self, t))
 	end,
 }
 
@@ -233,8 +273,9 @@ newTalent{
 	cooldown = 30,
 	use_only_arcane = 1,
 	tactical = { BUFF = 2 },
+	getNbRemove = function(self, t) return math.floor(self:combatTalentScale(t, 1, 4)) end,
 	getDamageIncrease = function(self, t) return self:combatTalentScale(t, 2.5, 10) end,
-	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 100, 17, 50, true) end, -- Limit < 100%	
+	getResistPenalty = function(self, t) return self:combatTalentLimit(t, 60, 17, 50, true) end, -- Limit < 60%	
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/arcane")
 
@@ -261,7 +302,7 @@ newTalent{
 		local damageinc = t.getDamageIncrease(self, t)
 		local ressistpen = t.getResistPenalty(self, t)
 		return ([[Surround yourself with Pure Aether, increasing all your arcane damage by %0.1f%% and ignoring %d%% arcane resistance of your targets.
-		At level 4 it allows Aegis spells to be used while in Aether Avatar form without penalty.]])
-		:format(damageinc, ressistpen)
+		At level 5 casting Aether Avatar removes up to %d magical or physical detrimental effects.]])
+		:tformat(damageinc, ressistpen, t.getNbRemove(self, t))
 	end,
 }

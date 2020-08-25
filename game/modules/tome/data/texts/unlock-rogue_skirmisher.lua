@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Class: #LIGHT_GREEN#Skirmisher (Rogue)",
-[[In Maj'Eyal threats are everywhere when you walk the wildlands, some rogues prefer to forgo the use of stealth instead using their cunning skills to kill silently from afar with a sling well protected with a buckler.
+return _t"New Class: #LIGHT_GREEN#Skirmisher (Rogue)",
+_t[[In Maj'Eyal threats are everywhere when you walk the wildlands, some rogues prefer to forgo the use of stealth instead using their cunning skills to kill silently from afar with a sling well protected with a buckler.
 
 You have learned the power of counterstriking from afar and can now create characters with the #LIGHT_GREEN#Skirmisher class#WHITE#.
 

@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -71,7 +71,9 @@ function RoomInstance:build()
 	if account_for_border == nil then account_for_border = false end
 
 	local map = mapscript:makeTemporaryMap(room.w, room.h, function(map)
+		mapscript.dont_add_vault_check = true
 		mapscript:roomPlace(room, id, 0, 0)
+		mapscript.dont_add_vault_check = nil
 	end)
 	mapscript.maps_registers[id] = map
 	mapscript.maps_positions[id] = account_for_border and self:point(0, 0) or self:point(1, 1)
@@ -122,14 +124,21 @@ function RoomInstance:discard()
 	end end
 end
 
-function RoomInstance:mergedAt(x, y)
-	Tilemap.mergedAt(self, x, y)
+function RoomInstance:mergedAt(x, y, into)
+	local function translate(map, x, y, into)
+		local d = self:point(x, y) - 1
+		self.mapscript.maps_positions[self.room_id] = self.mapscript.maps_positions[self.room_id] + d
+		for _, open in pairs(self.exits.openables) do open.x, open.y = open.x + d.x, open.y + d.y end
+		for _, door in pairs(self.exits.doors) do door.x, door.y = door.x + d.x, door.y + d.y end
+		return true
+	end
+	Tilemap.mergedAt(self, x, y, into)
 
-	local d = self:point(x - 1, y - 1)
+	-- Tell the tilemap we merge into to keep translating the map positions if it is itself on_merged_at
+	into.on_merged_at[#into.on_merged_at+1] = translate
 
-	self.mapscript.maps_positions[self.room_id] = self.mapscript.maps_positions[self.room_id] + d
-	for _, open in pairs(self.exits.openables) do open.x, open.y = open.x + d.x, open.y + d.y end
-	for _, door in pairs(self.exits.doors) do door.x, door.y = door.x + d.x, door.y + d.y end
+	-- And translate right now too
+	translate(self, x, y, into)
 end
 
 function RoomInstance:findExits(pos, kind)

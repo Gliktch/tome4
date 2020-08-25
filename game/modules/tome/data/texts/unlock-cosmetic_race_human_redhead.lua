@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Cosmetic Race Option: #LIGHT_GREEN#Redhead Characters",
-[[You have saved Melinda from untold horrors and torments.
+return _t"New Cosmetic Race Option: #LIGHT_GREEN#Redhead Characters",
+_t[[You have saved Melinda from untold horrors and torments.
 
 You may now create human, elf, halfling and dwarf characters with red hair.
 This has no effect on gameplay at all but it is fun!

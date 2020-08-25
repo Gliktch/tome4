@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 -- darkgod@te4.org
 
 newChat{ id="welcome",
-	text = [[#LIGHT_GREEN#*A tall man, glowing like a star, appears out of nowhere.*#WHITE#
+	text = _t[[#LIGHT_GREEN#*A tall man, glowing like a star, appears out of nowhere.*#WHITE#
 Oh no, another *adventurer*! You should not mess with things beyond your comprehension!
 Do not meddle in the affairs of Time, for it passes swiftly and is easily disrupted!
 #LIGHT_GREEN#*He looks at you more closely.*#WHITE#
 You seem capable. Help me, fight the abominations while I repair the timeline. It is your only way out!]],
 	answers = {
-		{"But what is all th...", action = function(npc, player) game:changeLevel(2) game.player:grantQuest("temporal-rift") end},
+		{_t"But what is all th...", action = function(npc, player) game:changeLevel(2) game.player:grantQuest("temporal-rift") end},
 	}
 }
 

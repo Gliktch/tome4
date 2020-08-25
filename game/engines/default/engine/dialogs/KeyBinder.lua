@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ local GetText = require "engine.dialogs.GetText"
 module(..., package.seeall, class.inherit(Dialog))
 
 function _M:init(key_source, force_all, gesture_source)
-	Dialog.init(self, "Key bindings", 800, game.h * 0.9)
+	Dialog.init(self, _t"Key bindings", 800, game.h * 0.9)
 	self.gesture = gesture_source
 	self.key_source = key_source
 
@@ -79,7 +79,7 @@ function _M:use(item)
 	-- Make a dialog to ask for the key
 	--
 	if curcol == 1 or curcol == 2 then
-		local title = "      Press a key (escape to cancel, backspace to remove) for: "..tostring(t.name)
+		local title = ("      Press a key (escape to cancel, backspace to remove) for: %s"):tformat(tostring(t.name))
 		local font = self.font
 		local w, h = font:size(title:removeColorCodes())
 		local d = engine.Dialog.new(title, w + 20, h + 25, nil, nil, nil, font)
@@ -128,14 +128,14 @@ function _M:use(item)
 		}
 
 		d.drawDialog = function(self, s)
-			s:drawColorStringBlendedCentered(self.font, curcol == 1 and "Bind key" or "Bind alternate key", 2, 2, self.iw - 2, self.ih - 2)
+			s:drawColorStringBlendedCentered(self.font, curcol == 1 and _t"Bind key" or _t"Bind alternate key", 2, 2, self.iw - 2, self.ih - 2)
 		end
 		game:registerDialog(d)
 	elseif curcol == 3 then
-		local title = "Make gesture (using right mouse button) or type it (or escape) for: "..tostring(t.name)
+		local title = ("Make gesture (using right mouse button) or type it (or escape) for: %s"):tformat(tostring(t.name))
 		local font = self.font
 		local w, h = font:size(title)
-		local d = GetText.new(title, "Gesture", 0, 10,
+		local d = GetText.new(title, _t"Gesture", 0, 10,
 			function(gesture)
 				if item.g and item.g ~= "--" then
 					self.gesture:removeGesture(item.g)

@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 -- Where values are {major, minor, patch, engine_name, c_core}
 -- @script engine.version
 
-engine.version = {1,6,0,"te4",17}
+engine.version = {1,7,0,"te4",17}
 engine.require_c_core = engine.version[5]
 engine.version_id = ("%s-%d_%d.%d.%d"):format(engine.version[4], engine.require_c_core, engine.version[1], engine.version[2], engine.version[3])
 
@@ -105,4 +105,27 @@ function engine.version_patch_same(v, ev)
 	if v[2] ~= ev[2] then return false end
 	if v[3] >= ev[3] then return true end
 	return false
+end
+
+--- Check if we are running as beta
+function engine.version_hasbeta()
+	if fs.exists("/engine/version_beta.lua") then
+		local beta = dofile("/engine/version_beta.lua")
+		return beta
+	end
+end
+
+--- Check if we are running as beta
+function engine.beta_allow_addon(add)
+	if fs.exists("/engine/version_beta.lua") then
+		local beta, allowed_addons = dofile("/engine/version_beta.lua")
+		if not beta or not allowed_addons then return true end
+		for _, test in ipairs(allowed_addons) do
+			if type(test) == "function" then return test(add)
+			elseif add.short_name == test then return true
+			elseif add.short_name:find(test) then return true end
+		end
+	else
+		return true
+	end
 end

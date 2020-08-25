@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ newEntity{
 	display = "\\", color=colors.LIGHT_BLUE, image = resolvers.image_material("pickaxe", "metal"),
 	encumber = 3,
 	rarity = 14,
-	desc = [[Allows you to dig a wall, remove a tree, create ways.]],
+	desc = _t[[Allows you to dig a wall, remove a tree, create ways.]],
 	add_name = " (#DIGSPEED#)",
 
 	carrier = {

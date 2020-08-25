@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -112,7 +112,7 @@ function _M:targetMode(v, msg, co, typ)
 
 	if not v then
 		Map:setViewerFaction((self.always_target == true or self.always_target == "old") and self.player.faction or nil)
-		if msg then self.log(type(msg) == "string" and msg or "Tactical display disabled. Press shift+'t' to enable.") end
+		if msg then self.log(type(msg) == "string" and msg or _t"Tactical display disabled. Press shift+'t' to enable.") end
 		self.level.map.changed = true
 		self.targetmode_trigger_hotkey = nil
 		self.target:setActive(false)
@@ -138,14 +138,14 @@ function _M:targetMode(v, msg, co, typ)
 				end
 			end
 			if self.target_warning and self.target.target.x == self.player.x and self.target.target.y == self.player.y then
-				Dialog:yesnoPopup(type(self.target_warning) == "string" and self.target_warning or "Target yourself?", "Are you sure you want to target yourself?", fct, "No", "Yes", nil, true)
+				Dialog:yesnoPopup(type(self.target_warning) == "string" and self.target_warning or _t"Target yourself?", _t"Are you sure you want to target yourself?", fct, _t"No", _t"Yes", nil, true)
 			else
 				fct(false)
 			end
 		end
 	else
 		Map:setViewerFaction(self.player.faction)
-		if msg then self.log(type(msg) == "string" and msg or "Tactical display enabled. Press shift+'t' to disable.") end
+		if msg then self.log(type(msg) == "string" and msg or _t"Tactical display enabled. Press shift+'t' to disable.") end
 		self.level.map.changed = true
 		self.target:setActive(true, typ)
 		self.target_style = "lock"
@@ -186,7 +186,9 @@ function _M:targetMode(v, msg, co, typ)
 			end
 			if do_scan then
 				local filter = nil
-				if not (type(typ) == "table" and typ.no_first_target_filter) then
+				if typ.custom_scan_filter then
+					filter = typ.custom_scan_filter
+				elseif not (type(typ) == "table" and typ.no_first_target_filter) then
 					if type(typ) == "table" and typ.first_target and typ.first_target == "friend" then
 						filter = function(a) return self.player:reactionToward(a) >= 0 end
 					else
@@ -308,8 +310,7 @@ function _M:targetGetForPlayer(typ)
 			msg = typ.msg
 		end
 		self:targetMode("exclusive", msg, coroutine.running(), typ)
-		if typ.nowarning then self.target_warning = false end
-		if self.target.target.x and config.settings.auto_accept_target and not typ.immediate_keys and not typ.nolock and not typ.no_restrict then
+		if self.target.target.x and config.settings.auto_accept_target and not typ.immediate_keys and (not typ.nolock or typ.can_autoaccept) and (not typ.nowarning or typ.can_autoaccept) and (not typ.no_restrict or typ.can_autoaccept) then
 			self.target_co = nil
 			self:targetMode(false, false) self.tooltip_x, self.tooltip_y = nil, nil
 			return self.target.target.x, self.target.target.y, self.target.target.entity

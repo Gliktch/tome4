@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ newTalent{ short_name = "RITCH_FLAMESPITTER_BOLT",
 	type = {"wild-gift/other",1},
 	points = 5,
 	equilibrium = 2,
-	message = "@Source@ spits flames!",
+	message = _t"@Source@ spits flames!",
 	range = 10,
 	reflectable = true,
 	requires_target = true,
@@ -37,10 +37,36 @@ newTalent{ short_name = "RITCH_FLAMESPITTER_BOLT",
 	end,
 	info = function(self, t)
 		return ([[Spits a bolt of fire, doing %0.2f fire damage.
-		The damage will increase with your Mindpower.]]):format(damDesc(self, DamageType.FIRE, self:combatTalentMindDamage(t, 8, 120)))
+		The damage will increase with your Mindpower.]]):tformat(damDesc(self, DamageType.FIRE, self:combatTalentMindDamage(t, 8, 120)))
 	end,
 }
 
+newTalent{ short_name = "WILD_RITCH_FLAMESPITTER_BOLT",
+	name = "Flamespit",
+	type = {"wild-gift/other",1},
+	points = 5,
+	equilibrium = 2,
+	message = _t"@Source@ spits flames!",
+	range = 10,
+	reflectable = true,
+	requires_target = true,
+	direct_hit = true,
+	tactical = { ATTACK = { FIRE = 2 } },
+	action = function(self, t)
+		local tg = {type="hit", range=self:getTalentRange(t), talent=t}
+		local x, y = self:getTarget(tg)
+		if not x or not y then return nil end
+		self:project(tg, x, y, DamageType.FIRE, self:mindCrit(self:combatTalentMindDamage(t, 8, 120)), {type="flame"})
+		game:playSoundNear(self, "talents/fire")
+		return true
+	end,
+	info = function(self, t)
+		return ([[Spits a bolt of fire, doing %0.2f fire damage.
+		The damage will increase with your Mindpower.]]):tformat(damDesc(self, DamageType.FIRE, self:combatTalentMindDamage(t, 8, 120)))
+	end,
+}
+
+--No longer on summons but is still used by ants
 newTalent{
 	name = "Flame Fury", image = "talents/blastwave.png",
 	type = {"wild-gift/other",1},
@@ -67,7 +93,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[A wave of fire emanates from you with radius %d, knocking back anything caught inside and setting them ablaze and doing %0.2f fire damage over 3 turns.
-		The damage will increase with your Mindpower.]]):format(radius, damDesc(self, DamageType.FIRE, damage))
+		The damage will increase with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.FIRE, damage))
 	end,
 }
 
@@ -78,7 +104,7 @@ newTalent{
 	points = 5,
 	equilibrium = 10,
 	cooldown = 8,
-	message = "@Source@ breathes acid!",
+	message = _t"@Source@ breathes acid!",
 	tactical = { ATTACKAREA = { ACID = 2 } },
 	range = 0,
 	radius = 5,
@@ -93,11 +119,43 @@ newTalent{
 		self:project(tg, x, y, DamageType.ACID, self:mindCrit(self:combatTalentStatDamage(t, "wil", 30, 430)))
 		game.level.map:particleEmitter(self.x, self.y, tg.radius, "breath_acid", {radius=tg.radius, tx=x-self.x, ty=y-self.y})
 		game:playSoundNear(self, "talents/breath")
+
+		self:startTalentCooldown(self.T_ACID_SPIT_HYDRA, 8)
 		return true
 	end,
 	info = function(self, t)
 		return ([[Breathe acid on your foes, doing %0.2f damage.
-		The damage will increase with your Willpower.]]):format(damDesc(self, DamageType.ACID, self:combatTalentStatDamage(t, "wil", 30, 430)))
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.ACID, self:combatTalentStatDamage(t, "wil", 30, 430)))
+	end,
+}
+
+newTalent{
+	name = "Acid Spit", short_name = "ACID_SPIT_HYDRA",
+	type = {"wild-gift/other",1},
+	require = gifts_req1,
+	points = 5,
+	equilibrium = 10,
+	cooldown = 8,
+	message = _t"@Source@ spits acid!",
+	tactical = { ATTACK = { ACID = 2 } },
+	range = 5,
+	requires_target = true,
+	target = function(self, t)
+		return {type="bolt", range=self:getTalentRange(t), talent=t}
+	end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y = self:getTarget(tg)
+		if not x or not y then return nil end
+		self:project(tg, x, y, DamageType.ACID, self:mindCrit(self:combatTalentStatDamage(t, "wil", 30, 430)), {type="acid"})
+		game:playSoundNear(self, "talents/breath")
+
+		self:startTalentCooldown(self.T_ACID_BREATH, 8)
+		return true
+	end,
+	info = function(self, t)
+		return ([[Spit acid on a foe, doing %0.2f damage.
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.ACID, self:combatTalentStatDamage(t, "wil", 30, 430)))
 	end,
 }
 
@@ -108,7 +166,7 @@ newTalent{
 	points = 5,
 	equilibrium = 10,
 	cooldown = 8,
-	message = "@Source@ breathes lightning!",
+	message = _t"@Source@ breathes lightning!",
 	tactical = { ATTACKAREA = { LIGHTNING = 2 } },
 	range = 0,
 	radius = 5,
@@ -126,12 +184,49 @@ newTalent{
 		else game.level.map:particleEmitter(self.x, self.y, tg.radius, "breath_lightning", {radius=tg.radius, tx=x-self.x, ty=y-self.y})
 		end
 		game:playSoundNear(self, "talents/lightning")
+
+		self:startTalentCooldown(self.T_LIGHTNING_SPIT_HYDRA, 8)
 		return true
 	end,
 	info = function(self, t)
 		return ([[Breathe lightning on your foes, doing %d to %d damage.
 		The damage will increase with your Willpower.]]):
-		format(
+		tformat(
+			damDesc(self, DamageType.LIGHTNING, (self:combatTalentStatDamage(t, "wil", 30, 500)) / 3),
+			damDesc(self, DamageType.LIGHTNING, self:combatTalentStatDamage(t, "wil", 30, 500))
+		)
+	end,
+}
+
+newTalent{
+	name = "Lightning Spit", short_name = "LIGHTNING_SPIT_HYDRA", image = "talents/lightning_breath.png",
+	type = {"wild-gift/other",1},
+	require = gifts_req1,
+	points = 5,
+	equilibrium = 10,
+	cooldown = 8,
+	message = _t"@Source@ spits lightning!",
+	tactical = { ATTACK = { LIGHTNING = 2 } },
+	range = 5,
+	requires_target = true,
+	target = function(self, t)
+		return {type="bolt", range=self:getTalentRange(t), talent=t}
+	end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y = self:getTarget(tg)
+		if not x or not y then return nil end
+		local dam = self:combatTalentStatDamage(t, "wil", 30, 500)
+		self:project(tg, x, y, DamageType.LIGHTNING, self:mindCrit(rng.avg(dam / 3, dam, 3)), {type="lightning_explosion"})
+		game:playSoundNear(self, "talents/lightning")
+
+		self:startTalentCooldown(self.T_LIGHTNING_BREATH_HYDRA, 8)
+		return true
+	end,
+	info = function(self, t)
+		return ([[Spit lightning on your foe, doing %d to %d damage.
+		The damage will increase with your Willpower.]]):
+		tformat(
 			damDesc(self, DamageType.LIGHTNING, (self:combatTalentStatDamage(t, "wil", 30, 500)) / 3),
 			damDesc(self, DamageType.LIGHTNING, self:combatTalentStatDamage(t, "wil", 30, 500))
 		)
@@ -145,7 +240,7 @@ newTalent{
 	points = 5,
 	equilibrium = 10,
 	cooldown = 8,
-	message = "@Source@ breathes poison!",
+	message = _t"@Source@ breathes poison!",
 	tactical = { ATTACKAREA = { NATURE = 1, poison = 1 } },
 	range = 0,
 	radius = 5,
@@ -160,11 +255,43 @@ newTalent{
 		self:project(tg, x, y, DamageType.POISON, {dam=self:mindCrit(self:combatTalentStatDamage(t, "wil", 30, 460)), apply_power=self:combatMindpower()})
 		game.level.map:particleEmitter(self.x, self.y, tg.radius, "breath_slime", {radius=tg.radius, tx=x-self.x, ty=y-self.y})
 		game:playSoundNear(self, "talents/breath")
+
+		self:startTalentCooldown(self.T_POISON_SPIT_HYDRA, 8)
 		return true
 	end,
 	info = function(self, t)
 		return ([[Breathe poison on your foes, doing %d damage over a few turns.
-		The damage will increase with your Willpower.]]):format(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
+	end,
+}
+
+newTalent{
+	name = "Poison Spit", short_name = "POISON_SPIT_HYDRA",
+	type = {"wild-gift/other",1},
+	require = gifts_req1,
+	points = 5,
+	equilibrium = 10,
+	cooldown = 8,
+	message = _t"@Source@ spits poison!",
+	tactical = { ATTACK = { NATURE = 1, poison = 1 } },
+	range = 5,
+	requires_target = true,
+	target = function(self, t)
+		return {type="bolt", range=self:getTalentRange(t), talent=t}
+	end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y = self:getTarget(tg)
+		if not x or not y then return nil end
+		self:project(tg, x, y, DamageType.POISON, {dam=self:mindCrit(self:combatTalentStatDamage(t, "wil", 30, 460)), apply_power=self:combatMindpower(), {type="slime"}})
+		game:playSoundNear(self, "talents/breath")
+
+		self:startTalentCooldown(self.T_POISON_BREATH, 8)
+		return true
+	end,
+	info = function(self, t)
+		return ([[Spit poison on your foes, doing %d damage over a few turns.
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
 	end,
 }
 
@@ -184,6 +311,8 @@ newTalent{
 	getDamage = function(self, t) return self:combatTalentStatDamage(t, "wil", 30, 120) end,
 	getDuration = function(self, t) return 4 end,
 	action = function(self, t)
+		local friendlyfire = true
+		if self.summoner and self.summoner:knowTalent(self.summoner.T_THROUGH_THE_CROWD) then friendlyfire = false end
 		-- Add a lasting map effect
 		game.level.map:addEffect(self,
 			self.x, self.y, t.getDuration(self, t),
@@ -196,7 +325,7 @@ newTalent{
 				e.y = e.src.y
 				return true
 			end,
-			false
+			false, friendlyfire
 		)
 		game:playSoundNear(self, "talents/ice")
 		return true
@@ -206,7 +335,47 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[A furious ice storm rages around the user doing %0.2f cold damage in a radius of 3 each turn for %d turns.
 		It has 25%% chance to freeze damaged targets.
-		The damage and duration will increase with your Willpower.]]):format(damDesc(self, DamageType.COLD, damage), duration)
+		The damage and duration will increase with your Willpower.]]):tformat(damDesc(self, DamageType.COLD, damage), duration)
+	end,
+}
+
+newTalent{
+	name = "Winter's Grasp",
+	type = {"wild-gift/other", 1},
+	require = gifts_req4,
+	points = 5,
+	equilibrium = 7,
+	cooldown = 5,
+	range = 10,
+	tactical = { ATTACK = {COLD = 1}, DISABLE = {slow = 1}, CLOSEIN = 2 },
+	requires_target = true,
+	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
+	target = function(self, t) return {type="bolt", range=self:getTalentRange(t), talent=t} end,
+	action = function(self, t)
+		local tg = self:getTalentTarget(t)
+		local x, y = self:getTarget(tg)
+		if not x or not y then return nil end
+
+		local dam = self:mindCrit(self:combatTalentMindDamage(t, 5, 140))
+
+		self:project(tg, x, y, function(px, py)
+			local target = game.level.map(px, py, engine.Map.ACTOR)
+			if not target then return end
+
+			target:pull(self.x, self.y, tg.range)
+
+			DamageType:get(DamageType.COLD).projector(self, target.x, target.y, DamageType.COLD, dam)
+			target:setEffect(target.EFF_SLOW_MOVE, t.getDuration(self, t), {apply_power=self:combatMindpower(), power=0.5})
+		end)
+		game:playSoundNear(self, "talents/ice")
+
+		return true
+	end,
+	info = function(self, t)
+		return ([[Grab a target and pull it next to you, covering it with frost while reducing its movement speed by 50%% for %d turns.
+		The ice will also deal %0.2f cold damage.
+		The damage and chance to slow will increase with your Mindpower.]]):
+		tformat(t.getDuration(self, t), damDesc(self, DamageType.COLD, self:combatTalentMindDamage(t, 5, 140)))
 	end,
 }
 
@@ -216,7 +385,7 @@ newTalent{
 	require = gifts_req1,
 	points = 5,
 	random_ego = "attack",
-	message = "@Source@ summons a Ritch Flamespitter!",
+	message = _t"@Source@ summons a Ritch Flamespitter!",
 	equilibrium = 2,
 	cooldown = 10,
 	range = 5,
@@ -234,24 +403,27 @@ newTalent{
 	on_pre_use_ai = aiSummonPreUse,
 	on_detonate = function(self, t, m)
 		local tg = {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y}
-		self:project(tg, m.x, m.y, DamageType.FIREBURN, self:mindCrit(self:combatTalentMindDamage(t, 30, 300)))
+		local explodeDamage = self:callTalent(self.T_DETONATE,"explodeSecondary")
+		local duration = 3
+		self:project(tg, m.x, m.y, DamageType.FLAMESHOCK, {dur=duration,apply_power=self:combatMindpower(),dam=self:mindCrit(explodeDamage)})
 		game.level.map:particleEmitter(m.x, m.y, tg.radius, "ball_fire", {radius=tg.radius})
 	end,
 	on_arrival = function(self, t, m)
 		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y}
 		local duration = self:callTalent(self.T_GRAND_ARRIVAL, "effectDuration")
-		self:project(tg, m.x, m.y, DamageType.TEMP_EFFECT, {foes=true, eff=self.EFF_LOWER_FIRE_RESIST, dur=duration, p={power=self:combatTalentMindDamage(t, 15, 70)}})
+		local reduction = self:callTalent(self.T_GRAND_ARRIVAL, "resReduction")
+		self:project(tg, m.x, m.y, DamageType.TEMP_EFFECT, {foes=true, eff=self.EFF_LOWER_FIRE_RESIST, dur=duration, p={power=reduction}})
 		game.level.map:particleEmitter(m.x, m.y, tg.radius, "ball_fire", {radius=tg.radius})
 	end,
 	incStats = function(self, t, fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			wil=15 + (fake and mp or self:mindCrit(mp)) * 2 * self:combatTalentScale(t, 0.2, 1, 0.75),
 			cun=15 + (fake and mp or self:mindCrit(mp)) * 1.7 * self:combatTalentScale(t, 0.2, 1, 0.75),
-			con=10 + self:callTalent(self.T_RESILIENCE, "incCon")
+			con=10
 		}
 	end,
-	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t) + self:getTalentLevel(self.T_RESILIENCE), 5, 0, 10, 5)) end,
+	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 5, 0, 10, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	action = function(self, t)
 		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), nolock=true, talent=t}
 		local tx, ty, target = self:getTarget(tg)
@@ -272,7 +444,7 @@ newTalent{
 			type = "insect", subtype = "ritch",
 			display = "I", color=colors.LIGHT_RED, image = "npc/summoner_ritch.png",
 			name = "ritch flamespitter", faction = self.faction,
-			desc = [[]],
+			desc = _t[[]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "tactical", ai_state = { talent_in=1, ally_compassion=10},
 			ai_tactic = resolvers.tactic"ranged",
@@ -299,20 +471,28 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
-			m[#m+1] = resolvers.talents{ [self.T_FLAME_FURY]=self:getTalentLevelRaw(t) }
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
+			m[#m] = resolvers.talents{ [self.T_WILD_RITCH_FLAMESPITTER_BOLT]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
+
+		if self:knowTalent(self.T_RESILIENCE) then
+			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
+			m.max_life = m.max_life * incLife
+			m.life = m.max_life
+		end
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
 	info = function(self, t)
 		local incStats = t.incStats(self, t, true)
-		return ([[Summon a Ritch Flamespitter for %d turns to burn your foes to death. Flamespitters are really weak in melee and die easily, but they can burn your foes from afar.
+		return ([[Summon a Ritch Flamespitter for %d turns to burn your foes to death. Flamespitters are weak in melee and die easily, but they can burn your foes from afar.
 		It will get %d Willpower, %d Cunning and %d Constitution.
 		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Willpower and Cunning will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.wil, incStats.cun, incStats.con)
+		:tformat(t.summonTime(self, t), incStats.wil, incStats.cun, incStats.con)
 	end,
 }
 
@@ -322,7 +502,7 @@ newTalent{
 	require = gifts_req2,
 	points = 5,
 	random_ego = "attack",
-	message = "@Source@ summons a 3-headed hydra!",
+	message = _t"@Source@ summons a 3-headed hydra!",
 	equilibrium = 5,
 	cooldown = 18,
 	range = 5,
@@ -339,27 +519,34 @@ newTalent{
 	end,
 	on_pre_use_ai = aiSummonPreUse,
 	on_detonate = function(self, t, m)
-		local tg = {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y}
-		self:project(tg, m.x, m.y, rng.table{DamageType.LIGHTNING,DamageType.ACID,DamageType.POISON}, self:mindCrit(self:combatTalentMindDamage(t, 30, 250)), {type="flame"})
+		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y, ignore_nullify_all_friendlyfire=true}
+		local hydraAffinity = self:callTalent(self.T_DETONATE,"hydraAffinity")
+		local hydraRegen = self:callTalent(self.T_DETONATE,"hydraRegen")
+		self:project(tg, m.x, m.y, function(px, py)
+			local target = game.level.map(px, py, Map.ACTOR)
+			if not target or self:reactionToward(target) < 0 then return end
+			target:setEffect(target.EFF_SERPENTINE_NATURE, 7, {power=hydraAffinity, regen=hydraRegen})
+		end, nil, {type="flame"})
 	end,
 	on_arrival = function(self, t, m)
 		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y}
+		local poisonDmg = self:callTalent(self.T_GRAND_ARRIVAL, "poisonDamage")
 		game.level.map:addEffect(self,
 			m.x, m.y, self:callTalent(self.T_GRAND_ARRIVAL,"effectDuration"),
-			DamageType.POISON, {dam=self:combatTalentMindDamage(t, 10, 60), apply_power=self:combatMindpower()},
+			DamageType.POISON, {dam=poisonDmg, apply_power=self:combatMindpower()},
 			self:getTalentRadius(t),
 			5, nil,
 			MapEffect.new{color_br=255, color_bg=255, color_bb=255, effect_shader="shader_images/poison_effect.png"},
 			nil, false, false
 		)
 	end,
-	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t) + self:getTalentLevel(self.T_RESILIENCE), 5, 0, 10, 5)) end,
+	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 5, 0, 10, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t,fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			wil=15 + (fake and mp or self:mindCrit(mp)) * 1.6 * self:combatTalentScale(t, 0.2, 1, 0.75),
 			str = 18,
-			con=10 + self:combatTalentScale(t, 2, 10, 0.75) + self:callTalent(self.T_RESILIENCE, "incCon")
+			con=10 + self:combatTalentScale(t, 2, 10, 0.75)
 		}
 	end,
 	action = function(self, t)
@@ -382,7 +569,7 @@ newTalent{
 			type = "hydra", subtype = "3head",
 			display = "M", color=colors.GREEN, image = "npc/summoner_hydra.png",
 			name = "3-headed hydra", faction = self.faction,
-			desc = [[A strange reptilian creature with three smouldering heads.]],
+			desc = _t[[A strange reptilian creature with three smouldering heads.]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "tactical", ai_state = { talent_in=1, ally_compassion=10},
 
@@ -410,10 +597,20 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
-			m[#m+1] = resolvers.talents{ [self.T_DISENGAGE]=self:getTalentLevelRaw(t) }
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
+			m[#m+1] = resolvers.talents{ [self.T_LIGHTNING_SPIT_HYDRA]=self:getTalentLevelRaw(t) }
+			m[#m+1] = resolvers.talents{ [self.T_ACID_SPIT_HYDRA]=self:getTalentLevelRaw(t) }
+			m[#m+1] = resolvers.talents{ [self.T_POISON_SPIT_HYDRA]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
+
+		if self:knowTalent(self.T_RESILIENCE) then
+			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
+			m.max_life = m.max_life * incLife
+			m.life = m.max_life
+		end
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
@@ -421,9 +618,9 @@ newTalent{
 		local incStats = t.incStats(self, t, true)
 		return ([[Summon a 3-headed Hydra for %d turns to destroy your foes. 3-headed hydras are able to breathe poison, acid and lightning.
 		It will get %d Willpower, %d Constitution and 18 Strength.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Willpower will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.wil, incStats.con, incStats.str)
+		:tformat(t.summonTime(self, t), incStats.wil, incStats.con, incStats.str)
 	end,
 }
 
@@ -433,7 +630,7 @@ newTalent{
 	require = gifts_req3,
 	points = 5,
 	random_ego = "attack",
-	message = "@Source@ summons a Rimebark!",
+	message = _t"@Source@ summons a Rimebark!",
 	equilibrium = 8,
 	cooldown = 10,
 	range = 5,
@@ -451,20 +648,23 @@ newTalent{
 	on_pre_use_ai = aiSummonPreUse,
 	on_detonate = function(self, t, m)
 		local tg = {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y}
-		self:project(tg, m.x, m.y, DamageType.ICE, self:mindCrit(self:combatTalentMindDamage(t, 30, 300)), {type="freeze"})
+		local explodeDamage = self:callTalent(self.T_DETONATE,"explodeSecondary")
+		self:project(tg, m.x, m.y, DamageType.ICE, self:mindCrit(explodeDamage), {type="freeze"})
 	end,
 	on_arrival = function(self, t, m)
 		local tg = {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), talent=t, x=m.x, y=m.y}
 		local duration = self:callTalent(self.T_GRAND_ARRIVAL,"effectDuration")
+		local reduction = self:callTalent(self.T_GRAND_ARRIVAL,"resReduction")
+  		self:project(tg, m.x, m.y, DamageType.TEMP_EFFECT, {foes=true, eff=self.EFF_LOWER_COLD_RESIST, dur=duration, p={power=reduction}}, {type="flame"})
 		self:project(tg, m.x, m.y, DamageType.TEMP_EFFECT, {foes=true, eff=self.EFF_LOWER_COLD_RESIST, dur=duration, p={power=self:combatTalentMindDamage(t, 15, 70)}}, {type="flame"})
 	end,
-	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t) + self:getTalentLevel(self.T_RESILIENCE), 5, 0, 10, 5)) end,
+	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 5, 0, 10, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t,fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			wil=15 + (fake and mp or self:mindCrit(mp)) * 2 * self:combatTalentScale(t, 0.2, 1, 0.75),
 			cun=15 + (fake and mp or self:mindCrit(mp)) * 1.6 * self:combatTalentScale(t, 0.2, 1, 0.75),
-			con=10 + self:callTalent(self.T_RESILIENCE, "incCon")
+			con=10
 		}
 	end,
 	action = function(self, t)
@@ -489,7 +689,7 @@ newTalent{
 			display = "#", color=colors.WHITE,
 			name = "rimebark", faction = self.faction, image = "npc/immovable_plants_rimebark.png",
 			resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/immovable_plants_rimebark.png", display_h=2, display_y=-1}}},
-			desc = [[This huge treant-like being is embedded with the fury of winter itself.]],
+			desc = _t[[This huge treant-like being is embedded with the fury of winter itself.]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "dumb_talented_simple", ai_state = { talent_in=1, ally_compassion=10},
 			ai_tactic = resolvers.tactic"ranged",
@@ -516,10 +716,18 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
-			m[#m+1] = resolvers.talents{ [self.T_RESOLVE]=self:getTalentLevelRaw(t) }
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
+			m[#m+1] = resolvers.talents{ [self.T_WINTER_S_GRASP]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
+
+		if self:knowTalent(self.T_RESILIENCE) then
+			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
+			m.max_life = m.max_life * incLife
+			m.life = m.max_life
+		end
+
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
@@ -527,9 +735,9 @@ newTalent{
 		local incStats = t.incStats(self, t, true)
 		return ([[Summon a Rimebark for %d turns to harass your foes. Rimebarks cannot move, but they have a permanent ice storm around them, damaging and freezing anything coming close in a radius of 3.
 		It will get %d Willpower, %d Cunning and %d Constitution.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Willpower and Cunning will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.wil, incStats.cun, incStats.con)
+		:tformat(t.summonTime(self, t), incStats.wil, incStats.cun, incStats.con)
 	end,
 }
 
@@ -539,7 +747,7 @@ newTalent{
 	require = gifts_req4,
 	points = 5,
 	random_ego = "attack",
-	message = "@Source@ summons a Fire Drake!",
+	message = _t"@Source@ summons a Fire Drake!",
 	equilibrium = 15,
 	cooldown = 10,
 	range = 5,
@@ -556,9 +764,10 @@ newTalent{
 	end,
 	on_pre_use_ai = aiSummonPreUse,
 	on_detonate = function(self, t, m)
+		local explodeFire = self:callTalent(self.T_DETONATE,"explodeFire")
 		game.level.map:addEffect(self,
 			m.x, m.y, 6,
-			DamageType.FIRE, self:mindCrit(self:combatTalentMindDamage(t, 10, 70)),
+			DamageType.FIRE, self:mindCrit(explodeFire),
 			self:getTalentRadius(t),
 			5, nil,
 			{type="inferno"},
@@ -576,14 +785,14 @@ newTalent{
 				type = "dragon", subtype = "fire",
 				display = "d", color=colors.RED, image = "npc/dragon_fire_fire_drake_hatchling.png",
 				name = "fire drake hatchling", faction = self.faction,
-				desc = [[A mighty fire drake.]],
+				desc = _t[[A mighty fire drake.]],
 				autolevel = "none",
 				ai = "summoned", ai_real = "tactical", ai_state = { talent_in=1, ally_compassion=10},
 				stats = {str=0, dex=0, con=0, cun=0, wil=0, mag=0},
 				inc_stats = { -- No crit chance for escorts
 					str=15 + self:combatMindpower(2) * self:combatTalentScale(t, 1/6, 5/6, 0.75),
 					wil=38,
-					con=20 + self:combatMindpower(1.5) * self:combatTalentScale(t, 1/6, 5/6, 0.75) + self:callTalent(self.T_RESILIENCE, "incCon"), 
+					con=20 + self:combatMindpower(1.5) * self:combatTalentScale(t, 1/6, 5/6, 0.75),
 				},
 				level_range = {self.level, self.level}, exp_worth = 0,
 
@@ -601,16 +810,23 @@ newTalent{
 				summon_time = m.summon_time,
 				ai_target = {actor=m.ai_target.actor}
 			}
+			m.is_nature_summon = true
 			setupSummon(self, mh, x, y)
+
+			if self:knowTalent(self.T_RESILIENCE) then
+				local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
+				m.max_life = m.max_life * incLife
+				m.life = m.max_life
+			end
 		end
 	end,
-	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t) + self:getTalentLevel(self.T_RESILIENCE), 2, 0, 7, 5)) end,
+	summonTime = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), 2, 0, 7, 5)) + self:callTalent(self.T_RESILIENCE, "incDur") end,
 	incStats = function(self, t,fake)
 		local mp = self:combatMindpower()
-		return{ 
+		return{
 			str=15 + (fake and mp or self:mindCrit(mp)) * 2 * self:combatTalentScale(t, 0.2, 1, 0.75),
 			wil = 38,
-			con=20 + (fake and mp or self:mindCrit(mp)) * 1.5 * self:combatTalentScale(t, 0.2, 1, 0.75) + self:callTalent(self.T_RESILIENCE, "incCon"),
+			con=20 + (fake and mp or self:mindCrit(mp)) * 1.5 * self:combatTalentScale(t, 0.2, 1, 0.75)
 		}
 	end,
 	action = function(self, t)
@@ -633,7 +849,7 @@ newTalent{
 			type = "dragon", subtype = "fire",
 			display = "D", color=colors.RED, image = "npc/dragon_fire_fire_drake.png",
 			name = "fire drake", faction = self.faction,
-			desc = [[A mighty fire drake.]],
+			desc = _t[[A mighty fire drake.]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "tactical", ai_state = { talent_in=1, ally_compassion=10},
 			stats = {str=0, dex=0, con=0, cun=0, wil=0, mag=0},
@@ -663,20 +879,27 @@ newTalent{
 			ai_target = {actor=target}
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
-			m.name = m.name.." (wild summon)"
+			m.name = ("%s (wild summon)"):tformat(_t(m.name))
 			m[#m+1] = resolvers.talents{ [self.T_AURA_OF_SILENCE]=self:getTalentLevelRaw(t) }
 		end
+		m.is_nature_summon = true
 		setupSummon(self, m, x, y)
+
+		if self:knowTalent(self.T_RESILIENCE) then
+			local incLife = self:callTalent(self.T_RESILIENCE, "incLife") + 1
+			m.max_life = m.max_life * incLife
+			m.life = m.max_life
+		end
 
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
 	info = function(self, t)
 		local incStats = t.incStats(self, t, true)
-		return ([[Summon a Fire Drake for %d turns to burn and crush your foes to death. Fire Drakes are behemoths that can burn your foes from afar with their fiery breath.
+		return ([[Summon a Fire Drake for %d turns to burn and crush your foes to death. Fire Drakes are behemoths that can burn foes from afar with their fiery breath.
 		It will get %d Strength, %d Constitution and 38 Willpower.
-		Your summons inherit some of your stats: increased damage%%, stun/pin/confusion/blindness resistance, armour penetration.
+		Your summons inherit some of your stats: increased damage%%, resistance penetration %%, stun/pin/confusion/blindness resistance, armour penetration.
 		Their Strength and Constitution will increase with your Mindpower.]])
-		:format(t.summonTime(self, t), incStats.str, incStats.con)
+		:tformat(t.summonTime(self, t), incStats.str, incStats.con)
 	end,
 }

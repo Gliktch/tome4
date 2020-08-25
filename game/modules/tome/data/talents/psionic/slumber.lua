@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ newTalent{
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t), talent=t} end,
 	getDuration = function(self, t) return math.ceil(self:combatTalentScale(t, 2.3, 4.3)) end,
 	getInsomniaPower = function(self, t)
+		if not self:knowTalent(self.T_SANDMAN) then return 20 end
 		local t = self:getTalentFromId(self.T_SANDMAN)
 		local reduction = t.getInsomniaPower(self, t)
 		return 20 - reduction
@@ -63,7 +64,7 @@ newTalent{
 			target:setEffect(target.EFF_SLUMBER, t.getDuration(self, t), {src=self, power=power, waking=is_waking, insomnia=t.getInsomniaPower(self, t), no_ct_effect=true, apply_power=self:combatMindpower()})
 			game.level.map:particleEmitter(target.x, target.y, 1, "generic_charge", {rm=180, rM=200, gm=100, gM=120, bm=30, bM=50, am=70, aM=180})
 		else
-			game.logSeen(self, "%s resists the sleep!", target.name:capitalize())
+			game.logSeen(self, "%s resists the sleep!", target:getName():capitalize())
 		end
 		game:playSoundNear(self, "talents/dispel")
 		return true
@@ -74,7 +75,7 @@ newTalent{
 		local insomnia = t.getInsomniaPower(self, t)
 		return([[Puts the target into a deep sleep for %d turns, rendering it unable to act.  Every %d points of damage the target suffers will reduce the effect duration by one turn.
 		When Slumber ends, the target will suffer from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it %d%% sleep immunity for each turn of the Insomnia effect.
-		The damage threshold will scale with your Mindpower.]]):format(duration, power, insomnia)
+		The damage threshold will scale with your Mindpower.]]):tformat(duration, power, insomnia)
 	end,
 }
 
@@ -93,7 +94,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return([[Targets you have slept take %0.2f mind damage each turn for five turns upon waking.
-		The damage will scale with your Mindpower.]]):format(damDesc(self, DamageType.MIND, (damage)))
+		The damage will scale with your Mindpower.]]):tformat(damDesc(self, DamageType.MIND, (damage)))
 	end,
 }
 
@@ -110,7 +111,7 @@ newTalent{
 		local insomnia = t.getInsomniaPower(self, t)
 		return([[Increases the amount of damage you can deal to sleeping targets before reducing the effect duration by %d%%, and reduces the sleep immunity of your Insomnia effects by %d%%.
 		These effects will be directly reflected in the appropriate talent descriptions.
-		The damage threshold bonus will scale with your Mindpower.]]):format(power_bonus * 100, insomnia)
+		The damage threshold bonus will scale with your Mindpower.]]):tformat(power_bonus * 100, insomnia)
 	end,
 }
 
@@ -152,7 +153,7 @@ newTalent{
 		if target == self then return end
 		if target:attr("negative_status_effect_immune") or target:attr("status_effect_immune") then return nil end
 
-		if not self:canBe("planechange") or target.summon_time or target.summon then
+		if not self:canBe("planechange") or target.summon_time or target.summoner then
 			game.logPlayer(self, "The spell fizzles...")
 			return
 		end
@@ -243,6 +244,6 @@ newTalent{
 		Projections inflict 50%% less damage than the original, unless the target has Lucid Dreamer active.
 		When the Dreamscape ends, for each projection destroyed, the target's life will be reduced by 10%% and it will be brainlocked for one turn.
 		In the Dreamscape, your damage will be improved by %d%%.
-		The damage bonus will improve with your Mindpower.]]):format(duration, power)
+		The damage bonus will improve with your Mindpower.]]):tformat(duration, power)
 	end,
 }

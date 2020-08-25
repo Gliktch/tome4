@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ newTalent{
 		local talented_mod = math.sqrt((self:getTalentLevel(t) + (o and o.material_level or 1)) / 10) + 1
 		local power = math.max(self.combat_dam + add, 1)
 		power = (math.sqrt(power / 10) - 1) * 0.8 + 1
---		print(("[COMBAT HEAD DAMAGE] power(%f) totstat(%f) talent_mod(%f)"):format(power, totstat, talented_mod))
+--		print(("[COMBAT HEAD DAMAGE] power(%f) totstat(%f) talent_mod(%f)"):tformat(power, totstat, talented_mod))
 		return self:rescaleDamage(totstat / 1.5 * power * talented_mod)
 	end,
 	action = function(self, t)
@@ -60,7 +60,7 @@ newTalent{
 			if target:canBe("confusion") then
 				target:setEffect(target.EFF_CONFUSED, t.getDuration(self, t), {power=t.getConfusion(self, t), apply_power=self:combatAttack()})
 			else
-				game.logSeen(target, "%s resists the headblow!", target.name:capitalize())
+				game.logSeen(target, "%s resists the headblow!", target:getName():capitalize())
 			end
 			if target:attr("dead") then
 				world:gainAchievement("HEADBANG", self, target)
@@ -74,8 +74,8 @@ newTalent{
 		return ([[You smack your forehead against your enemy's head (or whatever sensitive part you can find), causing %0.1f Physical damage.
 		If the attack hits, the target is confused (%d%% effect) for %d turns.
 		Damage done increases with the quality of your headgear, your Strength, and your physical damage bonuses.
-		Confusion power increases with your Dexerity, and chance increases Accuracy.]]):
-		format(dam, t.getConfusion(self, t), duration)
+		Confusion power increases with your Dexterity, and chance increases with Accuracy.]]):
+		tformat(dam, t.getConfusion(self, t), duration)
 	end,
 }
 
@@ -93,7 +93,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your attunement to violence has given you %d%% resistance to stuns and confusion arising in battle.]]):
-		format(t.getImmune(self, t)*100)
+		tformat(t.getImmune(self, t)*100)
 	end,
 }
 newTalent{
@@ -102,15 +102,15 @@ newTalent{
 	mode = "passive",
 	points = 5,
 	require = techs_req3,
-	critpower = function(self, t) return self:combatTalentScale(t, 6, 25, 0.75) end,
-	getAPR = function(self, t) return self:combatTalentScale(t, 5, 20, 0.75) end,
+	critpower = function(self, t) return self:combatTalentScale(t, 6, 25) end,
+	getAPR = function(self, t) return self:combatTalentScale(t, 5, 20) end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "combat_critical_power", t.critpower(self, t))
 		self:talentTemporaryValue(p, "combat_apr", t.getAPR(self, t))
 	end,
 	info = function(self, t)
 		return ([[You know how to hit the right places, gaining +%d%% critical damage modifier and %d armour penetration.]]):
-		format(t.critpower(self, t), t.getAPR(self, t))
+		tformat(t.critpower(self, t), t.getAPR(self, t))
 	end,
 }
 
@@ -122,6 +122,7 @@ newTalent{
 	cooldown = 30,
 	sustain_stamina = 40,
 	drain_stamina = 6,
+	remove_on_zero = true,
 	no_energy = true,
 	require = techs_req4,
 	range = 1,
@@ -137,9 +138,8 @@ newTalent{
 	end,
 	getCrit = function(self, t) return self:combatTalentStatDamage(t, "dex", 10, 50) / 1.5 end,
 	getPen = function(self, t) return self:combatLimit(self:combatTalentStatDamage(t, "str", 10, 50), 100, 0, 0, 35.7, 35.7) end, -- Limit to <100%
-	getSpeed = function(self, t) return self:combatTalentScale(t, 0.10, 0.20, 0.75) end,
-	callbackOnRest = function(self, t) self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_energy=true}) end,
-	callbackOnRun = function(self, t) self:forceUseTalent(t.id, {ignore_cooldown=true, ignore_energy=true}) end,
+	getSpeed = function(self, t) return self:combatTalentScale(t, 0.10, 0.20) end,
+	deactivate_on = {no_combat=true, run=true, rest=true},
 	activate = function(self, t)
 		local ret = {
 			crit = self:addTemporaryValue("combat_physcrit", t.getCrit(self, t)),
@@ -162,6 +162,6 @@ newTalent{
 		You gain +%d%% attack speed, +%d%% critical chance and +%d%% physical resistance penetration, but this talent drains 6 stamina each turn.
 		This effect is disabled automatically on rest or run.
 		]]):
-		format(t.getSpeed(self,t)*100, t.getCrit(self, t), t.getPen(self, t))
+		tformat(t.getSpeed(self,t)*100, t.getCrit(self, t), t.getPen(self, t))
 	end,
 }

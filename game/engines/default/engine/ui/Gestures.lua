@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -272,7 +272,7 @@ end
 
 function _M:gestureTutorial()
 	local Dialog = require "engine.ui.Dialog"
-	Dialog:simpleLongPopup("Mouse Gestures", [[
+	Dialog:simpleLongPopup(_t"Mouse Gestures", _t[[
 You have started to draw a mouse gesture for the first time!
 Gestures allow you to use talents or keyboard action by a simple movement of the mouse. To draw one you simply #{bold}#hold right click + move#{normal}#.
 By default no bindings are done for gesture so if you want to use them go to the Keybinds and add some, it's easy and fun!

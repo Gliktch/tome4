@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
 -- darkgod@te4.org
 
 newChat{ id="welcome",
-	text = [[Well met, @playername@. I was sent with a message from King Tolak of Last Hope.
+	text = _t[[Well met, @playername@. I was sent with a message from King Tolak of Last Hope.
 I followed the trail of bodies that you left - very impressive! We are lucky to have you on our side.
-But enough talk; take this message.  I must go now.
+But enough talk; take this message. I must go now.
 #LIGHT_GREEN#He gives you a sealed scroll and vanishes into the shadows.#LAST#]],
 	answers = {
-		{"Thank you for your courage.", action=function(npc, player)
-			local o, item, inven_id = npc:findInAllInventories("Sealed Scroll of Last Hope")
+		{_t"Thank you for your courage.", action=function(npc, player)
+			local o, item, inven_id = npc:findInAllInventories("Sealed Scroll of Last Hope", {raw_name=true})
 			if o then
 				npc:removeObject(inven_id, item, true)
 				player:addObject(player.INVEN_INVEN, o)

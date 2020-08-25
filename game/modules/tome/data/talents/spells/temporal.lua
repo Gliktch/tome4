@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,10 +23,11 @@ newTalent{
 	require = spells_req1,
 	points = 5,
 	mana = 10,
-	cooldown = 30,
+	cooldown = 15,
+	use_only_arcane = 4,
 	tactical = { DISABLE = 2 },
 	reflectable = true,
-	proj_speed = 3,
+	proj_speed = 5,
 	range = 6,
 	direct_hit = true,
 	requires_target = true,
@@ -47,7 +48,7 @@ newTalent{
 		local slow = t.getSlow(self, t)
 		local proj = t.getProj(self, t)
 		return ([[Project a bolt of time distortion, decreasing the target's global speed by %d%% and all projectiles it fires by %d%% for 7 turns.]]):
-		format(100 * slow, proj)
+		tformat(100 * slow, proj)
 	end,
 }
 
@@ -59,6 +60,7 @@ newTalent{
 	points = 5,
 	mana = 25,
 	cooldown = 18,
+	use_only_arcane = 4,
 	tactical = { DEFEND = 2, HEAL = 1 },
 	range = 10,
 	no_energy = true,
@@ -71,14 +73,14 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		local maxabsorb = t.getMaxAbsorb(self, t)
-		local duration = t.getDuration(self, t)
+		local maxabsorb = self:getShieldAmount(t.getMaxAbsorb(self, t))
+		local duration = self:getShieldDuration(t.getDuration(self, t))
 		local time_reduc = t.getTimeReduction(self,t)
 		return ([[This intricate spell instantly erects a time shield around the caster, preventing any incoming damage and sending it forward in time.
 		Once either the maximum damage (%d) is absorbed, or the time runs out (%d turns), the stored damage will return as a temporal restoration field over time (5 turns).
 		Each turn the restoration field is active, you get healed for 10%% of the absorbed damage (Aegis Shielding talent affects the percentage).
 		The shield's max absorption will increase with your Spellpower.]]):
-		format(maxabsorb, duration)
+		tformat(maxabsorb, duration)
 	end,
 }
 
@@ -90,6 +92,7 @@ newTalent{
 	random_ego = "utility",
 	mana = 100,
 	cooldown = 40,
+	use_only_arcane = 4,
 	tactical = { DISABLE = 1, ESCAPE = 3, PROTECT = 3 },
 	range = 10,
 	direct_hit = true,
@@ -109,7 +112,7 @@ newTalent{
 		return ([[Removes the target from the flow of time for %d turns. In this state, the target can neither act nor be harmed.
 		Time does not pass at all for the target, no talents will cooldown, no resources will regen, and so forth.
 		The duration will increase with your Spellpower.]]):
-		format(duration)
+		tformat(duration)
 	end,
 }
 
@@ -119,10 +122,11 @@ newTalent{
 	require = spells_req4,
 	points = 5,
 	mode = "sustained",
-	sustain_mana = 250,
+	sustain_mana = 120,
 	cooldown = 20,
+	use_only_arcane = 4,
 	tactical = { BUFF = 2 },
-	getHaste = function(self, t) return self:combatTalentLimit(t, 0.35, 0.05, 0.25) end,
+	getHaste = function(self, t) return self:combatTalentScale(t, 0.075, 0.26, 1/3) end, -- +10~30% for players, cube root scaling to prevent excessive strength on NPCs
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/spell_generic")
 		local power = t.getHaste(self, t)
@@ -137,6 +141,6 @@ newTalent{
 	info = function(self, t)
 		local haste = t.getHaste(self, t)
 		return ([[Increases the caster's global speed by %d%%.]]):
-		format(100 * haste)
+		tformat(100 * haste)
 	end,
 }

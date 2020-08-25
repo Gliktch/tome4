@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ newTalent{
 	require = gifts_req1,
 	points = 5,
 	random_ego = "attack",
-	message = "@Source@ spits acid!",
+	message = _t"@Source@ spits acid!",
 	equilibrium = 3,
 	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 3, 6.9, 5.5)) end, -- Limit >=3
 	tactical = { ATTACK = { ACID = 2 } },
@@ -65,7 +65,7 @@ newTalent{
 		Enemies struck have a 25%% chance to be Disarmed for three turns, as their weapon is rendered useless by an acid coating.
 		At Talent Level 5, this becomes a piercing line of acid.
 		Every level in Acidic Spray additionally raises your Mindpower by 4, passively.
-		Each point in acid drake talents also increases your acid resistance by 1%%.]]):format(damDesc(self, DamageType.ACID, damage))
+		Each point in acid drake talents also increases your acid resistance by 1%%.]]):tformat(damDesc(self, DamageType.ACID, damage))
 	end,
 }
 
@@ -127,7 +127,7 @@ newTalent{
 		return ([[Exhale a mist of lingering acid, dealing %0.2f acid damage that can critical in a radius of %d each turn for %d turns.
 		Enemies in this mist will be corroded for %d turns, lowering their Accuracy, their Armour and their Defense by %d.
 		The damage and duration will increase with your Mindpower, and the radius will increase with talent level.
-		Each point in acid drake talents also increases your acid resistance by 1%%.]]):format(damDesc(self, DamageType.ACID, damage), radius, duration, cordur, atk)
+		Each point in acid drake talents also increases your acid resistance by 1%%.]]):tformat(damDesc(self, DamageType.ACID, damage), radius, duration, cordur, atk)
 	end,
 }
 
@@ -142,7 +142,6 @@ newTalent{
 	range = 1,
 	is_melee = true,
 	tactical = { ATTACK = { ACID = 2 }, DISABLE = {blind = 1} },
-	on_pre_use = function(self, t, silent) if not self:hasMHWeapon() then if not silent then game.logPlayer(self, "You require a mainhand weapon to use this talent.") end return false end return true end,
 	requires_target = true,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	on_learn = function(self, t) self.resists[DamageType.ACID] = (self.resists[DamageType.ACID] or 0) + 1 end,
@@ -155,7 +154,7 @@ newTalent{
 		
 		-- We need to alter behavior slightly to accomodate shields since they aren't used in attackTarget
 		local shield, shield_combat = self:hasShield()
-		local weapon = self:hasMHWeapon().combat
+		local weapon = self:hasMHWeapon() and self:hasMHWeapon().combat or self.combat
 		if not shield then
 			self:attackTarget(target, (self:getTalentLevel(t) >= 2) and DamageType.ACID_BLIND or DamageType.ACID, t.getDamage(self, t), true)
 			self:attackTarget(target, (self:getTalentLevel(t) >= 4) and DamageType.ACID_BLIND or DamageType.ACID, t.getDamage(self, t), true)
@@ -181,7 +180,7 @@ newTalent{
 		Every two talent levels, one of your strikes becomes blinding acid instead of normal acid, blinding the target 25%% of the time if it hits.
 		Each point in acid drake talents also increases your acid resistance by 1%%.
 
-		This talent will also attack with your shield, if you have one equipped.]]):format(100 * self:combatTalentWeaponDamage(t, 0.1, 0.6))
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.1, 0.6))
 	end,
 }
 
@@ -191,9 +190,9 @@ newTalent{
 	require = gifts_req4,
 	points = 5,
 	random_ego = "attack",
-	equilibrium = 12,
-	cooldown = 12,
-	message = "@Source@ breathes acid!",
+	equilibrium = 20,
+	cooldown = 20,
+	message = _t"@Source@ breathes acid!",
 	tactical = { ATTACKAREA = { ACID = 2 }, DISABLE = {disarm = 1} },
 	range = 0,
 	radius = function(self, t) return math.min(13, math.floor(self:combatTalentScale(t, 5, 9))) end,
@@ -235,6 +234,6 @@ newTalent{
 		return ([[You breathe acid in a frontal cone of radius %d. Any target caught in the area will take %0.2f acid damage.
 		Enemies caught in the acid are disarmed for 3 turns.
 		The damage will increase with your Strength, the critical chance is based on your Mental crit rate, and the Disarm apply power is based on your Mindpower.
-		Each point in acid drake talents also increases your acid resistance by 1%%.]]):format(self:getTalentRadius(t), damDesc(self, DamageType.ACID, t.getDamage(self, t)))
+		Each point in acid drake talents also increases your acid resistance by 1%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.ACID, t.getDamage(self, t)))
 	end,
 }

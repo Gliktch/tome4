@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -24,8 +24,8 @@
 newLore{
 	id = "spellblaze-chronicles-1",
 	category = "spellblaze",
-	name = "The Spellblaze Chronicles(1): A Fateful Meeting",
-	lore = [[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
+	name = _t"The Spellblaze Chronicles(1): A Fateful Meeting",
+	lore = _t[[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
 
 #{bold}#Chapter One: A Fateful Meeting#{normal}#
 
@@ -76,8 +76,8 @@ Turthel paused reflectively before nodding his head slowly, and it was clear tha
 newLore{
 	id = "spellblaze-chronicles-2",
 	category = "spellblaze",
-	name = "The Spellblaze Chronicles(2): A Night to Remember",
-	lore = [[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
+	name = _t"The Spellblaze Chronicles(2): A Night to Remember",
+	lore = _t[[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
 
 #{bold}#Chapter Two: A Night to Remember#{normal}#
 
@@ -130,8 +130,8 @@ She strode forward then, and grabbing me roughly by my hauberk she pulled my lip
 newLore{
 	id = "spellblaze-chronicles-3",
 	category = "spellblaze",
-	name = "The Spellblaze Chronicles(3): The Farportal",
-	lore = [[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
+	name = _t"The Spellblaze Chronicles(3): The Farportal",
+	lore = _t[[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
 
 #{bold}#Chapter Three: The Farportal#{normal}#
 
@@ -226,8 +226,8 @@ Yet my hand strayed across the hilt of Mooncutter, and my heart still murmured w
 newLore{
 	id = "spellblaze-chronicles-4",
 	category = "spellblaze",
-	name = "The Spellblaze Chronicles(4): Before the Dawn",
-	lore = [[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
+	name = _t"The Spellblaze Chronicles(4): Before the Dawn",
+	lore = _t[[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
 
 #{bold}#Chapter Four: Before the Dawn#{normal}#
 
@@ -288,8 +288,8 @@ Was it a dream?  Some strange foretelling?  Or could it have been a true apparit
 newLore{
 	id = "spellblaze-chronicles-5",
 	category = "spellblaze",
-	name = "The Spellblaze Chronicles(5): The Day of the Spellblaze",
-	lore = [[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
+	name = _t"The Spellblaze Chronicles(5): The Day of the Spellblaze",
+	lore = _t[[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
 
 #{bold}#Chapter Five: The Day of the Spellblaze#{normal}#
 
@@ -334,8 +334,8 @@ But mine was just one voice, one torment, a single note in the great cacophony t
 newLore{
 	id = "spellblaze-chronicles-6",
 	category = "spellblaze",
-	name = "The Spellblaze Chronicles(6): A Changed Eyal",
-	lore = [[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
+	name = _t"The Spellblaze Chronicles(6): A Changed Eyal",
+	lore = _t[[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
 
 #{bold}#Chapter Six: A Changed Eyal#{normal}#
 
@@ -409,8 +409,8 @@ The Shroud of Elvala was begun, as our whole city was wreathed in cloud and smok
 newLore{
 	id = "spellblaze-chronicles-7",
 	category = "spellblaze",
-	name = "The Spellblaze Chronicles(7): Into Darkness",
-	lore = [[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
+	name = _t"The Spellblaze Chronicles(7): Into Darkness",
+	lore = _t[[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
 
 #{bold}#Chapter Seven: Into Darkness#{normal}#
 
@@ -451,8 +451,8 @@ I took a deep breath and stepped forwards.]],
 newLore{
 	id = "spellblaze-chronicles-8",
 	category = "spellblaze",
-	name = "The Spellblaze Chronicles(8): Forbidden",
-	lore = [[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
+	name = _t"The Spellblaze Chronicles(8): Forbidden",
+	lore = _t[[#{italic}#From the memoirs of Aranion Gawaeil, leader of the Grand Council of Elvala#{normal}#
 
 #{bold}#Chapter Eight: Forbidden#{normal}#
 
@@ -476,7 +476,7 @@ At the other end of the cavern a wall of ice blocked our way.  Linaniil held up 
 
 This cold, crypt-like hollow was covered in smooth, glistening ice on all sides.  The walls were square and straight, and ancient pillars of marble were dotted about the room.  On the pillars and walls were weathered runes and symbols.  I came close to study some, but couldn’t recognise them from any of my studies.  “What was this place?” I asked, turning to Linaniil.  “It seems older even than Sher’Tul.”
 
-She ran her hand over one of the walls, tracing the outline of a door.  “It be a temple to Quekorja, god of a race called the Weissi.  The were killed off by the Sher’Tul long before our races were born.  They did build this temple in honour of Quekorja, and the last of them did die here defending her.”
+She ran her hand over one of the walls, tracing the outline of a door.  “It be a temple to Quekorja, god of a race whose name somehow escapes my mind.  The were killed off by the Sher’Tul long before our races were born.  They did build this temple in honour of Quekorja, and the last of them did die here defending her.”
 
 I looked about in awe.  Though I had explored many Sher’Tul ruins I hadn’t seen anything like this.  The architecture was simple but elegant.  There was a crude beauty to it all.  I turned back to the door Linaniil was examining.
 

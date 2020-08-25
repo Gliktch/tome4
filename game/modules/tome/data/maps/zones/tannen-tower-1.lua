@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 -- defineTile section
 defineTile("g", "FLOOR", nil, "DROLEM")
 defineTile("X", "HARDWALL")
-quickEntity('=', {name='open sky', display=' ', does_block_move=true})
+quickEntity('=', {name=_t'open sky', display=' ', does_block_move=true})
 defineTile("p", "FLOOR", nil, "TANNEN")
 defineTile(".", "FLOOR")
 

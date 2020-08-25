@@ -1,5 +1,5 @@
 -- TE4 - T-Engine 4
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,10 +30,15 @@ function _M:init(size, fill_with)
 		self:setSize(size[1], size[2], fill_with)
 	end
 	self.merged_pos = self:point(1, 1)
+	self.on_merged_at = {}
 end
 
 function _M:getSize()
 	return self.data_w, self.data_h
+end
+
+function _M:area()
+	return self.data_w * self.data_h
 end
 
 function _M:setSize(w, h, fill_with)
@@ -56,13 +61,55 @@ function _M:makeData(w, h, fill_with)
 	return data
 end
 
+function _M:erase(fill_with)
+	self.data = self:makeData(self.data_w, self.data_h, fill_with or '#')
+end
+
+function _M:clone()
+	local n = self.new()
+	n.data_w, n.data_h, n.data_size = self.data_w, self.data_h, self.data_size:clone()
+	n.data = table.clone(self.data, true)
+end
+
 function _M:makeCharsTable(v, default)
 	if not v then v = default end
 	if type(v) == "string" then v = {v} end
 	return table.reverse(v)
 end
 
-local point_meta = {
+local point_meta
+
+--- Make a point data, can be added
+function _M:point(x, y)
+	if type(x) == "table" then		
+		local p = {x=math.floor(x.x), y=math.floor(x.y)}
+		setmetatable(p, point_meta)
+		return p
+	else
+		local p = {x=math.floor(x), y=math.floor(y)}
+		setmetatable(p, point_meta)
+		return p
+	end
+end
+
+function _M:pointIterator(sx, sy, tx, ty)
+	sx = sx or 1
+	sy = sy or 1
+	tx = tx or self.data_w
+	ty = ty or self.data_h
+	local ps = {}
+	for i = sx, tx do for j = sy, ty do
+		ps[#ps+1] = self:point(i, j)
+	end end
+	local i = 0
+	return function()
+		if i >= #ps then return nil end
+		i = i + 1
+		return ps[i]
+	end
+end
+
+point_meta = {
 	__add = function(a, b)
 		if type(b) == "number" then return _M:point(a.x + b, a.y + b)
 		else return _M:point(a.x + b.x, a.y + b.y) end
@@ -92,21 +139,36 @@ local point_meta = {
 		area = function(p)
 			return p.y * p.x
 		end,
+		distance = function(p, p2)
+			return core.fov.distance(p.x, p.y, p2.x, p2.y)
+		end,
+		addDir = function(p, dir)
+			local dx, dy = util.dirToCoord(dir)
+			return _M:point(p.x + dx, p.y + dy)
+		end,
+		clone = function(p)
+			return _M:point(p)
+		end,
+		pointsTo = function(p1, p2)
+			local l = core.fov.line(p1.x, p1.y, p2.x, p2.y)
+			local list = {p1:clone()}
+			local lx, ly = l:step()
+			while lx do
+				list[#list+1] = _M:point(lx, ly)
+				lx, ly = l:step()
+			end
+			return list
+		end,
+		iterateTo = function(p1, p2)
+			local list = p1:pointsTo(p2)
+			local i = 0
+			return function()
+				i = i + 1
+				if list[i] then return list[i] else return nil end
+			end
+		end,
 	},
 }
---- Make a point data, can be added
-function _M:point(x, y)
-	if type(x) == "table" then		
-		local p = {x=math.floor(x.x), y=math.floor(x.y)}
-		setmetatable(p, point_meta)
-		return p
-	else
-		local p = {x=math.floor(x), y=math.floor(y)}
-		setmetatable(p, point_meta)
-		return p
-	end
-end
-
 
 --- Returns a point at the center of the map, accounting for merged_pos
 function _M:centerPoint()
@@ -181,6 +243,22 @@ function _M:put(pos, char)
 	end
 end
 
+function _M:get(pos)
+	if self:isBound(pos) then
+		return self.data[pos.y][pos.x]
+	end
+end
+
+function _M:isA(pos, ...)
+	if self:isBound(pos) then
+		local pc = self.data[pos.y][pos.x]
+		for _, c in ipairs{...} do
+			if pc == c then return true end
+		end
+	end
+	return false
+end
+
 --- Flip the map
 function _M:flip(axis)
 	local ndata = self:makeData(self.data_w, self.data_h, '')
@@ -201,6 +279,9 @@ end
 
 --- Rotate the map
 function _M:rotate(angle)
+	if angle == "random" then angle = rng.table{0, 90, 180, 270} end
+	if angle == 0 then return self end
+
 	local function rotate_coords(i, j)
 		local ii, jj = i, j
 		if angle == 90 then ii, jj = j, self.data_w - i + 1
@@ -242,8 +323,31 @@ function _M:scale(sx, sy)
 	return self
 end
 
+--- Used internally to load a tilemap from a lua map file
+function _M:mapLoad(file)
+	local f, err = loadfile(file)
+	if not f then error(err) end
+	setfenv(f, {})
+	local ok, raw = pcall(f)
+	if not ok then error(raw) end
+
+	raw = raw:split('\n')
+	local h = #raw
+	local w = #raw[1]
+
+	local data = {}
+	for y = 1, h do
+		data[y] = {}
+		local row = raw[y]
+		for x = 1, w do
+			data[y][x] = row:sub(x, x) or ' '
+		end
+	end
+	return data, w, h
+end
+
 --- Used internally to load a tilemap from a tmx file
-function _M:tmxLoad(file)
+function _M:tmxLoad(file, select_layer)
 	local f = fs.open(file, "r") local data = f:read(10485760) f:close()
 	local map = lom.parse(data)
 	local mapprops = {}
@@ -282,39 +386,41 @@ function _M:tmxLoad(file)
 	end
 
 	for _, layer in ipairs(map:findAll("layer")) do
-		local mapdata = layer:findOne("data")
-		if mapdata.attr.encoding == "base64" then
-			local b64 = mime.unb64(mapdata[1]:trim())
-			local data
-			if mapdata.attr.compression == "zlib" then data = zlib.decompress(b64)
-			elseif not mapdata.attr.compression then data = b64
-			else error("tmx map compression unsupported: "..mapdata.attr.compression)
-			end
-			local gid, i = nil, 1
-			local x, y = 1, 1
-			while i <= #data do
-				gid, i = struct.unpack("<I4", data, i)				
-				populate(x, y, gid)
-				x = x + 1
-				if x > w then x = 1 y = y + 1 end
-			end
-		elseif mapdata.attr.encoding == "csv" then
-			local data = mapdata[1]:gsub("[^,0-9]", ""):split(",")
-			local x, y = 1, 1
-			for i, gid in ipairs(data) do
-				gid = tonumber(gid)
-				populate(x, y, gid)
-				x = x + 1
-				if x > w then x = 1 y = y + 1 end
-			end
-		elseif not mapdata.attr.encoding then
-			local data = mapdata:findAll("tile")
-			local x, y = 1, 1
-			for i, tile in ipairs(data) do
-				local gid = tonumber(tile.attr.gid)
-				populate(x, y, gid)
-				x = x + 1
-				if x > w then x = 1 y = y + 1 end
+		if not select_layer or layer.attr.name == select_layer then
+			local mapdata = layer:findOne("data")
+			if mapdata.attr.encoding == "base64" then
+				local b64 = mime.unb64(mapdata[1]:trim())
+				local data
+				if mapdata.attr.compression == "zlib" then data = zlib.decompress(b64)
+				elseif not mapdata.attr.compression then data = b64
+				else error("tmx map compression unsupported: "..mapdata.attr.compression)
+				end
+				local gid, i = nil, 1
+				local x, y = 1, 1
+				while i <= #data do
+					gid, i = struct.unpack("<I4", data, i)				
+					populate(x, y, gid)
+					x = x + 1
+					if x > w then x = 1 y = y + 1 end
+				end
+			elseif mapdata.attr.encoding == "csv" then
+				local data = mapdata[1]:gsub("[^,0-9]", ""):split(",")
+				local x, y = 1, 1
+				for i, gid in ipairs(data) do
+					gid = tonumber(gid)
+					populate(x, y, gid)
+					x = x + 1
+					if x > w then x = 1 y = y + 1 end
+				end
+			elseif not mapdata.attr.encoding then
+				local data = mapdata:findAll("tile")
+				local x, y = 1, 1
+				for i, tile in ipairs(data) do
+					local gid = tonumber(tile.attr.gid)
+					populate(x, y, gid)
+					x = x + 1
+					if x > w then x = 1 y = y + 1 end
+				end
 			end
 		end
 	end
@@ -334,11 +440,15 @@ function _M:hasResult()
 end
 
 --- Locate a specific tile
-function _M:locateTile(char, erase)
+function _M:locateTile(char, erase, min_x, min_y, max_x, max_y, allow_position)
 	local res = {}
-	for i = 1, self.data_w do
-		for j = 1, self.data_h do
-			if self.data[j][i] == char then
+	min_x = min_x or 1
+	min_y = min_y or 1
+	max_x = max_x or self.data_w
+	max_y = max_y or self.data_h
+	for i = min_x, max_x do
+		for j = min_y, max_y do
+			if self.data[j][i] == char and (not allow_position or allow_position(self:point(i, j))) then
 				res[#res+1] = self:point(i, j)
 				if erase then self.data[j][i] = erase end
 			end
@@ -346,6 +456,22 @@ function _M:locateTile(char, erase)
 	end
 	if #res == 0 then return nil end
 	return rng.table(res), res
+end
+
+--- Find the number of the given tiles in the neighbourhood
+function _M:countNeighbours(where, kind, replace)
+	if type(kind) == "table" then kind = table.reverse(kind)
+	else kind = {[kind]=true} end
+	local pos = {}
+	for i = -1, 1 do for j = -1, 1 do if i ~= 0 or j ~= 0 then
+		local p = where + self:point(i, j)
+		local c = self:get(p)
+		if c and kind[c] then
+			pos[#pos+1] = p
+			if replace then self:put(p, replace) end
+		end
+	end end end
+	return #pos, pos
 end
 
 --- Finds a random location with enough area available
@@ -380,7 +506,7 @@ end
 --- Returns the bounding rectangle of a list of points
 function _M:pointsBoundingRectangle(list)
 	local to = self:point(1, 1)
-	local from = self:point(self.data_w, self.data_h)
+	local from = self:point(999999, 999999)
 	for _, p in ipairs(list) do
 		if p.x < from.x then from.x = p.x end
 		if p.x > to.x then to.x = p.x end
@@ -390,10 +516,225 @@ function _M:pointsBoundingRectangle(list)
 	return from, to
 end
 
+local group_meta
+
+--- Make a point data, can be added
+function _M:group(list)
+	local g = {list=list}
+	setmetatable(g, group_meta)
+	g:updateReverse()
+	return g
+end
+
+group_meta = {
+	__add = function(a, b)
+		local g = _M:group{}
+		for _, p in ipairs(a.list) do g:add(p:clone()) end
+		for _, p in ipairs(b.list) do g:add(p:clone()) end
+		return g
+	end,
+	__sub = function(a, b)
+		local g = _M:group{}
+		for _, p in ipairs(a.list) do g:add(p:clone()) end
+		for _, p in ipairs(b.list) do g:remove(p:clone()) end
+		return g
+	end,
+	__eq = function(a, b)
+		if #a.list ~= #b.list then return false end
+		for _, p in ipairs(b.list) do
+			if not a.reverse[p.x] or not not a.reverse[p.x][p.y] then return false end
+		end
+		return true
+	end,
+	__tostring = function(g)
+		return ("Group[%s](%d points)"):format(tostring(g.list), #g.list)
+	end,
+	__index = {
+		print = function(g)
+			print(g)
+			for i, p in ipairs(g.list) do print(" - "..p.x.." x "..p.y) end
+		end,
+		updateReverse = function(g)
+			g.reverse = {}
+			for j = 1, #g.list do
+				local jn = g.list[j]
+				g.reverse[jn.x] = g.reverse[jn.x] or {}
+				g.reverse[jn.x][jn.y] = jn
+			end
+		end,
+		sortPoints = function(g, fct)
+			table.sort(g.list, fct or function(a, b)
+				if a.x == b.x then return a.y < b.y
+				else return a.x < b.x end
+			end)
+		end,
+		area = function(g)
+			return #g.list
+		end,
+		center = function(g)
+			if #g.list == 0 then return _M:point(-1, -1) end
+			local c = _M:point(0, 0)
+			for _, p in ipairs(g.list) do c = c + p end
+			c = c / #g.list
+
+			-- If we have the center in the group, easy!
+			if g:hasPoint(c) then return c end
+
+			-- If not, we find the closest point to the center
+			local list = {}
+			for _, p in ipairs(g.list) do
+				list[#list+1] = {p=p, dist=c:distance(p)}
+			end
+			table.sort(list, "dist")
+
+			return list[1]
+		end,
+		bounds = function(g)
+			return _M:pointsBoundingRectangle(g.list)
+		end,
+		size = function(g)
+			local from, to = g:bounds()
+			return to - from + 1
+		end,
+		submap = function(g, map)
+			local Proxy = require "engine.tilemaps.Proxy"
+
+			local from, to = g:bounds()
+			to = to - from + 1
+			local sm = Proxy.new(map, from, to.x, to.y)
+			sm:maskOtherPoints(g.list, true)
+			g.map = sm
+			return sm
+		end,
+		add = function(g, p)
+			if g.reverse[p.x] and g.reverse[p.x][p.y] then return false end
+			g.list[#g.list+1] = p
+			g.reverse[p.x] = g.reverse[p.x] or {}
+			g.reverse[p.x][p.y] = p
+			return true
+		end,
+		remove = function(g, p)
+			if not g.reverse[p.x] or not g.reverse[p.x][p.y] then return false end
+			for i, pp in ipairs(g.list) do if pp == p then
+				table.remove(g.list, i)
+				break
+			end end
+			g.reverse[p.x][p.y] = nil
+			if not next(g.reverse[p.x]) then g.reverse[p.x] = nil end
+			return true
+		end,
+		translate = function(g, tp)
+			for i, p in ipairs(g.list) do
+				g.list[i] = p + tp
+			end
+			g:updateReverse()
+		end,
+		fill = function(g, map, ...)
+			local chars = {...}
+			for i, p in ipairs(g.list) do
+				map:put(p, (rng.table(chars)))
+			end
+		end,
+		hasPoint = function(g, x, y)
+			if type(x) == "table" then x, y = x.x, x.y end
+			return g.reverse[x] and g.reverse[x][y]
+		end,
+		pickSpot = function(group, mode, what, mapcheck)
+			local function check(x, y)
+				if mapcheck then
+					local r = mapcheck(_M:point(x, y))
+					if r ~= nil then return r end
+				end
+				return group.reverse[x] and group.reverse[x][y]
+			end
+
+			local list = table.clone(group.list)
+			while #list > 0 do
+				local jn = rng.tableRemove(list)
+				if mode == "any" or not mode then
+					return jn
+				elseif mode == "inside-wall" then
+					local g8 = check(jn.x+0, jn.y-1)
+					local g2 = check(jn.x+0, jn.y+1)
+					local g4 = check(jn.x-1, jn.y+0)
+					local g6 = check(jn.x+1, jn.y+0)
+					local g7 = check(jn.x-1, jn.y-1)
+					local g3 = check(jn.x+1, jn.y+1)
+					local g1 = check(jn.x-1, jn.y+1)
+					local g9 = check(jn.x+1, jn.y-1)
+					if not what or what == "any" or what == "straight" then
+						if g8 and g2 and not g4 and not g6 then
+							return jn
+						elseif g4 and g6 and not g2 and not g8 then
+							return jn
+						end
+					end
+					if what == "any" or what == "diagonal" then
+						if not g8 and not g2 and not g4 and not g6 then
+							return jn
+						elseif not g4 and not g6 and not g2 and not g8 then
+							return jn
+						end
+					end
+				elseif mode == "corder" then
+					local g8 = check(jn.x+0, jn.y-1)
+					local g2 = check(jn.x+0, jn.y+1)
+					local g4 = check(jn.x-1, jn.y+0)
+					local g6 = check(jn.x+1, jn.y+0)
+					local g7 = check(jn.x-1, jn.y-1)
+					local g3 = check(jn.x+1, jn.y+1)
+					local g1 = check(jn.x-1, jn.y+1)
+					local g9 = check(jn.x+1, jn.y-1)
+					if not what or what == "any" or what == "straight" then
+						if not g8 and g2 and not g4 and g6 and not g7 and not g3  and not g1 and not g9 then
+							return jn
+						elseif g4 and not g6 and g2 and not g8  and not g7 and not g3  and not g1 and not g9 then
+							return jn
+						elseif g4 and not g6 and not g2 and g8  and not g7 and not g3  and not g1 and not g9 then
+							return jn
+						elseif not g4 and g6 and not g2 and g8  and not g7 and not g3  and not g1 and not g9 then
+							return jn
+						end
+					end
+					if what == "any" or what == "diagonal" then
+						if not g4 and not g6 and not g2 and not g8 and g7 and not g3 and g1 and not g7 then
+							return jn
+						elseif not g4 and not g6 and not g2 and not g8  and g7 and not g3  and not g1 and g9 then
+							return jn
+						elseif not g4 and not g6 and not g2 and not g8  and not g7 and g3  and not g1 and g9 then
+							return jn
+						elseif not g4 and not g6 and not g2 and not g8  and not g7 and g3  and g1 and not g9 then
+							return jn
+						end
+					end
+				elseif mode == "has-neighbours" then
+					local nb = 0
+					for i = -1, 1 do for j = -1, 1 do if (i ~= 0 or j ~= 0) and check(jn.x+i, jn.y+j) then
+						nb = nb + 1
+					end end end
+					if nb == what then
+						return jn
+					end
+				end
+			end
+			return nil
+		end,
+		randomNearPoint = function(g, p)
+			local points = {}
+			for i = -1, 1 do for j = -1, 1 do
+				if (i ~= 0 or j ~= 0) and g:hasPoint(p.x + i, p.y + j) then
+					points[#points+1] = g:hasPoint(p.x + i, p.y + j)
+				end
+			end end
+			if #points == 0 then return nil end
+			return rng.table(points)
+		end,
+	},
+}
+
 --- Return a list of groups of tiles that matches the given cond function
 function _M:findGroups(cond)
 	if not self.data then return {} end
-	local Proxy = require "engine.tilemaps.Proxy"
 
 	local fills = {}
 	local opens = {}
@@ -440,12 +781,7 @@ function _M:findGroups(cond)
 		local i, l = next(list)
 		local closed = floodFill(l.x, l.y)
 
-		local from, to = self:pointsBoundingRectangle(closed)
-		to = to - from + 1
-		local map = Proxy.new(self, from, to.x, to.y)
-		map:maskOtherPoints(closed, true)
-
-		groups[#groups+1] = {list=closed, map=map}
+		groups[#groups+1] = self:group(closed)
 		print("[Tilemap] Floodfill group", i, #closed)
 	end
 
@@ -466,9 +802,9 @@ end
 
 --- Apply a custom method over the given groups, sorting them from bigger to smaller
 -- It gives the groups in order of bigger to smaller
-function _M:applyOnGroups(groups, fct)
+function _M:applyOnGroups(groups, fct, nosort)
 	if not self.data then return end
-	table.sort(groups, function(a,b) return #a.list > #b.list end)
+	if not nosort then table.sort(groups, function(a,b) return #a.list > #b.list end) end
 	for id, group in ipairs(groups) do
 		fct(group, id)
 	end
@@ -504,11 +840,25 @@ function _M:eliminateByFloodfill(walls)
 	if g and #g.list > 0 then
 		print("[Tilemap] Ok floodfill with main group size", #g.list)
 		self:eliminateGroups(walls[1], groups)
-		return #g.list
+		return #g.list, g
 	else
 		print("[Tilemap] Floodfill left nothing")
 		return 0
 	end
+end
+
+function _M:getBorderGroup(group)
+	local border = self:group{}
+	for _, d in ipairs(group.list) do
+		for i = -1, 1 do for j = -1, 1 do if (i ~= 0 or j ~= 0) and self.data[d.y+j] and self.data[d.y+j][d.x+i] then
+			if not group:hasPoint(d.x+i, d.y+j) then
+				if not border:hasPoint(d.x+i, d.y+j, true) then
+					border:add(self:point{x=d.x+i, y=d.y+j})
+				end
+			end
+		end end end
+	end
+	return border
 end
 
 function _M:fillGroup(group, char)
@@ -519,17 +869,6 @@ function _M:fillGroup(group, char)
 	end
 end
 
-function _M:isInGroup(group, x, y)
-	if not group.reverse then
-		group.reverse = {}
-		for j = 1, #group.list do
-			local jn = group.list[j]
-			group.reverse[jn.x] = group.reverse[jn.x] or {}
-			group.reverse[jn.x][jn.y] = true
-		end
-	end
-	return group.reverse[x] and group.reverse[x][y]
-end
 --[=[
 --- Find the biggest rectangle that can fit fully in the given group
 function _M:groupInnerRectangle(group)
@@ -638,7 +977,7 @@ function _M:groupOuterRectangle(group)
 
 	-- Debug
 	-- for i = x1, x2 do for j = y1, y2 do
-	-- 	if not self:isInGroup(group, i, j) then
+	-- 	if not group:hasPoint(i, j) then
 	-- 		if self.data[j][i] == '#' then
 	-- 			self.data[j][i] = 'T'
 	-- 		end
@@ -649,9 +988,10 @@ function _M:groupOuterRectangle(group)
 end
 
 --- Carve out a simple linear path from coords until a tile is reached
-function _M:carveLinearPath(char, from, dir, stop_at, dig_only_into)
+function _M:carveLinearPath(char, from, dir, stop_at, dig_only_into, ignore_first)
 	local x, y = math.floor(from.x), math.floor(from.y)
 	local dx, dy = util.dirToCoord(dir)
+	if ignore_first then x, y = x + dx, y + dy end
 	if type(dig_only_into) == "table" then dig_only_into = table.reverse(dig_only_into) end
 	while x >= 1 and x <= self.data_w and y >= 1 and y <= self.data_h and self.data[y][x] ~= stop_at do
 		if not dig_only_into or (type(dig_only_into) == "table" and dig_only_into[self.data[y][x]]) or (type(dig_only_into) == "function" and dig_only_into(x, y, self.data[y][x])) then 
@@ -661,16 +1001,45 @@ function _M:carveLinearPath(char, from, dir, stop_at, dig_only_into)
 	end
 end
 
+--- Carve out a simple rectangle's border
+function _M:carveBorder(char, from, to, dig_only_into)
+	local list = {}
+	if type(dig_only_into) == "table" then dig_only_into = table.reverse(dig_only_into) end
+	local seens = {}
+	local apply = function(x, y)
+		if seens[x] and seens[x][y] then return end
+		seens[x] = seens[x] or {} seens[x][y] = true
+		if x >= 1 and x <= self.data_w and y >= 1 and y <= self.data_h then
+			if not dig_only_into or (type(dig_only_into) == "table" and dig_only_into[self.data[y][x]]) or (type(dig_only_into) == "function" and dig_only_into(x, y, self.data[y][x])) then
+				self.data[y][x] = char
+				list[#list+1] = self:point(x, y)
+			end
+		end
+	end
+	for x = from.x, to.x do
+		apply(x, from.y)
+		apply(x, to.y)
+	end
+	for y = from.y, to.y do
+		apply(from.x, y)
+		apply(to.x,y )
+	end
+	return self:group(list)
+end
+
 --- Carve out a simple rectangle
 function _M:carveArea(char, from, to, dig_only_into)
+	local list = {}
 	if type(dig_only_into) == "table" then dig_only_into = table.reverse(dig_only_into) end
 	for x = from.x, to.x do for y = from.y, to.y do
 		if x >= 1 and x <= self.data_w and y >= 1 and y <= self.data_h then
 			if not dig_only_into or (type(dig_only_into) == "table" and dig_only_into[self.data[y][x]]) or (type(dig_only_into) == "function" and dig_only_into(x, y, self.data[y][x])) then
 				self.data[y][x] = char
+				list[#list+1] = self:point(x, y)
 			end
 		end
 	end end
+	return self:group(list)
 end
 
 --- Apply a function over an area
@@ -711,11 +1080,10 @@ end
 
 --- Merge an other Tilemap's data
 function _M:merge(x, y, tm, char_order, empty_char)
-	if tm.unmergable then error("Trying to merge an unmergable tilemap, likely to be a Proxy") end
-
 	if type(x) == "table" then -- If passed a point, shift the parameters
 		x, y, tm, char_order, empty_char = x.x, x.y, y, tm, char_order
 	end
+	if tm.unmergable then error("Trying to merge an unmergable tilemap, likely to be a Proxy") end
 
 	if not self.data or not tm.data then return end
 	-- if x is a table it's a point data so we shift parameters
@@ -726,7 +1094,7 @@ function _M:merge(x, y, tm, char_order, empty_char)
 	x = math.floor(x)
 	y = math.floor(y)
 	
-	char_order = table.reverse(char_order or {})
+	if type(char_order) ~= "function" then char_order = table.reverse(char_order or {}) end
 	
 	empty_char = empty_char or {' '}
 	if type(empty_char) == "string" then empty_char = {empty_char} end
@@ -741,21 +1109,32 @@ function _M:merge(x, y, tm, char_order, empty_char)
 				local c = tm.data[j][i]
 				if not empty_char[c] then
 					local sc = self.data[sj][si]
-					local sc_o = char_order[sc] or 0
-					local c_o = char_order[c] or 0
+					if type(char_order) == "table" then
+						local sc_o = char_order[sc] or 0
+						local c_o = char_order[c] or 0
 
-					if c_o >= sc_o then
-						self.data[sj][si] = tm.data[j][i]
+						if c_o >= sc_o then
+							self.data[sj][si] = tm.data[j][i]
+						end
+					else
+						if char_order(si, sj, sc, c) then
+							self.data[sj][si] = tm.data[j][i]
+						end
 					end
 				end
 			end
 		end
 	end
-	tm:mergedAt(x, y)
+	tm:mergedAt(x, y, self)
 end
 
-function _M:mergedAt(x, y)
+function _M:mergedAt(x, y, into)
 	self.merged_pos = self.merged_pos + self:point(x, y) - 1
+	for _, fct in ipairs(self.on_merged_at) do
+		if fct(self, x, y, into) then
+			into.on_merged_at[#into.on_merged_at+1] = fct
+		end
+	end
 end
 
 function _M:findExits(pos, kind, exitable_chars)
@@ -1031,7 +1410,9 @@ function _M:tunnel(from, to, char, tunnel_through, tunnel_avoid, config, virtual
 		if t[3] ~= "ignore" and not virtual then
 			-- print("=======TUNN", nx, ny)
 			-- self.map(nx, ny, Map.TERRAIN, self:resolve('=') or self:resolve('.') or self:resolve('floor'))
-			self:put(self:point(nx, ny), char)
+			local char = char
+			if type(char) == "function" then char = char(self:point(nx, ny)) end
+			if char then self:put(self:point(nx, ny), char) end
 		end
 	end
 end
@@ -1167,6 +1548,7 @@ function _M:tunnelAStar(from, to, char, tunnel_through, tunnel_avoid, config)
 			local score = 1
 			if config.weight_erraticness > 0 then score = score + rng.float(0, config.weight_erraticness) end
 			if config.weights[nc] then score = score + config.weights[nc] end
+			if config.weights_fct then score = score + config.weights_fct(nx, ny, nc) end
 			if self.tunnels_map[ny][nx] then score = score + config.weight_tunnel end
 			local tent_g_score = g_score[node] + score -- we can adjust here for difficult passable terrain
 			local tent_is_better = false
@@ -1194,6 +1576,7 @@ function _M:tunnelAStar(from, to, char, tunnel_through, tunnel_avoid, config)
 
 		if node == stop then return self:astarCreatePath(came_from, from, to, stop, id, char, config, tunnel_through) end
 
+		if not node then return end
 		open[node] = nil
 		closed[node] = true
 		local x, y = self:astarToDouble(node)
@@ -1204,3 +1587,110 @@ function _M:tunnelAStar(from, to, char, tunnel_through, tunnel_avoid, config)
 		end
 	end
 end
+
+-------------------------------------------- Binpacker
+local binpack_meta
+
+--- Make a point data, can be added
+function _M:binpack(size_x, size_y, margin_x, margin_y, maps)
+	margin_x, margin_y = margin_x or 1, margin_y or 1
+	size_x, size_y = size_x or self.data_w, size_y or self.data_h
+	local binpack = require('binpack')
+	local bp = binpack(size_x, size_y)
+	local maps = maps or {}
+	local g = {into=self, maps={}, bp=bp, default_margin_x=margin_x, default_margin_y=margin_y, size_x=size_x, size_y=size_y}
+	for _, m in ipairs(maps) do
+		g.maps[m] = {
+			margin_x = margin_x,
+			margin_y = margin_y,
+		}
+	end
+	setmetatable(g, binpack_meta)
+	return g
+end
+
+binpack_meta = {
+	__tostring = function(self)
+		return ("Binpacker (%d maps)"):format(#self.maps)
+	end,
+	__index = {
+		add = function(self, map, margin_x, margin_y)
+			margin_x, margin_y = margin_x or self.default_margin_x, margin_y or self.default_margin_y
+			self.maps[map] = {
+				margin_x = margin_x,
+				margin_y = margin_y,
+			}
+			return self
+		end,
+		compute = function(self, sort)
+			self.bp:clear(self.size_x, self.size_y)
+			local list = {}
+			for map, params in pairs(self.maps) do
+				params.computed, params.pos = nil, nil
+				list[#list+1] = map
+			end
+			if sort == "random" then
+				table.shuffle(list)
+			elseif sort == false then
+				table.sort(list, function(a, b) return a:area() > b:area() end)
+			elseif sort == true then
+				table.sort(list, function(a, b) return a:area() < b:area() end)
+			elseif type(sort) == "function" then
+				table.sort(list, sort)
+			end
+
+			for _, map in ipairs(list) do
+				local params = self.maps[map]
+				local coords = self.bp:insert(map.data_w + 2 * params.margin_x, map.data_h + 2 * params.margin_y)
+				if coords then
+					params.computed = true
+					params.pos = _M:point(coords.x + 1 + params.margin_x, coords.y + 1 + params.margin_y)
+				end
+			end
+
+			return self
+		end,
+		resolve = function(self)
+			for map, params in pairs(self.maps) do
+				if not params.computed then
+					local coords = self.bp:insert(map.data_w + 2 * params.margin_x, map.data_h + 2 * params.margin_y)
+					if not coords then return false end
+					params.computed = true
+					params.pos = _M:point(coords.x + 1 + params.margin_x, coords.y + 1 + params.margin_y)
+				end
+			end
+			return true
+		end,
+		merge = function(self)
+			self.merged_maps = {}
+			for map, params in pairs(self.maps) do if params.computed then
+				if map.build then map:build() end
+				self.into:merge(params.pos, map)
+				self.merged_maps[#self.merged_maps+1] = map
+			end end
+		end,
+		hasMerged = function(self, map)
+			if map then
+				return self.maps[map] and self.maps[map].computed and self.maps[map].pos
+			else
+				for map, params in pairs(self.maps) do
+					if map.required_to_merge and not params.computed then return false end
+				end
+				return true
+			end
+		end,
+		getMerged = function(self)
+			return self.merged_maps
+		end,
+		getNotMerged = function(self)
+			local list = {}
+			for map, params in pairs(self.maps) do if not params.computed then
+				list[#list+1] = map
+			end end
+			return list
+		end,
+		iteratorMerged = function(self)
+			return ipairs(self.merged_maps)
+		end,
+	},
+}

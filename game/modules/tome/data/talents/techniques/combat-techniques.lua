@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 newTalent{
 	name = "Rush",
 	type = {"technique/combat-techniques-active", 1},
-	message = "@Source@ rushes out!",
+	message = _t"@Source@ rushes out!",
 	require = techs_strdex_req1,
 	points = 5,
 	random_ego = "attack",
@@ -33,7 +33,7 @@ newTalent{
 	requires_target = true,
 	is_melee = true,
 	target = function(self, t) return {type="bolt", range=self:getTalentRange(t), requires_knowledge=false, stop__block=true} end,
-	range = function(self, t) return math.floor(self:combatTalentScale(t, 6, 10)) end,
+	range = function(self, t) return math.min(14, math.floor(self:combatTalentScale(t, 6, 10))) end,
 	on_pre_use = function(self, t)
 		if self:attr("never_move") then return false end
 		return true
@@ -83,10 +83,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Rush toward a target spot with incredible speed.
-		If the spot is reached and occupied, you will perform a free melee attack against the target there.
-		This attack does 120% weapon damage and can daze the target for 3 turns if it hits.
-		You must rush from at least 2 tiles away.]])
+		return ([[Rush toward a target enemy with incredible speed and perform a melee attack for 120%% weapon damage that can daze the target for 3 turns if it hits.
+		You must rush from at least 2 tiles away.]]):tformat()
 	end,
 }
 
@@ -120,7 +118,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You focus your strikes, reducing your attack speed by %d%% and increasing your Accuracy by %d and critical chance by %d%%.
 		The effects will increase with your Dexterity.]]):
-		format(10, t.getAtk(self, t), t.getCrit(self, t))
+		tformat(10, t.getAtk(self, t), t.getCrit(self, t))
 	end,
 }
 
@@ -130,18 +128,18 @@ newTalent{
 	points = 5,
 	random_ego = "attack",
 	cooldown = 25,
-	stamina = 10,
+	stamina = 25,
 	require = techs_strdex_req3,
 	no_energy = true,
 	tactical = { BUFF = 2 },
-	getDuration = function(self, t) return math.floor(self:combatTalentLimit(t, 25, 2, 6)) end, -- Limit < 25
+	getDuration = function(self, t) return math.floor(self:combatTalentLimit(t, 7, 2, 5)) end, -- Limit < 25
 	getAtk = function(self, t) return self:combatTalentScale(t, 40, 100, 0.75) end,
 	action = function(self, t)
 		self:setEffect(self.EFF_ATTACK, t.getDuration(self, t), {power = t.getAtk(self, t)})
 		return true
 	end,
 	info = function(self, t)
-		return ([[You have learned to focus your blows to hit your target, granting +%d accuracy and allowing you to attack creatures you cannot see without penalty for the next %d turns.]]):format(t.getAtk(self, t), t.getDuration(self, t))
+		return ([[You have learned to focus your blows to hit your target, granting +%d accuracy and allowing you to attack creatures you cannot see without penalty for the next %d turns.]]):tformat(t.getAtk(self, t), t.getDuration(self, t))
 	end,
 }
 
@@ -154,19 +152,20 @@ newTalent{
 	stamina = 25,
 	no_energy = true,
 	require = techs_strdex_req4,
+	random_boss_rarity = 33, -- common tree on classes and global speed is immensely powerful 
 	tactical = { BUFF = 2, CLOSEIN = 2, ESCAPE = 2 },
 	on_pre_use_ai = function(self, t) -- don't use out of combat
 		local target = self.ai_target.actor
 		if target and core.fov.distance(self.x, self.y, target.x, target.y) <= 10 and self:hasLOS(target.x, target.y, "block_move") then return true end
 		return false
 	end,
-	getSpeed = function(self, t) return self:combatTalentScale(t, 0.14, 0.45, 0.75) end,
+	getSpeed = function(self, t) return self:combatTalentScale(t, 0.14, 0.4) end,
 	action = function(self, t)
 		self:setEffect(self.EFF_SPEED, 5, {power=t.getSpeed(self, t)})
 		return true
 	end,
 	info = function(self, t)
-		return ([[Through rigorous training, you have learned to focus your actions for a short while, increasing your speed by %d%% for 5 turns.]]):format(100*t.getSpeed(self, t))
+		return ([[Through rigorous training, you have learned to focus your actions for a short while, increasing your speed by %d%% for 5 turns.]]):tformat(100*t.getSpeed(self, t))
 	end,
 }
 
@@ -184,7 +183,7 @@ newTalent{
 		self:talentTemporaryValue(p, "stamina_regen", t.getStamRecover(self, t))
 	end,
 	info = function(self, t)
-		return ([[Your combat focus allows you to regenerate stamina faster (+%0.1f stamina/turn).]]):format(t.getStamRecover(self, t))
+		return ([[Your combat focus allows you to regenerate stamina faster (+%0.1f stamina/turn).]]):tformat(t.getStamRecover(self, t))
 	end,
 }
 
@@ -199,7 +198,7 @@ newTalent{
 		self:talentTemporaryValue(p, "life_regen", t.getRegen(self, t))
 	end,
 	info = function(self, t)
-		return ([[Your combat focus allows you to regenerate life faster (+%0.1f life/turn).]]):format(t.getRegen(self, t))
+		return ([[Your combat focus allows you to regenerate life faster (+%0.1f life/turn).]]):tformat(t.getRegen(self, t))
 	end,
 }
 
@@ -209,11 +208,13 @@ newTalent{
 	require = techs_strdex_req3,
 	mode = "passive",
 	points = 5,
+	random_boss_rarity = 50, -- super common tree and this disproportionately targets mages
+	getSaves = function(self, t) return math.floor(self:combatTalentScale(t, 12, 48)) end,
 	passives = function(self, t, p)
-		self:talentTemporaryValue(p, "combat_spellresist", self:getTalentLevel(t) * 9)
+		self:talentTemporaryValue(p, "combat_spellresist", t.getSaves(self,t))
 	end,
 	info = function(self, t)
-		return ([[Rigorous training allows you to be more resistant to some spell effects (+%d spell save).]]):format(self:getTalentLevel(t) * 9)
+		return ([[Rigorous training allows you to be more resistant to some spell effects (+%d spell save).]]):tformat(t.getSaves(self,t))
 	end,
 }
 
@@ -226,6 +227,6 @@ newTalent{
 	getStamRecover = function(self, t) return self:combatTalentScale(t, 5, 20, 0.5) end, -- Lower scaling than other recovery talents because it effectively scales with character speed and can trigger more than once a turn
 	points = 5,
 	info = function(self, t)
-		return ([[You revel in the death of your foes, regaining %0.1f stamina with each death you cause.]]):format(t.getStamRecover(self, t))
+		return ([[You revel in the death of your foes, regaining %0.1f stamina with each death you cause.]]):tformat(t.getStamRecover(self, t))
 	end,
 }

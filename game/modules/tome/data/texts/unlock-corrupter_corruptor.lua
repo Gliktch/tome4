@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return "New Class: #LIGHT_GREEN#Corruptor (Defiler)",
-[[Every power has a dark side, including the arcane forces.
+return _t"New Class: #LIGHT_GREEN#Corruptor (Defiler)",
+_t[[Every power has a dark side, including the arcane forces.
 Corruptors are mages that deal in dark, blighted, demonic magic to attain their goals.
 Not all of them are evil, though; some are simply selfish and concerned only with their own power.
 

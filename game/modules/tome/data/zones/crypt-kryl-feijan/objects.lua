@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@ newEntity{ base = "BASE_MINDSTAR",
 	power_source = {psionic = true },
 	unique = true,
 	name = "Writhing Essence of Nightmares",
-	desc = [[Whispers seem to ceaselessly emanate from this writhing mass of black tentacles, murmuring unspeakable horrors into the ears of any unfortunate enough to hear them.]],
-	unided_name = "writhing mindstar",
+	desc = _t[[Whispers seem to ceaselessly emanate from this writhing mass of black tentacles, murmuring unspeakable horrors into the ears of any unfortunate enough to hear them.]],
+	unided_name = _t"writhing mindstar",
 	level_range = {20, 32},
 	colors = colors.PURPLE , image = "object/artifact/writhing_essence_of_nightmares.png",
 	rarity = 30,

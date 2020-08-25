@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -543,7 +543,7 @@ function resolvers.calc.store(t, e)
 		if who and who.player and act then
 			if self.store_faction and who:reactionToward({faction=self.store_faction}) < 0 then return true end
 			self.store:loadup(game.level, game.zone)
-			self.store:interact(who, self.name)
+			self.store:interact(who, self:getName())
 		end
 		return true
 	end
@@ -592,7 +592,7 @@ function resolvers.mbonus_material(max, add, pricefct)
 	return {__resolver="mbonus_material",  __resolve_instant=true, max, add, pricefct}
 end
 function resolvers.calc.mbonus_material(t, e)
-	local ml = e.material_level or 1
+	local ml = e.effective_ego_material_level or e.material_level or 1
 	local v = math.ceil(rng.mbonus(t[1], resolvers.current_level, resolvers.mbonus_max_level) * ml / 5) + (t[2] or 0)
 
 	if e.cost and t[3] then
@@ -680,7 +680,7 @@ function resolvers.random_use_talent(types, power)
 	return {__resolver="random_use_talent", __resolve_last=true, types, power}
 end
 function resolvers.calc.random_use_talent(tt, e)
-	local ml = e.material_level or 1
+	local ml = e.effective_ego_material_level or e.material_level or 1
 	local ts = {}
 	for i, t in ipairs(engine.interface.ActorTalents.talents_def) do
 		if t.random_ego and tt[1][t.random_ego] and t.type[2] < ml then ts[#ts+1]=t.id end
@@ -743,7 +743,7 @@ function resolvers.calc.image_material(t, e)
 	if type(t[2]) == "string" and t[2] == "wood" then t[2] = {"elm","ash","yew","elvenwood","dragonbone"} end
 	if type(t[2]) == "string" and t[2] == "nature" then t[2] = {"mossy","vined","thorned","pulsing","living"} end
 	if type(t[2]) == "string" and t[2] == "cloth" then t[2] = {"linen","woollen","cashmere","silk","elvensilk"} end
-	local ml = e.material_level or 1
+	local ml = e.effective_ego_material_level or e.material_level or 1
 	return "object/"..t[1].."_"..t[2][ml]..".png"
 end
 
@@ -792,7 +792,7 @@ function resolvers.calc.moddable_tile(t, e)
 	elseif slot == "gembag" then r = {"gembag_01","gembag_02","gembag_03","gembag_04","gembag_05"}
 	end
 	if not r then return end
-	local ml = e.material_level or 1
+	local ml = e.effective_ego_material_level or e.material_level or 1
 	r = r[util.bound(ml, 1, #r)]
 	if r2 then
 		r2 = r2[util.bound(ml, 1, #r2)]
@@ -898,7 +898,7 @@ function resolvers.calc.tactic(t, e)
 	if t[1] == "default" then return {type="default", }
 	elseif t[1] == "standby" then return {type="standby", standby=1}
 	elseif t[1] == "melee" then return {type="melee", attack=2, attackarea=2, disable=2, escape=0, closein=2, go_melee=1}
-	elseif t[1] == "ranged" then return {type="ranged", disable=1.5, escape=3, closein=0, defend=2, heal=2, safe_range=4}
+	elseif t[1] == "ranged" then return {type="ranged", disable=1.5, escape=1.5, closein=0, defend=2, heal=2, safe_range=2}
 	elseif t[1] == "tank" then return {type="tank", disable=3, escape=0, closein=2, defend=2, protect=2, heal=3, go_melee=1}
 	elseif t[1] == "survivor" then return {type="survivor", disable=2, escape=5, closein=0, defend=3, protect=0, heal=6, safe_range=8}
 	end
@@ -934,6 +934,15 @@ function resolvers.calc.talented_ai_tactic(t, e)
 	--print("talented_ai_tactic resolver setting up on_added_to_level function")
 	--print(debug.traceback())
 	local on_added = function(e, level, x, y)
+		if e.ai_tactic then
+			for k, v in pairs(e.ai_tactic) do
+				if type(v) == "number" and v > 0 then
+					print("running talented_ai_tactic resolver but aborting due to existing tactics")
+					return
+				end
+			end
+		end
+
 		print("running talented_ai_tactic resolver on_added_to_level function for", e.uid, e.name)
 		local t = e.__ai_tactic_resolver
 		if not t then print("talented_ai_tactic: No resolver table. Aborting") return end
@@ -1084,6 +1093,11 @@ function resolvers.calc.talented_ai_tactic(t, e)
 		tactic.type = "simple_recursive"
 		--- print("### talented_ai_tactic resolver ai_tactic table:")
 		--- for tac, wt in pairs(tactic) do print("    ##", tac, wt) end
+
+		-- No thanks
+		tactic.escape = 0
+		tactic.safe_range = nil
+
 		e.ai_tactic = tactic
 --		e.__ai_tactic_resolver = nil
 		return tactic
@@ -1161,12 +1175,14 @@ function resolvers.racial(race)
 	return {__resolver="racial", race}
 end
 function resolvers.calc.racial(t, e)
-	if e.type ~= "humanoid" and e.type ~= "giant" and e.type ~= "undead" then return end
+	if e.type ~= "humanoid" and e.type ~= "giant" and e.type ~= "undead" and e.type ~= "construct" then return end
 	local race = t[1] or e.subtype
 	if not racials[race] then return end
 
 	local levelup_talents = e._levelup_talents or {}
-	for tid, level in pairs(racials[race]) do
+	local rcls = racials[race]
+	if type(rcls) == "function" then rcls = rcls(e) end
+	for tid, level in pairs(rcls) do
 		levelup_talents[tid] = table.clone(level)
 	end
 	e._levelup_talents = levelup_talents
@@ -1180,6 +1196,14 @@ local racials_visuals = {
 		Cornac = {
 			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
 			{kind="skin", percent=5, filter={"oneof", {"Skin Color 6", "Skin Color 7", "Skin Color 8"}}},
+			{kind="hairs", filter={"findname", "Dark Hair"}},
+			{kind="hairs", percent=10, filter={"findname", "Redhead "}},
+			{kind="facial_features", percent=20, filter={"findname", "Dark Beard "}},
+			{kind="facial_features", percent=20, filter={"findname", "Dark Mustache "}},
+		},
+		Sholtar = {
+			{kind="skin", filter={"oneof", {"Skin Color 6", "Skin Color 7", "Skin Color 8"}}},
+			{kind="skin", percent=5, filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4", "Skin Color 5"}}},
 			{kind="hairs", filter={"findname", "Dark Hair"}},
 			{kind="hairs", percent=10, filter={"findname", "Redhead "}},
 			{kind="facial_features", percent=20, filter={"findname", "Dark Beard "}},
@@ -1211,6 +1235,11 @@ local racials_visuals = {
 		Halfling = {
 			{kind="skin", filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4"}}},
 			{kind="skin", percent=5, filter={"oneof", {"Skin Color 5", "Skin Color 6"}}},
+			{kind="hairs", filter={"all"}},
+		},
+		DarkSkinHalfling = {
+			{kind="skin", filter={"oneof", {"Skin Color 5", "Skin Color 6"}}},
+			{kind="skin", percent=5, filter={"oneof", {"Skin Color 1", "Skin Color 2", "Skin Color 3", "Skin Color 4"}}},
 			{kind="hairs", filter={"all"}},
 		},
 	},
@@ -1297,7 +1326,9 @@ function resolvers.nice_tile(def)
 end
 function resolvers.calc.nice_tile(t, e)
 	if engine.Map.tiles.nicer_tiles then
-		if t[1].tall then t[1] = {image="invis.png", add_mos = {{image="=BASE=TILE=", display_h=2, display_y=-1}}} end
+		if t[1].tall and not t[1].wide then t[1] = {image="invis.png", add_mos = {{image="=BASE=TILE=", display_h=2, display_y=-1}}}
+		elseif t[1].tall and t[1].wide then t[1] = {image="invis.png", add_mos = {{image="=BASE=TILE=", display_h=2, display_y=-1, display_w=2, display_x=-0.5}}}
+		elseif not t[1].tall and t[1].wide then t[1] = {image="invis.png", add_mos = {{image="=BASE=TILE=", display_w=2, display_x=-0.5}}} end
 		if t[1].add_mos and t[1].add_mos[1] and t[1].add_mos[1].image == "=BASE=TILE=" then t[1].add_mos[1].image = e.image end
 		if t[1].add_mos and t[1].add_mos[1] and t[1].add_mos[1].image then t[1].attachement_spots = t[1].add_mos[1].image end
 		table.merge(e, t[1])
@@ -1363,4 +1394,22 @@ function resolvers.calc.birth_extra_tier1_zone(t, e)
 	-- This is a hacky way to figure out which class/race start got prioritized
 	game.state.birth.bonus_zone_tiers = game.state.birth.bonus_zone_tiers or {}
 	game.state.birth.bonus_zone_tiers[#game.state.birth.bonus_zone_tiers+1] = e[1]
+end
+
+--- Make robes great again
+function resolvers.robe_stats()
+	return {__resolver="robe_stats", __resolve_last=true}
+end
+function resolvers.calc.robe_stats(t, e)
+	e.wielder = e.wielder or {}
+	e.wielder.resists = e.wielder.resists or {}
+	e.wielder.resists.all = (e.wielder.resists.all or 0) + 5 + ((e.material_level or 1) * 2)
+end
+
+--- Make robes great again
+function resolvers.for_campaign(id, fct)
+	return {__resolver="for_campaign", __resolve_last=true, id, fct}
+end
+function resolvers.calc.for_campaign(t, e)
+	if game:isCampaign(t[1]) then t[2](e) end
 end

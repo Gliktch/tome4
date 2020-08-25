@@ -1,5 +1,5 @@
 -- ToME - Tales of Middle-Earth
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ newEntity{
 	define_as = "BASE_NPC_KOBOLD",
 	type = "humanoid", subtype = "kobold",
 	display = "k", color=colors.WHITE,
-	desc = [[Ugly and green!]],
+	desc = _t[[Ugly and green!]],
 
 	ai = "dumb_talented_simple", ai_state = { talent_in=3, },
 	stats = { str=5, dex=5, con=5 },

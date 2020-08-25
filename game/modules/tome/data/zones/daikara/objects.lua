@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ for i = 1, 5 do
 newEntity{ base = "BASE_LORE",
 	define_as = "NOTE"..i,
 	name = "daikara expedition note", lore="daikara-note-"..i,
-	desc = [[A paper scrap, left by an adventurer.]],
+	desc = _t[[A paper scrap, left by an adventurer.]],
 	rarity = false,
 	encumberance = 0,
 }

@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,6 +30,10 @@ Autolevel:registerScheme{ name = "ghoul", levelup = function(self)
 	self:learnStats{ self.STAT_STR, self.STAT_CON }
 end}
 
+Autolevel:registerScheme{ name = "toad", levelup = function(self)
+	self:learnStats{ self.STAT_DEX, self.STAT_CON }
+end}
+
 Autolevel:registerScheme{ name = "zerker", levelup = function(self)
 	self:learnStats{ self.STAT_STR, self.STAT_STR, self.STAT_CON }
 end}
@@ -52,6 +56,10 @@ end}
 
 Autolevel:registerScheme{ name = "caster", levelup = function(self)
 	self:learnStats{ self.STAT_MAG, self.STAT_MAG, self.STAT_WIL }
+end}
+
+Autolevel:registerScheme{ name = "wisecaster", levelup = function(self)
+	self:learnStats{ self.STAT_MAG, self.STAT_WIL }
 end}
 
 Autolevel:registerScheme{ name = "warriormage", levelup = function(self)

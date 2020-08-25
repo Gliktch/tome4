@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -28,9 +28,9 @@ newEntity{
 	define_as = "BASE_NPC_RITCH_REL",
 	type = "insect", subtype = "ritch",
 	display = "I", color=colors.RED,
-	desc = [[Ritches are giant insects native to the arid wastes of the southern parts of the Far East.
+	desc = _t[[Ritches are giant insects native to the arid wastes of the southern parts of the Far East.
 Vicious predators, they inject corrupting diseases into their foes, and their sharp claws cut through most armours.]],
-	killer_message = ", who incubated her eggs in the corpse,",
+	killer_message = _t", who incubated her eggs in the corpse,",
 
 	combat = { dam=resolvers.rngavg(10,32), atk=0, apr=4, damtype=DamageType.BLIGHT, dammod={dex=1.2} },
 
@@ -99,7 +99,7 @@ newEntity{ base = "BASE_NPC_RITCH_REL", define_as = "HIVE_MOTHER",
 	unique = true, female = true,
 	name = "Ritch Great Hive Mother", image = "npc/insect_ritch_ritch_hive_mother.png",
 	display = "I", color=colors.VIOLET,
-	desc = [[This huge ritch seems to be the mother of all those here. Her sharp, fiery, claws dart toward you!]],
+	desc = _t[[This huge ritch seems to be the mother of all those here. Her sharp, fiery, claws dart toward you!]],
 	level_range = {7, nil}, exp_worth = 2,
 	max_life = 120, life_rating = 14, fixed_rating = true,
 	equilibrium_regen = -50,
@@ -144,11 +144,7 @@ newEntity{ base = "BASE_NPC_RITCH_REL", define_as = "HIVE_MOTHER",
 	auto_classes={{class="Summoner", start_level=12, level_rate=75},},
 
 	-- Override the recalculated AI tactics to avoid problematic kiting in the early game
-	on_added_to_level = function(self)
-		if self.level <= 16 then
-			self.ai_tactic.escape = 0
-		end
-	end,
+	low_level_tactics_override = {escape=0},
 	
 	on_die = function(self, who)
 		game.player:setQuestStatus("start-yeek", engine.Quest.COMPLETED, "ritch")

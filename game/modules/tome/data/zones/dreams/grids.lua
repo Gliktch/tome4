@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ newEntity{
 	define_as = "DREAM_MOUSE_HOLE",
 	type = "wall", subtype = "grass",
 	name = "mouse hole",
-	desc = "A hole small enough that only you can go through.",
+	desc = _t"A hole small enough that only you can go through.",
 	color_r=0, color_g=0, color_b=0, notice = true,
 	image = "terrain/jungle/jungle_grass_floor_01.png",
 	add_displays = class:makeTrees("terrain/jungle/jungle_tree_", 17, 7),
@@ -85,7 +85,7 @@ newEntity{
 			local g = game.zone.grid_list.BAMBOO_HUT_FLOOR:clone()
 			game.zone:addEntity(game.level, g, "terrain", x, y)
 			who:heal(100, self)
-			who:removeEffectsFilter{status="detrimental"}
+			who:removeEffectsFilter(self, {status="detrimental"})
 			game.logPlayer(who, "You touch the dreamstone and it disappears. You feel better.")
 		end
 		return true

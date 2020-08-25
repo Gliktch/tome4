@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -49,7 +49,8 @@ defineTile('@', "GRASS", nil, "HIGH_SUN_PALADIN_AERYN")
 defineTile('j', "GRASS", nil, mod.class.NPC.new{
 	type = "humanoid", subtype = "elf",
 	display = "p", color=colors.RED,
-	name = "Limmir the Jeweler",
+	name = _t"Limmir the Jeweler",
+	image = "npc/humanoid_elf_limmir_the_jeweler.png",
 	size_category = 3, rank = 3,
 	ai = "simple",
 	faction = "sunwall",
@@ -60,7 +61,8 @@ defineTile('j', "GRASS", nil, mod.class.NPC.new{
 defineTile('s', "FLOOR", nil, mod.class.NPC.new{
 	type = "humanoid", subtype = "human",
 	display = "p", color=colors.BLUE,
-	name = "Melnela",
+	name = _t"Melnela",
+	image = "npc/humanoid_human_melnela.png",
 	female = true,
 	size_category = 3, rank = 2,
 	ai = "simple",

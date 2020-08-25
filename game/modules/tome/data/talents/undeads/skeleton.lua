@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Improves your skeletal condition, increasing Strength and Dexterity by %d.]]):
-		format(t.statBonus(self, t))
+		tformat(t.statBonus(self, t))
 	end,
 }
 
@@ -44,15 +44,17 @@ newTalent{
 	getShield = function(self, t)
 		return 3.5*self:getDex()+self:combatTalentScale(t, 120, 400) + self:combatTalentLimit(t, 0.1, 0.01, 0.05)*self.max_life
 	end,
-
+	getDuration = function(self, t)
+		return 10
+	end,
 	action = function(self, t)
-		self:setEffect(self.EFF_DAMAGE_SHIELD, 10, {color={0xcb/255, 0xcb/255, 0xcb/255}, power=t.getShield(self, t)})
+		self:setEffect(self.EFF_DAMAGE_SHIELD, t.getDuration(self, t), {color={0xcb/255, 0xcb/255, 0xcb/255}, power=t.getShield(self, t)})
 		return true
 	end,
 	info = function(self, t)
-		return ([[Creates a shield of bones, absorbing %d damage. Lasts for 10 turns.
+		return ([[Creates a shield of bones, absorbing %d damage. Lasts for %d turns.
 		The total damage the shield can absorb increases with your Dexterity.]]):
-		format(t.getShield(self, t) * (100 + (self:attr("shield_factor") or 0)) / 100)
+		tformat(self:getShieldAmount(t.getShield(self, t)), self:getShieldDuration(t.getDuration(self, t)))
 	end,
 }
 
@@ -67,7 +69,7 @@ newTalent{
 	durresist = function(self, t) return self:combatTalentLimit(t, 1, 0.1, 5/12) end, -- Limit < 100%
 	info = function(self, t)
 		return ([[Your undead bones are very resilient, reducing the duration of all detrimental effects on you by up to %d%%.]]):
-		format(100 * t.durresist(self, t))
+		tformat(100 * t.durresist(self, t))
 	end,
 }
 
@@ -97,6 +99,6 @@ newTalent{ short_name = "SKELETON_REASSEMBLE",
 	info = function(self, t)
 		return ([[Reposition some of your bones, healing yourself for %d.
 		At level 5, you will gain the ability to completely re-assemble your body should it be destroyed (can only be used once).]]):
-		format(t.getHeal(self, t))
+		tformat(t.getHeal(self, t))
 	end,
 }

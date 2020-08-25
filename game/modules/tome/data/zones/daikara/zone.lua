@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ local layout = game.state:alternateZone(short_name, {"VOLCANO", 2})
 local is_volcano = layout == "VOLCANO"
 
 return {
-	name = "Daikara",
+	name = _t"Daikara",
 	level_range = {7, 16},
 	level_scheme = "player",
 	max_level = 4,
@@ -43,7 +43,7 @@ return {
 			edge_entrances = {2,8},
 			rooms = {"forest_clearing", "rocky_snowy_trees", {"lesser_vault",7}},
 			rooms_config = {forest_clearing={pit_chance=5, filters={{}}}},
-			lesser_vaults_list = {"snow-giant-camp"},
+			lesser_vaults_list = {"snow-giant-camp", "perilous-cliffs"},
 			['.'] = is_volcano and function() if rng.percent(5 + game.level.level * 6) then return "LAVA_FLOOR" else return "ROCKY_GROUND" end end or "ROCKY_GROUND",
 			['T'] = "ROCKY_SNOWY_TREE",
 			['#'] = "MOUNTAIN_WALL",
@@ -132,7 +132,7 @@ return {
 	on_enter = function(lev)
 		if lev == 1 and not game.level.data.warned and game.zone.is_volcano then
 			game.level.data.warned = true
-			require("engine.ui.Dialog"):simpleLongPopup("BOOM!", "As you walk toward the Daikara you can not fail to notice the huge volcano that erupts in the center of it, right where the path is taking you.\nYou see pyroclasts ejected from the heart of the volcano, they look relatively harmless but very impressive.", 400)
+			require("engine.ui.Dialog"):simpleLongPopup(_t"BOOM!", _t"As you walk toward the Daikara you can not fail to notice the huge volcano that erupts in the center of it, right where the path is taking you.\nYou see pyroclasts ejected from the heart of the volcano, they look relatively harmless but very impressive.", 400)
 		end
 	end,
 }

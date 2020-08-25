@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ newTalent{
 		local heal = t.getHeal(self, t)
 		return ([[An invigorating ray of Sunlight shines upon you, healing your body for %d life.
 		The amount healed will increase with your Spellpower.]]):
-		format(heal)
+		tformat(heal)
 	end,
 }
 
@@ -88,7 +88,7 @@ newTalent{
 		If the same shield is refreshed 20 times it will become unstable and explode, removing it.
 		It also lights up the affected area.
 		The amount healed will increase with the Magic stat]]):
-		format(radius, heal, heal_fact*100, duration)
+		tformat(radius, heal, heal_fact*100, duration)
 	end,
 }
 
@@ -102,16 +102,18 @@ newTalent{
 	cooldown = 15,
 	tactical = { DEFEND = 2, POSITIVE = 0.5 },
 	getAbsorb = function(self, t) return self:combatTalentSpellDamage(t, 30, 370) end,
+	getDuration = function(self, t) return 10 end,
 	action = function(self, t)
-		self:setEffect(self.EFF_DAMAGE_SHIELD, 10, {color={0xe1/255, 0xcb/255, 0x3f/255}, power=self:spellCrit(t.getAbsorb(self, t))})
+		self:setEffect(self.EFF_DAMAGE_SHIELD, t.getDuration(self, t), {color={0xe1/255, 0xcb/255, 0x3f/255}, power=self:spellCrit(t.getAbsorb(self, t))})
 		game:playSoundNear(self, "talents/heal")
 		return true
 	end,
 	info = function(self, t)
-		local absorb = t.getAbsorb(self, t) * (100 + (self:attr("shield_factor") or 0)) / 100
-		return ([[A protective shield forms around you that lasts for up to 10 turns and negates %d damage.
+		local absorb = self:getShieldAmount(t.getAbsorb(self, t))
+		local duration = self:getShieldDuration(t.getDuration(self, t))
+		return ([[A protective shield forms around you that lasts for up to %d turns and negates %d damage.
  		The total damage the barrier can absorb will increase with your Spellpower and can crit.]]):
-		format(absorb)
+		tformat(duration, absorb)
 	end,
 }
 
@@ -133,7 +135,7 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Places you under the protection of a ray of sunlight. For %d turns, the light removes a single negative effect from you every turn.]]):
-		format(duration)
+		tformat(duration)
 	end,
 }
 

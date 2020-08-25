@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -114,7 +114,7 @@ function _M:replaceAll(level)
 		local r = self.repl[i]
 		-- Safety check
 		local og = level.map(r[1], r[2], Map.TERRAIN)
-		if og and (og.change_zone or og.change_level) then
+		if og and (og.change_zone or og.change_level) and not og.change_level_allow_nice_tile then
 			print("[NICE TILER] *warning* refusing to remove zone/level changer at ", r[1], r[2], og.change_zone, og.change_level)
 		else
 			local no = overlay(self, level, "replace", r[1], r[2], r[3])
@@ -1002,6 +1002,22 @@ molten_lava = { method="borders", type="molten_lava", forbid={grass=true, jungle
 	default7i={add_mos_shader="lava", add_mos={{image="terrain/lava/molten_lava_inner_7_%02d.png", display_x=-1, display_y=-1}}, min=1, max=2},
 	default9i={add_mos_shader="lava", add_mos={{image="terrain/lava/molten_lava_inner_9_%02d.png", display_x=1, display_y=-1}}, min=1, max=2},
 },
+dunes = { method="borders", type="dunes", forbid={}, use_type=true,
+	default8={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes8.png", display_y=-1}}, min=1, max=1},
+	default2={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes2.png", display_y=1}}, min=1, max=1},
+	default4={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes4.png", display_x=-1}}, min=1, max=1},
+	default6={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes6.png", display_x=1}}, min=1, max=1},
+
+	default1={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes9i.png", display_x=-1, display_y=1}}, min=1, max=1},
+	default3={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes7i.png", display_x=1, display_y=1}}, min=1, max=1},
+	default7={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes3i.png", display_x=-1, display_y=-1}}, min=1, max=1},
+	default9={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes1i.png", display_x=1, display_y=-1}}, min=1, max=1},
+
+	default1i={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes1.png", display_x=-1, display_y=1}}, min=1, max=1},
+	default3i={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes3.png", display_x=1, display_y=1}}, min=1, max=1},
+	default7i={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes7.png", display_x=-1, display_y=-1}}, min=1, max=1},
+	default9i={z=3, copy_base=true, add_mos={{image="terrain/dunes/dunes9.png", display_x=1, display_y=-1}}, min=1, max=1},
+},
 mountain = { method="borders", type="mountain", forbid={}, use_type=true,
 	default8={z=3, copy_base=true, add_displays={{image="terrain/mountain8.png", display_y=-1, z=16}}, min=1, max=1},
 	default2={z=3, copy_base=true, add_mos={{image="terrain/mountain2.png", display_y=1}}, min=1, max=1},
@@ -1220,6 +1236,46 @@ grass_wm = { method="borders", type="grass", forbid={lava=true, rock=true},
 	default3i={add_mos={{image="terrain/grass_worldmap/grass_inner_3_%02d.png", display_x=1, display_y=1}}, min=1, max=2},
 	default7i={add_mos={{image="terrain/grass_worldmap/grass_inner_7_%02d.png", display_x=-1, display_y=-1}}, min=1, max=2},
 	default9i={add_mos={{image="terrain/grass_worldmap/grass_inner_9_%02d.png", display_x=1, display_y=-1}}, min=1, max=2},
+},
+psitechwall = { method="walls", type="psitechwall", forbid={}, use_type=true, extended=true, consider_diagonal_doors=true,
+	default8={add_displays={{image="terrain/psicave/psitechwall_8_%d.png", display_y=-1, z=16}}, min=1, max=1},
+	default8p={add_displays={{image="terrain/psicave/psitech_V3_pillar_top_0%d.png", display_y=-1, z=16}}, min=1, max=1},
+	default7={add_displays={{image="terrain/psicave/psitech_V3_inner_7_01.png", display_y=-1, z=16}}, min=1, max=1},
+	default9={add_displays={{image="terrain/psicave/psitech_V3_inner_9_01.png", display_y=-1, z=16}}, min=1, max=1},
+	default7i={add_displays={{image="terrain/psicave/psitech_V3_3_01.png", display_y=-1, z=16}}, min=1, max=1},
+	default8i={add_displays={{image="terrain/psicave/psitechwall_8h_1.png", display_y=-1, z=16}}, min=1, max=1},
+	default9i={add_displays={{image="terrain/psicave/psitech_V3_1_01.png", display_y=-1, z=16}}, min=1, max=1},
+	default73i={add_displays={{image="terrain/psicave/psitechwall_91d_1.png", display_y=-1, z=16}}, min=1, max=1},
+	default91i={add_displays={{image="terrain/psicave/psitechwall_73d_1.png", display_y=-1, z=16}}, min=1, max=1},
+
+	default2={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitech_V3_8_0%d.png"}}, min=1, max=3},
+	default2p={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitech_V3_pillar_bottom_0%d.png"}}, min=1, max=2},
+	default1={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitech_V3_inner_1_01.png"}}, min=1, max=1},
+	default3={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitech_V3_inner_3_01.png"}}, min=1, max=1},
+	default1i={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitech_V3_7_01.png"}}, min=1, max=1},
+	default2i={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitechwall_2h_1.png"}}, min=1, max=1},
+	default3i={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitech_V3_9_01.png"}}, min=1, max=1},
+	default19i={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitechwall_19d_1.png"}}, min=1, max=1},
+	default37i={image="terrain/psicave/psitech_floor_1_01.png", add_mos={{image="terrain/psicave/psitechwall_37d_1.png"}}, min=1, max=1},
+
+	default4={add_displays={{image="terrain/psicave/psitech_ver_edge_left_01.png", display_x=-1}}, min=1, max=1},
+	default6={add_displays={{image="terrain/psicave/psitech_ver_edge_right_01.png", display_x=1}}, min=1, max=1},
+},
+psitechfloor = { method="borders", type="psitech", forbid={lava=true, rock=true},
+	default8={add_mos={{image="terrain/psicave/psitech_floor_trans3_2_%02d.png", display_y=-1}}, min=1, max=1},
+	default2={add_mos={{image="terrain/psicave/psitech_floor_trans3_8_%02d.png", display_y=1}}, min=1, max=1},
+	default4={add_mos={{image="terrain/psicave/psitech_floor_trans3_6_%02d.png", display_x=-1}}, min=1, max=1},
+	default6={add_mos={{image="terrain/psicave/psitech_floor_trans3_4_%02d.png", display_x=1}}, min=1, max=1},
+
+	default1={z=3,add_mos={{image="terrain/psicave/psitech_floor_trans3_9_%02d.png", display_x=-1, display_y=1}}, min=1, max=1},
+	default3={z=3,add_mos={{image="terrain/psicave/psitech_floor_trans3_7_%02d.png", display_x=1, display_y=1}}, min=1, max=1},
+	default7={z=3,add_mos={{image="terrain/psicave/psitech_floor_trans3_3_%02d.png", display_x=-1, display_y=-1}}, min=1, max=1},
+	default9={z=3,add_mos={{image="terrain/psicave/psitech_floor_trans3_1_%02d.png", display_x=1, display_y=-1}}, min=1, max=1},
+
+	default1i={add_mos={{image="terrain/psicave/psitech_floor_trans3_inner_1_%02d.png", display_x=-1, display_y=1}}, min=1, max=1},
+	default3i={add_mos={{image="terrain/psicave/psitech_floor_trans3_inner_3_%02d.png", display_x=1, display_y=1}}, min=1, max=1},
+	default7i={add_mos={{image="terrain/psicave/psitech_floor_trans3_inner_7_%02d.png", display_x=-1, display_y=-1}}, min=1, max=1},
+	default9i={add_mos={{image="terrain/psicave/psitech_floor_trans3_inner_9_%02d.png", display_x=1, display_y=-1}}, min=1, max=1},
 },
 }
 _M.generic_borders_defs = defs
@@ -1505,6 +1561,8 @@ wooden_barricade = { method="road", marker="barricade",
 	default6={add_mos={{image="terrain/wooden_barricade/barricade_end_a_01.png"}}, min=1, max=1},
 	default2={add_mos={{image="terrain/wooden_barricade/barricade_end_a_03.png"}}, min=1, max=1},
 	default8={add_mos={{image="terrain/wooden_barricade/barricade_end_a_04.png"}}, min=1, max=1},
+
+	pillar={add_mos={{image="terrain/wooden_barricade/barricade_pillar.png"}}, min=1, max=1},
 },
 }
 _M.generic_roads_defs = defs
@@ -1525,7 +1583,8 @@ function _M:editTileGenericRoad(level, i, j, g, nt, type)
 	local id = "genroad:"..table.concat({g.define_as or "--",type,tostring(g1==g5),tostring(g2==g5),tostring(g3==g5),tostring(g4==g5),tostring(g5==g5),tostring(g6==g5),tostring(g7==g5),tostring(g8==g5),tostring(g9==g5)}, ",")
 
 	-- Cross & semi cross
-	if     g5 == g8 and g5 == g2 and g5 == g4 and g5 == g6 then self:edit(i, j, id, nt["default8246"])
+	if     g5 ~= g8 and g5 ~= g2 and g5 ~= g4 and g5 ~= g6 and nt["pillar"] then self:edit(i, j, id, nt["pillar"])
+	elseif g5 == g8 and g5 == g2 and g5 == g4 and g5 == g6 then self:edit(i, j, id, nt["default8246"])
 	elseif g5 ~= g8 and g5 == g2 and g5 == g4 and g5 == g6 then self:edit(i, j, id, nt["default246"])
 	elseif g5 == g8 and g5 ~= g2 and g5 == g4 and g5 == g6 then self:edit(i, j, id, nt["default846"])
 	elseif g5 == g8 and g5 == g2 and g5 ~= g4 and g5 == g6 then self:edit(i, j, id, nt["default826"])

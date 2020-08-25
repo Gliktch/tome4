@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -253,7 +253,7 @@ newEntity{
 	block_sense = true,
 	block_esp = true,
 	is_door = true,
-	door_player_check = "This door seems to have been sealed off. You think you can open it.",
+	door_player_check = _t"This door seems to have been sealed off. You think you can open it.",
 	door_opened = "DOOR_OPEN",
 }
 newEntity{ base = "DOOR_VAULT", define_as = "DOOR_VAULT_HORIZ", z=3, image = "terrain/granite_door1.png", add_displays = {class.new{image="terrain/granite_wall3.png", z=18, display_y=-1}}, door_opened = "DOOR_HORIZ_OPEN"}
@@ -367,7 +367,8 @@ newEntity{
 	block_sense = true,
 	block_esp = true,
 	force_clone = true,
-	door_player_stop = "This door seems to have been sealed off. You need to find a way to open it.",
+	special = true,
+	door_player_stop = _t"This door seems to have been sealed off. You need to find a way to open it.",
 	is_door = true,
 	door_opened = "GENERIC_LEVER_DOOR_OPEN",
 	on_lever_change = function(self, x, y, who, val, oldval)
@@ -391,8 +392,9 @@ newEntity{
 	nice_tiler = { method="door3d", north_south="GENERIC_LEVER_DOOR_OPEN_VERT", west_east="GENERIC_LEVER_DOOR_HORIZ_OPEN" },
 	always_remember = true,
 	is_door = true,
+	special = true,
 	door_closed = "GENERIC_LEVER_DOOR",
-	door_player_stop = "This door seems to have been sealed off. You need to find a way to close it.",
+	door_player_stop = _t"This door seems to have been sealed off. You need to find a way to close it.",
 	on_lever_change = function(self, x, y, who, val, oldval)
 		local toggle = game.level.map.attrs(x, y, "lever_toggle")
 		local trigger = game.level.map.attrs(x, y, "lever_action") or 1
@@ -415,6 +417,7 @@ newEntity{
 	always_remember = true,
 	lever = false,
 	force_clone = true,
+	special = true,
 	block_move = function(self, x, y, e, act)
 		if act and e.player then
 			if self.lever then
@@ -437,6 +440,7 @@ newEntity{
 	define_as = "GENERIC_TRIGGER_BOOL",
 	type = "trigger", subtype = "bool",
 	lever = false,
+	special = true,
 	on_move = function(self, x, y, e)
 		if e.player then self:leverActivated(x, y, e) end
 	end,

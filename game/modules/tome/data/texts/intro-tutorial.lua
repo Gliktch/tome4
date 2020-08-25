@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-return [[#LIGHT_GREEN#Welcome to Tales of Maj'Eyal!#LAST#
+return _t[[#LIGHT_GREEN#Welcome to Tales of Maj'Eyal!#LAST#
 
 This tutorial will present you with a short quest to familiarise yourself with the game.
 You are a Human adventurer sent into the forest by the local village to dispose of the "Lone Wolf".

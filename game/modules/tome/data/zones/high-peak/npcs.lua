@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ newEntity{
 	faction = "sorcerers",
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_shalore_elandar.png", display_h=2, display_y=-1}}},
 
-	desc = [[Renegade mages from Angolwen, the Sorcerers have set up in the Far East, slowly growing corrupt. Now they must be stopped.]],
+	desc = _t[[Renegade mages from Angolwen, the Sorcerers have set up in the Far East, slowly growing corrupt. Now they must be stopped.]],
 	level_range = {75, nil}, exp_worth = 15,
 	max_life = 1000, life_rating = 36, fixed_rating = true,
 	max_mana = 10000,
@@ -95,7 +95,6 @@ newEntity{
 		[Talents.T_STAFF_MASTERY]={base=5, every=8},
 		[Talents.T_ARMOUR_TRAINING]=1,
 		[Talents.T_STONE_SKIN]={base=7, every=6},
-		[Talents.T_QUICKEN_SPELLS]={base=7, every=6},
 		[Talents.T_SPELLCRAFT]={base=7, every=6},
 		[Talents.T_ARCANE_POWER]={base=7, every=6},
 		[Talents.T_ESSENCE_OF_SPEED]={base=7, every=6},
@@ -122,9 +121,15 @@ newEntity{
 	-- L75ish Normal
 	-- L97-99 Insane
 	auto_classes={
-		{class="Archmage", start_level=77, level_rate=100},
+		{class="Archmage", start_level=77, level_rate=100,
+			max_talent_types = 1,  -- Don't waste points on extra elemental trees or learn 20000 sustains
+			banned_talents = {
+				T_INVISIBILITY=true,  -- Reduces damage dramatically, basically a nerf
+				T_PROBABILITY_TRAVEL=true,  -- Does this even work on AI?  Possibly should kill this on all NPCs
+				T_DISRUPTION_SHIELD=true,  -- Stupid scaling with infinite mana
+			},
+		},
 	},
-
 	autolevel = "caster",
 	ai = "tactical", ai_state = { talent_in=1, ai_move="move_astar", sense_radius=25, ai_target="target_simple_or_player_radius" },
 	ai_tactic = resolvers.tactic"ranged",
@@ -144,7 +149,7 @@ newEntity{
 	female = true,
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_human_argoniel.png", display_h=2, display_y=-1}}},
 
-	desc = [[Renegade mages from Angolwen, the Sorcerers have set up in the Far East, slowly growing corrupt. Now they must be stopped.]],
+	desc = _t[[Renegade mages from Angolwen, the Sorcerers have set up in the Far East, slowly growing corrupt. Now they must be stopped.]],
 	level_range = {75, nil}, exp_worth = 15,
 	max_life = 1000, life_rating = 42, fixed_rating = true,
 	max_mana = 10000,
@@ -236,7 +241,7 @@ newEntity{ define_as = "FALLEN_SUN_PALADIN_AERYN",
 	faction = "sorcerers",
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_human_fallen_sun_paladin_aeryn.png", display_h=2, display_y=-1}}},
 	name = "Fallen Sun Paladin Aeryn", color=colors.VIOLET, unique = true,
-	desc = [[A beautiful woman, clad in shining plate armour. Power radiates from her.]],
+	desc = _t[[A beautiful woman, clad in shining plate armour. Power radiates from her.]],
 	level_range = {56, nil}, exp_worth = 2,
 	rank = 5,
 	size_category = 3,
@@ -284,21 +289,26 @@ newEntity{ define_as = "FALLEN_SUN_PALADIN_AERYN",
 		[Talents.T_WEAPONS_MASTERY]=5,
 		[Talents.T_RUSH]=3,
 
-		[Talents.T_CHANT_OF_FORTRESS]=7,
+		[Talents.T_CHANT_OF_FORTRESS]=1,
 		[Talents.T_SUN_BEAM]=7,
 		[Talents.T_BARRIER]=7,
 		[Talents.T_WEAPON_OF_LIGHT]=7,
 		[Talents.T_HEALING_LIGHT]=7,
 		[Talents.T_CRUSADE]=7,
-		[Talents.T_SHIELD_OF_LIGHT]=7,
+		[Talents.T_SHIELD_OF_LIGHT]=1,
 		[Talents.T_SECOND_LIFE]=7,
-		[Talents.T_BATHE_IN_LIGHT]=7,
-		[Talents.T_PROVIDENCE]=7,
+		[Talents.T_BATHE_IN_LIGHT]=3,
+		[Talents.T_PROVIDENCE]=3,
 		[Talents.T_THICK_SKIN]=5,
 
 		[Talents.T_IRRESISTIBLE_SUN]=1,
 	},
-	auto_classes={{class="Sun Paladin", start_level=57, level_rate=100}},
+	auto_classes={{class="Sun Paladin", start_level=57, level_rate=50,
+			banned_talents = {
+				T_SUNCLOAK=true,  -- Hyperscaler for survivability
+			},
+		}
+	},
 	resolvers.sustains_at_birth(),
 }
 
@@ -309,7 +319,7 @@ newEntity{ define_as = "HIGH_SUN_PALADIN_AERYN",
 	faction = "sunwall",
 	name = "High Sun Paladin Aeryn", color=colors.VIOLET, unique = "High Sun Paladin Aeryn High Peak Help",
 	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/humanoid_human_high_sun_paladin_aeryn.png", display_h=2, display_y=-1}}},
-	desc = [[A beautiful woman, clad in shining plate armour. Power radiates from her.]],
+	desc = _t[[A beautiful woman, clad in shining plate armour. Power radiates from her.]],
 	level_range = {56, nil}, exp_worth = 2,
 	rank = 5,
 	size_category = 3,
@@ -326,7 +336,12 @@ newEntity{ define_as = "HIGH_SUN_PALADIN_AERYN",
 	
 	no_auto_resists = true,
 
-	auto_classes={{class="Sun Paladin", start_level=57, level_rate=100}},
+	auto_classes={{class="Sun Paladin", start_level=57, level_rate=50,
+			banned_talents = {
+				T_SUNCLOAK=true,  -- Hyperscaler for survivability
+			},
+		}
+	},
 
 	autolevel = "warriormage",
 	ai = "tactical", ai_state = { talent_in=1, ai_move="move_astar", },
@@ -351,16 +366,16 @@ newEntity{ define_as = "HIGH_SUN_PALADIN_AERYN",
 		[Talents.T_WEAPONS_MASTERY]=5,
 		[Talents.T_RUSH]=3,
 
-		[Talents.T_CHANT_OF_FORTRESS]=7,
+		[Talents.T_CHANT_OF_FORTRESS]=1,
 		[Talents.T_SUN_BEAM]=7,
 		[Talents.T_BARRIER]=7,
 		[Talents.T_WEAPON_OF_LIGHT]=7,
 		[Talents.T_HEALING_LIGHT]=7,
 		[Talents.T_CRUSADE]=7,
-		[Talents.T_SHIELD_OF_LIGHT]=7,
+		[Talents.T_SHIELD_OF_LIGHT]=1,
 		[Talents.T_SECOND_LIFE]=7,
-		[Talents.T_BATHE_IN_LIGHT]=7,
-		[Talents.T_PROVIDENCE]=7,
+		[Talents.T_BATHE_IN_LIGHT]=3,
+		[Talents.T_PROVIDENCE]=3,
 		[Talents.T_THICK_SKIN]=5,
 
 		[Talents.T_IRRESISTIBLE_SUN]=1,

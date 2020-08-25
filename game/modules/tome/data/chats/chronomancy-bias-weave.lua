@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -27,27 +27,27 @@ local function set_bias(which)
 end
 
 newChat{ id="welcome",
-	text = [[What kind of anomaly do you prefer?]],
+	text = _t[[What kind of anomaly do you prefer?]],
 	answers = {
-		{"Physical",
+		{_t"Physical",
 			action = function()
 				game.level.map:particleEmitter(game.player.x, game.player.y, 1, "temporal_teleport")
 			return set_bias({type = "physical", chance=chance}) 
 			end,
 		},
-		{"Warp", 
+		{_t"Warp", 
 			action = function() 
 				game.level.map:particleEmitter(game.player.x, game.player.y, 1, "temporal_teleport")
 			return set_bias({type = "Warp", chance=chance})
 			end,
 		},
-		{"Temporal",
+		{_t"Temporal",
 			action = function()
 				game.level.map:particleEmitter(game.player.x, game.player.y, 1, "temporal_teleport")
 			return set_bias({type = "temporal", chance=chance})
 			end,
 		},
-		{"Never mind"},
+		{_t"Never mind"},
 	}
 }
 

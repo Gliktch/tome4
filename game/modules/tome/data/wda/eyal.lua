@@ -1,5 +1,5 @@
 -- ToME - Tales of Maj'Eyal
--- Copyright (C) 2009 - 2018 Nicolas Casalini
+-- Copyright (C) 2009 - 2019 Nicolas Casalini
 --
 -- This program is free software: you can redistribute it and/or modify
 -- it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ end
 ---------------------------------------------------------------------
 -- Maj'Eyal
 ---------------------------------------------------------------------
-if zone == "Maj'Eyal" then
+if zone == _t"Maj'Eyal" then
 	wda.cur_patrols = wda.cur_patrols or 0
 	wda.cur_hostiles = wda.cur_hostiles or 0
 	game.state.gone_west = true
@@ -74,7 +74,7 @@ if zone == "Maj'Eyal" then
 	end
 
 	-- Spawn some hostiles
-	if wda.cur_hostiles < 5 and rng.percent(5) then
+	if wda.cur_hostiles < 3 and rng.percent(5) then
 		local e = game.zone:makeEntity(game.level, "maj_eyal_encounters_npcs", {type="hostile"}, nil, true)
 		if e then
 			local spot = game.level:pickSpot{type="hostile", subtype="maj-eyal"}
@@ -91,7 +91,7 @@ if zone == "Maj'Eyal" then
 ---------------------------------------------------------------------
 -- Var'Eyal (Far East)
 ---------------------------------------------------------------------
-elseif zone == "Far East" then
+elseif zone == _t"Far East" then
 	wda.cur_patrols = wda.cur_patrols or 0
 	wda.cur_orc_patrols = wda.cur_orc_patrols or 0
 	wda.cur_hostiles = wda.cur_hostiles or 0
@@ -142,7 +142,7 @@ elseif zone == "Far East" then
 	end
 
 	-- Spawn some hostiles
-	if wda.cur_hostiles < 4 and rng.percent(5) then
+	if wda.cur_hostiles < 3 and rng.percent(5) then
 		local e = game.zone:makeEntity(game.level, "fareast_encounters_npcs", {type="hostile"}, nil, true)
 		if e then
 			local spot = game.level:pickSpot{type="hostile", subtype="fareast"}
