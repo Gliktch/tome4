@@ -3111,6 +3111,10 @@ function _M:isMySummoner(act)
 	return false
 end
 
+function _M:playerControlled()
+	return false
+end
+
 function _M:emptyDrops()
 	local inven = self:getInven(self.INVEN_INVEN)
 	for i = #inven, 1, -1 do

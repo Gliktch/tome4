@@ -112,7 +112,7 @@ newTalent{
 			--use an adjusted block_path to check if we have a tile in LOS; display targeting in yellow if we don't so we can warn the player their spell may fizzle
 			--note: we only use this if the original block_path would permit targeting 
 			local tg = {type="ball", nolock=true, pass_terrain=true, nowarning=true, range=range, radius=radius, requires_knowledge=false, block_path=function(typ, lx, ly, for_highlights) if not self:hasLOS(lx, ly) and not old_block_path(typ, lx, ly, for_highlights) then return false, "unknown", true else return old_block_path(typ, lx, ly, for_highlights) end end}
-			if self.aiSeeTargetPos then -- ai code for NPCs
+			if not self:playerControlled() then -- ai code for NPCs
 				tx, ty = self:aiSeeTargetPos(aitarget)
 				if self.ai_state.tactic == "closein" then -- NPC trying to close in
 					local dx, dy = self.x - tx, self.y - ty
@@ -220,7 +220,7 @@ newTalent{
 			--use an adjusted block_path to check if we have a tile in LOS; display targeting in yellow if we don't so we can warn the player their spell may fizzle
 			--note: we only use this if the original block_path would permit targeting 
 			local tg = {type="ball", nolock=true, pass_terrain=true, nowarning=true, range=range, radius=radius, requires_knowledge=false, block_path=function(typ, lx, ly, for_highlights) if not self:hasLOS(lx, ly) and not old_block_path(typ, lx, ly, for_highlights) then return false, "unknown", true else return old_block_path(typ, lx, ly, for_highlights) end end}
-			if self.aiSeeTargetPos then -- ai code for NPCs
+			if not self:playerControlled() then -- ai code for NPCs
 				tx, ty = self:aiSeeTargetPos(aitarget)
 				if self.ai_state.tactic == "closein" then -- NPC trying to close in
 					local dx, dy = self.x - tx, self.y - ty
