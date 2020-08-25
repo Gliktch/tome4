@@ -1561,7 +1561,7 @@ newEffect{
 					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.MIND, harrowDam)
 					DamageType:get(DamageType.MIND).projector(self, p.src.x, p.src.y, DamageType.DARKNESS, harrowDam)
 					--game.logSeen(self, "#F53CBE#%s harrows '%s'!", self:getName():capitalize(), p.src.name)
-					game.logSeen(self, "#F53CBE#%s harrows %s!", self:getName():capitalize(), target:getName())
+					game.logSeen(self, "#F53CBE#%s harrows %s!", self:getName():capitalize(), p.src:getName())
 					self.turn_procs.curse_of_nightmare_3 = true
 				else
 					local tgts = {}

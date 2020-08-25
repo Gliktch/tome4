@@ -417,7 +417,7 @@ newTalent{
 		The ghoul dies from the process.
 		While under 1 life it also affects magical and mental effects.
 		Cross-tier effects are never affected.
-		This spell can only be used in comabt and will automatically unsustain if you have no more ghouls or if you leave combat.
+		This spell can only be used in combat and will automatically unsustain if you have no more ghouls or if you leave combat.
 		]]):
 		tformat()
 	end,
