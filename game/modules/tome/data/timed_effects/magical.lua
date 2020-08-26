@@ -5190,7 +5190,9 @@ local rime_wraith_def = {
 			local dam = eff.src:callTalent(eff.src.T_FRIGID_PLUNGE, "getDamage")
 			eff.src:projectApply({type="beam", range=10, x=self.x, y=self.y}, target.x, target.y, Map.ACTOR, function(m)
 				if eff.src:reactionToward(m) < 0 then
-					DamageType:get(DamageType.COLD).projector(eff.src, m.x, m.y, DamageType.COLD, dam)
+					eff.src:attr("damage_shield_penetrate", 100)
+					pcall(function() DamageType:get(DamageType.COLD).projector(eff.src, m.x, m.y, DamageType.COLD, dam) end)
+					eff.src:attr("damage_shield_penetrate", -100)
 				else
 					m:heal(heal, eff.src)
 				end
