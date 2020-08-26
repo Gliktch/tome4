@@ -18,27 +18,29 @@
 -- darkgod@te4.org
 
 newTalent{
-	name = "Blood Clot",
+	name = "Blood Clot", image="talents/blood_bath.png",
 	type = {"cursed/other", 1},
 	points = 1,
 	mode = "passive",
+	getDiminishment = function(self, t)
+		return  math.min((
+											 self:getTalentLevelRaw(self.T_BLOOD_RUSH)
+												 + self:getTalentLevelRaw(self.T_BLOOD_RAGE)
+												 + self:getTalentLevelRaw(self.T_BLOOD_BATH)
+												 + self:getTalentLevelRaw(self.T_BLOOD_THIRST))*2, 90)
+	end,
 	callbackOnTemporaryEffectAdd = function(self, t, eff_id, e_def, eff)
 		if e_def.subtype.bleed and e_def.type ~= "other" then
-			local diminishment = math.min((
-																			self:getTalentLevelRaw(self.T_BLOOD_RUSH)
-																				+ self:getTalentLevelRaw(self.T_BLOOD_RAGE)
-																				+ self:getTalentLevelRaw(self.T_BLOOD_BATH)
-																				+ self:getTalentLevelRaw(self.T_BLOOD_THIRST))*2, 90)
-																			if eff.dam then
-																				eff.dam = eff.dam * (100-diminishment) / 100
-																			elseif eff.power then
-																				eff.power = eff.power * (100-diminishment) / 100
-																			end
+			local diminishment = t.getDiminishment(self, t)
+			if eff.dam then
+				eff.dam = eff.dam * (100-diminishment) / 100
+			elseif eff.power then
+				eff.power = eff.power * (100-diminishment) / 100
+			end
 		end
 	end,
 	info = function(self, t)
-		return ([[Reduces the damage you take from bleeds]]):
-		format()
+		return ([[Reduces the damage you take from bleeds by %d%%]]):tformat(t.getDiminishment(self, t))
 	end,
 }
 
@@ -113,8 +115,8 @@ newTalent{
 
 When the marked enemy dies, the cooldown of this talent will be reduced by two turns for every turn the mark had remaining.
 
-Each level in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
-		format(100 * damage)
+Each point in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
+		tformat(100 * damage)
 	end,
 }
 
@@ -160,8 +162,8 @@ newTalent{
 		local mult = t.getBleedMult(self, t)*100
 		return ([[Cut into an enemy and twist the blade, dealing %d%% damage and increasing the intensity of their existing bleed effects by %d%%.
 
-Each level in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
-		format(dam, mult)
+Each point in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
+		tformat(dam, mult)
 	end,
 }
 
@@ -192,8 +194,8 @@ newTalent{
 	info = function(self, t)
 		return ([[Your melee attacks also cause the target to bleed (#SLATE#Physical power vs. Physical#LAST#) for %d%% of the damage dealt over five turns.
 
-Each level in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
-		format(t.getBleed(self, t)*100)
+Each point in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
+		tformat(t.getBleed(self, t)*100)
 	end,
 }
 
@@ -220,7 +222,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Your hunger for violence and suffering sustains you.  All damage you do heals you for a portion of the damage done, from %d%% (at 0 Hate to) %d%% (at max Hate).  You can recover no more than 1/6 of your max life each turn this way.
 
-Each level in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
-		format(t.getLeech(self, t)*0.3, t.getLeech(self,t)*1.5)
+Each point in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
+		tformat(t.getLeech(self, t)*0.3, t.getLeech(self,t)*1.5)
 	end,
 }

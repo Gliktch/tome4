@@ -54,7 +54,7 @@ newTalent{
 		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned (#SLATE#Physical power vs. Physical#LAST#) for %d turns and has their bleed resistance reduced by 50%%.
 
 #{italic}#It may not bleed, exactly, but you'll make it hurt.#{normal}#]])
-		:format(100 * damage, t.getDuration(self, t))
+		:tformat(100 * damage, t.getDuration(self, t))
 	end,
 }
 
@@ -74,7 +74,7 @@ newTalent{
 You gain a bonus to Spellpower equal to %d%% of your Willpower.
 You gain a bonus to Mindpower equal to %d%% of your Magic.
 
-#{italic}#Something is not quite right inside you.  Your solar spells are somehow twisted, but your bloody rites make things clear as day.#{normal}#]]):format(spellpower, mindpower)
+#{italic}#Something is not quite right inside you.  Your solar spells are somehow twisted, but your bloody rites make things clear as day.#{normal}#]]):tformat(spellpower, mindpower)
 	end,
 }
 
@@ -122,7 +122,8 @@ newTalent{
 	
 	info = function(self, t)
 		local range = t.range(self, t)
-		return ([[Fade into the darkness and reappear elsewhere within range %d.  When you emerge from the shadows, you are accompanied by a flash of light, dealing %d damage to enemies in radius 1.]]):format(range, damDesc(self, DamageType.LIGHT, t.getDamage(self, t)))
+		return ([[Fade into the darkness and reappear elsewhere within range %d.  When you emerge from the shadows, you are accompanied by a flash of light, dealing %d damage to enemies in radius 1.
+						 The damage will increase with your Spellpower.]]):tformat(range, damDesc(self, DamageType.LIGHT, t.getDamage(self, t)))
 	end,
 }
 
@@ -159,8 +160,10 @@ newTalent{
 		
 		game:playSoundNear(self, "talents/fallen_sun_whoosh")
 		self:addParticles(Particles.new("meleestorm", 2, {radius=t.radius(self, t), img="spinningwinds_black"}))
-		if not self:attr("zero_resource_cost") and not self:attr("force_talent_ignore_ressources") then self:incPositive(-1 * self:getPositive()) end
-		self:setEffect(self.EFF_LIGHTS_OUT, 5, {})
+		if not self:attr("zero_resource_cost") and not self:attr("force_talent_ignore_ressources") then
+			self:incPositive(-1 * self:getPositive()) 
+			self:setEffect(self.EFF_LIGHTS_OUT, 5, {})
+		end
 		return true
 	end,
 	info = function(self, t)
@@ -171,6 +174,6 @@ Strike all adjacent enemies for %d%% damage and daze them (using your highest po
 
 Using this talent consumes all of your Positive Energy and prevents you from generating positive energy for 5 turns.
 Every point of positive energy increases the damage by %.2f%%.
-Every %d points of positive energy increase the radius by 1 (up to 10).]]):format(damage, mult, t.getRadiusScale(self, t))
+Every %d points of positive energy increase the radius by 1 (up to 10).]]):tformat(damage, mult, t.getRadiusScale(self, t))
 	end,
 }

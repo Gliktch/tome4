@@ -4417,7 +4417,7 @@ newDamageType{
 
 -- physical that pulls and might reduce knockback resistance
 newDamageType{
-	name = "black-hole gravity", type = "BLACK_HOLE_GRAVITY",
+	name = _t"black-hole gravity", type = "BLACK_HOLE_GRAVITY",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)
@@ -4448,7 +4448,7 @@ newDamageType{
 
 -- blinding light that restores positive energy to its caster
 newDamageType{
-	name = "solar blood", type = "SOLAR_BLOOD",
+	name = _t"solar blood", type = "SOLAR_BLOOD",
 	projector = function(src, x, y, type, dam, state)
 		state = initState(state)
 		useImplicitCrit(src, state)

@@ -4114,8 +4114,8 @@ newEffect{
 
 newEffect{
 	name = "BLOOD_RUSH_MARK", image = "talents/blood_rush.png",
-	desc = "Marked for Death",
-	long_desc = function(self, eff) return ("Reduces Blood Rush cooldown if killed"):format() end,
+	desc = _t"Marked for Death",
+	long_desc = function(self, eff) return ("Reduces Blood Rush cooldown if killed"):tformat() end,
 	type = "other",
 	subtype = { status=true, },
 	status = "detrimental",
@@ -4134,8 +4134,8 @@ newEffect{
 
 newEffect{
 	name = "LIGHTS_OUT", image = "talents/final_sunbeam.png",
-	desc = "Lights Out",
-	long_desc = function(self, eff) return "The target is cut off from the sun" end,
+	desc = _t"Lights Out",
+	long_desc = function(self, eff) return _t"The target is cut off from the sun" end,
 	type = "other",
 	subtype = { magic=true },
 	status = "detrimental",
@@ -4150,14 +4150,14 @@ newEffect{
 
 newEffect{
 	name = "SELF_JUDGEMENT", image = "talents/self_judgement.png",
-	desc = "Self-Judgement",
-	long_desc = function(self, eff) return ("Your body is bleeding, losing %0.2f life each turn."):format(eff.power) end,
+	desc = _t"Self-Judgement",
+	long_desc = function(self, eff) return ("Your body is bleeding, losing %0.2f life each turn."):tformat(eff.power) end,
 	type = "other",
 	subtype = { bleed=true },
 	status = "detrimental",
 	parameters = { power=10 },
-	on_gain = function(self, err) return "#CRIMSON##Target# is torn open by the powerful blow!", "+Self-Judgement" end,
-	on_lose = function(self, err) return "#CRIMSON##Target#'s wound has closed.", "-Self-Judgement" end,
+	on_gain = function(self, err) return _t"#CRIMSON##Target# is torn open by the powerful blow!", _t"+Self-Judgement" end,
+	on_lose = function(self, err) return _t"#CRIMSON##Target#'s wound has closed.", _t"-Self-Judgement" end,
 	on_merge = function(self, old_eff, new_eff)
 		local remaining = old_eff.dur*old_eff.power
 		old_eff.dur = new_eff.dur
@@ -4174,6 +4174,6 @@ newEffect{
 		local dead, val = self:takeHit(eff.power, self, {special_death_msg="died a well-deserved death by exsanguination"})
 		
 		local srcname = self.x and self.y and game.level.map.seens(self.x, self.y) and self.name:capitalize() or "Something"
-		game:delayedLogDamage(eff, self, val, ("#CRIMSON#%d Bleed #LAST#"):format(math.ceil(val)), false)
+		game:delayedLogDamage(eff, self, val, ("#CRIMSON#%d Bleed #LAST#"):tformat(math.ceil(val)), false)
 	end,
 }

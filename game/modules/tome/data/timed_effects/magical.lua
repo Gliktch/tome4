@@ -5415,8 +5415,8 @@ newEffect{
 
 newEffect{
 	name = "DIRGE_OF_FAMINE", image = "talents/dirge_of_famine.png",
-	desc = "Dirge of Famine",
-	long_desc = function(self, eff) return ("The target is regenerating health"):format() end,
+	desc = _t"Dirge of Famine",
+	long_desc = function(self, eff) return ("The target is regenerating health"):tformat() end,
 	type = "magical",
 	subtype = { regen=true },
 	status = "beneficial",
@@ -5431,8 +5431,8 @@ newEffect{
 
 newEffect{
 	name = "DIRGE_OF_CONQUEST", image = "talents/dirge_of_conquest.png",
-	desc = "Dirge of Conquest",
-	long_desc = function(self, eff) return ("The target will gain a surge of energy on kill or crit"):format() end,
+	desc = _t"Dirge of Conquest",
+	long_desc = function(self, eff) return ("The target will gain a surge of energy on kill or crit"):tformat() end,
 	type = "magical",
 	subtype = { haste=true },
 	status = "beneficial",
@@ -5467,8 +5467,8 @@ newEffect{
 
 newEffect{
 	name = "DIRGE_OF_PESTILENCE", image = "talents/dirge_of_pestilence.png",
-	desc = "Dirge of Pestilence",
-	long_desc = function(self, eff) return ("The target will gain a shield upon suffering a detrimental effect"):format() end,
+	desc = _t"Dirge of Pestilence",
+	long_desc = function(self, eff) return ("The target will gain a shield upon suffering a detrimental effect"):tformat() end,
 	type = "magical",
 	subtype = { shield=true },
 	status = "beneficial",
@@ -5489,14 +5489,14 @@ newEffect{
 
 newEffect{
 	name = "BLINDING_LIGHT", image = "talents/splatter_sigils.png",
-	desc = "Blinding Light",
-	long_desc = function(self, eff) return ("The target is blinded by a magical light and unable to see anything."):format(eff.dam) end,
+	desc = _t"Blinding Light",
+	long_desc = function(self, eff) return ("The target is blinded by a magical light and unable to see anything."):tformat(eff.dam) end,
 	type = "magical",
 	subtype = { light=true, blind=true },
 	status = "detrimental",
 	parameters = { dam=10},
-	on_gain = function(self, err) return "#Target# loses sight!", "+Blind" end,
-	on_lose = function(self, err) return "#Target# recovers sight.", "-Blind" end,
+	on_gain = function(self, err) return _t"#Target# loses sight!", _t"+Blind" end,
+	on_lose = function(self, err) return _t"#Target# recovers sight.", _t"-Blind" end,
 	on_timeout = function(self, eff)
 	end,
 	activate = function(self, eff)
@@ -5517,13 +5517,10 @@ newEffect{
 
 newEffect{
 	name = "DEVOURER_STANCE", image = "talents/devourer_stance.png",
-	desc = "Devourer Stance",
+	desc = _t"Devourer Stance",
 	long_desc = function(self, eff)
-		local desc = ("The target is redirecting energy, adding %d gravity damage to their attacks."):format(eff.gravity)
-		if eff.counter and eff.counter < 3 then
-			return desc..("The target is storing up healing energy, currently %d"):format(eff.heal)
-		end
-		return desc
+		local heal_note = (eff.counter and eff.counter < 3) and ("The target is storing up healing energy, currently %d"):tformat(eff.heal) or ""
+		return ("The target is redirecting energy, adding %d gravity damage to their attacks.%s"):tformat(eff.gravity, heal_note)
 	end,
 	type = "magical",
 	subtype = { gravity=true },

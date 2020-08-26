@@ -3060,9 +3060,9 @@ newEffect{
 
 newEffect{
 	name = "MARK_OF_THE_VAMPIRE", image = "talents/mark_of_the_vampire.png",
-	desc = "Mark of the Vampire",
+	desc = _t"Mark of the Vampire",
 	long_desc = function(self, eff) return ("The target is doomed to die a bloody death.  Each time it uses an ability it takes %0.2f physical damage, and incoming bleeds are strengthened by %d%%."):
-		format(eff.dam, eff.power*100)
+		tformat(eff.dam, eff.power*100)
 	end,
 	charges = function(self, eff) return (tostring(math.floor((eff.power-1)*100)).."%") end,
 	type = "mental",
@@ -3080,7 +3080,7 @@ newEffect{
 		end
 	end,
 	
-	on_gain = function(self, err) return "#Target# is doomed!", "+Vampire Mark" end,
-	on_lose = function(self, err) return "#Target# is free from their doom.", "-Vampire Mark" end,
+	on_gain = function(self, err) return _t"#Target# is doomed!", _t"+Vampire Mark" end,
+	on_lose = function(self, err) return _t"#Target# is free from their doom.", _t"-Vampire Mark" end,
 }
 

@@ -32,7 +32,7 @@ newTalent{
 	target = function(self, t) return {type="hit", nolock=true, range=self:getTalentRange(t)} end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 20, 75) end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 3, 5.6)) end,
-	getMaxRadius = function(self, t) return math.floor(self:combatTalentLimit(t, 5, 1, 3)) end,
+	getMaxRadius = function(self, t) return math.max(1, math.floor(self:combatTalentLimit(t, 5, 1, 3))) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y, target = self:getTarget(tg)
@@ -127,8 +127,9 @@ newTalent{
 		local dur = t.getDuration(self,t)
 		local entropy = 0
 		return ([[Open a radius 1 rift in spacetime at the targeted location for %d turns, increasing in radius by 1 each turn to a maximum of %d.
-		All caught within the rift are pulled towards the center and take %0.2f gravity damage.]]):
-		format(dur, rad, damDesc(self, DamageType.PHYSICAL, dam))
+		All caught within the rift are pulled towards the center and take %0.2f gravity damage.
+The damage will increase with your Spellpower.]]):
+		tformat(dur, rad, damDesc(self, DamageType.PHYSICAL, dam))
 	end,
 }
 
@@ -146,7 +147,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Attune yourself to the endless hunger of distant dead suns.  For the next %d turns, your attacks will inflict an additional %d gravity damage and attempt to pull enemies closer.  After three turns, you will recover half of all damage taken during this effect.]]):format(t.getDuration(self,t), damDesc(self, DamageType.PHSYICAL, t.getOnhit(self,t)))
+		return ([[Attune yourself to the endless hunger of distant dead suns.  For the next %d turns, your attacks will inflict an additional %d gravity damage and attempt to pull enemies closer.  After three turns, you will recover half of all damage taken during this effect.
+The damage will increase with your Spellpower.]]):tformat(t.getDuration(self,t), damDesc(self, DamageType.PHSYICAL, t.getOnhit(self,t)))
 	end,
 }
 
@@ -182,7 +184,7 @@ newTalent{
 	info = function(self, t)
 		local conv = t.getConversion(self, t)
 		local proj = t.getSlow(self, t)
-		return ([[Create a gravity field around you that converts %d%% of all damage you deal into physical damage, slows incoming projectiles by %d%%, and causes your gravity damage to reduce the target's knockback resistance by half for two turns.]]):format(conv, proj)
+		return ([[Create a gravity field around you that converts %d%% of all damage you deal into physical damage, slows incoming projectiles by %d%%, and causes your gravity damage to reduce the target's knockback resistance by half for two turns.]]):tformat(conv, proj)
 	end,
 }
 
@@ -237,8 +239,9 @@ newTalent{
 	info = function(self, t)
 		return ([[Infuse your weapon with overwhelming gravitational power while spinning around.
 							All creatures within radius 2 take %d%% weapon damage as physical (gravity) and are pulled closer.
-							Then, all adjacent creatures take %d%% weapon damage.  This second strike shields you for between %d and %d, increasing with more enemies hit.  The shield lasts for 2 turns.]]):
-		format(t.getOuterDamage(self, t) * 100,
+							Then, all adjacent creatures take %d%% weapon damage.  This second strike shields you for between %d and %d, increasing with more enemies hit.  The shield lasts for 2 turns.
+The shield strength will increase with your Spellpower.]]):
+		tformat(t.getOuterDamage(self, t) * 100,
 					 t.getInnerDamage(self, t) * 100,
 					 t.getShield(self, t), t.getShield(self, t)*2)
 	end,

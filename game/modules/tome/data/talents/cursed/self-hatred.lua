@@ -60,7 +60,7 @@ newTalent{
 
 You can activate this talent to quickly draw a blade across your skin, bleeding yourself for a small portion of your maximum life (%d damage) over the next 5 turns.	This bleed cannot be resisted.
 
-#{italic}#Pain is just about the only thing you can still feel.#{normal}#]]):format(regen, damage)
+#{italic}#Pain is just about the only thing you can still feel.#{normal}#]]):tformat(regen, damage)
 	end,
 }
 
@@ -83,7 +83,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Increases critical chance by %d%% (at all times) and critical strike power by up to %d%% (based on hate).
 
-#{italic}#Anger makes you strong.	 And you're always angry.#{normal}#]]):format(t.critChance(self, t), t.critPower(self, t)*2)
+#{italic}#Anger makes you strong.	 And you're always angry.#{normal}#]]):tformat(t.critChance(self, t), t.critPower(self, t)*2)
 	end,
 }
 
@@ -149,7 +149,7 @@ This bonus cooldown occurs even if your talents would not normally cool down.
 This talent deactivates automatically upon rest.
 This strength comes at a cost: you lose %d%% of your maximum life every turn.
 
-#{italic}#If you're lucky, this will take everything you've got.#{normal}#]]):format(price)
+#{italic}#If you're lucky, this will take everything you've got.#{normal}#]]):tformat(price)
 	end,
 }
 
@@ -191,7 +191,7 @@ newTalent{
 			self:setEffect(self.EFF_SELF_JUDGEMENT, length, {power=reduce/length})
 			
 			local d_color = DamageType:get(type).text_color or "#CRIMSON#"
-			game:delayedLogDamage(src, self, 0, ("%s(%d bled out#LAST#%s)#LAST#"):format(d_color, reduce, d_color), false)
+			game:delayedLogDamage(src, self, 0, ("%s(%d bled out#LAST#%s)#LAST#"):tformat(d_color, reduce, d_color), false)
 			return {dam = dam}
 		end
 	end,
@@ -201,6 +201,6 @@ newTalent{
 		local failThreshold = t.getThreshold(self, t) + t.getSpillThreshold(self, t)
 		return ([[Any direct damage that exceeds %d%% of your maximum life has the excess damage converted to a shallow wound that bleeds over the next %d turns.	 This bleed cannot be resisted or removed, but can be reduced by Bloodstained. Extremely powerful hits (more than %d%% of your max life) are not fully converted.
 
-#{italic}#You can't just die.	 That would be too easy.	You deserve to die slowly.#{normal}#]]):format(threshold, time, failThreshold)
+#{italic}#You can't just die.	 That would be too easy.	You deserve to die slowly.#{normal}#]]):tformat(threshold, time, failThreshold)
 	end,
 }

@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 newTalent{
-	name = "Shared Agony", short_name = "TEMPLAR_SHARED_AGONY",
+	name = "Shared Agony",
 	type = {"cursed/crimson-templar", 1},
 	require = cursed_mag_req_high1,
 	points = 5,
@@ -65,7 +65,7 @@ newTalent{
 				DamageType.defaultProjector(self, a.x, a.y, type, displace, state)
 				state.no_reflect = nil
 				
-				game:delayedLogDamage(src, self, 0, ("%s(%d shared agony)#LAST#"):format(DamageType:get(type).text_color or "#aaaaaa#", displace), false)
+				game:delayedLogDamage(src, self, 0, ("%s(%d shared agony)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", displace), false)
 			end
 		end
 		
@@ -76,12 +76,12 @@ newTalent{
 		local amp = t.getAmp(self, t)
 		return ([[You displace %d%% of any damage you receive onto a random bleeding enemy within range 5.	This redirected damage is amplified by %d%%.
 
-#{italic}#All living things are linked by blood.	It is one river, flowing through all.#{normal}#]]):format(shrug, amp)
+#{italic}#All living things are linked by blood.	It is one river, flowing through all.#{normal}#]]):tformat(shrug, amp)
 	 end,
 }
 
 newTalent{
-	name = "Splatter Sigils", short_name = "TEMPLAR_SPLATTER_SIGILS",
+	name = "Splatter Sigils",
 	type = {"cursed/crimson-templar", 2},
 	require = cursed_mag_req_high2,
 	points = 5,
@@ -125,18 +125,15 @@ newTalent{
 		local cost = t.getPrice(self, t)
 		local dur = t.getDuration(self, t)
 		return ([[When you kill an enemy, their death forms a cursed magical pattern on the ground. This creates a circle of radius %d which blinds enemies (#SLATE#Spellpower vs. Magical#LAST#) and deals them %d light damage, while giving you %d positive energy per turn.	 The circle lasts for %d turns.
-
-You can activate this talent to draw the pattern in your own blood, creating it underneath you at the cost of %d%% of your maximum life.
-
-Spellpower: Improves damage
-Spell Critical: Improves damage
-Spell Critical: Improves duration
-]]):format(rad, damDesc(self, DamageType.LIGHT, burn), 2, dur, cost)
+							The damage will increase with your Spellpower.
+							The duration of the circle can be increased by a critical hit.
+							You can activate this talent to draw the pattern in your own blood, creating it underneath you at the cost of %d%% of your maximum life.
+]]):tformat(rad, damDesc(self, DamageType.LIGHT, burn), 2, dur, cost)
 	end,
 }
 
 newTalent{
-	name = "Mark of the Vampire", short_name = "TEMPLAR_MARK_OF_THE_VAMPIRE",
+	name = "Mark of the Vampire",
 	type = {"cursed/crimson-templar", 3},
 	require = cursed_mag_req_high3,
 	points = 5,
@@ -169,14 +166,13 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Dooms your target and everything within a radius 2 ball around it for 20 turns. Each time an affected target uses a talent, it takes %0.2f physical damage as its life is drawn out.	In addition, any bleed applied to the target will have its power increased by %d%%.
-
-Spellpower: increases damage]]):
-		format(damDesc(self, DamageType.PHYSICAL, t.getPower(self, t)), t.getBleedIncrease(self, t)*100)
+The damage will increase with your Spellpower.]]):
+		tformat(damDesc(self, DamageType.PHYSICAL, t.getPower(self, t)), t.getBleedIncrease(self, t)*100)
 	end,
 }
 
 newTalent{
-	name = "Rosebloom", short_name = "TEMPLAR_ROSEBLOOM",
+	name = "Rosebloom",
 	type = {"cursed/crimson-templar", 4},
 	require = cursed_mag_req_high4,
 	points = 5,
@@ -261,6 +257,6 @@ newTalent{
 		return ([[Draw on the wounds of nearby enemies, healing yourself and putting them into a merciful sleep.
 							You are healed for %d%% of the remaining damage of bleed effects on enemies in range (minimum %d per bleed).	Enemies fall asleep for %d turns longer than their longest-lasting bleed, rendering them unable to act. The strength of the sleep effect is based on the strength of the bleed.	 Excess damage will reduce their sleep duration.
 							
-							When the sleep ends, each target will benefit from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it 50%% sleep immunity.]]):format(conversion, minimum, extension)
+							When the sleep ends, each target will benefit from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it 50%% sleep immunity.]]):tformat(conversion, minimum, extension)
 	end,
 }

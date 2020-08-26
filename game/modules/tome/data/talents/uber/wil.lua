@@ -299,7 +299,7 @@ uberTalent{
 	name = "Fallen", image="talents/splatter_sigils.png",
 	require = {
 		birth_descriptors={{"subclass", "Sun Paladin"}},
-		special={desc="Unlocked the Fallen evolution by bringing the Sun's Vengeance upon the cursed", fct=function(self) return profile.mod.allow_build.paladin_fallen end},
+		special={desc=_tUnlocked the Fallen evolution", fct=function(self) return profile.mod.allow_build.paladin_fallen end},
 		stat = {mag=25},
 	},
 	is_class_evolution = "Sun Paladin",
@@ -360,6 +360,6 @@ uberTalent{
 To give in to the darkness?
 
 Any offensive combat techniques or unlockable Celestial talent trees you know will be exchanged for cursed versions, allowing you to cut a bloody trail through enemies, turning your radiance to gloom, and more.
-You also gain new generic trees: the Fallen's defensive Dirges and Self-Destructive combat style.]]):format()
+You also gain new generic trees: the Fallen's defensive Dirges and Self-Destructive combat style.]]):tformat()
 	end,
 }

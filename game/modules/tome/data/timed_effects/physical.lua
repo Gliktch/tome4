@@ -4321,14 +4321,14 @@ newEffect{
 
 newEffect{
 	name = "Brutalized", image = "effects/stunned.png",
-	desc = "Brutalized",
-	long_desc = function(self, eff) return ("The target is brutally stunned, reducing damage by 60%%, movement speed by 50%%, bleed resist by 50%%, and halving talent cooldown."):format() end,
+	desc = _t"Brutalized",
+	long_desc = function(self, eff) return ("The target is brutally stunned, reducing damage by 60%%, movement speed by 50%%, bleed resist by 50%%, and halving talent cooldown."):tformat() end,
 	type = "physical",
 	subtype = { stun=true },
 	status = "detrimental",
 	parameters = { },
-	on_gain = function(self, err) return "#Target# is stunned by the brutal strike!", "+Brutalized" end,
-	on_lose = function(self, err) return "#Target# is not stunned anymore.", "-Brutalized" end,
+	on_gain = function(self, err) return _t"#Target# is stunned by the brutal strike!", _t"+Brutalized" end,
+	on_lose = function(self, err) return _t"#Target# is not stunned anymore.", _t"-Brutalized" end,
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("stunned", 1)
 		eff.lockid = self:addTemporaryValue("half_talents_cooldown", 1)

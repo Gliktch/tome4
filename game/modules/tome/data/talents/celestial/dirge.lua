@@ -87,7 +87,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Sing a song of wasting and desolation which sustains you in hard times.
 
-This dirge increases your health regeneration by %d.  The regeneration will increase with your level.]]):format(t.getRegen(self, t))
+This dirge increases your health regeneration by %d.  The regeneration will increase with your level.]]):tformat(t.getRegen(self, t))
 	end,
 				 }
 
@@ -146,7 +146,7 @@ newTalent{
 		return ([[Sing a song of violence and victory (mostly violence) and sustain yourself through cruelty.
 Each time you deal a critical strike you gain 10%% of a turn (only once per turn).
 Each time you kill a creature you gain 50%% of a turn (only once per turn).
-]]):format(heal, heal)
+]]):tformat()
 	end,
 }
 
@@ -194,7 +194,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Sing a song of decay and defiance and sustain yourself through spite.
 							Each time you suffer a detrimental effect, you gain a shield with strength %d, that lasts as long as the effect would.
-							This can only trigger once every %d turns]]):format(t.getShield(self, t), t.getShieldCD(self, t))
+							This can only trigger once every %d turns]]):tformat(t.getShield(self, t), t.getShieldCD(self, t))
 	end,
 }
 
@@ -246,7 +246,7 @@ newTalent{
 			Dirge of Conquest: Gives you part of a turn on critical (10%%) or kill (50%%).
 			Dirge of Pestilence: Shields you for %d when an enemy inflicts a detrimental effect on you.
 			You may only have one Dirge active at a time.]]):
-						format(t1.getRegen(self, t1), t3.getShield(self, t3))
+						tformat(t1.getRegen(self, t1), t3.getShield(self, t3))
 					end)
 		self.talents[self.T_DIRGE_OF_FAMINE] = old1
 		self.talents[self.T_DIRGE_OF_CONQUEST] = old2
@@ -268,9 +268,7 @@ newTalent{
 		local nostun = t.getImmune(self, t)*100
 		return ([[Your dirges carry the pain within you, which threatens to swallow those who come too close.  Anyone who hits you in melee suffers %d mind damage.
 							You, on the other hand, are steadied by the song.  Your dirges increase your resistance to stun and knockback by %d%%.
-							
-							Mindpower: increases damage
-							Level: increases damage]]):format(damage, nostun)
+							The damage will increase with your Mindpower and your level.]]):tformat(damage, nostun)
 	end,
 }
 
@@ -285,7 +283,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Your dirges echo mournfully through the air.  When you end a dirge, you continue to gain its acolyte-level effects for %d turns.  You can only benefit from one such lingering dirge at a time.
 
-Furthermore, you are given focus by the song.  Your dirges increase your resistance to confusion and fear by %d%%.]]):format(t.getDuration(self, t), t.getImmune(self, t)*100)
+Furthermore, you are given focus by the song.  Your dirges increase your resistance to confusion and fear by %d%%.]]):tformat(t.getDuration(self, t), t.getImmune(self, t)*100)
 	end,
 }
 
@@ -298,7 +296,6 @@ newTalent{
 	getArmor = function(self, t) return self:combatTalentSpellDamage(t, 2, 40) end,
 	info = function(self, t)
 		return ([[Your dirges deaden you to the outside world, reducing all incoming damage by %d.
-							
-							Spellpower: improves the damage reduction]]):format(t.getArmor(self, t))
+The damage reduction will increase with your Spellpower.]]):tformat(t.getArmor(self, t))
 	end,
 }
