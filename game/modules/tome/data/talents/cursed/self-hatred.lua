@@ -180,7 +180,7 @@ newTalent{
 		local lt = t.getThreshold(self, t)/100
 		local st = t.getSpillThreshold(self, t)/100
 		if dam > self.max_life*lt then
-			local reduce = dam - lt
+			local reduce = dam - self.max_life*lt
 			if reduce > self.max_life * st then
 				reduce = math.floor(dam * st / (lt+st))
 			end
