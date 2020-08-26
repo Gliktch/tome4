@@ -4157,6 +4157,7 @@ newEffect{
 	name = "CRIPPLING_BLIGHT", image = "talents/crippling_poison.png",
 	desc = _t"Crippling Blight",
 	long_desc = function(self, eff) return ("The target is poisoned and sick, doing %0.2f blight damage per turn. Each time it tries to use a talent there is %d%% chance of failure."):tformat(eff.power, eff.fail) end,
+	charges = function(self, eff) return (math.floor(eff.fail).."%") end,
 	type = "magical",
 	subtype = { poison=true, blight=true }, no_ct_effect = true,
 	status = "detrimental",
