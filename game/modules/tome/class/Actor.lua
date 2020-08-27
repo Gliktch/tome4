@@ -3462,6 +3462,7 @@ function _M:die(src, death_note)
 
 	if src and src.fireTalentCheck then src:fireTalentCheck("callbackOnKill", self, death_note) end
 	if src and src.summoner and src.summoner.fireTalentCheck then src.summoner:fireTalentCheck("callbackOnSummonKill", src, self, death_note) end
+	if game.zone and game.zone.on_actor_death then game.zone:on_actor_death(self, src, death_note) end
 
 	-- We do it at the end so that effects can detect death
 	game:onTickEnd(function()
