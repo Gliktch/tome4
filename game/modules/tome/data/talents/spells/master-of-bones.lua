@@ -55,7 +55,7 @@ newTalent{
 			poison_immune = 1,
 			undead = 1,
 			rarity = 1,
-			skeleton_minion = "warrior",
+			skeleton_minion = "warrior", basic_skeleton_minion = true,
 
 			max_life = resolvers.rngavg(90,100),
 			combat_armor = 5, combat_def = 1,
@@ -184,6 +184,30 @@ newTalent{
 		local max = math.max(1, math.floor(self:combatTalentScale(t, 1, 4.5)))
 		if ignore then return max end
 		return math.max(0, max - necroArmyStats(self).nb_skeleton)
+	end,
+	-- Fucking respec.
+	on_levelup_changed = function(self, t, lvl, old_lvl, lvl_raw, old_lvl_raw)
+		local stats = necroArmyStats(self)
+		for i, minion in ipairs(stats.list) do if minion.skeleton_minion then
+			if self:getTalentLevel(t) < 3 and not minion.basic_skeleton_minion then
+				game.party:removeMember(minion, true)
+				minion:disappear(self)
+			elseif self:getTalentLevel(t) < 5 and (minion.skeleton_minion == "mage" or minion.skeleton_minion == "archer") then
+				game.party:removeMember(minion, true)
+				minion:disappear(self)
+			end
+		end end
+		while true do
+			local stats = necroArmyStats(self)
+			local max = t:_getMax(self, true)
+			if lvl_raw <= 0 then max = 0 end
+			if stats.nb_skeleton <= max then break end
+			for i, minion in ipairs(stats.list) do if minion.skeleton_minion then
+				game.party:removeMember(minion, true)
+				minion:disappear(self)
+				break
+			end end
+		end
 	end,
 	getLevel = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), -6, 0.9, 2, 5)) end, -- -6 @ 1, +2 @ 5, +5 @ 8
 	on_pre_use = function(self, t) return math.min(t.getMax(self, t), self:getSoul()) >= 1 end,
@@ -407,6 +431,15 @@ newTalent{
 	range = 10,
 	getLevel = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), -6, 0.9, 2, 5)) end, -- -6 @ 1, +2 @ 5, +5 @ 8
 	on_pre_use = function(self, t) local stats = necroArmyStats(self) return stats.nb_skeleton >= (stats.lord_of_skulls and 4 or 3) end,
+	-- Fucking respec.
+	on_levelup_changed = function(self, t, lvl, old_lvl, lvl_raw, old_lvl_raw)
+		if lvl >= old_lvl then return end
+		local stats = necroArmyStats(self)
+		if stats.bone_giant then
+			game.party:removeMember(stats.bone_giant, true)
+			stats.bone_giant:disappear(self)
+		end
+	end,
 	action = function(self, t)
 		local stats = necroArmyStats(self)
 		if stats.nb_skeleton < (stats.lord_of_skulls and 4 or 3) then return end

@@ -58,7 +58,7 @@ newTalent{
 			},
 			ai_state = { talent_in=4, },
 			combat = { dam=resolvers.levelup(10, 1, 1), atk=resolvers.levelup(5, 1, 1), apr=3, dammod={str=0.6} },
-			ghoul_minion = "ghoul",
+			ghoul_minion = "ghoul", basic_ghoul_minion = true,
 		},
 		ghast = {
 			type = "undead", subtype = "ghoul",
@@ -129,6 +129,19 @@ newTalent{
 	getTurns = function(self, t, ignore) return math.floor(self:combatTalentScale(t, 5, 10)) end,
 	getLevel = function(self, t) return math.floor(self:combatScale(self:getTalentLevel(t), -6, 0.9, 2, 5)) end, -- -6 @ 1, +2 @ 5, +5 @ 8
 	on_pre_use = function(self, t) return self:getTalentLevel(t) >= 3 and self:getSoul() >= 1 end,
+	-- Fucking respec.
+	on_levelup_changed = function(self, t, lvl, old_lvl, lvl_raw, old_lvl_raw)
+		local stats = necroArmyStats(self)
+		for i, minion in ipairs(stats.list) do if minion.ghoul_minion then
+			if self:getTalentLevel(t) < 3 and not minion.basic_ghoul_minion then
+				game.party:removeMember(minion, true)
+				minion:disappear(self)
+			elseif self:getTalentLevel(t) < 5 and minion.ghoul_minion == "ghoulking" then
+				game.party:removeMember(minion, true)
+				minion:disappear(self)
+			end
+		end end
+	end,
 	summonGhoul = function(self, t, possible_spots, def)
 		local pos = table.remove(possible_spots, 1)
 		if pos then
@@ -221,9 +234,39 @@ newTalent{
 }
 
 newTalent{
-	name = "Putrescent Liquefaction",
-	type = {"spell/master-of-flesh", 2},
+	name = "Corpse Explosion",
+	type = {"spell/master-of-flesh",2},
 	require = spells_req2,
+	points = 5,
+	cooldown = 20,
+	mana = 30,
+	tactical = { ATTACKAREA = {COLD=2, DARKNESS=2} },
+	requires_target = true,
+	radius = 2,
+	getDur = function(self, t) return math.floor(self:combatTalentScale(t, 3, 8)) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 200) end,
+	getDiseasePower = function(self, t) return self:combatTalentSpellDamage(t, 5, 28) end,
+	on_pre_use = function(self, t) local stats = necroArmyStats(self) return stats.nb_ghoul > 0 end,
+	action = function(self, t)
+		self:setEffect(self.EFF_CORPSE_EXPLOSION, t:_getDur(self), {damage=t:_getDamage(self), disease=t:_getDiseasePower(self), radius=self:getTalentRadius(t)})
+		game:playSoundNear(self, "talents/spell_generic2")
+		return true
+	end,
+	info = function(self, t)
+		return ([[Ghouls are nothing but mere tools to you, for %d turns you render them bloated with dark forces.
+		Anytime a ghoul or ghast is hit it will explode in a messy splash of gore, dealing %0.2f frostdusk damage to all foes in radius %d of it.
+		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces one attribute by %d.
+		Only one ghoul may explode per turn. The one with the least time left to live is always the first to do so.
+		The damage and disease power is increased by your Spellpower.
+		]]):
+		tformat(t:_getDur(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, t:_getDamage(self)), t:_getDiseasePower(self))
+	end,
+}
+
+newTalent{
+	name = "Putrescent Liquefaction",
+	type = {"spell/master-of-flesh", 3},
+	require = spells_req3,
 	points = 5,
 	mode = "sustained",
 	mana = 20, -- This is NOT an error, this is a sustain but with an activation cost
@@ -331,36 +374,6 @@ newTalent{
 		The cloud deals %0.2f frostdusk damage to any foes caught inside.
 		The damage will increase with your Spellpower.
 		]]):tformat(t:_getNb(self), self:getTalentRadius(t), t:_getIncrease(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)))
-	end,
-}
-
-newTalent{
-	name = "Corpse Explosion",
-	type = {"spell/master-of-flesh",3},
-	require = spells_req3,
-	points = 5,
-	cooldown = 20,
-	mana = 30,
-	tactical = { ATTACKAREA = {COLD=2, DARKNESS=2} },
-	requires_target = true,
-	radius = 2,
-	getDur = function(self, t) return math.floor(self:combatTalentScale(t, 3, 8)) end,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 200) end,
-	getDiseasePower = function(self, t) return self:combatTalentSpellDamage(t, 5, 28) end,
-	on_pre_use = function(self, t) local stats = necroArmyStats(self) return stats.nb_ghoul > 0 end,
-	action = function(self, t)
-		self:setEffect(self.EFF_CORPSE_EXPLOSION, t:_getDur(self), {damage=t:_getDamage(self), disease=t:_getDiseasePower(self), radius=self:getTalentRadius(t)})
-		game:playSoundNear(self, "talents/spell_generic2")
-		return true
-	end,
-	info = function(self, t)
-		return ([[Ghouls are nothing but mere tools to you, for %d turns you render them bloated with dark forces.
-		Anytime a ghoul or ghast is hit it will explode in a messy splash of gore, dealing %0.2f frostdusk damage to all foes in radius %d of it.
-		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces one attribute by %d.
-		Only one ghoul may explode per turn. The one with the least time left to live is always the first to do so.
-		The damage and disease power is increased by your Spellpower.
-		]]):
-		tformat(t:_getDur(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, t:_getDamage(self)), t:_getDiseasePower(self))
 	end,
 }
 

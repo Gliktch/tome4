@@ -221,6 +221,17 @@ function _M:finish()
 		end
 	end
 
+	for t_id, _ in pairs(self.talents_changed) do
+		local t = self.actor:getTalentFromId(t_id)
+		if t.on_levelup_changed then
+			local lvl = self.actor:getTalentLevel(t_id)
+			local lvl_raw = self.actor:getTalentLevelRaw(t_id)
+			local old_lvl = self.actor_dup:getTalentLevel(t_id)
+			local old_lvl_raw = self.actor_dup:getTalentLevelRaw(t_id)
+			t.on_levelup_changed(self.actor, t, lvl, old_lvl, lvl_raw, old_lvl_raw)
+		end
+	end
+
 	if self.actor.player then
 		if self.actor.descriptor and self.actor.descriptor.race == "Dwarf" then
 			local count_nature, count_spell = 0, 0
