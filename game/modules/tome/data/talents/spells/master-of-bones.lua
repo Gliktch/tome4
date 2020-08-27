@@ -258,15 +258,28 @@ newTalent{
 			end
 		end
 
+		-- Ensure max capacity only
+		while true do
+			local stats = necroArmyStats(self)
+			local max = t:_getMax(self, true)
+			if stats.nb_skeleton <= max then break end
+			for i, minion in ipairs(stats.list) do if minion.skeleton_minion == "warrior" then
+				game.party:removeMember(minion, true)
+				minion:disappear(self)
+				self:incSoul(1)
+				break
+			end end
+		end
+
 		if use_ressource then self:incMana(-util.getval(t.mana, self, t) * (100 + 2 * self:combatFatigue()) / 100) end
 		game:playSoundNear(self, "talents/skeleton")
 		return true
 	end,
 	info = function(self, t)
 		return ([[Call upon the battlefields of old, collecting bones, fusing them with souls, and forging them into skeletal minions.
-		Up to %d skeleton warriors of level %d are summonedn, and up to %d skeletons can be controlled at once.
+		Up to %d skeleton warriors of level %d are summoned, and up to %d skeletons can be controlled at once.
 		At level 3 the summons become armoured skeletons warriors.
-		At level 5, for every 3 skeleton warriors, a skeleton mage or archer will also be created without costing any souls.
+		At level 5, for every 3 skeleton warriors, a skeleton mage or archer will also be created without costing any souls. If this makes you go veor your skeleton limit, a normal skeleton will be removed and its soul refunded.
 
 		#GREY##{italic}#Skeleton minions come in fewer numbers than ghoul minions but are generally more durable.#{normal}#
 		]]):tformat(t:_getNb(self), math.max(1, self.level + t:_getLevel(self)), t:_getMax(self, true))
