@@ -26,6 +26,7 @@ local slt2 = require "slt2"
 module(..., package.seeall, class.make)
 
 _M.chat_context_strings = {"#{italic}##LIGHT_GREEN#", "#LAST##{normal}#"}
+_M.chat_bold_strings = {"#{bold}#", "#{normal}#"}
 
 --- Init
 -- @string name used to load a chat file
@@ -91,6 +92,7 @@ function _M:addChat(c)
 
 	if not c.ignore_easy_controls and c.text then
 		c.text = c.text:gsub("<<<(.-)>>>", self.chat_context_strings[1].."%1"..self.chat_context_strings[2])
+		c.text = c.text:gsub("%*%*(.-)%*%*", self.chat_bold_strings[1].."%1"..self.chat_bold_strings[2])
 	end
 
 	-- Parse answers looking for quick replies
