@@ -131,7 +131,7 @@ return {
 					elseif sequence_failures >= 6 and random_elite < 1 then filter = {random_boss = {power_source = {nature=true, psionic=true, technique=true}, rank = 3.5}} random_elite = random_elite + 1
 					elseif sequence_failures >=4 and random_elite < 2 then filter = {random_elite = {power_source = {nature=true, psionic=true, technique=true}}} random_elite = random_elite + 1
 					end
-					filter.add_levels = math.floor(5+sequence_failures^1.5)
+					filter.add_levels = math.floor(5+1.5*sequence_failures^1.5)
 
 					-- Find an actor with that filter
 					local m = game.zone:makeEntity(game.level, "actor", filter)
