@@ -117,7 +117,7 @@ newTalent{
 		}
 	end,
 	action = function(self, t)
-		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), talent=t}
+		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), nolock=true, talent=t}
 		--print("war hound targeting:") table.print(tg) -- debugging
 		local tx, ty, target = self:getTarget(tg)
 		if not tx or not ty then return nil end
@@ -225,7 +225,7 @@ newTalent{
 		}
 	end,
 	action = function(self, t)
-		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), talent=t}
+		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), nolock=true, talent=t}
 		local tx, ty, target = self:getTarget(tg)
 		if not tx or not ty then return nil end
 		local _ _, _, _, tx, ty = self:canProject(tg, tx, ty)
@@ -346,7 +346,7 @@ newTalent{
 		}
 	end,
 	action = function(self, t)
-		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), talent=t}
+		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), nolock=true, talent=t}
 		local tx, ty, target = self:getTarget(tg)
 		if not tx or not ty then return nil end
 		local _ _, _, _, tx, ty = self:canProject(tg, tx, ty)
@@ -465,7 +465,7 @@ newTalent{
 		}
 	end,
 	action = function(self, t)
-		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), talent=t}
+		local tg = {type="bolt", nowarning=true, range=self:getTalentRange(t), nolock=true, talent=t}
 		local tx, ty, target = self:getTarget(tg)
 		if not tx or not ty then return nil end
 		local _ _, _, _, tx, ty = self:canProject(tg, tx, ty)
