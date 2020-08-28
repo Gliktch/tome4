@@ -123,7 +123,7 @@ newTalent{
 	
 	info = function(self, t)
 		local range = t.range(self, t)
-		return ([[Fade into the darkness and reappear elsewhere within range %d.  When you emerge from the shadows, you are accompanied by a flash of light, dealing %d damage to enemies in radius 1.
+		return ([[Fade into the darkness and reappear elsewhere within range %d.  When you emerge from the shadows, you are accompanied by a flash of light, dealing %0.2f damage to enemies in radius 1.
 						 The damage will increase with your Spellpower.]]):tformat(range, damDesc(self, DamageType.LIGHT, t.getDamage(self, t)))
 	end,
 }

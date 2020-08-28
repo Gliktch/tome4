@@ -124,7 +124,7 @@ newTalent{
 		local burn = t.getStrength(self, t)
 		local cost = t.getPrice(self, t)
 		local dur = t.getDuration(self, t)
-		return ([[When you kill an enemy, their death forms a cursed magical pattern on the ground. This creates a circle of radius %d which blinds enemies and deals them %d light damage, while giving you %d positive energy per turn.	 The circle lasts for %d turns.
+		return ([[When you kill an enemy, their death forms a cursed magical pattern on the ground. This creates a circle of radius %d which blinds enemies and deals them %0.2f light damage, while giving you %d positive energy per turn.	 The circle lasts for %d turns.
 							The damage will increase with your Spellpower.
 							The duration of the circle can be increased by a critical hit.
 							The blind chance increases with your Spellpower.

@@ -266,9 +266,9 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamageOnMeleeHit(self, t)
 		local nostun = t.getImmune(self, t)*100
-		return ([[Your dirges carry the pain within you, which threatens to swallow those who come too close.  Anyone who hits you in melee suffers %d mind damage.
+		return ([[Your dirges carry the pain within you, which threatens to swallow those who come too close.  Anyone who hits you in melee suffers %0.2f mind damage.
 							You, on the other hand, are steadied by the song.  Your dirges increase your resistance to stun and knockback by %d%%.
-							The damage will increase with your Mindpower and your level.]]):tformat(damage, nostun)
+							The damage will increase with your Mindpower and your level.]]):tformat(damDesc(self, DamageType.MIND, damage), nostun)
 	end,
 }
 

@@ -58,7 +58,7 @@ newTalent{
 		local regen = t.getHate(self, t)
 		return ([[At the start of each turn, if you're bleeding, you gain %d hate.
 
-You can activate this talent to quickly draw a blade across your skin, bleeding yourself for a small portion of your maximum life (%d damage) over the next 5 turns.	This bleed cannot be resisted.
+You can activate this talent to quickly draw a blade across your skin, bleeding yourself for a small portion of your maximum life (%0.2f damage) over the next 5 turns.	This bleed cannot be resisted.
 
 #{italic}#Pain is just about the only thing you can still feel.#{normal}#]]):tformat(regen, damage)
 	end,

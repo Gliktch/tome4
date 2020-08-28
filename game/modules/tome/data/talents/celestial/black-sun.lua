@@ -147,7 +147,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Attune yourself to the endless hunger of distant dead suns.  For the next %d turns, your attacks will inflict an additional %d gravity damage and attempt to pull enemies closer.  After three turns, you will recover half of all damage taken during this effect.
+		return ([[Attune yourself to the endless hunger of distant dead suns.  For the next %d turns, your attacks will inflict an additional %0.2f gravity damage and attempt to pull enemies closer.  After three turns, you will recover half of all damage taken during this effect.
 The damage will increase with your Spellpower.]]):tformat(t.getDuration(self,t), damDesc(self, DamageType.PHSYICAL, t.getOnhit(self,t)))
 	end,
 }
