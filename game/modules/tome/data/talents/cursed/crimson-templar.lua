@@ -124,9 +124,10 @@ newTalent{
 		local burn = t.getStrength(self, t)
 		local cost = t.getPrice(self, t)
 		local dur = t.getDuration(self, t)
-		return ([[When you kill an enemy, their death forms a cursed magical pattern on the ground. This creates a circle of radius %d which blinds enemies (#SLATE#Spellpower vs. Magical#LAST#) and deals them %d light damage, while giving you %d positive energy per turn.	 The circle lasts for %d turns.
+		return ([[When you kill an enemy, their death forms a cursed magical pattern on the ground. This creates a circle of radius %d which blinds enemies and deals them %d light damage, while giving you %d positive energy per turn.	 The circle lasts for %d turns.
 							The damage will increase with your Spellpower.
 							The duration of the circle can be increased by a critical hit.
+							The blind chance increases with your Spellpower.
 							You can activate this talent to draw the pattern in your own blood, creating it underneath you at the cost of %d%% of your maximum life.
 ]]):tformat(rad, damDesc(self, DamageType.LIGHT, burn), 2, dur, cost)
 	end,
@@ -166,7 +167,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Dooms your target and everything within a radius 2 ball around it for 20 turns. Each time an affected target uses a talent, it takes %0.2f physical damage as its life is drawn out.	In addition, any bleed applied to the target will have its power increased by %d%%.
-The damage will increase with your Spellpower.]]):
+							The damage will increase with your Spellpower.
+							The chance to apply will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.PHYSICAL, t.getPower(self, t)), t.getBleedIncrease(self, t)*100)
 	end,
 }
@@ -255,6 +257,7 @@ newTalent{
 		local minimum = t.getMinHeal(self, t)
 		local extension = t.getExtension(self, t)
 		return ([[Draw on the wounds of nearby enemies, healing yourself and putting them into a merciful sleep.
+							The sleep chance increases with your Spellpower.
 							You are healed for %d%% of the remaining damage of bleed effects on enemies in range (minimum %d per bleed).	Enemies fall asleep for %d turns longer than their longest-lasting bleed, rendering them unable to act. The strength of the sleep effect is based on the strength of the bleed.	 Excess damage will reduce their sleep duration.
 							
 							When the sleep ends, each target will benefit from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it 50%% sleep immunity.]]):tformat(conversion, minimum, extension)

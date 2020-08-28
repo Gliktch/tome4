@@ -299,7 +299,7 @@ uberTalent{
 	name = "Fallen", image="talents/splatter_sigils.png",
 	require = {
 		birth_descriptors={{"subclass", "Sun Paladin"}},
-		special={desc=_tUnlocked the Fallen evolution", fct=function(self) return profile.mod.allow_build.paladin_fallen end},
+		special={desc=_t"Unlocked the Fallen evolution", fct=function(self) return profile.mod.allow_build.paladin_fallen end},
 		stat = {mag=25},
 	},
 	is_class_evolution = "Sun Paladin",

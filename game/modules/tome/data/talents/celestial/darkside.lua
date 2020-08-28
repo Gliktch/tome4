@@ -51,7 +51,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned (#SLATE#Physical power vs. Physical#LAST#) for %d turns and has their bleed resistance reduced by 50%%.
+		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned for %d turns and has their bleed resistance reduced by 50%%.
+The stun chance increases with your Physical Power.
 
 #{italic}#It may not bleed, exactly, but you'll make it hurt.#{normal}#]])
 		:tformat(100 * damage, t.getDuration(self, t))
