@@ -276,7 +276,7 @@ newTalent{
 	requires_target = true,
 	radius = function(self, t) return math.floor(self:combatTalentScale(t, 3, 6)) end,
 	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t), talent=t, friendlyfire=false} end,
-	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 1, 4)) end,
+	getNb = function(self, t) return math.max(1, math.floor(self:combatTalentLimit(t, 3.1, 1, 3))) end,
 	getIncrease = function(self, t) return math.floor(self:combatTalentScale(t, 1, 2)) end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 400) / 5 end,
 	on_pre_use = function(self, t) return necroArmyStats(self).nb_ghoul > 0 end,
@@ -336,7 +336,7 @@ newTalent{
 		end
 		if dur == 0 then return nil end
 
-		local ret = { dur = dur, absorb_cnt = 0 }
+		local ret = { dur = dur + 1, absorb_cnt = 0 }
 
 		-- Add a lasting map effect
 		local radius = self:getTalentRadius(t)
@@ -369,7 +369,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Shattering up to %d ghouls or ghasts you create a putrescent swirling cloud of radius %d that follows you around for 3 turns per dead ghoul. Oldest ghouls are prioritized for destruction.
+		return ([[Shattering up to %d ghouls or ghasts you create a putrescent swirling cloud of radius %d that follows you around for 3 turns per dead ghoul plus one turn. Oldest ghouls are prioritized for destruction.
 		Any ghoul or ghast dying or expiring within this cloud increases its duration by %d turn and every two aborbed ghoul/ghast your gain back one soul.
 		The cloud deals %0.2f frostdusk damage to any foes caught inside.
 		The damage will increase with your Spellpower.
