@@ -133,7 +133,7 @@ newTalent{
 	range = 1,
 	requires_target = true,
 	is_melee = true,
-	getBleedMult = function(self, t) return self:combatTalentScale(t, 1.4, 2.8)-1 end,
+	getBleedMult = function(self, t) return self:combatTalentScale(t, 1.4, 2.8) end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.8, 2.0) end,
 	on_learn = function(self, t) self:learnTalent(self.T_BLOOD_CLOT, true) end,
 	on_unlearn = function(self, t) self:unlearnTalent(self.T_BLOOD_CLOT) end,
@@ -163,7 +163,7 @@ newTalent{
 		return ([[Cut into an enemy and twist the blade, dealing %d%% damage and increasing the intensity of their existing bleed effects by %d%%.
 
 Each point in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]]):
-		tformat(dam, mult)
+		tformat(dam, mult-1)
 	end,
 }
 
@@ -207,7 +207,7 @@ newTalent{
 	mode = "passive",
 	on_learn = function(self, t) self:learnTalent(self.T_BLOOD_CLOT, true) end,
 	on_unlearn = function(self, t) self:unlearnTalent(self.T_BLOOD_CLOT) end,
-	getLeech = function(self, t) return self:combatTalentScale(t, 3, 8) end,
+	getLeech = function(self, t) return self:combatTalentScale(t, 3, 6) end,
 	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
 		local cap = self.max_life / 6
 		local used = self.turn_procs.fallen_thirst_heal or 0
