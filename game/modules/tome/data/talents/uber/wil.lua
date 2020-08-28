@@ -300,6 +300,28 @@ uberTalent{
 	require = {
 		birth_descriptors={{"subclass", "Sun Paladin"}},
 		special={desc=_t"Unlocked the Fallen evolution", fct=function(self) return profile.mod.allow_build.paladin_fallen end},
+		special2={
+			desc=_t"Commit a heinous act",
+			fct=function(self)
+				if game.state.birth.ignore_prodigies_special_reqs then return true end
+				-- Didn't save the merchant
+				if self:hasQuest("lost-merchant") then
+					if self:hasQuest("lost-merchant"):isCompleted("evil") then return true end
+					if self:hasQuest("lost-merchant"):isFailed() then return true end
+					if not self:hasQuest("lost-merchant"):isCompleted("saved") then return true end
+				end
+				-- Let Melinda die
+				if (self:hasQuest("kryl-feijan-escape") and self:hasQuest("kryl-feijan-escape"):isStatus(engine.Quest.FAILED)) then return true end
+				-- Sided with the Grand Corruptor
+				if (self:hasQuest("anti-antimagic") and self:hasQuest("anti-antimagic"):isStatus(engine.Quest.DONE)) then return true end
+				-- Killed an escort yourself
+				local id = world:getCurrentAchievementDifficultyId(game, "ESCORT_KILL")
+				if self.achievement_data[id] and self.achievement_data[id].nb > 0 then return true end
+				-- Lumberjack massacre
+				if (self:hasQuest("lumberjack-cursed") and (self:hasQuest("lumberjack-cursed").lumberjacks_died or 0) >= 20) then return true end
+				return false
+			end
+		},
 		stat = {mag=25},
 	},
 	is_class_evolution = "Sun Paladin",
