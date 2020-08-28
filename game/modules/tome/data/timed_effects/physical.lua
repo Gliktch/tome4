@@ -3632,6 +3632,7 @@ newEffect{
 			local ac = self:combatArmor() * self:callTalent(self.T_STONE_FORTRESS, "getPercent")/ 100
 			eff.mid_ac = ac
 			eff.mid = self:addTemporaryValue("flat_damage_armor", {all=ac, [DamageType.PHYSICAL]=-ac})
+			self:effectTemporaryValue(eff, "stone_fortress_active", 1)
 		end
 	end,
 	deactivate = function(self, eff)

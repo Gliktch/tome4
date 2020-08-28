@@ -65,7 +65,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[When you use your Resilience of the Dwarves racial power your skin becomes so tough that it even absorbs damage from non-physical attacks.
-		Non-physical damage is reduced by %d%% of your total armour value (ignoring hardiness).]]):
+		Non-physical damage is reduced by %d%% of your total armour value (ignoring hardiness).
+		While this effect is not active, half of it is still applied against foes entangled by your stone vines.]]):
 		tformat(t.getPercent(self, t))
 	end,
 }

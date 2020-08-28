@@ -435,9 +435,13 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 		-- Flat damage reduction ("armour")
 		if dam > 0 and target.flat_damage_armor then
 			local dec = math.min(dam, target:combatGetFlatResist(type))
+			-- I hate myself
+			if target.knowTalent and target:knowTalent(target.T_STONE_FORTRESS) and not target:attr("stone_fortress_active") and type ~= DamageType.PHYSICAL and src.hasEffect and src:hasEffect(src.EFF_STONE_VINE) then
+				dec = math.min(dam, dec + target:combatArmor() * target:callTalent(target.T_STONE_FORTRESS, "getPercent") / 100 / 2)
+			end
 			if dec > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d flat reduction)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", dec), false) end
 			dam = math.max(0, dam - dec)
-			print("[PROJECTOR] after flat damage armor", dam)
+			print("[PROJECTOR] after flat damage armor", dam, dec)
 		end
 
 		-- roll with it damage reduction
