@@ -271,7 +271,7 @@ newBirthDescriptor{
 	desc =
 	{
 		_t"#GOLD##{bold}#Madness mode#WHITE##{normal}#",
-		_t"Absolutely unfair game setting.  You are really mentally ill and wish to get worse to play this mode!",
+		_t"Absolutely unfair game setting. Prepare for the full wrath of DarkGod!",
 		_t"All zone levels increased by 150% + 2 by the time Player reaches level 10",
 		_t"All creature talent levels increased by 170%",
 		_t"Unique (fixed) bosses advance in bonus classes 170% faster",
