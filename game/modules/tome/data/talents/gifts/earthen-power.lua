@@ -88,7 +88,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Sharp shards of stone grow from your shields.
 		When you are hit in melee, you will get a free attack against the attacker with the shards doing %d%% shield damage (as Nature).
-		This effect can only happen once per turn.]]):
+		This effect can only happen once per turn and is not affected by counterstrike.]]):
 		tformat(self:combatTalentWeaponDamage(t, 0.4, 1) * 100)
 	end,
 }

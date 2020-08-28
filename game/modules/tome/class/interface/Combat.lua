@@ -571,7 +571,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 		dam = dam * mult
 		print("[ATTACK] after mult", dam)
 
-		if target:hasEffect(target.EFF_COUNTERSTRIKE) then
+		if target:hasEffect(target.EFF_COUNTERSTRIKE) and not self:attr("ignore_counterstrike") then
 			dam = target:callEffect(target.EFF_COUNTERSTRIKE, "onStrike", dam, self)
 			print("[ATTACK] after counterstrike", dam)
 		end
@@ -1131,7 +1131,9 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 		local t = target:getTalentFromId(target.T_SHARDS)
 		target.turn_procs.shield_shards = true
 		self.logCombat(target, self, "#Source# counter attacks #Target# with %s shield shards!", string.his_her(target))
+		target:attr("ignore_counterstrike", 1)
 		target:attackTarget(self, DamageType.NATURE, self:combatTalentWeaponDamage(t, 0.4, 1), true)
+		target:attr("ignore_counterstrike", -1)
 	end
 	-- post melee attack hooks/callbacks, not included: apr, armor, atk, def, evaded, repelled, old_target_life
 	local hd = {"Combat:attackTargetWith", hitted=hitted, crit=crit, target=target, weapon=weapon, damtype=damtype, mult=mult, dam=dam}
