@@ -200,7 +200,15 @@ function _M:finish()
 
 	-- Prodigies
 	if self.on_finish_prodigies then
-		for tid, ok in pairs(self.on_finish_prodigies) do if ok then self.actor:learnTalent(tid, true, nil, {no_unlearn=true}) end end
+		for tid, ok in pairs(self.on_finish_prodigies) do if ok then
+			local t = self.actor:getTalentFromId(tid)
+			if self.actor:canLearnTalent(t) or config.settings.cheat then
+				self.actor:learnTalent(tid, true, nil, {no_unlearn=true})
+			else
+				game.log("#LIGHT_RED#Requirements for %s not met, prodigy not learnt.", t.name)
+				self.actor.unused_prodigies = self.actor.unused_prodigies + 1
+			end
+		end end
 	end
 
 	if not self.on_birth then
