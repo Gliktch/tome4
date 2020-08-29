@@ -300,35 +300,13 @@ uberTalent{
 	require = {
 		birth_descriptors={{"subclass", "Sun Paladin"}},
 		special={desc=_t"Unlocked the Fallen evolution", fct=function(self) return profile.mod.allow_build.paladin_fallen end},
-		special2={
-			desc=_t"Commit a heinous act",
-			fct=function(self)
-				if game.state.birth.ignore_prodigies_special_reqs then return true end
-				-- Didn't save the merchant
-				if self:hasQuest("lost-merchant") then
-					if self:hasQuest("lost-merchant"):isCompleted("evil") then return true end
-					if self:hasQuest("lost-merchant"):isFailed() then return true end
-					if not self:hasQuest("lost-merchant"):isCompleted("saved") then return true end
-				end
-				-- Let Melinda die
-				if (self:hasQuest("kryl-feijan-escape") and self:hasQuest("kryl-feijan-escape"):isStatus(engine.Quest.FAILED)) then return true end
-				-- Sided with the Grand Corruptor
-				if (self:hasQuest("anti-antimagic") and self:hasQuest("anti-antimagic"):isStatus(engine.Quest.DONE)) then return true end
-				-- Killed an escort yourself
-				local id = world:getCurrentAchievementDifficultyId(game, "ESCORT_KILL")
-				if self.achievement_data[id] and self.achievement_data[id].nb > 0 then return true end
-				-- Lumberjack massacre
-				if (self:hasQuest("lumberjack-cursed") and (self:hasQuest("lumberjack-cursed").lumberjacks_died or 0) >= 20) then return true end
-				return false
-			end
-		},
+		special2={desc=_t"Committed a heinous act", fct=function(self) if not game.state.birth.supports_fallen_transform then return true else return game.state.birth.supports_fallen_transform(self) end end},
 		stat = {mag=25},
 	},
 	is_class_evolution = "Sun Paladin",
 	cant_steal = true,
 	mode = "passive",
 	no_npc_use = true,
-	
 	unlearnTalents = function(self, t, cats)
 		local tids = {}
 		local types = {}
@@ -371,17 +349,49 @@ uberTalent{
 			["technique/shield-offense"] = true,
 		}
 		t.unlearnTalents(self, t, removes)
+
+		self:attr("swap_combat_techniques_hate", 1)
 		
 		self:learnTalent(self.T_DIRGE_ACOLYTE, true, 1)
 		self:learnTalent(self.T_SELF_HARM, true, 1)
+
+		game.bignews:say(120, "#CRIMSON#You give in to the darkness. You have fallen!")
 		
 		self:incHate(100)
+
+		-- Remove stamina bar if we dont need it anymore
+		local remove = true
+		for tid, lvl in pairs(self.talents) do
+			local t = self:getTalentFromId(tid)
+			if t.stamina and util.getval(t.stamina, self, t) then remove = false break end
+			if t.sustain_stamina and util.getval(t.sustain_stamina, self, t) then remove = false break end
+			if t.drain_stamina and util.getval(t.drain_stamina, self, t) then remove = false break end
+		end
+		if remove then
+			self:unlearnTalent(self.T_STAMINA_POOL)
+		end
 	end,
 	info = function(self, t)
 		return ([[The code of the Sun Paladins can be a heavy burden.	 Wouldn't you like to let go?
-To give in to the darkness?
+		#{italic}##GREY#To give in to the darkness?#LAST##{normal}#
+		
+		#CRIMSON#This evolution fundamentally alters your class and character in a huge way. Do not take it lightly.#LAST#
 
-Any offensive combat techniques or unlockable Celestial talent trees you know will be exchanged for cursed versions, allowing you to cut a bloody trail through enemies, turning your radiance to gloom, and more.
-You also gain new generic trees: the Fallen's defensive Dirges and Self-Destructive combat style.]]):tformat()
+		Any offensive combat techniques or unlockable Celestial talent trees you know will be exchanged for cursed versions, allowing you to cut a bloody trail through enemies, turning your radiance to gloom, and more while also gaining new combat styles and defenses.
+
+		The following talent trees are swapped:
+		- #GOLD#Radiance#LAST# turns into #CRIMSON#Gloom#LAST#: Project onto others your own hate, hindering them
+		- #GOLD#Guardian#LAST# turns into #CRIMSON#Crimson Templar#LAST#: Use the power of blood to control and defeat the fools that oppose you
+		- #GOLD#Crusader#LAST# turns into #CRIMSON#Black Sun#LAST#: Call upon the energies of dead suns to crush your foes
+
+		You will learn the following talents trees:
+		- #CRIMSON#Bloodstained#LAST#: Make your foes bleed!
+		- #CRIMSON#Darkside#LAST#: Every light casts a shadow, yours is powerful indeed
+		- #CRIMSON#Self-Hatred#LAST#: Manifest your self hatred through bleeding
+		- #CRIMSON#Dirge#LAST#: Sing of death and sorrow to strength your resolve
+
+		You will forget the following talent trees: Shield Offense, Two-handed Assault.
+		Also the cost of any talents of the Combat Techniques tree will be converted to hate instead of stamina.
+		]]):tformat()
 	end,
 }
