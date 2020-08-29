@@ -212,8 +212,7 @@ function _M:use(item)
 		end
 		self.c_tut.text = self.tuttext:format(self.actor.unused_prodigies or 0)
 		self.c_tut:generate()
-	elseif (self.actor:canLearnTalent(self.actor:getTalentFromId(item.talent)) and self.actor.unused_prodigies > 0) then
-	-- elseif (self.actor:canLearnTalent(self.actor:getTalentFromId(item.talent)) and self.actor.unused_prodigies > 0) or config.settings.cheat then
+	elseif (self.actor:canLearnTalent(self.actor:getTalentFromId(item.talent)) and self.actor.unused_prodigies > 0) or config.settings.cheat then
 		if not self.levelup_end_prodigies[item.talent] then
 			self.levelup_end_prodigies[item.talent] = true
 			self.actor.unused_prodigies = math.max(0, self.actor.unused_prodigies - 1)
