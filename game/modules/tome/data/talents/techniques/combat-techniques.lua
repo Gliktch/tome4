@@ -183,10 +183,19 @@ newTalent{
 	mode = "passive",
 	points = 5,
 	getStamRecover = function(self, t) return self:combatTalentScale(t, 0.6, 2.5, 0.75) end,
+	getHateRecover = function(self, t) return self:combatTalentScale(t, 0.2, 1, 0.75) end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "stamina_regen", t.getStamRecover(self, t))
 	end,
+	callbackOnTalentPost = function(self, t, ab, ret, silent)
+		if ab.no_energy then return end
+		if ab.mode ~= "activated" then return end
+		if not self:attr("swap_combat_techniques_hate") then return end
+		if not ab.hate or ab.hate <= 0 then return end
+		self:incHate(t.getHateRecover(self, t))
+	end,
 	info = function(self, t)
+		if self:attr("swap_combat_techniques_hate") return ([[Your combat focus allows you to keep your hatred burning (%0.1f hate refunded after spending hate on a talent)]]):tformat(t.getHateRecover(self, t)) end
 		return ([[Your combat focus allows you to regenerate stamina faster (+%0.1f stamina/turn).]]):tformat(t.getStamRecover(self, t))
 	end,
 }
@@ -229,8 +238,15 @@ newTalent{
 	mode = "passive",
 	-- called by mod.class.Actor:die
 	getStamRecover = function(self, t) return self:combatTalentScale(t, 5, 20, 0.5) end, -- Lower scaling than other recovery talents because it effectively scales with character speed and can trigger more than once a turn
+	getHateRecover = function(self, t) return self:combatTalentScale(t, 1, 4.5, 0.5) end,
 	points = 5,
+	passives = function(self, t, p)
+		if self:attr("swap_combat_techniques_hate") then
+			self:talentTemporaryValue(p, "hate_per_kill", t.getHateRecover(self,t))
+		end
+	end,
 	info = function(self, t)
+		if self:attr("swap_combat_techniques_hate") return ([[You revel in the death of your foes, regaining %0.1f additional hate with each death you cause.]]):tformat(t.getHateRecover(self, t)) end
 		return ([[You revel in the death of your foes, regaining %0.1f stamina with each death you cause.]]):tformat(t.getStamRecover(self, t))
 	end,
 }
