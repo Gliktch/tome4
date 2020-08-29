@@ -34,6 +34,6 @@ Altered class abilities:
 - Crimson Templar: Reflect damage to your enemies as their wounds grow worse and worse.
 #WHITE#
 
-Class evolutions are selected as prodigies and grant new ways to build and expand you class. They are only visible to the concerned class.
+Class evolutions are selected as prodigies and grant new ways to build and expand your class. They are only visible to the concerned class.
 ]]
 
