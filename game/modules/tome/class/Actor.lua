@@ -834,7 +834,7 @@ function _M:useBuildOrder()
 						self:learnTalentType(tt)
 					else
 						self.__increased_talent_types[tt] = (self.__increased_talent_types[tt] or 0) + 1
-						self:setTalentTypeMastery(tt, self:getTalentTypeMastery(tt) + 0.2)
+						self:setTalentTypeMastery(tt, self:getTalentTypeMastery(tt, true) + 0.2)
 					end
 
 					game.log("#VIOLET#Following build order %s; learning talent category %s.", b.name, tt)
@@ -3589,19 +3589,19 @@ function _M:levelupClass(c_data)
 
 		ttypes = {}
 		for tt, d in pairs(mclass.talents_types or {}) do
-			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt) or 1) + d[2])
+			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt, true) or 1) + d[2])
 			ttypes[tt] = table.clone(d)
 		end
 		for tt, d in pairs(mclass.unlockable_talents_types or {}) do
-			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt) or 1) + d[2])
+			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt, true) or 1) + d[2])
 			ttypes[tt] = table.clone(d)
 		end
 		for tt, d in pairs(c_def.talents_types or {}) do
-			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt) or 1) + d[2])
+			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt, true) or 1) + d[2])
 			ttypes[tt] = table.clone(d)
 		end
 		for tt, d in pairs(c_def.unlockable_talents_types or {}) do
-			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt) or 1) + d[2])
+			self:learnTalentType(tt, d[1]) self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt, true) or 1) + d[2])
 			ttypes[tt] = table.clone(d)
 		end
 
@@ -3614,14 +3614,14 @@ function _M:levelupClass(c_data)
 					else d=table.clone(d)
 					end
 					self:learnTalentType(tt, d[1])
-					self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt) or 1) + d[2])
+					self:setTalentTypeMastery(tt, (self:getTalentTypeMastery(tt, true) or 1) + d[2])
 					ttypes[tt] = table.mergeAdd(ttypes[tt] or {}, d)
 				end
 			end
 		end
 		if not next(ttypes) then -- if not specified, use all known talent types
 			for tt, known in pairs(self.talents_types) do
-				ttypes[tt] = {known, (self:getTalentTypeMastery(tt) or 1) - 1}
+				ttypes[tt] = {known, (self:getTalentTypeMastery(tt, true) or 1) - 1}
 			end
 		end
 
@@ -3637,7 +3637,7 @@ function _M:levelupClass(c_data)
 			d.tt = tt
 			tt_count = tt_count + 1
 			d.tt_count = tt_count
-			d.rarity = d.rarity or (1.3 + 0.5*tt_count)/math.max(0.1, self:getTalentTypeMastery(tt)*rng.float(0.1, tt_focus))^2
+			d.rarity = d.rarity or (1.3 + 0.5*tt_count)/math.max(0.1, self:getTalentTypeMastery(tt, true)*rng.float(0.1, tt_focus))^2
 --print(("\t *** %-40s  rarity %5.3f"):format(tt, d.rarity))
 			if not d[1] then table.insert(unknown_tt, d) end
 		end
@@ -3707,7 +3707,7 @@ function _M:levelupClass(c_data)
 			if tt then
 				if self:knowTalentType(tt.tt) then
 					print("\t *** auto_levelup IMPROVING TALENT TYPE", tt.tt)
-					local ml = self:getTalentTypeMastery(tt.tt) or 1
+					local ml = self:getTalentTypeMastery(tt.tt, true) or 1
 					self:setTalentTypeMastery(tt.tt, ml + (ml <= 1 and 0.2 or 0.1)) -- 0.2 for 1st then 0.1 thereafter
 				elseif c_data.learned_talent_types < c_data.max_talent_types then
 					print("\t *** auto_levelup LEARNING TALENT TYPE", tt.tt)
@@ -3715,7 +3715,7 @@ function _M:levelupClass(c_data)
 					tt.rarity = tt.rarity/2  -- makes talents within an unlocked talent tree more likely to be learned
 					c_data.learned_talent_types = c_data.learned_talent_types + 1
 				end
-				--print("\t *** talent type mastery:", tt, self:getTalentTypeMastery(tt))
+				--print("\t *** talent type mastery:", tt, self:getTalentTypeMastery(tt, true))
 				self.unused_talents_types = self.unused_talents_types - 1
 			else fails = fails + 1
 			end
