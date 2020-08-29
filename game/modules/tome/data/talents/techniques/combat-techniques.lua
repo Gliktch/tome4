@@ -191,11 +191,11 @@ newTalent{
 		if ab.no_energy then return end
 		if ab.mode ~= "activated" then return end
 		if not self:attr("swap_combat_techniques_hate") then return end
-		if not ab.hate or ab.hate <= 0 then return end
+		if not ab.hate or util.getval(ab.hate) <= 0 then return end
 		self:incHate(t.getHateRecover(self, t))
 	end,
 	info = function(self, t)
-		if self:attr("swap_combat_techniques_hate") return ([[Your combat focus allows you to keep your hatred burning (%0.1f hate refunded after spending hate on a talent)]]):tformat(t.getHateRecover(self, t)) end
+		if self:attr("swap_combat_techniques_hate") then return ([[Your combat focus allows you to keep your hatred burning (%0.1f hate refunded after spending hate on a talent)]]):tformat(t.getHateRecover(self, t)) end
 		return ([[Your combat focus allows you to regenerate stamina faster (+%0.1f stamina/turn).]]):tformat(t.getStamRecover(self, t))
 	end,
 }
@@ -246,7 +246,7 @@ newTalent{
 		end
 	end,
 	info = function(self, t)
-		if self:attr("swap_combat_techniques_hate") return ([[You revel in the death of your foes, regaining %0.1f additional hate with each death you cause.]]):tformat(t.getHateRecover(self, t)) end
+		if self:attr("swap_combat_techniques_hate") then return ([[You revel in the death of your foes, regaining %0.1f additional hate with each death you cause.]]):tformat(t.getHateRecover(self, t)) end
 		return ([[You revel in the death of your foes, regaining %0.1f stamina with each death you cause.]]):tformat(t.getStamRecover(self, t))
 	end,
 }
