@@ -1783,6 +1783,9 @@ function _M:combatSpellpowerRaw(add)
 	if self:knowTalent(self.T_SHADOW_CUNNING) then
 		add = add + self:callTalent(self.T_SHADOW_CUNNING,"getSpellpower") * self:getCun() / 100
 	end
+	if self:knowTalent(self.T_LUNACY) then
+		add = add + self:callTalent(self.T_LUNACY,"getSpellpower") * self:getWil() / 100
+	end
 	if self:hasEffect(self.EFF_BLOODLUST) then
 		add = add + self:hasEffect(self.EFF_BLOODLUST).spellpower * self:hasEffect(self.EFF_BLOODLUST).stacks
 	end
@@ -2114,6 +2117,9 @@ function _M:combatMindpowerRaw(add)
 	if self:knowTalent(self.T_GESTURE_OF_POWER) then
 		local t = self:getTalentFromId(self.T_GESTURE_OF_POWER)
 		add = add + t.getMindpowerChange(self, t)
+	end
+	if self:knowTalent(self.T_LUNACY) then
+		add = add + self:callTalent(self.T_LUNACY,"getMindpower") * self:getMag() / 100
 	end
 	if self:attr("psychometry_power") then
 		add = add + self:attr("psychometry_power")

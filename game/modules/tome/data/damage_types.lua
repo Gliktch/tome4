@@ -4417,3 +4417,54 @@ newDamageType{
 		return realdam
 	end,
 }
+
+
+-- physical that pulls and might reduce knockback resistance
+newDamageType{
+	name = _t"black-hole gravity", type = "BLACK_HOLE_GRAVITY",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		if _G.type(dam) == "number" then dam = {dam=dam} end
+		local target = game.level.map(x, y, Map.ACTOR)
+		if not target then return end
+		if target then
+			if target:isTalentActive(target.T_GRAVITY_LOCUS) then return end
+			if dam.slow then
+				target:setEffect(target.EFF_SLOW, dam.dur, {power=dam.slow, apply_power=src:combatPhysicalpower(), no_ct_effect=true})
+			end
+			if src:isTalentActive(src.T_SINGULARITY_ARMOR) then
+				target:setEffect(target.EFF_ANTI_GRAVITY, 2, {})
+			end
+		end
+		
+		if target:checkHit(src:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 5) and target:canBe("knockback") then
+			local source = src.__project_source or src
+			target:pull(source.x, source.y, 2)
+			game.logSeen(target, "%s is pulled in!", target.name:capitalize())
+		else
+			game.logSeen(target, "%s resists the gravity!", target.name:capitalize())
+		end
+		
+		DamageType:get(DamageType.PHYSICAL).projector(src, x, y, DamageType.PHYSICAL, dam.dam, state)
+	end,
+}
+
+-- blinding light that restores positive energy to its caster
+newDamageType{
+	name = _t"solar blood", type = "SOLAR_BLOOD",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local target = game.level.map(x, y, Map.ACTOR)
+		if target then
+			if target == src then
+				target:incPositive(2)
+			elseif target:reactionToward(src) < 0 then
+				target:setEffect(target.EFF_BLINDING_LIGHT, 1, {src=src, power=dam.dam, apply_power=dam.pow, no_ct_effect=true})
+				DamageType:get(DamageType.LIGHT).projector(src, x, y, DamageType.LIGHT, dam.dam, state)
+			end
+		end
+	end,
+}
+
