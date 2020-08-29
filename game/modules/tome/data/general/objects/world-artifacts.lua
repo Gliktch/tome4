@@ -3616,6 +3616,7 @@ newEntity{ base = "BASE_LONGSWORD", define_as="MORRIGOR",
 		special_on_kill = {desc=_t"swallows the victim's soul, gaining a new power", fct=function(combat, who, target)
 			local o, item, inven_id = who:findInAllInventoriesBy("define_as", "MORRIGOR")
 			if o.use_talent then return end
+			game:chronoCancel(_t"#CRIMSON#Your timetravel has no effect on pre-determined outcomes such as this.")
 			local got_talent = false
 			local tids = {}
 			for tid, _ in pairs(target.talents) do

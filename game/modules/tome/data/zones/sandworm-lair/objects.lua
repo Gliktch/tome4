@@ -82,6 +82,7 @@ newEntity{
 	quest = 1,
 
 	use_simple = { name=_t"drink the vile fluid", use = function(self, who)
+		game:chronoCancel(_t"#CRIMSON#Your timetravel has no effect on pre-determined outcomes such as this.")
 		game.logPlayer(who, "#00FFFF#You drink the wyrm bile and feel forever transformed!")
 		who.unused_talents_types = who.unused_talents_types + 1
 		game.log("You have %d category point(s) to spend. Press p to use them.", who.unused_talents_types)
