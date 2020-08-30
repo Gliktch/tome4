@@ -191,7 +191,7 @@ newTalent{
 		if ab.no_energy then return end
 		if ab.mode ~= "activated" then return end
 		if not self:attr("swap_combat_techniques_hate") then return end
-		if not ab.hate or util.getval(ab.hate) <= 0 then return end
+		if not ab.hate or util.getval(ab.hate, self, ab) <= 0 then return end
 		self:incHate(t.getHateRecover(self, t))
 	end,
 	info = function(self, t)
