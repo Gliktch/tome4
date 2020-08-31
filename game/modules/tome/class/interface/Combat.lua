@@ -1703,7 +1703,7 @@ function _M:combatDamagePower(weapon_combat, add)
 	if not weapon_combat then return 1 end
 	local power = math.max((weapon_combat.dam or 1) + (add or 0), 1)
 
-	if self:knowTalent(self["T_FORM_AND_FUNCTION"]) then power = power + self:callTalent(self["T_FORM_AND_FUNCTION"], "getDamBoost", weapon) end
+	if self:knowTalent(self["T_FORM_AND_FUNCTION"]) then power = power + self:callTalent(self["T_FORM_AND_FUNCTION"], "getDamBoost", weapon_combat) end
 
 	return (math.sqrt(power / 10) - 1) * 0.5 + 1
 end
