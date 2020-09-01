@@ -25,7 +25,7 @@ newTalent{
 	points = 5,
 	no_unlearn_last = true,
 	getDieAt = function(self, t) return math.ceil(self:combatTalentLimit(t, 150, 20, 100)) end,
-	getTurns = function(self, t) return math.ceil(self:combatTalentLimit(t, 300, 50, 150)) end,
+	getTurns = function(self, t) return math.ceil(self:combatTalentLimit(t, 300, 40, 130)) end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "die_at", -t.getDieAt(self, t))
 	end,
@@ -56,7 +56,7 @@ newTalent{
 				self:triggerHook{"Actor:resurrect", reason="lich_regen"}
 				self:setEffect(self.EFF_LICH_HUNGER, t.getTurns(self, t), {})
 				game:saveGame()
-			end}
+			end, force_choice=true}
 		end
 	end,
 	info = function(self, t)

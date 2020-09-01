@@ -318,7 +318,9 @@ function _M:crossTierEffect(eff_id, apply_power, apply_save, use_given_e)
 		ct_effect = cross_tier_effects[save_for_effects[e.type]]
 	end
 	local dur = self:getTierDiff(apply_power, save)
+	print("!!!!! from", eff_id," =>" , ct_effect, dir, apply_power, save)
 	self:setEffect(ct_effect, dur, {})
+	return ct_effect
 end
 
 function _M:getTierDiff(atk, def)
@@ -571,7 +573,7 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 		dam = dam * mult
 		print("[ATTACK] after mult", dam)
 
-		if target:hasEffect(target.EFF_COUNTERSTRIKE) then
+		if target:hasEffect(target.EFF_COUNTERSTRIKE) and not self:attr("ignore_counterstrike") then
 			dam = target:callEffect(target.EFF_COUNTERSTRIKE, "onStrike", dam, self)
 			print("[ATTACK] after counterstrike", dam)
 		end
@@ -1131,7 +1133,9 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 		local t = target:getTalentFromId(target.T_SHARDS)
 		target.turn_procs.shield_shards = true
 		self.logCombat(target, self, "#Source# counter attacks #Target# with %s shield shards!", string.his_her(target))
+		target:attr("ignore_counterstrike", 1)
 		target:attackTarget(self, DamageType.NATURE, self:combatTalentWeaponDamage(t, 0.4, 1), true)
+		target:attr("ignore_counterstrike", -1)
 	end
 	-- post melee attack hooks/callbacks, not included: apr, armor, atk, def, evaded, repelled, old_target_life
 	local hd = {"Combat:attackTargetWith", hitted=hitted, crit=crit, target=target, weapon=weapon, damtype=damtype, mult=mult, dam=dam}
@@ -1701,7 +1705,7 @@ function _M:combatDamagePower(weapon_combat, add)
 	if not weapon_combat then return 1 end
 	local power = math.max((weapon_combat.dam or 1) + (add or 0), 1)
 
-	if self:knowTalent(self["T_FORM_AND_FUNCTION"]) then power = power + self:callTalent(self["T_FORM_AND_FUNCTION"], "getDamBoost", weapon) end
+	if self:knowTalent(self["T_FORM_AND_FUNCTION"]) then power = power + self:callTalent(self["T_FORM_AND_FUNCTION"], "getDamBoost", weapon_combat) end
 
 	return (math.sqrt(power / 10) - 1) * 0.5 + 1
 end
@@ -1780,6 +1784,9 @@ function _M:combatSpellpowerRaw(add)
 	end
 	if self:knowTalent(self.T_SHADOW_CUNNING) then
 		add = add + self:callTalent(self.T_SHADOW_CUNNING,"getSpellpower") * self:getCun() / 100
+	end
+	if self:knowTalent(self.T_LUNACY) then
+		add = add + self:callTalent(self.T_LUNACY,"getSpellpower") * self:getWil() / 100
 	end
 	if self:hasEffect(self.EFF_BLOODLUST) then
 		add = add + self:hasEffect(self.EFF_BLOODLUST).spellpower * self:hasEffect(self.EFF_BLOODLUST).stacks
@@ -2112,6 +2119,9 @@ function _M:combatMindpowerRaw(add)
 	if self:knowTalent(self.T_GESTURE_OF_POWER) then
 		local t = self:getTalentFromId(self.T_GESTURE_OF_POWER)
 		add = add + t.getMindpowerChange(self, t)
+	end
+	if self:knowTalent(self.T_LUNACY) then
+		add = add + self:callTalent(self.T_LUNACY,"getMindpower") * self:getMag() / 100
 	end
 	if self:attr("psychometry_power") then
 		add = add + self:attr("psychometry_power")
