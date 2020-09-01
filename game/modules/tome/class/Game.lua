@@ -2522,19 +2522,6 @@ do return end
 		LUA_CONSOLE = self.key.virtuals.LUA_CONSOLE,
 	}
 	engine.interface.PlayerHotkeys:bindAllHotkeys(self.key, function(i)
-		local kind, id = self.player:getHotkeyInfo(i)
-		if kind == "talent" then
-			local t = self.player:getTalentFromId(id)
-			if (not t) or (not t.allow_use_worldmap and not self.player.allow_talents_worldmap and (not self.zone or self.zone.wilderness)) then
-				self.logPlayer(self.player, "You cannot do that on the world map.")
-				return
-			end
-		else
-			if not self.zone or self.zone.wilderness then
-				self.logPlayer(self.player, "You cannot do that on the world map.")
-				return
-			end
-		end
 		self:targetTriggerHotkey(i)
 		self.player:activateHotkey(i)
 	end)
