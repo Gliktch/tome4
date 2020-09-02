@@ -24,7 +24,7 @@ return {
 	max_level = 9,
 	decay = {300, 800},
 	actor_adjust_level = function(zone, level, e) return zone.base_level + e:getRankLevelAdjust() + level.level-1 + rng.range(-1,2) end,
-	width = 50, height = 50,
+	width = 60, height = 60,
 --	all_remembered = true,
 --	all_lited = true,
 	persistent = "zone",
@@ -37,8 +37,6 @@ return {
 			class = "engine.generator.map.Roomer",
 			nb_rooms = 10,
 			rooms = {"random_room", {"money_vault",5}, {"pit",7}, {"greater_vault",8}},
---			rooms = {"random_room", "lesser_vault"},
---			greater_vaults_list = {"trickvault"},
 			rooms_config = {pit={filters={{type="undead"}}}},
 			lite_room_chance = 100,
 			['+'] = "DOOR",
@@ -50,7 +48,7 @@ return {
 		},
 		actor = {
 			class = "mod.class.generator.actor.Random",
-			nb_npc = {20, 30},
+			nb_npc = {16, 25},
 			guardian = "THE_MASTER",
 		},
 		object = {
@@ -113,6 +111,36 @@ return {
 			generator = { map = {
 				up = "UP_WILDERNESS",
 			}, },
+		},
+		[2] = {
+			width = 50, height = 50,
+		},
+		[3] = {
+			width = 45, height = 45,
+		},
+		[4] = {
+			width = 45, height = 35,
+
+		},
+		[5] = {
+			width = 35, height = 35,
+		},
+		[6] = {
+			width = 35, height = 30,
+		},
+		[7] = {
+			width = 30, height = 30,
+		},
+		[8] = {
+			width = 25, height = 25,
+		},
+		[9] = {
+			width = 20, height = 20,
+			generator = {
+				actor = {
+						nb_npc = {5, 8}, -- don't overwhelm the player while they're already fighting the master
+					},
+				},
 		},
 	},
 	on_enter = function(_, _, newzone)
