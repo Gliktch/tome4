@@ -56,13 +56,13 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 
 	local add_dam = 0
 	if not src.turn_procs or not src.turn_procs.damage_type_fix_type then
-		if src:attr("all_damage_convert") and src:attr("all_damage_convert_percent") and src.all_damage_convert ~= type then
+		if not src._all_damage_convert_recurs and src:attr("all_damage_convert") and src:attr("all_damage_convert_percent") and src.all_damage_convert ~= type then
 			local ndam = dam * src.all_damage_convert_percent / 100
 			dam = dam - ndam
 			local nt = src.all_damage_convert
-			-- src.all_damage_convert = nil
+			src._all_damage_convert_recurs = true
 			add_dam = DamageType:get(nt).projector(src, x, y, nt, ndam, state)
-			-- src.all_damage_convert = nt
+			src._all_damage_convert_recurs = nil
 			if dam <= 0 then return add_dam end
 		end
 
