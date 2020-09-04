@@ -4464,7 +4464,9 @@ newDamageType{
 			if target == src then
 				target:incPositive(2)
 			elseif target:reactionToward(src) < 0 then
-				target:setEffect(target.EFF_BLINDING_LIGHT, 1, {src=src, power=dam.dam, apply_power=dam.pow, no_ct_effect=true})
+				if target:canBe("blind") then
+					target:setEffect(target.EFF_BLINDING_LIGHT, 1, {src=src, power=dam.dam, apply_power=dam.pow, no_ct_effect=true})
+				end
 				DamageType:get(DamageType.LIGHT).projector(src, x, y, DamageType.LIGHT, dam.dam, state)
 			end
 		end
