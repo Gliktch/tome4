@@ -361,6 +361,8 @@ uberTalent{
 		self:learnTalent(self.T_DIRGE_ACOLYTE, true, 1)
 		self:learnTalent(self.T_SELF_HARM, true, 1)
 
+		self.descriptor.class_evolution = _t"Fallen"
+
 		game.bignews:say(120, "#CRIMSON#You give in to the darkness. You have fallen!")
 		
 		self:incHate(100)
