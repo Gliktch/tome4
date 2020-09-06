@@ -20814,7 +20814,7 @@ t([[Attune yourself to the endless hunger of distant dead suns.  For the next %d
 The damage will increase with your Spellpower.]], [[你将死星那无尽的饥饿赋予自己。在接下来的 %d 回合里，你的攻击造成额外 %0.2f 重力伤害并会试图将敌人拉近。3回合之后，你获得此效果期间所受伤害一半的回复。
 伤害随法术强度增加。]], "tformat")
 t("Singularity Armor", "星核护甲", "talent name")
-t("Create a gravity field around you that converts %d%% of all damage you deal into physical damage, slows incoming projectiles by %d%%, and causes your gravity damage to reduce the target's knockback resistance by half for two turns.", "在你身边制造一个重力场，将你造成伤害的%d%%转化为物理伤害，使向你发射的飞行物减速%d%%，并使你的重力伤害减半目标的击退抗性两回合。", "tformat")
+t("Create a gravity field around you that converts %d%% of all damage you deal into physical damage, slows incoming projectiles by %d%%, and causes your gravity damage to reduce the target's knockback resistance by half for two turns.", "在你身边制造一个重力场，将你造成伤害的 %d%% 转化为物理伤害，使向你发射的飞行物减速 %d%% ，并使你的重力伤害减半目标的击退抗性两回合。", "tformat")
 t("Doom Spiral", "毁灭螺旋", "talent name")
 t([[Infuse your weapon with overwhelming gravitational power while spinning around.
 							All creatures within radius 2 take %d%% weapon damage as physical (gravity) and are pulled closer.
@@ -21038,6 +21038,7 @@ You gain a bonus to Mindpower equal to %d%% of your Magic.
 
 #{italic}#你里面有些不对劲。你的太阳法术被遮蔽了，但你血腥的行径使得事物依然如同白昼一样清晰。#{normal}#]], "tformat")
 t("Flee the Sun", "阴走", "talent name")
+t("%s's teleportation fizzles!", "%s的传送失败了!", "logSeen")
 t("%s emerges from the darkness!", "%s从黑暗中现身了!", "logSeen")
 t([[Fade into the darkness and reappear elsewhere within range %d.  When you emerge from the shadows, you are accompanied by a bright flash, dealing %0.2f light damage to enemies in radius 1.
 						 The damage will increase with your Spellpower.]], [[匿迹于黑暗之中并在距离 %d 码范围内的另一处重现。一道闪光会伴随着你从阴影中现身，对半径1码范围内的敌人造成 %0.2f 光系伤害。
@@ -21186,7 +21187,7 @@ t([[Destabilize your glyphs, triggering every glyph in radius 10 with an enemy s
 ------------------------------------------------
 section "game/modules/tome/data/talents/celestial/guardian.lua"
 
-t("Shield of Light", "圣光沁盾", "talent name")
+t("Shield of Light", "光能沁盾", "talent name")
 t([[Infuse your shield with light, healing you for %0.2f each time you take damage at the expense of up to 2 positive energy.
 		If you do not have any positive energy, the effect will not trigger.
 		Additionally, once per turn successful melee attacks will trigger a bonus attack with your shield dealing %d%% light damage.
@@ -21301,7 +21302,7 @@ t([[A magical zone of Sunlight appears around you, healing and shielding all wit
 		Existing damage shields will be added to instead of overwritten and have their duration set to 2 if it isn't higher.
 		If the same shield is refreshed 20 times it will become unstable and explode, removing it.
 		It also lights up the affected area.
-		The amount healed will increase with the Magic stat]], [[圣光倾泻在你周围 %d 码范围内，每回合治疗所有单位 %0.2f 生命值, 给予其等量的护盾 , 并增加此范围内所有人 %d%% 治疗效果。此效果持续 %d 回合。 
+		The amount healed will increase with the Magic stat]], [[阳光倾泻在你周围 %d 码范围内，每回合治疗所有单位 %0.2f 生命值, 给予其等量的护盾 , 并增加此范围内所有人 %d%% 治疗效果。此效果持续 %d 回合。
 		如果已经存在护盾，则护盾将会增加等量数值，如果护盾持续时间不足 2 回合，会延长至 2 回合。
 		当同一个护盾被刷新 20 次后，将会因为不稳定而破碎。
 		它同时会照亮此区域。 
@@ -21311,7 +21312,7 @@ t([[A protective shield forms around you that lasts for up to %d turns and negat
  		The total damage the barrier can absorb will increase with your Spellpower and can crit.]], [[一个持续 %d 回合的保护性圣盾围绕着你，可吸收 %d 点伤害。 
 		 圣盾的最大吸收量受法术强度加成，该技能可以暴击。]], "tformat")
 t("Providence", "光之守护", "talent name")
-t("Places you under the protection of a ray of sunlight. For %d turns, the light removes a single negative effect from you every turn.", "你位于圣光的保护下，每回合移除 1 种负面状态，持续 %d 回合。", "tformat")
+t("Places you under the protection of a ray of sunlight. For %d turns, the light removes a single negative effect from you every turn.", "你位于阳光的保护下，每回合移除 1 种负面状态，持续 %d 回合。", "tformat")
 
 
 ------------------------------------------------
@@ -23823,7 +23824,7 @@ t([[When you kill an enemy, their death forms a cursed magical pattern on the gr
 t("Mark of the Vampire", "吸血鬼印记", "talent name")
 t([[Dooms your target and everything within a radius 2 ball around it for 20 turns. Each time an affected target uses a talent, it takes %0.2f physical damage as its life is drawn out.	In addition, any bleed applied to the target will have its power increased by %d%%.
 							The damage will increase with your Spellpower.
-							The chance to apply will increase with your Spellpower.]], [[对目标和半径2球形内的一切降下劫数，持续20回合。每次受影响的目标使用技能时，会随着其生命被抽出而受到 %0.2f 物理伤害。此外，目标的所有流血力度增加%d%%。
+							The chance to apply will increase with your Spellpower.]], [[对目标和半径2球形内的一切降下劫数，持续20回合。每次受影响的目标使用技能时，会随着其生命被抽出而受到 %0.2f 物理伤害。此外，目标的所有流血力度增加 %d%% 。
 							成功概率和伤害受法术强度加成。]], "tformat")
 t("Rosebloom", "血绽", "talent name")
 t("%s resists the sleep!", "%s抵抗了睡眠！", "logSeen")
@@ -24386,6 +24387,8 @@ This strength comes at a cost: you lose %d%% of your maximum life every turn.  T
 
 #{italic}#如果你走运，代价就是你的一切。#{normal}#]], "tformat")
 t("Self-Judgement", "自裁", "talent name")
+t("#CRIMSON##Target# suffers from %s from #Source#, mitigating the blow!#LAST#.", "#CRIMSON##Target# 承受了来自#Source#的 %s , 降低了伤害!#LAST#.", "logCombat")
+t("%s(%d bled out#LAST#%s)#LAST#", "%s(%d 减免#LAST#%s)#LAST#", "tformat")
 t([[Any direct damage that exceeds %d%% of your maximum life has the excess damage converted to a shallow wound that bleeds over the next %d turns.	 This bleed cannot be resisted or removed, but can be reduced by Bloodstained. Extremely powerful hits (more than %d%% of your max life) are not fully converted.
 
 #{italic}#You can't just die.	 That would be too easy.	You deserve to die slowly.#{normal}#]], [[任何超过你最大生命 %d%% 的伤害中的额外部分会变成一道浅表伤口，在接下来的 %d 回合中造成流血伤害。此流血效果不能被抵抗或去除，但力度可以被血染系技能降低。极其强力的攻击（超过 %d%% 最大生命）无法被完全转化。
@@ -29136,7 +29139,7 @@ t([[Any time one of your skeleton or bone giant dies, it shatters in radius %d, 
 		If any other skeleton or bone giant minion is in the radius it will pickup some of the bones to enhance itself, increasing maximum and current life by %d, armour by %d and gain %0.2f physical melee retaliation for 20 turns.
 		This talent never works when you kill your own minions.
 		]], [[每当你的骷髅或骨巨人死去时，它会在半径 %d 码范围内粉碎，使敌人受到 %0.2f 物理流血伤害，持续 5 回合。
-		如果范围内有其他骷髅或骨巨人，它们会使用这些骸骨强化自己，增加最大和当前生命值 %d，护甲值 %d ，并获得 %0.2f 物理近战报复效果，持续 20 回合。
+		如果范围内有其他骷髅或骨巨人，它们会使用这些骸骨强化自己，增加最大和当前生命值 %d ，护甲值 %d ，并获得 %0.2f 物理近战报复效果，持续 20 回合。
 		如果你杀死自己的随从，这一效果不会触发。
 		]], "tformat")
 t("Assemble", "亡灵组合", "talent name")
@@ -34454,6 +34457,7 @@ Class evolutions are selected as prodigies and grant new ways to build and expan
 ------------------------------------------------
 section "game/modules/tome/data/texts/unlock-paladin_fallen.lua"
 
+t("New Class Evolution: #LIGHT_GREEN#Fallen (Sun Paladin)", "新职业进阶: #LIGHT_GREEN#堕落者 (太阳骑士)", "_t")
 t([[#{bold}##GOLD#You aren't so different...#LAST##{normal}#
 
 As a sun paladin, you follow a code.  But with the darkness you've seen in the world, you've started to doubt.
@@ -36706,7 +36710,7 @@ t("Echoes of the void", "虚空回响", "_t")
 t("Zone-wide effect: +10% darkness damage, -10% darkness resistance, -10% mental save, -20% fear immunity.", "范围效果： +10% 暗影伤害， -10% 暗影抗性， -10% 精神豁免， -20% 恐惧抗性。", "_t")
 t("Eerie silence", "恐惧噤声", "_t")
 t("Zone-wide effect: +10% mind damage, -10% mind resistance, -10% spellpower, -20% silence immunity.", "范围效果： +10% 精神伤害， -10% 精神抗性， -10% 法术强度， -20% 沉默抗性。", "_t")
-t("Aura of light", "圣光光环", "_t")
+t("Aura of light", "光明光环", "_t")
 t("Zone-wide effect: +10% light damage, -10% light resistance, -10% accuracy, -20% blind immunity.", "范围效果： +10% 光系伤害， -10% 光系抗性， -10% 命中， -20% 致盲抗性。", "_t")
 t("Aether residue", "以太残渣", "_t")
 t("Zone-wide effect: +10% arcane damage, -10% arcane resistance, -10% armour hardiness, -20% stoning immunity.", "范围效果： +10% 奥术伤害， -10% 奥术抗性， -10% 护甲强度， -20% 石化抗性。", "_t")
@@ -36935,13 +36939,13 @@ t("status", "状态", "effect subtype")
 t("Lights Out", "熄灭", "_t")
 t("The target is cut off from the sun", "目标和太阳的联系切断了。", "_t")
 t("magic", "魔法", "effect subtype")
-t("Self-Judgement", "自我审判", "_t")
+t("Self-Judgement", "自裁", "_t")
 t("Your body is bleeding, losing %0.2f life each turn.", "你的身体在流血，每回合损失 %0.2f 生命。", "tformat")
 t("bleed", "流血", "effect subtype")
 t("#CRIMSON##Target# is torn open by the powerful blow!", "#CRIMSON##Target# 被强力攻击撕裂！", "_t")
-t("+Self-Judgement", "+自我审判", "_t")
+t("+Self-Judgement", "+自裁", "_t")
 t("#CRIMSON##Target#'s wound has closed.", "#CRIMSON##Target#的伤口闭合了。", "_t")
-t("-Self-Judgement", "-自我审判", "_t")
+t("-Self-Judgement", "-自裁", "_t")
 t("#CRIMSON#%d Bleed #LAST#", "#CRIMSON#%d 流血 #LAST#", "tformat")
 
 
