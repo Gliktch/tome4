@@ -32,7 +32,7 @@ Learn new Talents:#YELLOW#
 
 Swap your paladin Talents:#YELLOW#
 - Radiance turns into Gloom: Project onto others your own hate, hindering them
-- Crusader turns into Black Sun: Call upon the energies of dead suns to crush your foes
+- Crusader turns into Dark Sun: Call upon the energies of dead suns to crush your foes
 - Guardian turns into Crimson Templar: Use the power of blood to control and defeat the fools that oppose you
 #WHITE#
 
