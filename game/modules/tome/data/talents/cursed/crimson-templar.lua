@@ -66,6 +66,10 @@ newTalent{
 				state.no_reflect = nil
 				
 				game:delayedLogDamage(src, self, 0, ("%s(%d shared agony)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", displace), false)
+
+				local hx, hy = self:attachementSpot("back", true)
+				local ps = Particles.new("blood_trail", 1, {range=core.fov.distance(self.x, self.y, a.x, a.y), dir=math.deg(math.atan2(a.y-self.y, a.x-self.x)+math.pi/2), img="blood_trail_segment_thin", dx=hx, dy=hy, grab=false})
+				self:addParticles(ps)
 			end
 		end
 		
@@ -236,6 +240,9 @@ newTalent{
 										 end
 										 
 										 if bleeding and target:canBe("sleep") then
+											 local hx, hy = self:attachementSpot("back", true)
+											 local ps = Particles.new("blood_trail", 1, {range=core.fov.distance(self.x, self.y, target.x, target.y), dir=math.deg(math.atan2(target.y-self.y, target.x-self.x)+math.pi/2), img="blood_trail_segment_thick", grab=true, dx=hx, dy=hy})
+											 self:addParticles(ps)
 											 target:setEffect(target.EFF_SLEEP, dur+t.getExtension(self, t), {src=self, power = math.ceil(sleepPower * sleepMultiplier * 1.5), contagious=0, waking=is_waking, insomnia=t.getInsomniaPower(self, t), no_ct_effect=true, apply_power=self:combatSpellpower()})
 										 else
 											 game.logSeen(self, "%s resists the sleep!", target.name:capitalize())
