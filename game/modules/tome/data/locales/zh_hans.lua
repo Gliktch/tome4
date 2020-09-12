@@ -2587,7 +2587,7 @@ t("Killed Urkis, the Tempest, causing him to drop the Rod of Recall.", "杀死�
 t("Leave the big boys alone", "千里杀一人", "achievement name")
 t("Killed The Master, causing him to drop the Rod of Recall.", "杀死主人，使他掉落回城之杖。", "_t")
 t("You know who's to blame", "你知道谁才是罪人！", "achievement name")
-t("Killed the Grand Corruptor, causing him to drop the Rod of Recall.", "杀死大堕落者，使他掉落回城之杖。", "_t")
+t("Killed the Grand Corruptor, causing him to drop the Rod of Recall.", "杀死大腐化者，使他掉落回城之杖。", "_t")
 t("You know who's to blame (reprise)", "你知道谁才是罪人（重复）！", "achievement name")
 t("Killed Myssil, causing her to drop the Rod of Recall.", "杀死米歇尔，使她掉落回城之杖。", "_t")
 t("Now, this is impressive!", "令人惊讶！", "achievement name")
@@ -11256,10 +11256,10 @@ t("voratun helm", "沃瑞钽盔", "entity name")
 section "game/modules/tome/data/general/objects/jewelry.lua"
 
 t("ring", "戒指", "entity subtype")
-t("Rings can have magical properties.", "戒指可以具有魔法属性。", "_t")
+t("Rings make your fingers look great!", "戒指让你的手指更加美丽！", "_t")
 t("amulet", "项链", "entity subtype")
 t("jewelry", "首饰", "entity type")
-t("Amulets can have magical properties.", "项链可以具有魔法属性。", "_t")
+t("Amulets make your neck look great!", "项链让你的脖子更加美丽！", "_t")
 t("copper ring", "铜戒指", "_t")
 t("steel ring", "钢戒指", "_t")
 t("gold ring", "金戒指", "_t")
@@ -19940,15 +19940,15 @@ t("#VIOLET# The decrepit stairs crumble some more as you climb them.", "#VIOLET#
 section "game/modules/tome/data/quests/anti-antimagic.lua"
 
 t("The fall of Zigur", "伊格的陷落", "_t")
-t("You decided to side with the Grand Corruptor and joined forces to assault the Ziguranth main base of power.", " 你决定与大堕落者并肩战斗，加入对伊格兰斯的大本营的攻击。", "_t")
-t("The Grand Corruptor died during the attack before he had time to teach you his ways.", " 大堕落者还没来得及教会你他的技巧，就在战斗中战死了", "_t")
+t("You decided to side with the Grand Corruptor and joined forces to assault the Ziguranth main base of power.", " 你决定与大腐化者并肩战斗，加入对伊格兰斯的大本营的攻击。", "_t")
+t("The Grand Corruptor died during the attack before he had time to teach you his ways.", " 大腐化者还没来得及教会你他的技巧，就在战斗中战死了", "_t")
 t("The defenders of Zigur were crushed, the Ziguranth scattered and weakened.", " 伊格城的防御被击溃了，伊格兰斯的势力瓦解衰落了。", "_t")
-t("In the aftermath you turned against the Grand Corruptor and dispatched him.", " 最后，你背叛了大堕落者并杀死了他。", "_t")
+t("In the aftermath you turned against the Grand Corruptor and dispatched him.", " 最后，你背叛了大腐化者并杀死了他。", "_t")
 t("Select the party member to receive the hexes generic talent tree:", "选择接受邪术技能树的队伍成员：", "_t")
-t("#LIGHT_GREEN#The Grand Corruptor gazes upon you. You feel knowledge flowing in your mind. You can now train some corruption powers.", "#LIGHT_GREEN#大堕落者凝视着你。你感觉到知识在你的脑海里流动。你可以学习一些堕落能力了。", "_t")
-t("Grand Corruptor", "大堕落者", "_t")
+t("#LIGHT_GREEN#The Grand Corruptor gazes upon you. You feel knowledge flowing in your mind. You can now train some corruption powers.", "#LIGHT_GREEN#大腐化者凝视着你。你感觉到知识在你的脑海里流动。你可以学习一些堕落能力了。", "_t")
+t("Grand Corruptor", "大腐化者", "_t")
 t("Victory is mine!", "胜利是属于我的！", "_t")
-t("While you were in the Far East, the Grand Corruptor was busy in Maj'Eyal.", "当你在远东战斗的视乎，大堕落者正在马基·埃亚尔忙碌着。", "_t")
+t("While you were in the Far East, the Grand Corruptor was busy in Maj'Eyal.", "当你在远东战斗的视乎，大腐化者正在马基·埃亚尔忙碌着。", "_t")
 t("With the fall of Zigur he was able to attack and take control of Elvala, the Shaloren capital city.", "在伊格陨落之后，他成功地进攻并占领了埃尔瓦拉，永恒精灵的首都。", "_t")
 t("His plans however do not stop there.", "他的野心绝不止步于此。", "_t")
 
@@ -20801,31 +20801,6 @@ t("usable during Aether Avatar", "可以在以太形态下使用", "_t")
 
 
 ------------------------------------------------
-section "game/modules/tome/data/talents/celestial/black-sun.lua"
-
-t("Breach", "破灭", "talent name")
-t([[Open a radius 1 rift in spacetime at the targeted location for %d turns, increasing in radius by 1 each turn to a maximum of %d.
-		All caught within the rift are pulled towards the center and take %0.2f gravity damage.
-The damage will increase with your Spellpower.]], [[在目标地点开启半径1的时空裂缝，持续 %d 回合。每回合半径增加1，最大 %d 。
-		所有被裂缝波及的目标都会被朝中心牵引，受到 %0.2f 重力伤害。
-伤害随法术强度增加。]], "tformat")
-t("Devourer Stance", "势吞干戈", "talent name")
-t([[Attune yourself to the endless hunger of distant dead suns.  For the next %d turns, your attacks will inflict an additional %0.2f gravity damage and attempt to pull enemies closer.  After three turns, you will recover half of all damage taken during this effect.
-The damage will increase with your Spellpower.]], [[你将死星那无尽的饥饿赋予自己。在接下来的 %d 回合里，你的攻击造成额外 %0.2f 重力伤害并会试图将敌人拉近。3回合之后，你获得此效果期间所受伤害一半的回复。
-伤害随法术强度增加。]], "tformat")
-t("Singularity Armor", "星核护甲", "talent name")
-t("Create a gravity field around you that converts %d%% of all damage you deal into physical damage, slows incoming projectiles by %d%%, and causes your gravity damage to reduce the target's knockback resistance by half for two turns.", "在你身边制造一个重力场，将你造成伤害的 %d%% 转化为物理伤害，使向你发射的飞行物减速 %d%% ，并使你的重力伤害减半目标的击退抗性两回合。", "tformat")
-t("Doom Spiral", "毁灭螺旋", "talent name")
-t([[Infuse your weapon with overwhelming gravitational power while spinning around.
-							All creatures within radius 2 take %d%% weapon damage as physical (gravity) and are pulled closer.
-							Then, all adjacent creatures take %d%% weapon damage.  This second strike shields you for between %d and %d, increasing with more enemies hit.  The shield lasts for 2 turns.
-The shield strength will increase with your Spellpower.]], [[旋转一周，同时将毁灭性的重力注入武器。
-							半径2以内的生物受到 %d%% 物理（重力）武器伤害并被拉近。
-							然后所有相邻的生物受到 %d%% 武器伤害。这第二次攻击给予你 %d 到 %d 的护盾，数值随被击中的敌人数量增大，持续2回合。
-护盾量随法术强度增加。]], "tformat")
-
-
-------------------------------------------------
 section "game/modules/tome/data/talents/celestial/celestial.lua"
 
 t("Your devotion grants you additional protection.", " 你的专注提高你的防御能力。", "_t")
@@ -20861,8 +20836,8 @@ t("other", "其他", "_t")
 t("The songs the Fallen sing.", "堕落者咏唱之歌", "_t")
 t("Darkside", "背光面", "_t")
 t("Signature magics of the Fallen.  The sun shines for the guilty and the innocent alike.", "堕落者的特有魔法。 无论罪恶与否，阳光依然闪耀。", "_t")
-t("Black Sun", "无光之阳", "_t")
 t("Celestial combat techniques inspired by the dark places that are not empty.", "并非虚无的黑暗，亦能激发太阳般的作战技巧。", "_t")
+t("Dark Sun", "无光之阳", "_t")
 t("Dirges", "挽歌", "_t")
 t("Sing of death and damnation.", "死亡和毁灭之歌", "_t")
 t("celestial", "天空", "talent category")
@@ -21013,6 +20988,31 @@ t([[Infuse your two handed weapon with light while spinning around.
 		At level 4 your spinning blade creates a shield that blocks all damage for 1 turn.]], [[ 旋转一周，同时将光明之力充满武器。
 		半径 1 以内的敌人将受到 %d%% 武器伤害，同时半径 2 以内的敌人将受到 %d%% 光系武器伤害。
 		技能等级 4 或以上时，在旋转时你会制造一层护盾，吸收 1 回合内的所有攻击。]], "tformat")
+
+
+------------------------------------------------
+section "game/modules/tome/data/talents/celestial/dark-sun.lua"
+
+t("Collapse", "坍缩", "talent name")
+t([[Open a radius 1 rift in spacetime at the targeted location for %d turns, increasing in radius by 1 each turn to a maximum of %d.
+		All caught within the rift are pulled towards the center and take %0.2f gravity damage.
+The damage will increase with your Spellpower.]], [[在目标地点开启半径1的时空裂缝，持续 %d 回合。每回合半径增加1，最大 %d 。
+		所有被裂缝波及的目标都会被朝中心牵引，受到 %0.2f 重力伤害。
+伤害随法术强度增加。]], "tformat")
+t("Devourer Stance", "势吞干戈", "talent name")
+t([[Attune yourself to the endless hunger of distant dead suns.  For the next %d turns, your attacks will inflict an additional %0.2f gravity damage and attempt to pull enemies closer.  After three turns, you will recover half of all damage taken during this effect.
+The damage will increase with your Spellpower.]], [[你将死星那无尽的饥饿赋予自己。在接下来的 %d 回合里，你的攻击造成额外 %0.2f 重力伤害并会试图将敌人拉近。3回合之后，你获得此效果期间所受伤害一半的回复。
+伤害随法术强度增加。]], "tformat")
+t("Singularity Armor", "星核护甲", "talent name")
+t("Create a gravity field around you that converts %d%% of all damage you deal into physical damage, slows incoming projectiles by %d%%, and causes your gravity damage to reduce the target's knockback resistance by half for two turns.", "在你身边制造一个重力场，将你造成伤害的 %d%% 转化为物理伤害，使向你发射的飞行物减速 %d%% ，并使你的重力伤害减半目标的击退抗性两回合。", "tformat")
+t("Doom Spiral", "毁灭螺旋", "talent name")
+t([[Infuse your weapon with overwhelming gravitational power while spinning around.
+							All creatures within radius 2 take %d%% weapon damage as physical (gravity) and are pulled closer.
+							Then, all adjacent creatures take %d%% weapon damage.  This second strike shields you for between %d and %d, increasing with more enemies hit.  The shield lasts for 2 turns.
+The shield strength will increase with your Spellpower.]], [[旋转一周，同时将毁灭性的重力注入武器。
+							半径2以内的生物受到 %d%% 物理（重力）武器伤害并被拉近。
+							然后所有相邻的生物受到 %d%% 武器伤害。这第二次攻击给予你 %d 到 %d 的护盾，数值随被击中的敌人数量增大，持续2回合。
+护盾量随法术强度增加。]], "tformat")
 
 
 ------------------------------------------------
@@ -31245,10 +31245,10 @@ t([[Fungal spores have colonized your blood, so that each time you use an infusi
 		真菌之力保存 6 回合，每回合减少 10 点或 10%% 。 
 		真菌能量的保存数量和治疗上限受体质值加成。]], "tformat")
 t("Corrupted Shell", "堕落之壳", "talent name")
-t("Have received at least 3500 blight damage and destroyed Zigur with the Grand Corruptor.", "承受过至少 3500 点枯萎伤害并和大堕落者一起摧毁伊格。", "_t")
+t("Have received at least 3500 blight damage and destroyed Zigur with the Grand Corruptor.", "承受过至少 3500 点枯萎伤害并和大腐化者一起摧毁伊格。", "_t")
 t([[Thanks to your newfound knowledge of corruption, you've learned some tricks for toughening your body... but only if you are healthy enough to withstand the strain from the changes.
 		Improves your life by 500, your defense by %d, your armour by %d, your armour hardiness by 20%% and your saves by %d as your natural toughness and reflexes are pushed beyond their normal limits.
-		Your saves armour and defense will improve with your Constitution.]], [[多亏了你在堕落能量上的新发现，你学到一些方法来增强你的体质。但是只有当你有一副强壮的体魄时方能承受这剧烈的变化。 
+		Your saves armour and defense will improve with your Constitution.]], [[多亏了你在枯萎能量上的新发现，你学到一些方法来增强你的体质。但是只有当你有一副强壮的体魄时方能承受这剧烈的变化。
 		增加你 500 点生命上限， %d 点闪避， %d 护甲值，20%% 护甲强度 , %d 所有豁免，你的身体已经突破了自然界的范畴和大自然的限制。 
 		豁免、护甲和闪避受体质值加成。]], "tformat")
 
@@ -31753,9 +31753,9 @@ t([[Transcend the physical and rule over all with an iron will!
 		Additionally, you gain +30%% mind resistance penetration, and +10%% mind damage.]], [[用钢铁般的意志驱使整个身体。 
 		当此技能激活时，你 33%% 的伤害会转化为精神伤害。 
 		此外，你获得 30%% 精神抵抗穿透并增加 10%% 精神伤害。]], "tformat")
-t("Fallen", "堕落者", "talent name")
 t("Unlocked the Fallen evolution", "解锁堕落者进化", "_t")
 t("Committed a heinous act", "干出一件恶行", "_t")
+t("Fallen", "堕落者", "_t")
 t("#CRIMSON#You give in to the darkness. You have fallen!", "#CRIMSON#你投身于黑暗。你堕落了！", "say")
 t([[The code of the Sun Paladins can be a heavy burden.	 Wouldn't you like to let go?
 		#{italic}##GREY#To give in to the darkness?#LAST##{normal}#
@@ -31767,7 +31767,7 @@ t([[The code of the Sun Paladins can be a heavy burden.	 Wouldn't you like to le
 		The following talent trees are swapped:
 		- #GOLD#Radiance#LAST# turns into #CRIMSON#Gloom#LAST#: Project onto others your own hate, hindering them
 		- #GOLD#Guardian#LAST# turns into #CRIMSON#Crimson Templar#LAST#: Use the power of blood to control and defeat the fools that oppose you
-		- #GOLD#Crusader#LAST# turns into #CRIMSON#Black Sun#LAST#: Call upon the energies of dead suns to crush your foes
+		- #GOLD#Crusader#LAST# turns into #CRIMSON#Dark Sun#LAST#: Call upon the energies of dead suns to crush your foes
 
 		You will learn the following talents trees:
 		- #CRIMSON#Bloodstained#LAST#: Make your foes bleed!
@@ -33913,7 +33913,7 @@ The higher their paradox the greater the effect of their powers but the harder t
 ------------------------------------------------
 section "game/modules/tome/data/texts/unlock-corrupter_corruptor.lua"
 
-t("New Class: #LIGHT_GREEN#Corruptor (Defiler)", "新职业： #LIGHT_GREEN# 堕落者（堕落系）", "_t")
+t("New Class: #LIGHT_GREEN#Corruptor (Defiler)", "新职业： #LIGHT_GREEN# 腐化者（堕落系）", "_t")
 t([[Every power has a dark side, including the arcane forces.
 Corruptors are mages that deal in dark, blighted, demonic magic to attain their goals.
 Not all of them are evil, though; some are simply selfish and concerned only with their own power.
@@ -33930,19 +33930,19 @@ Class features:#YELLOW#
 Corruptors use "vim" to power their special abilities.
 Vim is the life force of all beings. It does not regenerate, and can only be stolen from your foes.
 ]], [[所有的力量都有其黑暗的一面，包括奥术。
-堕落者是使用黑暗、枯萎和恶魔法术来达到目的法师。
-不过并不是所有的堕落者是恶魔，有些人只是单纯自私地只关心其个人力量而已。
+腐化者是使用黑暗、枯萎和恶魔法术来达到目的法师。
+并非所有的腐化者都是邪恶的，有些人只是单纯自私地只关心其个人力量而已。
 
-堕落者大师教会了你堕落系法术，现在你可以在创建人物时选择新的职业： #LIGHT_GREEN# 堕落者 #WHITE#。
+大腐化者教会了你堕落系法术，现在你可以在创建人物时选择新的职业： #LIGHT_GREEN# 腐化者 #WHITE#。
 
-堕落者是使用堕落魔法进行远程攻击的法师。
+腐化者是使用魔法进行远程攻击的法师。
 职业特点： #YELLOW#
 - 使你的目标感染并传播致命的疾病
 - 使用邪术或诅咒你的目标，阻止他们前进，使其凋零
-- 从目标身上吸取生命
+- 从目标身上吸取生命，治疗自身
 - 掌握恶魔能量点燃和摧毁敌人，你甚至可以召唤一个恶魔领域，恐怖之地，来困住你的敌人。 #WHITE#
 
-堕落者使用活力值来施放他们的法术。
+腐化者使用活力值来施放他们的法术。
 活力是所有生物的生命力量，它不会自己回复，而必须从你的目标身上偷取。
 ]], "_t")
 
@@ -34464,14 +34464,16 @@ As a sun paladin, you follow a code.  But with the darkness you've seen in the w
 
 You have unlocked the #LIGHT_GREEN#Fallen class evolution#WHITE# for Sun Paladins.
 
-New Powers:#YELLOW#
-- Dirges: A new set of songs that protect you from the world.
-- Self-Hatred: Spend your life for bloody destructive power.
-- Cursed Aura: Corrupt the items around you.
-Altered class abilities:
-- Bloodstained: Dash between enemies, stacking up damage over time.  You only stop when there's nothing left to kill!
-- Black Sun: Crush enemies with powerful gravity attacks.
-- Crimson Templar: Reflect damage to your enemies as their wounds grow worse and worse.
+Learn new Talents:#YELLOW#
+- Bloodstained: Make your foes bleed!
+- Darkside: Every light casts a shadow, yours is powerful indeed
+- Self-Hatred: Manifest your self hatred through bleeding
+- Dirges: Sing of death and sorrow to strength your resolve#WHITE#
+
+Swap your paladin Talents:#YELLOW#
+- Radiance turns into Gloom: Project onto others your own hate, hindering them
+- Crusader turns into Dark Sun: Call upon the energies of dead suns to crush your foes
+- Guardian turns into Crimson Templar: Use the power of blood to control and defeat the fools that oppose you
 #WHITE#
 
 Class evolutions are selected as prodigies and grant new ways to build and expand your class. They are only visible to the concerned class.
@@ -34482,16 +34484,17 @@ Class evolutions are selected as prodigies and grant new ways to build and expan
 你为太阳骑士解锁了#LIGHT_GREEN#堕落者职业进化#WHITE#。
 
 新的力量#YELLOW#
-- 挽歌：一套新的歌曲来保护你免受世界的伤害。
-- 自我憎恨：支付你的生命以获得血腥的破坏力。
-- 诅咒光环：给你周围的物品下咒。
-调整的职业能力：
-- 血染：在敌人之间穿梭，随着时间累计着伤害。只有当无人可杀时你才会停下！
-- 无光之阳：用强大的重力攻击粉碎敌人。
-- 血红守卫：敌人的伤口越来越严重而你还在将伤害反射给它们。
+- 血染：让敌人流血！
+- 背光面：有光的地方就有阴影，你的阴影格外强大。
+- 挽歌：悲伤和死亡之歌，强化你的意志。
+- 自我憎恨：支付你的生命以获得血腥的破坏力。#WHITE#
+调整的职业能力：#YELLOW#
+- 光辉系转变为黑暗光环：将憎恨投射到他人身上，阻碍他们。
+- 十字军系转变为无光之阳：用强大的重力攻击粉碎敌人。
+- 守护系转变为血红守卫：使用鲜血力量控制并打败敌人。
 #WHITE#
 
-Class evolutions are selected as prodigies and grant new ways to build and expand your class. They are only visible to the concerned class.
+职业进阶是一种觉醒技，它们可以给予你新的方法来强化你的职业。只有相关的职业才能看到它们。
 ]], "_t")
 
 
@@ -39187,7 +39190,7 @@ t("Corrupt", "腐化", "_t")
 ------------------------------------------------
 section "game/modules/tome/data/zones/mark-spellblaze/npcs.lua"
 
-t("Grand Corruptor", "大堕落者", "entity name")
+t("Grand Corruptor", "大腐化者", "entity name")
 t("An Elven corruptor, drawn to these blighted lands.", "一位堕落精灵，他生活在这片荒芜大陆上。", "_t")
 
 
@@ -39715,17 +39718,6 @@ t("Strange Orb", "奇特的水晶球", "_t")
 ------------------------------------------------
 section "game/modules/tome/data/zones/ruined-dungeon/zone.lua"
 
-t("Ruined Dungeon", "废弃地城", "_t")
-t("#rng# the Guardian", "守护者#rng#", "_t")
-t("Guardian", "守卫", "_t")
-t("You can hear a magical trigger firing off.", "你听到了魔力开关触动的声音。", "_t")
-t("The orb seems to react badly to your touch; there is a high shriek!", "这只水晶球在你的触摸下反应很糟；你听到了一声尖叫！", "_t")
-t("The orb burns to your touch and a loud shout screams out!", "这只水晶球在你的触摸下开始燃烧，发出一声尖叫！", "_t")
-t("The orb reacts violently to your touch and the walls begin to rumble!", "这只水晶球在你的触摸下反应剧烈，墙壁开始颤抖！", "_t")
-t("%s appears out of the thin air!", "%s从空气中出现了！", "logSeen")
-t("The orb glows brightly. There is a loud crack coming from the northern central chamber.", "水晶球闪耀着光芒。来自北部中心的地区传出了一声巨大的破裂声。", "_t")
-t("Strange Orb", "奇特的水晶球", "_t")
-t("The orb glows brightly.", "水晶球闪耀着光芒。", "_t")
 
 
 ------------------------------------------------
@@ -40879,7 +40871,7 @@ t("open gate", "敞开的大门", "entity name")
 ------------------------------------------------
 section "game/modules/tome/data/zones/town-zigur/npcs.lua"
 
-t("Grand Corruptor", "大堕落者", "entity name")
+t("Grand Corruptor", "大腐化者", "entity name")
 t("An Elven corruptor, drawn to these blighted lands.", "一位堕落精灵，他生活在这片荒芜大陆上。", "_t")
 t("Protector Myssil", "守护者米歇尔", "entity name")
 t("A Halfling Ziguranth, clad in dark steel plates. She is the current leader of Zigur.", "一名身穿黑色板甲的半身人伊格兰斯。她是伊格目前的首领。", "_t")
