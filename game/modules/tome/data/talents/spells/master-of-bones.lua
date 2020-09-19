@@ -469,7 +469,6 @@ newTalent{
 			if pa == pb then return a.creation_turn > b.creation_turn end
 			return pa > pb
 		end)
-		for i, s in ipairs(list) do game.log("===== %d : %s", i, s.skeleton_minion) end
 
 		local lev = t.getLevel(self, t)
 		local pos
