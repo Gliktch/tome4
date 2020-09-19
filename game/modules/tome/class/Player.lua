@@ -1044,6 +1044,7 @@ function _M:restCheck()
 	end
 
 	-- Resting improves regen
+	local mp = game:getPlayer(true)
 	for act, def in pairs(game.party.members) do if game.level:hasEntity(act) and not act.dead then
 		-- Drastically improve regen while resting as this is one of the most common areas lag causes frustration
 		-- To avoid interactions with life regen buffs and minimize any other non-QOL impacts we wait 15 turns before doing any enhancement
@@ -1053,7 +1054,10 @@ function _M:restCheck()
 		end
 		local old_shield = act.arcane_shield
 		act.arcane_shield = nil
-		act:heal(act.life_regen * perc)
+		if act.life_regen > 0 then
+			local life_regen = math.max(act.life_regen, mp.life_regen) -- Prevent slowdowns when  party member can regen but very slowly
+			act:heal(life_regen * perc)
+		end
 		act.arcane_shield = old_shield
 		act:incStamina(act.stamina_regen * perc)
 		act:incMana(act.mana_regen * perc)
