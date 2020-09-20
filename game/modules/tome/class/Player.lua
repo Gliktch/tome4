@@ -1446,6 +1446,34 @@ function _M:playerTakeoff()
 	end)
 end
 
+function _M:playerUseObject(o, item, inven)
+	-- Count magic devices
+	if (o.power_source and o.power_source.arcane) and self:attr("forbid_arcane") then
+		game.logPlayer(self, "Your antimagic disrupts %s.", o:getName{no_count=true, do_color=true})
+		return true
+	end
+
+	local ret = o:use(self, nil, inven, item) or {}
+	if not ret.used then return end
+	if ret.id then
+		o:identify(true)
+	end
+	if ret.destroy then
+		if o.multicharge and o.multicharge > 1 then
+			o.multicharge = o.multicharge - 1
+		else
+			local _, del = self:removeObject(self:getInven(inven), item)
+			if del then
+				game.log("You have no more %s.", o:getName{no_count=true, do_color=true})
+			else
+				game.log("You have %s.", o:getName{do_color=true})
+			end
+			self:sortInven(self:getInven(inven))
+		end
+		return true
+	end
+end
+
 function _M:playerUseItem(object, item, inven)
 	if self.no_inventory_access then return end
 	if not game.zone or game.zone.wilderness then game.logPlayer(self, "You cannot use items on the world map.") return end
@@ -1454,33 +1482,7 @@ function _M:playerUseItem(object, item, inven)
 		if not o then return end
 		local co = coroutine.create(function()
 			self.changed = true
-
-			-- Count magic devices
-			if (o.power_source and o.power_source.arcane) and self:attr("forbid_arcane") then
-				game.logPlayer(self, "Your antimagic disrupts %s.", o:getName{no_count=true, do_color=true})
-				return true
-			end
-
-			local ret = o:use(self, nil, inven, item) or {}
-			if not ret.used then return end
-			if ret.id then
-				o:identify(true)
-			end
-			if ret.destroy then
-				if o.multicharge and o.multicharge > 1 then
-					o.multicharge = o.multicharge - 1
-				else
-					local _, del = self:removeObject(self:getInven(inven), item)
-					if del then
-						game.log("You have no more %s.", o:getName{no_count=true, do_color=true})
-					else
-						game.log("You have %s.", o:getName{do_color=true})
-					end
-					self:sortInven(self:getInven(inven))
-				end
-				return true
-			end
-			self.changed = true
+			return self:playerUseObject(object, item, inven)
 		end)
 		local ok, ret = coroutine.resume(co)
 		if not ok and ret then print(debug.traceback(co)) error(ret) end
