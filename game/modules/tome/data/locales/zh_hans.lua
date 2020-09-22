@@ -1085,10 +1085,10 @@ t("You cannot pick up items from the floor while asleep!", "你不能在睡眠�
 t("Drop object", "扔下物品", "_t")
 t("Wield/wear object", "穿戴物品", "_t")
 t("Take off object", "脱下物品", "_t")
-t("You cannot use items on the world map.", "你不能在世界地图中使用物品。", "logPlayer")
 t("Your antimagic disrupts %s.", "你的反魔法技能打断了 %s 。", "logPlayer")
 t("You have no more %s.", "你不再拥有%s。", "log")
 t("You have %s.", "你拥有%s。", "log")
+t("You cannot use items on the world map.", "你不能在世界地图中使用物品。", "logPlayer")
 t("Use object", "使用物品", "_t")
 t(" - offscreen", " - 屏幕外", "_t")
 t("You can not use the Orb with foes watching (#Target# to the %s%s)", "你不能在有敌人的情况下使用水晶球(#Target#在%s%s)", "logCombat")
@@ -28724,8 +28724,8 @@ t([[Your target's doom draws near. Its healing factor is reduced by 80%%, and wi
 		伤害受法术强度加成。]], "tformat")
 t("Eternal Night", "永恒之夜", "talent name")
 t([[Surround yourself with Frostdusk, increasing all your darkness and cold damage by %0.1f%%, and ignoring %d%% of the darkness and cold resistance of your targets.
-		In addition, at the end of each turn you are healed for %d%% of all damage you dealt.]], [[使用霜暮的力量覆盖全身，增加 %0.1f%% 暗影和寒冷伤害，并无视目标 %d%% 的暗影和寒冷抗性。
-		此外，你造成的伤害会在回合结束时以 %d%% 比例治疗自身。]], "tformat")
+		At the end of each turn if you are under 1 life you are healed for %d%% of all damage you dealt.]], [[使用霜暮的力量覆盖全身，增加 %0.1f%% 暗影和寒冷伤害，并无视目标 %d%% 的暗影和寒冷抗性。
+        此外，若你生命值少于1点，你造成的伤害会在回合结束时以 %d%% 比例治疗自身。]], "tformat")
 
 
 ------------------------------------------------
@@ -31392,8 +31392,8 @@ t([[Gain 5 generic talent points and learn a new talent category from one of the
 		- 天空/赞歌系
 		- 时空/时空系]], "tformat")
 t("Adept", "熟能生巧", "talent name")
-t([[You are adept at many different skills, granting you +2 to all talent levels.
-		This works on already known talents and those that you will learn afterwards.]], [[你熟练使用各种技能，所有技能等级+2。
+t([[You are adept at many different skills, granting you +1.5 to all talent levels.
+		This works on already known talents and those that you will learn afterwards.]], [[你熟练使用各种技能，所有技能等级+1.5。
 		这一技能只对已学习的技能有效。]], "tformat")
 t("Tricks of the Trade", "欺诈圣手", "talent name")
 t("Have sided with the Assassin Lord", "与盗贼领主同流合污", "_t")
@@ -31420,12 +31420,16 @@ t([[You are used to a crowded party:
 		--激活该技能时你不会伤害友方生物。 
 		--视野内每有一名友好生物，你获得 10 点全体豁免和 3%% 整体速度（最多15%% ）。
 		--所有队友同时获得穿梭人群技能。]], "tformat")
+t("Manage Swift Hands", "调整无影手", "talent name")
+t("You can only prepare your swift hands tools outside of combat.", "你只能在战斗外准备无影手工具。", "logPlayer")
+t("Manage your swift hands readied tools.", "调整无影手工具。", "_t")
 t("Swift Hands", "无影手", "talent name")
-t([[You have very agile hands; swapping equipment sets (default q key) takes no time, nor does equipping/unequipping items.
-		The free item switch may only happen once per turn.
-		The cooldown for equipping activatable equipment is removed.]], [[你的手指灵巧的超乎想象，切换主/ 副武器 ( 默认 Q 键 )、装备/ 卸下装备不再消耗回合。 
-		该效果一回合只能触发一次。
-		同时，当装备有附加技能的物品时，其附加技能也会冷却完毕。]], "tformat")
+t("Use tool", "使用工具", "_t")
+t([[You like to keep your most precious tools always at hand. This talent lets you prepare up to 4 items in advance (outside of combat).
+		Then at a moment's notice you can use any of them as if they were worn.
+		In addition swapping equipment sets (default q key) takes no time.]], [[你喜欢将最有用的工具常备手边。该技能允许你在战斗外准备最多4件工具。
+		你可以在战斗中使用这些工具。
+		此外，切换主/副武器(默认 Q 键)不再消耗回合。]], "tformat")
 t("Windblade", "剑刃风暴", "talent name")
 t("Have dealt over 50000 damage with dual wielded weapons", "曾使用双持武器造成超过50000点伤害", "_t")
 t("You spin madly, generating a sharp gust of wind with your weapons that deals 320%% weapon damage to all targets within radius 4 and disarms them for 4 turns.", "你挥动武器疯狂旋转，产生剑刃风暴，对 4 码范围内所有敌人造成 320%% 的武器伤害，并缴械它们 4 回合。", "tformat")
@@ -39718,6 +39722,17 @@ t("Strange Orb", "奇特的水晶球", "_t")
 ------------------------------------------------
 section "game/modules/tome/data/zones/ruined-dungeon/zone.lua"
 
+t("Ruined Dungeon", "废弃地城", "_t")
+t("#rng# the Guardian", "守护者#rng#", "_t")
+t("Guardian", "守卫", "_t")
+t("You can hear a magical trigger firing off.", "你听到了魔力开关触动的声音。", "_t")
+t("The orb seems to react badly to your touch; there is a high shriek!", "这只水晶球在你的触摸下反应很糟；你听到了一声尖叫！", "_t")
+t("The orb burns to your touch and a loud shout screams out!", "这只水晶球在你的触摸下开始燃烧，发出一声尖叫！", "_t")
+t("The orb reacts violently to your touch and the walls begin to rumble!", "这只水晶球在你的触摸下反应剧烈，墙壁开始颤抖！", "_t")
+t("%s appears out of the thin air!", "%s从空气中出现了！", "logSeen")
+t("The orb glows brightly. There is a loud crack coming from the northern central chamber.", "水晶球闪耀着光芒。来自北部中心的地区传出了一声巨大的破裂声。", "_t")
+t("Strange Orb", "奇特的水晶球", "_t")
+t("The orb glows brightly.", "水晶球闪耀着光芒。", "_t")
 
 
 ------------------------------------------------
@@ -42509,6 +42524,20 @@ t(" (pays up to %0.2f gold, Your Gold: %0.2f)", " (付款 %0.2f 金币，你的�
 
 
 ------------------------------------------------
+section "game/modules/tome/dialogs/SwiftHands.lua"
+
+t("Inventory", "物品栏", "_t")
+
+
+------------------------------------------------
+section "game/modules/tome/dialogs/SwiftHandsUse.lua"
+
+t("Inventory", "物品栏", "_t")
+t("Tool", "工具", "_t")
+t("Cooldown", "冷却时间", "_t")
+
+
+------------------------------------------------
 section "game/modules/tome/dialogs/TrapsSelect.lua"
 
 t("Select Traps", "选择陷阱", "_t")
@@ -43349,6 +43378,7 @@ t("Second weapon set: psionic focus", "第二套武器：心灵传动", "_t")
 t("Weapon Set 2: Object held in your telekinetic grasp. It can be a weapon or some other item to provide a benefit to your psionic powers. Press 'x' to switch weapon sets.", "第二套武器：使用你的念动力抓取的物品。你可以抓取武器，或者抓取其他物品来为你的心灵力量提供增益按x切换武器套。", "_t")
 t("Second weapon set: Quiver", "第二套武器：箭袋", "_t")
 t("Weapon Set 2: Your readied ammo.", "第二套武器：你准备好的弹药。", "_t")
+t("List of items that can be instantly used by swift hands.", "可以被无影手使用的物品。", "_t")
 t("Strength", "力量", "stat name")
 t("Strength defines your character's ability to apply physical force. It increases your melee damage, damage done with heavy weapons, your chance to resist physical effects, and carrying capacity.", "力量属性影响你的角色的物理能力，提升力量可以提高物理强度，提高使用重型武器造成的伤害，提高物理豁免，同时提高你的负重量。", "_t")
 t("str", "力量", "stat short_name")
