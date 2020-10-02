@@ -5303,7 +5303,7 @@ newEffect{
 		self:effectTemporaryValue(eff, "cleansing_flames", eff.chance)
 	end,
 	on_timeout = function(self, eff)
-		DamageType:get(DamageType.FIRE).projector(self, self.x, self.y, DamageType.FIRE, eff.power)
+		DamageType:get(DamageType.INFERNO).projector(self, self.x, self.y, DamageType.INFERNO, eff.power)
 	end,
 }
 
