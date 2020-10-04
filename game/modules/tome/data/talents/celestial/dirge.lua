@@ -244,7 +244,7 @@ newTalent{
 						ret = ([[Even now, something compels you to sing.
 			Dirge of Famine: Increases health regen by %d.
 			Dirge of Conquest: Gives you part of a turn on critical (10%%) or kill (50%%).
-			Dirge of Pestilence: Shields you for %d when an enemy inflicts a detrimental effect on you.
+			Dirge of Pestilence: Shields you for %d when an enemy inflicts a detrimental effect on you (5 turn cooldown).
 			You may only have one Dirge active at a time.]]):
 						tformat(t1.getRegen(self, t1), t3.getShield(self, t3))
 					end)
@@ -262,7 +262,7 @@ newTalent{
 	points = 5,
 	mode = "passive",
 	getDamageOnMeleeHit = function(self, t) return self:combatTalentMindDamage(t, 5, 50) * (1 + (1 + self.level)/40) end,
-	getImmune = function(self, t) return math.min(1, self:combatTalentScale(t, 0.05, 0.45, 0.5)) end,
+	getImmune = function(self, t) return self:combatTalentLimit(t, 1, 0.15, 0.50) end,
 	info = function(self, t)
 		local damage = t.getDamageOnMeleeHit(self, t)
 		local nostun = t.getImmune(self, t)*100
@@ -279,7 +279,7 @@ newTalent{
 	points = 5,
 	mode = "passive",
 	getDuration = function(self, t) return self:getTalentLevel(t) end,
-	getImmune = function(self, t) return math.min(1, self:combatTalentScale(t, 0.05, 0.45, 0.5)) end,
+	getImmune = function(self, t) return self:combatTalentLimit(t, 1, 0.15, 0.50) end,
 	info = function(self, t)
 		return ([[Your dirges echo mournfully through the air.  When you end a dirge, you continue to gain its acolyte-level effects for %d turns.  You can only benefit from one such lingering dirge at a time.
 
