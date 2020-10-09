@@ -235,7 +235,7 @@ newTalent{
 	sustain_psi = 50,
 	mode = "sustained",
 	no_sustain_autoreset = true,
-	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 0, 44, 12)) end, -- Limit >0
+	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 1, 30, 10)) end, -- Limit >1
 	tactical = { BUFF = 2, ATTACK = {MIND = 2}},
 	range = 7,
 	direct_hit = true,
