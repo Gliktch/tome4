@@ -210,7 +210,7 @@ newTalent{
 		local ammo = self:hasAlchemistWeapon()
 
 		--	Heal fraction of max life for higher levels
-		local healbase = 44+self.alchemy_golem.max_life*self:combatTalentLimit(self:getTalentLevel(self.T_GOLEM_POWER),0.2, 0.01, 0.05,) -- Add up to 20% of max life to heal
+		local healbase = 44+self.alchemy_golem.max_life*self:combatTalentLimit(self:getTalentLevel(self.T_GOLEM_POWER),0.2, 0.01, 0.05) -- Add up to 20% of max life to heal
 		return healbase + self:combatTalentSpellDamage(self.T_GOLEM_POWER, 15, 550, ((ammo and ammo.alchemist_power or 0) + self:combatSpellpower()) / 2) --I5
 	end,
 	on_learn = function(self, t)
