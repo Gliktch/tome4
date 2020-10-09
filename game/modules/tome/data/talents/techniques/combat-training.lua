@@ -129,7 +129,7 @@ newTalent{
 	getFatigue = function(self, t, fake)
 		-- Note: drakeskin body armour @ 8% + drakeskin leather cap @ 5% + drakeskin leather boots @ 5% = 18%
 		if fake or self:hasLightArmor() then
-			return self:combatTalentLimit(t, 50, 5, 18)
+			return self:combatTalentLimit(t, 50, 10, 25, false, 1.0)
 		else return 0
 		end
 	end,
