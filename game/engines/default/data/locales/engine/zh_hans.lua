@@ -984,6 +984,7 @@ t("Enter the y-coordinate", "输入Y坐标", "_t")
 t("Window Origin: Y-Coordinate", "窗口原点：Y坐标", "_t")
 t("Position changed.", "位置已修改。", "_t")
 t("Save position?", "保存位置？", "_t")
+t("Accept", "接受", "_t")
 
 
 ------------------------------------------------

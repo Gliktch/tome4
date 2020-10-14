@@ -28718,9 +28718,9 @@ t([[Teleport all foes in radius %d to your boneyard, as close to its center as p
 		]], "tformat")
 t("Impending Doom", "灾厄降临", "talent name")
 t([[Your target's doom draws near. Its healing factor is reduced by 80%%, and will take %d%% of its remaining life (or %0.2f, whichever is lower) over 10 turns as frostdusk damage.
-		This spell is so powerful that every 2 turns it tears a part of the target's soul, generating one soul for you.
-		The damage will increase with your Spellpower.]], [[你使目标厄运临头。10回合内，目标的治疗加成减少 80%% ， 并累计受到 %d%% 剩余生命值（至多 %0.2f 点）霜暮伤害。 
-		这个法术的力量是如此强大，每 2 回合它会撕裂目标灵魂的一部分，使你获得一个灵魂。
+		This spell is so powerful that every 3 turns it tears a part of the target's soul, generating one soul for you.
+		The damage will increase with your Spellpower.]], [[你使目标厄运临头。10回合内，目标的治疗加成减少 80%% ， 并累计受到 %d%% 剩余生命值（至多 %0.2f 点）霜暮伤害。
+		这个法术的力量是如此强大，每 3 回合它会撕裂目标灵魂的一部分，使你获得一个灵魂。
 		伤害受法术强度加成。]], "tformat")
 t("Eternal Night", "永恒之夜", "talent name")
 t([[Surround yourself with Frostdusk, increasing all your darkness and cold damage by %0.1f%%, and ignoring %d%% of the darkness and cold resistance of your targets.
@@ -29713,17 +29713,24 @@ t([[You create an orb attuned to thaumaturgy for %d turns.
 		在这个球持续期间，你释放的射线类法术将会被复制一次，指向奇术之球，并造成 %d%% 原伤害。
 		]], "tformat")
 t("Multicaster", "多重施法", "talent name")
+t("#LIGHT_BLUE#%s [known, eligible]#LAST#", "#LIGHT_BLUE#%s [已学会, 可触发]#LAST#", "tformat")
+t("#YELLOW#%s [known]#LAST#", "#YELLOW#%s [已学会]#LAST#", "tformat")
+t("#GREY#%s [unknown]#LAST#", "#GREY#%s [未学会]#LAST#", "tformat")
 t([[Casting beam spells has become so instinctive for you that you can now easily weave in other spells at the same time.
 		Anytime you cast a beam spell there is a %d%% chance to automatically cast an offensive spell that you know.
 		Beam spells duplicated by the Orb of Thaumaturgy can also trigger this effect.
 		This can only happen once (or twice with Orb of Thaumaturgy) per turn.
-		The additional cast will cost mana but no turn and will not active its cooldown.
-		During Aether Avatar only compatible spells are used.]], [[释放射线类法术对你来说如此自然，以至于可以和其他法术穿插释放。
-		每当释放射线类法术时，你有 %d%% 几率自动释放一个已习得的其他攻击类法术。
-		奇术之球复制的射线类法术也能触发这一效果。
-		该效果一回合只能触发一次（使用奇术之球可以触发两次）。
-		额外释放的法术仍然会消耗法力值，但不会消耗时间，也不会使该法术进入冷却。
-		以太之体状态下，只会释放以太之体下能释放的技能。]], "tformat")
+		The additional cast will cost mana but no turn, will not active its cooldown and can trigger on spells currently on cooldown.
+		During Aether Avatar only compatible spells are used.
+
+		Eligible spells: %s]], [[释放射线类法术对你来说如此自然，以至于可以和其他法术穿插释放。
+        每当释放射线类法术时，你有 %d%% 几率自动释放一个已习得的其他攻击类法术。
+        奇术之球复制的射线类法术也能触发这一效果。
+        该效果一回合只能触发一次（使用奇术之球可以触发两次），且不能触发处于冷却中的法术。
+        额外释放的法术仍然会消耗法力值，但不会消耗时间，也不会使该法术进入冷却。
+        以太之体状态下，只会释放以太之体下能释放的技能。
+
+        选择法术：%s]], "tformat")
 t("Slipstream", "能量滑流", "talent name")
 t("#PURPLE#Your Slipstream does not have enough resources!", "#PURPLE#你的能量滑流魔力不足了", "logPlayer")
 t("#PURPLE#Your Slipstream regenerates to full!", "#PURPLE#的能量滑流充能满了！", "logPlayer")
@@ -31392,9 +31399,9 @@ t([[Gain 5 generic talent points and learn a new talent category from one of the
 		- 天空/赞歌系
 		- 时空/时空系]], "tformat")
 t("Adept", "熟能生巧", "talent name")
-t([[You are adept at many different skills, granting you +1.5 to all talent levels.
+t([[You are adept at many different skills, granting you +1.5 to all known talent levels.
 		This works on already known talents and those that you will learn afterwards.]], [[你熟练使用各种技能，所有技能等级+1.5。
-		这一技能只对已学习的技能有效。]], "tformat")
+        这一技能只对已学习的技能有效。]], "tformat")
 t("Tricks of the Trade", "欺诈圣手", "talent name")
 t("Have sided with the Assassin Lord", "与盗贼领主同流合污", "_t")
 t([[You have friends in low places and have learned some underhanded tricks.
@@ -42312,7 +42319,6 @@ t("<Press 'x' to swap to simple display>", "<按x键切换简单显示>", "_t")
 t("First talent level: ", "第一级需求： ", "_t")
 t("Next talent level", "下一等级", "_t")
 t("Current talent level: ", "当前等级： ", "_t")
-t(" (%+d bonus level)", " (%+d 额外技能等级)", "tformat")
 t("<Press 'x' to swap to advanced display>", "<按x键切换进阶显示>", "_t")
 t("Stats: %s", "属性: %s", "tformat")
 t("Class points: %s", "职业点：%s", "tformat")
@@ -42526,6 +42532,8 @@ t(" (pays up to %0.2f gold, Your Gold: %0.2f)", " (付款 %0.2f 金币，你的�
 ------------------------------------------------
 section "game/modules/tome/dialogs/SwiftHands.lua"
 
+t("Managed readied tools", "调整待准备的工具", "_t")
+t("Readied tools", "准备好的工具", "_t")
 t("Inventory", "物品栏", "_t")
 
 
@@ -42535,6 +42543,7 @@ section "game/modules/tome/dialogs/SwiftHandsUse.lua"
 t("Inventory", "物品栏", "_t")
 t("Tool", "工具", "_t")
 t("Cooldown", "冷却时间", "_t")
+t("Ready", "准备完成", "_t")
 
 
 ------------------------------------------------
