@@ -162,7 +162,7 @@ newTalent{
 	mode = "passive",
 	getTime = function(self, t) return self:combatTalentScale(t, 3, 5) end,
 	getThreshold = function(self, t) return self:combatTalentLimit(t, 10, 30, 15) end,
-	getSpillThreshold = function(self, t) return 15 end,
+	getSpillThreshold = function(self, t) return 40 end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
 		if dam < 0 then return {dam = dam} end
 		if not state then return {dam = dam} end
@@ -182,8 +182,8 @@ newTalent{
 		local st = t.getSpillThreshold(self, t)/100
 		if dam > self.max_life*lt then
 			local reduce = dam - self.max_life*lt
-			if reduce > self.max_life * st then
-				reduce = math.floor(dam * st / (lt+st))
+			if reduce > self.max_life * (st - lt) then
+				reduce = math.floor(dam * (st - lt) / (st))
 			end
 			local length = t.getTime(self, t)
 			if src.logCombat then src:logCombat(self, "#CRIMSON##Target# suffers from %s from #Source#, mitigating the blow!#LAST#.", is_attk and "an attack" or "damage") end
@@ -199,7 +199,7 @@ newTalent{
 	info = function(self, t)
 		local time = t.getTime(self, t)
 		local threshold = t.getThreshold(self, t)
-		local failThreshold = t.getThreshold(self, t) + t.getSpillThreshold(self, t)
+		local failThreshold = t.getSpillThreshold(self, t)
 		return ([[Any direct damage that exceeds %d%% of your maximum life has the excess damage converted to a shallow wound that bleeds over the next %d turns. This bleed cannot be resisted or removed, but can be reduced by Bloodstained. Extremely powerful hits (more than %d%% of your max life) are not fully converted.
 
 #{italic}#You can't just die. That would be too easy. You deserve to die slowly.#{normal}#]]):tformat(threshold, time, failThreshold)
