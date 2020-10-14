@@ -29730,7 +29730,7 @@ t([[Casting beam spells has become so instinctive for you that you can now easil
         额外释放的法术仍然会消耗法力值，但不会消耗时间，也不会使该法术进入冷却。
         以太之体状态下，只会释放以太之体下能释放的技能。
 
-        选择法术：%s]], "tformat")
+        可触发法术：%s]], "tformat")
 t("Slipstream", "能量滑流", "talent name")
 t("#PURPLE#Your Slipstream does not have enough resources!", "#PURPLE#你的能量滑流魔力不足了", "logPlayer")
 t("#PURPLE#Your Slipstream regenerates to full!", "#PURPLE#的能量滑流充能满了！", "logPlayer")
