@@ -678,6 +678,7 @@ section "game/modules/tome/class/Object.lua"
 t("Massive armour training", "板甲训练", "_t")
 t("Heavy armour training", "重甲训练", "_t")
 t("Shield usage training", "盾牌使用训练", "_t")
+t("Can not use an item in the transmogrification chest.", "无法使用在转化之盒中的物品。", "_t")
 t("This object has no usable power.", "这一物品没有可以使用的能力。", "_t")
 t("You cannot use items now!", "你现在无法使用物品！", "_t")
 t("You cannot see!", "你现在看不见东西！", "_t")
@@ -5704,6 +5705,7 @@ If you feel you cannot take part in a slaver's game, I am afraid you will need t
 既然你看上去不像那些奴隶一样的炮灰，我会给你一个机会来玩一个游戏。
 要是你不想参加这个奴隶游戏，恐怕你得从我面前消失了。]], "_t")
 t("Slavers? This is so wrong! [attack]", "奴隶？你没搞错吧！[攻击]", "_t")
+t("You think so? Die.", "你这样认为？去死吧。", "_t")
 t("Game? I like playing, what's this about?", "游戏？我喜欢，是个什么样的游戏？", "_t")
 t([[Well, you see, it's quite simple. I will mentally take control of various wild creatures or slaves while you use the orb of command on the other side of this room to take control of a slave.
 Then we fight using our pawns for 10 rounds. If your slave survives you will win the Bloodcaller.]], [[你看，很简单。我会精神控制一些野生怪物或者奴隶，你则用对面的指令水晶球来控制一个奴隶。
@@ -13068,7 +13070,7 @@ t("Gives all your cold damage a 20% chance to freeze the target.", "你造成寒
 t("Twilight's Edge", "晨昏之刃", "entity name")
 t("shining long sword", "发光的长剑", "_t")
 t("The blade of this sword seems to have been forged of a mixture of voratun and stralite, resulting in a blend of swirling light and darkness.", "这柄长剑似乎是用沃瑞钽和蓝锆石混合制成，光与暗在不断旋转交融。", "_t")
-t("release a burst of light and dark damage (scales with Magic)", "爆发光明和黑暗伤害(随魔法增加)", "_t")
+t("release a burst of light and dark damage (scales with Magic)", "爆发光明和黑暗伤害(受魔法值加成)", "_t")
 t("Mnemonic", "记忆", "entity name")
 t("As long as you wear this ring, you will never forget who you are.", "只要你戴上这枚戒指，你永远不会忘却。", "_t")
 t("familiar ring", "熟悉的戒指", "_t")
@@ -20998,11 +21000,11 @@ t([[Open a radius 1 rift in spacetime at the targeted location for %d turns, inc
 		All caught within the rift are pulled towards the center and take %0.2f gravity damage.
 The damage will increase with your Spellpower.]], [[在目标地点开启半径1的时空裂缝，持续 %d 回合。每回合半径增加1，最大 %d 。
 		所有被裂缝波及的目标都会被朝中心牵引，受到 %0.2f 重力伤害。
-伤害随法术强度增加。]], "tformat")
+伤害受法术强度加成。]], "tformat")
 t("Devourer Stance", "势吞干戈", "talent name")
 t([[Attune yourself to the endless hunger of distant dead suns.  For the next %d turns, your attacks will inflict an additional %0.2f gravity damage and attempt to pull enemies closer.  After three turns, you will recover half of all damage taken during this effect.
 The damage will increase with your Spellpower.]], [[你将死星那无尽的饥饿赋予自己。在接下来的 %d 回合里，你的攻击造成额外 %0.2f 重力伤害并会试图将敌人拉近。3回合之后，你获得此效果期间所受伤害一半的回复。
-伤害随法术强度增加。]], "tformat")
+伤害受法术强度加成。]], "tformat")
 t("Singularity Armor", "星核护甲", "talent name")
 t("Create a gravity field around you that converts %d%% of all damage you deal into physical damage, slows incoming projectiles by %d%%, and causes your gravity damage to reduce the target's knockback resistance by half for two turns.", "在你身边制造一个重力场，将你造成伤害的 %d%% 转化为物理伤害，使向你发射的飞行物减速 %d%% ，并使你的重力伤害减半目标的击退抗性两回合。", "tformat")
 t("Doom Spiral", "毁灭螺旋", "talent name")
@@ -21012,7 +21014,7 @@ t([[Infuse your weapon with overwhelming gravitational power while spinning arou
 The shield strength will increase with your Spellpower.]], [[旋转一周，同时将毁灭性的重力注入武器。
 							半径2以内的生物受到 %d%% 物理（重力）武器伤害并被拉近。
 							然后所有相邻的生物受到 %d%% 武器伤害。这第二次攻击给予你 %d 到 %d 的护盾，数值随被击中的敌人数量增大，持续2回合。
-护盾量随法术强度增加。]], "tformat")
+护盾量受法术强度加成。]], "tformat")
 
 
 ------------------------------------------------
@@ -21024,7 +21026,7 @@ t([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the
 The stun chance increases with your Physical Power.
 
 #{italic}#It may not bleed, exactly, but you'll make it hurt.#{normal}#]], [[攻击目标造成 %d%% 武器伤害。如果命中，目标震慑 %d 回合且流血抗性降低 50%%。
-震慑概率随物理强度增加。
+震慑概率受物理强度加成。
 
 #{italic}#或许不会出血，但绝对很疼。#{normal}#]], "tformat")
 t("Lunacy", "错乱", "talent name")
@@ -21065,29 +21067,29 @@ t([[Sing a song of wasting and desolation which sustains you in hard times.
 
 This dirge increases your health regeneration by %d.  The regeneration will increase with your level.]], [[为荒废和孤寂悲叹一曲来支持困境中的你。
 
-增加你的生命回复%d。回复随你的等级增加。]], "tformat")
+增加你的生命回复%d。回复量受等级加成。]], "tformat")
 t("Dirge of Conquest", "征服挽歌", "talent name")
 t([[Sing a song of violence and victory (mostly violence) and sustain yourself through cruelty.
 Each time you deal a critical strike you gain 10%% of a turn (only once per turn).
-Each time you kill a creature you gain 50%% of a turn (only once per turn).
-]], [[为暴力和（通过暴力取得的）胜利高歌一曲来支持被残酷对待的你。
-你每次暴击时获得 10%% 回合的时间（每回合限一次）。
-你每次杀戮时获得 50%% 回合的时间（每回合限一次）。
+Each time you kill a creature you gain %d%% of a turn (only once per turn).
+]], [[为暴力和（通过暴力取得的）胜利高歌一曲来支持残酷的你。
+你每次暴击时获得 10%% 个回合的时间（每回合限一次）。
+你每次杀死一个生物时获得 %d%% 个回合的时间（每回合限一次）。
 ]], "tformat")
 t("Dirge of Pestilence", "瘟疫挽歌", "talent name")
 t([[Sing a song of decay and defiance and sustain yourself through spite.
-							Each time you suffer a detrimental effect, you gain a shield with strength %d, that lasts as long as the effect would.
+							Each time you suffer a detrimental effect, you gain a shield with strength %d, that lasts as long as the effect would.  This will add to and extend an existing shield if possible.
 							This can only trigger once every %d turns]], [[为腐败和暴乱轻唱一曲来支持仇恨中的你。
-							每次你受到负面状态时你获得 %d 的护盾，持续时间与那个状态相同。
-							每 %d 回合只能触发一次。]], "tformat")
+							每次你受到负面状态时你获得 %d 的护盾，持续时间与那个状态的持续时间相同。这可以强化你已有的伤害护盾。
+							这一效果每 %d 回合只能触发一次。]], "tformat")
 t("Dirge Acolyte", "挽歌入门", "talent name")
 t([[Even now, something compels you to sing.
 			Dirge of Famine: Increases health regen by %d.
-			Dirge of Conquest: Gives you part of a turn on critical (10%%) or kill (50%%).
-			Dirge of Pestilence: Shields you for %d when an enemy inflicts a detrimental effect on you.
+			Dirge of Conquest: Gives you part of a turn on critical (10%%) or kill (%d%%).
+			Dirge of Pestilence: Shields you for %d when an enemy inflicts a detrimental effect on you (5 turn cooldown).
 			You may only have one Dirge active at a time.]], [[每时每刻，都有什么驱使着你歌唱。
 			饥荒挽歌：增加生命回复 %d 。
-			征服挽歌：给予你暴击时 10%% 回合或杀戮时 50%% 回合的时间。
+			征服挽歌：给予你暴击时 10%% 回合或杀戮时 %d%% 回合的时间。
 			瘟疫挽歌：敌人对你造成负面效果时获得 %d 的护盾。
 			你同时只能激活一种挽歌。]], "tformat")
 t("Dirge Intoner", "悲恸之声", "talent name")
@@ -21095,7 +21097,7 @@ t([[Your dirges carry the pain within you, which threatens to swallow those who 
 							You, on the other hand, are steadied by the song.  Your dirges increase your resistance to stun and knockback by %d%%.
 							The damage will increase with your Mindpower and your level.]], [[你的挽歌中寄寓着痛苦，过于接近你的生物可能会被这份痛苦吞噬。任何近战击中你的敌人会受到 %0.2f 精神伤害。
 							而你则被这歌声激励着。挽歌增加你 %d%% 的震慑和击退抗性。
-							伤害随你的精神强度和等级增加。]], "tformat")
+							伤害受精神强度和等级加成。]], "tformat")
 t("Dirge Adept", "挽歌专家", "talent name")
 t([[Your dirges echo mournfully through the air.  When you end a dirge, you continue to gain its acolyte-level effects for %d turns.  You can only benefit from one such lingering dirge at a time.
 
@@ -21105,7 +21107,7 @@ Furthermore, you are given focus by the song.  Your dirges increase your resista
 t("Dirge Nihilist", "虚无主义", "talent name")
 t([[Your dirges deaden you to the outside world, reducing all incoming damage by %d.
 The damage reduction will increase with your Spellpower.]], [[你的挽歌使你对外界变得迟钝，减免所有伤害 %d 。
-伤害减免随法术强度增加。]], "tformat")
+伤害减免受法术强度加成。]], "tformat")
 
 
 ------------------------------------------------
@@ -23478,11 +23480,11 @@ t([[Sense foes around you in a radius of %d for %d turns.
 t("Danger Sense", "危机感知", "talent name")
 t([[You have an enhanced sense of self preservation, and your keen intuition allows you to sense dangers others miss.
 		Your ability to detect traps is enhanced (+%d detect 'power').
-		Attacks against you have a %0.1f%% reduced chance to be critical hits, and damage bonuses attackers gain against you for being unseen are reduced by %d%%.
+		Critical attacks against you have %0.1f%% reduced bonus damage, and damage bonuses attackers gain against you for being unseen are reduced by %d%%.
 		You also gain an additional chance (at your normal save %+d, effective) to resist detrimental status effects that can be resisted.
 		The detection and additional save chance improve with Cunning.]], [[你拥有了更高级的自我保护感知力，敏锐的直觉让你察觉到他人会忽略的危险。
 		你感知陷阱的能力提升了（ +%d 点侦察强度）。
-		对你发动的攻击的暴击率减少 %0.1f%% ，同时潜行单位因未被发现而对你造成的额外伤害的倍率减小 %d%% 。
+		对你发动的攻击的暴击伤害降低 %0.1f%% ，同时潜行单位因未被发现而对你造成的额外伤害的倍率减小 %d%% 。
 		你获得一次机会重新抵抗未成功抵抗的负面效果，豁免为正常豁免 %+d 。
 		侦测点数和豁免随灵巧提升。]], "tformat")
 t("Disarm Trap", "解除陷阱", "talent name")
@@ -23771,11 +23773,11 @@ t("Reduces the damage you take from bleeds by %d%%", "减少你受到的流血�
 t("Blood Rush", "血腥冲锋", "talent name")
 t("Nowhere to appear!", "没有可用地点！", "logSeen")
 t("The bloodrush fizzles!", "血腥冲锋失败了！", "logSeen")
-t([[Teleport to an enemy, striking them for 100%% weapon damage, bleeding them for %d%% weapon damage over five turns, and marking them for six turns.
+t([[Teleport to an enemy, striking them for 100%% weapon damage, bleeding them for %d%% weapon damage over five turns, and marking them for six turns. You will not teleport if you are already adjacent.
 
 When the marked enemy dies, the cooldown of this talent will be reduced by two turns for every turn the mark had remaining.
 
-Each point in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]], [[传送至一个敌人面前，攻击造成 100%% 武器伤害，使其在5回合里受到 %d%% 流血伤害，并标记它6回合。
+Each point in Bloodstained talents reduces the amount of damage you take from bleed effects by 2%%]], [[传送至一个敌人面前，攻击造成 100%% 武器伤害，使其在5回合里受到 %d%% 流血伤害，并标记它6回合。如果目标已经在你身边，则不会传送。
 
 被标记的敌人死亡时，标记每剩余一回合此技能的冷却减少2回合。
 
@@ -23805,36 +23807,38 @@ section "game/modules/tome/data/talents/cursed/crimson-templar.lua"
 
 t("Shared Agony", "共享痛苦", "talent name")
 t("%s(%d shared agony)#LAST#", "%s(%d 共享痛苦)#LAST#", "tformat")
-t([[You displace %d%% of any damage you receive onto a random bleeding enemy within range 5.	This redirected damage is amplified by %d%%.
+t([[You displace %d%% of any damage you receive onto a random bleeding enemy within range 5. This redirected damage is amplified by %d%%.
 
-#{italic}#All living things are linked by blood.	It is one river, flowing through all.#{normal}#]], [[你将受到伤害的 %d%% 转移到半径5以内的一个随机的流血敌人身上。转移的伤害量会增加 %d%% 。
+#{italic}#All living things are linked by blood. It is one river, flowing through all.#{normal}#]], [[你将受到伤害的 %d%% 转移到半径5以内的一个随机的流血敌人身上。转移的伤害量会增加 %d%% 。
 
 #{italic}#所有的活物都被鲜血连接着，就好像一条河流经着它们。#{normal}#]], "tformat")
 t("Splatter Sigils", "溅射污印", "talent name")
-t([[When you kill an enemy, their death forms a cursed magical pattern on the ground. This creates a circle of radius %d which blinds enemies and deals them %0.2f light damage, while giving you %d positive energy per turn.	 The circle lasts for %d turns.
+t([[When you kill an enemy, their death forms a cursed magical pattern on the ground. This creates a circle of radius %d which blinds enemies and deals them %0.2f light damage, while giving you %d positive energy per turn. The circle lasts for %d turns.
 							The damage will increase with your Spellpower.
 							The duration of the circle can be increased by a critical hit.
 							The blind chance increases with your Spellpower.
 							You can activate this talent to draw the pattern in your own blood, creating it underneath you at the cost of %d%% of your maximum life.
 ]], [[当你杀死敌人时，死亡会在地面上形成一个魔法咒印。产生一个半径 %d 的法阵，每轮会致盲敌人并造成 %0.2f 光系伤害，同时给予你 %d 正能量。法阵持续 %d 回合。
-							致盲概率和伤害受法术强度加成。
+							伤害受法术强度加成。
 							持续时间可以暴击。
-							你可以支付 %d%% 最大生命以主动使用此技能，用自己的鲜血在脚下绘制咒印。
+							致盲概率受法术强度加成。
+							你可以主动使用这一技能，支付 %d%% 最大生命，用自己的鲜血在脚下绘制咒印。
 ]], "tformat")
 t("Mark of the Vampire", "吸血鬼印记", "talent name")
-t([[Dooms your target and everything within a radius 2 ball around it for 20 turns. Each time an affected target uses a talent, it takes %0.2f physical damage as its life is drawn out.	In addition, any bleed applied to the target will have its power increased by %d%%.
+t([[Dooms all enemies within a radius 2 ball for 20 turns. Each time an affected target uses a talent, it takes %0.2f physical damage as its life is drawn out. In addition, any bleed applied to the target will have its power increased by %d%%.
 							The damage will increase with your Spellpower.
-							The chance to apply will increase with your Spellpower.]], [[对目标和半径2球形内的一切降下劫数，持续20回合。每次受影响的目标使用技能时，会随着其生命被抽出而受到 %0.2f 物理伤害。此外，目标的所有流血力度增加 %d%% 。
-							成功概率和伤害受法术强度加成。]], "tformat")
+							The chance to apply will increase with your Spellpower.]], [[对半径2码球形内的敌人降下劫数，持续20回合。每次受影响的目标使用技能时，会因其生命被抽出而受到 %0.2f 物理伤害。此外，目标身上的所有流血效果强度增加 %d%% 。
+							伤害受法术强度加成。
+							异常状态施加概率受法术强度加成。]], "tformat")
 t("Rosebloom", "血绽", "talent name")
 t("%s resists the sleep!", "%s抵抗了睡眠！", "logSeen")
-t([[Draw on the wounds of nearby enemies, healing yourself and putting them into a merciful sleep.
+t([[Draw on the wounds of enemies within range 10, healing yourself and putting them into a merciful sleep.
 							The sleep chance increases with your Spellpower.
-							You are healed for %d%% of the remaining damage of bleed effects on enemies in range (minimum %d per bleed).	Enemies fall asleep for %d turns longer than their longest-lasting bleed, rendering them unable to act. The strength of the sleep effect is based on the strength of the bleed.	 Excess damage will reduce their sleep duration.
+							You are healed for %d%% of the remaining damage of bleed effects on enemies in range (minimum %d per bleed). Enemies fall asleep for %d turns longer than their longest-lasting bleed, rendering them unable to act. The strength of the sleep effect is based on the strength of the bleed. Excess damage will reduce their sleep duration.
 							
-							When the sleep ends, each target will benefit from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it 50%% sleep immunity.]], [[吸收附近敌人的伤痕以治疗自己，并仁慈地使它们入睡。
+							When the sleep ends, each target will benefit from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it 50%% sleep immunity.]], [[吸收附近10码范围内敌人的伤痕以治疗自己，并仁慈地使它们入睡。
 							睡眠概率受法术强度加成。
-							你获得距离内敌人剩余流血伤害 %d%% 的治疗（每个流血敌人至少 %d 点）。敌人睡眠的持续时间为 %d 回合加上流血效果中最长的持续时间，期间无法行动。睡眠效果的强度由流血的力度决定，额外的伤害会缩短它们睡眠的时间。
+							你获得距离内敌人剩余流血伤害 %d%% 的治疗（每个流血敌人至少 %d 点）。敌人睡眠的持续时间为 %d 回合加上流血效果中最长的持续时间，期间无法行动。睡眠效果的强度由流血效果的强度决定，额外的伤害会缩短它们睡眠的时间。
 
 							睡眠结束时，目标会受失眠效果获得50%%睡眠免疫，持续时间等于它睡着的时间（最大10回合）。]], "tformat")
 
@@ -24360,28 +24364,30 @@ t("Self-Harm", "自残", "talent name")
 t("You can only use this while in combat", "你只能在战斗中使用此技能。", "logPlayer")
 t([[At the start of each turn, if you're bleeding, you gain %d hate.
 
-You can activate this talent to quickly draw a blade across your skin, bleeding yourself for a small portion of your maximum life (%0.2f damage) over the next 5 turns.	This bleed cannot be resisted or removed, but can be reduced by Bloodstained.
+You can activate this talent to quickly draw a blade across your skin, bleeding yourself for a small portion of your maximum life (%0.2f damage) over the next 5 turns. This bleed cannot be resisted or removed, but can be reduced by Bloodstained.
 
-#{italic}#Pain is just about the only thing you can still feel.#{normal}#]], [[每回合开始时如果你正在流血，你获得 %d 仇恨。
+#{italic}#Pain is just about the only thing you can still feel.#{normal}#]], [[每回合开始时，如果你正在流血，你获得 %d 仇恨。
 
-你可以主动使用此技能来划自己一刀，使你在5回合里受到最大生命一小部分的流血伤害（ %0.2f 伤害）。此流血效果不能被抵抗，无法被移除，但可以被血染系技能减少。
+你可以主动使用此技能来划自己一刀，使你在5回合里受到最大生命值一小部分的流血伤害（ %0.2f 伤害）。此流血效果不能被抵抗，无法被移除，但可以被血染系技能减少。
 
 #{italic}#你还保留的感觉也只剩下疼痛了。#{normal}#]], "tformat")
 t("Self-Loathing", "自愤", "talent name")
 t([[Increases critical chance by %d%% (at all times) and critical strike power by up to %d%% (based on hate).
 
-#{italic}#Anger makes you strong.	 And you're always angry.#{normal}#]], [[增加 %d%% 暴击率（始终）和最多 %d%% 暴击伤害（依据当前仇恨）。
+#{italic}#Anger makes you strong. And you're always angry.#{normal}#]], [[增加 %d%% 暴击率（始终）并增加最多 %d%% 暴击伤害（基于当前仇恨值）。
 
 #{italic}#愤怒使你更强，而你始终愤怒。#{normal}#]], "tformat")
 t("Self-Destruction", "自毁", "talent name")
-t([[Call upon your deepest reserves of strength to win no matter the cost.	
-Immediately upon activation and every turn while this talent is active, your detrimental effects expire and your talents cool down as if an extra turn had passed.	
+t("tore themself apart", "把自己撕成碎片", "_t")
+t([[Call upon your deepest reserves of strength to win no matter the cost. 
+Immediately upon activation and every turn while this talent is active, your detrimental effects expire and your talents cool down as if an extra turn had passed. 
 This bonus cooldown occurs even if your talents would not normally cool down.
 This talent deactivates automatically upon rest.
 This strength comes at a cost: you lose %d%% of your maximum life every turn.  This can kill you.
 
 #{italic}#If you're lucky, this will take everything you've got.#{normal}#]], [[唤起你保留在最深处的力量，以不顾一切代价取胜。
-使用的瞬间和之后这一技能持续的每一回合，你的负面效果持续时间和技能冷却时间都会减少额外一轮，即使此时你的技能本来不会冷却。
+使用这一技能的瞬间，和之后这一技能持续开启的每一回合，你的负面效果持续时间和技能冷却时间都会额外减少一回合。
+即使你的技能冷却时间本来不会降低，这一效果也可以降低其冷却时间。
 这一技能在休息时自动关闭。
 这一力量的代价是你每回合损失 %d%% 的最大生命。这一效果可以杀死你。
 
@@ -24389,11 +24395,11 @@ This strength comes at a cost: you lose %d%% of your maximum life every turn.  T
 t("Self-Judgement", "自裁", "talent name")
 t("#CRIMSON##Target# suffers from %s from #Source#, mitigating the blow!#LAST#.", "#CRIMSON##Target# 承受了来自#Source#的 %s , 降低了伤害!#LAST#.", "logCombat")
 t("%s(%d bled out#LAST#%s)#LAST#", "%s(%d 减免#LAST#%s)#LAST#", "tformat")
-t([[Any direct damage that exceeds %d%% of your maximum life has the excess damage converted to a shallow wound that bleeds over the next %d turns.	 This bleed cannot be resisted or removed, but can be reduced by Bloodstained. Extremely powerful hits (more than %d%% of your max life) are not fully converted.
+t([[Any direct damage that exceeds %d%% of your maximum life has the excess damage converted to a shallow wound that bleeds over the next %d turns. This bleed cannot be resisted or removed, but can be reduced by Bloodstained. Extremely powerful hits (more than %d%% of your max life) are not fully converted.
 
-#{italic}#You can't just die.	 That would be too easy.	You deserve to die slowly.#{normal}#]], [[任何超过你最大生命 %d%% 的伤害中的额外部分会变成一道浅表伤口，在接下来的 %d 回合中造成流血伤害。此流血效果不能被抵抗或去除，但力度可以被血染系技能降低。极其强力的攻击（超过 %d%% 最大生命）无法被完全转化。
+#{italic}#You can't just die. That would be too easy. You deserve to die slowly.#{normal}#]], [[任何超过你最大生命 %d%% 的伤害中的额外部分会变成一道浅表伤口，在接下来的 %d 回合中造成流血伤害。此流血效果不能被抵抗或去除，但强度可以被血染系技能降低。极其强力的攻击（超过 %d%% 最大生命）无法被完全转化。
 
-#{italic}#你不能就这么死了。        这太轻松了。        你就该痛苦而缓慢地死去。#{normal}#]], "tformat")
+#{italic}#你不能就这么死了。这太轻松了。你就该痛苦而缓慢地死去。#{normal}#]], "tformat")
 
 
 ------------------------------------------------
@@ -26679,7 +26685,7 @@ t("Reset up to 3 wild gift, psionic or cursed talents.", "刷新至多 3 个自�
 t("Dagger Block", "匕首格挡", "talent name")
 t([[Raise your dagger into blocking position for one turn, reducing the damage of all physical melee attacks against you by %d. If you block all of an attack's damage, the attacker will be vulnerable to a deadly counterstrike (a normal attack will instead deal 200%% damage) for one turn and be left disarmed for 3 turns.
 		The blocking value will increase with your Dexterity and Cunning.]], [[ 举起你的匕首来格挡攻击一回合，减少所有物理伤害 %d 点。如果你完全格挡了一次攻击的伤害，攻击者将进入致命的被反击状态（对其进行的一次攻击伤害增加到 200%% ）一回合并被缴械三回合。
-		格挡值随敏捷和灵巧增加。]], "tformat")
+		格挡值受敏捷值和灵巧值加成。]], "tformat")
 t("Shieldsmaiden Aura", "女武神之守护", "talent name")
 t("#CRIMSON#%s's shield deflects the blow!", "#CRIMSON#%s的盾牌让攻击发生了偏斜！", "logSeen")
 t("Can block up to 1 hit per 10 turns.", "每 10 回合能自动抵抗一次攻击。", "tformat")
@@ -27445,9 +27451,11 @@ t([[A life of the mind has had predictably good effects on your Willpower and Cu
 section "game/modules/tome/data/talents/psionic/mentalism.lua"
 
 t("Psychometry", "共鸣之心", "talent name")
-t([[Resonate with psionic, nature, and anti-magic powered objects you wear, increasing your physical and mind power by %0.2f or %d%% of the object's material level (whichever is lower).
-		This effect stacks and applies for each qualifying object worn.]], [[与你装备着的灵能、自然和反魔灵能值所制造的物品产生共鸣，增加你 %0.2f 点或 %d%% 物品材质等级数值（取较小值）的物理和精神强度。 
-		此效果可以叠加，并且适用于所有符合条件的已穿戴装备。]], "tformat")
+t([[Resonate with psionic, nature, and anti-magic powered objects you wear, increasing your physical and mind power by %0.1f or %d%% of the object's material level (whichever is lower).
+		This effect stacks and applies for each qualifying object worn.
+		Current bonus: %d]], [[与你装备着的灵能、自然和反魔灵能值所制造的物品产生共鸣，增加你 %0.2f 点或 %d%% 物品材质等级数值（取较小值）的物理和精神强度。 
+		此效果可以叠加，并且适用于所有符合条件的已穿戴装备。
+		当前加成： %d]], "tformat")
 t("Mental Shielding", "精神屏障", "talent name")
 t("%s's mind is clear!", "%s的精神被净化了！", "logSeen")
 t("Clears your mind of current mental effects, and blocks additional ones over 6 turns.  At most, %d mental effects will be affected.", [[净化你当前所有的精神状态，并在接下来的 6 回合内免疫新增的精神状态。最多一共（净化和免疫）能影响 %d 种精神状态。 
@@ -30259,9 +30267,9 @@ t([[You become better at using your armour to deflect blows and protect your vit
 		在等级 3 时，能使你装备板甲。
 		%s]], "tformat")
 t("Light Armour Training", "轻甲训练", "talent name")
-t([[You learn to maintain your agility and manage your combat posture while wearing light armour.  When wearing armour no heavier than leather in your main body slot, you gain %d Defense, %d%% Armour hardiness, and %d%% reduced Fatigue.
+t([[You learn to maintain your agility and manage your combat posture while wearing robes or light armour.  When wearing armour no heavier than leather in your main body slot, you gain %d Defense, %d%% Armour hardiness, and %d%% reduced Fatigue.
 		In addition, when you step adjacent to a (visible) enemy, you use the juxtaposition to increase your total Defense by %d for 2 turns.
-		The Defense bonus scales with your Dexterity.]], [[你学会在身着轻甲时保持敏捷，增加 %d 闪避， %d%% 护甲强度，减少 %d%% 疲劳。
+		The Defense bonus scales with your Dexterity.]], [[你学会在身着轻甲和布甲时保持敏捷。你获得 %d 闪避， %d%% 护甲强度，减少 %d%% 疲劳。
 		此外，每当你进入和（可见的）敌人相邻的位置时，你获得 %d 闪避，持续 2 回合。
 		闪避受敏捷加成。]], "tformat")
 t("Combat Accuracy", "强化命中", "talent name")
@@ -30794,13 +30802,13 @@ t([[Fire an arrow tipped with a smoke bomb inflicting %d%% damage and creating a
 The distraction caused by this effect reduces the cooldown of your Concealment by %d turns. If the cooldown is reduced to 0, you instantly activate Concealment regardless of whether foes are too close.
 The chance for the smoke bomb to affect your targets increases with your Accuracy. This requires a bow to use.]], [[发射一个带着烟雾弹的箭头造成 %d%% 伤害并制造一个半径为 %d 的烟雾. 被困在内的人将减少视野 %d 格 5 回合.
 此效果将减少你隐匿技能 %d 回合冷却时间. 如果冷却时间减到 0, 无论敌人是否太近, 都可立即激活隐匿。该技能需要弓来使用, 
-烟雾弹影响目标的几率随你命中增加.]], "tformat")
+烟雾弹影响目标的几率受命中值加成。该技能需要弓来使用。]], "tformat")
 t("Aim", "瞄准姿态", "talent name")
 t([[Enter a calm, focused stance, increasing physical power and accuracy by %d, projectile speed by %d%% and the chance to mark targets by an additional %d%%.
 This makes your shots more effective at range, increasing all damage dealt by %0.1f%% per tile travelled beyond 3, to a maximum of %0.1f%% damage at range 8.
 The physical power and accuracy increase with your Dexterity. This requires a bow to use.]], [[进入一个平静, 专注的姿态, 增加 %d 物理强度和命中, 抛射物速度增加 %d%% 并且标记目标的几率增加 %d%% 。
-这让你在射程内射击更有效：对三格外目标的距离每增加一格，伤害增加 %0.1f%% , 8 格距离时达到最大值（ %0.1f%% ）。该技能需要弓来使用, 
-物理强度和命中随敏捷增加.]], "tformat")
+这让你在射程内射击更有效：对三格外目标的距离每增加一格，伤害增加 %0.1f%% , 8 格距离时达到最大值（ %0.1f%% ）。
+物理强度和命中受敏捷值加成。该技能需要弓来使用。]], "tformat")
 t([[Take aim for 1 turn, preparing a deadly shot. During the next turn, this talent will be replaced with the ability to fire a lethal shot dealing %d%% damage and marking the target.
 While aiming, your intense focus causes you to shrug off %d%% incoming damage and all negative effects.
 This requires a bow to use.]], [[瞄准 1 回合, 准备射出一发致命的子弹. 下回合, 这个技能被替换成标记目标并造成 %d%% 伤害的致命攻击。
@@ -31305,7 +31313,7 @@ t([[Surround yourself with a malevolent aura that stores damage you deal.
 		#LIGHT_STEEL_BLUE#时空 :#LAST#  整体速度降低 %d%% ，持续 5 回合。
 		#ORANGE#精神 :#LAST#  混乱 (强度 %d%% ) ，持续 5 回合。
 		同种效果最多每 10 回合触发一次。这不是普通的技能冷却。 
-		伤害和效果强度随你的灵巧值增加，伤害阈值随你的等级增加，施加附加效果的强度由你的精神强度和法术强度的最高值决定。
+		伤害和效果强度受灵巧值加成，伤害阈值受等级加成，施加附加效果的强度由你的精神强度和法术强度的最高值决定。
 		%s]], "tformat")
 t("Secrets of Telos", "泰勒斯之秘", "talent name")
 t("Possess Telos Top Half, Telos Bottom Half, and Telos Staff Crystal", "找到泰勒斯法杖的上半部，下半部和宝石。", "_t")
@@ -31346,7 +31354,7 @@ t([[Surround yourself with an elemental aura that stores damage you deal.
 		#LIGHT_GREEN#自然 :#LAST# 清除 1 个魔法负面特效并给予 2 回合魔法负面特效豁免。
 
 		同种效果最多每 10 回合触发一次。这不是普通的技能冷却。
-		伤害和效果强度随你的灵巧值增加，伤害阈值随你的等级增加。
+		伤害和效果强度受灵巧值加成，伤害阈值受等级加成。
 		%s]], "tformat")
 t("All physical criticals reduce the remaining cooldown of a random technique or cunning talent by 2.", "所有的物理暴击减少随机的 1 个冷却中的格斗或灵巧系技能 2 回合冷却时间。", "_t")
 t("All spell criticals reduce the remaining cooldown of a random spell/corruption/celestial/chronomancy talent by 2.", "所有的法术暴击减少随机的 1 个冷却中的法术/ 堕落/ 天空/时空系技能 2 回合冷却时间。", "_t")
@@ -31784,9 +31792,9 @@ t([[The code of the Sun Paladins can be a heavy burden.	 Wouldn't you like to le
 		- #CRIMSON#Bloodstained#LAST#: Make your foes bleed!
 		- #CRIMSON#Darkside#LAST#: Every light casts a shadow, yours is powerful indeed
 		- #CRIMSON#Self-Hatred#LAST#: Manifest your self hatred through bleeding
-		- #CRIMSON#Dirge#LAST#: Sing of death and sorrow to strength your resolve
+		- #CRIMSON#Dirge#LAST#: Sing of death and sorrow to strengthen your resolve
 
-		You will forget the following talent trees: Shield Offense, Two-handed Assault.
+		You will forget the following talent trees, refunding any talent points: Shield Offense, Two-handed Assault.
 		Also the cost of any talents of the Combat Techniques tree will be converted to hate instead of stamina.
 		]], [[太阳骑士的行动守则也是一个重担。你有没有想过将其抛弃？
 		#{italic}##GREY#并投身黑暗？#LAST##{normal}#
@@ -31806,7 +31814,7 @@ t([[The code of the Sun Paladins can be a heavy burden.	 Wouldn't you like to le
 		- #CRIMSON#自我憎恨#LAST#：将你对自己的憎恨化为伤痕和鲜血
 		- #CRIMSON#挽歌#LAST#：对悲伤和死亡的歌颂增强着你的信念
 
-		你将遗忘以下技能树：双手战技和盾牌攻击。
+		你将遗忘以下技能树，并返还所有技能点：双手战技和盾牌攻击。
 		同时你战斗技巧系的所有技能都将消耗仇恨而非体力。
 		]], "tformat")
 
@@ -42319,6 +42327,7 @@ t("<Press 'x' to swap to simple display>", "<按x键切换简单显示>", "_t")
 t("First talent level: ", "第一级需求： ", "_t")
 t("Next talent level", "下一等级", "_t")
 t("Current talent level: ", "当前等级： ", "_t")
+t(" (%+0.1f bonus level)", " (%+0.1f 额外等级)", "tformat")
 t("<Press 'x' to swap to advanced display>", "<按x键切换进阶显示>", "_t")
 t("Stats: %s", "属性: %s", "tformat")
 t("Class points: %s", "职业点：%s", "tformat")
@@ -43388,6 +43397,7 @@ t("Weapon Set 2: Object held in your telekinetic grasp. It can be a weapon or so
 t("Second weapon set: Quiver", "第二套武器：箭袋", "_t")
 t("Weapon Set 2: Your readied ammo.", "第二套武器：你准备好的弹药。", "_t")
 t("List of items that can be instantly used by swift hands.", "可以被无影手使用的物品。", "_t")
+t("Swift Hands", "无影手", "_t")
 t("Strength", "力量", "stat name")
 t("Strength defines your character's ability to apply physical force. It increases your melee damage, damage done with heavy weapons, your chance to resist physical effects, and carrying capacity.", "力量属性影响你的角色的物理能力，提升力量可以提高物理强度，提高使用重型武器造成的伤害，提高物理豁免，同时提高你的负重量。", "_t")
 t("str", "力量", "stat short_name")
