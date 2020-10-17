@@ -2006,13 +2006,14 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# is freed from the impending doom.", _t"-Doomed" end,
 	activate = function(self, eff)
 		eff.healid = self:addTemporaryValue("healing_factor", -0.8)
-		eff.soul_turn = false
+		eff.soul_turn = 0
 	end,
 	on_timeout = function(self, eff)
 		if eff.src.dead or not game.level:hasEntity(eff.src) then return true end
 		DamageType:get(DamageType.FROSTDUSK).projector(eff.src, self.x, self.y, DamageType.FROSTDUSK, eff.dam)
-		eff.soul_turn = not eff.soul_turn
-		if eff.soul_turn then
+		eff.soul_turn = eff.soul_turn + 1
+		if eff.soul_turn >= 3 then
+			eff.soul_turn = 0
 			eff.src:incSoul(1)
 			game.logSeen(self, "#CRIMSON#A piece of the soul of %s is torn apart by Impending Doom!", self:getName())
 		end
@@ -5303,7 +5304,7 @@ newEffect{
 		self:effectTemporaryValue(eff, "cleansing_flames", eff.chance)
 	end,
 	on_timeout = function(self, eff)
-		DamageType:get(DamageType.FIRE).projector(self, self.x, self.y, DamageType.FIRE, eff.power)
+		DamageType:get(DamageType.INFERNO).projector(self, self.x, self.y, DamageType.INFERNO, eff.power)
 	end,
 }
 
@@ -5463,7 +5464,7 @@ newEffect{
 	type = "magical",
 	subtype = { haste=true },
 	status = "beneficial",
-	parameters = { heal=1 },
+	parameters = { power=30 },
 	
 	callbackOnCrit = function(self, eff)
 		if self.turn_procs.fallen_conquest_on_crit then return end
@@ -5479,7 +5480,7 @@ newEffect{
 		if self.turn_procs.fallen_conquest_on_kill then return end
 		self.turn_procs.fallen_conquest_on_kill = true
 		
-		self.energy.value = self.energy.value + 500
+		self.energy.value = self.energy.value + eff.power*10
 		if core.shader.active(4) then
 			self:addParticles(Particles.new("shader_shield_temp", 1, {toback=true , size_factor=1.5, y=-0.3, img="healgreen", life=25}, {type="healing", time_factor=2000, beamsCount=20, noup=2.0, circleDescendSpeed=3.5}))
 			self:addParticles(Particles.new("shader_shield_temp", 1, {toback=false, size_factor=1.5, y=-0.3, img="healgreen", life=25}, {type="healing", time_factor=2000, beamsCount=20, noup=1.0, circleDescendSpeed=3.5}))
@@ -5504,7 +5505,17 @@ newEffect{
 		if not self:hasProc("dirge_shield") then
 			if e_def.status == "detrimental" and e_def.type ~= "other" and eff_incoming.src ~= self then
 				self:setProc("dirge_shield", true, eff.cd)
-				self:setEffect(self.EFF_DAMAGE_SHIELD, eff_incoming.dur, {color={0xff/255, 0x3b/255, 0x3f/255}, power=self:spellCrit(eff.shield)})
+				if self:hasEffect(self.EFF_DAMAGE_SHIELD) then
+					local shield = self:hasEffect(self.EFF_DAMAGE_SHIELD)
+					local shield_power = self:spellCrit(eff.shield)
+					
+					shield.power = shield.power + shield_power
+					self.damage_shield_absorb = self.damage_shield_absorb + shield_power
+					self.damage_shield_absorb_max = self.damage_shield_absorb_max + shield_power
+					shield.dur = math.max(eff_incoming.dur, shield.dur)
+				else
+					self:setEffect(self.EFF_DAMAGE_SHIELD, eff_incoming.dur, {color={0xff/255, 0x3b/255, 0x3f/255}, power=self:spellCrit(eff.shield)})
+				end
 			end
 		end
 	end,
@@ -5564,6 +5575,10 @@ newEffect{
 		eff.counter = 0
 		local damtype = DamageType.BLACK_HOLE_GRAVITY
 		eff.onhit = self:addTemporaryValue("melee_project", {[damtype] = eff.gravity})
+		if core.shader.active() then
+			self:effectParticles(eff, {type="shader_shield", args={toback=true,  size_factor=1, img="devourer_shield"}, shader={type="rotatingshield", noup=2.0, cylinderRotationSpeed=1.7, appearTime=0.2}})
+			self:effectParticles(eff, {type="shader_shield", args={toback=false, size_factor=1, img="devourer_shield"}, shader={type="rotatingshield", noup=1.0, cylinderRotationSpeed=1.7, appearTime=0.2}})
+		end
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("melee_project", eff.onhit)

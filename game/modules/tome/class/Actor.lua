@@ -1975,7 +1975,7 @@ function _M:getCombatStats(type, inven_id, item)
 		aspeed = 1/self:combatSpeed(mean)
 	end
 	if type == "psionic" then self:attr("use_psi_combat", -1) end
-	return {obj=o, atk=atk, dmg=dmg, apr=apr, crit=crit, crit_power=crit_power or 0, aspeed=aspeed, range=range, mspeed=mspeed, archery=archery, mean=mean, ammo=ammo, block=mean.block, talented=mean.talented}
+	return {obj=o, atk=atk, dmg=dmg, apr=apr, crit=crit, crit_power=crit_power or 0, aspeed=aspeed, range=range, mspeed=mspeed, archery=archery, mean=mean, ammo=ammo, block=mean and mean.block, talented=mean and mean.talented}
 end
 -- Gets the full name of the Actor
 function _M:getName()
@@ -5683,12 +5683,11 @@ end
 -- Check the actor can cast it
 -- @param ab the talent (not the id, the table)
 -- @return true to continue, false to stop
-function _M:preUseTalent(ab, silent, fake)
+function _M:preUseTalent(ab, silent, fake, ignore_ressources)
 	if ab._ai_parsed == nil then -- add some AI info to the talent if needed
 		print("[Actor:preUseTalent] PARSING TALENT for AI info", ab.id, self.name)
 		mod.class.interface.ActorAI.aiParseTalent(ab, self)
 	end
-
 	if self.forbid_talents and self.forbid_talents[ab.id] then
 		if not silent then game.logSeen(self, self.forbid_talents[ab.id] or "%s can not use %s.", self:getName():capitalize(), ab.name) end
 		return false
@@ -5778,7 +5777,7 @@ function _M:preUseTalent(ab, silent, fake)
 	end
 
 	-- check resource costs (sustains can always be deactivated at no cost)
-	if not self:attr("force_talent_ignore_ressources") and not self:isTalentActive(ab.id) and (not self.talent_no_resources or not self.talent_no_resources[ab.id]) then
+	if not ignore_ressources and not self:attr("force_talent_ignore_ressources") and not self:isTalentActive(ab.id) and (not self.talent_no_resources or not self.talent_no_resources[ab.id]) then
 		local rname, cost, rmin, rmax
 		-- check for sustained resources
 		self.on_preuse_checking_resources = true
