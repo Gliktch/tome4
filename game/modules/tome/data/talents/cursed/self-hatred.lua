@@ -19,7 +19,7 @@
 
 newTalent{
 	name = "Self-Sacrifice", short_name = "SELF_SACRIFICE",
-	type = {"cursed/self-hatred", 1},
+	type = {"cursed/hatred", 1},
 	require = cursed_wil_req1,
 	points = 5,
 	no_energy = true,
@@ -64,7 +64,7 @@ You can activate this talent to use your own life for power, bleeding yourself f
 
 newTalent{
 	name = "Self-Loathing", short_name = "SELF_LOATHING",
-	type = {"cursed/self-hatred", 2},
+	type = {"cursed/hatred", 2},
 	require = cursed_wil_req2,
 	points = 5,
 	mode = "passive",
@@ -87,7 +87,7 @@ newTalent{
 
 newTalent{
 	name = "Self-Destruction", short_name = "SELF_DESTRUCTION",
-	type = {"cursed/self-hatred", 3},
+	type = {"cursed/hatred", 3},
 	require = cursed_wil_req3,
 	points = 5,
 	no_energy = true,
@@ -154,7 +154,7 @@ This strength comes at a cost: you lose %d%% of your maximum life every turn.  T
 
 newTalent{
 	name = "Self-Judgement", short_name = "SELF_JUDGEMENT",
-	type = {"cursed/self-hatred", 4},
+	type = {"cursed/hatred", 4},
 	require = cursed_wil_req4,
 	points = 5,
 	mode = "passive",

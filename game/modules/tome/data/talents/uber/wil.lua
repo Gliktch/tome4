@@ -395,7 +395,7 @@ uberTalent{
 		You will learn the following talents trees:
 		- #CRIMSON#Bloodstained#LAST#: Make your foes bleed!
 		- #CRIMSON#Darkside#LAST#: Every light casts a shadow, yours is powerful indeed
-		- #CRIMSON#Self-Hatred#LAST#: Manifest your self hatred through bleeding
+		- #CRIMSON#Hatred#LAST#: Manifest your hatred through bleeding
 		- #CRIMSON#Dirge#LAST#: Sing of death and sorrow to strengthen your resolve
 
 		You will forget the following talent trees, refunding any talent points: Shield Offense, Two-handed Assault.
