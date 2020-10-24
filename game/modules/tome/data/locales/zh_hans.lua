@@ -31772,7 +31772,7 @@ t([[Transcend the physical and rule over all with an iron will!
 		Additionally, you gain +30%% mind resistance penetration, and +10%% mind damage.]], [[用钢铁般的意志驱使整个身体。 
 		当此技能激活时，你 33%% 的伤害会转化为精神伤害。 
 		此外，你获得 30%% 精神抵抗穿透并增加 10%% 精神伤害。]], "tformat")
-t("Unlocked the Fallen evolution", "解锁堕落者进化", "_t")
+t("Unlocked the Fallen evolution", "解锁堕落者进阶", "_t")
 t("Committed a heinous act", "干出一件恶行", "_t")
 t("Fallen", "堕落者", "_t")
 t("#CRIMSON#You give in to the darkness. You have fallen!", "#CRIMSON#你投身于黑暗。你堕落了！", "say")
@@ -31799,7 +31799,7 @@ t([[The code of the Sun Paladins can be a heavy burden.	 Wouldn't you like to le
 		]], [[太阳骑士的行动守则也是一个重担。你有没有想过将其抛弃？
 		#{italic}##GREY#并投身黑暗？#LAST##{normal}#
 
-		#CRIMSON#此进化会完全颠覆你的职业并大幅度改变你的人物。不要轻易选择。#LAST#
+		#CRIMSON#此进阶会完全颠覆你的职业并大幅度改变你的人物。不要轻易选择。#LAST#
 
 		你所知的所有攻击性格斗系或可解锁的天空系技能树都会被替换为诅咒的版本，使你能够一边散发着黑暗的光辉一边在敌军中杀出一条血路，并且获得新的战斗风格和防御能力。
 
@@ -34500,7 +34500,7 @@ Class evolutions are selected as prodigies and grant new ways to build and expan
 
 作为太阳骑士你遵守着行动准则。但在经历了世上的各种黑暗之后，你开始怀疑。
 
-你为太阳骑士解锁了#LIGHT_GREEN#堕落者职业进化#WHITE#。
+你为太阳骑士解锁了#LIGHT_GREEN#堕落者职业进阶#WHITE#。
 
 新的力量#YELLOW#
 - 血染：让敌人流血！
@@ -42588,8 +42588,9 @@ All of them require at least 50 in a core stat and many also have more special d
 你可以在人物等级达到25级和42级时各获得一个觉醒技能点。]], "_t")
 t("\
 Evolutions are special prodigies specific to a class or race. Only one evolution can be choosen, if any are available at all.", "\
-进化是特殊的觉醒技，只有特定职业种族才能学习。即使有多项进化可能，每名角色最多只能选择一项进化。", "_t")
-
+进阶是特殊的觉醒技，只有特定职业种族才能学习。即使有多项进阶可能，每名角色最多只能选择一项进阶。", "_t")
+t("#{bold}##GOLD#Prodigies#{normal}#", "#{bold}##GOLD#觉醒#{normal}#", "_t")
+t("#{bold}##LIGHT_STEEL_BLUE#Evolutions#{normal}#", "#{bold}##GOLD#进阶#{normal}#", "_t")
 
 ------------------------------------------------
 section "game/modules/tome/dialogs/UnlockDialog.lua"
