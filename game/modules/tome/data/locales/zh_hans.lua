@@ -8369,9 +8369,9 @@ It moves swiftly toward you, casting terrible spells and swinging its weapons at
 t("champion of Urh'Rok", "乌鲁洛克的精英卫兵", "entity name")
 t("One of Urh'Rok's own champions. A thousand nightmares made flesh and screaming steel tower before you in the form of a massive, armored humanoid.", "乌鲁洛克精英卫队的一员。千年的梦魇使血肉和被诅咒的钢铁融合为一只钢铁怪物站在你面前。", "_t")
 t("forge-giant", "锻造巨人", "entity name")
-t("A burning giant wielding a forge hammer of the underworld in each hand -- weapons imbued by Urh'Rok himself with the power to crush and shape felsteel. Enter their range at your peril.", "锻造巨人的每只手都有一柄地底锻造大锤——被乌鲁洛克加持以锻造魔钢的大锤。进入他们的领地是极度危险的事情。", "_t")
+t("A burning giant wielding a forge hammer of the underworld in each hand -- weapons imbued by Urh'Rok himself with the power to crush and shape felsteel. Enter their range at your peril.", "锻造巨人的每只手都有一柄地底锻造巨锤——被乌鲁洛克加持以锻造魔钢的巨锤。进入他们的领地是极度危险的事情。", "_t")
 t("Khulmanar, General of Urh'Rok", "库马纳·乌鲁洛克之近卫将军", "entity name")
-t("This massive form, sheathed in dark flames, stands tall above a legion of lesser demons. In his hands he holds a massive blackened battleaxe, flames dancing around the blades.", "这个庞大的躯体笼罩在黑暗之炎中，他在一群小恶魔中显得鹤立鸡群。在他手里握着一柄沉重的战斧，火焰在刀锋处舞动。", "_t")
+t("This massive form, sheathed in dark flames, stands tall above a legion of lesser demons. In his hands he holds a massive blackened battleaxe, flames dancing around the blades.", "这个庞大的躯体笼罩在黑暗之炎中，他在一群小恶魔中显得鹤立鸡群。在他手里握着一柄沉重的双手斧，火焰在刀锋处舞动。", "_t")
 
 
 ------------------------------------------------
@@ -8398,7 +8398,7 @@ t("giant", "巨人", "entity type")
 t("minotaur", "米诺陶", "entity name")
 t("It is a cross between a human and a bull.", "它拥有人类和牛的特征。", "_t")
 t("maulotaur", "玛诺陶", "entity name")
-t("A belligerent minotaur with a destructive magical arsenal, and armed with a hammer.", "好战的米诺陶，装备有一柄大锤且拥有强力的魔法。", "_t")
+t("A belligerent minotaur with a destructive magical arsenal, and armed with a hammer.", "好战的米诺陶，装备有一柄巨锤且拥有强力的魔法。", "_t")
 
 
 ------------------------------------------------
@@ -8574,7 +8574,7 @@ t("orc master assassin", "兽人刺客大师", "entity name")
 t("orc grand master assassin", "高阶兽人刺客大师", "entity name")
 t("An orc trained in the secret ways of assassination, stealthy and deadly.", "一个掌握刺杀和潜行的兽人刺客。", "_t")
 t("Kra'Tor the Gluttonous", "贪吃的克拉塔", "entity name")
-t("A morbidly obese orc with greasy pockmarked skin and oily long black hair.  He's clad in plate mail and carries a huge granite battleaxe that's nearly as large as he is.", "一只肥胖过度的兽人，他有一头油腻的黑色长发，皮肤油腻且长满了痘痘。他身穿板甲，手握一个几乎和他一样大的车轮战斧。", "_t")
+t("A morbidly obese orc with greasy pockmarked skin and oily long black hair.  He's clad in plate mail and carries a huge granite battleaxe that's nearly as large as he is.", "一只肥胖过度的兽人，他有一头油腻的黑色长发，皮肤油腻且长满了痘痘。他身穿板甲，手握一个几乎和他一样大的花岗岩双手斧。", "_t")
 
 
 ------------------------------------------------
@@ -9023,39 +9023,39 @@ t("A Ziguranth wilder, attuned to nature.", "一位能沟通自然的伊格兰�
 ------------------------------------------------
 section "game/modules/tome/data/general/objects/2haxes.lua"
 
-t("battleaxe", "战斧", "entity subtype")
+t("battleaxe", "双手斧", "entity subtype")
 t("weapon", "武器", "entity type")
 t("axe", "斧", "entity combat talented")
-t("Massive two-handed battleaxes.", "沉重的双手战斧。", "_t")
+t("Massive two-handed battleaxes.", "沉重的双手斧。", "_t")
 t("iron", "铁", "entity short_name")
-t("iron battleaxe", "铁质战斧", "entity name")
+t("iron battleaxe", "铁质双手斧", "entity name")
 t("steel", "钢", "entity short_name")
-t("steel battleaxe", "钢化战斧", "entity name")
+t("steel battleaxe", "钢化双手斧", "entity name")
 t("d.steel", "精钢", "entity short_name")
-t("dwarven-steel battleaxe", "矮人钢战斧", "entity name")
+t("dwarven-steel battleaxe", "矮人钢双手斧", "entity name")
 t("stralite", "蓝锆石", "entity short_name")
-t("stralite battleaxe", "蓝皓石战斧", "entity name")
+t("stralite battleaxe", "蓝皓石双手斧", "entity name")
 t("voratun", "沃瑞钽", "entity short_name")
-t("voratun battleaxe", "沃瑞钽战斧", "entity name")
+t("voratun battleaxe", "沃瑞钽双手斧", "entity name")
 
 
 ------------------------------------------------
 section "game/modules/tome/data/general/objects/2hmaces.lua"
 
-t("greatmaul", "巨槌", "entity subtype")
+t("greatmaul", "巨锤", "entity subtype")
 t("weapon", "武器", "entity type")
 t("mace", "锤子", "entity combat talented")
-t("Massive two-handed mauls.", "沉重的双手大锤。", "_t")
+t("Massive two-handed mauls.", "沉重的双手巨锤。", "_t")
 t("iron", "铁", "entity short_name")
-t("iron greatmaul", "铁质大锤", "entity name")
+t("iron greatmaul", "铁质巨锤", "entity name")
 t("steel", "钢", "entity short_name")
-t("steel greatmaul", "钢化大锤", "entity name")
+t("steel greatmaul", "钢化巨锤", "entity name")
 t("d.steel", "精钢", "entity short_name")
-t("dwarven-steel greatmaul", "矮人钢大锤", "entity name")
+t("dwarven-steel greatmaul", "矮人钢巨锤", "entity name")
 t("stralite", "蓝锆石", "entity short_name")
-t("stralite greatmaul", "蓝皓石大锤", "entity name")
+t("stralite greatmaul", "蓝皓石巨锤", "entity name")
 t("voratun", "沃瑞钽", "entity short_name")
-t("voratun greatmaul", "沃瑞钽大锤", "entity name")
+t("voratun greatmaul", "沃瑞钽巨锤", "entity name")
 
 
 ------------------------------------------------
@@ -9064,17 +9064,17 @@ section "game/modules/tome/data/general/objects/2hswords.lua"
 t("greatsword", "大剑", "entity subtype")
 t("weapon", "武器", "entity type")
 t("sword", "剑", "entity combat talented")
-t("Massive two-handed swords.", "沉重的双手巨剑。", "_t")
+t("Massive two-handed swords.", "沉重的双手大剑。", "_t")
 t("iron", "铁", "entity short_name")
-t("iron greatsword", "铁质巨剑", "entity name")
+t("iron greatsword", "铁质大剑", "entity name")
 t("steel", "钢", "entity short_name")
-t("steel greatsword", "钢化巨剑", "entity name")
+t("steel greatsword", "钢化大剑", "entity name")
 t("d.steel", "精钢", "entity short_name")
-t("dwarven-steel greatsword", "矮人钢巨剑", "entity name")
+t("dwarven-steel greatsword", "矮人钢大剑", "entity name")
 t("stralite", "蓝锆石", "entity short_name")
-t("stralite greatsword", "蓝皓石巨剑", "entity name")
+t("stralite greatsword", "蓝皓石大剑", "entity name")
 t("voratun", "沃瑞钽", "entity short_name")
-t("voratun greatsword", "沃瑞钽巨剑", "entity name")
+t("voratun greatsword", "沃瑞钽大剑", "entity name")
 
 
 ------------------------------------------------
@@ -9099,7 +9099,7 @@ t("orichalcum trident", "奥利哈刚三叉戟", "entity name")
 ------------------------------------------------
 section "game/modules/tome/data/general/objects/axes.lua"
 
-t("waraxe", "巨斧", "entity subtype")
+t("waraxe", "战斧", "entity subtype")
 t("weapon", "武器", "entity type")
 t("axe", "斧", "entity combat talented")
 t("One-handed war axes.", "单手战斧。", "_t")
@@ -9141,8 +9141,8 @@ t("Crown of the Elements", "元素王冠", "entity name")
 t("jeweled crown", "镶嵌宝石的王冠", "_t")
 t("This jeweled crown shimmers with colors.", "这顶镶嵌宝石的王冠闪闪发光。", "_t")
 t("Warmaster Gnarg's Murderblade", "战争之王格纳哥的饮血剑", "entity name")
-t("blood-etched greatsword", "血迹斑斑的巨剑", "_t")
-t("A blood-etched greatsword, it has seen many foes. From the inside.", "一把血迹斑斑的巨剑，它洞穿了许多敌人。", "_t")
+t("blood-etched greatsword", "血迹斑斑的大剑", "_t")
+t("A blood-etched greatsword, it has seen many foes. From the inside.", "一把血迹斑斑的大剑，它洞穿了许多敌人。", "_t")
 t("10% chance to send the wielder into a killing frenzy", "10% 几率使持有者进入疯狂杀戮状态", "_t")
 t("fiery whip", "炽热的鞭子", "_t")
 t("Whip of Urh'Rok", "乌鲁洛克之鞭", "entity name")
@@ -9366,8 +9366,8 @@ t("bloodied fang", "血痕覆盖的尖牙", "_t")
 t("Rungof's Fang", "郎格夫之牙", "entity name")
 t("A fang from the great warg, Rungof, still covered in blood.", "巨型座狼郎格夫之牙，上面仍被血痕覆盖。", "_t")
 t("Khulmanar's Wrath", "库马纳的怒火", "entity name")
-t("firey blackened battleaxe", "燃烧的黑色战斧", "_t")
-t("Blackened with soot and covered in spikes, this battleaxe roars with the flames of the Fearscape. Given by Urh'Rok himself to his general, this powerful weapon can burn even the most resilient of foes.", "黑色的浓烟缠绕在这把战斧上，恶魔空间的烈焰在其身上咆哮。这把战斧由乌鲁洛克授予他最强大的指挥官，它可以焚尽一切，包括最强大的敌人。", "_t")
+t("firey blackened battleaxe", "燃烧的黑色双手斧", "_t")
+t("Blackened with soot and covered in spikes, this battleaxe roars with the flames of the Fearscape. Given by Urh'Rok himself to his general, this powerful weapon can burn even the most resilient of foes.", "黑色的浓烟缠绕在这把双手斧上，恶魔空间的烈焰在其身上咆哮。这把战斧由乌鲁洛克授予他最强大的指挥官，它可以焚尽一切，包括最强大的敌人。", "_t")
 t("Bladed Rift", "次元裂隙", "entity name")
 t("hole in space", "空间中的裂隙", "_t")
 t("Upon defeat, Ak'Gishil collapsed into this tiny rift. How it remains stable, you are unsure. If you focus, you think you can call forth a sword from it.", "在击败阿克·吉希尔后，它留下了这个小巧的裂隙。你无从知道，它是如何保持这样的稳定状态。冥冥中你感受到，你能从这个裂隙中召唤出一把剑。", "_t")
@@ -9379,8 +9379,8 @@ t("Rune of Reflection", "反射符文", "entity name")
 t("You can see your own image mirrored in the surface of this silvery rune.", "你可以在这块银色的符文表面看到自己的倒影。", "_t")
 t("shiny rune", "闪光的符文", "_t")
 t("The Gaping Maw", "贪婪之胃", "entity name")
-t("huge granite battleaxe", "巨大的冰冷战斧", "_t")
-t("This huge granite battleaxe is as much mace as it is axe.  The shaft is made of blackened wood tightly bound in drakeskin leather and the sharpened granite head glistens with a viscous green fluid.", "这柄战斧看起来更像狼牙棒，它的手柄是由黑木制成并包裹着一层蜉蝣皮，它的刃锋处闪耀着粘稠的绿色液体。", "_t")
+t("huge granite battleaxe", "巨大的冰冷双手斧", "_t")
+t("This huge granite battleaxe is as much mace as it is axe.  The shaft is made of blackened wood tightly bound in drakeskin leather and the sharpened granite head glistens with a viscous green fluid.", "这柄双手斧看起来更像狼牙棒，它的手柄是由黑木制成并包裹着一层蜉蝣皮，它的刃锋处闪耀着粘稠的绿色液体。", "_t")
 t("deal manaburn damage equal to your mindpower in a radius 3 cone", "在半径3的锥形范围内造成相当于精神强度的法力燃烧伤害", "_t")
 t("#DARK_GREEN#You feel like Nature's Wrath incarnate!", "#DARK_GREEN#你感受到了自然的怒火！", "logPlayer")
 
@@ -12771,8 +12771,8 @@ t("strike all targets in a line (for 100%% weapon damage as mind) out to range 4
 造成相当于100%%武器伤害的精神伤害。]], "_t")
 t("#Source# manifests a psychic assult with %s %s!", "#Source#使用%s%s发动心灵攻击!", "logCombat")
 t("Latafayn", "焱剑·拉塔法", "entity name")
-t("flame covered greatsword", "附着火焰的巨剑", "_t")
-t("This massive, flame-coated greatsword was stolen by the adventurer Kestin Highfin, during the Age of Dusk. It originally belonged to a demon named Frond'Ral the Red.  It roars with vile flames and its very existence seems to be a blight upon the lands.", "这只沉重的、火焰覆盖的巨剑，是黄昏纪中，英雄科斯汀·赫菲因偷来。这把剑曾经属于一个强大的恶魔，赤红之弗朗拉尔。它炽热的火焰怒吼着，仿佛可以焚烧万物。", "_t")
+t("flame covered greatsword", "附着火焰的大剑", "_t")
+t("This massive, flame-coated greatsword was stolen by the adventurer Kestin Highfin, during the Age of Dusk. It originally belonged to a demon named Frond'Ral the Red.  It roars with vile flames and its very existence seems to be a blight upon the lands.", "这只沉重的、火焰覆盖的大剑，是黄昏纪中，英雄科斯汀·赫菲因偷来。这把剑曾经属于一个强大的恶魔，赤红之弗朗拉尔。它炽热的火焰怒吼着，仿佛可以焚烧万物。", "_t")
 t("accelerate burning effects on all creatures in a radius %d ball within range %d, consuming them to instantly inflict 125%% of all remaining burn damage", "加速半径 %d 范围内的所有燃烧效果，范围 %d, 立刻造成 125%% 剩余燃烧伤害。", "tformat")
 t("%s's %s lashes out in a flaming arc, intensifying the burning of %s enemies!", "%s的%s划出一条烈焰的弧线，加速了%s个敌人身上的燃烧!", "logSeen")
 t("Robe of Force", "灵能长袍", "entity name")
@@ -13010,9 +13010,9 @@ t("This ornate blade is carved from the wood of a tree said to burn eternally. I
 t("dark, radiant staff", "幽暗而闪光的法杖", "_t")
 t("Eclipse", "日食", "entity name")
 t("This tall staff is tipped with a pitch black sphere that yet seems to give off a strong light.", "这根法杖前部镶嵌有黑色的倾斜球体，似乎正发出强光。", "_t")
-t("gore stained battleaxe", "血迹斑斑的战斧", "_t")
+t("gore stained battleaxe", "血迹斑斑的双手斧", "_t")
 t("Eksatin's Ultimatum", "阿克萨丁的最后通牒", "entity name")
-t("This gore-stained battleaxe was once used by an infamously sadistic king, who took the time to personally perform each and every execution he ordered. He kept a vault of every head he ever removed, each and every one of them carefully preserved. When he was overthrown, his own head was added as the centrepiece of the vault, which was maintained as a testament to his cruelty.", "这把被血液浸满的战斧曾被一位不知名的虐待成性的国王使用，他用这把斧头亲自执行了不少死刑。国王有一个房间专门用来收藏他杀死的人的头骨，每一个都完好的保存者。当国王被推翻时，他自己的头颅也进入了这间房子，作为他暴行的证据而保存。", "_t")
+t("This gore-stained battleaxe was once used by an infamously sadistic king, who took the time to personally perform each and every execution he ordered. He kept a vault of every head he ever removed, each and every one of them carefully preserved. When he was overthrown, his own head was added as the centrepiece of the vault, which was maintained as a testament to his cruelty.", "这把被血液浸满的双手斧曾被一位不知名的虐待成性的国王使用，他用这把斧头亲自执行了不少死刑。国王有一个房间专门用来收藏他杀死的人的头骨，每一个都完好的保存者。当国王被推翻时，他自己的头颅也进入了这间房子，作为他暴行的证据而保存。", "_t")
 t("decapitate a weakened target", "将虚弱的敌人斩首", "_t")
 t("#RED#%s#GOLD# has been decapitated!#LAST#", "#RED#%s#GOLD#被斩首了！#LAST#", "logSeen")
 t("Radiance", "光辉", "entity name")
@@ -15978,7 +15978,7 @@ You should not enter it.]], [[这里有一段提示：
 t("The Hunter and the Hunted chapter 1", "猎人与猎物　第一章", "_t")
 t([[Branzir was the mightiest of the Sher'Tul hunters, and his fame was known at every Farportal. He could run for days without rest, cross terrain no others would dare to pass, and had senses more keen than all the wildest animals of Eyal. It was for this reason that Caldizar came to him at his forest keep and beseeched him to join in the Godhunt. At first Branzir refused, for he said he was not one to meddle in such mighty affairs, and he wanted but peace to hunt and fend for his family. But Caldizar convinced him that this life of peace was not possible whilst the schemes and machinations of the gods continued. And so reluctantly Branzir accepted, and took in his hands the great sword Madrath, and upon his shoulders was laid the title "Godslayer".
 
-In the great Godhunt that followed Branzir became the most fervent of the Godslayers, and would not sleep nor rest whilst a hunt was on. He it was that chased the troll-spawner Ugg'matho through the snow-capped mountains of Pertolias and broke his body on the highest peak. He it was that tracked the blight-weaver Xadoch through the howling vales of Anvion and trapped him and throttled him and cut him into seven pieces to be cast into the Glonglum lake. And he it was that was tasked with finding and killing Ralkur the Deceptor, god of charms and illusions, who had taken hiding amongst the lesser races.]], [[布兰伊尔是最强大的夏·图尔猎人，每扇传送门都知道他的名声。他可以连日奔行，穿越无人敢涉足的地域，感官比埃亚尔最狂野的动物更加敏锐。因此凯尔帝勒来到布兰伊尔的丛林要塞，恳请他加入弑神会。布兰伊尔起初拒绝了这个提议，他说自己并不想参与这种远大的事业，他所需要的只是宁静的狩猎以及守护自己的家人。但凯尔帝勒说服了布兰伊尔，让他明白只要众神的阴谋和计划还在继续，这种宁静的生活就无法实现。当布兰伊尔勉强接受，并接过巨剑玛卓斯时，“弑神者”的称号就落在了他的肩头。
+In the great Godhunt that followed Branzir became the most fervent of the Godslayers, and would not sleep nor rest whilst a hunt was on. He it was that chased the troll-spawner Ugg'matho through the snow-capped mountains of Pertolias and broke his body on the highest peak. He it was that tracked the blight-weaver Xadoch through the howling vales of Anvion and trapped him and throttled him and cut him into seven pieces to be cast into the Glonglum lake. And he it was that was tasked with finding and killing Ralkur the Deceptor, god of charms and illusions, who had taken hiding amongst the lesser races.]], [[布兰伊尔是最强大的夏·图尔猎人，每扇传送门都知道他的名声。他可以连日奔行，穿越无人敢涉足的地域，感官比埃亚尔最狂野的动物更加敏锐。因此凯尔帝勒来到布兰伊尔的丛林要塞，恳请他加入弑神会。布兰伊尔起初拒绝了这个提议，他说自己并不想参与这种远大的事业，他所需要的只是宁静的狩猎以及守护自己的家人。但凯尔帝勒说服了布兰伊尔，让他明白只要众神的阴谋和计划还在继续，这种宁静的生活就无法实现。当布兰伊尔勉强接受，并接过大剑玛卓斯时，“弑神者”的称号就落在了他的肩头。
 
 在随后伟大的猎神时期，布兰伊尔在狩猎结束前总是不眠不休，他成为了最热门的弑神者。布兰伊尔突破体能的极限，穿越普塔利亚斯雪山，追杀了巨魔繁衍者厄格莫斯。布兰伊尔穿过安维恩的尖啸山谷，跟踪并困住枯萎编织者亚多契，随后将之撕裂成七块投入了古龙伦湖。布兰伊尔还找出了喜欢藏身于弱小族群中的幻想和欺诈之神瑞尔克。]], "_t")
 t("The Hunter and the Hunted chapter 2", "猎人与猎物　第二章", "_t")
@@ -15986,9 +15986,9 @@ t([[Thus began the greatest hunt there ever was. Branzir used forceful coercion 
 
 Finally they came to the far shore of Tar'Eyal, and Ralkur fell onto the sandy beach bereft of strength. Depleted of all energy he reverted to his natural form, short and squat, and stumbled across the sand before falling down exhausted. Branzir arose from the water behind, and in spite of his trials he stood tall and fierce, and marched with purpose towards the cowering god. He drew out the fell blade Madrath from its sheath and held it to the throat of his prey.
 
-But Ralkur, in a last desperate effort, took on a pathetic and piteous form, and wailing and crying he begged Branzir for mercy, promising to leave all Eyal and never return. And Branzir, looking on the divine form sunk to such depths, was moved in his heart, and agreed. But he said in a solemn tone, "Get thee then from this world, which we mortals now claim for our own. Remove thyself from all influence in Eyal, and never dare thee to return. But if thou doest break my trust, let thee be afeared. For then not a breath shalt thou take that it will not be a gasp, and not a step shalt thou take that it will not be in flight, and each beat of thy traitorous heart shalt be a pounding of terror. For I shalt come for thee and I shalt find thee and even to the depths of Infinity I shalt hunt thee without rest till my hands are on thy throat and thy life is crushed to dust." And when he spake the wind fell silent and the sky turned black, for when a Sher'Tul speaks so his words become Words of Power, and they can change the world forever. And Ralkur hearing those words was filled with a dread beyond conception, and forgetting all exhaustion he immediately took the form of a swallow and flew high into the sky beyond all sight.]], [[史上最伟大的狩猎就这样开始了，布兰伊尔通过武力和鲜血逼迫他的敌人从暗处现身。他跟踪瑞尔克，发现他变换形态藏身于少数民族的原始聚居地。布兰伊尔手持着巨剑玛卓斯，将瑞尔克连根揪出。在猎人的愤怒和他手中可怕的巨剑前，瑞尔克变成一只羚羊穿过哈流平原逃遁。布兰伊尔连夜追赶。在瑞尔克赶到达明树林时赶上了他。瑞尔克又变成猴子和树木，但布兰伊尔仍紧紧跟着，识破瑞尔克布下的重重迷阵。当他们越过森林来到爱亚海岸，瑞尔克变成海鸥飞跃翻腾的海水。布兰伊尔毫不犹豫的直接跃入海中，依靠自己的力量继续追击这个懦弱的神灵。二十日后，布兰伊尔游过了大洋，仅仅依靠身边海面上的游鱼充饥，而瑞尔克变成的海鸥，却被海风折断了翅膀。虽然布兰伊尔不只一次跟丢了他的目标，但是随着时间的推移瑞尔克的心灵渐渐地被恐惧所占据。
+But Ralkur, in a last desperate effort, took on a pathetic and piteous form, and wailing and crying he begged Branzir for mercy, promising to leave all Eyal and never return. And Branzir, looking on the divine form sunk to such depths, was moved in his heart, and agreed. But he said in a solemn tone, "Get thee then from this world, which we mortals now claim for our own. Remove thyself from all influence in Eyal, and never dare thee to return. But if thou doest break my trust, let thee be afeared. For then not a breath shalt thou take that it will not be a gasp, and not a step shalt thou take that it will not be in flight, and each beat of thy traitorous heart shalt be a pounding of terror. For I shalt come for thee and I shalt find thee and even to the depths of Infinity I shalt hunt thee without rest till my hands are on thy throat and thy life is crushed to dust." And when he spake the wind fell silent and the sky turned black, for when a Sher'Tul speaks so his words become Words of Power, and they can change the world forever. And Ralkur hearing those words was filled with a dread beyond conception, and forgetting all exhaustion he immediately took the form of a swallow and flew high into the sky beyond all sight.]], [[史上最伟大的狩猎就这样开始了，布兰伊尔通过武力和鲜血逼迫他的敌人从暗处现身。他跟踪瑞尔克，发现他变换形态藏身于少数民族的原始聚居地。布兰伊尔手持着大剑玛卓斯，将瑞尔克连根揪出。在猎人的愤怒和他手中可怕的大剑前，瑞尔克变成一只羚羊穿过哈流平原逃遁。布兰伊尔连夜追赶。在瑞尔克赶到达明树林时赶上了他。瑞尔克又变成猴子和树木，但布兰伊尔仍紧紧跟着，识破瑞尔克布下的重重迷阵。当他们越过森林来到爱亚海岸，瑞尔克变成海鸥飞跃翻腾的海水。布兰伊尔毫不犹豫的直接跃入海中，依靠自己的力量继续追击这个懦弱的神灵。二十日后，布兰伊尔游过了大洋，仅仅依靠身边海面上的游鱼充饥，而瑞尔克变成的海鸥，却被海风折断了翅膀。虽然布兰伊尔不只一次跟丢了他的目标，但是随着时间的推移瑞尔克的心灵渐渐地被恐惧所占据。
 
-最后，他们来到了塔·埃亚尔的远岸，瑞尔克已经精疲力尽，耗光了所有的力量，他变回原型，翻滚着跌落在沙滩里。布兰伊尔从他身后的水中现身，旅途中积蓄的杀意让布兰伊尔的身形显得更加高大和无法匹敌，这个胆小的神灵只能面对逃亡的终结。布兰伊尔从刀鞘中抽出巨剑玛卓斯，抵在了猎物的喉咙上。
+最后，他们来到了塔·埃亚尔的远岸，瑞尔克已经精疲力尽，耗光了所有的力量，他变回原型，翻滚着跌落在沙滩里。布兰伊尔从他身后的水中现身，旅途中积蓄的杀意让布兰伊尔的身形显得更加高大和无法匹敌，这个胆小的神灵只能面对逃亡的终结。布兰伊尔从刀鞘中抽出大剑玛卓斯，抵在了猎物的喉咙上。
 
 瑞尔克在最后的绝望中可怜的挣扎，他哭嚎着哀求布兰伊尔的怜悯，承诺永远的离开埃亚尔。布兰伊尔注视着远处的落日，心中涌起一丝感触，他同意了瑞尔克的乞求。布兰伊尔用庄严的语气宣誓：“应所有凡人的意愿，你，瑞尔克必须从这个世界上消失！你必须抹除你对埃亚尔世界造成的一切影响，并永远不许回头！如果你忘记了对我的敬畏，背弃了我的信任，你将再也不敢大口喘气，不使用飞行术的话连一步也不敢迈出，你充满背叛的心脏每一次跳动都将被恐惧所占据！那时我必将找到你，追杀你至无尽的深渊，直至我的双手卡住你的喉咙，你的生命化为尘土前，永不停息！”他说出这番话时，海风陷入了沉默，天空变成了黑色，当一个夏·图尔庄严宣誓的时候，他的誓言将化为真理永远的改变这个世界的法则。瑞尔克听到这些话时，恐惧已经超出了他的极限，瑞尔克忘记了所有的疲惫，变成燕子飞窜而去，逃入云霄，消失在视线之外。]], "_t")
 t("The Hunter and the Hunted chapter 3", "猎人与猎物　第三章", "_t")
@@ -16013,7 +16013,7 @@ t("infinite dungeon", "无尽地下城", "newLore category")
 t("The Hunter and the Hunted chapter 5", "猎人与猎物　第五章", "_t")
 t([[So Branzir set out alone, with Madrath in his sheath. It did not take long to find his prey, who had now stopped all attempts at hiding. He came upon the god in a settlement of lesser creatures who worshipped him, and he ruthlessly cut down the pathetic wretches that tried to protect their new deity. Ralkur fled at the sight of Branzir and his dark blade, filled with all-encompassing fright. But Branzir was not to be lost, and chased him into some nearby ruins. There Ralkur laid traps and summoned enemies and fled deeper into the darkness. But Branzir overcame them all and came on faster, till they reached the depths of the dungeons. And being out of space the god created new space and fled further, and kept on fleeing. And Branzir carried on chasing, not letting up for a second as the pursued god continued to delve deeper into the ground.
 
-And so the chase continues. Over centuries beyond count Branzir has never stopped to rest or sleep as he pursues his prey through the ravages of infinity. And though death would be a welcome reprieve he thinks only of the hunt and of vanquishing the cowardly god. Ralkur continues to run, and he does not take a breath that it is not a gasp, and he does not take a step that it is not in flight, and every beat of his traitorous heart is a pounding of terror as he flees deeper and deeper till the ends of time.]], [[最后，布兰伊尔独自动身，只有巨剑玛卓斯躺在剑鞘内静静的伴随着他。找到凶手并没有耗费布兰伊尔多长时间，瑞尔克已经不再试图躲藏，他找到一些野蛮民族，并充当起他们的神灵，他残忍的统治和剥削着这些试图保护新神灵的可怜人。在弑神者布兰伊尔的愤怒和他的暗刃玛卓斯面前，瑞尔克溜走了，带着满脸的惊恐。布兰伊尔毫不迟疑的追击瑞尔克，直至附近的遗迹。瑞尔克设置陷阱，召唤怪物，逃入更深的黑暗之处，但布兰伊尔克服了所有阻碍，很快他们就进入了地城的深处。走投无路之下，瑞尔克创造出新的空间，只为了逃得更远。布兰伊尔坚持着追击，被追赶的神祗只好一刻不停的钻入大地更深之处。
+And so the chase continues. Over centuries beyond count Branzir has never stopped to rest or sleep as he pursues his prey through the ravages of infinity. And though death would be a welcome reprieve he thinks only of the hunt and of vanquishing the cowardly god. Ralkur continues to run, and he does not take a breath that it is not a gasp, and he does not take a step that it is not in flight, and every beat of his traitorous heart is a pounding of terror as he flees deeper and deeper till the ends of time.]], [[最后，布兰伊尔独自动身，只有大剑玛卓斯躺在剑鞘内静静的伴随着他。找到凶手并没有耗费布兰伊尔多长时间，瑞尔克已经不再试图躲藏，他找到一些野蛮民族，并充当起他们的神灵，他残忍的统治和剥削着这些试图保护新神灵的可怜人。在弑神者布兰伊尔的愤怒和他的暗刃玛卓斯面前，瑞尔克溜走了，带着满脸的惊恐。布兰伊尔毫不迟疑的追击瑞尔克，直至附近的遗迹。瑞尔克设置陷阱，召唤怪物，逃入更深的黑暗之处，但布兰伊尔克服了所有阻碍，很快他们就进入了地城的深处。走投无路之下，瑞尔克创造出新的空间，只为了逃得更远。布兰伊尔坚持着追击，被追赶的神祗只好一刻不停的钻入大地更深之处。
 
 追击还在继续。数个世纪以来布兰伊尔不休不眠，因为给对手带来无尽的痛苦，就是布兰伊尔狩猎的方式。布兰伊尔只是不断追踪和摧残这个懦弱的神灵，而不是给予他所期望的死亡。瑞尔克继续着逃亡，大气都不敢喘一口，不使用飞行术的话连一步也不敢迈出，他充满背叛的心脏每一次跳动都被恐惧所占据，他明白：逃得越远，越是接近毁灭的那一刻。]], "_t")
 
@@ -27453,7 +27453,7 @@ section "game/modules/tome/data/talents/psionic/mentalism.lua"
 t("Psychometry", "共鸣之心", "talent name")
 t([[Resonate with psionic, nature, and anti-magic powered objects you wear, increasing your physical and mind power by %0.1f or %d%% of the object's material level (whichever is lower).
 		This effect stacks and applies for each qualifying object worn.
-		Current bonus: %d]], [[与你装备着的灵能、自然和反魔灵能值所制造的物品产生共鸣，增加你 %0.2f 点或 %d%% 物品材质等级数值（取较小值）的物理和精神强度。 
+		Current bonus: %d]], [[与你装备着的灵能、自然和反魔灵能值所制造的物品产生共鸣，增加你 %0.1f 点或 %d%% 物品材质等级数值（取较小值）的物理和精神强度。 
 		此效果可以叠加，并且适用于所有符合条件的已穿戴装备。
 		当前加成： %d]], "tformat")
 t("Mental Shielding", "精神屏障", "talent name")
@@ -28269,7 +28269,7 @@ t([[Each time you or your undead minions deal damage to a creature you apply Sou
 		%s- 稀有：每 %d 回合偷取一个灵魂
 		%s- 史诗：每 %d 回合偷取一个灵魂
 		%s- Boss：每 %d 回合偷取一个灵魂
-		%s- 精英Boss：每 %d 回合偷取一个灵魂
+		%s- 精英Boss：每 %d 回合偷取一个灵魂#WHITE#
 		
 		此外，增加你的最大灵魂储量 %d 。
 		]], "tformat")
@@ -38190,7 +38190,7 @@ t("This huge mass of deformed flesh was probably once an ogre, but something had
 t("ogric abomination", "憎恶食人魔", "entity name")
 t("This ogre seems to have tried to graft golem parts on its own body. To various interresting results.", "这个食人魔似乎试图把傀儡的身躯嫁接在自己的身体上。各种意义上有趣的结果。", "_t")
 t("ogre sentry", "食人魔哨兵", "entity name")
-t("This greatsword-wielding ogre looks at you with contempt and hatred.", "这个挥舞着巨剑的食人魔用带着鄙视和仇恨的眼神凝视着你。", "_t")
+t("This greatsword-wielding ogre looks at you with contempt and hatred.", "这个挥舞着大剑的食人魔用带着鄙视和仇恨的眼神凝视着你。", "_t")
 t("Healer Astelrid", "孔克雷夫治疗师亚斯特莉", "entity name")
 t("An enormous ogre, clad in a tattered set of robes with an officer's badge.  She clutches a healer's staff, wrapped in casting plaster and scalpels for use as a massive spiked club.", "一个巨大的食人魔，身上穿着的破烂长袍上是一枚亮闪闪的官员徽章。她用手抓住一把治疗用的法杖，被石膏浇铸并裹挟着手术刀，用作一个巨大的狼牙棒。", "_t")
 t("and spliced for experiments", "并被作为实验对象", "_t")
@@ -39612,7 +39612,7 @@ section "game/modules/tome/data/zones/rhaloren-camp/npcs.lua"
 t("humanoid", "人形生物", "entity type")
 t("shalore", "永恒精灵", "entity subtype")
 t("Rhaloren Inquisitor", "罗兰精灵检察官", "entity name")
-t("This tall elf rushes at you, wielding both her greatsword and magical spells.", "这位高大的精灵冲向你，同时带来她锋利的巨剑和魔法的怒吼。", "_t")
+t("This tall elf rushes at you, wielding both her greatsword and magical spells.", "这位高大的精灵冲向你，同时带来她锋利的大剑和魔法的怒吼。", "_t")
 t("and hung from the rafters", "并被挂在椽子上", "_t")
 
 
@@ -39755,7 +39755,7 @@ section "game/modules/tome/data/zones/ruins-kor-pul/npcs.lua"
 
 t("skeleton", "骷髅", "entity subtype")
 t("The Shade", "暗影骷髅", "entity name")
-t("This skeleton looks nasty. There are red flames in its empty eye sockets. It wields a nasty sword and strides toward you, throwing spells.", "这只骷髅看起来很邪恶。它的眼眶里有红色的燃烧火焰。它手持一把巨剑冲向你，并向你投掷法术。", "_t")
+t("This skeleton looks nasty. There are red flames in its empty eye sockets. It wields a nasty sword and strides toward you, throwing spells.", "这只骷髅看起来很邪恶。它的眼眶里有红色的燃烧火焰。它手持一把大剑冲向你，并向你投掷法术。", "_t")
 t("and left to rot", "并抛尸野外任其腐蚀", "_t")
 t("The Possessed", "幽灵附体的强盗头目", "entity name")
 t("He is the leader of a gang of bandits that killed the Shade of Kor'Pul, however it is obvious the Shade was merely displaced. It is now possessing the corpse of his killer.", "这是那伙杀死暗影骷髅的强盗的头目，但显然暗影骷髅上的灵魂并没有这么甘心离去，曾经不可一世的强盗头目也只是被其附体的行尸走肉罢了。", "_t")
@@ -40291,7 +40291,7 @@ section "game/modules/tome/data/zones/temple-of-creation/npcs.lua"
 t("humanoid", "人形生物", "entity type")
 t("naga", "娜迦", "entity subtype")
 t("Slasul", "萨拉苏尔", "entity name")
-t("This towering naga exudes power, and radiates a certain charismatic charm as well. His masculine face stares at you with great intensity, and you struggle to meet his gaze. His torso is bare apart from an exquisite pearl set directly in his chest, and in his muscular arms he holds ready a heavy mace and shield. You sense there is more to him also, as if the very power of the ocean were concentrated in this great creature, and that the wrath of it may come flooding out at any moment.", "这只铁塔般的娜迦散发着强大的能量，并拥有一张英俊潇洒的脸庞。他刚毅的面容紧张的盯着你，尽管你试图逃避他的凝视。他的上身赤裸，只有一串珍珠挂在胸前，他强壮的臂膀分别握着一把大锤和一面盾牌。你发现这里似乎是他的主场，好像整个海洋的能量都集中在了这位娜迦身上，海洋之怒似乎会随时向你涌来。", "_t")
+t("This towering naga exudes power, and radiates a certain charismatic charm as well. His masculine face stares at you with great intensity, and you struggle to meet his gaze. His torso is bare apart from an exquisite pearl set directly in his chest, and in his muscular arms he holds ready a heavy mace and shield. You sense there is more to him also, as if the very power of the ocean were concentrated in this great creature, and that the wrath of it may come flooding out at any moment.", "这只铁塔般的娜迦散发着强大的能量，并拥有一张英俊潇洒的脸庞。他刚毅的面容紧张的盯着你，尽管你试图逃避他的凝视。他的上身赤裸，只有一串珍珠挂在胸前，他强壮的臂膀分别握着一把巨锤和一面盾牌。你发现这里似乎是他的主场，好像整个海洋的能量都集中在了这位娜迦身上，海洋之怒似乎会随时向你涌来。", "_t")
 t("and perverted into a monstrous aberration as a warning to the surface", "并被转化成一个恐怖的怪物，作为对地上所有人的警告", "_t")
 
 
@@ -42583,14 +42583,12 @@ t([[#LIGHT_GREEN#Number available: %d#LAST#
 Prodigies are special talents that only the most powerful of characters can attain.%s
 All of them require at least 50 in a core stat and many also have more special demands. You can learn a new prodigy at level 25 and 42.]], [[#LIGHT_GREEN#当前可用觉醒技能点： %d
 觉醒技是角色足够强大时才能获得的特殊技能。
-所有觉醒技能必须在人物某项核心属性达到50点并满足所需
-的特殊要求后才能习得。
+所有觉醒技能必须在人物某项核心属性达到50点并满足所需的特殊要求后才能习得。
 你可以在人物等级达到25级和42级时各获得一个觉醒技能点。]], "_t")
 t("\
 Evolutions are special prodigies specific to a class or race. Only one evolution can be choosen, if any are available at all.", "\
 进阶是特殊的觉醒技，只有特定职业种族才能学习。即使有多项进阶可能，每名角色最多只能选择一项进阶。", "_t")
-t("#{bold}##GOLD#Prodigies#{normal}#", "#{bold}##GOLD#觉醒#{normal}#", "_t")
-t("#{bold}##LIGHT_STEEL_BLUE#Evolutions#{normal}#", "#{bold}##GOLD#进阶#{normal}#", "_t")
+
 
 ------------------------------------------------
 section "game/modules/tome/dialogs/UnlockDialog.lua"
