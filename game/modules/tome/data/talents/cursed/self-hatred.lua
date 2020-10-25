@@ -136,7 +136,7 @@ newTalent{
 		-- Pay life
 		local price = t.getPrice(self, t)
     game:delayedLogDamage(self, self, 0, ("#CRIMSON#%d#LAST#"):tformat(self.max_life * price / 100), false)
-		self:takeHit(self.max_life * price / 100, self, {special_death_msg="tore themself apart"})
+		self:takeHit(self.max_life * price / 100, self, {special_death_msg=_t"tore themself apart"})
 		t.surge(self, t)
 	end,
 	
