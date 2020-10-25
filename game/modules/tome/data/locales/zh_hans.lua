@@ -13959,18 +13959,157 @@ Healer Astelrid]], [[敬告所有工作人员：
 
 我知道，你们大家都听说了有关我们的占卜师在水晶球中见到了什么的传闻，也有人因为这几天突如其来的封锁而议论纷纷。现在，请允许我宣布一个沉痛的事实：传言是真的，我们的部队在纳格尔王国的攻势下遭受了严重挫折，实验室上方的领土已经沦陷。它们正在使用傀儡进行地毯式搜寻，试图寻找一个能够突入的入口。通道上保护性的爆炸陷阱已经被触发启动，炸毁了其中一条通道，而它们也在寻求办法解除其他的爆炸陷阱。总而言之，我们已经无处可逃了。如果假以时间，它们最终会找到这里，杀死我们，卑鄙地窃取我们所有的研究成果。我们绝不能让纳格尔王国窃取食人魔的秘密，否则孔克雷夫将会失去一切。
 
-我们无路可选，无论怎样都改变不了我们的命运。在这样的处境下，我从长老会接到的指令要求我摧毁我们的所有的研究结果，然后把一瓶炼金药水放入通风系统中，无痛苦地进入永久的沉睡。然而，我可不愿意把我们足以书写历史的伟大成就就这样付之一炬。相反，我已经提前引爆了所有的炸药陷阱，炸毁了所有通道，让整个研究所彻底与世隔绝——我们处于如此深邃的地下，没有任何通道可以通过，纳格尔王国将要花费几十年才有可能挖掘到这样的地方。换句话说，我们已经彻底与外面的世界隔绝——无论是纳格尔王国的余孽，还是孔克雷夫的同志。
+我们无路可选，无论怎样都改变不了我们的命运。在这样的处境下，我从长老会接到的命令要求我摧毁我们的所有的研究结果，然后把一瓶炼金药水放入通风系统中，无痛苦地进入永久的沉睡。然而，我可不愿意把我们足以书写历史的伟大成果就这样付之一炬。相反，我已经提前引爆了所有的炸药陷阱，炸毁了所有通道，让整个研究所彻底与世隔绝——我们处于如此深邃的地下，没有任何通道可以通过，纳格尔王国将要花费几十年才有可能挖掘到这样的地方。换句话说，我们已经彻底与外面的世界隔绝——无论是纳格尔王国的余孽，还是孔克雷夫的同志。
 
-我们有少量的应急口粮，但它最多只能支撑几个月的时间，我可不能保证孔克雷夫在那个时候已经能够光复这片领土。我们也可以试着拔掉用于符文的草药，在药草园上种植可以食用的植物——但是那也最多能够给我们增加一个月的缓刑期，很快魔力灯就会失去魔力而熄灭。如果不采取断然的措施，我们必定会被饿死，然而幸运的是，我们已经有了做出断然措施的选择。
+我们有少量的应急口粮，但它最多只能支撑几个月的时间，我可不能保证孔克雷夫在那个时候已经能够光复这片领土。我们也可以试着拔掉用于符文的草药，在药草园上种植可以食用的植物——但是那也最多能够给我们增加一个月的缓刑期，很快魔力灯就会失去魔力而熄灭。如果不采取断然的措施，我们必定会被饿死，然而幸运的是，我们有一个新的选择，选择做出了一个断然的举措。
 
-这就是我最后的命令：我已经准备好了我们的手术傀儡以在我们的身上刻下食人魔的符文，并更新了我们所有的记录，记录我们关于其效果和影响的全部知识。我也已经让傀儡把所有的培养槽升级成了休眠仓。并且…满怀着无比愧疚的心情，妥善处理掉了一部分生存几率太低的实验体，以我们腾出足够的仓位。当你看到这张纸条的时候，我已经经历了这个流程，并沉睡在我办公室的休眠舱中。如果你还想活下去，请你在军械库里拿上你的武器，然后按我说的去做。当我们都处于休眠状态之时，我们将亲历时间的变迁，随时准备迎接任何通过挖掘进入这里的人——如果是孔克雷夫的增援部队，我们将交出我们的所有知识，结束我们的伟大使命，然后等待下一个属于我们的事业；而如果不是的话——他们将会为此而后悔。用我们的武力告诉他们“禁止入内”这四个字是什么意思，然后回到我们的永恒的守卫之中。
+这就是我最后的命令：我已经准备好了我们的手术傀儡以在我们的身上刻下食人魔的符文，并更新了我们所有的记录，记录下关于这一符文的效果和影响的全部知识。我也已经让傀儡把所有的培养槽升级成了休眠仓。并且…满怀着无比愧疚的心情，妥善处理掉了一部分生存几率太低的实验体，以我们腾出足够的仓位。当你看到这张纸条的时候，我本人已经经历了这个流程，并沉睡在我办公室的休眠舱中。如果你还想活下去，请你在军械库里拿上你的武器，然后按我说的去做。当我们都处于休眠状态之时，我们将亲历时间的变迁，随时准备迎接任何通过挖掘进入这里的人——如果是孔克雷夫的增援部队，我们将交出我们的所有知识，结束我们的伟大使命，然后等待下一个属于我们的事业；而如果不是的话——他们将会为此而后悔。用我们的武力告诉他们“禁止入内”这四个字是什么意思，然后回到我们的永恒的守卫之中。
 
 非常荣幸和你们这些杰出的人才一起工作，为这样前无古人后无来者的伟大事业奉献终生。或许我们仍然还有机会做出更多的成就，但总之，我已经对我们目前的成就感到无比自豪——也为伟大的食人魔种族将会对马基埃亚尔带来的改变无比自豪。
 
 孔克雷夫万岁！
 治疗师 亚斯特莉]], "_t")
 t("age of allure", "厄流纪", "newLore category")
-t("investigator Churrack note", "探员查拉克的笔记", "_t")
+t("investigator Churrack note", "密探楚拉克的笔记", "_t")
+t([[FROM: Investigator Churrack
+TO: Whoever holds the position of High Overseer of Loyalty when we're let out
+
+Though I'm trapped in here with these healers, I haven't stopped prying to determine if their loyalties lie with us or with themselves. This case has more layers than a damn onion; while Astelrid did disobey a direct order (and several more by revealing the existence of that order), her alternative seems to fit our goals nonetheless. Response from staff has been mixed.  While most are reluctantly going along with her plan for lack of other options, some seem to follow her lead enthusiastically, and have been singing this song as they wait in line for their treatment:
+
+#{italic}#Some Nargol once told me their Empire's gonna roll me
+We ain't as strong as all their undead
+They looked kind of silly with giant feet so furry
+And an ogre's club smashing their foreheads
+
+Well, the Empire's coming and they won't stop coming
+So you'd better be ready to hit the ground running
+Didn't make sense to kill everyone
+Praise the Overseers, but that plan was dumb
+
+So much to do, so much to see
+So what's wrong with waiting in stasis?
+We'll never know if we don't try
+We'll never shine if we just die
+
+Hey, now, you're a healer, get ogrified, go wait
+Hey, now, you're a guard now, stand vigil in the tanks
+They won't work on normal humans
+But we won't age sleeping in these ruins
+
+It's a safe place, even as it gets older
+'cause this war's not over until we say it's ogre
+But the golems outside beg to differ
+Judging by the sights in the scrying-orb's picture
+
+The ground we're under was getting pretty thin
+Their scouts are onto us, and they've got us all pinned
+We blew the tunnels - no way out,
+until the Conclave finds us, give trespassers a rout!
+
+Hey, now, you're a healer, get ogrified, go wait
+Hey, now, you're a guard now, stand vigil in the tanks
+They won't work on normal humans
+But we won't age sleeping in these ruins
+
+Hey, now, you're a healer, get ogrified, go wait
+Hey, now, you're a guard now, stand vigil in the tanks
+They won't work on normal humans
+But we won't age sleeping in these ruins
+
+Somebody once asked if we'd finished, but alas
+While I'm proud of what we've done in this place
+We weren't done yet with this project,
+but we're close enough where this isn't neglect
+Eyal will appreciate our new race!
+
+Well, the years'll start coming and they won't stop coming
+So you'd better be ready to hit the ground running
+Didn't make sense to kill everyone
+Praise the Overseers, but that plan was dumb
+
+So much to do, so much to see
+So what's wrong with waiting in stasis?
+We'll never know if we don't try
+We'll never shine if we just die
+
+Hey, now, you're a healer, get ogrified, go wait
+Hey, now, you're a guard now, stand vigil in the tanks
+They won't work on normal humans
+But we won't age sleeping in these ruins
+
+They won't work on normal humans
+But we won't age sleeping in these ruins#{normal}#
+
+...Everyone reacts to grief differently, I guess. #{bold}#-Churrack#{normal}#]], [[寄信人: 密探楚拉克
+收件人：长老会忠诚司最高长官，不过我不知道等到我们出来的时候这个职位是谁了。
+
+虽然我和那些治疗师一起被困在了这里，但我一直没有停止过对她们的忠诚的检验，确认她们到底是否仍然忠于我们。这一次的事件真是比千层饼还复杂，虽然亚斯特莉显然违反了长老会的命令（并且对这里的人公布秘密命令这件事也违反了众多纪律），她提出的方案仍然忠于我们的最终目标。那些工作人员反应不一，虽然大部分人因为别无选择而不情愿地追随着她的计划，但还有一些人似乎正十分热烈地追随她的步伐，在等待手术的时候唱起了这首歌：
+
+#{italic}#纳格尔人吹嘘他们的帝国要把我们打倒，
+我们在亡灵军团面前只能逃跑。
+他们翘起了那蠢呼呼的长毛大脚，
+直到食人魔一棍敲烂他的大脑。
+
+看吧，帝国的人要来扫平我们。
+比起束手就擒，不如关上大门。
+我们可不想当自我了断的懦夫，
+赞美长老会，请恕我们抗命。
+
+还有那么多没有完成，还有那么多没有体验。
+何不给自己多留一点时间？
+我们可不会在这里引颈自戮。
+只要活下去，我们就有出路。
+
+嘿，你，曾是医师，化为食人魔，开始等待。
+嘿，我，现为守卫，进入休眠仓，保持警戒。
+凡人无法抵挡岁月的侵蚀。
+但我们是沉睡的战士。
+
+我们食人魔不死，那么他们就绝不会胜利。
+这里是安全之地，久经时间考验。
+但他们的傀儡可不同意。
+水晶球已经看到了战争的火焰。
+
+他们离我们所处的地方越来越近。
+他们的哨兵已经就绪，准备将我们一网打尽。
+我们炸毁了隧道——现在是背水一战，
+在孔克雷夫找到我们之前，给入侵者来点好看。
+
+嘿，你，曾是医师，化为食人魔，开始等待。
+嘿，我，现为守卫，进入休眠仓，保持警戒。
+凡人无法抵挡时间的侵蚀。
+但我们是沉睡的战士。
+
+嘿，你，曾是医师，化为食人魔，开始等待。
+嘿，我，现为守卫，进入休眠仓，保持警戒。
+凡人无法抵挡时间的侵蚀。
+但我们是沉睡的战士。
+
+有人问我们是否已经完成了一切，遗憾的是
+虽然我们做的一切感到骄傲，
+我们还没有准备完全。
+但别气馁，等到我们迎来复兴的那一天，
+食人魔一族必将震撼整个埃亚尔大陆！
+
+看吧，这一天最终总会来到。
+既然不能逃跑，那就拿起武器准备好。
+我们可不想当自我了断的懦夫，
+赞美长老会，请恕我们抗命。
+
+还有那么多没有完成，还有那么多没有体验。
+何不给自己多留一点时间？
+我们可不会在这里引颈自戮。
+只要活下去，我们就有出路。
+
+嘿，你，曾是医师，化为食人魔，开始等待。
+嘿，我，现为守卫，进入休眠仓，保持警戒。
+凡人无法抵挡岁月的侵蚀。
+但我们是沉睡的战士。
+
+凡人无法抵挡岁月的侵蚀。
+但我们是沉睡的战士。#{normal}#
+
+……大概，不同的人对悲伤的反应是不同的吧。#{bold}#——楚拉克#{normal}#]], "_t")
 
 
 ------------------------------------------------
@@ -23976,8 +24115,8 @@ t("Bloodstained", "血染", "_t")
 t("You, like your weapons, are tainted forever.", "你的武器像你一样永久堕落。", "_t")
 t("Blood is power. Let the rivers run red.", "鲜血即力量。 让河水变红吧。", "_t")
 t("Crimson Templar", "赤红守卫", "_t")
-t("Of all the things in this dark world, you are the worst.  Torment yourself and find the power therein.", "在这黑暗世界中，你是最糟糕的事物。 折磨自身，于其中寻求力量。", "_t")
-t("Self-Hatred", "自我憎恨", "_t")
+t("All the things in this dark world are contemptible.  Let yourself hate them and find the power therein.", "这个黑暗世界里的一切都是可鄙的。仇恨他们，从中获得力量。", "_t")
+t("Hatred", "憎恨", "_t")
 t("Cursed", "被诅咒者", "_t")
 t("Hate-powered abilities that don't belong anywhere else.", "不适于其他地方的仇恨之力。", "_t")
 t("cursed", "诅咒", "talent category")
@@ -24365,17 +24504,13 @@ t([[While rampaging, you slam up to %d adjacent opponents, stunning them for %d 
 ------------------------------------------------
 section "game/modules/tome/data/talents/cursed/self-hatred.lua"
 
-t("Self-Harm", "自残", "talent name")
+t("Self-Sacrifice", "自我牺牲", "talent name")
 t("You can only use this while in combat", "你只能在战斗中使用此技能。", "logPlayer")
 t([[At the start of each turn, if you're bleeding, you gain %d hate.
 
-You can activate this talent to quickly draw a blade across your skin, bleeding yourself for a small portion of your maximum life (%0.2f damage) over the next 5 turns. This bleed cannot be resisted or removed, but can be reduced by Bloodstained.
+You can activate this talent to use your own life for power, bleeding yourself for a small portion of your maximum life (%0.2f damage) over the next 5 turns. This bleed cannot be resisted or removed, but can be reduced by Bloodstained.]], [[每回合开始时，如果你正在流血，你获得 %d 仇恨。
 
-#{italic}#Pain is just about the only thing you can still feel.#{normal}#]], [[每回合开始时，如果你正在流血，你获得 %d 仇恨。
-
-你可以主动使用此技能来划自己一刀，使你在5回合里受到最大生命值一小部分的流血伤害（ %0.2f 伤害）。此流血效果不能被抵抗，无法被移除，但可以被血染系技能减少。
-
-#{italic}#你还保留的感觉也只剩下疼痛了。#{normal}#]], "tformat")
+你可以主动使用此技能，使用你的生命值换取力量，使你在5回合里受到最大生命值一小部分的流血伤害（ %0.2f 伤害）。此流血效果不能被抵抗，无法被移除，但可以被血染系技能减少。]], "tformat")
 t("Self-Loathing", "自愤", "talent name")
 t([[Increases critical chance by %d%% (at all times) and critical strike power by up to %d%% (based on hate).
 
@@ -24402,9 +24537,9 @@ t("#CRIMSON##Target# suffers from %s from #Source#, mitigating the blow!#LAST#."
 t("%s(%d bled out#LAST#%s)#LAST#", "%s(%d 减免#LAST#%s)#LAST#", "tformat")
 t([[Any direct damage that exceeds %d%% of your maximum life has the excess damage converted to a shallow wound that bleeds over the next %d turns. This bleed cannot be resisted or removed, but can be reduced by Bloodstained. Extremely powerful hits (more than %d%% of your max life) are not fully converted.
 
-#{italic}#You can't just die. That would be too easy. You deserve to die slowly.#{normal}#]], [[任何超过你最大生命 %d%% 的伤害中的额外部分会变成一道浅表伤口，在接下来的 %d 回合中造成流血伤害。此流血效果不能被抵抗或去除，但强度可以被血染系技能降低。极其强力的攻击（超过 %d%% 最大生命）无法被完全转化。
+#{italic}#You can't just die. That would be too easy.#{normal}#]], [[任何超过你最大生命 %d%% 的伤害中的额外部分会变成一道浅表伤口，在接下来的 %d 回合中造成流血伤害。此流血效果不能被抵抗或去除，但强度可以被血染系技能降低。极其强力的攻击（超过 %d%% 最大生命）无法被完全转化。
 
-#{italic}#你不能就这么死了。这太轻松了。你就该痛苦而缓慢地死去。#{normal}#]], "tformat")
+#{italic}#你不能就这么死了。这太轻松了。#{normal}#]], "tformat")
 
 
 ------------------------------------------------
@@ -28104,11 +28239,6 @@ t([[Increases your golem's life, mana and stamina regeneration rates by %0.2f.
 
 
 ------------------------------------------------
-section "game/modules/tome/data/talents/spells/advanced-necrotic-minions.lua"
-
-
-
-------------------------------------------------
 section "game/modules/tome/data/talents/spells/aegis.lua"
 
 t("Arcane Reconstruction", "奥术重组", "talent name")
@@ -29317,11 +29447,6 @@ t([[Each turn you unleash dark powers through your runeskin.
 
 
 ------------------------------------------------
-section "game/modules/tome/data/talents/spells/necrotic-minions.lua"
-
-
-
-------------------------------------------------
 section "game/modules/tome/data/talents/spells/nightfall.lua"
 
 t("Invoke Darkness", "黑夜降临", "talent name")
@@ -29436,11 +29561,6 @@ t([[Hoarfrost now has additional effects:
 		- 友方目标: 提升 %d 魔法和物理豁免，技能等级 5 时，还会提升治疗系数 15%% 。
 		- 敌对目标: 降低 %d 魔法和物理豁免，技能等级 5 时，还会使技能冷却时间延长 15%% 。
 		]], "tformat")
-
-
-------------------------------------------------
-section "game/modules/tome/data/talents/spells/shades.lua"
-
 
 
 ------------------------------------------------
@@ -31796,7 +31916,7 @@ t([[The code of the Sun Paladins can be a heavy burden.	 Wouldn't you like to le
 		You will learn the following talents trees:
 		- #CRIMSON#Bloodstained#LAST#: Make your foes bleed!
 		- #CRIMSON#Darkside#LAST#: Every light casts a shadow, yours is powerful indeed
-		- #CRIMSON#Self-Hatred#LAST#: Manifest your self hatred through bleeding
+		- #CRIMSON#Hatred#LAST#: Manifest your hatred through bleeding
 		- #CRIMSON#Dirge#LAST#: Sing of death and sorrow to strengthen your resolve
 
 		You will forget the following talent trees, refunding any talent points: Shield Offense, Two-handed Assault.
@@ -31816,7 +31936,7 @@ t([[The code of the Sun Paladins can be a heavy burden.	 Wouldn't you like to le
 		你将学会以下的技能树：
 		- #CRIMSON#血染#LAST#：让你的敌人血流成河！
 		- #CRIMSON#背光面#LAST#：所有光明都会产生阴影，而你的尤其强大
-		- #CRIMSON#自我憎恨#LAST#：将你对自己的憎恨化为伤痕和鲜血
+		- #CRIMSON#憎恨#LAST#：将你的憎恨化为伤痕和鲜血
 		- #CRIMSON#挽歌#LAST#：对悲伤和死亡的歌颂增强着你的信念
 
 		你将遗忘以下技能树，并返还所有技能点：双手战技和盾牌攻击。
@@ -34491,7 +34611,7 @@ You have unlocked the #LIGHT_GREEN#Fallen class evolution#WHITE# for Sun Paladin
 Learn new Talents:#YELLOW#
 - Bloodstained: Make your foes bleed!
 - Darkside: Every light casts a shadow, yours is powerful indeed
-- Self-Hatred: Manifest your self hatred through bleeding
+- Hatred: Manifest your hatred through bleeding
 - Dirges: Sing of death and sorrow to strength your resolve#WHITE#
 
 Swap your paladin Talents:#YELLOW#
@@ -34510,8 +34630,8 @@ Class evolutions are selected as prodigies and grant new ways to build and expan
 新的力量#YELLOW#
 - 血染：让敌人流血！
 - 背光面：有光的地方就有阴影，你的阴影格外强大。
-- 挽歌：悲伤和死亡之歌，强化你的意志。
-- 自我憎恨：支付你的生命以获得血腥的破坏力。#WHITE#
+- 憎恨：使用流血来操纵你的憎恨。
+- 挽歌：悲伤和死亡之歌，强化你的意志。#WHITE#
 调整的职业能力：#YELLOW#
 - 光辉系转变为黑暗光环：将憎恨投射到他人身上，阻碍他们。
 - 十字军系转变为无光之阳：用强大的重力攻击粉碎敌人。
@@ -37164,7 +37284,7 @@ t("#Target#'s armour is damaged!", "#Target#的护甲破损了！", "_t")
 t("+Sunder Armor", "+破甲", "_t")
 t("-Sunder Armor", "-破甲", "_t")
 t("Sunder Arms", "破刃", "_t")
-t("The target's combat ability is reduced, reducing its attack by %d.", "目标战斗能力下降，降低 %d 点命中。", "tformat")
+t("The target's combat ability is reduced, reducing its attack by %d.", "目标的战斗能力下降，攻击降低 %d 。", "tformat")
 t("#Target#'s fighting ability is impaired!", "#Target#的战斗能力被削弱了！", "_t")
 t("+Sunder Arms", "+破刃", "_t")
 t("#Target#'s ability to fight has recovered.", "#Target#的战斗能力恢复了。", "_t")
