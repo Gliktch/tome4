@@ -5021,11 +5021,11 @@ newEffect{
 		eff.p_wave = game.level.map:particleEmitter(eff.x, eff.y, eff.effective_radius, "corpselight_wave", {radius=eff.effective_radius})
 	end,
 	activate = function(self, eff)
-		eff.effective_dam = eff.dam
-		eff.effective_radius = math.min(eff.radius, 10)
+		eff.effective_dam = eff.dam * (1 + eff.stacks * 0.1)
+		eff.effective_radius = math.min(eff.radius + eff.stacks, 10)
 
 		eff.p_static = game.level.map:particleEmitter(eff.x, eff.y, 1, "corpselight", {})
-		eff.p_wave = game.level.map:particleEmitter(eff.x, eff.y, eff.radius, "corpselight_wave", {radius=eff.radius})
+		eff.p_wave = game.level.map:particleEmitter(eff.x, eff.y, eff.effective_radius, "corpselight_wave", {radius=eff.effective_radius})
 	end,
 	deactivate = function(self, eff, ed)
 		game.level.map:removeParticleEmitter(eff.p_static)
