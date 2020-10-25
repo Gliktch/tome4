@@ -408,6 +408,11 @@ t("%s, the lost sun paladin", "%s, 迷路的太阳骑士", "_t")
 t("%s, the lost defiler", "%s, 迷路的堕落者", "_t")
 t("temporal portal", "时空传送门", "_t")
 t("%s, temporal explorer", "%s, 时空旅行者", "_t")
+t([[Oh but you are ... are you ?! ME?!
+		So I was right, this is not my original time-thread!
+		Please help me! I am afraid I lost myself in this place. I know there is a temporal portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me? Would you help .. yourself?]], [[天哪，你……你是另一个我吗？!
+		看来我想的没错，这里已经不是我所在的时间线了！
+		帮帮我！我在这地方迷路了，我有个朋友给我留下了一个传送门，不过我打了太多仗，恐怕靠我自己是到不了那里了，你能帮我一下吗？你能……帮自己一下吗？]], "_t")
 t("She looks tired and wounded. She is so similar to you and yet completely different. Weird.", "她看起来又累又饿，且身受重伤。她跟你是如此的相像，但完全不一样。好奇怪。", "_t")
 t("Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?", "帮帮我！我在这地方迷路了，我有个朋友给我留下了一个传送门，不过我打了太多仗，恐怕靠我自己是到不了那里了，你能帮我一下吗？", "_t")
 t("%s, the worried loremaster", "%s, 担忧的贤者", "_t")
