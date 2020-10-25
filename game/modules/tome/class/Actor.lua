@@ -5124,6 +5124,7 @@ end
 -- Make sure such talents are always flagged as unlearnable (see Command Staff for an example)
 function _M:learnItemTalent(o, tid, level)
 	local t = self:getTalentFromId(tid)
+	if not t then return end
 	local max = t.hard_cap or (t.points and t.points + 2) or 5
 	if not self.item_talent_surplus_levels then self.item_talent_surplus_levels = {} end
 	if not self.item_talent_surplus_levels[tid] then self.item_talent_surplus_levels[tid] = 0 end
@@ -5146,6 +5147,7 @@ end
 
 function _M:unlearnItemTalent(o, tid, level)
 	local t = self:getTalentFromId(tid)
+	if not t then return end
 	local max = (t.points and t.points + 2) or 5
 	if not self.item_talent_surplus_levels then self.item_talent_surplus_levels = {} end
 	if not self.item_talent_surplus_levels[tid] then self.item_talent_surplus_levels[tid] = 0 end
