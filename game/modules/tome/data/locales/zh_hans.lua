@@ -9499,7 +9499,7 @@ t("#00FF00#You feel indestructible!", "#00FF00#你变得刀枪不入！", "logPl
 section "game/modules/tome/data/general/objects/cloak.lua"
 
 t("armor", "护甲", "entity type")
-t("cloak", "斗蓬", "entity subtype")
+t("cloak", "斗篷", "entity subtype")
 t("A cloth coat typically worn as a loose outer garment. It is spacious enough to be worn even over bulky metal armour.", "可以当做外衣穿的宽松布外套，它甚至允许你在里面穿上厚重的金属盔甲。", "_t")
 t("linen", "亚麻", "entity short_name")
 t("linen cloak", "亚麻斗篷", "entity name")
@@ -23957,6 +23957,7 @@ t([[You displace %d%% of any damage you receive onto a random bleeding enemy wit
 
 #{italic}#所有的活物都被鲜血连接着，就好像一条河流经着它们。#{normal}#]], "tformat")
 t("Splatter Sigils", "溅射污印", "talent name")
+t("sacrificed themself", "自我牺牲", "_t")
 t([[When you kill an enemy, their death forms a cursed magical pattern on the ground. This creates a circle of radius %d which blinds enemies and deals them %0.2f light damage, while giving you %d positive energy per turn. The circle lasts for %d turns.
 							The damage will increase with your Spellpower.
 							The duration of the circle can be increased by a critical hit.
@@ -36678,6 +36679,7 @@ t("#Target# is taking damage received in the past!", "#Target#受到过去累积
 t("+Smeared", "+转化", "_t")
 t("#Target# stops taking damage received in the past.", "#Target#不再受到过去累积的伤害。", "_t")
 t("-Smeared", "-转化", "_t")
+t("was smeared across all space and time", "被转化到时空中", "_t")
 t("You walk three different timelines, choosing the one you prefer at the end (current timeline: %d).", "你可以从三条时间线中选择一条进入。 ( 当前时间线 ：%d)。", "tformat")
 t("#LIGHT_RED#The see the threads spell fizzles and cancels, leaving you in this timeline.", "#LIGHT_RED#命运螺旋法术失败了，你停留在了当前时间线。", "logSeen")
 t("#LIGHT_BLUE#You unfold the space time continuum to the start of the time threads!", "#LIGHT_BLUE#你折叠了时空，回到时间线开头", "logPlayer")
@@ -36879,6 +36881,7 @@ t("#CRIMSON##Target# is wreathed in flames on the brink of death!", "#CRIMSON##T
 t("+Cauterize", "+灼烧", "_t")
 t("#CRIMSON#The flames around #target# vanish.", "#CRIMSON##Target#周围的火焰消散了。", "_t")
 t("-Cauterize", "-灼烧", "_t")
+t("burnt to death by cauterize", "被灼烧致死", "_t")
 t("Something", "某物", "_t")
 t("Protected by the Eidolon", "受艾德隆保护", "_t")
 t("The target is protected by the Eidolon, no creature may harm it (except self-harm).", "目标受到艾德隆保护，没有生物可以伤害它（自残除外……）", "_t")
@@ -36969,6 +36972,7 @@ t("-Warden's Focus", "-专注守卫", "_t")
 t("Death in a Dream", "梦中死亡", "_t")
 t("mind", "精神", "effect subtype")
 t("The target had breathed in noxious sleep-induced fumes and is losing %d life per turn.", "目标吸入有毒的催眠气体，每回合损失 %d 生命。", "tformat")
+t("killed in a dream", "梦中被杀", "_t")
 t("Natural Aura", "自然光环", "_t")
 t("Zone-wide effect: +20 mindpower, +2 life regen, -1 equilibrium per turn, -20% resistance penetration.", "地图效果 : +20 精神强度 , +2 生命恢复 , -1 失衡值 / 回合, -20% 抗性穿透。", "_t")
 t("Sorcerous Aura", "魔法光环", "_t")
@@ -37066,6 +37070,7 @@ t("Lich Hunger", "巫妖欲望", "_t")
 t("To complete your resurrection you must kill a unique/boss/elite boss rank creature before the duration expires.", "为了完成你的复活，你必须在持续时间结束前，杀死一个 史诗/Boss/精英Boss 等级的敌人。", "_t")
 t("lich", "巫妖", "effect subtype")
 t("#DARK_ORCHID#Lichform regeneration is complete!#{normal}#", "#DARK_ORCHID#巫妖形态恢复完成！#{normal}#", "say")
+t("failed to complete the lich ressurection ritual", "未能完成巫妖复活仪式", "_t")
 t("Sensing Everything", "感知一切", "_t")
 t("Improves senses, allowing the detection of everything.", "强化感知，可以侦测一切事物。", "_t")
 t("sense", "感知", "effect subtype")
@@ -37093,6 +37098,7 @@ t("#CRIMSON##Target# is torn open by the powerful blow!", "#CRIMSON##Target# 被
 t("+Self-Judgement", "+自裁", "_t")
 t("#CRIMSON##Target#'s wound has closed.", "#CRIMSON##Target#的伤口闭合了。", "_t")
 t("-Self-Judgement", "-自裁", "_t")
+t("died a well-deserved death by exsanguination", "因失血过多而死", "_t")
 t("#CRIMSON#%d Bleed #LAST#", "#CRIMSON#%d 流血 #LAST#", "tformat")
 
 
@@ -38216,7 +38222,7 @@ t("It looks like a giant blood clot. Is that what its creator intended?", "它�
 section "game/modules/tome/data/zones/blighted-ruins/objects.lua"
 
 t("armor", "护甲", "entity type")
-t("cloak", "斗蓬", "entity subtype")
+t("cloak", "斗篷", "entity subtype")
 t("black cloak", "黑色斗篷", "_t")
 t("Cloak of Deception", "欺诈斗篷", "entity name")
 t("A black cloak, with subtle illusion enchantments woven into its very fabric.", "一只黑色的斗篷，它在编织的过程中加入了幻觉特效。", "_t")
