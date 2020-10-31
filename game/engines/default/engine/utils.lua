@@ -1502,6 +1502,7 @@ function fs.getRealPath(path)
 	if not p then return p end
 	local sep = fs.getPathSeparator()
 	local doublesep = sep..sep
+	-- print("- ", path, "=>", p, "::", sep)
 	return p:gsub(doublesep, sep)
 end
 
