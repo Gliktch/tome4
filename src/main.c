@@ -1192,6 +1192,7 @@ void do_resize(int w, int h, bool fullscreen, bool borderless, float zoom)
 void boot_lua(int state, bool rebooting, int argc, char *argv[])
 {
 	core_def->corenum = 0;
+	static bool physfs_inited = FALSE;
 
 	if (state == 1)
 	{
@@ -1203,12 +1204,14 @@ void boot_lua(int state, bool rebooting, int argc, char *argv[])
 			current_mousehandler = LUA_NOREF;
 			current_keyhandler = LUA_NOREF;
 			current_game = LUA_NOREF;
-			lua_close(L);
-			PHYSFS_deinit();
+			luaL_loadstring(L, "fs.reset()");
+			lua_pcall(L, 0, 0, 0);
+			lua_close(L);			
 		}
 
 		/***************** Physfs Init *****************/
-		PHYSFS_init(argv[0]);
+		if (!physfs_inited) PHYSFS_init(argv[0]);
+		physfs_inited = TRUE;
 
 		bool bootstrap_mounted = FALSE;
 		selfexe = get_self_executable(argc, argv);
