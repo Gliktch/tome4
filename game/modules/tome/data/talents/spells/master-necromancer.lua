@@ -101,7 +101,8 @@ newTalent{
 		All non-ghoul minions are healed by %d%%.
 		If you know Call of the Mausoleum, the time remaining to the next free ghoul is reduced by %d.
 		if you know Corpse Explosion or Putrescent Liquefaction the duration of those effects are increased by %d.
-		All non-undead foes caught inside are dazed for %d turns.]]):
+		All non-undead foes caught inside are dazed for %d turns.
+		In addition all your minions (created after you learn this spell) have a passive health regeneration.]]):
 		tformat(t:_getSpeed(self), t:_getHeal(self), t:_getGhoulDur(self), t:_getGhoulDur(self), t:_getDaze(self))
 	end,
 }
