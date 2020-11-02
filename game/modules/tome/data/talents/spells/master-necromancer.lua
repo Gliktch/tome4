@@ -192,7 +192,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[By creating an arcane link with your minion army you are able to redirect parts of any damage affecting you to them.
-		Anytime you take damage %d%% of it is instead redirected to a random minion without your aura of undeath.
+		Anytime you take damage %d%% of it is instead redirected to a random minion within your aura of undeath.
 		The minion takes 300%% damage from that effect.
 		The damage redirected percent depends on your Spellpower.]]):
 		tformat(t:_getPower(self))
