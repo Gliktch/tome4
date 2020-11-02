@@ -336,7 +336,6 @@ function _M:listBackgrounds(mod)
 			if fs.exists(dir.."/boot-screen/init.lua") then
 				load(dir, nil)
 			elseif short_name:find(".teaa$") or short_name:find(".teaac$") then
-				print("=====real", dir)
 				fs.mount(fs.getRealPath(dir), "/testload", false)
 				local mod
 				if fs.exists("/testload/boot-screen/init.lua") then
