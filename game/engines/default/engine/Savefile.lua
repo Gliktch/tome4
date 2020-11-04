@@ -478,6 +478,7 @@ function _M:loadReal(load)
 	if not ok then
 		print("[SAVEFILE ERROR] loading object", load, "resulting in: ", o)
 		self:addDelayLoad{loaded = function() game:onTickEnd(function()
+			util.send_error_backtrace("Error loading savefile object "..tostring(load).." with error "..tostring(o))
 			require("engine.ui.Dialog"):simplePopup("Savefile loading WARNING", "The game has detected a problem in the savefile and attempted to fix it.\nIt is likely to work without any adverse effects but should a problem arise, please mention this event in the bug report.")
 		end) end}
 		return nil
