@@ -125,10 +125,12 @@ newTalent{
 		local stats = necroArmyStats(self)
 		if stats.nb == 0 then return end
 
-		local spots, spots_hostile = {}, {}
+		local spots, spots_hostile, spots_wall = {}, {}, {}
 		self:projectApply({type="ball", radius=1}, self.x, self.y, Map.TERRAIN, function(_, x, y)
 			local target = game.level.map(x, y, Map.ACTOR)
+			local terrain = game.level.map(x, y, Map.TERRAIN)
 			if target and self:reactionToward(target) < 0 then spots_hostile[#spots_hostile+1] = {x=x, y=y, foe=target}
+			elseif not target and terrain and terrain.does_block_move then spots_wall[#spots_wall+1] = {x=x, y=y}
 			elseif not target then spots[#spots+1] = {x=x, y=y}
 			end
 		end)
@@ -137,6 +139,7 @@ newTalent{
 			local m = rng.tableRemove(stats.list)
 			if not m then break end
 			local spot = rng.tableRemove(spots_hostile)
+			if not spot and m.can_pass and m.can_pass.pass_wall then spot = rng.tableRemove(spots_wall) end
 			if not spot then spot = rng.tableRemove(spots) end
 			if not spot then break end
 
