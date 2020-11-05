@@ -23899,7 +23899,7 @@ t([[Command all Shadows within sight to tele-dash to a target location, damaging
 		Each successive shadow deal 40%% less damage.
 		For the purpose of this talent, you force your shadows through any walls in their way.
 		Damage increases with your Mindpower.]], [[命令所有视野内阴影传送至目标处，对所有经过的敌人造成 %0.1f 物理伤害。
-阴影每造成一次伤害，后续伤害就减少40%%。
+每个传送的阴影会使后续阴影造成的伤害减少40%%。
 阴影能穿过墙壁来到达目的地。
 伤害受精神强度加成。]], "tformat")
 t("Cursed Bolt", "诅咒之球", "talent name")
