@@ -7140,7 +7140,6 @@ t("This is too soon!", "太早了！", "_t")
 t("disrupted monolith", "被干扰的符文巨石", "_t")
 t("Something the cultists are doing is coming. Beware.", "邪教徒在做的事情将要到来。小心。", "_t")
 t("The cultist's soul seems to be absorbed by the strange stone he was guarding. You feel like something is about to happen...", "邪教徒的灵魂似乎被其守卫的奇异石头所吸收。你感觉似乎要出大事了……", "_t")
-t("Shasshhiy'Kaish", "莎西·凯希", "_t")
 t("This demon would be very attractive if not for the hovering crown of flames, the three tails and sharp claws. As you watch her you can almost feel pain digging in your flesh. She wants you to suffer.", "不看她那盘旋在头上的火焰王冠、三条小尾巴以及那锋利的爪子，这只恶魔仍然充满了奇异的魅惑。当你看着她时，你感觉痛苦像利刃一样，深入骨髓，她是痛苦的使者。", "_t")
 t("and used for her perverted desires", "并被用于她的变态欲望", "_t")
 t("Crown of Burning Pain", "痛苦之焱", "_t")
@@ -28948,7 +28947,7 @@ t([[Conjures up a bolt of fire, setting the target ablaze and doing %0.2f fire d
 t("Flameshock", "火焰冲击", "talent name")
 t([[Conjures up a cone of flame with radius %d. Any targets caught in the area will suffer Burning Shock, stunning them and dealing %0.2f fire damage over %d turns.
 		The damage will increase with your Spellpower.]], [[在你前方制造一片 %d 码半径锥形范围的火焰。 
-		任何在此范围的目标会被燃烧的火焰冲击，共受到 %0.2f 点火焰伤害，持续 %d 回合。
+		任何在此范围的目标会被燃烧的火焰冲击震慑，共受到 %0.2f 点火焰伤害，持续 %d 回合。
 		伤害受法术强度加成。]], "tformat")
 t("Fireflash", "爆裂火球", "talent name")
 t([[Conjures up a bolt of fire that moves toward the target and explodes into a flash of fire, doing %0.2f fire damage in a radius of %d.
@@ -42516,6 +42515,7 @@ t("Set the leash distance [current: %d]", "设置跟随距离 [当前：%d]", "t
 t("Define tactical talents usage", "设定技能使用策略", "_t")
 t("Rename", "重命名", "_t")
 t("Dismiss", "放弃", "_t")
+t("Pet the hound", "摸摸狗狗", "_t")
 t("Order: %s", "命令：%s", "tformat")
 
 

@@ -404,6 +404,17 @@ t("Beta Addons Disabled", "Beta版禁用插件", "_t")
 t([[This beta version is meant to be tested without addons, as such the following ones are currently disabled:
 #GREY#]], [[本Beta版本设计上用于纯原版测试环境，因此，以下插件被自动禁用:
 #GREY#]], "_t")
+t([[Total playtime of all registered players:%s
+]], [[注册玩家总游玩时间:%s
+]], "tformat")
+t("#LIGHT_BLUE#%s#WHITE# is one of the top five played races", "#LIGHT_BLUE#%s#WHITE#是玩的最多的五大种族之一", "tformat")
+t("#LIGHT_BLUE#%s#WHITE# is one of the top five played classes", "#LIGHT_BLUE#%s#WHITE#是玩的最多的五大职业之一", "tformat")
+t("#CRIMSON#%s#WHITE# is one of the top ten killers", "#CRIMSON#%s#WHITE#是十大杀手之一", "tformat")
+t("#LIGHT_BLUE#%s#WHITE# is one of the top ten race/class combo", "#LIGHT_BLUE#%s#WHITE#是十大种族/职业组合之一", "tformat")
+t("There are currently %d people playing online", "现在有%d人正在在线游玩", "tformat")
+t("The character's vault has registered a total of #RED#%d#WHITE# character's deaths", "官网角色库中记录了#RED#%d#WHITE#个角色的死亡", "tformat")
+t("The character's vault has registered a total of #LIGHT_BLUE#%d#WHITE# winners for the current version", "官网角色库中共有#LIGHT_BLUE#%d#WHITE#个赢得当前版本的游戏的角色", "tformat")
+t("The latest donator is #LIGHT_GREEN#%s#WHITE#. Many thanks to all donators, you are keeping this game alive!", "最近的捐赠者是#LIGHT_GREEN#%s#WHITE#。感谢所有捐赠者，是你们让这个游戏保持继续！", "tformat")
 t("#LIGHT_RED#Online profile disabled(switching to offline profile) due to %s.", "#LIGHT_RED#由于 %s ，在线存档无法运行（切换至离线存档）", "log")
 
 
@@ -1332,7 +1343,7 @@ t("Confirm addon install/update", "确认插件安装/更新", "_t")
 t("Are you sure you want to install this module: #LIGHT_GREEN##{bold}#%s#{normal}##LAST#?", "你确认要安装这个模组吗： #LIGHT_GREEN##{bold}#%s#{normal}##LAST# ？", "tformat")
 t("Confirm module install/update", "确认模组安装/更新", "_t")
 t("Addon installation successful. New addons are only active for new characters.", "插件安装成功。新的插件只会在新的游戏角色生效。", "_t")
-t("Addon installed!", "墨子安装完成！", "_t")
+t("Addon installed!", "插件安装完成！", "_t")
 t("Game installation successful. Have fun!", "游戏安装完成。玩的开心！", "_t")
 t("Game installed!", "游戏安装完成!", "_t")
 
