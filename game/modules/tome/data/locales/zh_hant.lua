@@ -25887,7 +25887,7 @@ t([[Exhale a mist of lingering acid, dealing %0.2f acid damage that can critical
 		The damage and duration will increase with your Mindpower, and the radius will increase with talent level.
 		Each point in acid drake talents also increases your acid resistance by 1%%.]], [[吐出一股濃厚的酸霧，每回合造成 %0.2f 酸性傷害，範圍爲 %d 碼半徑，持續 %d 回合。 
 		在這團酸霧裏的敵人會被腐蝕，持續 %d 回合，降低他們 %d 點命中、護甲和閃避。 
-		傷害和持續時間有額外加成；受技能等級影響，範圍受精神強度加成 
+		傷害和持續時間受精神強度加成；範圍受技能等級加成 。
 		每一點毒龍系技能同時也能增加你的酸性抵抗 1%% 。]], "tformat")
 t("Dissolve", "腐蝕連擊", "talent name")
 t([[You strike the enemy with a rain of fast, acidic blows. You strike four times for pure acid damage. Every blow does %d%% damage.
@@ -28750,7 +28750,7 @@ t([[Slam your shield on the ground creating a shockwave.
 		At level 5 your Block cooldown is reset.]], [[用盾牌猛擊地面，製造衝擊波。
 		對半徑 %d 內的生物造成 %d%% 奧術武器傷害。
 		所有被擊中的目標將會進入可以反擊的狀態 3 回合，就像你格擋了它們的攻擊那樣。
-		在等級 5 時，你的格擋技能冷卻也會被重置。]], "tformat")
+		在等級 5 時，你的格擋技能冷卻也會被重置。]], "tformat", {2,1})
 
 
 ------------------------------------------------

@@ -25887,7 +25887,7 @@ t([[Exhale a mist of lingering acid, dealing %0.2f acid damage that can critical
 		The damage and duration will increase with your Mindpower, and the radius will increase with talent level.
 		Each point in acid drake talents also increases your acid resistance by 1%%.]], [[吐出一股浓厚的酸雾，每回合造成 %0.2f 酸性伤害，范围为 %d 码半径，持续 %d 回合。 
 		在这团酸雾里的敌人会被腐蚀，持续 %d 回合，降低他们 %d 点命中、护甲和闪避。 
-		伤害和持续时间有额外加成；受技能等级影响，范围受精神强度加成 
+		伤害和持续时间受精神强度加成；范围受技能等级加成 。
 		每一点毒龙系技能同时也能增加你的酸性抵抗 1%% 。]], "tformat")
 t("Dissolve", "腐蚀连击", "talent name")
 t([[You strike the enemy with a rain of fast, acidic blows. You strike four times for pure acid damage. Every blow does %d%% damage.
