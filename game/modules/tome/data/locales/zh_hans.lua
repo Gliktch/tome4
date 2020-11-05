@@ -28545,7 +28545,7 @@ t([[Press your advantage when your foes are starting to crumble.
 		And so on...
 		Damage increases with your Spellpower.
 		]], [[利用敌人的痛楚打击敌人。
-		目标每具有一个负面效果，造成 %0.2f 霜暮伤害（有收益衰减），并降低其整体速度 25%% （最大降低 %d ）。
+		目标每具有一个负面效果，造成 %0.2f 霜暮伤害（有收益衰减），并降低其整体速度 25%% 1回合（最大 %d 回合）。
 		伤害加成的收益衰减如下面所示：
 		- 2 个效果： %0.2f 伤害
 		- 5 个效果： %0.2f 伤害
@@ -29287,7 +29287,7 @@ t("#GREY#%s shatters!", "#GREY#%s 粉碎了！", "logSeen")
 t([[Any time one of your skeleton or bone giant dies, it shatters in radius %d, making any foe bleed for %0.2f physical damage over 5 turns.
 		If any other skeleton or bone giant minion is in the radius it will pickup some of the bones to enhance itself, increasing maximum and current life by %d, armour by %d and gain %0.2f physical melee retaliation for 20 turns.
 		This talent never works when you kill your own minions.
-		]], [[每当你的骷髅或骨巨人死去时，它会在半径 %d 码范围内粉碎，使敌人受到 %0.2f 物理流血伤害，持续 5 回合。
+		]], [[每当你的骷髅或骨巨人死去时，它会在半径 %d 码范围内粉碎，使敌人在5回合内受到 %0.2f 物理流血伤害。
 		如果范围内有其他骷髅或骨巨人，它们会使用这些骸骨强化自己，增加最大和当前生命值 %d ，护甲值 %d ，并获得 %0.2f 物理近战报复效果，持续 20 回合。
 		如果你杀死自己的随从，这一效果不会触发。
 		]], "tformat")
@@ -29357,7 +29357,7 @@ t([[Ghouls are nothing but mere tools to you, for %d turns you render them bloat
 		The damage and disease power is increased by your Spellpower.
 		]], [[对你来说，食尸鬼只是可以随地丢弃的工具。在 %d 回合内，你让它们的体内充满黑暗的能量。
 		在此期间，每当一个食尸鬼或妖鬼被击中，它会爆炸成为一团碎肉，对 %d 码范围的所有敌人造成 %0.2f 霜暮伤害。
-		所有被爆炸击中的敌人也会感染持续 6 回合的随机疾病，某一项属性值降低 %d 点，并且每回合受到 %0.2f 枯萎伤害。
+		所有被爆炸击中的敌人也会感染持续 6 回合的随机疾病，某一项属性值降低 %d 点，并且累计受到 %0.2f 枯萎伤害。
 		每回合内最多只能有一个食尸鬼爆炸。你会优先让剩余时间最短的食尸鬼爆炸。
 		伤害和疾病强度受法术强度加成。
 		]], "tformat", {1,3,2,5,4})
@@ -31785,7 +31785,7 @@ t([[You accurately jump to the target and deal 200%% weapon damage to all foes w
 		When you jump you free yourself from any stun, daze and pinning effects.]], [[你跃向目标地点，对 1 码半径范围内的所有敌人造成 200%% 的武器伤害，并眩晕目标 3 回合。 
 		落地后，你解除自身眩晕、定身和震慑效果。]], "tformat")
 t("You Shall Be My Weapon!", "化作星星吧！！", "talent name")
-t("Be of size category 'big' or larger. This is also required to use it.", "体型至少为巨大（使用也要满足此条件）", "_t")
+t("Be of size category 'big' or larger. This is also required to use it.", "体型至少为较大（使用也要满足此条件）", "_t")
 t([[You deal a massive blow to your foe, smashing it for 350%% weapon damage, knocking it back 5 tiles, and knocking aside all foes in its path.
 		All targets affected are stunned for 3 turns.
 		For each size category over 'big' you gain an additional +80%% weapon damage.]], [[对敌人进行一次猛击，造成 350%% 的武器伤害并击退目标 5 码，路径上的敌人都会被击中。
@@ -32001,7 +32001,7 @@ t([[A Lich's body is extremely hard to fully destroy. You only die with your lif
 		If this happens this power can never re-activate, even if you managed to resurrect by other means.]], [[巫妖的身体很难被完全摧毁。只有当你的生命值达到-%d时，你才会死去。
 		此外，即使你的身体被摧毁，你也会立刻复活。
 		第一次发生这种情况时，你转化成巫妖的过程就完成了，这将给予你巫妖的所有力量。
-		之后你死亡的时候，你仍然可以重生，但是你需要在%d回合吞噬一个内拥有史诗/Boss/精英Boss或更高等级的生物的精华来维持你自己。
+		之后你死亡的时候，你仍然可以重生，但是你需要在 %d 回合吞噬一个内拥有史诗/Boss/精英Boss或更高等级的生物的精华来维持你自己。
 		如果你在持续时间时没能杀死一个这样的Boss，或者在这段时间内再次被杀死，你将永远死去。
 		如果发生这种情况，即使你设法通过其他方式复活，这种复活能力也永远无法重新激活了。]], "tformat")
 t("Frightening Presence", "恐怖存在", "talent name")
