@@ -1063,7 +1063,7 @@ Please go to https://te4.org/ to download it manually.]], [[无法启动游戏�
 请前往 https://te4.org/ 手动下载。]], "_t")
 t("Shimmer pack installed!", "时装包安装成功!", "_t")
 t([[Could not dynamically link addon to current character, maybe the installation weng wrong.
-You can fix that by manually downloading the shimmer addon from https://te4.org/ and placing it in game/addons/ folder.]], [[无法自动将插件链接至当前角色，可能安装失败了。
+You can fix that by manually downloading the addon from https://te4.org/ and placing it in game/addons/ folder.]], [[无法自动将插件链接至当前角色，可能安装失败了。
 你可以在 https://te4.org/ 手动下载时装插件并放置于 game/addons/ 目录下来解决这个问题。]], "_t")
 t("Downloading cosmetic pack: #LIGHT_GREEN#%s", "时装包下载中： #LIGHT_GREEN#%s", "tformat")
 t("- #{bold}##ROYAL_BLUE#%s #SLATE#x%d#WHITE##{normal}#: The pack should be downloading or even finished by now.", "- #{bold}##ROYAL_BLUE#%s #SLATE#x%d#WHITE##{normal}# ：时装包安装剩余时间：", "tformat")
@@ -1099,6 +1099,7 @@ t("#{bold}##GOLD#Once per Character#WHITE##{normal}#: This event can only be rec
 t([[#{bold}##GOLD#Shimmer Pack#WHITE##{normal}#: Once purchased the game will automatically install the shimmer pack to your game and enable it for your current character too (you will still need to use the Mirror of Reflection to switch them on).
 #LIGHT_GREEN#Bonus perk:#LAST# purchasing any shimmer pack will also give your characters a portable Mirror of Reflection to be able to change your appearance anywhere, anytime!]], [[#{bold}##GOLD#时装包#WHITE##{normal}#：购买后游戏会自动安装时装包，同时为当前角色自动开启。仍然需要使用反射之镜来切换。
 #LIGHT_GREEN#额外特效:#LAST# 购买任何时装包后，你的角色自动获得便携式反射之镜，可以随时随地切换时装!]], "_t")
+t("#{bold}##GOLD#UI Pack#WHITE##{normal}#: Once purchased the game will automatically install the UI pack to your game.", "#{bold}##GOLD#UI 组合包#WHITE##{normal}#： 购买后游戏会自动安装UI组合包。", "_t")
 t("#{bold}##GOLD#Vault Space#WHITE##{normal}#: Once purchased your vault space is permanently increased.", "#{bold}##GOLD#Vault Space#WHITE##{normal}#：购买后，你的共享仓库大小会永久增加。", "_t")
 t("Online Store", "在线商城", "_t")
 

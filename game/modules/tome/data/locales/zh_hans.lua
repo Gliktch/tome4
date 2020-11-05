@@ -1036,6 +1036,7 @@ t("%s targets #Target#.", "%s将#Target#设为目标。", "logCombat")
 t("Change name of: %s", "改变名字：%s", "tformat")
 t("Name", "名称", "_t")
 t("%s is dismissed!", "%s 被遣散了!", "log")
+t("#LIGHT_GREEN#You pet your hound! It happily wags its tail back and forth in time!", "#LIGHT_GREEN#你拍了拍你的猎犬！它开心地将尾巴来回摇摆！", "log")
 t("No, we must hurry!", "不行，我们必须得抓紧时间！", "_t")
 t("Ok, but not for long.", "好吧，但时间不要太长。", "_t")
 t("very close", "很近了", "_t")
@@ -20999,7 +21000,7 @@ t([[You chant the glory of the Sun, granting you %d Mental Save and increasing y
 		同时只能激活一种赞歌。
 		效果受法术强度加成。
 		]], "tformat")
-t("Chant of Fortress", "防御赞歌", "talent name")
+t("Chant of Fortress", "堡垒赞歌", "talent name")
 t([[You chant the glory of the Sun, granting you %d%% physical damage resistance, %d physical save, %d armour and +15%% armour hardiness.
 		You may only have one Chant active at once.
 		The effects will increase with your Spellpower.]], [[颂赞日之荣耀，使你获得 %d%% 物理抗性， %d 物理豁免， %d 护甲与 15%% 护甲强度。
@@ -21044,7 +21045,7 @@ t([[Your skill at Chanting now extends the cloak of light, increasing your light
 		Chant of Resistance cures magical effects.]], [[咏唱赞歌的娴熟技艺让光明得以扩散，增加 %d 光照半径。
 		每次你咏唱新的赞歌时，你将解除自身的越层效果（失去平衡、法术冲击和思维封锁），并额外解除 %d 项相应类型的负面状态。
 		坚韧赞歌：解除精神负面状态 
-		堡垒赞歌：解除物理负面状态 
+		堡垒赞歌：解除物理负面状态
 		元素赞歌：解除魔法负面状态 ]], "tformat")
 t("Chant Radiant", "辉耀绽放", "talent name")
 t([[Your passion for singing the praises of the Sun reaches its zenith.
@@ -21519,7 +21520,7 @@ t([[The light of your Radiance allows you to see that which would normally be un
 		In addition, your light damage is increased by %d%% and your strikes ignore %d%% of the light resistance of your targets.
 		The invisibility, stealth power, and defense reductions increase with your Spellpower.]], [[光辉可以让你看到平时无法见到的敌人，并攻击被保护的敌人。
 		在光辉光环的影响下的敌人，其隐形和潜行强度降低 %d 。所有被光照的目标，闪避值降低 %d ，且不受不可见带来的闪避加成影响。
-		此外，你的光系伤害降低 %d%% ，你的攻击无视敌人 %d%% 的光系伤害抗性。
+		此外，你的光系伤害增加 %d%% ，你的攻击无视敌人 %d%% 的光系伤害抗性。
 		隐形、潜行强度和闪避值降低效果受法术强度加成。]], "tformat")
 
 
@@ -23895,8 +23896,10 @@ t([[Target a nearby shadow, and force it to slam into a nearby enemy, dealing %0
 伤害受精神强度加成。]], "tformat")
 t("Shadow's Path", "阴影之路", "talent name")
 t([[Command all Shadows within sight to tele-dash to a target location, damaging any enemies they pass through for %0.1f Physical damage.
+		Each successive shadow deal 40%% less damage.
 		For the purpose of this talent, you force your shadows through any walls in their way.
 		Damage increases with your Mindpower.]], [[命令所有视野内阴影传送至目标处，对所有经过的敌人造成 %0.1f 物理伤害。
+阴影每造成一次伤害，后续伤害就减少40%%。
 阴影能穿过墙壁来到达目的地。
 伤害受精神强度加成。]], "tformat")
 t("Cursed Bolt", "诅咒之球", "talent name")
@@ -29157,7 +29160,7 @@ t([[Conjures up a bolt of cold that moves toward the target and explodes into a 
 t("Corpselight", "阴燃鬼火", "talent name")
 t([[You summon a corpselight that radiates cold for 7 turns in radius %d.
 		Every turn all foes inside take %0.2f cold damage.
-		Anytime you cast a spell inside your corpselight's area it grows by one stack, each stack giving +1 radius and +10%% damage.
+		Anytime you cast a spell while standing inside your corpselight's area it grows by one stack, each stack giving +1 radius and +10%% damage.
 		The corpselight can gain at most %d stacks and the radius will never extend beyond 10.
 		If cast while under 1 life it spawns with 3 stacks.
 		The damage will increase with your Spellpower.]], [[你召唤一个半径为 %d 的鬼火，散发出刺骨的尸寒，持续 7 回合。
@@ -29237,12 +29240,14 @@ t([[Sends out a surge of undeath energies into your aura.
 		All non-ghoul minions are healed by %d%%.
 		If you know Call of the Mausoleum, the time remaining to the next free ghoul is reduced by %d.
 		if you know Corpse Explosion or Putrescent Liquefaction the duration of those effects are increased by %d.
-		All non-undead foes caught inside are dazed for %d turns.]], [[在你的光环中放出一股不死能量。
+		All non-undead foes caught inside are dazed for %d turns.
+		In addition all your minions (created after you learn this spell) have a passive health regeneration.]], [[在你的光环中放出一股不死能量。
 		所有随从获得 25%% 速度，持续 %d 回合。
 		所有非食尸鬼的随从被治疗 %d%% 。
 		如果你掌握陵墓召唤技能，到下一个免费食尸鬼的时间降低 %d 。
 		如果你掌握夺命尸爆或腐烂液化技能，这些效果的持续时间延长 %d 。
-		所有非不死生物的敌人都会被眩晕 %d 回合。]], "tformat")
+		所有非不死生物的敌人都会被眩晕 %d 回合。
+		此外，你的所有随从（在学会该法术后制造的）获得额外被动生命回复]], "tformat")
 t("Recall Minions", "召回随从", "talent name")
 t([[Tighten the ethereal leash to some of your minions currently within your aura of undeath, pulling them to you and swapping place with any eventual foes in the way.
 		Up to %d minions are affected.
@@ -29252,7 +29257,7 @@ t([[Tighten the ethereal leash to some of your minions currently within your aur
 t("Suffer For Me", "替死鬼", "talent name")
 t("#GREY#(%d to minion: %s)#LAST#", "#GREY#(%d 到不死随从: %s)#LAST#", "tformat")
 t([[By creating an arcane link with your minion army you are able to redirect parts of any damage affecting you to them.
-		Anytime you take damage %d%% of it is instead redirected to a random minion without your aura of undeath.
+		Anytime you take damage %d%% of it is instead redirected to a random minion within your aura of undeath.
 		The minion takes 300%% damage from that effect.
 		The damage redirected percent depends on your Spellpower.]], [[你与你的不死大军之间建立奥术连接，将你所收到的任何伤害转移到他们的身上。
 		每当你受到伤害的时候， %d%% 的伤害转移到到随机一个不死光环内的随从身上。
@@ -31186,7 +31191,7 @@ t([[You go all out, trying to burn down your foes as fast as possible.
 section "game/modules/tome/data/talents/techniques/tireless-combatant.lua"
 
 t("Breathing Room", "喘息间隙", "talent name")
-t("Any time you do not have an opponent in a square adjacent to you, you gain %0.1f Stamina regeneration. With the third talent point, you also gain an equal amount of life regen when Breathing Room is active.", "当没有敌人与你相邻的时候，你获得 %0.1f 体力回复。在第 3 级时，这个技能带给你等量的生命回复.", "tformat")
+t("Any time you do not have an opponent in a square adjacent to you, you gain %0.1f Stamina regeneration. At talent level 3 or more, you also gain an equal amount of life regen when Breathing Room is active.", "当没有敌人与你相邻的时候，你获得 %0.1f 体力回复。技能等级 3 及以后，这个技能带给你等量的生命回复.", "tformat")
 t("Pace Yourself", "调整步伐", "talent name")
 t([[Control your movements to increase your defenses. This allows you to shrug off minor damage and, if you have a shield equipped, preemptively Block in reaction to incoming damage.  
 		While this talent is activated, you are globally slowed by %0.1f%% and all damage you take is reduced by a flat %0.1f.
@@ -31197,11 +31202,11 @@ t([[Control your movements to increase your defenses. This allows you to shrug o
 		固定伤害减免受闪避值加成。		
 		]], "tformat")
 t("Dauntless Challenger", "不屈底力", "talent name")
-t("When the going gets tough, you get tougher. You gain %0.1f Stamina regen per enemy in sight, and beginning with the third talent point, you also gain %0.1f life regen per enemy. The bonuses cap at 4 enemies.", "当战斗变得艰难时，你变得更加顽强。视野内每有一名敌人存在，你就获得 %0.1f 体力回复。从第三级起，每名敌人同时能增加 %0.1f 生命回复。加成上限为 4 名敌人。", "tformat")
+t("When the going gets tough, you get tougher. You gain %0.1f Stamina regen per enemy in sight, and beginning at talent level 3 and above, you also gain %0.1f life regen per enemy. The bonuses cap at 4 enemies.", "当战斗变得艰难时，你变得更加顽强。视野内每有一名敌人存在，你就获得 %0.1f 体力回复。技能等级 3 及以后，每名敌人同时能增加 %0.1f 生命回复。加成上限为 4 名敌人。", "tformat")
 t("The Eternal Warrior", "不灭战士", "talent name")
 t([[For each turn you spend stamina, you gain %0.1f%% resist all and %0.1f%% all resistances cap for %d turns. The buff stacks up to %d times, and each new application refreshes the duration.
-		Additionally, at the fifth talent point, Breathing Room and Dauntless Challenger are %d%% more effective.]], [[每回合使用体力后，你获得 %0.1f%% 全体抗性性加成和 %0.1f%% 全体抗性性上限，持续 %d 回合。加成效果最多叠加 %d 次，每次叠加都会刷新效果持续时间。
-		在第 5 级时，  喘息间隙和不屈底力效果提升 %d%%]], "tformat")
+		Additionally, at talent level 5 and above, Breathing Room and Dauntless Challenger are %d%% more effective.]], [[每回合使用体力后，你获得 %0.1f%% 全体抗性性加成和 %0.1f%% 全体抗性性上限，持续 %d 回合。加成效果最多叠加 %d 次，每次叠加都会刷新效果持续时间。
+		技能等级 5 及以后，喘息间隙和不屈底力效果提升 %d%%]], "tformat")
 
 
 ------------------------------------------------
