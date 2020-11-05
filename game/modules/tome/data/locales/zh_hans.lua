@@ -28750,7 +28750,7 @@ t([[Slam your shield on the ground creating a shockwave.
 		At level 5 your Block cooldown is reset.]], [[用盾牌猛击地面，制造冲击波。
 		对半径 %d 内的生物造成 %d%% 奥术武器伤害。
 		所有被击中的目标将会进入可以反击的状态 3 回合，就像你格挡了它们的攻击那样。
-		在等级 5 时，你的格挡技能冷却也会被重置。]], "tformat")
+		在等级 5 时，你的格挡技能冷却也会被重置。]], "tformat", {2,1})
 
 
 ------------------------------------------------
