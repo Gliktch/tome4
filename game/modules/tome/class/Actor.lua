@@ -6803,13 +6803,15 @@ function _M:getTalentCooldown(t, base)
 	elseif t.type[1] == "inscriptions/taints" then
 		local eff = self:hasEffect(self.EFF_TAINT_COOLDOWN)
 		if eff and eff.power then cd = cd + eff.power end
-	elseif self:attr("arcane_cooldown_divide") and (t.type[1] == "spell/arcane" or t.type[1] == "spell/aether") then
-		cd = math.ceil(cd / self.arcane_cooldown_divide)
 	end
 
 	if self.talent_cd_reduction[t.id] then cd = cd - self.talent_cd_reduction[t.id] end
 	if self.talent_cd_reduction.all then cd = cd - self.talent_cd_reduction.all end
 	if self.talent_cd_reduction.allpct then cd = cd - math.ceil(self.talent_cd_reduction.allpct * cd) end
+
+	if self:attr("arcane_cooldown_divide") and (t.type[1] == "spell/arcane" or t.type[1] == "spell/aether") then
+		cd = math.ceil(cd / self.arcane_cooldown_divide)
+	end
 
 	local eff = self:hasEffect(self.EFF_BURNING_HEX)
 	if eff and not self:attr("talent_reuse") then
