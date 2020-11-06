@@ -207,6 +207,13 @@ newTalent{
 		if self.disruption_shield_storage < 100 then self.disruption_shield_storage = 0 end
 		local max = t.getMaxAbsorb(self, t)
 		self.disruption_shield_power = math.min(self.disruption_shield_power + max / 10, max)
+
+		local p = self:isTalentActive(t.id)
+		if p and p.was_depleted and core.shader.active(4) then
+			p.was_depleted = false
+			self:removeParticles(p.particle)
+			p.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.4, img="runicshield"}, {type="runicshield", shieldIntensity=0.1, ellipsoidalFactor=1, scrollingSpeed=-1, time_factor=12000, bubbleColor={0.8, 0.1, 1.0, 0.8}, auraColor={0.85, 0.3, 1.0, 0.8}}))
+		end		
 	end,
 	doLostMana = function(self, t, mana)
 		if (self:getMana() - mana) / self:getMaxMana() < 0.5 then
