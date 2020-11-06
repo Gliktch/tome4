@@ -1526,7 +1526,7 @@ function _M:knockback(srcx, srcy, dist, recursive, on_terrain)
 	engine.Actor.knockback(self, srcx, srcy, dist, recursive, on_terrain)
 	if config.settings.tome.smooth_move > 0 then
 		self:resetMoveAnim()
-		self:setMoveAnim(ox, oy, 9, 5)
+		self:setMoveAnim(ox or 0, oy or 0, 9, 5)
 	end
 
 	self:attr("knockback_times", 1)
@@ -1539,7 +1539,7 @@ function _M:pull(srcx, srcy, dist, recursive)
 	engine.Actor.pull(self, srcx, srcy, dist, recursive)
 	if config.settings.tome.smooth_move > 0 then
 		self:resetMoveAnim()
-		self:setMoveAnim(ox, oy, 9, 5)
+		self:setMoveAnim(ox or 0, oy or 0, 9, 5)
 	end
 end
 
@@ -1549,7 +1549,7 @@ function _M:forceMoveAnim(x, y)
 	self:move(x, y, true)
 	if config.settings.tome.smooth_move > 0 then
 		self:resetMoveAnim()
-		self:setMoveAnim(ox, oy, 8, 5)
+		self:setMoveAnim(ox or 0, oy or 0, 8, 5)
 	end
 end
 
