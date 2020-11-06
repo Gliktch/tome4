@@ -207,7 +207,7 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 		if not src or src == self or src.necrotic_minion then return mod.class.NPC.heal(self, amt, src) end
 		if 
 		  (src.getCurrentTalent and src:getCurrentTalent() and src:getTalentFromId(src:getCurrentTalent()) and not src:getTalentFromId(src:getCurrentTalent()).is_nature) or
-		  src:attr("can_heal_necrotic_minions")
+		  (src.attr and src:attr("can_heal_necrotic_minions"))
 		then
 			return mod.class.NPC.heal(self, amt, src) 
 		end
