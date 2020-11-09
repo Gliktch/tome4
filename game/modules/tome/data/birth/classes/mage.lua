@@ -87,6 +87,7 @@ newBirthDescriptor{
 		["spell/acid-alchemy"]={true, 0.3},
 		["spell/frost-alchemy"]={true, 0.3},
 		["spell/energy-alchemy"]={false, 0.3},
+		["technique/combat-training"]={true, 0.0},
 		["spell/staff-combat"]={true, 0.3},
 		["cunning/survival"]={false, 0.0},
 	},
@@ -201,6 +202,7 @@ newBirthDescriptor{
 		["spell/divination"]={true, 0.3},
 		["spell/conveyance"]={true, 0.3},
 		["spell/aegis"]={true, 0.3},
+		["technique/combat-training"]={true, 0.0},
 		["cunning/survival"]={false, 0.0},
 	},
 	talents = {
@@ -268,6 +270,7 @@ newBirthDescriptor{
 		["spell/death"]={true, 0.3},
 		["spell/animus"]={true, 0.3},
 		["spell/eradication"]={false, 0.3},
+		["technique/combat-training"]={true, 0.0},
 		["spell/spectre"]={true, 0.3},
 		["spell/necrosis"]={true, 0.3},
 		["cunning/survival"]={true, 0.0},
