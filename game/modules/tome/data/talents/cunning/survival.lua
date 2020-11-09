@@ -81,8 +81,8 @@ newTalent{
 	points = 5,
 	random_ego = "utility",
 	cooldown = 20,
-	radius = function(self, t) return math.floor(self:combatScale(self:getCun(10, true) * self:getTalentLevel(t), 5, 0, 35, 55)) end,
-	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
+	radius = function(self, t) return 30 end,
+	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 2, 10)) end,
 	no_npc_use = true,
 	no_break_stealth = true,
 	action = function(self, t)
@@ -95,8 +95,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local rad = self:getTalentRadius(t)
-		return ([[Sense foes around you in a radius of %d for %d turns.
-		The radius will increase with your Cunning.]]):tformat(rad, t.getDuration(self, t))
+		return ([[Sense foes around you in a radius of %d for %d turns.]]):tformat(rad, t.getDuration(self, t))
 	end,
 }
 
