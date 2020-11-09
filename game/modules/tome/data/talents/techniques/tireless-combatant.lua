@@ -99,10 +99,10 @@ newTalent {
 		return  self:combatTalentLimit(t, 0, 0.15, .05)
 	end,
 	getReduction = function(self, t)
-		return self:combatScale(self:combatDefense() * self:getTalentLevel(t), 5, 10, 30, 450)
+		return self:combatScale(self:combatDefense() * self:getTalentLevel(t), 5, 10, 30, 550)
 	end,
 	getBlockChance = function(self, t)
-		return self:combatTalentLimit(t, 100, 25, 55)
+		return self:combatTalentLimit(t, 100, 20, 40)
 	end,
 	callbackOnTakeDamageBeforeResists = function(self, t, src, x, y, type, dam, tmp)
 		local shield = self:hasShield()
@@ -113,7 +113,7 @@ newTalent {
 		local bt, bt_string = t2.getBlockedTypes(self, t2)
 		local bv = t2.getBlockValue(self, t2)
 		if not bt[type] then return end -- ignore types we can't block
-		if rng.percent(chance) and dam > bv/4 and not self:isTalentCoolingDown(t2) and not eff then 
+		if rng.percent(chance) and dam > bv/3 and not self:isTalentCoolingDown(t2) and not eff then 
 			self:forceUseTalent(self.T_BLOCK, {ignore_energy=true})
 			return {dam=dam}
 		end
@@ -124,7 +124,7 @@ newTalent {
 		chance = t.getBlockChance(self, t)
 		return ([[Control your movements to increase your defenses. This allows you to shrug off minor damage and, if you have a shield equipped, preemptively Block in reaction to incoming damage.  
 		While this talent is activated, you are globally slowed by %0.1f%% and all damage you take is reduced by a flat %0.1f.
-		If you have a shield equipped and Block is not on cooldown, any blockable damage that is greater than 25%% of your block value (before resistances) will have a %d%% chance to instantly activate Block.
+		If you have a shield equipped and Block is not on cooldown, any blockable damage that is greater than 33%% of your block value (before resistances) will have a %d%% chance to instantly activate Block.
 		The flat damage reduction will increase with your defense.]])
 		:tformat(slow, reduction, chance)
 	end,
