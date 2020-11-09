@@ -203,7 +203,8 @@ function _M:tooltip(x, y)
 				if p.level <= data.level_range[1] - 10 then color = "CRIMSON"
 				elseif p.level <= data.level_range[1] - 4 then color = "ORANGE"
 				end
-				tstr:add(true, {"font","bold"}, {"color", color}, _t"Min.level: "..data.level_range[1], {"color", "LAST"}, {"font","normal"}, true)
+				tstr:add(true, {"font","bold"}, {"color", color}, _t"Min.level: "..math.floor((data.level_range[1]+(game.state.birth.difficulty_level_add or 0))*(game.state.birth.difficulty_level_mult or 1)), {"color", "LAST"}, {"font","normal"}, true)
+				tstr:add(true, {"font","bold"}, {"color", color}, _t"Max.level: "..math.ceil((data.level_range[2]+(game.state.birth.difficulty_level_add or 0))*(game.state.birth.difficulty_level_mult or 1)), {"color", "LAST"}, {"font","normal"}, true)
 			end
 		end
 	end
