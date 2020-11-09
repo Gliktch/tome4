@@ -280,6 +280,7 @@ newTalent{
 	points = 5,
 	mode = "passive",
 	range = 0,
+	no_npc_use = true,
 	getCrit = function(self, t) return self:combatTalentScale(t, 3, 15) end,
 	getCritPower = function(self, t) return self:combatTalentScale(t, 7, 20) end,
 	getChance = function(self, t) return self:combatTalentLimit(t, 100, 20, 45) end,
