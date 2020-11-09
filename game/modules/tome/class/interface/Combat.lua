@@ -127,7 +127,7 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 --		if ret then return false end
 --	end
 
-	if not target.turn_procs.warding_weapon and target:knowTalent(target.T_WARDING_WEAPON) and target:getTalentLevelRaw(target.T_WARDING_WEAPON) >= 5
+	if not target.turn_procs.warding_weapon and target:knowTalent(target.T_WARDING_WEAPON) and target:getTalentLevel(target.T_WARDING_WEAPON) >= 5
 		and rng.percent(target:callTalent(target.T_WARDING_WEAPON, "getChance")) then
 		local t = self:getTalentFromId(self.T_WARDING_WEAPON)
 		if target:getPsi() >= t.psi then
