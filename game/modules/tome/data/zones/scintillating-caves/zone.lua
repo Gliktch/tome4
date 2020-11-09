@@ -105,7 +105,7 @@ else
 
 return {
 	name = _t"Scintillating Caves",
-	level_range = {1, 5},
+	level_range = {1, 7},
 	level_scheme = "player",
 	max_level = 3,
 	decay = {300, 800},
