@@ -151,8 +151,14 @@ newTalent{
 	mana = 30,
 	cooldown = 20,
 	tactical = { DEFEND = 3, ATTACK = 2 },
-	getLife = function(self, t) return math.ceil(self:combatTalentScale(t, 5, 12)) end,
+	getLife = function(self, t) return math.ceil(self:combatTalentScale(t, 3, 8)) end,
 	on_pre_use = function(self, t) return self.in_combat and not self:hasEffect(self.EFF_MIRROR_IMAGE_REAL) end,
+	callbackOnDeath = function(self, t)
+		-- Remove mirror image on death
+		for uid, e in pairs(game.level.entities) do
+			if e.image and e.summoner and e.summoner == self then e:die() end
+		end
+	end,
 	action = function(self, t)
 		if not self:canBe("summon") then game.logPlayer(self, "You cannot summon; you are suppressed!") return end
 
