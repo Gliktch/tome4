@@ -22,7 +22,7 @@
 --------------------------------------------------------------------------------------
 if core.shader.active(4) then
 use_shader = {type="fireflash"}
-base_size = 64
+base_size = 32
 
 local nb = 0
 
@@ -35,9 +35,9 @@ return {
 	system_rotation = dir, system_rotationv = 0,
 	generator = function()
 	return {
-		life = 42,
+		life = 8,
 		--size = 30, sizev = 2.1*64*radius/16, sizea = 0,
-		size = 3.5*64*radius, sizev = 0, sizea = 0,
+		size = 2.5*32*radius, sizev = 0, sizea = 0,
 
 		x = 0, xv = 0, xa = 0,
 		y = 0, yv = 0, ya = 0,
