@@ -26048,7 +26048,7 @@ t("die at -%d; dur %d; cd %d", "-%d 死亡底线; 持续 %d; 冷却 %d", "tforma
 t("Infusion: Wild Growth", "纹身：野性成长", "talent name")
 t([[Causes thick vines to spring from the ground and entangle all targets within %d squares for %d turns, pinning them in place for 5 turns and dealing %0.2f physical damage and %0.2f nature damage.
 		The vines also grow all around you, increasing your armour by %d and armour hardiness by %d.]], [[从土地中召唤坚硬的藤蔓，缠绕 %d 码范围内所有生物，持续 %d 回合。将其定身5回合并造成每回合 %0.2f 物理和 %0.2f 自然伤害。
-		藤蔓也会生长在你的身边，增加 %d 护甲和 %d 。]], "tformat")
+		藤蔓也会生长在你的身边，增加 %d 护甲和 %d 护甲强度。]], "tformat")
 t("rad %d; dur %d;", "范围 %d 持续 %d", "tformat")
 t("Rune: Teleportation", "符文：传送", "talent name")
 t("Activate the rune to teleport randomly in a range of %d with a minimum range of 15.", "激活这个符文随机传送 %d 码范围内位置，至少传送 15 码以外。", "tformat")
@@ -26852,7 +26852,7 @@ t([[While Highers are not meant to rule other humans - and show no particular wi
 		Increase blindness immunity by %d%%, maximum sight range by %d, and increases existing infravision, and heightened senses range by %d.
 		At talent level 5, each time you hit a target you gain telepathy to all similar creatures in radius 15 for 5 turns.]], [[虽然高等人类的高贵血统并不意味着统治他人——他们也没有特别的意愿去那样做——但是他们经常承担更高的义务。 
 		他们的本能使得他们比别人有更强的直觉。 
-		增加 %d%% 目盲免疫 , 提高 %d 点最大视野范围并提高 %d 光照、夜视及感应范围。
+		增加 %d%% 目盲免疫 , 提高 %d 点最大视野范围并提高 %d 夜视及感应范围。
 		技能等级 5 时，每次你命中目标，你将获得 15 格范围内同类型生物感知能力，持续 5 回合。]], "tformat")
 t("Born into Magic", "魔法亲和", "talent name")
 t([[Highers were originally created during the Age of Allure by the human Conclave. They are imbued with magic at the very core of their being.
@@ -29086,7 +29086,7 @@ t("Decreases", "降低", "_t")
 t("Increases", "增加", "_t")
 t([[The golem automatically reconfigures heavy mail and massive armours designed for living creatures to protect its own vital areas.
 	%s armour value by %d, armour hardiness by %d%%, and provides %d%% critical hit reduction when wearing heavy mail or massive armour.]], [[傀儡学会重新组装重甲和板甲，以便更加适用于傀儡。
-	当装备重甲或板甲时， %s护甲强度 %d 点 , 护甲韧性 %d%% ，并且减少 %d%% 暴击伤害。]], "tformat")
+	当装备重甲或板甲时， %s护甲强度 %d 点 , 护甲强度 %d%% ，并且减少 %d%% 暴击伤害。]], "tformat")
 t("Poison Breath", "毒性吐息", "talent name")
 t("@Source@ breathes poison!", "@Source@呼出毒素！", "_t")
 t([[Breathe poison on your foes, doing %d damage over a few turns.
@@ -30390,7 +30390,7 @@ t([[You become better at using your armour to deflect blows and protect your vit
 		At level 2, it allows you to wear shields.
 		At level 3, it allows you to wear massive plate armour.
 		%s]], [[ 你使用防具来偏转攻击和保护重要部位的能力加强了。 
-		根据现有防具，提高 %d 护甲值和 %d%% 护甲韧性，并减少 %d%% 被暴击几率。 
+		根据现有防具，提高 %d 护甲值和 %d%% 护甲强度，并减少 %d%% 被暴击几率。
 		( 这项技能只对重甲或板甲提供加成。 ) 
 		在等级 1 时，能使你装备锁甲、金属手套、头盔和重靴。 
 		在等级 2 时，能使你装备盾牌。 
@@ -30399,7 +30399,7 @@ t([[You become better at using your armour to deflect blows and protect your vit
 t("Light Armour Training", "轻甲训练", "talent name")
 t([[You learn to maintain your agility and manage your combat posture while wearing robes or light armour.  When wearing armour no heavier than leather in your main body slot, you gain %d Defense, %d%% Armour hardiness, and %d%% reduced Fatigue.
 		In addition, when you step adjacent to a (visible) enemy, you use the juxtaposition to increase your total Defense by %d for 2 turns.
-		The Defense bonus scales with your Dexterity.]], [[你学会在身着轻甲和布甲时保持敏捷。你获得 %d 闪避， %d%% 护甲强度，减少 %d%% 疲劳。
+		The Defense bonus scales with your Dexterity.]], [[你学会在身着轻甲和布甲时保持敏捷，获得 %d 闪避， %d%% 护甲强度，减少 %d%% 疲劳。
 		此外，每当你进入和（可见的）敌人相邻的位置时，你获得 %d 闪避，持续 2 回合。
 		闪避受敏捷加成。]], "tformat")
 t("Combat Accuracy", "强化命中", "talent name")
