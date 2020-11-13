@@ -807,7 +807,7 @@ t("Reduce damage by fixed amount: ", "按固定数值减少全部伤害：", "_t
 t("Maximum wards: ", "最大守护次数：", "_t")
 t("Changes resistances penetration: ", "抗性穿透改变：", "_t")
 t("Changes damage: ", "伤害加成：", "_t")
-t("Damage against: ", "伤害增幅：", "_t")
+t("Damage against: ", "对特定类型增伤：", "_t")
 t("Reduced damage from: ", "降低特定来源伤害：", "_t")
 t("Talent category bonus: ", "技能树加成：", "_t")
 t("Damage affinity(heal): ", "伤害吸收(治疗)：", "_t")
@@ -23555,7 +23555,7 @@ t("%s is not dazed!", "%s 未眩晕！", "logSeen")
 t([[Step through the shadows to your target, dazing it for %d turns and hitting it with all your weapons for %d%% darkness weapon damage.
 		Dazed targets are significantly impaired, but any damage will free them.
 		To Shadowstep, you need to be able to see the target.]], [[通过阴影突袭你的目标，眩晕它 %d 回合并用你所有武器对目标造成 %d%% 暗影武器伤害。 
-		被眩晕的目标受到显著伤害，但任何对目标的伤害会解除眩晕。 
+		目标被眩晕后会被显著削弱，但任何对目标的伤害会解除眩晕。
 		当你使用暗影突袭时，目标必须在视野范围内。]], "tformat")
 
 
@@ -31972,7 +31972,7 @@ t([[Vomit on the ground around you, healing any undead in the area and damaging 
 t("Gnaw", "食尸鬼侵蚀", "talent name")
 t("Risen Ghoul", "复生食尸鬼", "_t")
 t("Flesh is falling off in chunks from this decaying abomination.", "肉块正在不断的从这个腐朽的身体上掉落。", "_t")
-t("A #GREY##Source##LAST# rises from the corpse of #Target#.", "一个#GREY##Source##LAST#从的尸体上站了起来#Target#。", "logCombat")
+t("A #GREY##Source##LAST# rises from the corpse of #Target#.", "一个#GREY##Source##LAST#从#Target#的尸体上站了起来。", "logCombat")
 t("Ghoulish Minion", "食尸鬼随从", "_t")
 t("%s resists the disease!", "%s抵抗了疫病！", "logSeen")
 t([[Gnaw your target for %d%% damage.  If your attack hits, the target may be infected with Ghoul Rot for %d turns.
