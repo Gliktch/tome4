@@ -140,7 +140,7 @@ newTalent{
 	no_sustain_autoreset = true,
 	random_boss_rarity = 5,
 	rnd_boss_restrict = function(self, t, data)
-		return data.level < 20
+		return true -- allow only on fixedbosses specifically granted the talent
 	end,
 	tactical = {
 		-- heals (negative attack) demons hurts others
