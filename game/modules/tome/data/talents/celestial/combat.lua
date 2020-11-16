@@ -51,8 +51,7 @@ newTalent{
 			local shield_power = t.getShieldFlat(self, t)
 
 			shield.power = shield.power + shield_power
-			self.damage_shield_absorb = self.damage_shield_absorb + shield_power
-			self.damage_shield_absorb_max = self.damage_shield_absorb_max + shield_power
+			shield.power_max = shield.power_max + shield_power
 			shield.dur = math.max(2, shield.dur)
 		end
 	end,
@@ -184,6 +183,25 @@ newTalent{
 	cooldown = 30,
 	tactical = { DEFEND = 2 },
 	getLife = function(self, t) return self.max_life * self:combatTalentLimit(t, 1.5, 0.2, 0.5) end, -- Limit < 150% max life (to survive a large string of hits between turns)
+	callbackPriorities = {callbackOnHit = 350},
+	callbackOnHit = function(self, t, cb, src, death_note)		
+		if cb.value  >= self.life then
+			local sl = t.getLife(self, t)
+			cb.value = 0
+			self.life = 1
+			self:forceUseTalent(self.T_SECOND_LIFE, {ignore_energy=true})
+			local value = self:heal(sl, self)
+			game.logSeen(self, "#YELLOW#%s has been healed by a blast of positive energy!#LAST#", self:getName():capitalize())
+			if value > 0 then
+				if self.player then
+					self:setEmote(require("engine.Emote").new("The Sun Protects!", 45))
+					world:gainAchievement("AVOID_DEATH", self)
+				end
+			end
+		end
+		
+		return cb
+	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/heal")
 		local ret = {}

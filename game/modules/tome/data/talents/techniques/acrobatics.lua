@@ -239,7 +239,14 @@ newTalent {
 		end
 		return damage
 	end,
-
+	callbackPriorities = {callbackOnHit = -50},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		value = t.onHit(self, t, value)
+		print("[onTakeHit] After Trained Reactions life% trigger ", value)
+		cb.value = value
+		return cb
+	end,
 	info = function(self, t)
 		local trigger = t.getLifeTrigger(self, t)
 		local reduce = t.getReduction(self, t)

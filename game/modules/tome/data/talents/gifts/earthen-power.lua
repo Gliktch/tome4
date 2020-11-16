@@ -30,6 +30,14 @@ newTalent{
 	on_unlearn = function(self, t)
 		self:attr("show_shield_combat", -1)
 	end,
+	callbackPriorities = {callbackOnHit = -500},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		local m, mm, e, em = t.getValues(self, t)
+		self:incMana(math.min(mm, value * m))
+		self:incEquilibrium(-math.min(em, value * e))
+		self.turn_procs.stoneshield = true
+	end,
 	getValues = function(self, t)
 		return
 			self:combatTalentLimit(t, 1, 0.08, 0.165),

@@ -2711,8 +2711,7 @@ newDamageType{
 				-- Shields can't usually merge, so change the parameters manually
 				local shield = target:hasEffect(target.EFF_DAMAGE_SHIELD)
 				shield.power = shield.power + shield_power
-				target.damage_shield_absorb = target.damage_shield_absorb + shield_power
-				target.damage_shield_absorb_max = target.damage_shield_absorb_max + shield_power
+				shield.power_max = shield.power_max + shield_power
 				shield.dur = math.max(2, shield.dur)
 
 				-- Limit the number of times a shield can be extended

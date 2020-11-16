@@ -147,6 +147,14 @@ newTalent{
 	-- called by _M:onTakeHit function in mod\class\Actor.lua	
 	getVim = function(self, t) return self:combatTalentScale(t, 1.7, 6.5, 0.75) end,
 	getHeal = function(self, t) return self:combatTalentScale(t, 4, 15, 0.75) end,
+	callbackPriorities = {callbackOnHit = -500},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if src.hasEffect and src:hasEffect(src.EFF_VIMSENSE) then
+			self:incVim(t.getVim(self, t))
+			self:heal(t.getHeal(self, t), src)
+			--if self.player then src:logCombat(src, "#AQUAMARINE#You leech a part of #Target#'s vim.") end
+		end
+	end,
 	info = function(self, t)
 		return ([[Each time a creature affected by vimsense hurts you, you regain %0.2f vim and %0.2f health.]]):
 		tformat(t.getVim(self,t),t.getHeal(self,t))

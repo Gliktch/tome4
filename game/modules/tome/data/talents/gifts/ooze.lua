@@ -99,6 +99,37 @@ newTalent{
 
 		return true
 	end,
+	callbackPriorities = {callbackOnHit = -40},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 then return end
+		local chance = t.getChance(self, t)
+		local perc = math.min(1, 3 * value / math.max(self.life, 1))
+		if rng.percent(chance * perc) then
+			t.spawn(self, t, value * 2)
+		end
+
+		local acts = {}
+		if game.party:hasMember(self) then
+			for act, def in pairs(game.party.members) do
+				if act.summoner and act.summoner == self and act.wild_gift_summon and act.bloated_ooze then acts[#acts+1] = act end
+			end
+		else
+			for _, act in pairs(game.level.entities) do
+				if act.summoner and act.summoner == self and act.wild_gift_summon and act.bloated_ooze then acts[#acts+1] = act end
+			end
+		end
+		if #acts > 0 then
+			game:delayedLogMessage(self, nil, "mitosis_damage", "#DARK_GREEN##Source# shares damage with %s oozes!", string.his_her(self))
+			value = value / (#acts+1)
+			for _, act in ipairs(acts) do
+				act:takeHit(value, src)
+			end
+		end
+		
+		cb.value = value
+		return cb
+	end,
 	activate = function(self, t)
 		return {equil_regen = self:knowTalent(self.T_REABSORB) and self:addTemporaryValue("equilibrium_regen", -self:callTalent(self.T_REABSORB, "equiRegen"))}
 	end,

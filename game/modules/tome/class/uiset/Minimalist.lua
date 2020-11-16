@@ -790,12 +790,22 @@ function _M:displayResources(scale, bx, by, a)
 		end
 
 		local shield, max_shield = 0, 0
-		if player:attr("time_shield") then shield = shield + (player.time_shield_absorb or 0) max_shield = max_shield + (player.time_shield_absorb_max or 0) end
-		if player:attr("damage_shield") then shield = shield + (player.damage_shield_absorb or 0) max_shield = max_shield + (player.damage_shield_absorb_max or 0) end
-		if player:attr("displacement_shield") then shield = shield + (player.displacement_shield or 0) max_shield = max_shield + (player.displacement_shield_max or 0) end
-		if player:attr("disruption_shield_power") then shield = shield + (player.disruption_shield_power or 0) max_shield = max_shield + (player:callTalent(player.T_DISRUPTION_SHIELD, "getMaxAbsorb") or 0) end
-		local necroshield = player:isTalentActive(player.T_HIEMAL_SHIELD)
-		if necroshield then shield = shield + (necroshield.shield or 0) max_shield = max_shield + (necroshield.original_shield or 0) end
+		for eff_id, p in pairs(player.tmp) do
+			if player.tempeffect_def[eff_id].shield_bar then
+				local eshield, emax_shield = player.tempeffect_def[eff_id].shield_bar(player, p)
+				shield = shield + eshield
+				max_shield = max_shield + emax_shield
+			end
+		end
+		
+		for tid, act in pairs(player.sustain_talents) do
+			local t = player:getTalentFromId(tid)
+			if t and t.shield_bar then
+				local eshield, emax_shield = t.shield_bar(player, t, act)
+				shield = shield + eshield
+				max_shield = max_shield + emax_shield
+			end
+		end
 		
 		local front = fshat_life_dark
 		if max_shield > 0 then
