@@ -120,7 +120,7 @@ function win(self, how)
 
 	if how == "full" then world:gainAchievement("WIN_FULL", game.player)
 	elseif how == "aeryn-sacrifice" then world:gainAchievement("WIN_AERYN", game.player)
-	elseif how == "self-sacrifice" then world:gainAchievement("WIN_SACRIFICE", game.player)
+	elseif how == "self-sacrifice" or how == "distant-sun-sacrifice" or how == "distant-sun-selfless" then world:gainAchievement("WIN_SACRIFICE", game.player)
 	elseif how == "yeek-sacrifice" then world:gainAchievement("YEEK_SACRIFICE", game.player)
 	elseif how == "yeek-selfless" then world:gainAchievement("YEEK_SELFLESS", game.player)
 	end
@@ -176,6 +176,19 @@ function onWin(self, who)
 	desc[#desc+1] = _t""
 	desc[#desc+1] = _t"The Sorcerers are dead, and the Orc Pride lies in ruins, thanks to your efforts."
 	desc[#desc+1] = _t""
+
+	-- Avatars are special
+	if who:isQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun") then
+		desc[#desc+1] = _t"Your patron's plan worked. As your body was crushed by the raw forces of the void portal it opened wide. In an instant the connection was made and waves of heat came through."
+		desc[#desc+1] = _t"The mad sun brought forth all its power through the portal, turning the High Peak into a giant searing needle!"
+		desc[#desc+1] = _t"A few minutes later the whole world was set ablaze, nothing survived except Faeros elementals."
+		return 0, desc
+	elseif who:isQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun-stab") then
+		desc[#desc+1] = _t"In the aftermath of the battle the Distant Sun tried to force you to open the portal to bring it forth onto Eyal."
+		desc[#desc+1] = _t"Through an incredible display of willpower you resisted long enough to ask Aeryn to kill you."
+		desc[#desc+1] = _t"She sadly agreed and ran her sword through you, enabling you to do the last sacrifice you could for the world."
+		return 0, desc
+	end
 
 	-- Yeeks are special
 	if who:isQuestStatus("high-peak", engine.Quest.COMPLETED, "yeek") then

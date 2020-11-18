@@ -112,8 +112,8 @@ newTalent{
 	range = function(self) return radianceRadius(self) end,
 	tactical = { ATTACKAREA = {LIGHT=1} },
 	sustain_positive = 10,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 3, 35) end,
-	getDaze = function(self, t) return self:combatTalentLimit(t, 35, 8, 25) end,
+	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 3, 35) * (self:attr("sun_paladin_avatar") and 2 or 1) end,
+	getDaze = function(self, t) return self:combatTalentLimit(t, 35, 8, 25) * (self:attr("sun_paladin_avatar") and 2 or 1) end,
 	updateParticle = function(self, t)
 		local p = self:isTalentActive(self.T_SEARING_SIGHT)
 		if not p then return end

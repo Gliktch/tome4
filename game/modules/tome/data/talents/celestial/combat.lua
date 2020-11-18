@@ -18,6 +18,48 @@
 -- darkgod@te4.org
 
 newTalent{
+	name = "Gravitic Effulgence",
+	type = {"celestial/other", 1},
+	mode = "sustained",
+	points = 1,
+	cooldown = 10,
+	tactical = { BUFF = 2 },
+	range = 10,
+	getShieldFlat = function(self, t)
+		return t.getDamage(self, t)
+	end,
+	activate = function(self, t)
+		game:onTickEnd(function()
+			if self:isTalentActive(self.T_WEAPON_OF_LIGHT) then
+				self.turn_procs.resetting_talents = true
+				self:forceUseTalent(self.T_WEAPON_OF_LIGHT, {ignore_energy=true, ignore_cd=true, no_talent_fail=true})
+				self:forceUseTalent(self.T_WEAPON_OF_LIGHT, {ignore_energy=true, ignore_cd=true, no_talent_fail=true, talent_reuse=true})
+				self.turn_procs.resetting_talents = nil			
+			end
+		end)
+
+		game:playSoundNear(self, "talents/spell_generic2")
+		local ret = {}
+		return ret
+	end,
+	deactivate = function(self, t, p)
+		game:onTickEnd(function()
+			if self:isTalentActive(self.T_WEAPON_OF_LIGHT) then
+				self.turn_procs.resetting_talents = true
+				self:forceUseTalent(self.T_WEAPON_OF_LIGHT, {ignore_energy=true, ignore_cd=true, no_talent_fail=true})
+				self:forceUseTalent(self.T_WEAPON_OF_LIGHT, {ignore_energy=true, ignore_cd=true, no_talent_fail=true, talent_reuse=true})
+				self.turn_procs.resetting_talents = nil			
+			end
+		end)
+
+		return true
+	end,
+	info = function(self, t)
+		return ([[Your Weapon of Light nows pulls in all foes in radius 5.]]):tformat()
+	end,
+}
+
+newTalent{
 	name = "Weapon of Light",
 	type = {"celestial/combat", 1},
 	mode = "sustained",
@@ -27,19 +69,18 @@ newTalent{
 	sustain_positive = 10,
 	tactical = { BUFF = 2 },
 	range = 10,
-	getDamage = function(self, t) return 7 + self:combatSpellpower(0.092) * self:combatTalentScale(t, 1, 7) end,
+	getDamage = function(self, t) return (7 + self:combatSpellpower(0.092) * self:combatTalentScale(t, 1, 7))  end,
 	getShieldFlat = function(self, t)
 		return t.getDamage(self, t)
 	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/spell_generic2")
-		local ret = {
-			dam = self:addTemporaryValue("melee_project", {[DamageType.LIGHT]=t.getDamage(self, t)}),
-		}
+		local ret = {}
+		if not self:isTalentActive(self.T_GRAVITIC_EFFULGENCE) then ret.dam = self:addTemporaryValue("melee_project", {[DamageType.LIGHT]=t.getDamage(self, t)}) end
 		return ret
 	end,
 	deactivate = function(self, t, p)
-		self:removeTemporaryValue("melee_project", p.dam)
+		if p.dam then self:removeTemporaryValue("melee_project", p.dam) end
 		return true
 	end,
 	callbackOnMeleeAttack = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
@@ -54,6 +95,14 @@ newTalent{
 			self.damage_shield_absorb = self.damage_shield_absorb + shield_power
 			self.damage_shield_absorb_max = self.damage_shield_absorb_max + shield_power
 			shield.dur = math.max(2, shield.dur)
+		end
+		if hitted and self:isTalentActive(self.T_GRAVITIC_EFFULGENCE) then
+			local list = table.values(self:projectCollect({type="ball", radius=5, x=target.x, y=target.y, friendlyfire=false}, target.x, target.y, Map.ACTOR))
+			table.sort(list, "dist")
+			for _, l in ipairs(list) do
+				if l.target:canBe("knockback") then l.target:pull(target.x, target.y, 5) end
+			end
+			self:project({type="ball", radius=2, x=target.x, y=target.y, friendlyfire=false}, target.x, target.y, DamageType.LIGHT, t.getDamage(self, t))
 		end
 	end,
 	info = function(self, t)

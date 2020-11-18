@@ -32,6 +32,67 @@ end
 
 
 --------------------------------------------------------
+-- Distant Sun is not exactly benevolent after all
+--------------------------------------------------------
+if p:attr("sun_paladin_avatar") then
+newChat{ id="welcome",
+	text = ([[<<<The two Sorcerers lie dead before you.
+Their bodies vanish in a small cloud of mist, quickly fading away.
+You feel you the gentle warmth of your Distant Sun patron. It speaks directly to your mind!>>>
+#YELLOW#YOU HAVE DONE WELL %s! YOU DESERVE A REWARD!#LAST#
+<<<You can feel your mind filling with warmth and desire to serve your patron>>>
+#YELLOW#BUT YOU MUST DO ONE MORE TASK!#LAST#
+<<<The warmth in your head is getting intense, too intense. You feel your sanity burning away!>>>
+#YELLOW#THROW YOURSELF INTO THE PORTAL! OPEN THE WAY FOR MY POWER TO RADIATE OVER YOUR WORLD! #CRIMSON#DO IT!#LAST#
+<<<Those last words are compelling. You can not resist!>>>
+]]):tformat(p.name:upper()),
+	answers = {
+		{_t"#YELLOW#[sacrifice yourself to bring forth your patron to Eyal!]", action=function(npc, player)
+			player.no_resurrect = true
+			player:die(player, {special_death_msg=("sacrificing %s to bring the fiery wrath of the Distant Sun"):tformat(string.his_her_self(player))})
+			player:setQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun")
+			player:hasQuest("high-peak"):win("distant-sun")
+		end},
+		{_t"Nnnnnooo! Get.. get out of my head!", jump="distant-sun-unsure"},
+	}
+}
+
+newChat{ id="distant-sun-unsure",
+	text = _t[[<<<The warmth in your mind turns into searing pain!>>>
+#CRIMSON#YOU WILL DO AS YOU ARE TOLD! YOU ARE MY TOOL AND I INTEND TO USE IT!
+]],
+	answers = {
+		{_t"#LIGHT_GREEN#[sacrifice yourself to bring the Way to every sentient creature.]", action=function(npc, player)
+			player.no_resurrect = true
+			player:die(player, {special_death_msg=("sacrificing %s to bring the fiery wrath of the Distant Sun"):tformat(string.his_her_self(player))})
+			player:setQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun")
+			player:hasQuest("high-peak"):win("distant-sun")
+		end},
+		{_t"#LIGHT_GREEN#[In a last incredible display of willpower you fight the Distant Sun for a few seconds, letting you project your thoughts to Aeryn.]#WHITE# High Lady! Kill me #{bold}#NOW#{normal}#",
+			cond=function(npc, player) return not void_portal_open(nil, player) and aeryn_alive(npc, player) and player:getWil() >= 55 end, jump="distant-sun-stab"
+		},
+	}
+}
+
+newChat{ id="distant-sun-stab",
+	text = _t[[<<<Through your mind Aeryn sees what the Distant Sun is planning.>>>
+You were a precious ally and a friend. The world will remember your last act of selfless sacrifice. I swear it.
+<<<As she says this she pierces your body with a mighty thrust of her sword, ending the plans of your mad patron.>>>
+]],
+	answers = {
+		{_t"#LIGHT_GREEN#[slip peacefully into death.]", action=function(npc, player)
+			player.no_resurrect = true
+			player:die(player, {special_death_msg=("sacrificing %s to stop the mad sun's plans"):tformat(string.his_her_self(player))})
+			player:setQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun-stab")
+			player:hasQuest("high-peak"):win("distant-sun-selfless")
+		end},
+	}
+}
+
+return "welcome"
+end
+
+--------------------------------------------------------
 -- Yeeks have a .. plan
 --------------------------------------------------------
 if p.descriptor.race == "Yeek" then

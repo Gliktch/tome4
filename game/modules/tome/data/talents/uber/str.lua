@@ -276,3 +276,41 @@ uberTalent{
 		:tformat()
 	end,
 }
+
+
+uberTalent{
+	name = "Avatar of a Distant Sun",
+	require = {
+		birth_descriptors={{"subclass", "Sun Paladin"}},
+		special={desc=_t"Unlocked the evolution", fct=function(self) return profile.mod.allow_build.paladin_avatar end},
+		stat = {mag=25},
+		talent = {"T_SUN_VENGEANCE", "T_WEAPON_OF_LIGHT", "T_SEARING_SIGHT", "T_JUDGEMENT"},
+	},
+	is_class_evolution = "Sun Paladin",
+	cant_steal = true,
+	mode = "passive",
+	on_learn = function(self, t)
+		self.descriptor.class_evolution = _t"Avatar of a Distant Sun"
+
+		self:attr("sun_paladin_avatar", 1)
+		self:attr("allow_mainhand_2h_in_1h", 1)
+		self:attr("allow_mainhand_2h_in_1h_no_penalty", 1)
+		self:addTemporaryValue("all_damage_convert", DamageType.LIGHT)
+		self:addTemporaryValue("all_damage_convert_percent", 50)
+		self:learnTalent(self.T_GRAVITIC_EFFULGENCE, true)
+	end,
+	info = function(self, t)
+		return ([[During your studies of celestial forces you came in contact with an entity far beyond Eyal: the living incarnation of a Star!
+		By allying yourself with it you can gain its power!
+
+		Grants multiple benefits:
+		- The strength of your bond is so strong that you can now #GOLD#wield a two-handed weapon and a shield together#LAST#
+		- 50%% of all damage you deal is converted to #GOLD#light damage#LAST#
+		- #GOLD#Gravitic Effulgence#LAST#: whenever your Weapon of Light hits the damage is now a radius 2 sphere and all foes in range 5 are drawn to it. (You can toggle this effect)
+		- The damage and chance to trigger of #GOLD#Searing Sight#LAST# is doubled
+		- Whenever #GOLD#Sun's Vengeance#LAST# triggers the remaining cooldown of Judgement is reduced by 6.
+
+		#{italic}##GOLD#Will you bind yourself to the Distant Sun?#{normal}#
+		]]):tformat()
+	end,
+}
