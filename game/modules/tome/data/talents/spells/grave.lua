@@ -80,7 +80,7 @@ newTalent{
 	direct_hit = true,
 	requires_target = true,
 	target = function(self, t)
-		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=self:spellFriendlyFire(), talent=t, display={particle="bolt_ice", trail="icetrail"}}
+		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t), ignore_nullify_all_friendlyfire=true, selffire=self:spellFriendlyFire(), talent=t, display={particle="bolt_ice", trail="icetrail"}}
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 28, 280) end,
 	getFlatResist = function(self, t) return math.floor(self:combatTalentScale(t, 5, 25)) end,

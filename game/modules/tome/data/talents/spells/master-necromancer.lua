@@ -30,7 +30,7 @@ newTalent{
 	getResists = function(self, t) return math.floor(self:combatTalentScale(t, 8, 18)) end,
 	getInherit = function(self, t) return math.floor(self:combatTalentLimit(t, 75, 20, 40)) end,
 	callbackOnActBase = function(self, t)
-		self:projectApply({type="ball", radius=self:getTalentRadius(t)}, self.x, self.y, Map.ACTOR, function(target)
+		self:projectApply({type="ball", radius=self:getTalentRadius(t), ignore_nullify_all_friendlyfire=true}, self.x, self.y, Map.ACTOR, function(target)
 			if target.summoner == self and target.necrotic_minion and not target:hasEffect(target.EFF_NECROTIC_AURA) then
 				target:setEffect(target.EFF_NECROTIC_AURA, 1, {power=t:_getResists(self)})
 			end
@@ -64,7 +64,7 @@ newTalent{
 	tactical = { BUFF=function(self) return necroArmyStats(self).nb / 2 end, DISABLE = {daze=2} },
 	range = 0,
 	radius = function(self, t) return self:callTalent(self.T_NECROTIC_AURA, "radius") end,
-	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t)} end,
+	target = function(self, t) return {type="ball", range=0, radius=self:getTalentRadius(t), ignore_nullify_all_friendlyfire=true} end,
 	requires_target = true,
 	getSpeed = function(self, t) return math.floor(self:combatTalentScale(t, 2, 5)) end,
 	getHeal = function(self, t) return math.floor(self:combatTalentScale(t, 12, 22)) end,
