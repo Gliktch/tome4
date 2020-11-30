@@ -875,7 +875,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 			local combatc = actor_to_compare and actor_to_compare:getCombatStats(type, inven_id, item) or {}
 			local color
 			local weap_type = combat.talented or table.get(combat.mean, "talented")
-			local text2 = (combat.obj and combat.obj.slot_forbid == "OFFHAND" and _t"Two-Handed, " or "")..(weap_type and _t(weap_type) or "")
+			local text2 = (combat.obj and combat.obj.slot_forbid == "OFFHAND" and _t"Two-Handed, " or "")..(weap_type and _t(weap_type, "entity combat talented") or "")
 			s:drawColorStringBlended(self.font, (text or _t"Weapon")..(weap_type and " ("..text2..")" or "")..":", w, h, 255, 255, 255, true) h = h + self.font_h
 
 			text = compare_fields(player, actor_to_compare,
