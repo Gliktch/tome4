@@ -1991,7 +1991,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 				desc.add(("Attach on item of type '#ORANGE#%s#LAST#'"):tformat(self.on_type):toTString(), true)
 			end
 		end
-		if self.on_slot then desc.add(("Attach on item worn on slot '#ORANGE#%s#LAST#'"):tformat(self.on_slot:lower():gsub('_', ' ')):toTString(), true) end
+		if self.on_slot then desc.add(("Attach on item worn on slot '#ORANGE#%s#LAST#'"):tformat(_t(self.on_slot, "entity on slot"):lower():gsub('_', ' ')):toTString(), true) end
 
 		if self.object_tinker and (self.object_tinker.combat or self.object_tinker.wielder) then
 			desc:add({"color","YELLOW"}, _t"When attach to an other item:", {"color", "LAST"}, true)
