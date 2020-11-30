@@ -153,7 +153,7 @@ end
 -- Gets the full name of the grid
 function _M:getName()
 	-- I18N grid names.
-	local name = _t(self.name) or _t"spot"
+	local name = _t(self.name, "entity name") or _t"spot"
 	if self.summoner and self.summoner.name then
 		return ("%s's %s"):tformat(self.summoner:getName():capitalize(), name)
 	else
