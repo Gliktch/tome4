@@ -41,7 +41,7 @@ function _M:defineStat(name, short_name, default_value, min, max, desc)
 		max = max or 100,
 		no_max = no_max,
 		-- I18N I have added a new property.
-		display_short_name = _t(short_name),
+		display_short_name = _t(short_name, "entity short_name"),
 		original_name = name,
 	})
 	self.stats_def[#self.stats_def].id = #self.stats_def
