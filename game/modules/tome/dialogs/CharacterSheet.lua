@@ -1716,7 +1716,7 @@ function _M:dump()
 		 local ttknown = player:knowTalentType(tt.type)
 		if not (player.talents_types[tt.type] == nil) and ttknown then
 			local cat = tt.type:gsub("/.*", "")
-			local catname = ("%s / %s"):format(_t(cat):capitalize(), tt.name:capitalize())
+			local catname = ("%s / %s"):format(_t(cat, "talent category"):capitalize(), tt.name:capitalize())
 			nl((" - %-35s(mastery %.02f)"):format(catname, player:getTalentTypeMastery(tt.type)))
 
 			-- Find all talents of this school

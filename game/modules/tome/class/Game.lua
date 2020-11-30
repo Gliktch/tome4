@@ -262,7 +262,7 @@ function _M:newGame()
 	local nb_unlocks, max_unlocks, categories = self:countBirthUnlocks()
 	local unlocks_order = { class=1, race=2, cometic=3, other=4 }
 	local unlocks = {}
-	for cat, d in pairs(categories) do unlocks[#unlocks+1] = {desc=d.nb.."/"..d.max.." ".._t(cat), order=unlocks_order[cat] or 99} end
+	for cat, d in pairs(categories) do unlocks[#unlocks+1] = {desc=d.nb.."/"..d.max.." ".._t(cat, "talent category"), order=unlocks_order[cat] or 99} end
 	table.sort(unlocks, "order")
 	self.creating_player = true
 	self.extra_birth_option_defs = {}

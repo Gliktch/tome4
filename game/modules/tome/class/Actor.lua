@@ -1980,7 +1980,7 @@ end
 -- Gets the full name of the Actor
 function _M:getName()
 	-- I18N actor names.
-	local name = _t(self.name) or _t"actor"
+	local name = _t(self.name, "entity name") or _t"actor"
 	return name
 end
 function _M:tooltip(x, y, seen_by)
