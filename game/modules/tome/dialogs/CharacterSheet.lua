@@ -1333,7 +1333,7 @@ Ability to reduce opponent resistances to your damage]]
 						return _t"Item_Talents"
 					end
 					local mastery = player:getTalentTypeMastery(tt.type)
-					local cat = _t(tt.type:gsub("/.*", "")):bookCapitalize()
+					local cat = _t(tt.type:gsub("/.*", ""), "talent category"):bookCapitalize()
 					return cat.."/"..(tt.name or ""):bookCapitalize().." ("..mastery..")"
 				end
 			elseif self.talent_sorting == 2 then -- Alphabetically, so no groups at all.
