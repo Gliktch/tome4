@@ -1364,8 +1364,6 @@ t("%s resists the grapple!", "%s抵抗了抓取！", "logSeen")
 section "game/modules/tome/class/interface/PartyDeath.lua"
 
 t("unknown", "未知", "_t")
-t("%s the level %d %s %s was %s to death by %s%s%s on level %s of %s.", "玩家%s等级%d%s%s%s而死，杀死他（她）的是%s%s%s，死在第%s层，%s。", "_t")
-t("%s(%d %s %s) was %s to death by %s%s on %s %s.", "%s(%d %s %s)%s而死，被%s%s杀死于%s %s。", "_t")
 t("her", "她的", "_t")
 t("him", "他", "_t")
 t("herself", "她自己", "_t")
@@ -1377,10 +1375,12 @@ t(", by accident of course,", "，肯定是发生了什么意外，", "_t")
 t(" in some sort of fetish experiment gone wrong", "在某种恋物癖实验中出错了", "_t")
 t(", providing a free meal to the wildlife", "，成为了野生动物的午餐", "_t")
 t(" (how embarrassing)", " (真令人尴尬)", "_t")
+t("%s the level %d %s %s was %s to death by %s%s%s on level %s of %s.", "玩家%s等级%d%s%s%s而死，杀死他（她）的是%s%s%s，死在第%s层，%s。", "tformat")
 t(" (yet again)", " (又来了)", "_t")
+t("%s(%d %s %s) was %s to death by %s%s on %s %s.", "%s(%d %s %s)%s而死，被%s%s杀死于%s %s。", "tformat")
 t("battered", "被猛击", "_t")
-t("%s the level %d %s %s %s on level %s of %s.", "玩家%s 等级%d %s %s %s 死在%s层，%s。", "_t")
-t("%s(%d %s %s) %s on %s %s.", "%s(%d %s %s) %s 死于 %s %s。", "_t")
+t("%s the level %d %s %s %s on level %s of %s.", "玩家%s 等级%d %s %s %s 死在%s层，%s。", "tformat")
+t("%s(%d %s %s) %s on %s %s.", "%s(%d %s %s) %s 死于 %s %s。", "tformat")
 
 
 ------------------------------------------------
@@ -24654,8 +24654,7 @@ t("The blindside fizzles!", "闪电突袭失败了！", "logSeen")
 t([[With blinding speed, you suddenly appear next to a target up to %d spaces away and attack for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage. Your sudden appearance catches everyone off-guard, giving you %d extra Defense for 1 turn.
 		The Defense boost improves with your Strength.]], [[你闪电般的出现在 %d 码范围内的敌人身边，造成 %d%% （0仇恨）～ %d%% （100+仇恨）的伤害。
 		你闪电般的突袭使敌人没有提防，增加 %d 点额外闪避，持续 1 回合。 
-		闪避值受力量值加成。
-		如果你装备盾牌的话，这一技能也可以使用你的盾牌攻击。]], "tformat")
+		闪避值受力量值加成。]], "tformat")
 t("Repel", "无所畏惧", "talent name")
 t([[Rather than hide from the onslaught, you face down every threat. While active you have a %d%% chance of repelling a melee attack. The recklessness of your defense brings you bad luck (Luck -3).
 		Cleave, Repel and Surge cannot be active simultaneously, and activating one will place the others in cooldown.
@@ -26789,7 +26788,7 @@ t([[Raise your shield into blocking position for 2 turns reducing all non-Mind d
 			If any damage was successfully blocked this effect will be removed at the start of your turn.
 			If the shield has damage resistance to the blocked damage type the block value is increased by 50%%.
 			
-			Current Bonuses:  %s%s%s%s]], [[举起你的盾牌进入防御姿态 2 回合，减少所有非精神攻击伤害 %d 。如果你完全格挡了一次攻击，攻击者将遭到一次致命的反击（一次普通攻击将造成 200%% 伤害），持续 1 回合。 
+			Current Bonuses:  %s%s%s%s]], [[举起你的盾牌进入防御姿态 2 回合，减少所有非精神攻击伤害 %d 。如果你完全格挡了一次攻击，攻击者将遭到一次致命的反击（武器攻击将造成 200%% 伤害），持续 1 回合。
 		每次格挡通常只能反击一个敌人。
 		如果有任何伤害被成功格挡，此效果将在回合开始时移除。
 		如果盾牌对格挡伤害类型有伤害抗性，则格挡值增加50%% 。
@@ -26827,7 +26826,7 @@ t("Mental Refresh", "振作精神", "talent name")
 t("Reset up to 3 wild gift, psionic or cursed talents.", "刷新至多 3 个自然，灵能或诅咒系技能。", "tformat")
 t("Dagger Block", "匕首格挡", "talent name")
 t([[Raise your dagger into blocking position for one turn, reducing the damage of all physical melee attacks against you by %d. If you block all of an attack's damage, the attacker will be vulnerable to a deadly counterstrike (a normal attack will instead deal 200%% damage) for one turn and be left disarmed for 3 turns.
-		The blocking value will increase with your Dexterity and Cunning.]], [[ 举起你的匕首来格挡攻击一回合，减少所有物理伤害 %d 点。如果你完全格挡了一次攻击的伤害，攻击者将进入致命的被反击状态（对其进行的一次攻击伤害增加到 200%% ）一回合并被缴械三回合。
+		The blocking value will increase with your Dexterity and Cunning.]], [[ 举起你的匕首来格挡攻击一回合，减少所有物理伤害 %d 点。如果你完全格挡了一次攻击的伤害，攻击者将进入致命的被反击状态（对其进行的下一次武器攻击伤害增加到 200%% ）一回合并被缴械三回合。
 		格挡值受敏捷值和灵巧值加成。]], "tformat")
 t("Shieldsmaiden Aura", "女武神之守护", "talent name")
 t("#CRIMSON#%s's shield deflects the blow!", "#CRIMSON#%s的盾牌让攻击发生了偏斜！", "logSeen")
@@ -27481,7 +27480,7 @@ section "game/modules/tome/data/talents/psionic/focus.lua"
 
 t("Mindlash", "心灵鞭笞", "talent name")
 t([[Focus energies into a beam to lash all creatures in a line with physical force, doing %d Physical damage and knocking them off balance (-15%% damage penalty) for 2 turns.
-		The damage will scale with your Mindpower.]], [[汇聚能量形成一道光束鞭笞敌人，造成 %d 点物理伤害并使他们失去平衡两轮（-15%% 整体速度）。
+		The damage will scale with your Mindpower.]], [[汇聚能量形成一道光束鞭笞敌人，造成 %d 点物理伤害并使他们失去平衡两轮（-15%% 伤害）。
 		伤害受精神强度加成。]], "tformat")
 t("Pyrokinesis", "意念燃烧", "talent name")
 t("Telekinetically energize the matter of all foes within %d squares at the molecular level, setting them ablaze. This does %0.1f fire damage over six turns.", "对 %d 范围内的所有敌人，用意念使组成其身体的分子活化并引燃他们，在 6 回合内造成 %0.1f 火焰伤害。", "tformat")
@@ -30646,8 +30645,8 @@ t("#RED#%s is shaken by the collision and loses a turn!#LAST#", "#RED#%s 被冲�
 t([[In a mighty show of strength you whirl your grappled victim around and throw them into the air causing %d%% damage to them and enemies in radius %d on landing.  
 			If at least 1 other enemy is hit the thrown enemy will be shaken by the impact losing a full turn.
 			You can only throw enemies that could move normally.]], [[你使出全力将抓取的目标扔到空中，对他和着陆点周围半径 %d 的生物造成 %d%% 伤害。
-		如果至少有一个敌人被击中，被投掷的敌人将会因为冲击而失去一个回合。
-		你只能投掷那些可以移动的敌人。]], "tformat")
+		如果至少有一个其他敌人被击中，被投掷的敌人将会因为冲击而失去一个回合。
+		你只能投掷那些可以移动的敌人。]], "tformat", {2,1})
 
 
 ------------------------------------------------
@@ -36219,6 +36218,7 @@ t("The target is in a state of growing fear. If they spend %d more turns within 
 t("%s succumbs to heightening fears!", "%s屈服于恐惧！", "logSeen")
 t("%s feels a little less afraid!", "%s感到不那么恐惧了！", "logSeen")
 t("Tyrant", "精神专制", "_t")
+t("Your tyranny is increasing your Mindpower and Physicalpower by 2 for each fear applied, for a total of %d", "每施加一种恐惧增加2点物理和精神强度，合计 %d点。", "tformat")
 t("Paranoid", "妄想", "_t")
 t("Paranoia has gripped the target, causing a %d%% chance they will physically attack anyone nearby, friend or foe. Targets of the attack may become paranoid themselves.", "目标被妄想纠缠，有 %d%% 概率以物理攻击附近任一目标，不分敌我，被攻击者也可能陷入妄想。", "tformat")
 t("#F53CBE##Target# becomes paranoid!", "#F53CBE##Target#陷入了妄想！", "_t")
@@ -36286,7 +36286,7 @@ t("The target erects a powerful charged shield capable of absorbing %d/%d lightn
 t("A powerful charged shield forms around #target#.", "#Target#获得了充电护盾。", "_t")
 t("The powerful charged shield around #target# crumbles.", "#Target#的充电护盾消失了。", "_t")
 t("Perfect control", "完美控制", "_t")
-t("The target's combat attack and crit chance are improved by %d and %d%%, respectively.", "分别目标提高目标 %d 攻击强度和 %d%% 暴击率。", "tformat")
+t("The target's combat attack and crit chance are improved by %d and %d%%, respectively.", "增加 %d 命中和 %d%% 暴击率。", "tformat")
 t("Matter is energy", "物能转化", "_t")
 t("The gem's matter gradually transforms, granting %0.2f psi per turn.", "宝石缓慢转化，每回合产生 %0.2f 灵能值。", "tformat")
 t("psychic_drain", "灵能吸收", "effect subtype")
@@ -37561,6 +37561,7 @@ t("Parrying melee attacks: Has a %d%% chance to deflect up to %d damage from the
 t("Parrying", "抵挡攻击", "_t")
 t(" and ranged", "和远程", "_t")
 t("Parrying melee%s attacks: Has a %d%% chance to deflect up to %d damage from the next %0.1f attack(s).  Parried attacks cannot crit.", "阻挡近战%s攻击：面对近战攻击时有 %d%% 几率阻挡至多 %d 伤害，( 剩余次数 %0.1f )。被阻挡的攻击不会暴击。", "tformat")
+t("Blocking", "格挡", "_t")
 t("Reduces all damage taken by %d.", "减少受到的所有伤害 %d 点。", "tformat")
 t("#CRIMSON##Source# heals from blocking with %s shield!", "#CRIMSON##Source#用%s盾牌格挡，获得了治疗!", "delayedLogMessage")
 t("%s resists the disarming attempt!", "%s抵抗了缴械！", "logSeen")
@@ -37570,7 +37571,7 @@ t("+Counter", "+反击", "_t")
 t("-Counter", "-反击", "_t")
 t("Counter Attacking", "反击攻击", "_t")
 t("Countering melee attacks: Has a %d%% chance to get an automatic counter attack when avoiding a melee attack. (%0.1f counters remaining)", " 反击近战攻击：有 %d%% 几率在闪避近战攻击后反击对方。（剩余次数 %0.1f ） ", "tformat")
-t("Blocking", "格挡", "_t")
+t("Open Palm Block", "空手格挡", "_t")
 t("Blocking up to %d total damage.", "格挡至多%d伤害。", "tformat")
 t("#STEEL_BLUE#(%d blocked)#LAST#", "#STEEL_BLUE#(%d 格挡)#LAST#", "tformat")
 t("#ORCHID#You cannot block any more attacks!#LAST#", "#ORCHID#你不能格挡更多攻击了！#LAST#", "logPlayer")
