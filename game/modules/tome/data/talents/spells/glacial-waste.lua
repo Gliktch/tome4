@@ -219,7 +219,7 @@ newTalent{
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 120) end,
 	trigger = function(self, t, target)
 		if not target:canBe("cut") then return end
-		target:setEffect(target.EFF_FROST_CUT, 4, {power=t:_getDamage(self)/4, speed=t:_getSpeed(self)})
+		target:setEffect(target.EFF_FROST_CUT, 4, {src=self, power=t:_getDamage(self)/4, speed=t:_getSpeed(self)})
 	end,
 	info = function(self, t)
 		return ([[Your desolate wastes are now rapidly crumbling.
