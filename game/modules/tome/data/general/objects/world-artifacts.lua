@@ -6990,7 +6990,9 @@ newEntity{ base = "BASE_KNIFE", --Shibari's #1
 					who:project(tg, x, y, function(tx, ty)
 							local target = game.level.map(tx, ty, engine.Map.ACTOR)
 							if not target or target == who then return end
-							target:setEffect(target.EFF_DAZED, 3, {apply_power=who:combatAttack()})
+							if target:canBe("stun") then
+								target:setEffect(target.EFF_DAZED, 3, {apply_power=who:combatAttack()})
+							end
 					end)
 
 					i = i + 1
