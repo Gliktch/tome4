@@ -147,7 +147,7 @@ newEntity{ base = "BASE_STAFF",
 		element = DamageType.FIRE,
 		is_greater = true,
 		melee_element = true,
-		sentient = "agressive",
+		sentient = "aggressive",
 	},
 	wielder = {
 		combat_spellpower = 10,

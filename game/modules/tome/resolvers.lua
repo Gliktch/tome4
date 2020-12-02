@@ -1383,7 +1383,7 @@ function resolvers.calc.staff_element(t, e)
 
 	-- hee hee
 	if not e.unique and rng.percent(0.1 * (e.material_level or 1) - 0.3) then
-		e.combat.sentient = rng.table{"default", "agressive", "fawning"}
+		e.combat.sentient = rng.table{"default", "aggressive", "fawning"}
 	end
 end
 
