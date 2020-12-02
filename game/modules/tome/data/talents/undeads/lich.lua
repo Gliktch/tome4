@@ -500,7 +500,7 @@ newTalent{
 	callbackOnTalentPost = function(self, t, ab)
 		if not ab.is_spell or ab.id == t.id or ab.no_energy == true then return end
 		if not rng.percent(t.getChance(self, t)) then return end
-		self:projectApply({type="ball", radius=self:getTalentRadius(t)}, self.x, self.y, Map.ACTOR, function(target)
+		self:projectApply({type="ball", radius=self:getTalentRadius(t), ignore_nullify_all_friendlyfire=true}, self.x, self.y, Map.ACTOR, function(target)
 			if target:attr("undead") then
 				target:setEffect(target.EFF_COMMANDER_OF_THE_DEAD, 4, {power=t.getPower(self, t)})
 			end
