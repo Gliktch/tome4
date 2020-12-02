@@ -34,6 +34,7 @@ local function knives(self)
 		physcrit = 0,
 		dammod = {dex=0.7, str=0.5},
 		melee_project = {},
+		throwing_knives = 1,
 		special_on_crit = {fct=function(combat, who, target)
 			if not self:knowTalent(self.T_PRECISE_AIM) then return end
 			if not rng.percent(self:callTalent(self.T_PRECISE_AIM, "getChance")) then return end
