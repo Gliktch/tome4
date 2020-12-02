@@ -222,7 +222,7 @@ function _M:tooltip(x, y)
 	
 
 	if config.settings.cheat then
-		tstr:add(true, _t(tostring(rawget(self, "type"))), " / ", _t(tostring(rawget(self, "subtype"))))
+		tstr:add(true, _t(tostring(rawget(self, "type")), "entity type"), " / ", _t(tostring(rawget(self, "subtype")), "entity subtype"))
 		tstr:add(true, "UID: ", tostring(self.uid), true, _t"Coords: ", tostring(x), "x", tostring(y))
 	
 		-- debugging info
