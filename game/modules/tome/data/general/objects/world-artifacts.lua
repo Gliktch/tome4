@@ -1543,7 +1543,6 @@ newEntity{ base = "BASE_WIZARD_HAT", define_as = "SET_TEMPORAL_FEZ",
 		self:specialSetAdd({"wielder","inc_damage"}, { [engine.DamageType.PHYSICAL] = 10 })
 	end,
 	on_set_broken = function(self, who)
-		self.use_talent = nil
 		game.logPlayer(who, "#STEEL_BLUE#A time vortex briefly appears in front of you.")
 	end,
 }
