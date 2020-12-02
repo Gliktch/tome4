@@ -77,6 +77,13 @@ local make_poltergeist = function(type)
         x_level = math.max(5, resolvers.current_level)
     end
     o = game.zone:makeEntity(game.level, "object", filter, nil, true)
+    if not o then
+        if type == "greater" then
+            o = game.state:generateRandart{lev=resolvers.current_level+10}
+        else
+            o = game.zone:makeEntity(game.level, "object", {tome={double_greater=1}}, nil, true)
+        end
+    end
     o.no_drop = false
     local e = mod.class.NPC.new{
         type = "construct", subtype = "weapon",
