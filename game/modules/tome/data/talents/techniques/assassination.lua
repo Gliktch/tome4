@@ -130,7 +130,7 @@ newTalent{
 	end,
 	callbackOnMeleeAttack = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
 		local dam = t.getDamage(self,t)
-		if weapon.throwing_knives then return end
+		if weapon.no_garrote then return end
 		if target and not target.dead and self:isTalentActive(self.T_STEALTH) and not self:isTalentCoolingDown(t) and core.fov.distance(self.x, self.y, target.x, target.y) <= 1 then
 			self:startTalentCooldown(t)
 			-- check takes the place of normal melee hit chance

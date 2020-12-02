@@ -849,6 +849,7 @@ newEntity{ base = "BASE_KNIFE",
 		physcrit = 8,
 		dammod = {dex=0.55,str=0.35},
 		no_stealth_break = true,
+		no_garrote = true,
 		melee_project={[DamageType.RANDOM_SILENCE] = 10},
 		special_on_kill = {desc=_t"Enter stealth for 3 turns.", fct=function(combat, who, target)
 			who:setEffect(who.EFF_SILENT_STEALTH, 3, { power = 30 })
