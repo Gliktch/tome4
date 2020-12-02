@@ -357,6 +357,9 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 				if type == DamageType.ARCANE and src.knowTalent and src:knowTalent(src.T_AURA_OF_SILENCE) then pen = pen + src:combatGetResistPen(DamageType.NATURE) end
 			elseif src.resists_pen then pen = (src.resists_pen.all or 0) + (src.resists_pen[type] or 0)
 			end
+			if src.attr and src:attr("ignore_enemy_resist") then
+				pen = 100
+			end
 			local dominated = target:hasEffect(target.EFF_DOMINATED)
 			if dominated and dominated.src == src then pen = pen + (dominated.resistPenetration or 0) end
 			if target:attr("sleep") and src.attr and src:attr("night_terror") then pen = pen + src:attr("night_terror") end
@@ -3599,10 +3602,7 @@ newDamageType{
 			if core.shader.allow("distort") then game.level.map:particleEmitter(x, y, 1, "distortion") end
 
 			-- Spike resists pen
-			if dam.penetrate then
-				old_pen = src.resists_pen and src.resists_pen[engine.DamageType.PHYSICAL] or 0
-				src.resists_pen[engine.DamageType.PHYSICAL] = 100
-			end
+			src:attr("ignore_enemy_resist", 1)
 			-- Handle distortion effects
 			if target:hasEffect(target.EFF_DISTORTION) then
 				-- Explosive?
@@ -3640,9 +3640,7 @@ newDamageType{
 				end
 			end
 			-- Reset resists pen
-			if dam.penetrate then
-				src.resists_pen[engine.DamageType.PHYSICAL] = old_pen
-			end
+			src:attr("ignore_enemy_resist", -1)
 		end
 	end,
 }
