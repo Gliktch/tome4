@@ -30,7 +30,7 @@ newTalent{
 												 + self:getTalentLevelRaw(self.T_BLOOD_THIRST))*2, 90)
 	end,
 	callbackOnTemporaryEffectAdd = function(self, t, eff_id, e_def, eff)
-		if e_def.subtype.bleed and e_def.type ~= "other" then
+		if e_def.subtype.bleed then
 			local diminishment = t.getDiminishment(self, t)
 			if eff.dam then
 				eff.dam = eff.dam * (100-diminishment) / 100
