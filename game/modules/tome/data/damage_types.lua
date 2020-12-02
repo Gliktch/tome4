@@ -419,9 +419,11 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 
 		--Vim based defence
 		if target:attr("demonblood_def") and target.getVim then
+			lastdam = dam
 			local demon_block = math.min(dam*0.5,target.demonblood_def*(target:getVim() or 0))
-			dam= dam - demon_block
+			dam = dam - demon_block
 			target:incVim((-demon_block)/20)
+			if lastdam - dam > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d abyssal shield)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false) end
 		end
 
 		-- Static reduce damage
