@@ -2654,7 +2654,7 @@ newDamageType{
 					end
 					if #effs > 0 then
 						local eff = rng.tableRemove(effs)
-						target:removeEffect(eff[2])
+						target:dispel(eff[2], self)
 					end
 				end
 			end
