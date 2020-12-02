@@ -1232,7 +1232,7 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local realdam = 0
 		local target = game.level.map(x, y, Map.ACTOR)
-		if target and target ~= src and target ~= src.summoner then
+		if target and target ~= src and (not src.summoner or src.summoner.dead or src.summoner:reactionToward(target) < 0) then
 			realdam = DamageType:get(DamageType.FIREBURN).projector(src, x, y, DamageType.FIREBURN, dam, state)
 		end
 		return realdam
