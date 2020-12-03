@@ -1960,11 +1960,6 @@ function _M:physicalCrit(dam, weapon, target, atk, def, add_chance, crit_power_a
 		chance = chance - target:combatCritReduction()
 	end
 
-	-- Scoundrel's Strategies
-	if self:attr("cut") and target and target:knowTalent(self.T_SCOUNDREL) then
-		chance = chance - target:callTalent(target.T_SCOUNDREL,"getCritPenalty")
-	end
-
 	if self:attr("stealth") and self:knowTalent(self.T_SHADOWSTRIKE) and target and not target:canSee(self) then
 		chance = 100
 	end
