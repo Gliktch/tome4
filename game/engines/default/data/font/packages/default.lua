@@ -78,5 +78,6 @@ newPackage{ id = "chinese", name = "Chinese", weight = 100,
 	resources_small = {font="/data/font/zh_hans/WenQuanYiMicroHei.ttf", normal=14},
 	classic = {font="/data/font/zh_hans/WenQuanYiMicroHei.ttf", normal=16, small=14, big=18},
 	classic_mono = {font="/data/font/zh_hans/WenQuanYiMicroHeiMono.ttf", normal=14, small=10, big=16},
+	insular = {font="/data/font/zh_hans/MaShanZheng-Regular.ttf", normal=14, small=12, big=16},
 	terminal = {font="/data/font/zh_hans/WenQuanYiMicroHeiMono.ttf", normal=12, small=10, big=14},
 }
