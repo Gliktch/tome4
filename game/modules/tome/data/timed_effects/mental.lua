@@ -607,14 +607,15 @@ newEffect{
 			end
 		end
 	end,
-	do_onTakeHit = function(self, eff, dam)
-		eff.resistChance = (eff.resistChance or 0) + math.min(100, math.max(0, dam / self.max_life * 100))
+	callbackOnHit = function(self, eff, cb, src)
+		if cb.value <= 0 then return end
+		eff.resistChance = (eff.resistChance or 0) + math.min(100, math.max(0, cb.value / self.max_life * 100))
 		if rng.percent(eff.resistChance) then
 			game.logSeen(self, "#F53CBE#%s is jolted to attention by the damage and is no longer being beckoned.", self:getName():capitalize())
 			self:removeEffect(self.EFF_BECKONED)
 		end
 
-		return dam
+		return true
 	end,
 }
 
@@ -1957,6 +1958,7 @@ newEffect{
 		end
 	end,
 	callbackOnHit = function(self, eff, cb, src)
+		if cb.value <= 0 then return end
 		if not eff.damageShieldMax or eff.damageShield <= 0 then return end
 
 		local absorb = math.min(eff.damageShield, cb.value)
