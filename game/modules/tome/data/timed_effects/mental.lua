@@ -2962,6 +2962,8 @@ newEffect{
 			for _, target in ipairs(sample) do
 				t.forceHit(self, t, target, target.x, target.y, eff.damage, eff.knockback, 7, 0.6, 10)
 			end
+			
+			game:playSoundNear(self, "actions/punch" .. tostring(rng.range(3, 4)))
 		end
 	end,
 }
