@@ -94,6 +94,7 @@ newTalent{
 		local x, y, target = self:getTarget(tg)
 		if not target or not self:canProject(tg, x, y) then return nil end
 		target:setEffect(target.EFF_THORN_GRAB, 10, {src=self, speed = t.speedPenalty(self, t), dam=self:mindCrit(self:combatTalentMindDamage(t, 15, 250) / 10 * get_mindstar_power_mult(self))})
+		game.level.map:particleEmitter(x, y, 1, "thorn_grab", {})
 		return true
 	end,
 	info = function(self, t)
