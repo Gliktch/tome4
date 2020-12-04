@@ -916,7 +916,7 @@ newEffect{
 }
 
 newEffect{
-	name = "MALIGNED", image = "talents/getsture_of_malice.png",
+	name = "MALIGNED", image = "talents/gesture_of_malice.png",
 	desc = _t"Maligned",
 	long_desc = function(self, eff) return ("The target is under a malign influence. All resists have been lowered by %d%%."):tformat(-eff.resistAllChange) end,
 	type = "mental",
