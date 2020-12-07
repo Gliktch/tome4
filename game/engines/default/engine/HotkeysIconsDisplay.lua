@@ -129,6 +129,9 @@ local frames_colors = {
 	disabled = {0.65, 0.65, 0.65},
 }
 
+-- Store it so addons can play with it.
+_M.frames_colors = frames_colors
+
 -- Displays the hotkeys, keybinds & cooldowns
 function _M:display()
 	local a = self.actor
@@ -167,7 +170,10 @@ function _M:display()
 			y = self.frames.h * row
 			self.dragclics[j] = {x,y,w,h}
 			
-			self:displayHotkey(page, i, x, y, ts)
+			local ind, hktable, cfake = self:displayHotkey(page, i, x, y, ts)
+			
+			self.items[#self.items+1] = hktable
+			self.clics[ind] = {x, y, w, h, fake=cfake}
 		
 			if orient == "down" or orient == "up" then
 				col = col + 1
@@ -280,8 +286,10 @@ function _M:displayHotkey(page, i, x, y, ts)
 			gtxt.fw, gtxt.fh = self.fontbig:size(txt)
 		end
 
-		self.items[#self.items+1] = {i=i, x=x, y=y, e=display_entity or self.default_entity, color=color, angle=angle, key=key, gtxt=gtxt, frame=frame, pagesel=lpage==a.hotkey_page}
-		self.clics[i] = {x,y,w,h}
+		--self.items[#self.items+1] = {i=i, x=x, y=y, e=display_entity or self.default_entity, color=color, angle=angle, key=key, gtxt=gtxt, frame=frame, pagesel=lpage==a.hotkey_page}
+		--self.clics[i] = {x,y,w,h}
+		
+		return i, {i=i, x=x, y=y, e=display_entity or self.default_entity, color=color, angle=angle, key=key, gtxt=gtxt, frame=frame, pagesel=lpage==a.hotkey_page}, nil
 	else
 		local i = i + (12 * (page - 1))
 		local angle = 0
@@ -293,8 +301,9 @@ function _M:displayHotkey(page, i, x, y, ts)
 		local key = self.font:draw(ks, self.font:size(ks), colors.ANTIQUE_WHITE.r, colors.ANTIQUE_WHITE.g, colors.ANTIQUE_WHITE.b, true)[1]
 		self.font:setStyle("normal")
 
-		self.items[#self.items+1] = {show_on_drag=true, i=i, x=x, y=y, e=nil, color=color, angle=angle, key=key, gtxt=nil, frame=frame}
-		self.clics[i] = {x,y,w,h, fake=true}
+		--self.items[#self.items+1] = {show_on_drag=true, i=i, x=x, y=y, e=nil, color=color, angle=angle, key=key, gtxt=nil, frame=frame}
+		--self.clics[i] = {x,y,w,h, fake=true}
+		return i, {show_on_drag=true, i=i, x=x, y=y, e=nil, color=color, angle=angle, key=key, gtxt=nil, frame=frame}, true
 	end
 end
 
@@ -308,7 +317,7 @@ function _M:toScreen()
 		if not item.show_on_drag or (game.mouse and game.mouse.drag) and self.cur_sel then
 			local key = item.key
 			local gtxt = item.gtxt
-			local frame = frames_colors[item.frame]
+			local frame = self.frames_colors[item.frame]
 			local pagesel = item.pagesel and 1 or 0.5
 
 			if item.e then item.e:toScreen(self.tiles, self.display_x + item.x + self.frames.fx, self.display_y + item.y + self.frames.fy, self.icon_w, self.icon_h) end
