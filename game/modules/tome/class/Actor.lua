@@ -2594,16 +2594,6 @@ function _M:onTakeHit(value, src, death_note)
 		self.tempeffect_def[self.EFF_CURSED_FORM].do_onTakeHit(self, eff, value)
 	end
 
-	if value > 0 then
-		tal = self:isTalentActive(self.T_DEFLECTION)
-		if tal then
-			local oldval = value
-			value = self:callTalent(self.T_DEFLECTION, "do_onTakeHit", tal, value)
-			if value ~= oldval then
-				game:delayedLogDamage(src, self, 0, ("#SLATE#(%d deflected)#LAST#"):tformat(oldval - value), false)
-			end
-		end
-	end
 
 	-- Achievements
 	if not self.no_take_hit_achievements and src and src.resolveSource and src:resolveSource().player and value >= 600 then
