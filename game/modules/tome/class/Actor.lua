@@ -2605,6 +2605,11 @@ function _M:onTakeHit(value, src, death_note)
 		end
 	end
 
+	if value > 0 and self:hasEffect(self.EFF_BECKONED) then
+		local eff = self:hasEffect(self.EFF_BECKONED)
+		value = self.tempeffect_def[self.EFF_BECKONED].do_onTakeHit(self, eff, value)
+	end
+
 	-- Achievements
 	if not self.no_take_hit_achievements and src and src.resolveSource and src:resolveSource().player and value >= 600 then
 		local rsrc = src:resolveSource()

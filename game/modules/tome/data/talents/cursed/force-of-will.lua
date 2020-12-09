@@ -199,7 +199,7 @@ newTalent{
 			t.updateParticles(self, t, p)
 		end
 	end,
-	callbackOnHit = function(self, t, p, damage)
+	do_onTakeHit = function(self, t, p, damage)
 		if p.value > 0 then
 			-- absorb 50% damage
 			local deflectDamage = math.floor(math.min(damage * 0.5, p.value))
