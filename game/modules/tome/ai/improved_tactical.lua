@@ -415,7 +415,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 	local dep_low = 1 - self.AI_RESOURCE_LEVEL_TRIGGER; dep_low = dep_low/(math.max(0.001, 1 - dep_low))
 	local dep_high = 1 - 0.35*self.AI_RESOURCE_LEVEL_TRIGGER; dep_high = dep_high/(math.max(0.001, 1 - dep_high))
 	for res, res_def in ipairs(self.resources_def) do
-		if not res_def.talent or self:knowTalent(res_def.talent) then -- determine want for this resource
+		if not (res_def.ai and res_def.ai.no_want) and (not res_def.talent or self:knowTalent(res_def.talent)) then -- determine want for this resource
 			-- resource-defined want calculation
 			if res_def.ai and res_def.ai.tactical and res_def.ai.tactical.want_level then 
 				want[res_def.short_name] = util.getval(res_def.ai.tactical.want_level, self, aitarget)

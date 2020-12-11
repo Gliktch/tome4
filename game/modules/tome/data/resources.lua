@@ -48,6 +48,7 @@ ActorResource:defineResource(_t"Life", "life", nil, "life_regen", _t"This is you
 	{
 		color = '#c00000#',
 		wait_on_rest = true,
+		ai = {no_want = true},
 	}
 )
 
