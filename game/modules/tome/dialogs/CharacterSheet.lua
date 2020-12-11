@@ -632,7 +632,7 @@ function _M:drawDialog(kind, actor_to_compare)
 		for res, res_def in ipairs(player.resources_def) do
 			local rname = res_def.short_name
 			local val_text, reg_text
-			if not res_def.hidden_resource and player:knowTalent(res_def.talent) then
+			if not res_def.hidden_resource and player:knowTalent(res_def.talent) and res_def.short_name ~= "life" then
 				local status_text = table.get(res_def.CharacterSheet, "status_text") or res_def.status_text
 				if status_text then --use resource specific status text if available
 					val_text = status_text(player, actor_to_compare, compare_fields)
@@ -645,11 +645,12 @@ function _M:drawDialog(kind, actor_to_compare)
 %s]]):format(res_def.name, res_def.description or _t"No Description")
 
 				-- display regen property if present
-				if (player[res_def.regen_prop] and player[res_def.regen_prop] ~= 0) or (actor_to_compare and actor_to_compare[res_def.regen_prop] and actor_to_compare[res_def.regen_prop] ~= 0) then
-					local _, reg_fmt = string.limit_decimals(player[res_def.regen_prop], 3, "+")
+				
+				if (player[res_def.regenFunction] and player[res_def.regenFunction](player, true, true) ~= 0) or (actor_to_compare and actor_to_compare[res_def.regenFunction] and actor_to_compare[res_def.regenFunction](actor_to_compare, true, true) ~= 0) then
+					local _, reg_fmt = string.limit_decimals(player[res_def.regenFunction](player, true, true), 3, "+")
 
-					reg_text = compare_fields(player, actor_to_compare, function(act) return act[res_def.regen_prop] or 0 end, reg_fmt, reg_fmt, nil, res_def.invert_values)
-					reg_text = ((player[res_def.regen_prop] or 0)*(res_def.invert_values and -1 or 1) >= 0 and "#LIGHT_GREEN#" or "#LIGHT_RED#")..reg_text.."#LAST#"
+					reg_text = compare_fields(player, actor_to_compare, function(act) return act[res_def.regenFunction](act, true, true) or 0 end, reg_fmt, reg_fmt, nil, res_def.invert_values)
+					reg_text = ((player[res_def.regenFunction](player, true, true) or 0)*(res_def.invert_values and -1 or 1) >= 0 and "#LIGHT_GREEN#" or "#LIGHT_RED#")..reg_text.."#LAST#"
 				end
 				self:mouseTooltip(tt, s:drawColorStringBlended(self.font, ("%s%-8.8s: #00ff00#%s "):tformat(res_def.color or "#WHITE#", res_def.name, val_text), w, h, 255, 255, 255, true))
 				if reg_text then
@@ -662,7 +663,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 		
 		end
 		-- special resources
-		if player:getMaxFeedback() > 0 then
+		--[[if player:getMaxFeedback() > 0 then
 			text = compare_fields(player, actor_to_compare, "psionic_feedback_max", "%d", "%+.0f")
 			local tt = self.TOOLTIP_FEEDBACK..("Current Feedback gain is %0.1f%% of damage taken."):tformat(player:callTalent(player.T_FEEDBACK_POOL, "getFeedbackRatio")*100)
 			self:mouseTooltip(tt, s:drawColorStringBlended(self.font, ("#7fffd4#Feedback: #00ff00#%d/%s"):tformat(player:getFeedback(), text), w, h, 255, 255, 255, true))
@@ -671,7 +672,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 				self:mouseTooltip(tt, s:drawColorStringBlended(self.font, " "..decay_text, self.w*.17, h, 255, 255, 255, true)) 
 			end
 			h = h + self.font_h
-		end
+		end]]
 		-- could put a hook here for any really strange resources
 		
 -- Note: color codes confusing %xs format 

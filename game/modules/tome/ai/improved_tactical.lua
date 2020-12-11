@@ -664,15 +664,6 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 		end
 	end
 
-	--== FEEDBACK ==-- -- pseudo resource uses std want formula, but ignores decay w/o feedback loop
-	if avail.feedback and self.psionic_feedback then 
-		local val, max = self:getFeedback(), self:getMaxFeedback()
-		local regen = self:hasEffect(self.EFF_FEEDBACK_LOOP) and math.min(max - val, self:getFeedbackDecay()) or 0
-		local depleted = 1 - (val + regen)/max
-		depleted = depleted/math.max(0.001, 1-depleted)*self.global_speed
-		want.feedback = 10*(depleted/(depleted + 4))^2 -- want vs depleted: 0.00@0%, 0.03@20%, 0.40@50%, 2.00@76%, 4.79@90%, 9.92@100%, (for normal speed)
-	end
-
 	--== CURE ==--
 	if avail.cure then
 		local detriment_dur = 0 -- calculate total duration of all detrimental effects
