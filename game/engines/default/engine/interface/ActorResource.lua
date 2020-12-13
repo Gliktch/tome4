@@ -215,7 +215,8 @@ function _M:recomputeRegenResources()
 	for i = 1, #_M.resources_def do
 		r = _M.resources_def[i]
 		if r.regen_prop and (not r.talent or self:knowTalent(r.talent)) then
-			fstr = fstr..("self.%s = util.bound(self.%s + self.%s, self.%s, self.%s) "):format(r.short_name, r.short_name, r.regen_prop, r.minname, r.maxname)
+			--fstr = fstr..("self.%s = util.bound(self.%s + self.%s, self.%s, self.%s) "):format(r.short_name, r.short_name, r.regen_prop, r.minname, r.maxname)
+			fstr = fstr..("self[%s](self)"):format(r.regenFunction)
 		end
 	end
 
@@ -226,7 +227,7 @@ end
 
 --- Regen resources, should be called in your actor's act() method
 function _M:regenResources()
-	--if self.regenResourcesFast then return self:regenResourcesFast() end
+	if self.regenResourcesFast then return self:regenResourcesFast() end
 
 	local r
 	for i = 1, #_M.resources_def do
