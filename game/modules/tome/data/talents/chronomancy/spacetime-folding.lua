@@ -302,7 +302,11 @@ newTalent{
 				local trigger = rng.percent(self.chance * core.fov.distance(self.x, self.y, target.x, target.y))
 				
 				if game.level and game.level:hasEntity(target) and tether and not target.dead then
-					self.temporary = tether.dur
+					if self.x == tether.x and self.y == tether.y then
+						self.temporary = tether.dur
+					else
+						self.temporary = math.min(self.temporary or 0, tether.dur)
+					end
 				end
 
 				if game.level and game.level:hasEntity(target) and tether and trigger and not target.dead then
@@ -388,6 +392,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Tether the target to the location for %d turns.  
 		Each turn the target has a %d%% chance per tile it's travelled away from the tether to be teleported back, inflicting %0.2f physical and %0.2f temporal (warp) damage to all enemies in a radius of %d at both the entrance and exit locations.
+		If the target has already been tethered, it will also be tethered to the new location. The old tether still exists and can function normally, but cannot be extended by any means.
 		The damage will scale with your Spellpower.]])
 		:tformat(duration, chance, damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), radius)
 	end,
