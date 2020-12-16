@@ -69,7 +69,7 @@
   <object name="Orcs" x="1893" y="1029" width="20" height="21">
    <properties>
     <property name="display" value="O"/>
-    <property name="value" value="{random_filter={type='humanoid', subtype='orc', special=function(e) return e.pride == 'vor' end, random_boss={nb_classes=1, loot_quality=&quot;store&quot;, loot_quantity=3, rank=3,}}}"/>
+    <property name="value" value="{random_filter={type='humanoid', subtype='orc', special=function(e) return e.pride == 'vor' end, random_boss={nb_classes=1, loot_quality=&quot;store&quot;, loot_quantity=3.2, rank=3.2,}}}"/>
    </properties>
   </object>
   <object name="Orcs" x="329" y="424" width="46" height="46">
@@ -81,7 +81,7 @@
   <object name="Orcs" x="835" y="1893" width="16" height="81">
    <properties>
     <property name="display" value="g"/>
-    <property name="value" value="{random_filter={type='humanoid', subtype='orc', special=function(e) return e.pride == 'vor' end, random_boss={nb_classes=1, loot_quality=&quot;store&quot;, loot_quantity=1, no_loot_randart=true, rank=3,}}}"/>
+    <property name="value" value="{random_filter={type='humanoid', subtype='orc', special=function(e) return e.pride == 'vor' end, random_boss={nb_classes=1, loot_quality=&quot;store&quot;, loot_quantity=1, no_loot_randart=true, rank=3.2,}}}"/>
    </properties>
   </object>
   <object name="Orcs" x="329" y="74" width="46" height="46">
@@ -105,13 +105,13 @@
   <object name="Orcs" x="295" y="227" width="16" height="81">
    <properties>
     <property name="display" value="g"/>
-    <property name="value" value="{random_filter={type='humanoid', subtype='orc', special=function(e) return e.pride == 'vor' end, random_boss={nb_classes=1, loot_quality=&quot;store&quot;, loot_quantity=1, no_loot_randart=true, rank=3,}}}"/>
+    <property name="value" value="{random_filter={type='humanoid', subtype='orc', special=function(e) return e.pride == 'vor' end, random_boss={nb_classes=1, loot_quality=&quot;store&quot;, loot_quantity=1, no_loot_randart=true, rank=3.2,}}}"/>
    </properties>
   </object>
   <object name="Orcs randboss" x="41" y="261" width="14" height="19">
    <properties>
     <property name="display" value="O"/>
-    <property name="value" value="{random_filter={type='humanoid', subtype='orc', special=function(e) return e.pride == 'vor' end, random_boss={nb_classes=1, loot_quality=&quot;store&quot;, loot_quantity=3, rank=3,}}}"/>
+    <property name="value" value="{random_filter={type='humanoid', subtype='orc', special=function(e) return e.pride == 'vor' end, random_boss={nb_classes=1, loot_quality=&quot;store&quot;, loot_quantity=3, rank=3.2,}}}"/>
    </properties>
   </object>
  </objectgroup>
