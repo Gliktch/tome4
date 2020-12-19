@@ -8295,16 +8295,18 @@ function _M:projectDoAct(typ, tg, damtype, dam, particles, px, py, tmp)
 	if not game.level.map:checkAllEntities(px, py, "projected", self, typ, px, py, damtype, dam, particles) then
 		-- Check self- and friendly-fire, and if the projection "misses"
 		local act = game.level.map(px, py, engine.Map.ACTOR)
+		local shouldHit = true
 		if act and act == self and not (
-			((type(typ.selffire) == "number" and rng.percent(typ.selffire))
-			or
-			(type(typ.selffire) ~= "number" and typ.selffire))
-			and (act == game.player and (typ.player_selffire or act.allow_player_selffire))  -- Disable friendlyfire for player projectiles unless explicitly overriden
-			)
-			then
+				((type(typ.selffire) == "number" and rng.percent(typ.selffire))
+						or
+						(type(typ.selffire) ~= "number" and typ.selffire))
+						and (act == game.player and (typ.player_selffire or act.allow_player_selffire))  -- Disable friendlyfire for player projectiles unless explicitly overriden
+		) then
+			shouldHit = false
 		elseif act and self.reactionToward and (self:reactionToward(act) >= 0) and not ((type(typ.friendlyfire) == "number" and rng.percent(typ.friendlyfire)) or (type(typ.friendlyfire) ~= "number" and typ.friendlyfire)) then
-		-- Otherwise hit
-		else
+			shouldHit = false
+		end
+		if shouldHit or (act == self and self:attr("encased_in_ice")) then
 			DamageType:projectingFor(self, {project_type=tg})
 			if type(damtype) == "function" then if damtype(px, py, tg, self, tmp) then return true end
 			else DamageType:get(damtype).projector(self, px, py, damtype, dam, tmp, nil, tg) end

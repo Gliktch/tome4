@@ -24,6 +24,7 @@
 -- otherwise searches for a hostile target within sense range that can be seen and is not invulnerable
 newAI("target_simple", function(self)
 	if not self.x then return end
+	if self:attr("encased_in_ice") then self:setTarget(self) return self end
 	local log_detail = config.settings.log_detail_ai or 0
 	if log_detail > 0 then print("[ActorAI] Invoking target_simple AI for", self.uid, self.name, self.x, self.y) end
 	local aitarget = self.ai_target.actor
@@ -114,6 +115,7 @@ end)
 -- This is most useful on immobile melee prone to just wasting their turns if their current target isn't adjacent
 newAI("target_closest", function(self)
 	if not self.x then return end
+	if self:attr("encased_in_ice") then self:setTarget(self) return self end
 	local log_detail = config.settings.log_detail_ai or 0
 	if log_detail > 0 then print("[ActorAI] Invoking target_closest AI for", self.uid, self.name, self.x, self.y) end
 	local aitarget = self.ai_target.actor

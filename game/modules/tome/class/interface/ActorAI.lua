@@ -1487,7 +1487,10 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 				--== TACTIC INTERPRETATION ==-- use target parameters and current target to interpret tactical values
 				local f_mult, s_mult, a_mult = 1, 1, 1 -- reaction weights for foes, self, allies
 				if tact ~= "special" then
-					if requires_target then -- talent explicitly targeted: correct target is assumed
+					if self:attr("encased_in_ice") and (tact == "attack" or tact == "attackarea") then
+						--attack the iceblock
+						f_mult, s_mult, a_mult = 0, 1, 0
+					elseif requires_target then -- talent explicitly targeted: correct target is assumed
 						--all tactics (positive values) are useful (for the talent user) against ai_target
 						-- compassion only affects harmful tactics against friendly targets (to avoid over-stacking of beneficial tactical values)
 						if hostile_target then -- talent targets foes
@@ -1557,7 +1560,7 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 						tgt_weight = 0
 						local count = 10 -- maximum # tactics
 						repeat -- FOR EACH WEIGHT parameter: compute the tactical weight for this target
-							weight = 0
+							local weight = 0
 							count = count - 1
 							if type(val) ~= "table" then -- numerical or functional
 								val_type, val_wt = val, val
@@ -1565,7 +1568,9 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 							else
 								val_type, val_wt = next(val, val_type) if not val_wt then break end
 							end
-							if act == self then -- hit self
+							if act == self and self:hasEffect(self.EFF_FROZEN) and tact == "attack" or tact == "attackarea" then
+								weight = s_mult * math.abs(benefit) -- Frozen status ignores selffire and allows self-fire
+							elseif act == self then -- hit self
 								weight = selffire*friendlyfire*s_mult*benefit -- matches actor:project
 							elseif self:reactionToward(act) >= 0 then -- hit ally
 								weight = friendlyfire*a_mult*benefit
