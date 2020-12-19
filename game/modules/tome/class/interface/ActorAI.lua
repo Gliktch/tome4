@@ -1568,7 +1568,7 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 							else
 								val_type, val_wt = next(val, val_type) if not val_wt then break end
 							end
-							if act == self and self:hasEffect(self.EFF_FROZEN) and tact == "attack" or tact == "attackarea" then
+							if act == self and self:attr("encased_in_ice") and tact == "attack" or tact == "attackarea" then
 								weight = s_mult * math.abs(benefit) -- Frozen status ignores selffire and allows self-fire
 							elseif act == self then -- hit self
 								weight = selffire*friendlyfire*s_mult*benefit -- matches actor:project
