@@ -766,11 +766,20 @@ newEffect{
 		eff.rdefid = self:addTemporaryValue("combat_def_ranged", -self:combatDefenseBase()-10)
 		eff.sefid = self:addTemporaryValue("negative_status_effect_immune", 1)
 		eff.seffid = self:addTemporaryValue("negative_status_effect_immune_frozen", 1)
-
+		if self.player then return end
+		local target = self.ai_target and self.ai_target.actor
+		if target and not (target.dead or not game.level:hasEntity(target))  then
+			eff.target = target
+		end
 		self:setTarget(self)
 	end,
 	on_timeout = function(self, eff)
 		self:setTarget(self)
+		if self.player then return end
+		local target = eff.target
+		if target and (target.dead or not game.level:hasEntity(target)) then
+			eff.target = nil
+		end
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("encased_in_ice", eff.tmpid)
@@ -787,7 +796,13 @@ newEffect{
 		if eff.added_display then self.add_displays = nil end
 		self:removeAllMOs()
 		game.level.map:updateMap(self.x, self.y)
-		self:setTarget(nil)
+		if self.player then return end
+		local target = eff.target
+		if target and not (target.dead or not game.level:hasEntity(target)) then
+			self:setTarget(target)
+		else
+			self:setTarget(nil)
+		end
 	end,
 }
 
