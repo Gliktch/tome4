@@ -78,7 +78,7 @@ newTalent{
 				if target:canBe("stun") then target:setEffect(target.EFF_DAZED, t:_getDaze(self), {apply_power=self:combatSpellpower()}) end
 			elseif target.summoner == self and target.necrotic_minion then
 				target:setEffect(target.EFF_HASTE, t:_getSpeed(self), {power=0.25})
-				if not target.ghoul_minion then target:heal(target.max_life * t:_getHeal(self) / 100, self) end
+				if not target.ghoul_minion then target:heal(target:getMaxLife() * t:_getHeal(self) / 100, self) end
 			end
 		end)
 

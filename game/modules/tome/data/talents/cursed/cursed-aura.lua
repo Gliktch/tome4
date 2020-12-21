@@ -439,7 +439,7 @@ newTalent{
 			autolevel = o.combat.wil_attack and "summoner" or "warrior",
 			ai = "summoned", ai_real = "tactical", ai_state = { talent_in=1, },
 
-			max_life = 50 + self.max_life*self:combatTalentLimit(t, 1, 0.08, 0.22),  -- Add % of summoner's life < 100%
+			max_life = 50 + self:getMaxLife()*self:combatTalentLimit(t, 1, 0.08, 0.22),  -- Add % of summoner's life < 100%
 			life_rating = 3,
 			stats = o.combat.wil_attack and {wil= 20, cun = 20, mag=10, con=10} or {str=20, dex=20, mag=10, con=10},
 			combat = { dam=1, atk=1, apr=1 },

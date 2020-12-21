@@ -214,7 +214,7 @@ newAI("use_tactical", function(self)
 	end end
 	if ok then -- at least one useful talent found
 		local need_heal = 0
-		local life = 100 * self.life / self.max_life
+		local life = 100 * self:getLife() / self:getMaxLife()
 		-- Subtract solipsism straight from the life value to give us higher than normal weights; helps keep clarity up and avoid solipsism
 		if self:knowTalent(self.T_SOLIPSISM) then life = life - (100 * self:getPsi() / self:getMaxPsi()) end
 		if life < 20 then need_heal = need_heal + 10 * self_compassion / 5
@@ -231,7 +231,7 @@ newAI("use_tactical", function(self)
 		-- Need mana
 		if avail.mana then
 			want.mana = 0
-			local mana = 100 * self.mana / self.max_mana
+			local mana = 100 * self:getMana() / self:getMaxMana()
 			if mana < 20 then want.mana = want.mana + 4
 			elseif mana < 30 then want.mana = want.mana + 3
 			elseif mana < 40 then want.mana = want.mana + 2
@@ -244,7 +244,7 @@ newAI("use_tactical", function(self)
 		-- Need stamina
 		if avail.stamina then
 			want.stamina = 0
-			local stamina = 100 * self.stamina / self.max_stamina
+			local stamina = 100 * self:getStamina() / self:getMaxStamina()
 			if stamina < 20 then want.stamina = want.stamina + 4
 			elseif stamina < 30 then want.stamina = want.stamina + 3
 			elseif stamina < 40 then want.stamina = want.stamina + 2
@@ -257,7 +257,7 @@ newAI("use_tactical", function(self)
 		-- Need vim
 		if avail.vim then
 			want.vim = 0
-			local vim = 100 * self.vim / self.max_vim
+			local vim = 100 * self:getVim() / self:getMaxVim()
 			if vim < 20 then want.vim = want.vim + 4
 			elseif vim < 30 then want.vim = want.vim + 3
 			elseif vim < 40 then want.vim = want.vim + 2
@@ -270,7 +270,7 @@ newAI("use_tactical", function(self)
 		-- Need psi
 		if avail.psi then
 			want.psi = 0
-			local psi = 100 * self.psi / self.max_psi
+			local psi = 100 * self:getPsi() / self:getMaxPsi()
 			if psi < 20 then want.psi = want.psi + 4
 			elseif psi < 30 then want.psi = want.psi + 3
 			elseif psi < 40 then want.psi = want.psi + 2
@@ -319,7 +319,7 @@ newAI("use_tactical", function(self)
 		-- Summoner needs protection
 		if avail.protect and self.summoner then
 			want.protect = 0
-			local life = 100 * self.summoner.life / self.summoner.max_life
+			local life = 100 * self.summoner:getLife() / self.summoner:getMaxLife()
 			if life < 20 then want.protect = want.protect + 10 * ally_compassion
 			elseif life < 30 then want.protect = want.protect + 8 * ally_compassion
 			elseif life < 40 then want.protect = want.protect + 5 * ally_compassion

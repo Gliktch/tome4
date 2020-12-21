@@ -567,13 +567,13 @@ function _M:actBase()
 
 	-- Largely depreciated
 	if self:attr("positive_at_rest") then
-		local v = self.positive_at_rest * self.max_positive / 100
+		local v = self.positive_at_rest * self:getMaxPositive() / 100
 		if self:getPositive() > v or self:attr("positive_at_rest_disable") then self.positive_regen = -self.positive_regen_ref + (self.positive_regen_ref_mod or 0)
 		elseif self:getPositive() < v then self.positive_regen = self.positive_regen_ref + (self.positive_regen_ref_mod or 0)
 		end
 	end
 	if self:attr("negative_at_rest") then
-		local v = self.negative_at_rest * self.max_negative / 100
+		local v = self.negative_at_rest * self:getMaxNegative() / 100
 		if self:getNegative() > v or self:attr("negative_at_rest_disable")  then self.negative_regen = -self.negative_regen_ref + (self.negative_regen_ref_mod or 0)
 		elseif self:getNegative() < v then self.negative_regen = self.negative_regen_ref + (self.negative_regen_ref_mod or 0)
 		end
@@ -987,7 +987,7 @@ function _M:smallTacticalFrame(map, x, y, w, h, zoom, on_map, tlx, tly)
 		if friend < 0 then
 			sx = w * .9375
 		end
-		local lp = math.max(0, self.life) / self.max_life + 0.0001
+		local lp = math.max(0, self:getLife()) / self:getMaxLife() + 0.0001
 		if lp > .75 then -- green
 			core.display.drawQuad(x + sx, y + sy, dx, dy, 129, 180, 57, 128)
 			core.display.drawQuad(x + sx, y + sy + dy * (1-lp), dx, dy * lp, 50, 220, 77, 255)
@@ -1071,7 +1071,7 @@ function _M:smallTacticalFrame(map, x, y, w, h, zoom, on_map, tlx, tly)
 		local dx = w * .90625 - sx
 		local sy = h * .9375
 		local dy = h * .984375 - sy
-		local lp = math.max(0, self.life) / self.max_life + 0.0001
+		local lp = math.max(0, self:getLife()) / self:getMaxLife() + 0.0001
 		if lp > .75 then -- green
 			core.display.drawQuad(x + sx, y + sy, dx, dy, 129, 180, 57, 128)
 			core.display.drawQuad(x + sx, y + sy, dx * lp, dy, 50, 220, 77, 255)
@@ -1163,7 +1163,7 @@ function _M:bigTacticalFrame(x, y, w, h, zoom, on_map, tlx, tly)
 		if on_map then
 			if config.settings.tome.small_frame_side then
 				local dw = w * 0.1
-				local lp = math.max(0, self.life) / self.max_life + 0.0001
+				local lp = math.max(0, self.life) / self:getMaxLife() + 0.0001
 				if lp > .75 then -- green
 					core.display.drawQuad(x + 3, y + 3, dw, h - 6, 129, 180, 57, 128)
 					core.display.drawQuad(x + 3, y + 3 + (h - 6) * (1 - lp), dw, (h - 6) * lp, 50, 220, 77, 255)
@@ -1179,7 +1179,7 @@ function _M:bigTacticalFrame(x, y, w, h, zoom, on_map, tlx, tly)
 				end
 			else
 				local dh = h * 0.1
-				local lp = math.max(0, self.life) / self.max_life + 0.0001
+				local lp = math.max(0, self.life) / self:getMaxLife() + 0.0001
 				if lp > .75 then -- green
 					core.display.drawQuad(x + 3, y + h - dh, w - 6, dh, 129, 180, 57, 128)
 					core.display.drawQuad(x + 3, y + h - dh, (w - 6) * lp, dh, 50, 220, 77, 255)
@@ -2003,26 +2003,27 @@ function _M:tooltip(x, y, seen_by)
 	if self.hide_level_tooltip then ts:add({"color", 0, 255, 255}, _t"Level: unknown", {"color", "WHITE"}, true)
 	else ts:add({"color", 0, 255, 255}, ("Level: %d"):tformat(self.level), {"color", "WHITE"}, true) end
 	if self:attr("invulnerable") then ts:add({"color", "PURPLE"}, _t"INVULNERABLE!", true) end
-	ts:add({"color", 255, 0, 0}, ("HP: %d (%d%%) #GREEN#+%0.2f#LAST#"):tformat(self.life, self.life * 100 / self.max_life, self.life_regen * util.bound(self.healing_factor or 1)), {"color", "WHITE"})
+	local regen = self:regenLife(true, true)
+	ts:add({"color", 255, 0, 0}, ("HP: %d (%d%%) #GREEN#+%0.2f#LAST#"):tformat(self:getLife(), self:getLife() * 100 / self:getMaxLife(), regen, {"color", "WHITE"}))
 
 	-- Avoid cluttering tooltip if resources aren't relevant (add menu option?)
 	if game.player:knowTalentType("wild-gift/antimagic") then
 		if self:knowTalent(self.T_MANA_POOL) then
-			ts:add(("\nMana:  %s%d / %d#LAST#"):tformat(self.resources_def.mana.color, self.mana, self.max_mana, true))
+			ts:add(("\nMana:  %s%d / %d#LAST#"):tformat(self.resources_def.mana.color, self:getMana(), self:getMaxMana(), true))
 		end
 		if self:knowTalent(self.T_VIM_POOL) then
-			ts:add(("\nVim:  %s%d / %d#LAST#"):tformat(self.resources_def.vim.color, self.vim, self.max_vim, true))
+			ts:add(("\nVim:  %s%d / %d#LAST#"):tformat(self.resources_def.vim.color, self:getVim(), self:getMaxVim(), true))
 		end
 		if self:knowTalent(self.T_POSITIVE_POOL) then
-			ts:add(("\nPositive:  %s%d / %d#LAST#"):tformat(self.resources_def.positive.color, self.positive, self.max_positive, true))
+			ts:add(("\nPositive:  %s%d / %d#LAST#"):tformat(self.resources_def.positive.color, self:getPositive(), self:getMaxPositive(), true))
 		end
 		if self:knowTalent(self.T_NEGATIVE_POOL) then
-			ts:add(("\nNegative:  %s%d / %d#LAST#"):tformat(self.resources_def.negative.color,self.negative, self.max_negative, true))
+			ts:add(("\nNegative:  %s%d / %d#LAST#"):tformat(self.resources_def.negative.color,self:getNegative(), self:getMaxNegative(), true))
 		end
 	end
 
 	if self:knowTalent(self.T_SOLIPSISM) then
-		local psi_percent = 100*self.psi/self.max_psi
+		local psi_percent = 100*self:getPsi()/self:getMaxPsi()
 		ts:add((("#7fffd4# / %d")):format(self.psi), (" (%d%%)"):tformat(psi_percent),{"color", "WHITE"})
 	end
 	ts:add(true)
@@ -2275,8 +2276,8 @@ function _M:regenLife(fake, force)
 		end
 
 		-- handles maximum life (including Blood Lock)
-		regenb = util.bound(self.life + regen, self.die_at, self:attr("blood_lock") or self.max_life) - self.life
-		if not fake then self.life = self.life + regenb end
+		regenb = util.bound(self.life + regen, self:getMinLife(), self:attr("blood_lock") or self:getMaxLife()) - self:getLife()
+		if not fake then self:incLife(regenb) end
 		return force and regen or regenb, psi_increase or 0
 	end
 	return 0, 0
@@ -2325,6 +2326,14 @@ function _M:levelupIncLife(fake)
 		rating = math.max(self:getRankLifeAdjust(rating), 1)
 		if not fake then self:incMaxLife(rating) end
 		return rating
+end
+
+
+function _M:heal(value, src)
+	if self.onHeal then value = self:onHeal(value, src) end
+	self:incLife(value)
+	self.changed = true
+	return value
 end
 
 --- Called before healing
@@ -2742,9 +2751,9 @@ function _M:onTakeHit(value, src, death_note)
 	end
 
 	-- Stoned ? SHATTER !
-	if self:attr("stoned") and value >= self.max_life * 0.3 then
+	if self:attr("stoned") and value >= self:getMaxLife() * 0.3 then
 		-- Make the damage high enough to kill it
-		value = self.max_life + 1
+		value = self:getMaxLife() + 1
 		game.logSeen(self, "%s shatters into pieces!", self:getName():capitalize())
 	end
 
@@ -2753,13 +2762,13 @@ function _M:onTakeHit(value, src, death_note)
 		local hateGain = 0
 		local hateMessage
 
-		if value / self.max_life >= 0.15 then
+		if value / self:getMaxLife() >= 0.15 then
 			-- you take a big hit..adds 2 + 2 for each 5% over 15%
-			hateGain = hateGain + 2 + (((value / self.max_life) - 0.15) * 100 * 0.5)
+			hateGain = hateGain + 2 + (((value / self:getMaxLife()) - 0.15) * 100 * 0.5)
 			hatemessage = _t"#F53CBE#You fight through the pain!"
 		end
 
-		if value / self.max_life >= 0.05 and (self.life - value) / self.max_life < 0.25 then
+		if value / self:getMaxLife() >= 0.05 and (self.life - value) / self:getMaxLife() < 0.25 then
 			-- you take a hit with low health
 			hateGain = hateGain + 4
 			hatemessage = _t"#F53CBE#Your hatred grows even as your life fades!"
@@ -2777,14 +2786,14 @@ function _M:onTakeHit(value, src, death_note)
 		local hateGain = 0
 		local hateMessage
 
-		if value / src.max_life > 0.33 then
+		if value / src:getMaxLife() > 0.33 then
 			-- you deliver a big hit
 			hateGain = hateGain + src.hate_per_powerful_hit
 			hatemessage = _t"#F53CBE#Your powerful attack feeds your madness!"
 		end
 
 		if hateGain >= 0.1 then
-			src.hate = math.min(src.max_hate, src.hate + hateGain)
+			src:incHate(hateGain)
 			if hateMessage then
 				game.logPlayer(src, ("%s (+%d hate)"):tformat(hateMessage), hateGain)
 			end
@@ -2793,11 +2802,11 @@ function _M:onTakeHit(value, src, death_note)
 
 	if value > 0 and self:knowTalent(self.T_RAMPAGE) then
 		local t = self:getTalentFromId(self.T_RAMPAGE)
-		t:onTakeHit(self, value / self.max_life)
+		t:onTakeHit(self, value / self:getMaxLife())
 	end
 
 	-- Split ?
-	if self.clone_on_hit and value >= self.clone_on_hit.min_dam_pct * self.max_life / 100 and rng.percent(self.clone_on_hit.chance) then
+	if self.clone_on_hit and value >= self.clone_on_hit.min_dam_pct * self:getMaxLife() / 100 and rng.percent(self.clone_on_hit.chance) then
 		-- Find space
 		local x, y = util.findFreeGrid(self.x, self.y, 1, true, {[Map.ACTOR]=true})
 		if x then
@@ -2837,7 +2846,7 @@ function _M:onTakeHit(value, src, death_note)
 
 	if value <= 0 then return 0 end
 	-- VITALITY?
-	if self:knowTalent(self.T_VITALITY) and self.life > self.max_life /2 and self.life - value <= self.max_life/2 then
+	if self:knowTalent(self.T_VITALITY) and self.life > self:getMaxLife() /2 and self.life - value <= self:getMaxLife()/2 then
 		local t = self:getTalentFromId(self.T_VITALITY)
 		t.do_vitality_recovery(self, t)
 	end
@@ -2892,7 +2901,7 @@ function _M:onTakeHit(value, src, death_note)
 		local t = self:getTalentFromId(self.T_SHADOW_REFORM)
 		if rng.percent(t.getChance(self, t)) then
 			value = 0
-			self.life = self.max_life
+			self.life = self:getMaxLife()
 			game.logSeen(self, "%s fades for a moment and then reforms whole again!", self:getName():capitalize())
 			game.level.map:particleEmitter(self.x, self.y, 1, "teleport_out")
 			game:playSoundNear(self, "talents/heal")
@@ -2918,31 +2927,31 @@ function _M:onTakeHit(value, src, death_note)
 	end
 
 	-- Invisible on hit
-	if value >= self.max_life * 0.10 and self:attr("invis_on_hit") and rng.percent(self:attr("invis_on_hit")) then
+	if value >= self:getMaxLife() * 0.10 and self:attr("invis_on_hit") and rng.percent(self:attr("invis_on_hit")) then
 		self:setEffect(self.EFF_INVISIBILITY, 5, {power=self:attr("invis_on_hit_power")})
 		for tid, _ in pairs(self.invis_on_hit_disable) do self:forceUseTalent(tid, {ignore_energy=true}) end
 	end
 
 	-- Bloodspring
-	if value >= self.max_life * 0.15 and self:knowTalent(self.T_BLOODSPRING) then
+	if value >= self:getMaxLife() * 0.15 and self:knowTalent(self.T_BLOODSPRING) then
 		self:triggerTalent(self.T_BLOODSPRING)
 	end
 
 	if self:knowTalent(self.T_DUCK_AND_DODGE) then
 		local t = self:getTalentFromId(self.T_DUCK_AND_DODGE)
-		if value >= self.max_life * t.getThreshold(self, t) then
+		if value >= self:getMaxLife() * t.getThreshold(self, t) then
 			self:setEffect(self.EFF_EVASION, t.getDuration(self, t), {chance=t.getEvasionChance(self, t), defense = t.getDefense(self)})
 		end
 	end
 
 	-- Damage shield on hit
-	if self:attr("contingency") and value >= self.max_life * self:attr("contingency") / 100 and not self:hasEffect(self.EFF_DAMAGE_SHIELD) then
+	if self:attr("contingency") and value >= self:getMaxLife() * self:attr("contingency") / 100 and not self:hasEffect(self.EFF_DAMAGE_SHIELD) then
 		self:setEffect(self.EFF_DAMAGE_SHIELD, 3, {power=value * self:attr("contingency_shield") / 100})
 		for tid, _ in pairs(self.contingency_disable) do self:forceUseTalent(tid, {ignore_energy=true}) end
 	end
 
 	-- Spell cooldowns on hit
-	if self:attr("reduce_spell_cooldown_on_hit") and value >= self.max_life * self:attr("reduce_spell_cooldown_on_hit") / 100 then
+	if self:attr("reduce_spell_cooldown_on_hit") and value >= self:getMaxLife() * self:attr("reduce_spell_cooldown_on_hit") / 100 then
 		local alt = {}
 		for tid, cd in pairs(self.talents_cd) do
 			if rng.percent(self:attr("reduce_spell_cooldown_on_hit_chance")) then alt[tid] = true end
@@ -3159,11 +3168,7 @@ function _M:die(src, death_note)
 
 		local effs = {}
 
-		self.life = self.max_life
-		self.mana = self.max_mana
-		self.stamina = self.max_stamina
-		self.equilibrium = 0
-		self.air = self.max_air
+		self:resetToFull()
 
 		self.dead = false
 		self.died = (self.died or 0) + 1
@@ -3317,7 +3322,7 @@ function _M:die(src, death_note)
 
 	if src and src.summoner and src.summoner_hate_per_kill then
 		if src.summoner.knowTalent and src.summoner:knowTalent(src.summoner.T_HATE_POOL) then
-			src.summoner.hate = math.min(src.summoner.max_hate, src.summoner.hate + src.summoner_hate_per_kill)
+			src.summoner:incHate(src.summoner_hate_per_kill)
 			game.logPlayer(src.summoner, "%s feeds you hate from its latest victim. (+%d hate)", src:getName():capitalize(), src.summoner_hate_per_kill)
 		end
 	end
@@ -3880,15 +3885,13 @@ end
 
 function _M:resetToFull()
 	if self.dead then return end
-	self.life = self.max_life
+	self.life = self:getMaxLife()
 
 	-- go through all resources
 	for res, res_def in ipairs(_M.resources_def) do
 		if not res_def.no_reset then
 			if res_def.short_name == "paradox" then
 				self.paradox = self.preferred_paradox or 300
-			elseif res_def.short_name == "mana" then
-				self.mana = self:getMaxMana()
 			else
 				if res_def.invert_values or res_def.switch_direction then
 					self[res_def.short_name] = self:check(res_def.getMinFunction) or self[res_def.short_name] or res_def.min
@@ -4074,25 +4077,17 @@ end
 -- Note inc_resource_multi does not auto-update and talents that use it should manually adjust the pools
 function _M:onStatChange(stat, v)
 	if stat == self.STAT_CON then
-		-- life
-		local multi_life = 4 + (self.inc_resource_multi.life or 0)
-		self.max_life = math.max(1, self.max_life + multi_life * v)  -- no negative max life
-
+		self:incLife(0)
+	
 		-- heal mod
 		if self.stats.hf_id then self:removeTemporaryValue("healing_factor", self.stats.hf_id) end
 		self.stats.hf_id = self:addTemporaryValue("healing_factor", self:combatStatLimit("con", 1.5, 0, 0.5)) -- +0 @ 10, +0.50 @ 100
 	elseif stat == self.STAT_DEX then
 		self.ignore_direct_crits = (self.ignore_direct_crits or 0) + 0.3 * v
 	elseif stat == self.STAT_WIL then
-		-- mana
-		local multi_mana = 5 + (self.inc_resource_multi.mana or 0)
-		self:incMaxMana(multi_mana * v)
-		-- stamina
-		local multi_stamina = 2.5 + (self.inc_resource_multi.stamina or 0)
-		self:incMaxStamina(multi_stamina * v)
-		-- psi
-		local multi_psi = 1 + (self.inc_resource_multi.psi or 0)
-		self:incMaxPsi(multi_psi * v)
+		self:incStamina(0)
+		self:incMana(0)
+		self:incPsi(0)
 	elseif stat == self.STAT_STR then
 		self:checkEncumbrance()
 	end
@@ -5543,9 +5538,9 @@ function _M:incVim(v)
 		if self:attr("bloodcasting") then mult = self:attr("bloodcasting") / 100 end
 
 		local cost = math.abs(v)
-		if self.vim - cost < 0 then
-			local damage = (cost - (self.vim or 0)) * mult
-			self:incVim(-self.vim or 0)
+		if self:getVim() - cost < 0 then
+			local damage = (cost - (self:getVim() or 0)) * mult
+			self:incVim(-self:getVim() or 0)
 			self.life = self.life - damage  -- die_at life can't be used
 		else
 			return previous_incVim(self, v)
@@ -5672,6 +5667,80 @@ function _M:getFeedbackDecay(mult)
 	if self.feedback and self.feedback > 0 then
 		local feedback_decay = math.max(1, self.feedback*mult / 10)
 		return feedback_decay
+	else
+		return 0
+	end
+end
+
+-- to better interface with bounding handled by incLife and friends
+function _M:getMinLife(add, mult)
+	return self.die_at or 0
+end
+
+function _M:getMaxLife(add, mult)
+	if not self.max_life then return end
+	local base = self.max_life
+	local add = add or 0
+	
+	local res_mult = 4 + (self.inc_resource_multi.life or 0)
+	add = add + res_mult * (self:getCon() - self.stats_def[self.STAT_CON].def)
+	
+	local mult = mult or 1
+	if self:isTalentActive(self.T_ICY_SKIN) then
+		mult = mult + self:callTalent(self.T_ICY_SKIN, "getLifePct")
+	end
+	
+	if self:isTalentActive(self.T_LAST_STAND) then
+		mult = mult + self:callTalent(self.T_LAST_STAND, "lifebonusMult")
+	end
+	
+	if self:isTalentActive(self.T_CHANT_OF_FORTITUDE) then
+		mult = mult + self:callTalent(self.T_CHANT_OF_FORTITUDE, "getLifePct")
+	end
+
+	return (base+add)*mult
+end
+
+function _M:getMaxStamina(add, mult)
+	if self:knowTalent(self.T_STAMINA_POOL) then
+		local base = self.max_stamina
+		local add = add or 0
+		local mult = mult or 1
+		local res_mult = 2.5 + (self.inc_resource_multi.stamina or 0)
+		
+		add = add + res_mult * (self:getWil() - self.stats_def[self.STAT_WIL].def)
+		
+		return (base + add)*mult
+	else
+		return 0
+	end
+end
+
+function _M:getMaxMana(add, mult)
+	if self:knowTalent(self.T_MANA_POOL) then
+		local base = self.max_mana
+		local add = add or 0
+		local mult = mult or 1
+		local res_mult = 5 + (self.inc_resource_multi.mana or 0)
+		
+		add = add + res_mult * (self:getWil() - self.stats_def[self.STAT_WIL].def)
+		
+		return (base + add)*mult
+	else
+		return 0
+	end
+end
+
+function _M:getMaxPsi(add, mult)
+	if self:knowTalent(self.T_PSI_POOL) then
+		local base = self.max_psi
+		local add = add or 0
+		local mult = mult or 1
+		local res_mult = 1 + (self.inc_resource_multi.psi or 0)
+		
+		add = add + res_mult * (self:getWil() - self.stats_def[self.STAT_WIL].def)
+		
+		return (base + add)*mult
 	else
 		return 0
 	end

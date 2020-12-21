@@ -212,7 +212,7 @@ newTalent{
 	on_unlearn = function(self, t) self:unlearnTalent(self.T_BLOOD_CLOT) end,
 	getLeech = function(self, t) return self:combatTalentScale(t, 3, 6) end,
 	callbackOnDealDamage = function(self, t, val, target, dead, death_note)
-		local cap = self.max_life / 6
+		local cap = self:getMaxLife() / 6
 		local used = self.turn_procs.fallen_thirst_heal or 0
 		if used > 0 then cap = cap - used end
 		if used < cap then

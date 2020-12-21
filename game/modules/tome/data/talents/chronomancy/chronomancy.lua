@@ -95,8 +95,8 @@ newTalent{
 		if src == self then return cb.value end
 	
 		local p = self:isTalentActive(t.id)
-		local life_after = self.life - cb.value
-		local cont_trigger = self.max_life * t.getTrigger(self, t)
+		local life_after = self:getLife() - cb.value
+		local cont_trigger = self:getMaxLife() * t.getTrigger(self, t)
 		
 		-- Cast our contingent spell
 		if p and p.rest_count <= 0 and cont_trigger > life_after then

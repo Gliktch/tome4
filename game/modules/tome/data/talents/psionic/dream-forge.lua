@@ -32,12 +32,12 @@ newTalent{
 	getDuration = function(self,t) return math.floor(self:combatTalentScale(t, 1, 2)) end,
 	doForgeShield = function(type, dam, t, self, src)
 		-- Grab our damage threshold
-		local dam_threshold = self.max_life * 0.15
+		local dam_threshold = self:getMaxLife() * 0.15
 		if self:knowTalent(self.T_SOLIPSISM) then
 			local t = self:getTalentFromId(self.T_SOLIPSISM)
 			local ratio = t.getConversionRatio(self, t)
 			local psi_percent =  self:getMaxPsi() * t.getConversionRatio(self, t)
-			dam_threshold = (self.max_life * (1 - ratio) + psi_percent) * 0.15
+			dam_threshold = (self:getMaxLife() * (1 - ratio) + psi_percent) * 0.15
 		end
 
 		local dur = t.getDuration(self,t)

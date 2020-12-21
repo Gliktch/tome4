@@ -622,9 +622,9 @@ function _M:drawDialog(kind, actor_to_compare)
 		h = h + self.font_h
 
 		s:drawColorStringBlended(self.font, _t"#LIGHT_BLUE#Resources:", w, h, 255, 255, 255, true) h = h + self.font_h
-		text = compare_fields(player, actor_to_compare, "max_life", "%d", _t"%+.0f max")
-		if player.die_at ~=  0 or (actor_to_compare and actor_to_compare.die_at ~=0) then 
-			text = text .. " #a08080#[" .. compare_fields(player, actor_to_compare, "die_at", _t"die:%+d","%+.0f", 1, true) .. "]"
+		text = compare_fields(player, actor_to_compare, function(actor) return actor:getMaxLife() end, "%d", _t"%+.0f max")
+		if player:getMinLife() ~=  0 or (actor_to_compare and actor_to_compare:getMinLife() ~=0) then 
+			text = text .. " #a08080#[" .. compare_fields(player, actor_to_compare, function(actor) return actor:getMinLife() end, _t"die:%+d","%+.0f", 1, true) .. "]"
 		end
 		self:mouseTooltip(self.TOOLTIP_LIFE, s:drawColorStringBlended(self.font, ("#c00000#Life    : #00ff00#%d/%s"):tformat(player.life, text), w, h, 255, 255, 255, true)) h = h + self.font_h
 
@@ -1572,12 +1572,12 @@ function _M:dump()
 
 	nl()
 	nnl(("%-32s"):format(strings[1]))
-	nnl(("%-32s"):format(makelabel("Life", ("    %d/%d"):format(player.life, player.max_life))))
+	nnl(("%-32s"):format(makelabel("Life", ("    %d/%d"):format(player:getLife(), player:getMaxLife()))))
 	nl(makelabel("Encumbrance", enc .. "/" .. max))
 
 	nnl(("%-32s"):format(strings[2]))
 	if player:knowTalent(player.T_STAMINA_POOL) then
-		nnl(("%-32s"):format(makelabel("Stamina", ("    %d/%d"):format(player:getStamina(), player.max_stamina))))
+		nnl(("%-32s"):format(makelabel("Stamina", ("    %d/%d"):format(player:getStamina(), player:getMaxStamina()))))
 	else
 		 nnl(("%-32s"):format(" "))
 	end
@@ -1586,25 +1586,25 @@ function _M:dump()
 
 	nnl(("%-32s"):format(strings[3]))
 	if player:knowTalent(player.T_MANA_POOL) then
-		nl(makelabel("Mana", ("    %d/%d"):format(player:getMana(), player.max_mana)))
+		nl(makelabel("Mana", ("    %d/%d"):format(player:getMana(), player:getMaxMana())))
 	else
 		nl()
 	end
 	nnl(("%-32s"):format(strings[4]))
 	if player:knowTalent(player.T_POSITIVE_POOL) then
-		nl(makelabel("Positive", ("    %d/%d"):format(player:getPositive(), player.max_positive)))
+		nl(makelabel("Positive", ("    %d/%d"):format(player:getPositive(), player:getMaxPositive())))
 	else
 		nl()
 	end
 	nnl(("%-32s"):format(strings[5]))
 	if player:knowTalent(player.T_NEGATIVE_POOL) then
-		nl(makelabel("Negative", ("    %d/%d"):format(player:getNegative(), player.max_negative)))
+		nl(makelabel("Negative", ("    %d/%d"):format(player:getNegative(), player:getMaxNegative())))
 	else
 		nl()
 	end
 	nnl(("%-32s"):format(strings[6]))
 	if player:knowTalent(player.T_VIM_POOL) then
-		nl(makelabel("Vim", ("    %d/%d"):format(player:getVim(), player.max_vim)))
+		nl(makelabel("Vim", ("    %d/%d"):format(player:getVim(), player:getMaxVim())))
 	else
 		nl()
 	end

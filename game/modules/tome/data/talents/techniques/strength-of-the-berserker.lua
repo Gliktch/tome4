@@ -80,15 +80,15 @@ newTalent{
 	end,
 	callbackOnActBase = function(self, t)
 		if t.hasFoes(self) then
-			local v = (self.max_life * 0.02)
-			if v >= self.life then v = 0 end
+			local v = (self:getMaxLife() * 0.02)
+			if v >= self:getLife() then v = 0 end
 
-			if self:knowTalent(self.T_VITALITY) and self.life > self.max_life /2 and self.life - v <= self.max_life/2 then
+			if self:knowTalent(self.T_VITALITY) and self:getLife() > self:getMaxLife() /2 and self:getLife() - v <= self:getMaxLife()/2 then
 				local tt = self:getTalentFromId(self.T_VITALITY)
 				tt.do_vitality_recovery(self, tt)
 			end
 
-			self.life = self.life - v
+			self:incLife(-v)
 		end
 	end,
 	callbackOnAct = function(self, t)

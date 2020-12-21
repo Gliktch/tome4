@@ -42,7 +42,7 @@ newTalent{
 	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 10, 25, 15, false, 1.1)) end,
 	tactical = { DEFEND = 2 },
 	getShield = function(self, t)
-		return 3.5*self:getDex()+self:combatTalentScale(t, 120, 400) + self:combatTalentLimit(t, 0.1, 0.01, 0.05)*self.max_life
+		return 3.5*self:getDex()+self:combatTalentScale(t, 120, 400) + self:combatTalentLimit(t, 0.1, 0.01, 0.05)*self:getMaxLife()
 	end,
 	getDuration = function(self, t)
 		return 10
@@ -80,7 +80,7 @@ newTalent{ short_name = "SKELETON_REASSEMBLE",
 	points = 5,
 	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 10, 30, 15, false, 1.1)) end, -- Limit cooldown >10
 	getHeal = function(self, t)
-		return self:combatTalentScale(t, 100, 500) + self:combatTalentLimit(t, 0.1, 0.01, 0.05, false, 1.1)*self.max_life
+		return self:combatTalentScale(t, 100, 500) + self:combatTalentLimit(t, 0.1, 0.01, 0.05, false, 1.1)*self:getMaxLife()
 	end,
 	tactical = { HEAL = 2 },
 	is_heal = true,

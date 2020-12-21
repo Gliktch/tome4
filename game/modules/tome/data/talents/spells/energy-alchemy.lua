@@ -176,9 +176,9 @@ newTalent{
 	callbackOnAct = function(self, t)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
-		if not p.last_life then p.last_life = self.life end
-		local min = self.max_life * 0.2
-		if self.life <= p.last_life - min then
+		if not p.last_life then p.last_life = self:getLife() end
+		local minlife = self:getMaxLife() * 0.2
+		if self:getLife() <= p.last_life - minlife then
 			game.logSeen(self, "#LIGHT_STEEL_BLUE#%s is energized by all the damage taken!", self:getName():capitalize())
 			self.energy.value = self.energy.value + (t.getTurn(self, t) * game.energy_to_act / 100)
 		end

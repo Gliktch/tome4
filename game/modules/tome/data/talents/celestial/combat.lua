@@ -134,7 +134,7 @@ newTalent{
 	getLifeDamage = function(self, t) return self:combatTalentScale(t, 0.55, 0.95) end, -- Limit < 100%
 	getMaxDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 400) end,
 	getDamage = function(self, t)
-		local damage = (self:attr("weapon_of_wrath_life") or t.getLifeDamage(self, t)) * (self.max_life - math.max(0, self.life)) -- avoid problems with die_at
+		local damage = (self:attr("weapon_of_wrath_life") or t.getLifeDamage(self, t)) * (self:getMaxLife() - math.max(0, self:getLife())) -- avoid problems with die_at
 		return math.min(t.getMaxDamage(self, t), damage) -- The Martyr effect provides the upside for high HP NPC's
 	end,
 	activate = function(self, t)
@@ -183,7 +183,7 @@ newTalent{
 	sustain_positive = 20,
 	cooldown = 30,
 	tactical = { DEFEND = 2 },
-	getLife = function(self, t) return self.max_life * self:combatTalentLimit(t, 1.5, 0.2, 0.5) end, -- Limit < 150% max life (to survive a large string of hits between turns)
+	getLife = function(self, t) return self:getMaxLife() * self:combatTalentLimit(t, 1.5, 0.2, 0.5) end, -- Limit < 150% max life (to survive a large string of hits between turns)
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/heal")
 		local ret = {}

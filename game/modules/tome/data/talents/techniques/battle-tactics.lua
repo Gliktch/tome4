@@ -110,7 +110,7 @@ newTalent{
 	--Note: this can result in > 100% resistancs (before cap) at high talent levels to keep up with opposing resistance lowering talents
 	resistCoeff = function(self, t) return self:combatTalentScale(t, 25, 45) end,
 	getCapApproach = function(self, t) return self:combatTalentLimit(t, 1, 0.25, 0.5) end,
-	getResist = function(self, t) return (1 - self.life / self.max_life)*t.resistCoeff(self, t) end,
+	getResist = function(self, t) return (1 - self:getLife() / self:getMaxLife())*t.resistCoeff(self, t) end,
 	getResistCap = function(self, t) return util.bound((100-(self.resists_cap.all or 100))*t.getCapApproach(self, t), 0, 100) end,
 	remove_on_zero = true,
 	drain_stamina = function(self, t, turn)

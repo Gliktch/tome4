@@ -735,19 +735,27 @@ function _M:displayResources(scale, bx, by, a)
 
 		-----------------------------------------------------------------------------------
 		-- Air
-		if player.air < player.max_air then
+		if player:getAir() < player:getMaxAir() then
 			sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a)
 			bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a)
 			if air_sha.shad then air_sha:setUniform("a", a) air_sha.shad:use(true) end
-			local p = math.min(1, math.max(0, player:getAir() / player.max_air))
+			local p = util.bound(player:getAir() / player:getMaxAir(), 0, 1)
 			shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], air_c[1], air_c[2], air_c[3], a)
 			if air_sha.shad then air_sha.shad:use(false) end
 
-			if not self.res.air or self.res.air.vc ~= player.air or self.res.air.vm ~= player.max_air or self.res.air.vr ~= player:regenAir(true, true) then
+			local tile_degen = 0
+			
+			local air_level, air_condition = game.level.map:checkEntity(player.x, player.y, Map.TERRAIN, "air_level"), game.level.map:checkEntity(player.x, player.y, Map.TERRAIN, "air_condition")
+			
+			if not (not air_condition or not self.can_breath[air_condition] or self.can_breath[air_condition] <= 0) or self:attr("no_breath") or self:attr("invulnerable") then
+				tile_degen = air_level or 0
+			end
+			
+			if not self.res.air or self.res.air.vc ~= player:getAir() or self.res.air.vm ~= player:getMaxAir() or self.res.air.vr ~= player:regenAir(true, true) + tile_degen then
 				self.res.air = {
-					vc = player.air, vm = player.max_air, vr = player:regenAir(true, true),
-					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(vc, vm), 255, 255, 255):glTexture()},
-					regen={core.display.drawStringBlendedNewSurface(sfont_sha, ("%+0.2f"):format(vr), 255, 255, 255):glTexture()},
+					vc = player:getAir(), vm = player:getMaxAir(), vr = player:regenAir(true, true) + tile_degen,
+					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(player:getAir(), player:getMaxAir()), 255, 255, 255):glTexture()},
+					regen={core.display.drawStringBlendedNewSurface(sfont_sha, ("%+0.2f"):format(player:regenAir(true, true) + tile_degen), 255, 255, 255):glTexture()},
 				}
 			end
 			local dt = self.res.air.cur
@@ -758,7 +766,7 @@ function _M:displayResources(scale, bx, by, a)
 			dt[1]:toScreenFull(x+144, y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
 
 			local front = fshat_air_dark
-			if player.air >= player.max_air * 0.5 then front = fshat_air end
+			if player:getAir() >= player:getMaxAir() * 0.5 then front = fshat_air end
 			front[1]:toScreenFull(x, y, front[6], front[7], front[2], front[3], 1, 1, 1, a)
 			self:showResourceTooltip(bx+x*scale, by+y*scale, fshat[6], fshat[7], "res:air", self.TOOLTIP_AIR)
 			x, y = self:resourceOrientStep(orient, bx, by, scale, x, y, fshat[6], fshat[7])
@@ -768,21 +776,21 @@ function _M:displayResources(scale, bx, by, a)
 		-- Life & shield
 		sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a)
 		bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a)
-		local bar_c = player.life < 0 and neg_life_c or life_c
+		local bar_c = player:getLife() < 0 and neg_life_c or life_c
 		if life_sha.shad then life_sha:setUniform("a", a) life_sha:setUniform("color", bar_c) life_sha.shad:use(true) end
-		local p = math.min(1, math.max(0, (player.life - player.die_at) / (player.max_life - player.die_at)))
+		local p = math.min(1, math.max(0, (player:getLife() - player:getMinLife()) / (player:getMaxLife() - player:getMinLife())))
 		shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], bar_c[1], bar_c[2], bar_c[3], a)
 		if life_sha.shad then life_sha.shad:use(false) end
-		if player.die_at ~= 0 then
-			core.display.drawQuad(x+49 + shat[6] * (-player.die_at / (player.max_life - player.die_at)), y+10, 2, shat[7], 0, 0, 0, 255)
+		if player:getMinLife() ~= 0 then
+			core.display.drawQuad(x+49 + shat[6] * (-player:getMinLife() / (player:getMaxLife() - player:getMinLife())), y+10, 2, shat[7], 0, 0, 0, 255)
 		end
 
-		local life_regen = player:regenLife(true, true) --player.life_regen * util.bound((player.healing_factor or 1), 0, 2.5)
-		if not self.res.life or self.res.life.vc ~= player.life or self.res.life.vm ~= player.max_life or self.res.life.vr ~= life_regen then
-			local status_text = ("%s/%d"):format(math.round(player.life), math.round(player.max_life))
+		local life_regen = player:regenLife(true, true)
+		if not self.res.life or self.res.life.vc ~= player:getLife() or self.res.life.vm ~= player:getMaxLife() or self.res.life.vr ~= life_regen then
+			local status_text = ("%s/%d"):format(math.round(player:getLife()), math.round(player:getMaxLife()))
 			local reg_text = string.limit_decimals(life_regen,3, "+")
 			self.res.life = {
-				vc = player.life, vm = player.max_life, vr = life_regen,
+				vc = player:getLife(), vm = player:getMaxLife(), vr = life_regen,
 				cur = {core.display.drawStringBlendedNewSurface(#status_text*1.1 + #reg_text <=14 and font_sha or sfont_sha, status_text, 255, 255, 255):glTexture()}, -- adjust font for space
 				regen={core.display.drawStringBlendedNewSurface(sfont_sha, reg_text, 255, 255, 255):glTexture()},
 			}
@@ -800,7 +808,7 @@ function _M:displayResources(scale, bx, by, a)
 		if max_shield > 0 then
 			front = fshat_shield_dark
 			if shield >= max_shield * 0.8 then front = fshat_shield end
-		elseif player.life >= player.max_life then front = fshat_life end
+		elseif player:getLife() >= player:getMaxLife() then front = fshat_life end
 		front[1]:toScreenFull(x, y, front[6], front[7], front[2], front[3], 1, 1, 1, a)
 	
 		-- draw text on top of graphic for legibility
@@ -1386,7 +1394,7 @@ function _M:displayParty(scale, bx, by)
 			if not self.party[a] then
 				local def = game.party.members[a]
 
-				local text = ("#GOLD##{bold}#%s\n#WHITE##{normal}#Life: %d%%\nLevel: %d\n%s"):tformat(a:getName(), math.floor(100 * a.life / a.max_life), a.level, def.title)
+				local text = ("#GOLD##{bold}#%s\n#WHITE##{normal}#Life: %d%%\nLevel: %d\n%s"):tformat(a:getName(), math.floor(100 * a:getLife() / a:getMaxLife()), a.level, def.title)
 				if a.summon_time then
 					text = text..("\nTurns remaining: %s"):tformat(a.summon_time)
 				end
@@ -1416,7 +1424,7 @@ function _M:displayParty(scale, bx, by)
 				self.party[a] = {a, "party"..a.uid, function(x, y)
 					core.display.drawQuad(x, y, 40, 40, 0, 0, 0, 255)
 					if life_sha.shad then life_sha.shad:use(true) end
-					local p = math.min(1, math.max(0, a.life / a.max_life))
+					local p = math.min(1, math.max(0, a:getLife() / a:getMaxLife()))
 					core.display.drawQuad(x+1, y+1 + (1-p)*hs, 38, p*38, life_c[1]*255, life_c[2]*255, life_c[3]*255, 178)
 					if life_sha.shad then life_sha.shad:use(false) end
 

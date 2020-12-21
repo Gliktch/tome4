@@ -217,7 +217,7 @@ newTalent {
 		-- Don't have trigger cooldown.
 
 		local cost = t.stamina_per_use(self, t)
-		if damage >= self.max_life * t.getLifeTrigger(self, t) * 0.01 then
+		if damage >= self:getMaxLife() * t.getLifeTrigger(self, t) * 0.01 then
 			
 			local nx, ny = util.findFreeGrid(self.x, self.y, 1, true, {[Map.ACTOR]=true})
 			if nx and ny and use_stamina(self, cost) then

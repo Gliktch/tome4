@@ -94,12 +94,11 @@ newTalent{
 	activate = function(self, t)
 		return {
 			onhit = self:addTemporaryValue("on_melee_hit", {[DamageType.COLD]=t.getDamageOnMeleeHit(self, t)}),
-			life = self:addTemporaryValue("max_life", t.getLifePct(self, t)*self.max_life),
 			armor = self:addTemporaryValue("combat_armor", t.getArmor(self, t)),
 		}
 	end,
 	deactivate = function(self, t, p)
-		self:removeTemporaryValue("max_life", p.life)
+		self:incLife(0)
 		self:removeTemporaryValue("combat_armor", p.armor)
 		self:removeTemporaryValue("on_melee_hit", p.onhit)
 		return true

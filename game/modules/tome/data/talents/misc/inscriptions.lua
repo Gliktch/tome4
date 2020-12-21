@@ -233,13 +233,13 @@ newInscription{
 	tactical = { DEFEND = 1 },
 	action = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		local bonus = 1 + (1 - self.life / self.max_life)
+		local bonus = 1 + (1 - self:getLife() / self:getMaxLife())
 		self:setEffect(self.EFF_HEROISM, math.floor(data.dur * bonus), {die_at=(data.die_at + data.inc_stat * 30) * bonus})
 		return true
 	end,
 	info = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		local bonus = 1 + (1 - self.life / self.max_life)
+		local bonus = 1 + (1 - self:getLife() / self:getMaxLife())
 		local bonus1 = (data.die_at + data.inc_stat * 30) * bonus
 		local bonus2 = math.floor(data.dur * bonus)
 		return ([[Activate the infusion to endure even the most grievous of wounds for %d turns.
@@ -862,8 +862,8 @@ newInscription{
 						add_mos = table.clone(caster.add_mos, true),
 						shader = "shadow_simulacrum", shader_args = { color = {0.0, 0.4, 0.8}, base = 0.6, time_factor = 1500 },
 						exp_worth=0,
-						max_life = caster.max_life,
-						life = caster.max_life, -- We don't want to make this only useful before you take damage
+						max_life = caster:getMaxLife(),
+						life = caster:getMaxLife(), -- We don't want to make this only useful before you take damage
 						combat_armor_hardiness = caster:combatArmorHardiness(),
 						combat_def = caster:combatDefense(),
 						combat_armor = caster:combatArmor(),

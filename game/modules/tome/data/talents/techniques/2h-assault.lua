@@ -182,7 +182,7 @@ newTalent{
 		local x, y, target = self:getTarget(tg)
 		if not target or not self:canProject(tg, x, y) then return nil end
 
-		local perc = 1 - (target.life / target.max_life)
+		local perc = 1 - (target:getLife() / target:getMaxLife())
 		local power = t.getPower(self, t)
 --		game.logPlayer(self, "perc " .. perc .. " power " .. power) -- debugging code
 		self.turn_procs.auto_phys_crit = true

@@ -77,19 +77,21 @@ function _M:defineResource(name, short_name, talent, regen_prop, desc, min, max,
 	def.sustain_prop = "sustain_"..short_name
 	def.drain_prop = "drain_"..short_name
 	def.rating_prop = short_name.."_rating"
-	self[def.incFunction] = function(self, v)
-		self[short_name] = util.bound(self[short_name] + v, self[minname], self[maxname])
+	self[def.incFunction] = function(self, v, set)
+		if set then self[short_name] = util.bound(v, self[def.getMinFunction](self), self[def.getMaxFunction](self))
+		else self[short_name] = util.bound(self[short_name] + v, self[def.getMinFunction](self), self[def.getMaxFunction](self))
+		end
 	end
-	self[def.incMinFunction] = function(self, v)
-		self[minname] = self[minname] + v
+	self[def.incMinFunction] = function(self, v, set)
+		if set then self[minname] = v else self[minname] = self[minname] + v end
 		self[def.incFunction](self, 0)
 	end
-	self[def.incMaxFunction] = function(self, v)
-		self[maxname] = self[maxname] + v
+	self[def.incMaxFunction] = function(self, v, set)
+		if set then self[maxname] = v else self[maxname] = self[maxname] + v end
 		self[def.incFunction](self, 0)
 	end
 	self[def.regenFunction] = function(self, fake, force)
-		local r_invert = def.invert_values and -1 or 1
+		local r_invert = 1
 		local delta = (self[def.regen_prop] or 0) * r_invert
 		local deltab = util.bound(delta + self[def.getFunction](self), self[def.getMinFunction](self), self[def.getMaxFunction](self)) - self[def.getFunction](self)
 		
@@ -215,8 +217,7 @@ function _M:recomputeRegenResources()
 	for i = 1, #_M.resources_def do
 		r = _M.resources_def[i]
 		if r.regen_prop and (not r.talent or self:knowTalent(r.talent)) then
-			--fstr = fstr..("self.%s = util.bound(self.%s + self.%s, self.%s, self.%s) "):format(r.short_name, r.short_name, r.regen_prop, r.minname, r.maxname)
-			fstr = fstr..("self[%s](self)"):format(r.regenFunction)
+			fstr = fstr..("self:%s() "):format(r.regenFunction)
 		end
 	end
 
