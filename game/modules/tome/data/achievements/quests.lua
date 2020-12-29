@@ -117,6 +117,21 @@ newAchievement{
 	desc = _t[[Won ToME by closing the Void portal and letting yourself be killed by Aeryn to prevent the Way to enslave every sentient being on Eyal.]],
 }
 newAchievement{
+	name = "This is how the world ends: swallowed in fire, but not in darkness.", id = "AOADS_BURN",
+	show = "name", huge=true,
+	desc = _t[["Won" ToME by sacrificing yourself for your patron Distant Sun, opening a portal for it to burn and consume the world.]],
+}
+newAchievement{
+	name = "Last Instant of Sanity", id = "AOADS_SELFLESS",
+	show = "name", huge=true,
+	desc = _t[[Won ToME by closing the Void portal and letting yourself be killed by Aeryn to prevent the your mad patron sun from burning the world in a searing flash.]],
+}
+newAchievement{
+	name = "They Came Back For Eyal", id = "AOADS_SHERTUL",
+	show = "name", huge=true,
+	desc = _t[[Won ToME thanks to a Sher'tul stopping you at the last moment from opening a portal to your mad patron sun.]],
+}
+newAchievement{
 	name = "Tactical master", id = "SORCERER_NO_PORTAL",
 	show = "name", huge=true,
 	desc = _t[[Fought the two Sorcerers without closing any invocation portals.]],

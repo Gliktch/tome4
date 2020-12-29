@@ -382,3 +382,31 @@ newEntity{ define_as = "HIGH_SUN_PALADIN_AERYN",
 	},
 	resolvers.sustains_at_birth(),
 }
+
+-- For the sunpala evo ending
+load("/data/general/npcs/shertul.lua")
+newEntity{ base = "BASE_NPC_SHERTUL", define_as = "CALDIZAR_AOADS",
+	name = "Caldizar", color=colors.LIGHT_RED, unique="Caldizar AOADS",
+	resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/horror_sher_tul_caldizar.png", display_h=2, display_y=-1}}},
+	desc =_t"A creature stands before you, with long tentacle-like appendages and a squat bump in place of a head. An intense aura of power radiates from this being unlike anything you've ever felt before. It can only be a Sher'Tul. A living Sher'Tul!",
+	level_range = {1000, nil}, exp_worth = 5,
+	life_rating = 400, life_regen = 100000,
+	rank = 11,
+	size_category = 4,
+	faction = "sher'tul",
+	autolevel = "caster",
+	combat_armor = 1, combat_def = 0,
+	combat = {dam=resolvers.levelup(resolvers.mbonus(25, 15), 1, 1.1), apr=0, atk=resolvers.mbonus(30, 15), dammod={mag=0.6}},
+
+	invulnerable = 1,
+	archmage_widebeam = 1,
+
+	resists = {all = 70},
+	inc_damage = {all=10000},
+
+	ai = "tactical", ai_state = { talent_in=1, ai_move="move_astar", },
+
+	resolvers.talents{
+		[Talents.T_ELEMENTAL_ARRAY_BURST]=100,
+	}
+}

@@ -123,6 +123,9 @@ function win(self, how)
 	elseif how == "self-sacrifice" or how == "distant-sun-sacrifice" or how == "distant-sun-selfless" then world:gainAchievement("WIN_SACRIFICE", game.player)
 	elseif how == "yeek-sacrifice" then world:gainAchievement("YEEK_SACRIFICE", game.player)
 	elseif how == "yeek-selfless" then world:gainAchievement("YEEK_SELFLESS", game.player)
+	elseif how == "distant-sun" then world:gainAchievement("AOADS_BURN", game.player)
+	elseif how == "distant-sun-selfless" then world:gainAchievement("AOADS_SELFLESS", game.player)
+	elseif how == "distant-sun-shertul" then world:gainAchievement("AOADS_SHERTUL", game.player)
 	end
 	
 	local p = game:getPlayer(true)
@@ -166,7 +169,7 @@ function win(self, how)
 		world.majeyal_campaign_last_winner = pwinner
 	end
 
-	game:saveGame()
+	-- game:saveGame()
 end
 
 function onWin(self, who)
@@ -187,6 +190,11 @@ function onWin(self, who)
 		desc[#desc+1] = _t"In the aftermath of the battle the Distant Sun tried to force you to open the portal to bring it forth onto Eyal."
 		desc[#desc+1] = _t"Through an incredible display of willpower you resisted long enough to ask Aeryn to kill you."
 		desc[#desc+1] = _t"She sadly agreed and ran her sword through you, enabling you to do the last sacrifice you could for the world."
+		return 0, desc
+	elseif who:isQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun-shertul") then
+		desc[#desc+1] = _t"In the aftermath of the battle the Distant Sun tried to force you to open the portal to bring it forth onto Eyal."
+		desc[#desc+1] = _t"Through an incredible display of willpower you resisted for a few decisive seconds. During this time a Sher'tul appeared, took the Staff and killed you."
+		desc[#desc+1] = _t"Though you succumbed to the fight, your mind was already gone, burnt to ashes by your mad patron sun. But the world was saved."
 		return 0, desc
 	end
 
