@@ -79,7 +79,7 @@ newTalent{
 	tactical = { ATTACK = 2 },
 	requires_target = true,
 	is_melee = true,
-	range = function(self, t) return 2 + math.max(0, self:combatStatScale("str", 0.8, 8)) end,
+	range = function(self, t) return 2 + math.max(0, math.floor(self:combatStatScale("str", 0.8, 8))) end,
 	SecondStrikeChance = function(self, t, range)
 		return self:combatLimit(self:getTalentLevel(t)*range, 100, 15, 4, 70, 50)
 	end, -- 15% for TL 1.0 at range 4, 70% for TL 5.0 at range 10
