@@ -162,7 +162,6 @@ newTalent{
 		local targetDamageChange = t.getTargetDamageChange(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Harass your stalked victim with two quick attacks for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage each. Each attack that scores a hit disrupts one talent, rune or infusion for %d turns. Your opponent will be unnerved by the attacks, reducing the damage they deal by %d%% for %d turns.
-		Damage reduction increases with the Willpower stat.
 
 		This talent will also attack with your shield, if you have one equipped.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, cooldownDuration, -targetDamageChange, duration)
 	end,
