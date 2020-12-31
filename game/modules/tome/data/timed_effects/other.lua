@@ -3139,7 +3139,7 @@ newEffect{
 	long_desc = function(self, eff)
 		local t = self:getTalentFromId(eff.talent)
 		return
-		([[Currently Twisted Anomlay: %s
+		([[Currently Twisted Anomaly: %s
 
 		%s]]):tformat(t.name or "none", t.info(self, t) or "none")
 	end,
