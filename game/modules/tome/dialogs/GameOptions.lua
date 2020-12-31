@@ -492,7 +492,7 @@ function _M:generateListGameplay()
 		end, 1))
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"If you loose more than this percentage of life in a turn, a warning will display and all key/mouse input will be ignored for 2 seconds to prevent mistakes.#WHITE#"):toTString()}
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"If you lose more than this percentage of life in a turn, a warning will display and all key/mouse input will be ignored for 2 seconds to prevent mistakes.#WHITE#"):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Life Lost Warning#WHITE##{normal}#"):toTString(), status=function(item)
 		return (not config.settings.tome.life_lost_warning or config.settings.tome.life_lost_warning == 100) and _t"disabled" or tostring(config.settings.tome.life_lost_warning).."%"
 	end, fct=function(item)
