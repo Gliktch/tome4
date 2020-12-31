@@ -323,7 +323,7 @@ function _M:generateListUi()
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"If disabled items with activations will not be auto-added to your hotkeys, you will need to manualty drag them from the inventory screen.#WHITE#"):toTString()}
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"If disabled items with activations will not be auto-added to your hotkeys, you will need to manually drag them from the inventory screen.#WHITE#"):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Always add objects to hotkeys#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.tome.auto_hotkey_object and _t"enabled" or _t"disabled")
 	end, fct=function(item)
@@ -540,7 +540,7 @@ function _M:generateListGameplay()
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Enables quick melee targeting auto attacking.\nTalents that require a melee target will automatically target and confirm if there is only one hostile creatue around.#WHITE#"):toTString()}
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"Enables quick melee targeting auto attacking.\nTalents that require a melee target will automatically target and confirm if there is only one hostile creature around.#WHITE#"):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Quick melee targeting auto attack#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.tome.immediate_melee_keys_auto and _t"enabled" or _t"disabled")
 	end, fct=function(item)
@@ -585,7 +585,7 @@ function _M:generateListGameplay()
 		self.c_list:drawItem(item)
 	end,}
 
-	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"When swaping an item with a tinker attached, swap the tinker to the newly worn item automatically.#WHITE#"):toTString()}
+	local zone = Textzone.new{width=self.c_desc.w, height=self.c_desc.h, text=(_t"When swapping an item with a tinker attached, swap the tinker to the newly worn item automatically.#WHITE#"):toTString()}
 	list[#list+1] = { zone=zone, name=(_t"#GOLD##{bold}#Swap tinkers#WHITE##{normal}#"):toTString(), status=function(item)
 		return tostring(config.settings.tome.tinker_auto_switch and _t"enabled" or _t"disabled")
 	end, fct=function(item)
