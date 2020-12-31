@@ -126,7 +126,7 @@ newTalent{
 		Spellpower for Chronomancy :  %d
 		Willpower Paradox Modifier : -%d
 		Paradox Sustain Modifier : +%d
-		Total Modifed Paradox :  %d
+		Total Modified Paradox :  %d
 		Current Anomaly Chance :  %d%%]]):tformat(tune, preference, sp_modifier, spellpower, will_modifier, sustain_modifier, after_will, anomaly)
 	end,
 }
