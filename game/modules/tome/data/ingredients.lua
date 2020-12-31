@@ -252,7 +252,7 @@ newIngredient{ id = "STORM_WYRM_CLAW",
 	name = "storm wyrm claw",
 	desc = _t[[Bluish and wickedly sharp. It makes your arm hair stand on end.]],
 	min = 0, max = INFINITY,
-	alchemy_text = _t"I recommend severing one of dewclaws. They're smaller and easier to remove, but they've never been blunted by use, so be careful you don't poke yourself. Oh yes, and don't get eaten.",
+	alchemy_text = _t"I recommend severing one of their dewclaws. They're smaller and easier to remove, but they've never been blunted by use, so be careful you don't poke yourself. Oh yes, and don't get eaten.",
 }
 
 newIngredient{ id = "GREEN_WORM",
