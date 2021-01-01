@@ -163,7 +163,7 @@ newBirthDescriptor
 	name = "Cornac",
 	desc = {
 		_t"Cornacs are Humans from the northern parts of the Allied Kingdoms.",
-		_t"Humans are an inherently very adaptable race and as such they gain a #GOLD#talent category point#WHITE# (others only gain one at levels 10, 20 and 34) and both #GOLD#a class and a generic talent point#WHITE# at birth and every 10 levels.",
+		_t"Humans are an inherently very adaptable race and as such they gain a #GOLD#talent category point#WHITE# at birth (others only gain one at levels 10, 20 and 34). They also gain #GOLD#a class and a generic talent point#WHITE# at birth and every 10 levels.",
 		_t"#GOLD#Stat modifiers:",
 		_t"#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution",
 		_t"#LIGHT_BLUE# * +0 Magic, +0 Willpower, +0 Cunning",
