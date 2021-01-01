@@ -1585,7 +1585,7 @@ newEffect{
 newEffect{
 	name = "WAKING_NIGHTMARE", image = "talents/waking_nightmare.png",
 	desc = _t"Waking Nightmare",
-	long_desc = function(self, eff) return ("The target is lost in a nightmare that deals %0.2f mind damage each turn and has a %d%% chance to cause a random detrimental effect."):tformat(eff.dam, eff.chance) end,
+	long_desc = function(self, eff) return ("The target is lost in a nightmare that deals %0.2f darkness damage each turn and has a %d%% chance to cause a random detrimental effect."):tformat(eff.dam, eff.chance) end,
 	type = "mental",
 	subtype = { nightmare=true, darkness=true },
 	status = "detrimental",
