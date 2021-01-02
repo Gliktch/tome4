@@ -1096,10 +1096,8 @@ newInscription{
 				if #effs == 0 then break end
 				local eff = rng.tableRemove(effs)
 
-				if eff[1] == "effect" then
-					target:removeEffect(eff[2])
-				else
-					target:forceUseTalent(eff[2], {ignore_energy=true})
+				if eff then
+					target:dispel(eff[2], self)
 				end
 				self:attr("allow_on_heal", 1)
 				self:heal(data.heal + data.inc_stat, t)
