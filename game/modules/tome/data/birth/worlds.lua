@@ -92,7 +92,7 @@ newBirthDescriptor{
 			if (actor:hasQuest("anti-antimagic") and actor:hasQuest("anti-antimagic"):isStatus(engine.Quest.DONE)) then return true end
 			-- Killed an escort yourself
 			local id = world:getCurrentAchievementDifficultyId(game, "ESCORT_KILL")
-			if actor.achievement_data[id] and actor.achievement_data[id].nb > 0 then return true end
+			if actor.achievement_data[id] and (actor.achievement_data[id].nb or 0) > 0 then return true end
 			-- Lumberjack massacre
 			if (actor:hasQuest("lumberjack-cursed") and (actor:hasQuest("lumberjack-cursed").lumberjacks_died or 0) >= 20) then return true end
 			-- Slave arena
