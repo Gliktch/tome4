@@ -651,13 +651,30 @@ newEffect{
 	on_gain = function(self, err) return _t"#Target# is surrounded by a cursed miasma.", _t"+Cursed Miasma" end,
 	on_lose = function(self, err) return _t"The cursed miasma around #target# dissipates.", _t"-Cursed Miasma" end,
 	activate = function(self, eff)
+		local target = self.ai_target and self.ai_target.actor
 		self:setTarget(nil) -- Reset target to grab a random new one
 		self:effectTemporaryValue(eff, "hates_everybody", 1)
 		if core.shader.active() then
 			self:effectParticles(eff, {type="shader_shield", args={size_factor=1.5, img="shadow_shot_debuff_tentacles"}, shader={type="tentacles", wobblingType=0, appearTime=0.8, time_factor=2000, noup=0.0}})
 		end
+		if self.player then return end
+		if target and not (target.dead or not game.level:hasEntity(target))  then
+			eff.target = target
+		end
+	end,
+	on_timeout = function(self, eff)
+		if self.player then return end
+		local target = eff.target
+		if target and (target.dead or not game.level:hasEntity(target)) then
+			eff.target = nil
+		end
 	end,
 	deactivate = function(self, eff)
+		if self.player then return end
+		local target = self.ai_target and self.ai_target.actor
+		if not target then
+			self:setTarget(eff.target)
+		end
 	end,
 }
 
