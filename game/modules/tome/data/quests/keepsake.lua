@@ -203,7 +203,7 @@ on_vault_trigger = function(self, who)
 end
 
 on_dog_vault = function(self, who)
-	require("engine.ui.Dialog"):simplePopup(_t"A Second Vault", _t"You recoginize this door as the entrance to a second vault. There are some scuffling noises and heavy breathing coming from the other side of the door.")
+	require("engine.ui.Dialog"):simplePopup(_t"A Second Vault", _t"You recognize this door as the entrance to a second vault. There are some scuffling noises and heavy breathing coming from the other side of the door.")
 end
 
 on_kyless_encounter = function(self, who)

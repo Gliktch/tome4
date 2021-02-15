@@ -379,9 +379,9 @@ newEntity{ base = "BASE_NPC_ELDRICTH_EYE",
 	_eldritch_eye_rarity = 1,
 	vim_regen = 100,
 	resists = {[DamageType.BLIGHT] = 80},
-	talent_cd_reduction = {all=1},
 	resolvers.talents{
 		[Talents.T_VIRULENT_DISEASE]=3,
+		[Talents.T_DRAIN]=3,
 	},
 }
 

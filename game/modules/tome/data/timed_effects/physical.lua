@@ -1046,13 +1046,13 @@ newEffect{
 
 newEffect{
 	name = "BONE_GRAB", image = "talents/bone_grab.png",
-	desc = _t"Pinned to the ground",
-	long_desc = function(self, eff) return _t"The target is pinned to the ground, unable to move." end,
+	desc = _t"pinned by a bone spike",
+	long_desc = function(self, eff) return _t"The target is pinned by a bone spike, unable to move." end,
 	type = "physical",
 	subtype = { pin=true },
 	status = "detrimental",
 	parameters = {},
-	on_gain = function(self, err) return _t"#Target# is pinned to the ground.", _t"+Bone Grab" end,
+	on_gain = function(self, err) return _t"#Target# is pinned by a bone spike.", _t"+Bone Grab" end,
 	on_lose = function(self, err) return _t"#Target# is no longer pinned.", _t"-Bone Grab" end,
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("never_move", 1)
