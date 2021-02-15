@@ -40,7 +40,7 @@ newTalent{
 	action = function(self, t)
 		local damage = t.getDamage(self, t)
 		self:setEffect(self.EFF_SELF_JUDGEMENT, 5, {src=self, power=damage/5, no_ct_effect=true, unresistable=true}, true)
-		game:playSoundNear(self, "talents/fallen_chop")
+		game:playSoundNear(self, "talents/chop")
 			return true
 	end,
 	callbackOnActBase = function(self, t)

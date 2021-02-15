@@ -121,8 +121,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Bathes the target in flames doing %0.2f damage
-		The damage will increase with the Magic stat]]):
+		return ([[Blast the target with darkness doing %0.2f damage
+		The damage will increase with Spellpower]]):
 		tformat(damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
@@ -148,9 +148,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Bathes the target in flames doing %0.2f damage
-		The damage will increase with the Magic stat]]):
-		tformat(damDesc(self, DamageType.DARKNESS, damage))
+		return ([[Bathes the target in frost doing %0.2f damage
+		The damage will increase with Spellpower]]):
+		tformat(damDesc(self, DamageType.COLD, damage))
 	end,
 }
 

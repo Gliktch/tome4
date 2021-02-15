@@ -135,7 +135,7 @@ newTalent{
 			local reapplied = false
 			if target then
 				local actor_frenzy = false
-				if target.name == "devourer" then
+				if target.knowTalent and target:knowTalent(target.T_GNASHING_TEETH) then
 					actor_frenzy = true
 				end
 				if actor_frenzy then
