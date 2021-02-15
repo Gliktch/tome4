@@ -167,15 +167,15 @@ function _M:lineFOV(tx, ty, extra_block, block, sx, sy)
 		act and self:canSee(act) and core.fov.distance(sx, sy, tx, ty) <= math.min(self.sight, math.max(self.heightened_senses or 0, self.infravision or 0))
 
 	extra_block = type(extra_block) == "function" and extra_block
-		or type(extra_block) == "string" and function(_, x, y) return game.level.map:checkAllEntities(x, y, extra_block) end
+		or type(extra_block) == "string" and function(self, x, y) return game.level.map:checkAllEntities(x, y, extra_block, self) end
 
 	-- This block function can be called *a lot*, so every conditional statement we move outside the function helps
 	block = block or sees_target and 
 			-- target is NOT seen
 			function(_, x, y)
 				if core.fov.distance(sx, sy, x, y) <= self.sight and game.level.map.lites(x, y) then
-					return game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_sight") or
-						game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
+					return game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_sight", self) or
+						game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move", self) and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile", self) or
 						extra_block and extra_block(self, x, y)
 				else
 					return true
