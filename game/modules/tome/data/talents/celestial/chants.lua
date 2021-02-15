@@ -407,7 +407,7 @@ newTalent{
 		self:incPositive(t.getPos(self, t))
 		self.turn_procs.chant_radiant = self.turn_procs.chant_radiant + 1
 	end,
-	callbackOnArcheryHit = function(self, t, dam, src)
+	callbackOnArcheryHit = function(self, t, src, dam)
 		if not (self:isTalentActive(self.T_CHANT_OF_FORTRESS) or self:isTalentActive(self.T_CHANT_OF_FORTITUDE) or self:isTalentActive(self.T_CHANT_OF_RESISTANCE)) then return end
 		if src == self then return end
 		if self.turn_procs.chant_radiant and self.turn_procs.chant_radiant > t.getTurnLimit(self, t) then return end

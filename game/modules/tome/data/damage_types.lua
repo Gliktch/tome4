@@ -419,9 +419,11 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 
 		--Vim based defence
 		if target:attr("demonblood_def") and target.getVim then
+			lastdam = dam
 			local demon_block = math.min(dam*0.5,target.demonblood_def*(target:getVim() or 0))
-			dam= dam - demon_block
+			dam = dam - demon_block
 			target:incVim((-demon_block)/20)
+			if lastdam - dam > 0 then game:delayedLogDamage(src, target, 0, ("%s(%d abyssal shield)#LAST#"):tformat(DamageType:get(type).text_color or "#aaaaaa#", lastdam-dam), false) end
 		end
 
 		-- Static reduce damage
@@ -1230,7 +1232,7 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local realdam = 0
 		local target = game.level.map(x, y, Map.ACTOR)
-		if target and target ~= src and target ~= src.summoner then
+		if target and target ~= src and (not src.summoner or src.summoner.dead or src.summoner:reactionToward(target) < 0) then
 			realdam = DamageType:get(DamageType.FIREBURN).projector(src, x, y, DamageType.FIREBURN, dam, state)
 		end
 		return realdam
@@ -2652,7 +2654,7 @@ newDamageType{
 					end
 					if #effs > 0 then
 						local eff = rng.tableRemove(effs)
-						target:removeEffect(eff[2])
+						target:dispel(eff[2], self)
 					end
 				end
 			end

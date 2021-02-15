@@ -1062,6 +1062,8 @@ function _M:restCheck()
 		act:incStamina(act.stamina_regen * perc)
 		act:incMana(act.mana_regen * perc)
 		act:incPsi(act.psi_regen * perc)
+		act:incPositive(act.positive_regen * perc)
+		act:incNegative(act.negative_regen * perc)
 	end end
 
 	-- Reload

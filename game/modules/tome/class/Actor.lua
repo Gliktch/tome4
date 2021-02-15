@@ -2606,11 +2606,6 @@ function _M:onTakeHit(value, src, death_note)
 		end
 	end
 
-	if value > 0 and self:hasEffect(self.EFF_RAMPAGE) then
-		local eff = self:hasEffect(self.EFF_RAMPAGE)
-		value = self.tempeffect_def[self.EFF_RAMPAGE].do_onTakeHit(self, eff, value)
-	end
-
 	if value > 0 and self:hasEffect(self.EFF_BECKONED) then
 		local eff = self:hasEffect(self.EFF_BECKONED)
 		value = self.tempeffect_def[self.EFF_BECKONED].do_onTakeHit(self, eff, value)

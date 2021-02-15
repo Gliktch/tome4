@@ -260,6 +260,8 @@ newTalent{
 			game.logPlayer(game.player, "#LIGHT_RED#You are taken to the Fearscape!")
 			game.party:learnLore("fearscape-entry")
 			level.allow_demon_plane_damage = true
+			self:attr("planetary_orbit", 1)
+			target:attr("planetary_orbit", 1)
 		end)
 
 		local particle

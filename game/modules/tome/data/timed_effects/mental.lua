@@ -1956,15 +1956,16 @@ newEffect{
 			end
 		end
 	end,
-	do_onTakeHit = function(self, eff, dam)
-		if not eff.damageShieldMax or eff.damageShield <= 0 then return dam end
+	callbackOnHit = function(self, eff, cb, src)
+		if not eff.damageShieldMax or eff.damageShield <= 0 then return end
 
-		local absorb = math.min(eff.damageShield, dam)
+		local absorb = math.min(eff.damageShield, cb.value)
 		eff.damageShield = eff.damageShield - absorb
-
+		cb.value = cb.value - absorb
+		game:delayedLogDamage(src, self, 0, ("#RED#(%d rampage shugs off#LAST#)"):tformat(absorb), false)
 		--game.logSeen(self, "%s shrugs off %d damage.", self:getName():capitalize(), absorb)
 
-		return dam - absorb
+		return true
 	end,
 	do_postUseTalent = function(self, eff)
 		if eff.dur > 0 then

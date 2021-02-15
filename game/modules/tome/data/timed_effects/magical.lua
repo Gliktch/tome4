@@ -3285,7 +3285,7 @@ newEffect{
 	callbackOnTakeDamage = function(self, eff, src, x, y, type, dam, state)
 		if dam <= 80 or src~= eff.src or type ~= engine.DamageType.LIGHT or self.turn_procs.light_blight_reflect then return end
 		self.turn_procs.light_blight_reflect = true
-		local grids = eff.src:project({type="ball", radius=2, x=self.x, y=self.y}, self.x, self.y, engine.DamageType.LIGHT, dam * eff.splash/100)
+		local grids = eff.src:project({type="ball", radius=2, x=self.x, y=self.y,selffire = false,friendlyfire=false}, self.x, self.y, engine.DamageType.LIGHT, dam * eff.splash/100)
 		game.level.map:particleEmitter(self.x, self.y, 1, "sunburst", {radius=2, grids=grids, tx=self.x, ty=self.y})
 	end,
 }
@@ -5478,7 +5478,7 @@ newEffect{
 			self:addParticles(Particles.new("shader_shield_temp", 1, {toback=false, size_factor=1.5, y=-0.3, img="healgreen", life=25}, {type="healing", time_factor=2000, beamsCount=20, noup=1.0, circleDescendSpeed=3.5}))
 		end
 	end,
-	callbackOnKill = function(self, t)
+	callbackOnKill = function(self, eff)
 		if self.turn_procs.fallen_conquest_on_kill then return end
 		self.turn_procs.fallen_conquest_on_kill = true
 		

@@ -109,7 +109,7 @@ Oh yes, my friend, this is indeed a powerful artefact! I think that it should su
 
 newChat{ id="thanks",
 	text = _t[[Ah yes! I am so glad! I will be able to go back to Angolw...err... Oh well, I guess I can tell you; you deserve it for helping me.
-During the dark years of the Spellhunt, many thousands of years ago, Linaniil, the great mage of the Kor'Krul, worried that magic might disappear with her generation and be lost to mortals should they need it again.
+During the dark years of the Spellhunt, many thousands of years ago, Linaniil, the great mage of the Kar'Krul, worried that magic might disappear with her generation and be lost to mortals should they need it again.
 So she set a secret plan into action and built a secret place where magic would be kept alive.
 Her plan worked and the group built a town called Angolwen in the western mountains. #LIGHT_GREEN#*He marks it on your map, along with a portal to access it*#WHITE#
 Not many people are accepted there but I will arrange for you to be allowed inside.]],
