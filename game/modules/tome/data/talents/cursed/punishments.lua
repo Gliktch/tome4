@@ -61,8 +61,9 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local spreadFactor = t.getSpreadFactor(self, t)
-		return ([[You unleash your hateful mind on any who dare approach you, inflicing %d mind damage. The attack will hit multiple targets, but each additional target will further reduce damage by %d%%.
-		25%% chance to brainlock. The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.MIND, damage), (1 - spreadFactor) * 100)
+		return ([[Utter a terrible curse against any who dare approach you, inflicting %d mind damage to targets in radius %d. Each affected target (ordered at random) takes %d%% less damage than the last, and has a 25%% chance of suffering Brainlock.
+
+The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.MIND, damage), self:getTalentRange(t), (1 - spreadFactor) * 100)
 	end,
 }
 
@@ -134,8 +135,11 @@ newTalent{
 		local jumpCount = t.getJumpCount(self, t)
 		local jumpChance = t.getJumpChance(self, t)
 		local hateGain = t.getHateGain(self, t)
-		return ([[Send a whisper filled with hate to spread throughout your foes. When the whisper is first heard, they will suffer %d mind damage and feed you %d hate. For the first %d turns, the whisper will travel from the original victim to a new one within a range of %0.1f. Every victim of the whisper has a %d%% chance of spreading it to another victim every turn.
-		25%% chance to brainlock. The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.MIND, damage), hateGain, jumpCount, jumpRange, jumpChance)
+		return ([[Infect a target's mind with a virulent whisper that deals %d Mind damage and spreads amongst your foes, dealing damage and feeding you %0.1f Hate for each new victim. Each turn for %d turns, the initial victim will spread the whisper to a new target within %d tiles if one is available; beyond this, all affected targets have a %d%% chance of spreading the effect each turn for 4 turns.
+
+Targets damaged by this ability have a 25%% chance of suffering Brainlock.
+
+The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.MIND, damage), hateGain, math.min(jumpCount, t.getDuration(self, t)), jumpRange, jumpChance)
 	end,
 }
 
@@ -297,8 +301,9 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local maxDamage = t.getDamage(self, t)
 		local minDamage = maxDamage / duration
-		return ([[Unleash agony upon your target. The pain will grow over the course of %d turns. The first turn will inflict %d damage, and slowly increase to %d on the last turn (%d total).
-		25%% chance of brainlock. The damage will increase with your Mindpower.]]):tformat(duration, damDesc(self, DamageType.MIND, minDamage), damDesc(self, DamageType.MIND, maxDamage), maxDamage * (duration + 1) / 2)
+		return ([[Sear your hatred into the mind of a target, dealing escalating Mind damage each turn over %d turns. The victim will suffer %0.1f damage on the first turn, slowly increasing up to %0.1f damage on the last, dealing %d Mind damage in total. Re-applying the effect resets the damage escalation. The victim has a 25%% chance of suffering Brainlock each turn from the unbearable pain.
+
+The damage increases with your Mindpower.]]):tformat(duration, damDesc(self, DamageType.MIND, minDamage), damDesc(self, DamageType.MIND, maxDamage), maxDamage * (duration + 1) / 2)
 	end,
 }
 
@@ -336,7 +341,7 @@ newTalent{
 	info = function(self, t)
 		local chance = t.getChance(self, t)
 		local mindResistChange = t.getMindResistChange(self, t)
-		return ([[Every time you inflict mind damage, there is a %d%% chance that your foe must save against your Mindpower or go mad. Madness can cause them to become confused, slowed or stunned for 3 turns, and lowers resistance to mind damage by %d%%.]]):tformat(chance, -mindResistChange)
+		return ([[Your hateful will splinters into the minds of those you torture, breaking them down. Each time you inflict Mind damage, the victim has a %0.1f%% chance of going mad for 3 turns unless they save against your Mindpower. The madness will lower the victim's Mind resistance by %0.1f%% and cause them to become confused (50%% power), slowed (30%% power), or stunned for the duration.]]):tformat(chance, -mindResistChange)
 	end,
 }
 

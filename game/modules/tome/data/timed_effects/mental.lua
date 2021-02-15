@@ -916,7 +916,7 @@ newEffect{
 }
 
 newEffect{
-	name = "MALIGNED", image = "talents/getsture_of_malice.png",
+	name = "MALIGNED", image = "talents/gesture_of_malice.png",
 	desc = _t"Maligned",
 	long_desc = function(self, eff) return ("The target is under a malign influence. All resists have been lowered by %d%%."):tformat(-eff.resistAllChange) end,
 	type = "mental",
@@ -2963,6 +2963,8 @@ newEffect{
 			for _, target in ipairs(sample) do
 				t.forceHit(self, t, target, target.x, target.y, eff.damage, eff.knockback, 7, 0.6, 10)
 			end
+			
+			game:playSoundNear(self, "actions/punch" .. tostring(rng.range(3, 4)))
 		end
 	end,
 }
