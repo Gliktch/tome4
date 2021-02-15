@@ -153,6 +153,9 @@ newTalent{
 		return self:combatTalentLimit(t, 0.5, 0.15, 0.3)
 	end,
 	tactical = {BUFF = 3},
+	passives = function(self, t, p)
+	    self:talentTemporaryValue(p, "worm", 1)
+	end,
 	activate = function(self, t)
 		local resist = t.getResist(self,t)
 		local affinity = t.getAffinity(self,t)
