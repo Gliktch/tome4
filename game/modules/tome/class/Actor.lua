@@ -115,7 +115,7 @@ _M.__is_actor = true
 _M.stats_per_level = 3
 
 -- Speeds are multiplicative, not additive
-_M.temporary_values_conf.global_speed_add = "newest"
+_M.temporary_values_conf.global_speed_add = "add"
 _M.temporary_values_conf.movement_speed = "add" -- Prevent excessive movement speed compounding
 _M.temporary_values_conf.combat_physspeed = "add" -- Prevent excessive attack speed compounding
 _M.temporary_values_conf.combat_spellspeed = "add" -- Prevent excessive spell speed compounding
