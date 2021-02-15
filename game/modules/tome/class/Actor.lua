@@ -4256,6 +4256,28 @@ function _M:updateModdableTilePrepare()
 		end
 		return false
 	end
+	
+	if self.tk_weapon_particle then
+		self:removeParticles(self.tk_weapon_particle)
+		self.tk_weapon_particle = nil
+	end
+	local i = self:getInven(self.INVEN_PSIONIC_FOCUS)
+	if i and i[1] and i[1].image then
+		local s = 17
+		if i[1].twohanded then
+			s = 21
+			if i[1].subtype == "staff" then
+				s = 24
+			end
+		elseif i[1].subtype == "dagger" then
+			s = 14
+		elseif i[1].type == "gem" or i[1].subtype == "mindstar" then
+			s = 11
+		end
+	
+		self.tk_weapon_particle = self:addParticles(Particles.new("tk_rotating_weapon", 1, {img=i[1].image:sub(0,-5), toback=true, scale=s}))
+	end
+	
 	self:removeAllMOs()
 	return true
 end
