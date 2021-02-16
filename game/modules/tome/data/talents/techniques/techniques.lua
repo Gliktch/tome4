@@ -18,44 +18,44 @@
 -- darkgod@te4.org
 
 -- Physical combat
-newTalentType{ allow_random=true, type="technique/2hweapon-assault", name = _t"two-handed assault", description = _t"Specialized two-handed techniques." }
-newTalentType{ allow_random=true, type="technique/strength-of-the-berserker", name = _t"berserker's strength", description = _t"Fear nothing!" }
-newTalentType{ allow_random=true, type="technique/2hweapon-offense", name = _t"two-handed weapons", description = _t"Specialized two-handed techniques." }
-newTalentType{ allow_random=true, type="technique/2hweapon-cripple", name = _t"two-handed maiming", description = _t"Specialized two-handed techniques." }
-newTalentType{ allow_random=true, type="technique/shield-offense", name = _t"shield offense", speed = "shield", description = _t"Specialized weapon and shield techniques." }
-newTalentType{ allow_random=true, type="technique/shield-defense", name = _t"shield defense", speed = "shield", description = _t"Specialized weapon and shield techniques." }
-newTalentType{ allow_random=true, type="technique/dualweapon-training", name = _t"dual weapons", description = _t"Specialized dual wielding techniques." }
-newTalentType{ allow_random=true, type="technique/dualweapon-attack", name = _t"dual techniques", description = _t"Specialized dual wielding techniques." }
-newTalentType{ allow_random=true, type="technique/archery-base", name = _t"archery - base", description = _t"Ability to shoot." }
-newTalentType{ allow_random=true, type="technique/archery-bow", name = _t"archery - bows", description = _t"Specialized bow techniques." }
-newTalentType{ allow_random=true, type="technique/archery-sling", name = _t"archery - slings", description = _t"Specialized sling techniques." }
-newTalentType{ allow_random=true, type="technique/archery-training", name = _t"archery training", description = _t"Generic archery techniques." }
-newTalentType{ allow_random=true, type="technique/archery-utility", name = _t"archery prowess", description = _t"Specialized archery techniques to maim your targets." }
-newTalentType{ allow_random=true, type="technique/archery-excellence", name = _t"archery excellence", min_lev = 10, description = _t"Specialized archery techniques that result from honed training." }
-newTalentType{ allow_random=true, type="technique/superiority", name = _t"superiority", min_lev = 10, description = _t"Advanced combat techniques." }
-newTalentType{ allow_random=true, type="technique/battle-tactics", name = _t"battle tactics", min_lev = 10, description = _t"Advanced combat tactics." }
-newTalentType{ allow_random=true, type="technique/warcries", name = _t"warcries", no_silence = true, min_lev = 10, description = _t"Master the warcries to improve yourself and weaken others." }
-newTalentType{ allow_random=true, type="technique/bloodthirst", name = _t"bloodthirst", min_lev = 10, description = _t"Delight in the act of battle and the spilling of blood." }
-newTalentType{ allow_random=true, type="technique/field-control", name = _t"field control", generic = true, description = _t"Control the battlefield using various techniques." }
-newTalentType{ allow_random=true, type="technique/combat-techniques-active", name = _t"combat techniques", description = _t"Generic combat oriented techniques." }
-newTalentType{ allow_random=true, type="technique/combat-techniques-passive", name = _t"combat veteran", description = _t"Generic combat oriented techniques." }
-newTalentType{ allow_random=true, type="technique/combat-training", name = _t"combat training", generic = true, description = _t"Teaches to use various armours, weapons and improves health." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="technique/magical-combat", name = _t"magical combat", description = _t"The blending together of magic and melee prowess." }
-newTalentType{ allow_random=true, type="technique/mobility", name = _t"mobility", generic = true, description = _t"Training and techniques to improve mobility and evade your enemies.  On the battlefield, positioning is paramount." }
-newTalentType{ allow_random=true, type="technique/thuggery", name = _t"thuggery", generic = true, description = _t"Whatever wins the day, wins the day." }
-newTalentType{ allow_random=true, type="technique/assassination", name = _t"assassination", min_lev=10, description = _t"Bring death from the shadows." }
-newTalentType{ allow_random=true, type="technique/throwing-knives", name = _t"throwing knives", description = _t"Master the art of throwing knives to fight from a distance." }
-newTalentType{ allow_random=true, type="technique/duelist", name = _t"duelist", description = _t"Use your dual weapons to parry and counter." }
-newTalentType{ allow_random=true, type="technique/marksmanship", name = _t"marksmanship", description = _t"Training in the use of bows and slings." }
-newTalentType{ allow_random=true, type="technique/reflexes", name = _t"reflexes", description = _t"Use your reflexes to evade and counter." }
-newTalentType{ allow_random=true, type="technique/munitions", min_lev = 10, name = _t"munitions", description = _t"Equip specialised ammunition." }
-newTalentType{ allow_random=true, type="technique/agility", min_lev = 10, name = _t"agility", description = _t"Take advantage of speed and shield to fight in close quarters." }
-newTalentType{ allow_random=true, type="technique/sniper", min_lev = 10, name = _t"sniper", description = _t"Stealth and specialised long range archery techniques." }
+newTalentType{ allow_random=true, type="technique/2hweapon-assault", name = _t("two-handed assault", "talent type"), description = _t"Specialized two-handed techniques." }
+newTalentType{ allow_random=true, type="technique/strength-of-the-berserker", name = _t("berserker's strength", "talent type"), description = _t"Fear nothing!" }
+newTalentType{ allow_random=true, type="technique/2hweapon-offense", name = _t("two-handed weapons", "talent type"), description = _t"Specialized two-handed techniques." }
+newTalentType{ allow_random=true, type="technique/2hweapon-cripple", name = _t("two-handed maiming", "talent type"), description = _t"Specialized two-handed techniques." }
+newTalentType{ allow_random=true, type="technique/shield-offense", name = _t("shield offense", "talent type"), speed = "shield", description = _t"Specialized weapon and shield techniques." }
+newTalentType{ allow_random=true, type="technique/shield-defense", name = _t("shield defense", "talent type"), speed = "shield", description = _t"Specialized weapon and shield techniques." }
+newTalentType{ allow_random=true, type="technique/dualweapon-training", name = _t("dual weapons", "talent type"), description = _t"Specialized dual wielding techniques." }
+newTalentType{ allow_random=true, type="technique/dualweapon-attack", name = _t("dual techniques", "talent type"), description = _t"Specialized dual wielding techniques." }
+newTalentType{ allow_random=true, type="technique/archery-base", name = _t("archery - base", "talent type"), description = _t"Ability to shoot." }
+newTalentType{ allow_random=true, type="technique/archery-bow", name = _t("archery - bows", "talent type"), description = _t"Specialized bow techniques." }
+newTalentType{ allow_random=true, type="technique/archery-sling", name = _t("archery - slings", "talent type"), description = _t"Specialized sling techniques." }
+newTalentType{ allow_random=true, type="technique/archery-training", name = _t("archery training", "talent type"), description = _t"Generic archery techniques." }
+newTalentType{ allow_random=true, type="technique/archery-utility", name = _t("archery prowess", "talent type"), description = _t"Specialized archery techniques to maim your targets." }
+newTalentType{ allow_random=true, type="technique/archery-excellence", name = _t("archery excellence", "talent type"), min_lev = 10, description = _t"Specialized archery techniques that result from honed training." }
+newTalentType{ allow_random=true, type="technique/superiority", name = _t("superiority", "talent type"), min_lev = 10, description = _t"Advanced combat techniques." }
+newTalentType{ allow_random=true, type="technique/battle-tactics", name = _t("battle tactics", "talent type"), min_lev = 10, description = _t"Advanced combat tactics." }
+newTalentType{ allow_random=true, type="technique/warcries", name = _t("warcries", "talent type"), no_silence = true, min_lev = 10, description = _t"Master the warcries to improve yourself and weaken others." }
+newTalentType{ allow_random=true, type="technique/bloodthirst", name = _t("bloodthirst", "talent type"), min_lev = 10, description = _t"Delight in the act of battle and the spilling of blood." }
+newTalentType{ allow_random=true, type="technique/field-control", name = _t("field control", "talent type"), generic = true, description = _t"Control the battlefield using various techniques." }
+newTalentType{ allow_random=true, type="technique/combat-techniques-active", name = _t("combat techniques", "talent type"), description = _t"Generic combat oriented techniques." }
+newTalentType{ allow_random=true, type="technique/combat-techniques-passive", name = _t("combat veteran", "talent type"), description = _t"Generic combat oriented techniques." }
+newTalentType{ allow_random=true, type="technique/combat-training", name = _t("combat training", "talent type"), generic = true, description = _t"Teaches to use various armours, weapons and improves health." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="technique/magical-combat", name = _t("magical combat", "talent type"), description = _t"The blending together of magic and melee prowess." }
+newTalentType{ allow_random=true, type="technique/mobility", name = _t("mobility", "talent type"), generic = true, description = _t"Training and techniques to improve mobility and evade your enemies.  On the battlefield, positioning is paramount." }
+newTalentType{ allow_random=true, type="technique/thuggery", name = _t("thuggery", "talent type"), generic = true, description = _t"Whatever wins the day, wins the day." }
+newTalentType{ allow_random=true, type="technique/assassination", name = _t("assassination", "talent type"), min_lev=10, description = _t"Bring death from the shadows." }
+newTalentType{ allow_random=true, type="technique/throwing-knives", name = _t("throwing knives", "talent type"), description = _t"Master the art of throwing knives to fight from a distance." }
+newTalentType{ allow_random=true, type="technique/duelist", name = _t("duelist", "talent type"), description = _t"Use your dual weapons to parry and counter." }
+newTalentType{ allow_random=true, type="technique/marksmanship", name = _t("marksmanship", "talent type"), description = _t"Training in the use of bows and slings." }
+newTalentType{ allow_random=true, type="technique/reflexes", name = _t("reflexes", "talent type"), description = _t"Use your reflexes to evade and counter." }
+newTalentType{ allow_random=true, type="technique/munitions", min_lev = 10, name = _t("munitions", "talent type"), description = _t"Equip specialised ammunition." }
+newTalentType{ allow_random=true, type="technique/agility", min_lev = 10, name = _t("agility", "talent type"), description = _t"Take advantage of speed and shield to fight in close quarters." }
+newTalentType{ allow_random=true, type="technique/sniper", min_lev = 10, name = _t("sniper", "talent type"), description = _t"Stealth and specialised long range archery techniques." }
 
 -- Skirmisher
 newTalentType {
   type = "technique/acrobatics",
-  name = _t"Acrobatics",
+  name = _t("Acrobatics", "talent type"),
   generic = true,
   allow_random = true,
   description = _t"For light footed Rogues who prefer flight to fighting fair!",
@@ -63,34 +63,34 @@ newTalentType {
 
 newTalentType {
   type = "technique/buckler-training",
-  name = _t"Buckler Training",
+  name = _t("Buckler Training", "talent type"),
   allow_random = true,
   description = _t"Mastery over their shields separates Skirmishers from Archers, and gives them an edge.",
 }
 
 newTalentType {
   type = "technique/skirmisher-slings",
-  name = _t"Skirmisher - Slings",
+  name = _t("Skirmisher - Slings", "talent type"),
   allow_random = true,
   description = _t"Slings! Pow Pow!",
 }
 
 newTalentType {
   type = "technique/tireless-combatant",
-  name = _t"Tireless Combatant",
+  name = _t("Tireless Combatant", "talent type"),
   allow_random = true,
   description = _t"Your will carries you through the most difficult struggles, allowing you to fight on when others would have collapsed from exhaustion.",
 }
 
 -- Unarmed Combat
-newTalentType{ is_unarmed=true, allow_random=true, type="technique/pugilism", name = _t"pugilism", description = _t"Unarmed Boxing techniques that may not be practiced in massive armor or while a weapon or shield is equipped." }
-newTalentType{ is_unarmed=true, allow_random=true, type="technique/finishing-moves", name = _t"finishing moves", description = _t"Finishing moves that use combo points and may not be practiced in massive armor or while a weapon or shield is equipped." }
-newTalentType{ is_unarmed=true, allow_random=true, type="technique/grappling", name = _t"grappling", description = _t"Grappling techniques that may not be practiced in massive armor or while a weapon or shield is equipped." }
-newTalentType{ is_unarmed=true, allow_random=true, type="technique/unarmed-discipline", name = _t"unarmed discipline", description = _t"Advanced unarmed techniques including kicks and blocks that may not be practiced in massive armor or while a weapon or shield is equipped." }
-newTalentType{ is_unarmed=true, allow_random=true, generic = true, type="technique/unarmed-training", name = _t"unarmed training", description = _t"Teaches various martial arts techniques that may not be practiced in massive armor or while a weapon or shield is equipped." }
-newTalentType{ allow_random=true, type="technique/conditioning", name = _t"conditioning", generic = true, description = _t"Physical conditioning." }
+newTalentType{ is_unarmed=true, allow_random=true, type="technique/pugilism", name = _t("pugilism", "talent type"), description = _t"Unarmed Boxing techniques that may not be practiced in massive armor or while a weapon or shield is equipped." }
+newTalentType{ is_unarmed=true, allow_random=true, type="technique/finishing-moves", name = _t("finishing moves", "talent type"), description = _t"Finishing moves that use combo points and may not be practiced in massive armor or while a weapon or shield is equipped." }
+newTalentType{ is_unarmed=true, allow_random=true, type="technique/grappling", name = _t("grappling", "talent type"), description = _t"Grappling techniques that may not be practiced in massive armor or while a weapon or shield is equipped." }
+newTalentType{ is_unarmed=true, allow_random=true, type="technique/unarmed-discipline", name = _t("unarmed discipline", "talent type"), description = _t"Advanced unarmed techniques including kicks and blocks that may not be practiced in massive armor or while a weapon or shield is equipped." }
+newTalentType{ is_unarmed=true, allow_random=true, generic = true, type="technique/unarmed-training", name = _t("unarmed training", "talent type"), description = _t"Teaches various martial arts techniques that may not be practiced in massive armor or while a weapon or shield is equipped." }
+newTalentType{ allow_random=true, type="technique/conditioning", name = _t("conditioning", "talent type"), generic = true, description = _t"Physical conditioning." }
 
-newTalentType{ is_unarmed=true, type="technique/unarmed-other", name = _t"unarmed other", generic = true, description = _t"Base martial arts attack and stances." }
+newTalentType{ is_unarmed=true, type="technique/unarmed-other", name = _t("unarmed other", "talent type"), generic = true, description = _t"Base martial arts attack and stances." }
 
 
 

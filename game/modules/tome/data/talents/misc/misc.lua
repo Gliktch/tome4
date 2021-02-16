@@ -18,11 +18,11 @@
 -- darkgod@te4.org
 
 -- race & classes
-newTalentType{ type="base/class", name = _t"class", hide = true, description = _t"The basic talents defining a class." }
-newTalentType{ type="base/race", name = _t"race", hide = true, description = _t"The various racial bonuses a character can have." }
-newTalentType{ is_nature = true, type="inscriptions/infusions", name = _t"infusions", hide = true, description = _t"Infusions are not class abilities, you must find them or learn them from other people." }
-newTalentType{ is_spell=true, no_silence=true, type="inscriptions/runes", name = _t"runes", hide = true, description = _t"Runes are not class abilities, you must find them or learn them from other people." }
-newTalentType{ is_spell=true, no_silence=true, type="inscriptions/taints", name = _t"taints", hide = true, description = _t"Taints are not class abilities, you must find them or learn them from other people." }
+newTalentType{ type="base/class", name = _t("class", "talent type"), hide = true, description = _t"The basic talents defining a class." }
+newTalentType{ type="base/race", name = _t("race", "talent type"), hide = true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ is_nature = true, type="inscriptions/infusions", name = _t("infusions", "talent type"), hide = true, description = _t"Infusions are not class abilities, you must find them or learn them from other people." }
+newTalentType{ is_spell=true, no_silence=true, type="inscriptions/runes", name = _t("runes", "talent type"), hide = true, description = _t"Runes are not class abilities, you must find them or learn them from other people." }
+newTalentType{ is_spell=true, no_silence=true, type="inscriptions/taints", name = _t("taints", "talent type"), hide = true, description = _t"Taints are not class abilities, you must find them or learn them from other people." }
 
 -- Load other misc things
 load("/data/talents/misc/objects.lua")
