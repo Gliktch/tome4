@@ -538,7 +538,7 @@ function _M:applyEgo(e, ego, type, no_name_change)
 	local newname = _t(e.name)
 	if not no_name_change then
 		local display = ego.display_string or _t(ego.name)
-		if _getFlagI18N("ego_always_prefix") or ego.prefix or ego.display_prefix then newname = display .. _t(e.name)
+		if not _getFlagI18N("ego_always_suffix") and (_getFlagI18N("ego_always_prefix") or ego.prefix or ego.display_prefix) then newname = display .. _t(e.name)
 		else newname = _t(e.name) .. display end
 	end
 	print("applying ego", ego.name, "to ", e.name, "::", newname, "///", e.unided_name, ego.unided_name)
