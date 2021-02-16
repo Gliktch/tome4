@@ -115,7 +115,7 @@ _M.__is_actor = true
 _M.stats_per_level = 3
 
 -- Speeds are multiplicative, not additive
-_M.temporary_values_conf.global_speed_add = "newest"
+_M.temporary_values_conf.global_speed_add = "add"
 _M.temporary_values_conf.movement_speed = "add" -- Prevent excessive movement speed compounding
 _M.temporary_values_conf.combat_physspeed = "add" -- Prevent excessive attack speed compounding
 _M.temporary_values_conf.combat_spellspeed = "add" -- Prevent excessive spell speed compounding
@@ -2303,9 +2303,10 @@ function _M:regenAmmo()
 	if not r then return end
 	if ammo.combat.shots_left >= ammo.combat.capacity then ammo.combat.shots_left = ammo.combat.capacity return end
 	ammo.combat.reload_counter = (ammo.combat.reload_counter or 0) + 1
-	if ammo.combat.reload_counter == r then
+	if ammo.combat.reload_counter >= r then
+		local reloaded = self.reloadRate and self:reloadRate() or 1
 		ammo.combat.reload_counter = 0
-		ammo.combat.shots_left = util.bound(ammo.combat.shots_left + 1, 0, ammo.combat.capacity)
+		ammo.combat.shots_left = util.bound(ammo.combat.shots_left + reloaded, 0, ammo.combat.capacity)
 	end
 end
 
@@ -2603,11 +2604,6 @@ function _M:onTakeHit(value, src, death_note)
 				game:delayedLogDamage(src, self, 0, ("#SLATE#(%d deflected)#LAST#"):tformat(oldval - value), false)
 			end
 		end
-	end
-
-	if value > 0 and self:hasEffect(self.EFF_RAMPAGE) then
-		local eff = self:hasEffect(self.EFF_RAMPAGE)
-		value = self.tempeffect_def[self.EFF_RAMPAGE].do_onTakeHit(self, eff, value)
 	end
 
 	if value > 0 and self:hasEffect(self.EFF_BECKONED) then
@@ -4260,6 +4256,28 @@ function _M:updateModdableTilePrepare()
 		end
 		return false
 	end
+	
+	if self.tk_weapon_particle then
+		self:removeParticles(self.tk_weapon_particle)
+		self.tk_weapon_particle = nil
+	end
+	local i = self:getInven(self.INVEN_PSIONIC_FOCUS)
+	if i and i[1] and i[1].image then
+		local s = 17
+		if i[1].twohanded then
+			s = 21
+			if i[1].subtype == "staff" then
+				s = 24
+			end
+		elseif i[1].subtype == "dagger" then
+			s = 14
+		elseif i[1].type == "gem" or i[1].subtype == "mindstar" then
+			s = 11
+		end
+	
+		self.tk_weapon_particle = self:addParticles(Particles.new("tk_rotating_weapon", 1, {img=i[1].image:sub(0,-5), toback=true, scale=s}))
+	end
+	
 	self:removeAllMOs()
 	return true
 end
@@ -8295,16 +8313,18 @@ function _M:projectDoAct(typ, tg, damtype, dam, particles, px, py, tmp)
 	if not game.level.map:checkAllEntities(px, py, "projected", self, typ, px, py, damtype, dam, particles) then
 		-- Check self- and friendly-fire, and if the projection "misses"
 		local act = game.level.map(px, py, engine.Map.ACTOR)
+		local shouldHit = true
 		if act and act == self and not (
-			((type(typ.selffire) == "number" and rng.percent(typ.selffire))
-			or
-			(type(typ.selffire) ~= "number" and typ.selffire))
-			and (act == game.player and (typ.player_selffire or act.allow_player_selffire))  -- Disable friendlyfire for player projectiles unless explicitly overriden
-			)
-			then
+				((type(typ.selffire) == "number" and rng.percent(typ.selffire))
+						or
+						(type(typ.selffire) ~= "number" and typ.selffire))
+						and (act == game.player and (typ.player_selffire or act.allow_player_selffire))  -- Disable friendlyfire for player projectiles unless explicitly overriden
+		) then
+			shouldHit = false
 		elseif act and self.reactionToward and (self:reactionToward(act) >= 0) and not ((type(typ.friendlyfire) == "number" and rng.percent(typ.friendlyfire)) or (type(typ.friendlyfire) ~= "number" and typ.friendlyfire)) then
-		-- Otherwise hit
-		else
+			shouldHit = false
+		end
+		if shouldHit or (act == self and self:attr("encased_in_ice")) then
 			DamageType:projectingFor(self, {project_type=tg})
 			if type(damtype) == "function" then if damtype(px, py, tg, self, tmp) then return true end
 			else DamageType:get(damtype).projector(self, px, py, damtype, dam, tmp, nil, tg) end

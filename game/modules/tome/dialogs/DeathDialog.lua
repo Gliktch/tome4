@@ -306,7 +306,7 @@ function _M:generateList()
 		if self.actor:fireTalentCheck("callbackOnDeathbox", self, list) then return end
 
 		if self.actor:attr("blood_life") and not self.actor:attr("undead") then list[#list+1] = {name=_t"Resurrect with the Blood of Life", action="blood_life"} end
-		if self.actor:getTalentLevelRaw(self.actor.T_SKELETON_REASSEMBLE) >= 5 and not self.actor:attr("re-assembled") then list[#list+1] = {name=_t"Re-assemble your bones and resurrect (Skeleton ability)", action="skeleton"} end
+		if self.actor:getTalentLevel(self.actor.T_SKELETON_REASSEMBLE) >= 5 and not self.actor:attr("re-assembled") then list[#list+1] = {name=_t"Re-assemble your bones and resurrect (Skeleton ability)", action="skeleton"} end
 
 		local consumenb = 1
 		self.actor:inventoryApplyAll(function(inven, item, o)

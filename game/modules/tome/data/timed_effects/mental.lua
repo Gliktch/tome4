@@ -651,13 +651,30 @@ newEffect{
 	on_gain = function(self, err) return _t"#Target# is surrounded by a cursed miasma.", _t"+Cursed Miasma" end,
 	on_lose = function(self, err) return _t"The cursed miasma around #target# dissipates.", _t"-Cursed Miasma" end,
 	activate = function(self, eff)
+		local target = self.ai_target and self.ai_target.actor
 		self:setTarget(nil) -- Reset target to grab a random new one
 		self:effectTemporaryValue(eff, "hates_everybody", 1)
 		if core.shader.active() then
 			self:effectParticles(eff, {type="shader_shield", args={size_factor=1.5, img="shadow_shot_debuff_tentacles"}, shader={type="tentacles", wobblingType=0, appearTime=0.8, time_factor=2000, noup=0.0}})
 		end
+		if self.player then return end
+		if target and not (target.dead or not game.level:hasEntity(target))  then
+			eff.target = target
+		end
+	end,
+	on_timeout = function(self, eff)
+		if self.player then return end
+		local target = eff.target
+		if target and (target.dead or not game.level:hasEntity(target)) then
+			eff.target = nil
+		end
 	end,
 	deactivate = function(self, eff)
+		if self.player then return end
+		local target = self.ai_target and self.ai_target.actor
+		if not target then
+			self:setTarget(eff.target)
+		end
 	end,
 }
 
@@ -916,7 +933,7 @@ newEffect{
 }
 
 newEffect{
-	name = "MALIGNED", image = "talents/getsture_of_malice.png",
+	name = "MALIGNED", image = "talents/gesture_of_malice.png",
 	desc = _t"Maligned",
 	long_desc = function(self, eff) return ("The target is under a malign influence. All resists have been lowered by %d%%."):tformat(-eff.resistAllChange) end,
 	type = "mental",
@@ -1585,7 +1602,7 @@ newEffect{
 newEffect{
 	name = "WAKING_NIGHTMARE", image = "talents/waking_nightmare.png",
 	desc = _t"Waking Nightmare",
-	long_desc = function(self, eff) return ("The target is lost in a nightmare that deals %0.2f mind damage each turn and has a %d%% chance to cause a random detrimental effect."):tformat(eff.dam, eff.chance) end,
+	long_desc = function(self, eff) return ("The target is lost in a nightmare that deals %0.2f darkness damage each turn and has a %d%% chance to cause a random detrimental effect."):tformat(eff.dam, eff.chance) end,
 	type = "mental",
 	subtype = { nightmare=true, darkness=true },
 	status = "detrimental",
@@ -1956,15 +1973,16 @@ newEffect{
 			end
 		end
 	end,
-	do_onTakeHit = function(self, eff, dam)
-		if not eff.damageShieldMax or eff.damageShield <= 0 then return dam end
+	callbackOnHit = function(self, eff, cb, src)
+		if not eff.damageShieldMax or eff.damageShield <= 0 then return end
 
-		local absorb = math.min(eff.damageShield, dam)
+		local absorb = math.min(eff.damageShield, cb.value)
 		eff.damageShield = eff.damageShield - absorb
-
+		cb.value = cb.value - absorb
+		game:delayedLogDamage(src, self, 0, ("#RED#(%d rampage shugs off#LAST#)"):tformat(absorb), false)
 		--game.logSeen(self, "%s shrugs off %d damage.", self:getName():capitalize(), absorb)
 
-		return dam - absorb
+		return true
 	end,
 	do_postUseTalent = function(self, eff)
 		if eff.dur > 0 then
@@ -2388,7 +2406,7 @@ newEffect{
 newEffect{
 	name = "NIGHTMARE", image = "talents/nightmare.png",
 	desc = _t"Nightmare",
-	long_desc = function(self, eff) return ("The target is in a nightmarish sleep, suffering %0.2f mind damage each turn and unable to to perform most actions.  Every %d damage it takes will reduce the duration of the effect by one turn."):tformat(eff.dam, eff.power) end,
+	long_desc = function(self, eff) return ("The target is in a nightmarish sleep, suffering %0.2f darkness damage each turn and unable to to perform most actions.  Every %d damage it takes will reduce the duration of the effect by one turn."):tformat(eff.dam, eff.power) end,
 	type = "mental",
 	subtype = { nightmare=true, sleep=true },
 	status = "detrimental",
@@ -2962,6 +2980,8 @@ newEffect{
 			for _, target in ipairs(sample) do
 				t.forceHit(self, t, target, target.x, target.y, eff.damage, eff.knockback, 7, 0.6, 10)
 			end
+			
+			game:playSoundNear(self, "actions/punch" .. tostring(rng.range(3, 4)))
 		end
 	end,
 }

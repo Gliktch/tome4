@@ -370,7 +370,7 @@ newTalent{
 		-- store old values to restore later
 		local apr, rpen, evasion = self.combat_apr, self.resists_pen.PHYSICAL, target.evasion
 		self:attr("combat_apr", 10000)
-		self.resists_pen.PHYSICAL = 100
+		src:attr("ignore_enemy_resist", 1)
 		target.evasion = 0
 		local bleed = t.getBleed(self, t)
 		local oldlife = target.life
@@ -379,7 +379,8 @@ newTalent{
 		local do_attack = function() self:attackTarget(target, nil, t.getDamage(self, t), true, true) end
 		local ok, err = pcall(do_attack)
 		if ok then ok, err = pcall(do_attack) end
-		self.combat_apr, self.resists_pen.PHYSICAL, target.evasion = apr, rpen, evasion
+		self.combat_apr, target.evasion = apr, evasion
+		src:attr("ignore_enemy_resist", -1)
 		if not ok then error(err) end
 		self.turn_procs.auto_melee_hit = nil
 		

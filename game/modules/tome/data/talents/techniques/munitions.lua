@@ -346,7 +346,7 @@ newTalent{
 				local eff = rng.tableRemove(effs)
 	
 				if eff[1] == "effect" then
-					target:removeEffect(eff[2])
+					target:dispel(eff[2], self)
 				else
 					target:forceUseTalent(eff[2], {ignore_energy=true})
 				end

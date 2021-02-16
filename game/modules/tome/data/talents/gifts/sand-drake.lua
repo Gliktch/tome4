@@ -195,7 +195,17 @@ newTalent{
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
-		self:project(tg, x, y, DamageType.SAND, {dur=t.getDuration(self, t), dam=self:mindCrit(t.getDamage(self, t))})
+		local damage = self:mindCrit(t.getDamage(self, t))
+		local dur = t.getDuration(self, t)
+		self:project(tg, x, y, function(tx, ty)
+			local target = game.level.map(tx, ty, Map.ACTOR)
+			if not target or target == self then return end
+			
+			DamageType:get(DamageType.PHYSICAL).projector(self, tx, ty, DamageType.PHYSICAL, damage)
+			if target:canBe("blind") then
+				target:setEffect(target.EFF_BLINDED, dur, {apply_power = self:combatMindpower()})
+			end
+		end)
 		game.level.map:particleEmitter(self.x, self.y, tg.radius, "breath_earth", {radius=tg.radius, tx=x-self.x, ty=y-self.y})
 		game:playSoundNear(self, "talents/breath")
 

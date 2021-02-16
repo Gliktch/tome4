@@ -71,7 +71,7 @@ newTalent{
 	requires_target = true,
 	range = 10,
 	getTalentCount = function(self, t)
-		return 1 + math.floor(self:combatTalentLimit(t, 3, 0, 2))
+		return 1 + math.floor(self:combatTalentLimit(t, 3, 0.1, 2, false, 1.0))
 	end,
 	getCooldown = function(self, t) return math.ceil(self:combatTalentScale(t, 1, 2.6)) end,
 	target = function (self, t)

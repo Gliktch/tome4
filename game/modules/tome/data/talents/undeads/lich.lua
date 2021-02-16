@@ -93,7 +93,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your mere presence is terrying to any foes that dare stand against you.
-		Every turn all foes in radius %d must make a metal save against your spellpower/physical power (whichever is highest) or become frightened (bypassing fear immunity), reducing all their saves by %d, all damage by %d%% and movement speed by %d%%.
+		Every turn all foes in radius %d must make a mental save against your spellpower/physical power (whichever is highest) or become frightened (bypassing fear immunity), reducing all their saves by %d, all damage by %d%% and movement speed by %d%%.
 		If they successfully resist, they are immune for %d turns.]]):
 		tformat(self:getTalentRadius(t), t.getSaves(self, t), t.getDam(self, t), t.getSpeed(self, t), t.getImmune(self, t))
 	end,
@@ -121,8 +121,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Bathes the target in flames doing %0.2f damage
-		The damage will increase with the Magic stat]]):
+		return ([[Blast the target with darkness doing %0.2f damage
+		The damage will increase with Spellpower]]):
 		tformat(damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
@@ -148,9 +148,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Bathes the target in flames doing %0.2f damage
-		The damage will increase with the Magic stat]]):
-		tformat(damDesc(self, DamageType.DARKNESS, damage))
+		return ([[Bathes the target in frost doing %0.2f damage
+		The damage will increase with Spellpower]]):
+		tformat(damDesc(self, DamageType.COLD, damage))
 	end,
 }
 
@@ -500,7 +500,7 @@ newTalent{
 	callbackOnTalentPost = function(self, t, ab)
 		if not ab.is_spell or ab.id == t.id or ab.no_energy == true then return end
 		if not rng.percent(t.getChance(self, t)) then return end
-		self:projectApply({type="ball", radius=self:getTalentRadius(t)}, self.x, self.y, Map.ACTOR, function(target)
+		self:projectApply({type="ball", radius=self:getTalentRadius(t), ignore_nullify_all_friendlyfire=true}, self.x, self.y, Map.ACTOR, function(target)
 			if target:attr("undead") then
 				target:setEffect(target.EFF_COMMANDER_OF_THE_DEAD, 4, {power=t.getPower(self, t)})
 			end

@@ -758,16 +758,16 @@ function _M:lineFOV(tx, ty, extra_block, block, sx, sy)
 	local sees_target = game.level.map.seens(tx, ty)
 
 	extra_block = type(extra_block) == "function" and extra_block
-		or type(extra_block) == "string" and function(_, x, y) return game.level.map:checkAllEntities(x, y, extra_block) end
+		or type(extra_block) == "string" and function(self, x, y) return game.level.map:checkAllEntities(x, y, extra_block, self) end
 
 	block = block or function(_, x, y)
 		if sees_target then
-			return game.level.map:checkAllEntities(x, y, "block_sight") or
-				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
+			return game.level.map:checkAllEntities(x, y, "block_sight", self) or
+				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move", self) and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
 				extra_block and extra_block(self, x, y)
 		elseif core.fov.distance(sx, sy, x, y) <= self.sight and (game.level.map.remembers(x, y) or game.level.map.seens(x, y)) then
-			return game.level.map:checkEntity(x, y, Map.TERRAIN, "block_sight") or
-				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
+			return game.level.map:checkEntity(x, y, Map.TERRAIN, "block_sight", self) or
+				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move", self) and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
 				extra_block and extra_block(self, x, y)
 		else
 			return true
@@ -1062,6 +1062,8 @@ function _M:restCheck()
 		act:incStamina(act.stamina_regen * perc)
 		act:incMana(act.mana_regen * perc)
 		act:incPsi(act.psi_regen * perc)
+		act:incPositive(act.positive_regen * perc)
+		act:incNegative(act.negative_regen * perc)
 	end end
 
 	-- Reload

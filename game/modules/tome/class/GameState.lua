@@ -3525,7 +3525,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			a.rank = 4
 			a.desc = ("An evil twin of %s%s"):tformat(a.name, (a.desc and ":\n"..a.desc or ""))
 			a.name = ("Mirror Challenge of %s"):tformat(a.name)
-			a.killer_message = _t"but nobody knew why #sex# suddenly became evil"
+			a.killer_message = _t"but nobody knew why they suddenly became evil"
 			a.color_r = 150 a.color_g = 150 a.color_b = 150
 			a:removeAllMOs()
 			a.ai = "none"

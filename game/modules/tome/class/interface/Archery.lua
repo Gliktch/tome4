@@ -209,7 +209,7 @@ function _M:archeryAcquireTargets(tg, params, force)
 		end
 		use_resources = (weapon.use_resources or ammo.combat.use_resources) and table.mergeAdd(table.clone(weapon.use_resources) or {}, ammo.combat.use_resources or {}) or nil
 		if params.one_shot then -- set up a single shot, using ammo and resources as needed
-			if use_resources then  -- use resources
+			if not params.ignore_ressources and use_resources then  -- use resources
 				local ok, kind = self:useResources(use_resources)
 				if not ok then
 					print("[archeryAcquireTargets runfire] NOT FIRING", realweapon.name, x, y, "due to resource", kind)
@@ -237,7 +237,7 @@ function _M:archeryAcquireTargets(tg, params, force)
 				end
 
 				for i = 1, params.multishots or 1 do
-					if use_resources then  -- use resources
+					if not params.ignore_ressources and use_resources then  -- use resources
 						local ok, kind = self:useResources(use_resources)
 						if not ok then
 							print("[archeryAcquireTargets runfire] NOT FIRING", realweapon.name, x, y, "due to resource", kind)
