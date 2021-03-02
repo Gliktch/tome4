@@ -728,6 +728,30 @@ group_meta = {
 					if nb == what then
 						return jn
 					end
+				elseif mode == "most" then
+					local list, least = {}, nil
+					for j = 1, #group.list do
+						local jn = group.list[j]
+						if what == "north" then
+							if not least or jn.y < least then least = jn.y end
+						elseif what == "south" then
+							if not least or jn.y > least then least = jn.y end
+						elseif what == "west" then
+							if not least or jn.x < least then least = jn.x end
+						elseif what == "east" then
+							if not least or jn.x > least then least = jn.x end
+						end
+					end
+					for j = 1, #group.list do
+						local jn = group.list[j]
+						if what == "north" or what == "south" then
+							if jn.y == least then list[#list+1] = jn end
+						elseif what == "west" or what == "east" then
+							if jn.x == least then list[#list+1] = jn end
+						end
+					end
+					if #list == 0 then return nil end
+					return rng.table(list)
 				end
 			end
 			return nil
