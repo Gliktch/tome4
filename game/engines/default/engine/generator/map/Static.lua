@@ -362,7 +362,7 @@ function _M:tmxLoad(file)
 
 	local fakeid = -1
 	for _, og in ipairs(map:findAll("objectgroup")) do
-		for _, o in ipairs(map:findAll("object")) do
+		for _, o in ipairs(og:findAll("object")) do
 			local props = o:findOne("properties"):findAllAttrs("property", "name", "value")
 
 			if og.attr.name and og.attr.name:find("^addSpot") then
