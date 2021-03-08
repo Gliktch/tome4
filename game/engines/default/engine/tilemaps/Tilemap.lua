@@ -33,6 +33,11 @@ function _M:init(size, fill_with)
 	self.on_merged_at = {}
 end
 
+--- Does nothing, to be overridden if needed
+function _M:build()
+	return self
+end
+
 function _M:getSize()
 	return self.data_w, self.data_h
 end
@@ -533,7 +538,7 @@ local group_meta
 
 --- Make a point data, can be added
 function _M:group(list)
-	local g = {list=list}
+	local g = {list=list, is_tm_group=true}
 	setmetatable(g, group_meta)
 	g:updateReverse()
 	return g
@@ -641,6 +646,9 @@ group_meta = {
 				g.list[i] = p + tp
 			end
 			g:updateReverse()
+		end,
+		iterate = function(g)
+			return ipairs_value(g.list)
 		end,
 		fill = function(g, map, ...)
 			local chars = {...}
@@ -824,17 +832,26 @@ function _M:findGroups(cond)
 
 	return groups
 end
+function _M:iterateGroups(cond)
+	return ipairs_value(self:findGroups(cond))
+end
 
 --- Return a list of groups of tiles representing each of the connected areas
 function _M:findGroupsNotOf(wall)
 	wall = table.reverse(wall)
 	return self:findGroups(function(c) return not wall[c] end)
 end
+function _M:iterateGroupsNotOf(floor)
+	return ipairs_value(self:findGroupsNotOf(floor))
+end
 
 --- Return a list of groups of tiles representing each of the connected areas
 function _M:findGroupsOf(floor)
 	floor = table.reverse(floor)
 	return self:findGroups(function(c) return floor[c] end)
+end
+function _M:iterateGroupsOf(floor)
+	return ipairs_value(self:findGroupsOf(floor))
 end
 
 --- Apply a custom method over the given groups, sorting them from bigger to smaller

@@ -35,6 +35,7 @@ function _M:init(zone, map, level, data)
 	self.maps_positions = {}
 	self.maps_registers = {}
 	self.self_tiles = {}
+	self.statuses = {}
 
 	RoomsLoader.init(self, data)
 end
@@ -71,10 +72,26 @@ function _M:getFile(file, folder)
 end
 
 function _M:regenerate()
+	self.post_gen = {}
+	self.maps_positions = {}
+	self.maps_registers = {}
+	self.spots = {}
+	self.statuses = {}
+	self.entrance_pos = nil
+	self.exit_pos = nil
+	self.status_all = nil
 	self.force_regen = true
 end
 
 function _M:redo()
+	self.post_gen = {}
+	self.maps_positions = {}
+	self.maps_registers = {}
+	self.spots = {}
+	self.statuses = {}
+	self.entrance_pos = nil
+	self.exit_pos = nil
+	self.status_all = nil
 	self.force_redo = true
 end
 
@@ -240,7 +257,17 @@ function _M:generate(lev, old_lev)
 		end
 	end end end
 
-	-- Any psot gen stuff
+	-- Apply statuses
+	for _, s in ipairs(self.statuses) do
+		local i, j = s.x-1, s.y-1
+		if s.k == "lite" then self.level.map.lites(i, j, s.v)
+		elseif s.k == "remember" then self.level.map.remembers(i, j, s.v)
+		elseif s.k == "special" then self.map.room_map[i][j].special = s.v
+		elseif s.k == "room_map" then for k, v in pairs(s.v) do self.map.room_map[i][j][k] = v end
+		else self.level.map.attrs(i, j, s.k, s.v) end
+	end
+
+	-- Any post gen stuff
 	for _, post in pairs(self.post_gen) do
 		post(self, lev, old_lev)
 	end
@@ -259,8 +286,29 @@ function _M:setStatusAll(s)
 	self.status_all = s
 end
 
+function _M:setStatus(x, y, k, v)
+	if type(x) == "table" then
+		if x.is_tm_group then -- Apply over the whole group and shift parameters
+			for _, p in ipairs(x.list) do self:setStatus(p.x, p.y, y, k) end
+			return
+		else
+			-- Shift parameters
+			x, y, k, v = x.x, x.y, y, k
+		end
+	end
+	self.statuses[#self.statuses+1] = {x=x, y=y, k=k, v=v}
+end
+
 function _M:addSpot(x, y, _type, subtype, data)
-	if type(x) == "table" then x, y, _type, subtype, data = x.x, x.y, y, _type, subtype end
+	if type(x) == "table" then
+		if x.is_tm_group then -- Apply over the whole group and shift parameters
+			for _, p in ipairs(x.list) do self:addSpot(p.x, p.y, y, _type, subtype) end
+			return
+		else
+			-- Shift parameters
+			x, y, _type, subtype, data = x.x, x.y, y, _type, subtype
+		end
+	end
 	data = data or {}
 	-- Tilemap uses 1 based indexes
 	data.x = math.floor(x) - 1
