@@ -26,7 +26,8 @@ local Separator = require "engine.ui.Separator"
 
 module(..., package.seeall, class.inherit(Dialog))
 
-function _M:init(l, w, force_height)
+function _M:init(l, w, force_height, after_learn_cb)
+	self.after_learn_cb = after_learn_cb
 	self.title_shadow = false
 	self.color = l.text_color or {r=0x3a, g=0x35, b=0x33}
 
@@ -117,4 +118,8 @@ function _M:init(l, w, force_height)
 	game:playSound("actions/read")
 	
 	game.tooltip.inhibited = true
+end
+
+function _M:unload()
+	if self.after_learn_cb then self.after_learn_cb("popup") end
 end
