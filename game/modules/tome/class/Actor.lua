@@ -90,7 +90,7 @@ _M._no_save_fields.DHashProps = true
 -- alt_node fields (controls fields copied with cloneActor by default)
 _M.clone_nodes = table.merge({running_fov=false, running_prev=false,
 	-- spawning/death fields:
-	make_escort=false, escort_quest=false, summon=false, on_added_to_level=false, on_added=false, clone_on_hit=false, on_die=false, die=false, self_ressurect=false,
+	make_escort=false, escort_quest=false, summon=false, on_added_to_level=false, on_added=false, clone_on_hit=false, on_die=false, die=false, self_resurrect=false,
 	-- AI fields:
 	on_acquire_target=false, seen_by=false,
 	-- NPC interaction:
