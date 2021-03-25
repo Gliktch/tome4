@@ -245,15 +245,15 @@ newTalent{
 		}
 		table.mergeAdd(m.resists, {[DamageType.DARKNESS]=50, [DamageType.LIGHT]=- 50})
 		table.mergeAdd(m.inc_damage, {all = -50})
-		m:removeTimedEffectsOnClone()
 		m:unlearnTalentsOnClone()
 
 		if m.talents.T_SUMMON then m.talents.T_SUMMON = nil end
 		if m.talents.T_MULTIPLY then m.talents.T_MULTIPLY = nil end
 
 		game.zone:addEntity(game.level, m, "actor", x, y)
+		m:removeTimedEffectsOnClone()
+		
 		game.level.map:particleEmitter(x, y, 1, "shadow")
-
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,
