@@ -56,7 +56,6 @@ newTalent{
 		local a = (self.clone_base or self):cloneActor({can_multiply=self.can_multiply-1, exp_worth=0.1})
 		mod.class.NPC.castAs(a)
 
-		a:removeTimedEffectsOnClone()
 		a:unlearnTalentsOnClone()
 		 -- allow chain multiply for now (It's classic!)
 		if a.can_multiply > 0 then a:learnTalent(t.id, true, 1) end
@@ -64,6 +63,7 @@ newTalent{
 		print("[MULTIPLY]", x, y, "::", game.level.map(x,y,Map.ACTOR))
 		print("[MULTIPLY]", a.can_multiply, "uids", self.uid,"=>",a.uid, "::", self.player, a.player)
 		game.zone:addEntity(game.level, a, "actor", x, y)
+		a:removeTimedEffectsOnClone()
 		a:check("on_multiply", self)
 		a:doFOV()
 		return true
@@ -3559,7 +3559,6 @@ newTalent{
 			force_melee_damage_type = DamageType.DARKNESS,
 		
 		})
-		m:removeTimedEffectsOnClone()
 		m:unlearnTalentsOnClone() -- unlearn certain talents (no recursive projections)
 		m:unlearnTalentFull(m.T_STEALTH)
 		m:unlearnTalentFull(m.T_HIDE_IN_PLAIN_SIGHT)
@@ -3581,6 +3580,7 @@ newTalent{
 
 		self:removeEffect(self.EFF_SHADOW_VEIL) -- Remove shadow veil from creator
 		game.zone:addEntity(game.level, m, "actor", x, y)
+		m:removeTimedEffectsOnClone()
 		game.level.map:particleEmitter(x, y, 1, "shadow")
 
 		if game.party:hasMember(self) then
