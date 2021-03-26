@@ -76,8 +76,22 @@ function _M:run()
 end
 
 function _M:fattenRandom(nb_adds)
+	nb_adds = math.ceil(#self.edges * nb_adds / 100)
 	while nb_adds > 0 and next(self.edges) do
 		local edge = rng.table(table.values(self.edges))
+		self.edges[edge:hash()] = nil
+		self.mst[edge:hash()] = edge
+		nb_adds = nb_adds - 1
+	end
+end
+
+function _M:fattenShorter(nb_adds)
+	nb_adds = math.ceil(#self.edges * nb_adds / 100)
+	local list = table.values(self.edges)
+	table.sort(list, "cost")
+
+	while nb_adds > 0 and #list > 0 do
+		local edge = table.remove(list, 1)
 		self.edges[edge:hash()] = nil
 		self.mst[edge:hash()] = edge
 		nb_adds = nb_adds - 1

@@ -35,8 +35,9 @@ if engine.Map.tiles.nicer_tiles then
 end
 g:altered()
 g.canAct = false
+g.x, g.y = x, y
 g.act = function(self)
-	local grids = core.fov.circle_grids(x, y, rng.range(1, 2), "block_move")
+	local grids = core.fov.circle_grids(self.x, self.y, rng.range(1, 2), "block_move")
 	for x, yy in pairs(grids) do for y, _ in pairs(yy) do
 		if rng.chance(6) then
 			if game.level.map.lites(x, y) then

@@ -27,7 +27,12 @@ module(..., package.seeall, class.make)
 
 function _M:init(size, fill_with)
 	if size then
-		self:setSize(size[1], size[2], fill_with)
+		if size.getClass and size:getClass() == _M then
+			self:setSize(size.data_w, size.data_h)
+			self.data = table.clone(size.data, true)
+		else
+			self:setSize(size[1], size[2], fill_with)
+		end
 	end
 	self.merged_pos = self:point(1, 1)
 	self.on_merged_at = {}
@@ -697,7 +702,7 @@ group_meta = {
 							return jn
 						end
 					end
-				elseif mode == "corder" then
+				elseif mode == "corner" then
 					local g8 = check(jn.x+0, jn.y-1)
 					local g2 = check(jn.x+0, jn.y+1)
 					local g4 = check(jn.x-1, jn.y+0)
@@ -708,24 +713,24 @@ group_meta = {
 					local g9 = check(jn.x+1, jn.y-1)
 					if not what or what == "any" or what == "straight" then
 						if not g8 and g2 and not g4 and g6 and not g7 and not g3  and not g1 and not g9 then
-							return jn
+							return jn, 3
 						elseif g4 and not g6 and g2 and not g8  and not g7 and not g3  and not g1 and not g9 then
-							return jn
+							return jn, 1
 						elseif g4 and not g6 and not g2 and g8  and not g7 and not g3  and not g1 and not g9 then
-							return jn
+							return jn, 7
 						elseif not g4 and g6 and not g2 and g8  and not g7 and not g3  and not g1 and not g9 then
-							return jn
+							return jn, 9
 						end
 					end
 					if what == "any" or what == "diagonal" then
 						if not g4 and not g6 and not g2 and not g8 and g7 and not g3 and g1 and not g7 then
-							return jn
+							return jn, 4
 						elseif not g4 and not g6 and not g2 and not g8  and g7 and not g3  and not g1 and g9 then
-							return jn
+							return jn, 8
 						elseif not g4 and not g6 and not g2 and not g8  and not g7 and g3  and not g1 and g9 then
-							return jn
+							return jn, 6
 						elseif not g4 and not g6 and not g2 and not g8  and not g7 and g3  and g1 and not g9 then
-							return jn
+							return jn, 2
 						end
 					end
 				elseif mode == "has-neighbours" then
@@ -1130,8 +1135,15 @@ function _M:printResult()
 		return
 	end
 	print("------------- Tilemap result --[[")
-	for _, line in ipairs(self:getResult()) do
-		print(line)
+	local p = core.game.stdout_write
+	for y = 1, self.data_h do
+		for x = 1, self.data_w do
+			local c = tostring(self.data[y][x])
+			-- Check if we have more than one character (check as UTF8 as some tilemaps use them for more meaning)
+			if c:nextUTF(1) then c = "…" end
+			p(c)
+		end
+		p("\n")
 	end
 	print("]]-----------")
 end
@@ -1283,17 +1295,24 @@ end
 function _M:smartDoor(pos, chance, door_char, walls)
 	if pos.x <= 1 or pos.y <= 1 or pos.x >= self.data_w or pos.y >= self.data_h then return false end
 
+	print("=====SMART DOOR====")
+	table.print(walls)
 	walls = self:makeCharsTable(walls, {'#','⍓'})
-	
+
 	local c8 = self.data[pos.y-1][pos.x]
 	local c2 = self.data[pos.y+1][pos.x]
 	local c4 = self.data[pos.y][pos.x-1]
 	local c6 = self.data[pos.y][pos.x+1]
 
+	print("  __test__", c8,c2,c4,c6, walls[c8],walls[c2],walls[c4],walls[c6])
+	table.print(walls)
+
 	if (walls[c8] and walls[c2]) and not walls[c4] and not walls[c6] and rng.percent(chance) then
+		print(" - vert")
 		if door_char then self.data[pos.y][pos.x] = door_char end
 		return true
 	elseif (walls[c4] and walls[c6]) and not walls[c2] and not walls[c8] and rng.percent(chance) then
+		print(" - horz")
 		if door_char then self.data[pos.y][pos.x] = door_char end
 		return true
 	else
@@ -1721,13 +1740,14 @@ binpack_meta = {
 			end
 			return true
 		end,
-		merge = function(self)
+		merge = function(self, into)
 			self.merged_maps = {}
 			for map, params in pairs(self.maps) do if params.computed then
 				if map.build then map:build() end
-				self.into:merge(params.pos, map)
+				(into or self.into):merge(params.pos, map)
 				self.merged_maps[#self.merged_maps+1] = map
 			end end
+			return self
 		end,
 		hasMerged = function(self, map)
 			if map then
@@ -1751,6 +1771,22 @@ binpack_meta = {
 		end,
 		iteratorMerged = function(self)
 			return ipairs(self.merged_maps)
+		end,
+		spaceOut = function(self)
+			-- Find out the bounding box of the compacted rooms list
+			local mx, my = 1, 1
+			local mw, mh = 0, 0
+			for map, params in pairs(self.maps) do if params.computed then
+				mw, mh = math.max(mw, map.data_w), math.max(mh, map.data_h)
+				mx = math.max(mx, params.pos.x + map.data_w - 1)
+				my = math.max(my, params.pos.y + map.data_h - 1)
+			end end
+			local sx, sy = self.size_x / mx, self.size_y / my
+			for map, params in pairs(self.maps) do if params.computed then
+				params.pos.x = math.floor(params.pos.x * sx)
+				params.pos.y = math.floor(params.pos.y * sy)
+			end end
+			return self
 		end,
 	},
 }

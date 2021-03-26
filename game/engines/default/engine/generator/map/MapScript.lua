@@ -72,6 +72,7 @@ function _M:getFile(file, folder)
 end
 
 function _M:regenerate()
+	print("[MapScript] Asking for regenerate")
 	self.post_gen = {}
 	self.maps_positions = {}
 	self.maps_registers = {}
@@ -84,6 +85,7 @@ function _M:regenerate()
 end
 
 function _M:redo()
+	print("[MapScript] Asking for redo")
 	self.post_gen = {}
 	self.maps_positions = {}
 	self.maps_registers = {}
@@ -107,7 +109,13 @@ function _M:loadFile(mapscript, lev, old_lev, args)
 		mapdata = self.data,
 		lev = lev,
 		old_lev = old_lev,
-		loadMapScript = function(name, args) return self:loadFile(name, lev, old_lev, args) end,
+		loadMapScript = function(name, args) return self:loadFile(name, lev, old_lev, args or {}) end,
+		lib = setmetatable({}, {__index=function(t, k) -- This is the same as loadMapScript for files in a lib/ folder, just better looking
+			return function(args) return self:loadFile("lib/"..k, lev, old_lev, args or {}) end
+		end}),
+		zonelib = setmetatable({}, {__index=function(t, k) -- This is the same as loadMapScript for files in a lib/ folder, just better looking
+			return function(args) return self:loadFile("!lib/"..k, lev, old_lev, args or {}) end
+		end}),
 		merge_order = {'.', '_', 'r', '+', '#', 'O', ';', '=', 'T'},
 	}
 	for f in fs.iterate("/engine/tilemaps/", function(f) return f:find("%.lua$") end) do
@@ -166,7 +174,7 @@ function _M:generate(lev, old_lev)
 	if not self.entrance_pos then self.entrance_pos = data:locateTile('<') end
 	if not self.exit_pos then self.exit_pos = data:locateTile('>') end
 	if not self.entrance_pos then self.entrance_pos = data:point(1, 1) end
-	if not self.exit_pos then self.exit_pos = data:point(1, 1) end
+	if not self.exit_pos then self.exit_pos = self.entrance_pos or data:point(1, 1) end -- Exit pos equals entrance if none is given
 
 	data = data:getResult(true)
 
