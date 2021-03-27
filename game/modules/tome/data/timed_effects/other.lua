@@ -160,7 +160,7 @@ newEffect{
 		Sanctity: +1 postive.
 		Warding: +0.5 postive and negative.]] end,
 	type = "other",
-	subtype = {},
+	subtype = {circle = true,},
 	status = "beneficial",
 	paramters = {},
 }
