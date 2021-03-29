@@ -43,7 +43,10 @@ end
 function _M:resolve(c, list, force)
 	if force then return Generator.resolve(self, c, list, force) end
 	if self.self_tiles[c] then
-		if type(self.self_tiles[c].grid) == "table" and self.self_tiles[c].grid.__ATOMIC then
+		print("======SELF TILE", c, self.self_tiles[c].dst_char)
+		if self.self_tiles[c].dst_char then
+			return self:resolve(self.self_tiles[c].dst_char, list, force)
+		elseif type(self.self_tiles[c].grid) == "table" and self.self_tiles[c].grid.__ATOMIC then
 			local res = self.self_tiles[c].grid
 			if res.force_clone then res = res:clone() end
 			res:resolve()
@@ -340,8 +343,17 @@ function _M:checkConnectivity(dst, src, type, subtype)
 	self:addSpot(dst, type or "static", subtype or "static", data)
 end
 
+function _M:additionalTileInfos(char, dst_char, obj, actor, trap, status, spot)
+	self.self_tiles[char] = {dst_char=dst_char, object=obj, actor=actor, trap=trap, status=status, define_spot=spot}
+end
+
 function _M:defineTile(char, grid, obj, actor, trap, status, spot)
 	self.self_tiles[char] = {grid=grid, object=obj, actor=actor, trap=trap, status=status, define_spot=spot}
+end
+
+function _M:aliasTile(dchar, schar)
+	self.self_tiles[dchar] = {dst_char=schar}
+	if alter then alter(self.self_tiles[dchar]) end
 end
 
 function _M:copyTile(dchar, schar, alter)
