@@ -43,7 +43,6 @@ end
 function _M:resolve(c, list, force)
 	if force then return Generator.resolve(self, c, list, force) end
 	if self.self_tiles[c] then
-		print("======SELF TILE", c, self.self_tiles[c].dst_char)
 		if self.self_tiles[c].dst_char then
 			return self:resolve(self.self_tiles[c].dst_char, list, force)
 		elseif type(self.self_tiles[c].grid) == "table" and self.self_tiles[c].grid.__ATOMIC then

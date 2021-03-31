@@ -72,7 +72,7 @@ return function(filter)
 	set_exitable(tm)
 
 	local pitdata = "pitdata"..tostring(tm)
-	self:additionalTileInfos(pitdata, floor, nil, {random_filter=filter}, nil, {special=true})
+	self:additionalTileInfos(pitdata, floor, nil, {random_filter=filter, entity_mod=function(e) e:setEffect(e.EFF_VAULTED, 1, {}) return e end}, nil, {special=true})
 
 	local doors = {}
 	for p in tm:pointIterator() do
@@ -103,6 +103,11 @@ return function(filter)
 		end
 	end
 	local doorpos = rng.table(doors)
-	if doorpos then tm:put(doorpos, door) end
+	if doorpos then
+		local pitinfo = "pitinfo"..tostring(tm)
+		self:additionalTileInfos(pitinfo, door, nil, nil, nil, {special=true, pit_info={x1=-doorpos.x+4, y1=-doorpos.y+4, x2=-doorpos.x+4+tm.data_w-4-3, y2=-doorpos.y+4+tm.data_h-4-3}})
+		tm:put(doorpos, pitinfo)
+	end
+	tm.pit_doorpos = doorpos
 	return tm
 end

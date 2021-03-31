@@ -169,6 +169,10 @@ point_meta = {
 			local dx, dy = util.dirToCoord(dir)
 			return _M:point(p.x + dx, p.y + dy)
 		end,
+		dir = function(p, dir) -- same as addDir
+			local dx, dy = util.dirToCoord(dir)
+			return _M:point(p.x + dx, p.y + dy)
+		end,
 		clone = function(p)
 			return _M:point(p)
 		end,
@@ -1295,8 +1299,6 @@ end
 function _M:smartDoor(pos, chance, door_char, walls)
 	if pos.x <= 1 or pos.y <= 1 or pos.x >= self.data_w or pos.y >= self.data_h then return false end
 
-	print("=====SMART DOOR====")
-	table.print(walls)
 	walls = self:makeCharsTable(walls, {'#','⍓'})
 
 	local c8 = self.data[pos.y-1][pos.x]
@@ -1304,15 +1306,10 @@ function _M:smartDoor(pos, chance, door_char, walls)
 	local c4 = self.data[pos.y][pos.x-1]
 	local c6 = self.data[pos.y][pos.x+1]
 
-	print("  __test__", c8,c2,c4,c6, walls[c8],walls[c2],walls[c4],walls[c6])
-	table.print(walls)
-
 	if (walls[c8] and walls[c2]) and not walls[c4] and not walls[c6] and rng.percent(chance) then
-		print(" - vert")
 		if door_char then self.data[pos.y][pos.x] = door_char end
 		return true
 	elseif (walls[c4] and walls[c6]) and not walls[c2] and not walls[c8] and rng.percent(chance) then
-		print(" - horz")
 		if door_char then self.data[pos.y][pos.x] = door_char end
 		return true
 	else
