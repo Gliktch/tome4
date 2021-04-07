@@ -30,6 +30,8 @@ function _M:init(size, fill_with)
 		if size.getClass and size:getClass() == _M then
 			self:setSize(size.data_w, size.data_h)
 			self.data = table.clone(size.data, true)
+		elseif size.x and size.y then
+			self:setSize(size.x, size.y, fill_with)
 		else
 			self:setSize(size[1], size[2], fill_with)
 		end
@@ -149,8 +151,24 @@ point_meta = {
 		if type(b) == "number" then return _M:point(a.x / b, a.y / b)
 		else return _M:point(a.x / b.x, a.y / b.y) end
 	end,
+	__unm = function(a)
+		return _M:point(-a.x, -a.y)
+	end,
+	__len = function(a)
+		return a:area()
+	end,
 	__eq = function(a, b)
 		return a.x == b.x and a.y == b.y
+	end,
+	__lt = function(a, b)
+		if type(a) == "number" then return a < b.x and a < b.y end
+		if type(b) == "number" then return a.x < b and a.y < b end
+		return a.x < b.x and a.y < b.y
+	end,
+	__le = function(a, b)
+		if type(a) == "number" then return a <= b.x and a <= b.y end
+		if type(b) == "number" then return a.x <= b and a.y <= b end
+		return a.x <= b.x and a.y <= b.y
 	end,
 	__tostring = function(p)
 		return ("Point(%d x %d)"):format(p.x, p.y)
@@ -532,6 +550,7 @@ end
 
 --- Returns the bounding rectangle of a list of points
 function _M:pointsBoundingRectangle(list)
+	if #list == 0 then return self:point(1, 1), self:point(1, 1) end
 	local to = self:point(1, 1)
 	local from = self:point(999999, 999999)
 	for _, p in ipairs(list) do
@@ -545,11 +564,23 @@ end
 
 local group_meta
 
---- Make a point data, can be added
+--- Make a group data
 function _M:group(list)
 	local g = {list=list, is_tm_group=true}
 	setmetatable(g, group_meta)
 	g:updateReverse()
+	return g
+end
+
+--- Return a group that is the merge of all groups
+function _M:mergeGroups(...)
+	local g = self:group{}
+	local groups = {...}
+	-- Assume if the first arg is not a group that it is a list of groups
+	if not groups[1].is_tm_group then groups = groups[1] end
+	for _, ag in ipairs(groups) do
+		for _, p in ipairs(ag.list) do g:add(p:clone()) end
+	end
 	return g
 end
 
@@ -668,6 +699,14 @@ group_meta = {
 		hasPoint = function(g, x, y)
 			if type(x) == "table" then x, y = x.x, x.y end
 			return g.reverse[x] and g.reverse[x][y]
+		end,
+		allMatch = function(g, map, list)
+			if type(list) ~= "table" then list = {list} end
+			list = table.reverse(list)
+			for p in g:iterate() do
+				if not list[map:get(p)] then return false end
+			end
+			return true
 		end,
 		pickSpot = function(group, mode, what, mapcheck)
 			local function check(x, y)
@@ -1054,6 +1093,16 @@ function _M:groupOuterRectangle(group)
 	return self:point(x1, y1), self:point(x2, y2), x2 - x1 + 1, y2 - y1 + 1
 end
 
+--- Trim the map (returns a new one) on each sides until we hit a non-wall
+function _M:trim(walls)
+	if type(walls) ~= "table" then walls = {walls} end
+	local group = self:mergeGroups(self:findGroupsNotOf(walls))
+	local from, to = group:bounds()
+	local tm = _M.new(to - from + 1)
+	tm:merge(-from + 1 + 1, self)
+	return tm
+end
+
 --- Carve out a simple linear path from coords until a tile is reached
 function _M:carveLinearPath(char, from, dir, stop_at, dig_only_into, ignore_first)
 	local x, y = math.floor(from.x), math.floor(from.y)
@@ -1138,7 +1187,7 @@ function _M:printResult()
 		print("------------- Tilemap result")		
 		return
 	end
-	print("------------- Tilemap result --[[")
+	print("------------- Tilemap ("..self.data_w.."x"..self.data_h..") result --[[")
 	local p = core.game.stdout_write
 	for y = 1, self.data_h do
 		for x = 1, self.data_w do
