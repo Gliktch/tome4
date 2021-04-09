@@ -29,6 +29,7 @@ newEntity{
 	notice = true,
 	change_level = 1,
 	change_zone = "wilderness",
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 
 newEntity{
@@ -39,6 +40,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = -1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 
 newEntity{
@@ -49,6 +51,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = 1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 
 -----------------------------------------
@@ -63,6 +66,7 @@ newEntity{
 	notice = true,
 	change_level = 1,
 	change_zone = "wilderness",
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 
 newEntity{
@@ -73,6 +77,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = -1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 newEntity{
 	define_as = "FLAT_UP2",
@@ -82,6 +87,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = -1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 newEntity{
 	define_as = "FLAT_UP4",
@@ -91,6 +97,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = -1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 newEntity{
 	define_as = "FLAT_UP6",
@@ -100,6 +107,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = -1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 
 newEntity{
@@ -110,6 +118,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = 1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 newEntity{
 	define_as = "FLAT_DOWN2",
@@ -119,6 +128,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = 1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 newEntity{
 	define_as = "FLAT_DOWN4",
@@ -128,6 +138,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = 1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 newEntity{
 	define_as = "FLAT_DOWN6",
@@ -137,6 +148,7 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	change_level = 1,
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 
 -----------------------------------------
@@ -148,6 +160,7 @@ newEntity{
 	name = "floor", image = "terrain/marble_floor.png",
 	display = '.', color_r=255, color_g=255, color_b=255, back_color=colors.DARK_GREY,
 	grow = "WALL",
+	nice_editer = { method="borders_def", def="marble_floor"},
 }
 
 -----------------------------------------

@@ -27,6 +27,7 @@ newEntity{
 	name = "old road", image = "terrain/marble_floor.png",
 	display = '=', color=colors.DARK_GREY,
 	always_remember = true,
+	nice_editer = { method="borders_def", def="marble_floor"},
 	nice_editer2 = { method="roads_def", def="oldstone" },
 }
 
