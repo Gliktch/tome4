@@ -21,8 +21,9 @@ require "engine.class"
 require "mod.class.NPC"
 require "mod.class.interface.PartyDeath"
 require "engine.interface.PlayerHotkeys"
+require "mod.class.interface.PlayerQuestPopup"
 
-module(..., package.seeall, class.inherit(mod.class.NPC, mod.class.interface.PartyDeath, engine.interface.PlayerHotkeys))
+module(..., package.seeall, class.inherit(mod.class.NPC, mod.class.interface.PartyDeath, engine.interface.PlayerHotkeys, mod.class.interface.PlayerQuestPopup))
 
 function _M:init(t, no_default)
 	mod.class.NPC.init(self, t, no_default)

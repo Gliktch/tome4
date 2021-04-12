@@ -735,6 +735,37 @@ function _M:niceTileOuterSpace(level, i, j, g, nt)
 end
 
 local defs = {
+marble_floor = { method="borders", type="marble", forbid={grass=true},
+	-- default8={add_mos={{image="terrain/grass/grass_2_%02d.png", display_y=-1}}, min=1, max=2},
+	-- default2={add_mos={{image="terrain/grass/grass_8_%02d.png", display_y=1}}, min=1, max=2},
+	-- default4={add_mos={{image="terrain/grass/grass_6_%02d.png", display_x=-1}}, min=1, max=2},
+	-- default6={add_mos={{image="terrain/grass/grass_4_%02d.png", display_x=1}}, min=1, max=2},
+
+	-- default1={add_mos={{image="terrain/grass/grass_9_%02d.png", display_x=-1, display_y=1}}, min=1, max=1},
+	-- default3={add_mos={{image="terrain/grass/grass_7_%02d.png", display_x=1, display_y=1}}, min=1, max=1},
+	-- default7={add_mos={{image="terrain/grass/grass_3_%02d.png", display_x=-1, display_y=-1}}, min=1, max=1},
+	-- default9={add_mos={{image="terrain/grass/grass_1_%02d.png", display_x=1, display_y=-1}}, min=1, max=1},
+
+	-- default1i={add_mos={{image="terrain/grass/grass_inner_1_%02d.png", display_x=-1, display_y=1}}, min=1, max=2},
+	-- default3i={add_mos={{image="terrain/grass/grass_inner_3_%02d.png", display_x=1, display_y=1}}, min=1, max=2},
+	-- default7i={add_mos={{image="terrain/grass/grass_inner_7_%02d.png", display_x=-1, display_y=-1}}, min=1, max=2},
+	-- default9i={add_mos={{image="terrain/grass/grass_inner_9_%02d.png", display_x=1, display_y=-1}}, min=1, max=2},
+
+	water8={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_8.png", display_y=-1}}, min=1, max=1},
+	water2={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_2.png", display_y=1}}, min=1, max=1},
+	water4={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_4.png", display_x=-1}}, min=1, max=1},
+	water6={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_6.png", display_x=1}}, min=1, max=1},
+
+	water1={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_1.png", display_x=-1, display_y=1}}, min=1, max=1},
+	water3={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_3.png", display_x=1, display_y=1}}, min=1, max=1},
+	water7={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_7.png", display_x=-1, display_y=-1}}, min=1, max=1},
+	water9={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_9.png", display_x=1, display_y=-1}}, min=1, max=1},
+
+	water1i={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_1.png", display_x=-1, display_y=1}}, min=1, max=1},
+	water3i={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_3.png", display_x=1, display_y=1}}, min=1, max=1},
+	water7i={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_7.png", display_x=-1, display_y=-1}}, min=1, max=1},
+	water9i={add_mos={{image="terrain/marble_water/marble_floor_2_to_water_outer_9.png", display_x=1, display_y=-1}}, min=1, max=1},
+},
 grass = { method="borders", type="grass", forbid={lava=true, rock=true, dark_grass=true},
 	default8={add_mos={{image="terrain/grass/grass_2_%02d.png", display_y=-1}}, min=1, max=2},
 	default2={add_mos={{image="terrain/grass/grass_8_%02d.png", display_y=1}}, min=1, max=2},

@@ -24,7 +24,7 @@ local Tilemap = require "engine.tilemaps.Tilemap"
 -- @classmod engine.tilemaps.Static
 module(..., package.seeall, class.inherit(Tilemap))
 
-function _M:init(file)
+function _M:init(file, args)
 	Tilemap.init(self)
 
 	if file:find("%.tmx$") then self.data = self:tmxLoad(file)
@@ -32,4 +32,5 @@ function _M:init(file)
 	self.data_h = #self.data
 	self.data_w = self.data[1] and #self.data[1] or 0
 	self.data_size = self:point(self.data_w, self.data_h)
+	if args and args.required_to_merge then self.required_to_merge = true end
 end

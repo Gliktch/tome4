@@ -362,7 +362,7 @@ function _M:tmxLoad(file)
 
 	local fakeid = -1
 	for _, og in ipairs(map:findAll("objectgroup")) do
-		for _, o in ipairs(map:findAll("object")) do
+		for _, o in ipairs(og:findAll("object")) do
 			local props = o:findOne("properties"):findAllAttrs("property", "name", "value")
 
 			if og.attr.name and og.attr.name:find("^addSpot") then
@@ -393,7 +393,7 @@ function _M:tmxLoad(file)
 						--print("=== found attrs", k, v, "at", i, j, "with rotate:", rotate)
 						local i, j = rotate_coords(i + 1, j + 1)
 						i, j = i - 1, j - 1
-						self.add_attrs_later[#self.add_attrs_later+1] = {x=i, y=j, key=k, value=self:loadLuaInEnv(g, nil, "return "..v)}
+						self.add_attrs_later[#self.add_attrs_later+1] = {x=self.data.__import_offset_x+i, y=self.data.__import_offset_y+j, key=k, value=self:loadLuaInEnv(g, nil, "return "..v)}
 						-- print("====", i, j, k)
 					end end
 				end
@@ -404,7 +404,7 @@ function _M:tmxLoad(file)
 					for i = x, x + w do for j = y, y + h do
 						local i, j = rotate_coords(i, j)
 						t[fakeid] = props.id
-						populate(i+1, j+1, {[layername] = fakeid}, fakeid)
+						populate(self.data.__import_offset_x+i+1, self.data.__import_offset_y+j+1, {[layername] = fakeid}, fakeid)
 						fakeid = fakeid - 1
 					end end
 				end

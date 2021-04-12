@@ -1258,11 +1258,13 @@ newEffect{
 		eff.src:project(tg, self.x, self.y, DamageType.ACID, eff.finaldam, {type="acid"})
 		self:removeParticles(eff.particle)
 	end,
+	callbackOnCloned = function(self, eff)
+		eff.finaldam = 0
+	end,
 	callbackOnHit = function(self, eff, cb)
 		eff.finaldam = eff.finaldam + (cb.value * eff.rate)
 		return true
 	end,
-
 	on_die = function(self, eff)
 		local tg = {type="ball", radius=4, selffire=false, x=self.x, y=self.y}
 		eff.src:project(tg, self.x, self.y, DamageType.ACID, eff.finaldam, {type="acid"})

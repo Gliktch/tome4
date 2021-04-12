@@ -160,7 +160,7 @@ newEffect{
 		Sanctity: +1 postive.
 		Warding: +0.5 postive and negative.]] end,
 	type = "other",
-	subtype = {},
+	subtype = {circle = true,},
 	status = "beneficial",
 	paramters = {},
 }
@@ -2091,8 +2091,7 @@ newEffect{
 			m:attr("status_effect_immune", -1)
 
 			m:removeParticles(eff.particle)
-			m:removeTimedEffectsOnClone()
-
+			
 			-- track number killed
 			m.on_die = function(self, who)
 				local p = (who and who:hasEffect(who.EFF_DREAMSCAPE)) or (who and who.summoner and who.summoner:hasEffect(who.summoner.EFF_DREAMSCAPE))
@@ -2105,6 +2104,8 @@ newEffect{
 			game.zone:addEntity(game.level, m, "actor", x, y)
 			game.level.map:particleEmitter(x, y, 1, "generic_teleport", {rm=0, rM=0, gm=180, gM=255, bm=180, bM=255, am=35, aM=90})
 			game.logSeen(eff.target, "#LIGHT_BLUE#%s has spawned a dream projection to protect its mind!", eff.target:getName():capitalize())
+			
+			m:removeTimedEffectsOnClone()
 
 			if game.party:hasMember(eff.target) then
 				game.party:addMember(m, {

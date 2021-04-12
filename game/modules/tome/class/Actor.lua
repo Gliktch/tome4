@@ -3850,7 +3850,11 @@ end
 
 function _M:resetToFull()
 	if self.dead then return end
-	self.life = self.max_life
+	if self.max_life_reset_to_full then
+		self.life = self.max_life_reset_to_full
+	else
+		self.life = self.max_life
+	end
 
 	-- go through all resources
 	for res, res_def in ipairs(_M.resources_def) do

@@ -44,7 +44,7 @@ DAY_START = HOUR * 6
 -- @param start_day defaults to 1
 -- @param start_hour defaults to 8
 function _M:init(definition, datestring, start_year, start_day, start_hour)
-	local data = dofile(definition)
+	local data, c_dts = dofile(definition)
 	self.calendar = {}
 	local days = 0
 	for _, e in ipairs(data) do
@@ -54,7 +54,7 @@ function _M:init(definition, datestring, start_year, start_day, start_hour)
 	end
 	assert(days == 365, "Calendar incomplete, days ends at "..days.." instead of 365")
 
-	self.datestring = datestring
+	self.datestring = c_dts or datestring
 	self.start_year = start_year
 	self.start_day = start_day or 1
 	self.start_hour = start_hour or 8

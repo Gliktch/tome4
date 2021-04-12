@@ -35,6 +35,7 @@ function _M:init(zone, map, level, data)
 	self.maps_positions = {}
 	self.maps_registers = {}
 	self.self_tiles = {}
+	self.statuses = {}
 
 	RoomsLoader.init(self, data)
 end
@@ -42,7 +43,9 @@ end
 function _M:resolve(c, list, force)
 	if force then return Generator.resolve(self, c, list, force) end
 	if self.self_tiles[c] then
-		if type(self.self_tiles[c].grid) == "table" and self.self_tiles[c].grid.__ATOMIC then
+		if self.self_tiles[c].dst_char then
+			return self:resolve(self.self_tiles[c].dst_char, list, force)
+		elseif type(self.self_tiles[c].grid) == "table" and self.self_tiles[c].grid.__ATOMIC then
 			local res = self.self_tiles[c].grid
 			if res.force_clone then res = res:clone() end
 			res:resolve()
@@ -71,10 +74,28 @@ function _M:getFile(file, folder)
 end
 
 function _M:regenerate()
+	print("[MapScript] Asking for regenerate")
+	self.post_gen = {}
+	self.maps_positions = {}
+	self.maps_registers = {}
+	self.spots = {}
+	self.statuses = {}
+	self.entrance_pos = nil
+	self.exit_pos = nil
+	self.status_all = nil
 	self.force_regen = true
 end
 
 function _M:redo()
+	print("[MapScript] Asking for redo")
+	self.post_gen = {}
+	self.maps_positions = {}
+	self.maps_registers = {}
+	self.spots = {}
+	self.statuses = {}
+	self.entrance_pos = nil
+	self.exit_pos = nil
+	self.status_all = nil
 	self.force_redo = true
 end
 
@@ -90,7 +111,13 @@ function _M:loadFile(mapscript, lev, old_lev, args)
 		mapdata = self.data,
 		lev = lev,
 		old_lev = old_lev,
-		loadMapScript = function(name, args) return self:loadFile(name, lev, old_lev, args) end,
+		loadMapScript = function(name, args) return self:loadFile(name, lev, old_lev, args or {}) end,
+		lib = setmetatable({}, {__index=function(t, k) -- This is the same as loadMapScript for files in a lib/ folder, just better looking
+			return function(args) return self:loadFile("lib/"..k, lev, old_lev, args or {}) end
+		end}),
+		zonelib = setmetatable({}, {__index=function(t, k) -- This is the same as loadMapScript for files in a lib/ folder, just better looking
+			return function(args) return self:loadFile("!lib/"..k, lev, old_lev, args or {}) end
+		end}),
 		merge_order = {'.', '_', 'r', '+', '#', 'O', ';', '=', 'T'},
 	}
 	for f in fs.iterate("/engine/tilemaps/", function(f) return f:find("%.lua$") end) do
@@ -149,7 +176,7 @@ function _M:generate(lev, old_lev)
 	if not self.entrance_pos then self.entrance_pos = data:locateTile('<') end
 	if not self.exit_pos then self.exit_pos = data:locateTile('>') end
 	if not self.entrance_pos then self.entrance_pos = data:point(1, 1) end
-	if not self.exit_pos then self.exit_pos = data:point(1, 1) end
+	if not self.exit_pos then self.exit_pos = self.entrance_pos or data:point(1, 1) end -- Exit pos equals entrance if none is given
 
 	data = data:getResult(true)
 
@@ -240,7 +267,17 @@ function _M:generate(lev, old_lev)
 		end
 	end end end
 
-	-- Any psot gen stuff
+	-- Apply statuses
+	for _, s in ipairs(self.statuses) do
+		local i, j = s.x-1, s.y-1
+		if s.k == "lite" then self.level.map.lites(i, j, s.v)
+		elseif s.k == "remember" then self.level.map.remembers(i, j, s.v)
+		elseif s.k == "special" then self.map.room_map[i][j].special = s.v
+		elseif s.k == "room_map" then for k, v in pairs(s.v) do self.map.room_map[i][j][k] = v end
+		else self.level.map.attrs(i, j, s.k, s.v) end
+	end
+
+	-- Any post gen stuff
 	for _, post in pairs(self.post_gen) do
 		post(self, lev, old_lev)
 	end
@@ -259,8 +296,29 @@ function _M:setStatusAll(s)
 	self.status_all = s
 end
 
+function _M:setStatus(x, y, k, v)
+	if type(x) == "table" then
+		if x.is_tm_group then -- Apply over the whole group and shift parameters
+			for _, p in ipairs(x.list) do self:setStatus(p.x, p.y, y, k) end
+			return
+		else
+			-- Shift parameters
+			x, y, k, v = x.x, x.y, y, k
+		end
+	end
+	self.statuses[#self.statuses+1] = {x=x, y=y, k=k, v=v}
+end
+
 function _M:addSpot(x, y, _type, subtype, data)
-	if type(x) == "table" then x, y, _type, subtype, data = x.x, x.y, y, _type, subtype end
+	if type(x) == "table" then
+		if x.is_tm_group then -- Apply over the whole group and shift parameters
+			for _, p in ipairs(x.list) do self:addSpot(p.x, p.y, y, _type, subtype) end
+			return
+		else
+			-- Shift parameters
+			x, y, _type, subtype, data = x.x, x.y, y, _type, subtype
+		end
+	end
 	data = data or {}
 	-- Tilemap uses 1 based indexes
 	data.x = math.floor(x) - 1
@@ -284,8 +342,17 @@ function _M:checkConnectivity(dst, src, type, subtype)
 	self:addSpot(dst, type or "static", subtype or "static", data)
 end
 
+function _M:additionalTileInfos(char, dst_char, obj, actor, trap, status, spot)
+	self.self_tiles[char] = {dst_char=dst_char, object=obj, actor=actor, trap=trap, status=status, define_spot=spot}
+end
+
 function _M:defineTile(char, grid, obj, actor, trap, status, spot)
 	self.self_tiles[char] = {grid=grid, object=obj, actor=actor, trap=trap, status=status, define_spot=spot}
+end
+
+function _M:aliasTile(dchar, schar)
+	self.self_tiles[dchar] = {dst_char=schar}
+	if alter then alter(self.self_tiles[dchar]) end
 end
 
 function _M:copyTile(dchar, schar, alter)

@@ -161,7 +161,7 @@ newTalent{
 			desc = _t[[A ghostly figure.]],
 			lite=0,
 		}
-		m:removeTimedEffectsOnClone()
+		
 		m:unlearnTalentsOnClone() -- unlearn certain talents (no recursive projections)
 		table.mergeAdd(m, {can_pass = {pass_wall=70}}, true)
 		m:attr("invisible", t.getPower(self, t)/2)
@@ -186,6 +186,7 @@ newTalent{
 		end				
 		
 		game.zone:addEntity(game.level, m, "actor", x, y)
+		m:removeTimedEffectsOnClone()
 		game.level.map:particleEmitter(m.x, m.y, 1, "generic_teleport", {rm=0, rM=0, gm=100, gM=180, bm=180, bM=255, am=35, aM=90})
 		game:playSoundNear(self, "talents/teleport")
 	

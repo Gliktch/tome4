@@ -130,6 +130,9 @@ newTalent{
 		engine.interface.ActorAI.init(m, m)
 		m.inc_damage.all = (m.inc_damage.all or 0) - 50
 		
+		game.zone:addEntity(game.level, m, "actor", x, y)
+		game.level.map:particleEmitter(x, y, 1, "generic_teleport", {rm=60, rM=130, gm=20, gM=110, bm=90, bM=130, am=70, aM=180})
+
 		-- Remove some talents
 		m:unlearnTalentsOnClone()
 
@@ -148,9 +151,6 @@ newTalent{
 				m:removeEffect(eff[2])
 			end
 		end
-
-		game.zone:addEntity(game.level, m, "actor", x, y)
-		game.level.map:particleEmitter(x, y, 1, "generic_teleport", {rm=60, rM=130, gm=20, gM=110, bm=90, bM=130, am=70, aM=180})
 
 		game.logSeen(target, "#F53CBE#%s's Inner Demon manifests!", target:getName():capitalize())
 

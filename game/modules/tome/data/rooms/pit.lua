@@ -45,7 +45,9 @@ return function(gen, id)
 				if i == 3 or i == self.w - 2 or j == 3 or j == self.h - 2 then
 					gen.map.room_map[i-1+x][j-1+y].can_open = false
 					gen.map(i-1+x, j-1+y, Map.TERRAIN, gen:resolve('#'))
-					doors[#doors+1] = {i-1+x, j-1+y}
+					if not (i == 3 and j == 3) and not (i == self.w - 2 and j == 3) and not (i == 3 and j == self.h - 2) and not (i == self.w - 2 and j == self.h - 2) then
+						doors[#doors+1] = {i-1+x, j-1+y}
+					end
 				else
 					gen.map.room_map[i-1+x][j-1+y].special = true
 					local e = gen.zone:makeEntity(gen.level, "actor", filter, nil, true)

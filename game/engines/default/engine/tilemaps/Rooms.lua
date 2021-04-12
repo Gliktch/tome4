@@ -27,7 +27,7 @@ module(..., package.seeall, class.inherit(Tilemap))
 
 local RoomInstance = class.inherit(Tilemap){}
 
-function _M:init(mapscript, rooms_list)
+function _M:init(mapscript, rooms_list, args)
 	self.mapscript = mapscript
 	if type(rooms_list) == "string" then rooms_list = {rooms_list} end
 
@@ -37,6 +37,8 @@ function _M:init(mapscript, rooms_list)
 	end
 
 	self.room_next_id = 1
+	self.single_exit = args and args.single_exit
+	self.allow_corner_exits = args and args.allow_corner_exits
 end
 
 function _M:generateRoom(temp_symbol, account_for_border)
@@ -93,13 +95,23 @@ function RoomInstance:build()
 	self.static_map = map
 	self.exits = exits
 
-	for i = 0, map.w - 1 do
-		checkexits(i, 0, 8)
-		checkexits(i, map.h - 1, 2)
+	local function findexits(allow_corner)
+		local m, M = allow_corner and 0 or 1, allow_corner and 1 or 2
+		for i = m, map.w - M do
+			checkexits(i, 0, 8)
+			checkexits(i, map.h - 1, 2)
+		end
+		for j = m, map.h - M do
+			checkexits(0, j, 4)
+			checkexits(map.w - 1, j, 6)
+		end
 	end
-	for j = 0, map.h - 1 do
-		checkexits(0, j, 4)
-		checkexits(map.w - 1, j, 6)
+	if self.allow_corner_exits then
+		findexits(true)
+	else
+		findexits(false)
+		-- Still allow corners if nothing else exists
+		if #exits.doors == 0 and #exits.openables == 0 then findexits(true) end
 	end
 
 	-- Mark floor & walls
@@ -108,6 +120,24 @@ function RoomInstance:build()
 			self.data[j+1][i+1] = room.temp_symbol.floor
 		end
 	end end
+
+	-- If we want a single exit, remove all others
+	if self.single_exit then
+		local list = {}
+		if self.single_exit == "door" or self.single_exit == true then
+			for _, open in pairs(exits.openables) do
+				table.insert(list, {dist = 0, pos = open, kind = "open"})			
+			end
+		end
+		if self.single_exit == "openable" or self.single_exit == true then
+			for _, door in pairs(exits.doors) do
+				table.insert(list, {dist = 0, pos = door, kind = "door"})			
+			end
+		end
+		if #list == 0 then self.single_exit = nil
+		else self.single_exit = {(rng.table(list))} end
+		print("================----- COMPUTING SINGLE EXIT", #list, self.single_exit and #self.single_exit or "none")
+	end
 
 	return self
 end
@@ -142,6 +172,8 @@ function RoomInstance:mergedAt(x, y, into)
 end
 
 function RoomInstance:findExits(pos, kind)
+	if self.single_exit then print("=>>>>>> SINGLE EXIT") table.print(self.single_exit) return self.single_exit end
+
 	local list = {}
 	if not kind or kind == "openable" then
 		for _, open in pairs(self.exits.openables) do

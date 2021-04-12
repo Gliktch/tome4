@@ -124,6 +124,16 @@ function ripairs(t)
 	end
 end
 
+function ipairs_value(t)
+	local i = 1
+	return function()
+		if i > #t then return nil end
+		local oi = i
+		i = i + 1
+		return t[oi], oi
+	end
+end
+
 function table.weak_keys(t)
 	t = t or {}
 	setmetatable(t, {__mode="k"})
