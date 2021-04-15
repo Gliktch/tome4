@@ -19,6 +19,7 @@
 
 require "engine.class"
 require "engine.dialogs.Chat"
+require "Json2"
 local slt2 = require "slt2"
 
 --- Handle chats between the player and NPCs
@@ -44,17 +45,22 @@ function _M:init(name, npc, player, data)
 	if not data.player then data.player = player end
 	if not data.npc then data.npc = npc end
 
-	local f, err = loadfile(self:getChatFile(name))
-	if not f and err then error(err) end
-	local env = setmetatable({
-		cur_chat = self,
-		setDialogWidth = function(w) self.force_dialog_width = w end,
-		newChat = function(c) self:addChat(c) end,
-		setTextFont = function(font, size) self.dialog_text_font = {font, size} end,
-		setAnswerFont = function(font, size) self.dialog_answer_font = {font, size} end,
-	}, {__index=data})
-	setfenv(f, env)
-	self.default_id = f()
+	local filepath, is_chat_format = self:getChatFile(name)
+	if not is_chat_format then
+		local f, err = loadfile(filepath)
+		if not f and err then error(err) end
+		local env = setmetatable({
+			cur_chat = self,
+			setDialogWidth = function(w) self.force_dialog_width = w end,
+			newChat = function(c) self:addChat(c) end,
+			setTextFont = function(font, size) self.dialog_text_font = {font, size} end,
+			setAnswerFont = function(font, size) self.dialog_answer_font = {font, size} end,
+		}, {__index=data})
+		setfenv(f, env)
+		self.default_id = f()
+	else
+		self:loadChatFormat(filepath)
+	end
 
 	self:triggerHook{"Chat:load", data=data, env=env}
 end
@@ -65,9 +71,116 @@ end
 function _M:getChatFile(file)
 	local _, _, addon, rfile = file:find("^([^+]+)%+(.+)$")
 	if addon and rfile then
+		if fs.exists("/data-"..addon.."/chats/"..rfile..".chat") then return "/data-"..addon.."/chats/"..rfile..".chat", true end
 		return "/data-"..addon.."/chats/"..rfile..".lua"
 	end
+	if fs.exists("/data/chats/"..file..".chat") then return "/data/chats/"..file..".chat", true end
 	return "/data/chats/"..file..".lua"
+end
+
+function _M:chatFormatActions(nodes, answer, node)
+	if not node then return end
+	local function getnext()
+		-- Find out if we have actions to take, conditions to apply and where to jump to
+		if table.sget(node, 'outputs', 'output_1', "connections", 1, "node") then
+			return nodes[table.sget(node, 'outputs', 'output_1', "connections", 1, "node")]
+		end
+	end
+
+	local function add_action(action)
+		if answer.action then
+			local old = answer.action
+			answer.action = function(npc, player)
+				local r1 = old(npc, player)
+				local r2 = action(npc, player)
+				return r2 or r1
+			end
+		else
+			answer.action = action
+		end
+	end
+	local function add_cond(cond)
+		if answer.cond then
+			local old = answer.cond
+			answer.cond = function(npc, player)
+				return old(npc, player) and cond(npc, player)
+			end
+		else
+			answer.cond = cond
+		end
+	end
+
+	if node.name == "chat" then
+		answer.jump = node.data.chatid
+	elseif node.name == "lua-code" then
+		local action, err = loadstring("return function(npc, player) "..node.data.code.." end")
+		if not action and err then error("[Chat] chatFormatActions ERROR: "..err) end
+		action = action()
+		add_action(action)
+		return self:chatFormatActions(nodes, answer, getnext())
+	elseif node.name == "lua-cond" then
+		if not node.data.code:find("return ") then node.data.code = "return "..node.data.code end
+		local cond, err = loadstring("return function(npc, player) "..node.data.code.." end")
+		if not cond and err then error("[Chat] chatFormatActions ERROR: "..err) end
+		cond = cond()
+		add_cond(cond)
+		return self:chatFormatActions(nodes, answer, getnext())
+	elseif node.name == "quest-set" then
+		local Quest = require "engine.Quest"
+		local sub = nil
+		if node.data.sub ~= "" then sub = node.data.sub end
+		add_action(function(npc, player) return player:setQuestStatus(node.data.quest, Quest[node.data.status], sub) end)
+		return self:chatFormatActions(nodes, answer, getnext())
+	elseif node.name == "quest-give" then
+		local Quest = require "engine.Quest"
+		add_action(function(npc, player) return player:grantQuest(node.data.quest) end)
+		return self:chatFormatActions(nodes, answer, getnext())
+	elseif node.name == "quest-cond" then
+		local Quest = require "engine.Quest"
+		local sub = nil
+		if node.data.sub ~= "" then sub = node.data.sub end
+		add_cond(function(npc, player) return player:isQuestStatus(node.data.quest, Quest[node.data.status], sub) end)
+		return self:chatFormatActions(nodes, answer, getnext())
+	end
+end
+
+function _M:loadChatFormat(filepath)
+	local fdata = fs.readAll(filepath)
+	if not fdata then print("[Chat] loadChatFormat: error reading file") return end
+	local data = json.decode(fdata)
+
+	-- Fix chatids to ensure uniqueness
+	local chatids = {}
+	for nodeid, node in pairs(data) do
+		if node.name == "chat" then
+			local chatid = node.data.chatid
+			while chatids[node.data.chatid] do node.data.chatid = chatid..rng.range(1, 99999) end
+			chatids[node.data.chatid] = node
+		end
+	end
+
+	for nodeid, node in pairs(data) do
+		if node.name == "chat" then
+			local answers = {}
+			local i = 1
+			while node.data["answer"..i] do
+				answers[i] = {_t(node.data["answer"..i])}
+
+				-- Find out if we have actions to take, conditions to apply and where to jump to
+				if table.sget(node, 'outputs', 'output_'..i, "connections", 1, "node") then
+					local tn = data[table.sget(node, 'outputs', 'output_'..i, "connections", 1, "node")]
+					self:chatFormatActions(data, answers[i], tn)
+				end
+
+				i = i + 1
+			end
+			self:addChat{ id = node.data.chatid,
+				text = _t(node.data.chat),
+				answers = answers,
+			}	
+		end
+	end
+	self.default_id = "welcome"
 end
 
 --- Switch the NPC talking
