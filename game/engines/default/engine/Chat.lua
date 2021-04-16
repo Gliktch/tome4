@@ -78,8 +78,10 @@ function _M:getChatFile(file)
 	return "/data/chats/"..file..".lua"
 end
 
-function _M:chatFormatActions(nodes, answer, node)
-	if not node then return end
+--- Build up an answer from various nodes
+-- Note to future code divers, this is a recursive method and on long chats can recurse a log, but it only use tailcalls so it's fine. Lua rocks
+function _M:chatFormatActions(nodes, answer, node, stop_at)
+	if not node or node == stop_at then return end
 	local function getnext()
 		-- Find out if we have actions to take, conditions to apply and where to jump to
 		if table.sget(node, 'outputs', 'output_1', "connections", 1, "node") then
@@ -110,37 +112,123 @@ function _M:chatFormatActions(nodes, answer, node)
 		end
 	end
 
+	---------------------------------------------------------------------------
 	if node.name == "chat" then
 		answer.jump = node.data.chatid
+	---------------------------------------------------------------------------
 	elseif node.name == "lua-code" then
 		local action, err = loadstring("return function(npc, player) "..node.data.code.." end")
 		if not action and err then error("[Chat] chatFormatActions ERROR: "..err) end
 		action = action()
 		add_action(action)
-		return self:chatFormatActions(nodes, answer, getnext())
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
 	elseif node.name == "lua-cond" then
 		if not node.data.code:find("return ") then node.data.code = "return "..node.data.code end
 		local cond, err = loadstring("return function(npc, player) "..node.data.code.." end")
 		if not cond and err then error("[Chat] chatFormatActions ERROR: "..err) end
 		cond = cond()
 		add_cond(cond)
-		return self:chatFormatActions(nodes, answer, getnext())
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
 	elseif node.name == "quest-set" then
 		local Quest = require "engine.Quest"
 		local sub = nil
 		if node.data.sub ~= "" then sub = node.data.sub end
 		add_action(function(npc, player) return player:setQuestStatus(node.data.quest, Quest[node.data.status], sub) end)
-		return self:chatFormatActions(nodes, answer, getnext())
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
 	elseif node.name == "quest-give" then
 		local Quest = require "engine.Quest"
 		add_action(function(npc, player) return player:grantQuest(node.data.quest) end)
-		return self:chatFormatActions(nodes, answer, getnext())
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
 	elseif node.name == "quest-cond" then
 		local Quest = require "engine.Quest"
 		local sub = nil
 		if node.data.sub ~= "" then sub = node.data.sub end
 		add_cond(function(npc, player) return player:isQuestStatus(node.data.quest, Quest[node.data.status], sub) end)
-		return self:chatFormatActions(nodes, answer, getnext())
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
+	elseif node.name == "attr-inc" then
+		if not node.data.value:find("return ") then node.data.value = "return "..node.data.value end
+		local a, err = loadstring(node.data.value)
+		if not a and err then error("[Chat] chatFormatActions ERROR: "..err) end
+		a = a()
+		local is_player = node.data.who == "player"
+		add_action(function(npc, player) return (is_player and player or npc):attr(node.data.attr, a) end)
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
+	elseif node.name == "attr-get" then
+		if node.data.value == "" and node.data.test ~= "?" then error("[Chat] chatFormatActions ERROR: no value for a non existance test") end
+		if not node.data.value:find("return ") then node.data.value = "return "..node.data.value end
+		local a, err = loadstring(node.data.value)
+		if not a and err then error("[Chat] chatFormatActions ERROR: "..err) end
+		a = a()
+		local is_player = node.data.who == "player"
+		add_cond(function(npc, player)
+			local actor = (is_player and player or npc)
+			local v = actor:attr(node.data.attr)
+			if node.data.test == "?" then return v and true or false
+			elseif node.data.test == "=" then return v == a
+			elseif node.data.test == ">" then return v > a
+			elseif node.data.test == "<" then return v < a
+			elseif node.data.test == ">=" then return v >= a
+			elseif node.data.test == "<=" then return v <= a
+			end
+		end)
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
+	elseif node.name == "swap-actor" then
+		if node.data.custom == "true" then
+			if not node.data.def:find("return ") then node.data.def = "return "..node.data.def end
+			local a, err = loadstring(node.data.def)
+			if not a and err then error("[Chat] chatFormatActions ERROR: "..err) end
+			answer.switch_npc = engine.Entity.new(a())
+		else
+			local Map = require "engine.Map"
+			local is_tall = false
+			if Map.tiles then
+				local _, _, _, w, h = Map.tiles:get('', 0, 0, 0, 0, 0, 0, node.data.image)
+				is_tall = h > w
+			end
+			answer.switch_npc = engine.Entity.new{name=node.data.name, image=node.data.image, dislpay_y=is_tall and -1 or 0, display_h=is_tall and 2 or 1}
+		end
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
+	elseif node.name == "not" then
+		if answer.cond then local old = answer.cond answer.cond = function(npc, player) return not old(npc, player) end
+		else answer.cond = function() return false end end
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
+	elseif node.name == "or" then
+		-- Recurse back to the star of the condition chains of both input2 and input3, then walk them the usual way until we reach us again
+		local conds = {}
+		local function walk_chain(chainnode)
+			local fakeanswer = {}
+			game.log("following chain...")
+			local function walk(n)
+				game.log(" - %s : %d", n.name, n.id)
+				local tid = table.sget(n, 'inputs', 'input_1', "connections", 1, "node")
+				-- If we have a parent, follow it
+				if tid then
+					return walk(nodes[tid])
+				-- No parent, we are the start of the chain, that building the cond
+				else
+					self:chatFormatActions(nodes, fakeanswer, getnext(), node)
+				end
+			end
+			walk(chainnode)
+			conds[#conds+1] = fakeanswer.cond
+		end
+
+		for i, d in ipairs(table.sget(node, 'inputs', 'input_2', "connections") or {}) do walk_chain(nodes[d.node]) end
+		for i, d in ipairs(table.sget(node, 'inputs', 'input_3', "connections") or {}) do walk_chain(nodes[d.node]) end
+
+		add_cond(function(npc, player) for i, cond in ipairs(conds) do if cond(npc, player) then return true end end end)
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	else
+		return self:triggerHook{"Chat:chatFormatActions", nodes=node, answer=answer, node=node, add_action=add_action, add_cond=add_cond, getnext=getnext, stop_at=stop_at}
 	end
 end
 
