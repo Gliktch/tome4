@@ -202,6 +202,28 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		add_action(function() game:changeLevel(tonumber(node.data.level), zone) end)
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
+	elseif node.name == "set-faction-reaction" then
+		add_action(function(npc, player)
+			local f1 = node.data.f1
+			if f1 == "--player--" then f1 = player.faction end
+			local f2 = node.data.f2
+			if f2 == "--npc--" then f2 = npc.faction end
+			engine.Faction:setFactionReaction(f1, f2, tonumber(node.data.reaction), true)
+		end)
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
+	elseif node.name == "unique" then
+		local getstore = function(npc, player)
+			local store = {}
+			if node.data.store == "player" then player.__chat_uniqueness = player.__chat_uniqueness or {} store = player.__chat_uniqueness end
+			if node.data.store == "npc" then npc.__chat_uniqueness = npc.__chat_uniqueness or {} store = npc.__chat_uniqueness end
+			if node.data.store == "game" then game.state.__chat_uniqueness = game.state.__chat_uniqueness or {} store = game.state.__chat_uniqueness end
+			return store
+		end
+		add_cond(function(npc, player) local store = getstore(npc, player) return not store[node.data.id] end)
+		add_action(function(npc, player) local store = getstore(npc, player) store[node.data.id] = true end)
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
 	elseif node.name == "not" then
 		if answer.cond then local old = answer.cond answer.cond = function(npc, player) return not old(npc, player) end
 		else answer.cond = function() return false end end
