@@ -131,8 +131,10 @@ function _M:resolveAuto()
 	local auto = self.chat:get(self.cur_id).auto
 	if type(auto) == "function" then auto(self.npc, self.player) end
 	for i, a in ipairs(self.chat:get(self.cur_id).answers) do
+		-- use the first answer that works
 		if not a.cond or a.cond(self.npc, self.player) then
 			game:onTickEnd(function() self:use(nil, a) end)
+			return
 		end
 	end
 end
