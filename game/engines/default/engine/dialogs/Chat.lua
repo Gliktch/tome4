@@ -129,8 +129,21 @@ end
 function _M:resolveAuto()
 	if not self.chat:get(self.cur_id).auto then return end
 	local auto = self.chat:get(self.cur_id).auto
-	if type(auto) == "function" then auto(self.npc, self.player) end
-	for i, a in ipairs(self.chat:get(self.cur_id).answers) do
+	local answers = self.chat:get(self.cur_id).answers
+	if type(auto) == "function" then
+		local mode, res = auto(self.npc, self.player)
+		if mode == "exit" then
+			game:onTickEnd(function() game:unregisterDialog(self) end)
+			return
+		elseif mode == "jump" then
+			game:onTickEnd(function() self.cur_id = res self:regen() end)
+			return
+		elseif mode == "answer" then
+			game:onTickEnd(function() self:use(nil, answers[res]) end)
+			return
+		end
+	end
+	for i, a in ipairs(answers) do
 		-- use the first answer that works
 		if not a.cond or a.cond(self.npc, self.player) then
 			game:onTickEnd(function() self:use(nil, a) end)
