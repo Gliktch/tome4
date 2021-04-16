@@ -2061,6 +2061,7 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			package.loaded["engine.dialogs.Chat"] = nil
 			package.loaded["engine.Chat"] = nil
 			local Chat = require "engine.Chat"
 			local chat = Chat.new("tareyal+test", game.player, game.player)

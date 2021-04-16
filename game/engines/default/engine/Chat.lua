@@ -35,6 +35,7 @@ _M.chat_bold_strings = {"#{bold}#", "#{normal}#"}
 -- @param[type=Actor] player the player
 -- @param[type=table] data
 function _M:init(name, npc, player, data)
+	self.chat_env = {}
 	self.quick_replies = 0
 	self.chats = {}
 	self.npc = npc
@@ -78,6 +79,14 @@ function _M:getChatFile(file)
 	return "/data/chats/"..file..".lua"
 end
 
+function _M:setFunctionEnv(fct)
+	local env = setmetatable({
+		self = self,
+		chat_env = self.chat_env,
+	}, {__index=_G})
+	setfenv(fct, env)
+end
+
 --- Build up an answer from various nodes
 -- Note to future code divers, this is a recursive method and on long chats can recurse a log, but it only use tailcalls so it's fine. Lua rocks
 function _M:chatFormatActions(nodes, answer, node, stop_at)
@@ -90,6 +99,7 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 	end
 
 	local function add_action(action)
+		self:setFunctionEnv(action)
 		if answer.action then
 			local old = answer.action
 			answer.action = function(npc, player)
@@ -102,6 +112,7 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		end
 	end
 	local function add_cond(cond)
+		self:setFunctionEnv(cond)
 		if answer.cond then
 			local old = answer.cond
 			answer.cond = function(npc, player)
@@ -135,19 +146,27 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		local Quest = require "engine.Quest"
 		local sub = nil
 		if node.data.sub ~= "" then sub = node.data.sub end
-		add_action(function(npc, player) return player:setQuestStatus(node.data.quest, Quest[node.data.status], sub) end)
+		add_action(function(npc, player) if player:hasQuest(node.data.quest) then player:setQuestStatus(node.data.quest, Quest[node.data.status], sub) end end)
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
 	elseif node.name == "quest-give" then
 		local Quest = require "engine.Quest"
-		add_action(function(npc, player) return player:grantQuest(node.data.quest) end)
+		add_action(function(npc, player) player:grantQuest(node.data.quest) end)
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
 	elseif node.name == "quest-cond" then
 		local Quest = require "engine.Quest"
 		local sub = nil
 		if node.data.sub ~= "" then sub = node.data.sub end
-		add_cond(function(npc, player) return player:isQuestStatus(node.data.quest, Quest[node.data.status], sub) end)
+		add_cond(function(npc, player) return player:hasQuest(node.data.quest) and player:isQuestStatus(node.data.quest, Quest[node.data.status], sub) end)
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
+	elseif node.name == "quest-has" then
+		if node.data.state == "has" then
+			add_cond(function(npc, player) return player:hasQuest(node.data.quest) end)
+		else
+			add_cond(function(npc, player) return not player:hasQuest(node.data.quest) end)
+		end
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
 	elseif node.name == "attr-inc" then
@@ -160,7 +179,7 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
 	elseif node.name == "attr-get" then
-		if node.data.value == "" and node.data.test ~= "?" then error("[Chat] chatFormatActions ERROR: no value for a non existance test") end
+		if node.data.value == "" and node.data.test ~= "?" and node.data.test ~= "!" then error("[Chat] chatFormatActions ERROR: no value for a non existance test") end
 		if not node.data.value:find("return ") then node.data.value = "return "..node.data.value end
 		local a, err = loadstring(node.data.value)
 		if not a and err then error("[Chat] chatFormatActions ERROR: "..err) end
@@ -170,6 +189,7 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 			local actor = (is_player and player or npc)
 			local v = actor:attr(node.data.attr)
 			if node.data.test == "?" then return v and true or false
+			elseif node.data.test == "!" then return not v and true or false
 			elseif node.data.test == "=" then return v == a
 			elseif node.data.test == ">" then return v > a
 			elseif node.data.test == "<" then return v < a
@@ -281,17 +301,34 @@ function _M:loadChatFormat(filepath)
 			local i = 1
 			while node.data["answer"..i] do
 				answers[i] = {_t(node.data["answer"..i])}
-
 				-- Find out if we have actions to take, conditions to apply and where to jump to
 				if table.sget(node, 'outputs', 'output_'..i, "connections", 1, "node") then
 					local tn = data[table.sget(node, 'outputs', 'output_'..i, "connections", 1, "node")]
 					self:chatFormatActions(data, answers[i], tn)
 				end
-
 				i = i + 1
 			end
 			self:addChat{ id = node.data.chatid,
 				text = _t(node.data.chat),
+				answers = answers,
+			}	
+		elseif node.name == "entry-selector" then
+			local answers = {}
+			local i = 1
+			while table.sget(node, 'outputs', 'output_'..i, "connections", 1, "node") do
+				answers[i] = {""}
+				-- Find out if we have actions to take, conditions to apply and where to jump to
+				local tn = data[table.sget(node, 'outputs', 'output_'..i, "connections", 1, "node")]
+				self:chatFormatActions(data, answers[i], tn)
+				i = i + 1
+			end
+			local auto, err = loadstring("return function(npc, player) "..node.data.code.." end")
+			if not auto and err then error("[Chat] chatFormatActions ERROR: "..err) end
+			auto = auto()
+			self:setFunctionEnv(auto)
+			self:addChat{ id = node.data.chatid,
+				text = "",
+				auto = auto,
 				answers = answers,
 			}	
 		end
