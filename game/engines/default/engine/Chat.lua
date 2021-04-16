@@ -125,7 +125,7 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 	end
 
 	---------------------------------------------------------------------------
-	if node.name == "chat" then
+	if node.name == "chat" or node.name == "entry-selector" then
 		answer.jump = node.data.chatid
 	---------------------------------------------------------------------------
 	elseif node.name == "lua-code" then
@@ -168,6 +168,22 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		else
 			add_cond(function(npc, player) return not player:hasQuest(node.data.quest) end)
 		end
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
+	elseif node.name == "object-has" then
+		add_cond(function(npc, player)
+			local actor = node.data.who == "player" and player or npc
+			if node.data['in'] == "all-inventories" then
+				return actor:findInAllInventoriesBy(node.data.search_by, node.data.search)
+			elseif node.data['in'] == "worn-inventories" then
+				return actor:findInAllWornInventoriesBy(true, node.data.search_by, node.data.search)
+			elseif node.data['in'] == "nonworn-inventories" then
+				return actor:findInAllWornInventoriesBy(false, node.data.search_by, node.data.search)
+			else
+				return actor:findInInventoryBy(actor:getInven(node.data['in']), node.data.search_by, node.data.search)
+			end
+			return 
+		end)
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
 	elseif node.name == "attr-inc" then
