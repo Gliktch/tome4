@@ -83,6 +83,7 @@ function _M:setFunctionEnv(fct)
 	local env = setmetatable({
 		self = self,
 		chat_env = self.chat_env,
+		newChat = function(c) self:addChat(c) end,
 	}, {__index=_G})
 	setfenv(fct, env)
 end
