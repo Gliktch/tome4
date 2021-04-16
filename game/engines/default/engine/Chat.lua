@@ -196,6 +196,12 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		end
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
+	elseif node.name == "change-zone" then
+		local zone = nil
+		if node.data.zone ~= "--" then zone = node.data.zone end
+		add_action(function() game:changeLevel(tonumber(node.data.level), zone) end)
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
 	elseif node.name == "not" then
 		if answer.cond then local old = answer.cond answer.cond = function(npc, player) return not old(npc, player) end
 		else answer.cond = function() return false end end
