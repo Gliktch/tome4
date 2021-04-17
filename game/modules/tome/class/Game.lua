@@ -1975,6 +1975,9 @@ function _M:onRegisterDialog(d)
 	self.tooltip2_x, self.tooltip2_y = nil, nil
 	if self.player then self.player:updateMainShader() end
 
+	-- Cleanup WASD
+	self.wasd_state = {cnt=0, cd=12, base_cd=3}
+
 --	if self.player and self.player.runStop then self.player:runStop(_t"dialog poping up") end
 --	if self.player and self.player.restStop then self.player:restStop(_t"dialog poping up") end
 end
