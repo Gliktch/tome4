@@ -275,7 +275,9 @@ function _M:tmxLoad(file)
 		local _, _, prefix, name = layername:find("^([a-z]+):([a-z]+)$")
 		if prefix then layername = name end
 		if layername == "terrain" then layername = "grid" end
-		if layername and layerz then layers[#layers+1] = {layername=layername, layerz=tonumber(layerz), prefix=prefix, layer=layer, mapdata=mapdata} end
+		layerz = tonumber(layerz)
+		if layerz <= 0 and not core.renderer then layerz = 1 end -- Compat for new renderer and not
+		if layername and layerz then layers[#layers+1] = {layername=layername, layerz=layerz, prefix=prefix, layer=layer, mapdata=mapdata} end
 	end
 	table.sort(layers, function(a, b) return a.layerz < b.layerz end)
 
