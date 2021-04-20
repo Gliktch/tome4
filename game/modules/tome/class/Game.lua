@@ -17,6 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
+
 require "engine.class"
 require "engine.GameTurnBased"
 require "engine.interface.GameMusic"
@@ -1975,6 +1976,9 @@ function _M:onRegisterDialog(d)
 	self.tooltip2_x, self.tooltip2_y = nil, nil
 	if self.player then self.player:updateMainShader() end
 
+	-- Cleanup WASD
+	self.wasd_state = {cnt=0, cd=12, base_cd=3}
+
 --	if self.player and self.player.runStop then self.player:runStop(_t"dialog poping up") end
 --	if self.player and self.player.restStop then self.player:restStop(_t"dialog poping up") end
 end
@@ -2061,6 +2065,12 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			package.loaded["engine.dialogs.Chat"] = nil
+			package.loaded["engine.Chat"] = nil
+			local Chat = require "engine.Chat"
+			local chat = Chat.new("tareyal+test", game.player, game.player)
+			chat:invoke()
+do return end
 			game.player:takeHit(100, game.player)
 			game.player:useEnergy()
 			-- DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)

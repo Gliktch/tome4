@@ -653,6 +653,18 @@ function table.get(table, ...)
 end
 
 --[=[
+  Strict verion of table.get, only returns if fully found
+]=]
+function table.sget(table, ...)
+	if type(table) ~= 'table' then return nil end
+	for _, key in ipairs({...}) do
+		if type(table) ~= 'table' then return nil end
+		table = table[key]
+	end
+	return table
+end
+
+--[=[
   Set the nested value in a table, creating empty tables as needed.
 ]=]
 function table.set(table, ...)

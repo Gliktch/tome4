@@ -185,6 +185,7 @@ function _M:tmxLoad(file)
 	local data_ids = {}
 	local data_images = {}
 	local data_talls = {}
+	local data_displays = {}
 	local g = self:getLoader(t)
 	local map = lom.parse(data)
 	local mapprops = {}
@@ -274,7 +275,9 @@ function _M:tmxLoad(file)
 		local _, _, prefix, name = layername:find("^([a-z]+):([a-z]+)$")
 		if prefix then layername = name end
 		if layername == "terrain" then layername = "grid" end
-		if layername and layerz then layers[#layers+1] = {layername=layername, layerz=tonumber(layerz), prefix=prefix, layer=layer, mapdata=mapdata} end
+		layerz = tonumber(layerz)
+		if layerz <= 0 and not core.renderer then layerz = 1 end -- Compat for new renderer and not
+		if layername and layerz then layers[#layers+1] = {layername=layername, layerz=layerz, prefix=prefix, layer=layer, mapdata=mapdata} end
 	end
 	table.sort(layers, function(a, b) return a.layerz < b.layerz end)
 
@@ -371,6 +374,21 @@ function _M:tmxLoad(file)
 					local i, j = i + 1, j + 1
 					self.to_spawn[#self.to_spawn+1] = {i=i, j=j, particles=props}
 				end end
+			elseif og.attr.name:find("^particles") then
+				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width) / tw), math.floor(tonumber(o.attr.height) / th)
+				for i = x, x + w do for j = y, y + h do
+					local i, j = i + 1, j + 1
+					self.to_spawn[#self.to_spawn+1] = {i=i, j=j, particles=props}
+				end end
+			elseif og.attr.name:find("^deco:") then
+				local z = tonumber((og.attr.name:gsub("^deco:", "")))
+				local x, y, w, h = tonumber(o.attr.x) / tw, (tonumber(o.attr.y) - tonumber(o.attr.height)) / th, tonumber(o.attr.width) / tw, tonumber(o.attr.height) / th
+				local tid = tonumber(o.attr.gid)
+				if tid and data_images[tid] then 
+					local rx, ry = math.floor(x + w / 2), math.floor(y + h / 2)
+					if data_ids[tid] then m[rx+1][ry+1] = data_ids[tid] end
+					table.insert(m_images[rx+1][ry+1], {z=z, prefix=nil, image=data_images[tid], dw=w, dh=h, dx=x-rx, dy=y-ry})
+				end
 			end
 		end
 	end
@@ -406,6 +424,10 @@ function _M:generate(lev, old_lev)
 					g.add_displays[#g.add_displays].display_y = -1
 					g.add_displays[#g.add_displays].display_h = 2
 				end
+				if imgs[iz].dx then g.add_displays[#g.add_displays].display_x = imgs[iz].dx end
+				if imgs[iz].dy then g.add_displays[#g.add_displays].display_y = imgs[iz].dy end
+				if imgs[iz].dw then g.add_displays[#g.add_displays].display_w = imgs[iz].dw end
+				if imgs[iz].dh then g.add_displays[#g.add_displays].display_h = imgs[iz].dh end
 			end
 		end
 		g:resolve() g:resolve(nil, true)

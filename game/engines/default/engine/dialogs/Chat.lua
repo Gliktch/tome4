@@ -88,8 +88,10 @@ function _M:select(item)
 end
 
 function _M:use(item, a)
-	if item.answer == -1 then game:unregisterDialog(self) return end
-	a = a or self.chat:get(self.cur_id).answers[item.answer]
+	if item then
+		if item.answer == -1 then game:unregisterDialog(self) return end
+		a = a or self.chat:get(self.cur_id).answers[item.answer]
+	end
 	if not a then return end
 
 	print("[CHAT] selected", a[1], a.action, a.jump)
@@ -125,16 +127,29 @@ function _M:regen()
 	self.next_dialog = d
 end
 function _M:resolveAuto()
---[[
 	if not self.chat:get(self.cur_id).auto then return end
-	for i, a in ipairs(self.chat:get(self.cur_id).answers) do
-		if not a.cond or a.cond(self.npc, self.player) then
-			if not self:use(nil, a) then return
-			else return self:resolveAuto()
-			end
+	local auto = self.chat:get(self.cur_id).auto
+	local answers = self.chat:get(self.cur_id).answers
+	if type(auto) == "function" then
+		local mode, res = auto(self.npc, self.player)
+		if mode == "exit" then
+			game:onTickEnd(function() game:unregisterDialog(self) end)
+			return
+		elseif mode == "jump" then
+			game:onTickEnd(function() self.cur_id = res self:regen() end)
+			return
+		elseif mode == "answer" then
+			game:onTickEnd(function() self:use(nil, answers[res]) end)
+			return
 		end
 	end
-]]
+	for i, a in ipairs(answers) do
+		-- use the first answer that works
+		if not a.cond or a.cond(self.npc, self.player) then
+			game:onTickEnd(function() self:use(nil, a) end)
+			return
+		end
+	end
 end
 
 function _M:generateList()
