@@ -1231,6 +1231,9 @@ function _M:changeLevelReal(lev, zone, params)
 		local x, y = nil, nil
 		if force_back_pos then
 			x, y = force_back_pos.x, force_back_pos.y
+		elseif params.auto_spot_stair then
+			local spot = self.level:pickSpot(params.auto_spot_stair)
+			if spot then x, y = spot.x, spot.y end
 		elseif (params.auto_zone_stair or self.level.data.auto_zone_stair) and left_zone then
 			-- Dirty but quick
 			local list, catchall = {}, {}

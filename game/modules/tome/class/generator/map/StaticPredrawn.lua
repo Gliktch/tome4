@@ -334,7 +334,7 @@ function _M:tmxLoad(file)
 			if o:findOne("properties") then props = o:findOne("properties"):findAllAttrs("property", "name", "value") end
 
 			if og.attr.name:find("^addSpot") then
-				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width) / tw), math.floor(tonumber(o.attr.height) / th)
+				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width or 1) / tw), math.floor(tonumber(o.attr.height or 1) / th)
 				if props.start then m.startx = x m.starty = y end
 				if props['end'] then m.endx = x m.endy = y end
 				if props.type and props.subtype then
@@ -345,7 +345,7 @@ function _M:tmxLoad(file)
 					end end
 				end
 			elseif og.attr.name:find("^addZone") then
-				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width) / tw), math.floor(tonumber(o.attr.height) / th)
+				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width or 1) / tw), math.floor(tonumber(o.attr.height or 1) / th)
 				if props.type and props.subtype then
 					local t, st = props.type, props.subtype
 					props.type, props.subtype = nil, nil
@@ -354,7 +354,7 @@ function _M:tmxLoad(file)
 					g.addZone({i1, j1, i2, j2}, t, st, props)
 				end
 			elseif og.attr.name:find("^attrs") then
-				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width) / tw), math.floor(tonumber(o.attr.height) / th)
+				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width or 1) / tw), math.floor(tonumber(o.attr.height or 1) / th)
 				for k, v in pairs(props) do
 					for i = x, x + w do for j = y, y + h do
 						local i, j = i + 1, j + 1
@@ -363,19 +363,19 @@ function _M:tmxLoad(file)
 					end end
 				end
 			elseif og.attr.name:find("^spawn") then
-				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width) / tw), math.floor(tonumber(o.attr.height) / th)
+				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width or 1) / tw), math.floor(tonumber(o.attr.height or 1) / th)
 				for i = x, x + w do for j = y, y + h do
 					local i, j = i + 1, j + 1
 					self.to_spawn[#self.to_spawn+1] = {i=i, j=j, actor=props.actor, object=props.object, trap=props.trap}
 				end end
 			elseif og.attr.name:find("^particles") then
-				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width) / tw), math.floor(tonumber(o.attr.height) / th)
+				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width or 1) / tw), math.floor(tonumber(o.attr.height or 1) / th)
 				for i = x, x + w do for j = y, y + h do
 					local i, j = i + 1, j + 1
 					self.to_spawn[#self.to_spawn+1] = {i=i, j=j, particles=props}
 				end end
 			elseif og.attr.name:find("^particles") then
-				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width) / tw), math.floor(tonumber(o.attr.height) / th)
+				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width or 1) / tw), math.floor(tonumber(o.attr.height or 1) / th)
 				for i = x, x + w do for j = y, y + h do
 					local i, j = i + 1, j + 1
 					self.to_spawn[#self.to_spawn+1] = {i=i, j=j, particles=props}
@@ -389,6 +389,12 @@ function _M:tmxLoad(file)
 					if data_ids[tid] then m[rx+1][ry+1] = data_ids[tid] end
 					table.insert(m_images[rx+1][ry+1], {z=z, prefix=nil, image=data_images[tid], dw=w, dh=h, dx=x-rx, dy=y-ry})
 				end
+			elseif og.attr.name:find("^ids") then
+				local x, y, w, h = math.floor(tonumber(o.attr.x) / tw), math.floor(tonumber(o.attr.y) / th), math.floor(tonumber(o.attr.width or 1) / tw), math.floor(tonumber(o.attr.height or 1) / th)
+				for i = x, x + w do for j = y, y + h do
+					local i, j = i + 1, j + 1
+					m[i][j] = props.id or m[i][j]
+				end end
 			end
 		end
 	end

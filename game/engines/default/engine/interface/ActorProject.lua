@@ -66,7 +66,7 @@ function _M:project(t, x, y, damtype, dam, particles)
 	local stop_x, stop_y = typ.start_x, typ.start_y
 	local stop_radius_x, stop_radius_y = typ.start_x, typ.start_y
 	local l, is_corner_blocked
-	if typ.source_actor.lineFOV then
+	if typ.source_actor.lineFOV and typ.source_actor.x and typ.source_actor.y then
 		l = typ.source_actor:lineFOV(x, y, nil, nil, typ.start_x, typ.start_y)
 	else
 		l = core.fov.line(typ.start_x, typ.start_y, x, y)

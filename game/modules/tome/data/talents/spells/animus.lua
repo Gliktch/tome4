@@ -118,6 +118,7 @@ newTalent{
 	tactical = { ATTACKAREA = { COLD=1, DARK=1 }, SOUL=2 },
 	radius = 10,
 	range = 0,
+	requires_target = true,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 30, 300) end,
 	getNb = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5)) end,
 	target = function(self, t) return {type="ball", radius=self:getTalentRadius(t), talent=t} end,
