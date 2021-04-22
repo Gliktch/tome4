@@ -809,7 +809,7 @@ function resolvers.calc.sustains_at_birth(_, e)
 	e.on_added = function(self)
 		for tid, _ in pairs(self.talents) do
 			local t = self:getTalentFromId(tid)
-			if t and t.mode == "sustained" and not self:isTalentActive(tid) then
+			if t and t.mode == "sustained" and not t.no_sustain_autocast and not self:isTalentActive(tid) then
 				self.energy.value = game.energy_to_act
 				self:attr("sustains_at_birth_running", 1)
 				self:useTalent(tid, nil, nil, nil, nil, true)

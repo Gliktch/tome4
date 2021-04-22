@@ -1324,6 +1324,32 @@ function _M:runStopped()
 	if obj then game.level.map.attrs(x, y, "obj_seen", true) end
 end
 
+--- Explain why the hotkeys page changed and how to get it back
+function _M:hotkeyPageTutorial()
+	config.settings.tome.tutorial_hotkey_pages = true
+	game:saveSettings("tome.tutorial_hotkey_pages", ("tome.tutorial_hotkey_pages = true\n"))
+	Dialog:simpleLongPopup("Hotkeys Bar Swapping", [[You have pressed a key to switch your hotkeys for the first time.
+By default the keys to switch are #{bold}#Page.Up#{normal}# and #{bold}#Page.Down#{normal}#.
+It can also be switched by using the mouse wheel when the mouse is over the hotkeys.
+So do not panic if you do not see your hotkeys anymore, just swap back and they will be there.]], 600)
+end
+
+--- Switch to previous hotkey page
+function _M:prevHotkeyPage()
+	if not config.settings.tome.tutorial_hotkey_pages then self:hotkeyPageTutorial() end
+	return engine.interface.PlayerHotkeys.prevHotkeyPage(self)
+end
+--- Switch to next hotkey page
+function _M:nextHotkeyPage()
+	if not config.settings.tome.tutorial_hotkey_pages then self:hotkeyPageTutorial() end
+	return engine.interface.PlayerHotkeys.nextHotkeyPage(self)
+end
+--- Switch to hotkey page
+function _M:setHotkeyPage(v)
+	if not config.settings.tome.tutorial_hotkey_pages then self:hotkeyPageTutorial() end
+	return engine.interface.PlayerHotkeys.setHotkeyPage(self, v)
+end
+
 --- Uses an hotkeyed talent
 -- This requires the ActorTalents interface to use talents and a method player:playerUseItem(o, item, inven) to use inventory objects
 function _M:activateHotkey(id)

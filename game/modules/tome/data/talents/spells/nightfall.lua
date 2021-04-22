@@ -154,7 +154,7 @@ newTalent{
 	type = {"spell/nightfall",4},
 	require = spells_req4,
 	points = 5,
-	mode = "sustained",
+	mode = "sustained", no_sustain_autocast = true,
 	mana = 30, -- Not sustain cost, cast cost
 	cooldown = 15,
 	tactical = { ATTACKAREA = { DARKNESS = 3 } },

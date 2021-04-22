@@ -3635,6 +3635,22 @@ newEffect{
 }
 
 newEffect{
+	name = "WEAK_GODMODE",
+	desc = _t"Weakdamage Mode", image = "effects/darkgod.png",
+	long_desc = function(self, eff) return ("All damage reduced to -90%%."):tformat() end,
+	type = "other",
+	subtype = { cheat=true },
+	status = "beneficial",
+	parameters = {power = 1},
+	decrease = 0, no_remove = true,
+	activate = function(self, eff)
+		local all = self.inc_damage.all or 0
+		all = -90 - all
+		self:effectTemporaryValue(eff, "inc_damage", {all=all})
+	end,
+}
+
+newEffect{
 	name = "DEMI_GODMODE",
 	desc = _t"Demigod Mode", image = "effects/darkgod.png",
 	long_desc = function(self, eff) return ("DEMI-GODMODE: Target has 10000 additional life and regenerates 2000 life per turn.  It deals +500%% damage, and has full ESP."):tformat() end,
