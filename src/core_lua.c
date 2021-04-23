@@ -739,17 +739,25 @@ static int sdl_font_size(lua_State *L)
 	return 0;
 }
 
+// This is stupid but needed because some fontshave varying hieight & lineskip relativities
+// and we always need the bigger of the two because we output to a final texture
+static int font_needed_height(TTF_Font *f) {
+	int h = TTF_FontHeight(f);
+	int l = TTF_FontLineSkip(f);
+	return (h > l) ? h : l;
+}
+
 static int sdl_font_height(lua_State *L)
 {
 	TTF_Font **f = (TTF_Font**)auxiliar_checkclass(L, "sdl{font}", 1);
-	lua_pushnumber(L, TTF_FontHeight(*f));
+	lua_pushnumber(L, font_needed_height(*f));
 	return 1;
 }
 
 static int sdl_font_lineskip(lua_State *L)
 {
 	TTF_Font **f = (TTF_Font**)auxiliar_checkclass(L, "sdl{font}", 1);
-	lua_pushnumber(L, TTF_FontLineSkip(*f));
+	lua_pushnumber(L, font_needed_height(*f));
 	return 1;
 }
 
@@ -981,7 +989,7 @@ static int sdl_font_draw(lua_State *L)
 	int b = luaL_checknumber(L, 6);
 	bool no_linefeed = lua_toboolean(L, 7);
 	bool direct_uid_draw = lua_toboolean(L, 8);
-	int h = TTF_FontHeight(*f);
+	int h = font_needed_height(*f);
 	SDL_Color color = {r,g,b};
 
 	int fullmax = max_texture_size / 2;
