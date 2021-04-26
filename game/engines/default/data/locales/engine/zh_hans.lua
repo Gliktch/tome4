@@ -124,6 +124,30 @@ t("west", "西面", "nil")
 t("worried loremaster", "担忧的贤者", "nil")
 
 ------------------------------------------------
+section "tome-orcs/data/general/events/celestial-well.lua"
+
+
+-- untranslated text
+--[==[
+t("sunwell", "sunwell", "entity name")
+t("moonwell", "moonwell", "entity name")
+--]==]
+
+
+------------------------------------------------
+section "tome-cults/data/zones/ft-illusory-castle/generatorMap.lua"
+
+t("left", "左线", "ft-illusory-castle branch name")
+t("main", "主线", "ft-illusory-castle branch name")
+t("right", "右线", "ft-illusory-castle branch name")
+t("nil", "空", "ft-illusory-castle branch name")
+-- old translated text
+t("shortcut to chapter \"%s\"", "通向章节\"%s\"的近路", "tformat")
+t("[actual level %d, on branch %s]", "[实际楼层%d，分支%s]", "tformat")
+t("Illusory Castle", "虚幻城堡", "_t")
+t("Something blocks the way to this chapter...", "有东西挡住了通往这一章的路……", "_t")
+
+------------------------------------------------
 section "engine/data/keybinds/actions.lua"
 
 t("Go to next/previous level", "到下一层/上一层地图", "_t")
@@ -327,6 +351,16 @@ t("Randomly selected %s.", "随机选择%s。", "log")
 -- untranslated text
 --[==[
 t("", "", "_t")
+--]==]
+
+
+------------------------------------------------
+section "engine/engine/Chat.lua"
+
+t("following chain...", "追踪链接...", "log")
+-- new text
+--[==[
+t(" - %s : %d", " - %s : %d", "log")
 --]==]
 
 
@@ -1829,7 +1863,7 @@ t("Your password is too short", "你的密码过短", "_t")
 t("Login...", "登录中…", "_t")
 t("Login in your account, please wait...", "正在登录账户，请稍后…", "_t")
 t("Steam client not found.", "找不到Steam客户端", "_t")
--- untranslated text
+-- new text
 --[==[
 t("#LIGHT_BLUE##{underline}#%s#LAST##{normal}#", "#LIGHT_BLUE##{underline}#%s#LAST##{normal}#", "tformat")
 --]==]
