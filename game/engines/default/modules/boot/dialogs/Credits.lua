@@ -125,6 +125,7 @@ local credits = {
 	{"K'van 'nsrr' Pinkham"},
 	{"Madmonk"},
 	{"Mark 'Marson' Carpente"},
+	{"Mr Frog"},
 	{"Neil Stevens"},
 	{"Otowakotori"},
 	{"Ryan Yappert"},
@@ -138,6 +139,7 @@ local credits = {
 	false,
 
 	{_t"Community Managers", title=2},
+	{"Bastien 'Cathbald' Rogler"},
 	{"Bradley 'AuraOfTheDawn' Kersey"},
 	{"Faeryan"},
 	{"Erik 'Lord Xandor' Tillford"},
