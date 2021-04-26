@@ -144,6 +144,7 @@ local credits = {
 	{"Faeryan"},
 	{"Erik 'Lord Xandor' Tillford"},
 	{"Michael 'Dekar' Olscher"},
+	{"Mikko 'Moasseman' Suojoki"},
 	{"Rob 'stuntofthelitter' Stites"},
 	{"Reenen 'Canderel' Laurie"},
 	{"Sheila"},
