@@ -348,10 +348,10 @@ uberTalent{
 			["technique/2hweapon-assault"] = true,
 			["technique/shield-offense"] = true,
 		}
-		if self.__increased_talent_types["technique/2hweapon-assault"] then
+		if self.__increased_talent_types["technique/2hweapon-assault"] and self.__increased_talent_types["technique/2hweapon-assault"] > 0 then
 			self.unused_talents_types = self.unused_talents_types + 1
 		end
-		if self.__increased_talent_types["technique/shield-offense"] then
+		if self.__increased_talent_types["technique/shield-offense"] and self.__increased_talent_types["technique/shield-offense"] > 0 then
 			self.unused_talents_types = self.unused_talents_types + 1
 		end
 		t.unlearnTalents(self, t, removes)

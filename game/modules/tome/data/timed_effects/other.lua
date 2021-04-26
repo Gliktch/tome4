@@ -4159,6 +4159,15 @@ newEffect{
 	deactivate = function(self, eff) end,
 }
 
+newEffect{
+	name = "NO_PESTILENCE", image = "talents/dirge_of_pestilence.png",
+	desc = _t"Pestilence Saturation",
+	long_desc = function(self, eff) return _t"The target recently benefited from Dirge of Pestilence" end,
+	type = "other",
+	subtype = { dirge=true },
+	status = "neutral",
+	parameters = { },
+}
 
 newEffect{
 	name = "SELF_JUDGEMENT", image = "talents/self_judgement.png",

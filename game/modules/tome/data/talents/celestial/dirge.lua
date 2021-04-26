@@ -162,9 +162,9 @@ newTalent{
 	getShield = function(self, t) return self:combatTalentScale(t, 50, 200, 0.75) end,
 	getShieldCD = function(self, t) return 5 end,
 	callbackOnTemporaryEffectAdd = function(self, t, eff_id, e_def, eff)
-		if not self:hasProc("dirge_shield") then
+		if not self:hasEffect(self.EFF_NO_PESTILENCE) then
 			if e_def.status == "detrimental" and e_def.type ~= "other" and eff.src ~= self then
-				self:setProc("dirge_shield", true, t.getShieldCD(self, t))
+				self:setEffect(self.EFF_NO_PESTILENCE, t.getShieldCD(self, t), {src=self})
 				if self:hasEffect(self.EFF_DAMAGE_SHIELD) then
 					local shield = self:hasEffect(self.EFF_DAMAGE_SHIELD)
 					local shield_power = self:spellCrit(t.getShield(self, t))
