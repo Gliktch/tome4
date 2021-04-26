@@ -2541,6 +2541,7 @@ function _M:canAttachTinker(tinker, override)
 	if tinker.on_subtype and tinker.on_subtype ~= rawget(self, "subtype") then return end
 	if tinker.on_slot and tinker.on_slot ~= self.slot then return end
 	if self.tinker and not override then return end
+	if self.forbid_tinkers then return end
 	return true
 end
 
