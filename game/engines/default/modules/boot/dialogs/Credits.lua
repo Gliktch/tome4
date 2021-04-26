@@ -125,6 +125,7 @@ local credits = {
 	{"Madmonk"},
 	{"Mark 'Marson' Carpente"},
 	{"Neil Stevens"},
+	{"Ryan Yappert"},
 	{"Samuel 'Effigy' Wegner"},
 	{"Sebastian 'Sebsebeleb' Vråle"},
 	{"Shani"},
