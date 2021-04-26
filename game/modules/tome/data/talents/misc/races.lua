@@ -34,7 +34,7 @@ racial_req4 = {
 ------------------------------------------------------------------
 -- Highers' powers
 ------------------------------------------------------------------
-newTalentType{ type="race/higher", name = _t"higher", generic = true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ type="race/higher", name = _t("higher", "talent type"), generic = true, description = _t"The various racial bonuses a character can have." }
 
 newTalent{
 	short_name = "HIGHER_HEAL",  -- Backwards compatibility, two tier 1 racials were swapped
@@ -161,7 +161,7 @@ newTalent{
 ------------------------------------------------------------------
 -- Shaloren's powers
 ------------------------------------------------------------------
-newTalentType{ type="race/shalore", name = _t"shalore", generic = true, is_spell=true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ type="race/shalore", name = _t("shalore", "talent type"), generic = true, is_spell=true, description = _t"The various racial bonuses a character can have." }
 newTalent{
 	short_name = "SHALOREN_SPEED",
 	name = "Grace of the Eternals",
@@ -306,7 +306,7 @@ newTalent{
 ------------------------------------------------------------------
 -- Thaloren's powers
 ------------------------------------------------------------------
-newTalentType{ type="race/thalore", name = _t"thalore", generic = true, is_nature=true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ type="race/thalore", name = _t("thalore", "talent type"), generic = true, is_nature=true, description = _t"The various racial bonuses a character can have." }
 newTalent{
 	short_name = "THALOREN_WRATH",  -- Backwards compatibility..
 	name = "Gift of the Woods",
@@ -458,7 +458,7 @@ newTalent{
 ------------------------------------------------------------------
 -- Dwarves' powers
 ------------------------------------------------------------------
-newTalentType{ type="race/dwarf", name = _t"dwarf", generic = true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ type="race/dwarf", name = _t("dwarf", "talent type"), generic = true, description = _t"The various racial bonuses a character can have." }
 newTalent{
 	short_name = "DWARF_RESILIENCE",
 	name = "Resilience of the Dwarves",
@@ -567,7 +567,7 @@ newTalent{
 ------------------------------------------------------------------
 -- Halflings' powers
 ------------------------------------------------------------------
-newTalentType{ type="race/halfling", name = _t"halfling", generic = true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ type="race/halfling", name = _t("halfling", "talent type"), generic = true, description = _t"The various racial bonuses a character can have." }
 newTalent{
 	short_name = "HALFLING_LUCK",
 	name = "Luck of the Little Folk",
@@ -696,7 +696,7 @@ newTalent{
 ------------------------------------------------------------------
 -- Orcs' powers
 ------------------------------------------------------------------
-newTalentType{ type="race/orc", name = _t"orc", generic = true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ type="race/orc", name = _t("orc", "talent type"), generic = true, description = _t"The various racial bonuses a character can have." }
 newTalent{
 	short_name = "ORC_FURY",
 	name = "Orcish Fury",
@@ -856,7 +856,7 @@ newTalent{
 -- Yeeks' powers
 ------------------------------------------------------------------
 -- We check for max life on boss targets to avoid people using this to engage thus ensuring all their allies target them first
-newTalentType{ type="race/yeek", name = _t"yeek", is_mind=true, generic = true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ type="race/yeek", name = _t("yeek", "talent type"), is_mind=true, generic = true, description = _t"The various racial bonuses a character can have." }
 newTalent{
 	short_name = "YEEK_WILL",
 	name = "Dominant Will",
@@ -1069,7 +1069,7 @@ newTalent{
 ------------------------------------------------------------------
 -- Ogre' powers
 ------------------------------------------------------------------
-newTalentType{ type="race/ogre", name = _t"ogre", is_spell=true, generic = true, description = _t"The various racial bonuses a character can have." }
+newTalentType{ type="race/ogre", name = _t("ogre", "talent type"), is_spell=true, generic = true, description = _t"The various racial bonuses a character can have." }
 newTalent{
 	short_name = "OGRE_WRATH",
 	name = "Ogric Wrath",

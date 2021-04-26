@@ -676,7 +676,7 @@ function _M:updateDescriptors()
 
 			if #clist > 0 then
 				table.sort(clist, function(a, b) return a.name < b.name end)
-				table.insert(self.cosmetic_options, {name=_t(kind:gsub("_", " "):capitalize()), kind=kind, color=function() return colors.simple(colors.GOLD) end, nodes=clist})
+				table.insert(self.cosmetic_options, {name=_t(kind:gsub("_", " "):capitalize(), "birth facial category"), kind=kind, color=function() return colors.simple(colors.GOLD) end, nodes=clist})
 			end
 		end
 	end end
@@ -804,7 +804,7 @@ function _M:generateCampaigns()
 		if self:isDescriptorAllowed(d, {difficulty=true, permadeath=true, race=true, subrace=true, class=true, subclass=true}) then
 			local locked = self:getLock(d)
 			if locked == true then
-				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
+				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end
@@ -831,7 +831,7 @@ function _M:generateDifficulties()
 		if self:isDescriptorAllowed(d, {permadeath=true, race=true, subrace=true, class=true, subclass=true}) then
 			local locked = self:getLock(d)
 			if locked == true then
-				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
+				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end
@@ -863,7 +863,7 @@ function _M:generatePermadeaths()
 		if self:isDescriptorAllowed(d, {race=true, subrace=true, class=true, subclass=true}) then
 			local locked = self:getLock(d)
 			if locked == true then
-				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext, locked_select=d.locked_select }
+				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext, locked_select=d.locked_select }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end
@@ -898,7 +898,7 @@ function _M:generateRaces()
 				if d.descriptor_choices.subrace[sd.name] == "allow" then
 					local locked = self:getLock(sd)
 					if locked == true then
-						nodes[#nodes+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}, id=sd.name, pid=d.name, locked=true, desc=util.getval(sd.locked_desc, self)..locktext }
+						nodes[#nodes+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}, id=sd.name, pid=d.name, locked=true, desc=util.getval(sd.locked_desc, self)..locktext }
 					elseif locked == false then
 						local desc = sd.desc
 						if type(desc) == "table" then desc = table.concat(sd.desc, "\n") end
@@ -910,7 +910,7 @@ function _M:generateRaces()
 
 			local locked = self:getLock(d)
 			if locked == true then
-				tree[#tree+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}, id=d.name, shown = oldtree[d.name], nodes = nodes, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
+				tree[#tree+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}, id=d.name, shown = oldtree[d.name], nodes = nodes, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end
