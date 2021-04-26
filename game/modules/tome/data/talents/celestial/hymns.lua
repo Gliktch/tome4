@@ -433,7 +433,7 @@ newTalent{
 	shieldDur = function(self, t) return self:combatTalentSpellDamage(t, 5, 10) end,
 	shieldPower = function(self, t) return self:combatTalentSpellDamage(t, 50, 500) end,
 	invisDur = function(self, t) return self:combatTalentSpellDamage(t, 5, 10) end,
-	invisPower = function(self, t) return self:combatTalentSpellDamage(t, 20, 30) end,
+	invisPower = function(self, t) return math.ceil(self:combatTalentSpellDamage(t, 20, 30)) end,
 	info = function(self, t)
 		return ([[Your skill in Hymns now improves your sight in darkness, increasing your infravision radius by %d.
 		Also, when you end a Hymn, you will gain a buff of a type based on which Hymn you ended.

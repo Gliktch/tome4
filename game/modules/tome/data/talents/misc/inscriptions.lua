@@ -712,7 +712,7 @@ newInscription{
 	end,
 	getPower = function(self, t) 
 		local data = self:getInscriptionData(t.short_name)
-		return data.power + data.inc_stat * 2
+		return math.ceil(data.power + data.inc_stat * 2)
 	end,
 	getMove = function(self, t) 
 		local data = self:getInscriptionData(t.short_name)
@@ -1538,7 +1538,7 @@ newInscription{
 	tactical = { DEFEND = 3, ESCAPE = 2 },
 	action = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		self:setEffect(self.EFF_INVISIBILITY, data.dur, {power=data.power + data.inc_stat, penalty=0.4})
+		self:setEffect(self.EFF_INVISIBILITY, data.dur, {power=math.ceil(data.power + data.inc_stat), penalty=0.4})
 		return true
 	end,
 	info = function(self, t)

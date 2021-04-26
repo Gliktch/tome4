@@ -5321,7 +5321,7 @@ newEntity{ base = "BASE_LIGHT_ARMOR", --Thanks SageAcrin!
 		on_pre_use_ai = function(self, who, silent, fake)
 			return not who:hasEffect(who.EFF_INVISIBILITY)
 		end,
-		invispower = function(self, who) return 10+who:getCun()/6+who:getMag()/6 end,
+		invispower = function(self, who) return math.ceil(10+who:getCun()/6+who:getMag()/6) end,
 		use = function(self, who)
 			game.logSeen(who, "%s pulls %s %s around %s like a dark shroud!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}), who:his_her_self())
 			who:setEffect(who.EFF_INVISIBILITY, 10, {power=self.use_power.invispower(self, who), penalty=0.5, regen=true})
