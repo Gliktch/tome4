@@ -128,7 +128,7 @@ newTalent{
 	mana = 35,
 	cooldown = 20,
 	tactical = { ESCAPE = 2, DEFEND = 2 },
-	getInvisibilityPower = function(self, t) return self:combatTalentSpellDamage(t, 10, 50) end,
+	getInvisibilityPower = function(self, t) return math.ceil(self:combatTalentSpellDamage(t, 10, 50)) end,
 	getDamPower = function(self, t) return self:combatTalentScale(t, 10, 30) end,
 	action = function(self, t)
 		self:setEffect(self.EFF_GREATER_INVISIBILITY, 7, {dam=t.getDamPower(self, t), power=t.getInvisibilityPower(self, t)})

@@ -139,7 +139,7 @@ newTalent{
 	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 0, 17.5, 9.5)) end, -- Limit >0
 	no_npc_use = true, -- this can be changed if the AI is improved.  I don't trust it to be smart enough to leverage this effect.
 	unlearn_on_clone = true,
-	getPower = function(self, t) return math.ceil(self:combatTalentMindDamage(t, 5, 40)) end,
+	getPower = function(self, t) return math.ceil(self:combatTalentMindDamage(t, 5, 40)/2) end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 6, 14)) end,
 	action = function(self, t)
 		if self:attr("is_psychic_projection") then return true end
@@ -164,9 +164,9 @@ newTalent{
 		
 		m:unlearnTalentsOnClone() -- unlearn certain talents (no recursive projections)
 		table.mergeAdd(m, {can_pass = {pass_wall=70}}, true)
-		m:attr("invisible", t.getPower(self, t)/2)
-		m:attr("see_invisible", t.getPower(self, t)/2)
-		m:attr("see_stealth", t.getPower(self, t)/2)
+		m:attr("invisible", t.getPower(self, t))
+		m:attr("see_invisible", t.getPower(self, t))
+		m:attr("see_stealth", t.getPower(self, t))
 		m:attr("lite", -10)
 		m:attr("no_breath", 1)
 		m:attr("infravision", 10)
@@ -224,7 +224,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[Activate to project your mind from your body for %d turns.  In this state you're invisible (+%d power), can see invisible and stealthed creatures (+%d detection power), can move through walls, and do not need air to survive.
 		All damage you suffer is shared with your physical body, and while in this form you may only deal damage to 'ghosts' or through an active mind link (mind damage only in the second case.)
-		To return to your body, simply release control of the projection.]]):tformat(duration, power/2, power)
+		To return to your body, simply release control of the projection.]]):tformat(duration, power, power)
 	end,
 }
 
