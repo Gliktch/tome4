@@ -115,7 +115,7 @@ local credits = {
 	false,
 	false,
 
-	{_t"Code Heros", title=1},
+	{_t"Code Heroes", title=1},
 	{"Antagonist"},
 	{"Bunny"},
 	{"Graziel"},
