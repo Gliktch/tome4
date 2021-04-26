@@ -1999,7 +1999,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 		desc:add({"color","YELLOW"}, _t"When wielded/worn:", {"color", "LAST"}, true)
 		desc_wielder(self, compare_with, "wielder")
 		if self:attr("skullcracker_mult") and use_actor:knowTalent(use_actor.T_SKULLCRACKER) then
-			compare_fields(self, compare_with, "wielder", "skullcracker_mult", "%+d", _t"Skullcracker multiplier: ")
+			compare_fields(self, compare_with, "wielder", "skullcracker_mult", "%+d", _t"Skullcracker multiplicator: ")
 		end
 	end
 
