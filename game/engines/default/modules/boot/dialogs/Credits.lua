@@ -196,7 +196,7 @@ local credits = {
 	{_t"Korean Translation", title=1},
 	{"Cinornu (Dong-il Lee)"},
 	{"Kherald (Junhyung Lim)"},
-	{"Stéphanois"},
+	{"Stéphanois (Youngchan Lee)"},
 	{"Lua (Jaewook Lee)"},
 	{"LifeFF"},
 	{"Woo'hyun"},
