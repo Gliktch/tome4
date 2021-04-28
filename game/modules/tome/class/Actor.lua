@@ -7510,6 +7510,8 @@ _M.StatusTypes = {poison=true,	disease=true, cut=true, confusion=true, blind=tru
 	planechange=function(self) return game.level and game.level.data and game.level.data.no_planechange and 100 or 0 end,
 	summon=function(self) return self:attr("suppress_summon") and 100 or 0 end,
 }
+--- List of all of the above that are "bad" for the actor to be immune to, instead of beneficial
+_M.StatusTypesIsBad = {	worldport = true, planechange = true, summon = true, }
 
 --- list of actor status types that are associated with temporary effects
 _M.StatusTypesIsEffect = {}
@@ -7565,6 +7567,9 @@ function _M:canBe(what, eid)
 	local test = self.StatusTypes[what]
 	if not test then return true, 100 end
 	local resist = util.bound(type(test) == "function" and test(self) or 100*(self:attr(test) or 0), 0, 100)
+	if not self.StatusTypesIsBad[what] and self:attr("all_bad_immune") then	
+		resist = util.bound(resist + self:attr("all_bad_immune") * 100, 0, 100)
+	end
 	return resist == 0 and true or rng.percent(100-resist), 100-resist
 end
 
