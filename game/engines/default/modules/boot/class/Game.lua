@@ -627,7 +627,7 @@ end
 function _M:createProfile(loginItem)
 	if not loginItem.create then
 		self.auth_tried = nil
-		local d = Dialog:simpleWaiter(_t"Login in...", _t"Please wait...") core.display.forceRedraw()
+		local d = Dialog:simpleWaiter(_t"Logging in...", _t"Please wait...") core.display.forceRedraw()
 		profile:performlogin(loginItem.login, loginItem.pass)
 		profile:waitFirstAuth()
 		d:done()
