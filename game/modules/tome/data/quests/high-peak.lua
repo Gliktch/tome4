@@ -166,7 +166,7 @@ function win(self, how)
 		world.majeyal_campaign_last_winner = pwinner
 	end
 
-	game:saveGame()
+	if not config.settings.cheat then game:saveGame() end
 end
 
 function onWin(self, who)
