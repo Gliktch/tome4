@@ -1821,6 +1821,11 @@ function _M:combatTalentSpellDamage(t, base, max, spellpower_override)
 	return self:rescaleDamage((base + (spellpower_override or self:combatSpellpower())) * ((math.sqrt(self:getTalentLevel(t)) - 1) * 0.8 + 1) * mod)
 end
 
+--- Returns the best of the 3 powers
+function _M:combatBestpower(mod, add)
+	return math.max(self:combatPhysicalpower(mod, nil, add), self:combatSpellpower(mod, add), self:combatMindpower(mod, add))
+end
+
 --- Gets weapon damage mult based on talent
 function _M:combatTalentWeaponDamage(t, base, max, t2)
 	if t2 then t2 = t2 / 2 else t2 = 0 end

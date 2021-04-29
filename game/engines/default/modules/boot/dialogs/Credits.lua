@@ -209,6 +209,11 @@ local credits = {
 	false,
 	false,
 
+	{_t"Japanese Translation", title=1},
+	{"Atsushi Miyagi"},
+	false,
+	false,
+
 	{_t"The Community", title=2},
 	{"A huge global thank to all members"},
 	{"of the community, for being supportive,"},

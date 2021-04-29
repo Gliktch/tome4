@@ -5911,9 +5911,10 @@ function _M:preUseTalent(ab, silent, fake, ignore_ressources)
 			end
 		end
 	end
-	if self:triggerHook{"Actor:preUseTalent", t=ab, silent=silent, fake=fake} then
+	if self:triggerHook{"Actor:preUseTalent", t=ab, silent=silent, fake=fake, ignore_ressources=ignore_ressources} then
 		return false
 	end
+	if self:fireTalentCheck("callbackOnTalentPre", ab, silent, fake, ignore_ressources) then return false end
 
 	if not ab.never_fail then
 		-- Confused ? lose a turn!
@@ -6055,6 +6056,7 @@ local sustainCallbackCheck = {
 	callbackOnWear = "talents_on_wear",
 	callbackOnTakeoff = "talents_on_takeoff",
 	callbackOnTalentChange = "talents_on_talent_change",
+	callbackOnTalentPre = "talents_on_talent_pre",
 	callbackOnTalentPost = "talents_on_talent_post",
 	callbackOnTemporaryEffect = "talents_on_tmp",
 	callbackOnTemporaryEffectRemove = "talents_on_tmp_remove",

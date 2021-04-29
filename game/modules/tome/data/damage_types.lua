@@ -154,7 +154,7 @@ setDefaultProjector(function(src, x, y, type, dam, state)
 			print("[PROJECTOR] crit power reduce dam", dam)
 		end
 
-		local hd = {"DamageProjector:base", src=src, x=x, y=y, type=type, dam=dam, state=state}
+		local hd = {"DamageProjector:base", src=src, x=x, y=y, type=type, dam=dam, state=state, target=target}
 		if src:triggerHook(hd) then dam = hd.dam if hd.stopped then return hd.stopped end end
 
 		-- Difficulty settings
