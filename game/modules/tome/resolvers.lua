@@ -555,6 +555,38 @@ function resolvers.calc.store(t, e)
 	return nil
 end
 
+--- Resolves drops creation for an actor
+function resolvers.store_multi(data, def, faction, door, sign)
+	return {__resolver="store_multi", def, faction, door, sign, data=data}
+end
+--- Actually resolve the drops creation
+function resolvers.calc.store_multi(t, e)
+	if t[3] then
+		e.image = t[3]
+		if t[4] then e.add_mos = {{display_x=0.6, image=t[4]}} end
+	end
+
+	e.store_faction = t[2]
+	local data = t.data
+	t = t[1]
+
+	e.block_move = function(self, x, y, who, act, couldpass)
+		if who and who.player and act then
+			if self.store_faction and who:reactionToward({faction=self.store_faction}) < 0 then return true end
+			self.store:loadup(game.level, game.zone)
+			self.store:interact(who, self:getName())
+		end
+		return true
+	end
+	print("[STORE-MULTI] "..(data[t] and "loaded" or "created").." for entity", t, e, e.name)
+	e.store = data[t] or game:getStore(t)
+	e.store.faction = e.store_faction
+	data[t] = e.store
+
+	-- Delete the origin field
+	return nil
+end
+
 --- Resolves chat creation for an actor
 function resolvers.chatfeature(def, faction)
 	return {__resolver="chatfeature", def, faction}

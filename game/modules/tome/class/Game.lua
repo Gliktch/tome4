@@ -96,6 +96,15 @@ function _M:run()
 	class:triggerHook{"ToME:run"}
 	local ret = self:runReal()
 	class:triggerHook{"ToME:runDone"}
+
+	-- Alter window title, for fun & glory !
+	local worldname = nil
+	if self:getPlayer(true) and self:getPlayer(true).descriptor and self:getPlayer(true).descriptor.world then
+		local world = Birther:getBirthDescriptor("world", self:getPlayer(true).descriptor.world)
+		if world.display_name then worldname = world.display_name end
+	end
+	if worldname then core.display.setWindowTitle(worldname) end
+
 	return ret
 end
 
