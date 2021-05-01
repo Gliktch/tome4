@@ -289,7 +289,7 @@ newTalent{
 	require = divi_req3,
 	points = 5,
 	mode = "passive",
-	getDuration = function(self, t) return self:getTalentLevel(t) end,
+	getDuration = function(self, t) return math.floor(self:getTalentLevel(t)) end,
 	getImmune = function(self, t) return self:combatTalentLimit(t, 1, 0.15, 0.50) end,
 	info = function(self, t)
 		return ([[Your dirges echo mournfully through the air.  When you end a dirge, you continue to gain its acolyte-level effects for %d turns.  You can only benefit from one such lingering dirge at a time.
