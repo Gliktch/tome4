@@ -466,7 +466,7 @@ newEntity{ base = "BASE_KNIFE", define_as = "MANDIBLE_UNGOLMOR",
 		convert_damage ={[DamageType.DARKNESS] = 30},
 		special_on_crit = {desc=_t"inflicts spydric poison dealing 200 damage over 3 turns and pinning the target", fct=function(combat, who, target)
 			if target:canBe("poison") then
-				local tg = {type="hit", range=10}
+				local tg = {type="hit", range=20}
 				who:project(tg, target.x, target.y, engine.DamageType.SPYDRIC_POISON, {src=who, dam=200, dur=3})
 			end
 		end},
