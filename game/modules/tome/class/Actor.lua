@@ -4334,6 +4334,8 @@ function _M:updateModdableTile()
 	if self.moddable_tile_base_alter then basebody = self:moddable_tile_base_alter(basebody) end
 	add[#add+1] = {image = base..basebody, bodyplace="body", auto_tall=1}
 
+	self:triggerHook{"Actor:updateModdableTile:skin", base=base, add=add}
+
 	if self.moddable_tile_tatoo then add[#add+1] = {image = base..self.moddable_tile_tatoo..".png", bodyplace="body", auto_tall=1} end
 
 	if not self:attr("disarmed") then
