@@ -423,7 +423,16 @@ end
 --- Replace some keywords in the given text
 -- @string text @playername@, @npcname@, @playerdescriptor.(.-)@
 function _M:replace(text)
+	local Birther = require "engine.Birther"
 	text = text:noun_sub("@playername@", self.player:getName()):noun_sub("@npcname@", self.npc.getName and self.npc:getName() or _t(self.npc.name, "entity name"))
-	text = text:gsub("@playerdescriptor.(.-)@", function(what) return _t(self.player.descriptor["fake_"..what] or self.player.descriptor[what]) end)
+	text = text:gsub("@playerdescriptor.(.-)@", function(what)
+		if not self.player.descriptor then return _t"???" end
+		if self.player.descriptor["fake_"..what] then return _t(self.player.descriptor["fake_"..what]) end
+		if self.player.descriptor[what] and Birther.birth_descriptor_def[what] and Birther.birth_descriptor_def[what][self.player.descriptor[what]] then
+			if Birther.birth_descriptor_def[what][self.player.descriptor[what]].chat_name then return Birther.birth_descriptor_def[what][self.player.descriptor[what]].chat_name end
+			if Birther.birth_descriptor_def[what][self.player.descriptor[what]].display_name then return Birther.birth_descriptor_def[what][self.player.descriptor[what]].display_name end
+		end
+		return _t(self.player.descriptor[what])
+	end)
 	return text
 end
