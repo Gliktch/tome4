@@ -2077,14 +2077,14 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
-			DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)
-			DamageType:get(DamageType.FIRE).projector(game.player, game.player.x, game.player.y, DamageType.FIRE, 100)
-do return end
 			package.loaded["engine.dialogs.Chat"] = nil
 			package.loaded["engine.Chat"] = nil
 			local Chat = require "engine.Chat"
 			local chat = Chat.new("tareyal+test", game.player, game.player)
 			chat:invoke()
+do return end
+			DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)
+			DamageType:get(DamageType.FIRE).projector(game.player, game.player.x, game.player.y, DamageType.FIRE, 100)
 do return end
 			game.player:takeHit(100, game.player)
 			game.player:useEnergy()

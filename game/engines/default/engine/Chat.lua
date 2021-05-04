@@ -171,6 +171,10 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		end
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
+	elseif node.name == "birth-descriptor" then
+		add_cond(node, function(npc, player) return player.descriptor and player.descriptor[node.data.what] == node.data.value end)
+		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
+	---------------------------------------------------------------------------
 	elseif node.name == "object-has" then
 		add_cond(node, function(npc, player)
 			local actor = node.data.who == "player" and player or npc
