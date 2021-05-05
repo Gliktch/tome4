@@ -18,7 +18,6 @@
 -- darkgod@te4.org
 
 require "engine.class"
-require "engine.dialogs.Chat"
 require "Json2"
 local slt2 = require "slt2"
 
@@ -26,6 +25,7 @@ local slt2 = require "slt2"
 -- @classmod engine.Chat
 module(..., package.seeall, class.make)
 
+_M.chat_dialog = "engine.dialogs.Chat"
 _M.chat_context_strings = {"#{italic}##LIGHT_GREEN#", "#LAST##{normal}#"}
 _M.chat_bold_strings = {"#{bold}#", "#{normal}#"}
 
@@ -413,7 +413,7 @@ function _M:invoke(id)
 	local hd = {"Chat:invoke", id = id or self.default_id }
 	self:triggerHook(hd)
 
-	local d = engine.dialogs.Chat.new(self, hd.id, self.force_dialog_width or 500)
+	local d = require(self.chat_dialog).new(self, hd.id, self.force_dialog_width or 500)
 	game:registerDialog(d)
 	return d
 end

@@ -2078,9 +2078,10 @@ function _M:setupCommands()
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
 			package.loaded["engine.dialogs.Chat"] = nil
+			package.loaded["mod.dialogs.Chat"] = nil
 			package.loaded["engine.Chat"] = nil
 			local Chat = require "engine.Chat"
-			engine.dialogs.Chat.show_portraits = true
+			Chat.chat_dialog = "mod.dialogs.Chat"
 			local chat = Chat.new("tareyal+test", game.player, game.player)
 			chat:invoke()
 do return end

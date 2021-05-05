@@ -399,6 +399,8 @@ function _M:init(title, w, h, x, y, alpha, font, showup, skin)
 	self.frame.ox2 = self.frame.ox2 or conf.frame_ox2
 	self.frame.oy1 = self.frame.oy1 or conf.frame_oy1
 	self.frame.oy2 = self.frame.oy2 or conf.frame_oy2
+	if not self.force_min_w and conf.force_min_w then self.force_min_w = conf.force_min_w end
+	if not self.force_min_h and conf.force_min_h then self.force_min_h = conf.force_min_h end
 
 	if self.frame.dialog_h_middles then
 		local t = type(self.frame.dialog_h_middles) == "table" and table.clone(self.frame.dialog_h_middles) or {}
@@ -588,6 +590,8 @@ function _M:setupUI(resizex, resizey, on_resize, addmw, addmh)
 		mw = math.max(tw + 6, mw)
 
 		mh = mh + addh + 5 + 22 + 3 + (addmh or 0) + th + padding
+
+		mw, mh = math.max(mw, self.force_min_w or 0), math.max(mh, self.force_min_h or 0)
 
 		if on_resize then on_resize(resizex and mw or self.w, resizey and mh or self.h) end
 		nw, nh = resizex and mw or self.w, resizey and mh or self.h
