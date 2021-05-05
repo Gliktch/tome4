@@ -222,7 +222,16 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		return self:chatFormatActions(nodes, answer, getnext(), stop_at)
 	---------------------------------------------------------------------------
 	elseif node.name == "swap-actor" then
-		if node.data.custom == "true" then
+		if node.data.custom == "id" then
+			local e
+			if node.data.id == "player" then e = self.player
+			else e = game.level:findEntity{define_as = node.data.id}
+			end
+			if e then
+				answer.switch_npc = e
+				if node.data.move_camera == true then answer.switch_npc_move_camera = true end
+			end
+		elseif node.data.custom == "true" then
 			if not node.data.def:find("return ") then node.data.def = "return "..node.data.def end
 			local a, err = loadstring(node.data.def)
 			if not a and err then error("[Chat] chatFormatActions ERROR: "..err) end
@@ -276,9 +285,7 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 		local conds = {}
 		local function walk_chain(chainnode)
 			local fakeanswer = {}
-			game.log("following chain...")
 			local function walk(n)
-				game.log(" - %s : %d", n.name, n.id)
 				local tid = table.sget(n, 'inputs', 'input_1', "connections", 1, "node")
 				-- If we have a parent, follow it
 				if tid then
@@ -361,9 +368,12 @@ end
 --- Switch the NPC talking
 -- @param[type=Actor] npc
 -- @return NPC we switched from
-function _M:switchNPC(npc)
+function _M:switchNPC(npc, pan_camera)
 	local old = self.npc
 	self.npc = npc
+	if pan_camera and game.level and game.level.map and npc.x and npc.y then
+		game.level.map:centerViewAround(npc.x, npc.y)
+	end
 	return old
 end
 

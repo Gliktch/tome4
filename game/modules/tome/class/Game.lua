@@ -2080,6 +2080,7 @@ function _M:setupCommands()
 			package.loaded["engine.dialogs.Chat"] = nil
 			package.loaded["engine.Chat"] = nil
 			local Chat = require "engine.Chat"
+			engine.dialogs.Chat.show_portraits = true
 			local chat = Chat.new("tareyal+test", game.player, game.player)
 			chat:invoke()
 do return end
