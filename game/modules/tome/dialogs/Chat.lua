@@ -29,7 +29,7 @@ module(..., package.seeall, class.inherit(Chat))
 function _M:init(chat, id, width)
 	self.ui = "chat"
 
-	Chat.init(self, chat, id, math.max(width, game.w * 0.7))
+	Chat.init(self, chat, id, math.max(width, game.w * 0.4))
 end
 
 function _M:makeUI()
