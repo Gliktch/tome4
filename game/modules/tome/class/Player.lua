@@ -423,6 +423,7 @@ function _M:act()
 		if self:enoughEnergy() then
 			game.paused = true
 			if game.uiset.logdisplay:getNewestLine() ~= "" then game.log("") end
+			if config.settings.cheat then game.log("Game Turn %d", game.turn) end
 		end
 	elseif not self.player then
 		self:useEnergy()
