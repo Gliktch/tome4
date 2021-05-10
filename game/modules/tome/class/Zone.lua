@@ -67,6 +67,10 @@ function _M:onLoadZoneFile(basedir)
 		self:triggerHook{"Zone:loadEvents", zone=self.short_name, events=evts}
 		if next(evts) then self.events = evts end
 	end
+	if game.state.selected_bonus_zone and game.state.selected_bonus_zone.zone == self.short_name then
+		if not self.events then self.events = {} end
+		table.insert(self.events, {name=game.state.selected_bonus_zone.event, level_range=game.state.selected_bonus_zone.level_range, minor=true, percent=100})
+	end
 end
 
 --- Make it work for high levels

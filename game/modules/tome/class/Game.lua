@@ -330,6 +330,7 @@ function _M:newGame()
 					self.creating_player = false
 
 					birth_done()
+					self.state:selectBonusZone()
 					self.player:check("on_birth_done")
 					self:setTacticalMode(self.always_target)
 					self:triggerHook{"ToME:birthDone"}
@@ -2885,6 +2886,10 @@ function _M:takeScreenshot(for_savefile)
 	else
 		return core.display.getScreenshot(0, 0, self.w, self.h)
 	end
+end
+
+function _M:isAllowedBuild(what)
+	return profile.mod.allow_build[what]
 end
 
 function _M:setAllowedBuild(what, notify)
