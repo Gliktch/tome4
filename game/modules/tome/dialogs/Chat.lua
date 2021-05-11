@@ -37,15 +37,15 @@ function _M:makeUI()
 
 	self.c_desc = Textzone.new{font=self.chat.dialog_text_font, width=self.iw - 10 - xoff, height=1, auto_height=true, text=self.text.."\n", can_focus=false}
 	self.c_list = VariableList.new{font=self.chat.dialog_answer_font, width=self.iw - 10 - xoff, max_height=game.h * 0.70 - self.c_desc.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
-	local npc_frame = ActorFrame.new{actor=self.npc.chat_display_entity or self.npc, w=64, h=64}
-	local player_frame = ActorFrame.new{actor=self.player.chat_display_entity or self.player, w=64, h=64}
+	local npc_frame = ActorFrame.new{actor=self.npc.chat_display_entity or self.npc, w=128, h=128, allow_shader=false, allow_cb=false}
+	local player_frame = ActorFrame.new{actor=self.player.chat_display_entity or self.player, w=128, h=128, allow_shader=false, allow_cb=false}
 
 	local uis = {
 		{left=0, top=0, ui=self.c_desc},
 		{right=0, bottom=math.max(self.c_desc.h, npc_frame.h) + 5, ui=self.c_list},
 		{left=5, top=self.c_desc.h - 10, ui=Separator.new{ui="simple", dir="vertical", size=self.iw - 10}},
-		{right=-64, top=-64, ui=npc_frame, ignore_size=true},
-		{left=-64, top=-64, ui=player_frame, ignore_size=true},
+		{right=-128, vcenter=0, ui=npc_frame, ignore_size=true},
+		{left=-128, vcenter=0, ui=player_frame, ignore_size=true},
 	}
 
 	self:loadUI(uis)
