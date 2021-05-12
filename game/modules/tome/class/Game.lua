@@ -2077,12 +2077,14 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			package.loaded["engine.ui.Dialog"] = nil
 			package.loaded["engine.dialogs.Chat"] = nil
 			package.loaded["mod.dialogs.Chat"] = nil
+			package.loaded["mod.dialogs.elements.ChatPortrait"] = nil
 			package.loaded["engine.Chat"] = nil
 			local Chat = require "engine.Chat"
 			Chat.chat_dialog = "mod.dialogs.Chat"
-			local chat = Chat.new("tareyal+test", game.player, game.player)
+			local chat = Chat.new("tareyal+test", engine.Entity.new{name=_t"Imperium courrier", image="npc/humanoid_human_linaniil_supreme_archmage.png"}, game.player)
 			chat:invoke()
 do return end
 			DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)

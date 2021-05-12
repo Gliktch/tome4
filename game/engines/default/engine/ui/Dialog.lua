@@ -591,7 +591,16 @@ function _M:setupUI(resizex, resizey, on_resize, addmw, addmh)
 
 		mh = mh + addh + 5 + 22 + 3 + (addmh or 0) + th + padding
 
-		mw, mh = math.max(mw, self.force_min_w or 0), math.max(mh, self.force_min_h or 0)
+		if self.force_min_h then
+			mh = mh - self.frame.oy1 + self.frame.oy2
+			mh = math.max(mh, self.force_min_h)
+			mh = mh + self.frame.oy1 - self.frame.oy2
+		end
+		if self.force_min_w then
+			mw = mw - self.frame.ox1 + self.frame.ox2
+			mw = math.max(mw, self.force_min_w)
+			mw = mw + self.frame.ox1 - self.frame.ox2
+		end
 
 		if on_resize then on_resize(resizex and mw or self.w, resizey and mh or self.h) end
 		nw, nh = resizex and mw or self.w, resizey and mh or self.h

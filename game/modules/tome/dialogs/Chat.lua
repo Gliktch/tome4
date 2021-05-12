@@ -22,30 +22,31 @@ local Chat = require "engine.dialogs.Chat"
 local VariableList = require "engine.ui.VariableList"
 local Textzone = require "engine.ui.Textzone"
 local Separator = require "engine.ui.Separator"
-local ActorFrame = require "engine.ui.ActorFrame"
+local ChatPortrait = require "mod.dialogs.elements.ChatPortrait"
+local Map = require "engine.Map"
+local Entity = require "engine.Entity"
 
 module(..., package.seeall, class.inherit(Chat))
 
 function _M:init(chat, id, width)
 	self.ui = "chat"
+	self.force_title = ""
+	self.force_min_h = 256
 
 	Chat.init(self, chat, id, math.max(width, game.w * 0.4))
 end
 
 function _M:makeUI()
-	local xoff = 0
-
-	self.c_desc = Textzone.new{font=self.chat.dialog_text_font, width=self.iw - 10 - xoff, height=1, auto_height=true, text=self.text.."\n", can_focus=false}
-	self.c_list = VariableList.new{font=self.chat.dialog_answer_font, width=self.iw - 10 - xoff, max_height=game.h * 0.70 - self.c_desc.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
-	local npc_frame = ActorFrame.new{actor=self.npc.chat_display_entity or self.npc, w=128, h=128, allow_shader=false, allow_cb=false}
-	local player_frame = ActorFrame.new{actor=self.player.chat_display_entity or self.player, w=128, h=128, allow_shader=false, allow_cb=false}
+	self.c_desc = Textzone.new{has_box=true, ui="chat", font=self.chat.dialog_text_font, width=self.iw, height=1, auto_height=true, text=self.text, can_focus=false}
+	self.c_list = VariableList.new{font=self.chat.dialog_answer_font, width=self.iw, max_height=game.h * 0.70 - self.c_desc.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
+	local npc_frame = ChatPortrait.new{ui="chat", actor=self:getActorPortrait(self.npc.chat_display_entity or self.npc)}
+	local player_frame = ChatPortrait.new{ui="chat", actor=self:getActorPortrait(self.player.chat_display_entity or self.player)}
 
 	local uis = {
-		{left=0, top=0, ui=self.c_desc},
-		{right=0, bottom=math.max(self.c_desc.h, npc_frame.h) + 5, ui=self.c_list},
-		{left=5, top=self.c_desc.h - 10, ui=Separator.new{ui="simple", dir="vertical", size=self.iw - 10}},
-		{right=-128, vcenter=0, ui=npc_frame, ignore_size=true},
-		{left=-128, vcenter=0, ui=player_frame, ignore_size=true},
+		{hcenter=0, top=-12, ui=self.c_desc},
+		{right=0, bottom=0, ui=self.c_list},
+		{left=-player_frame.w+self.frame.ox1-5, vcenter=-self.ix-4, ui=player_frame, ignore_size=true},
+		{right=-npc_frame.w-self.frame.ox2-5, vcenter=-self.ix-4, ui=npc_frame, ignore_size=true},
 	}
 
 	self:loadUI(uis)
@@ -54,4 +55,24 @@ function _M:makeUI()
 		self.force_x = game.w / 2 - w / 2
 		self.force_y = game.h - h - 20
 	end)
+end
+
+function _M:getActorPortrait(actor)
+	local actor = actor.replace_display or actor
+	
+	-- Moddable tiles are already portrait sized
+	if actor.moddable_tile and Map.tiles.no_moddable_tiles then return actor end
+
+	-- No need for anything special
+	if actor.image:find("^portrait/") then return actor end
+
+	-- Find the npc portrait
+	if actor.image == "invis.png" and actor.add_mos and actor.add_mos[1] and actor.add_mos[1].image and actor.add_mos[1].image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.add_mos[1].image:gsub("^npc/", "portrait/")) then
+		return Entity.new{name=actor.name, image=actor.add_mos[1].image:gsub("^npc/", "portrait/")}
+	elseif actor.image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^npc/", "portrait/")) then
+		return Entity.new{name=actor.name, image=actor.image:gsub("^npc/", "portrait/")}
+	end
+
+	-- Last resort, use it as it is
+	return actor
 end
