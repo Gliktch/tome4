@@ -72,6 +72,7 @@ function _M:display(x, y, nb_keyframes, screen_x, screen_y)
 	self.back.t:toScreenFull(x, y, self.back.w, self.back.h, self.back.tw, self.back.th)
 	core.display.glScissor(true, screen_x + 15, screen_y + 15, 128, 192)
 	local dx, dy = x + 15 + (128 - self.iw) / 2, y + 15 + (192 - self.ih) / 2
+	if self.ih > 192 then dy = y + 15 end
 	if self.actor_frame then
 		self.actor_frame:display(dx, dy - self.iy)
 	elseif self.item then
