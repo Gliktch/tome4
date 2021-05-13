@@ -242,6 +242,7 @@ Birther:loadDefinition("/data/birth/descriptors.lua")
 Store:loadStores("/data/general/stores/basic.lua")
 
 -- Configure chat dialogs
+require("engine.dialogs.Chat").show_portraits = true
 require("engine.Chat").chat_dialog = "mod.dialogs.Chat"
 
 -- Inventory tabs

@@ -74,7 +74,7 @@ function _M:display(x, y, nb_keyframes, screen_x, screen_y)
 	local dx, dy = x + 15 + (128 - self.iw) / 2, y + 15 + (192 - self.ih) / 2
 	if self.actor_frame then
 		self.actor_frame:display(dx, dy - self.iy)
-	else
+	elseif self.item then
 		self.item[1]:toScreen(dx, dy - self.iy, self.iw, self.ih)
 	end
 	core.display.glScissor(false)
