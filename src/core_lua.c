@@ -1809,6 +1809,32 @@ static int sdl_load_image_mem(lua_State *L)
 	return 3;
 }
 
+static int sdl_find_empty_margins(lua_State *L) {
+	SDL_Surface **ss = (SDL_Surface**)auxiliar_checkclass(L, "sdl{surface}", 1);
+	SDL_Surface *s = *ss;
+
+	int x1 = s->w, x2 = 0, y1 = s->h, y2 = 0;
+
+	for (int x = 0; x < s->w; x++) {
+		for (int y = 0; y < s->h; y++) {
+			Uint32 *const target_pixel = (Uint32 *)((Uint8 *)s->pixels + y * s->pitch + x * s->format->BytesPerPixel);
+			Uint8 r, g, b, a;
+			SDL_GetRGBA(*target_pixel, s->format, &r, &g, &b, &a);
+			if (a != 0) {
+				if (x < x1) x1 = x;
+				if (y > x2) x2 = x;
+				if (y < y1) y1 = y;
+				if (y > y2) y2 = y;
+			}
+		}
+	}
+	lua_pushnumber(L, x1);
+	lua_pushnumber(L, x2);
+	lua_pushnumber(L, y1);
+	lua_pushnumber(L, y2);
+	return 4;
+}
+
 static int sdl_free_surface(lua_State *L)
 {
 	SDL_Surface **s = (SDL_Surface**)auxiliar_checkclass(L, "sdl{surface}", 1);
@@ -3534,6 +3560,7 @@ static const struct luaL_Reg sdl_surface_reg[] =
 	{"close", sdl_free_surface},
 	{"erase", sdl_surface_erase},
 	{"getSize", sdl_surface_get_size},
+	{"getEmptyMargins", sdl_find_empty_margins},
 	{"merge", sdl_surface_merge},
 	{"toScreen", sdl_surface_toscreen},
 	{"toScreenWithTexture", sdl_surface_toscreen_with_texture},

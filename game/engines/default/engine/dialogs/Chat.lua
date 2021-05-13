@@ -37,17 +37,29 @@ function _M:init(chat, id, width)
 	self.npc = chat.npc
 	self.player = chat.player
 	self.no_offscreen = "bottom"
-	Dialog.init(self, self.npc.getName and self.npc:getName() or self.npc.name, width or 500, 400)
+	Dialog.init(self, self.force_title or (self.npc.getName and self.npc:getName() or self.npc.name), width or 500, 400)
 
+	self:generateList()
+
+	self:makeUI()
+
+	self.key:addCommands{
+		__TEXTINPUT = function(c)
+			if self.list and self.list.chars[c] then
+				self:use(self.list[self.list.chars[c]])
+			end
+		end,
+	}
+end
+
+function _M:makeUI()
 	local xoff = 0
 	if self.show_portraits then
 		xoff = 64
 	end
 
-	self:generateList()
-
-	self.c_desc = Textzone.new{font=chat.dialog_text_font, width=self.iw - 10 - xoff, height=1, auto_height=true, text=self.text.."\n"}
-	self.c_list = VariableList.new{font=chat.dialog_answer_font, width=self.iw - 10 - xoff, max_height=game.h * 0.70 - self.c_desc.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
+	self.c_desc = Textzone.new{font=self.chat.dialog_text_font, width=self.iw - 10 - xoff, height=1, auto_height=true, text=self.text.."\n", can_focus=false}
+	self.c_list = VariableList.new{font=self.chat.dialog_answer_font, width=self.iw - 10 - xoff, max_height=game.h * 0.70 - self.c_desc.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
 
 	local uis = {
 		{left=0, top=0, ui=self.c_desc},
@@ -64,14 +76,6 @@ function _M:init(chat, id, width)
 	self:loadUI(uis)
 	self:setFocus(self.c_list)
 	self:setupUI(false, true)
-
-	self.key:addCommands{
-		__TEXTINPUT = function(c)
-			if self.list and self.list.chars[c] then
-				self:use(self.list[self.list.chars[c]])
-			end
-		end,
-	}
 end
 
 function _M:on_register()
@@ -121,7 +125,7 @@ function _M:use(item, a)
 end
 
 function _M:regen()
-	local d = new(self.chat, self.cur_id, self.force_width)
+	local d = require(self.chat.chat_dialog).new(self.chat, self.cur_id, self.force_width)
 	d.__showup = false
 	game:replaceDialog(self, d)
 	self.next_dialog = d
