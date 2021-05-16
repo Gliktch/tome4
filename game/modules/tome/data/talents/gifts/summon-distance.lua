@@ -512,7 +512,7 @@ newTalent{
 	target = SummonTarget,
 	onAIGetTarget = onAIGetTargetSummon,
 	aiSummonGrid = aiSummonGridRanged,
-	tactical = { ATTACK = { ACID = 1, LIGHTING = 1, NATURE = 1 } },
+	tactical = { ATTACK = { ACID = 1, LIGHTNING = 1, NATURE = 1 } },
 	on_pre_use = function(self, t, silent)
 		if not self:canBe("summon") and not silent then game.logPlayer(self, "You cannot summon; you are suppressed!") return end
 		return not checkMaxSummon(self, silent)
