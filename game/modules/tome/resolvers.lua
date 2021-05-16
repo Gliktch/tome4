@@ -1359,7 +1359,7 @@ function resolvers.staff_element(name)
 	return {__resolver="staff_element", name}
 end
 function resolvers.calc.staff_element(t, e)
-	local command_flavor, command_lement = nil, nil
+	local command_flavor, command_element = nil, nil
 	if not e.flavor_name then
 		if not e.flavors then -- standard
 			local staff_type = rng.table{2, 2, 2, 2, 3, 3, 3, 4, 4, 4}
