@@ -540,7 +540,7 @@ newEntity{
 			who.turn_procs.shield_wrathful[target.uid] = true
 			
 
-			local tg = {type="hit", range=10}
+			local tg = {type="hit", range=10, friendlyfire=false}
 			local dam = special.shield_wrathful(who)
 			local damage = who:spellCrit(dam)
 
