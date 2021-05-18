@@ -678,7 +678,7 @@ newEffect{
 				return
 		else
 				game._chronoworlds.see_threads_base = nil
-				local chat = Chat.new("chronomancy-see-threads", {name=_t"See the Threads"}, self, {turns=eff.max_dur})
+				local chat = Chat.new("chronomancy-see-threads", {name=_t"See the Threads", image = "talents/see_the_threads.png"}, self, {turns=eff.max_dur})
 				chat:invoke()
 			end
 		end)

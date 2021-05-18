@@ -434,7 +434,7 @@ end
 -- @string text @playername@, @npcname@, @playerdescriptor.(.-)@
 function _M:replace(text)
 	local Birther = require "engine.Birther"
-	text = text:noun_sub("@playername@", self.player:getName()):noun_sub("@npcname@", self.npc.getName and self.npc:getName() or _t(self.npc.name, "entity name"))
+	text = text:noun_sub("@playername@", self.player:getName()):noun_sub("@npcname@", self.npc.getName and self.npc:getName() or _t(self.npc.name, "entity name") or _t"???")
 	text = text:gsub("@playerdescriptor.(.-)@", function(what)
 		if not self.player.descriptor then return _t"???" end
 		if self.player.descriptor["fake_"..what] then return _t(self.player.descriptor["fake_"..what]) end

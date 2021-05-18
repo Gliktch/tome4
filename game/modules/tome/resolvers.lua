@@ -596,8 +596,13 @@ function resolvers.calc.chatfeature(t, e)
 	e.chat_faction = t[2]
 	t = t[1]
 
-	if e.chat_faction then
-		e.chat_display_entity = engine.Entity.new{image="faction/"..e.chat_faction..".png"}
+	if e.chat_display then
+		e.chat_display_entity = engine.Entity.new(e.chat_display)
+		if e.chat_faction and not e.chat_display_entity.image then
+			e.chat_display_entity.image = "faction/"..e.chat_faction..".png"
+		end
+	elseif e.chat_faction then
+		e.chat_display_entity = engine.Entity.new{image="faction/"..e.chat_faction..".png", name=e.name}
 	end
 
 	e.block_move = function(self, x, y, who, act, couldpass)

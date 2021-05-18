@@ -63,6 +63,21 @@ function _M:getActorPortrait(actor)
 	-- Moddable tiles are already portrait sized
 	if actor.moddable_tile and Map.tiles.no_moddable_tiles then return actor end
 
+	-- No image at all ?
+	if not actor.image then
+		-- By any chance are we running a talent ?
+		if self.player.getCurrentTalent and self.player:getCurrentTalent() then
+			local t = self.player:getTalentFromId(self.player:getCurrentTalent())
+			if t then
+				return Entity.new{name=t.name, image=t.image or "talents/default.png"}
+			else
+				return Entity.new{name=actor.name, image="talents/default.png"}
+			end
+		else
+			return Entity.new{name=actor.name, image="talents/default.png"}
+		end
+	end
+
 	-- No need for anything special
 	if actor.image:find("^portrait/") then return actor end
 

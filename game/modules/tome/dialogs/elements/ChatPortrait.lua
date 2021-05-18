@@ -29,7 +29,7 @@ module(..., package.seeall, class.inherit(Base))
 function _M:init(t)
 	assert(t.actor, "no ChatPortrait actor")
 	
-	self.name = t.actor.getName and t.actor:getName() or _t(t.actor.name)
+	self.name = t.actor.getName and t.actor:getName() or _t(t.actor.name) or _t"???"
 	if t.actor.moddable_tile then
 		self.actor_frame = ActorFrame.new{actor=t.actor, w=128, h=128, allow_cb=false, allow_shader=false}
 	elseif t.actor.image == "invis.png" and t.actor.add_mos and t.actor.add_mos[1] and t.actor.add_mos[1].image then
@@ -83,7 +83,7 @@ function _M:display(x, y, nb_keyframes, screen_x, screen_y)
 
 	core.display.glScissor(true, screen_x + 4, screen_y + 229, 152, 23)
 	-- Center if it fits, left align is not
-	if self.name_tex.w <= 229 then
+	if self.name_tex.w <= 153 then
 		self:textureToScreen(self.name_tex, x + 80 - self.name_tex.w / 2, y + 240 - self.name_tex.h / 2)
 	else
 		self:textureToScreen(self.name_tex, x + 4, y + 240 - self.name_tex.h / 2)
