@@ -349,13 +349,13 @@ newEntity{ name = "Ryal",
 	},
 	ai = "tactical", ai_state = { ai_move = "move_astar", talent_in = 1 },
 	ai_tactic = resolvers.tactic("melee"),
-	resolvers.inscriptions(4, {}),
+	--resolvers.inscriptions(4, {}),
 	instakill_immune = 1,
 	level_range = {9, nil}, exp_worth = 3,
 	max_life = resolvers.rngavg(120,150),
 	combat_armor = 0, combat_def = 10,
 	melee_project = {[DamageType.BLIGHT]=resolvers.mbonus(15, 1)},
-	resolvers.inscriptions(2, "rune"),
+	resolvers.inscriptions(4, "rune"),
 	autolevel = "warriormage",
 	talent_cd_reduction={
 		[Talents.T_KNOCKBACK] = 2,
@@ -395,7 +395,7 @@ newEntity{ name = "Fryjia Loren",
 	ai = "tactical", ai_state = { ai_move = "move_astar", talent_in = 1 },
 	ai_tactic = resolvers.tactic("ranged"),
 	resolvers.inscriptions(1, {"manasurge rune"}),
-	resolvers.inscriptions(3, {"manasurge rune", "movement infusion", "wild infusion", "frozen spear rune"}),
+	resolvers.inscriptions(3, {"manasurge rune", "movement infusion", "wild infusion", "biting gale rune"}),
 
 	body = { INVEN = 1000, QS_MAINHAND = 1, QS_OFFHAND = 1, MAINHAND = 1, OFFHAND = 1, FINGER = 2, NECK = 1, LITE = 1, BODY = 1, HEAD = 1, CLOAK = 1, HANDS = 1, BELT = 1, FEET = 1, TOOL = 1, QUIVER = 1 },
 	resolvers.equip{
@@ -451,7 +451,7 @@ newEntity{ name = "Riala Shalarak",
 	autolevel = "caster",
 	ai = "tactical", ai_state = { ai_move = "move_astar", talent_in = 1 },
 	ai_tactic = resolvers.tactic("ranged"),
-	resolvers.inscriptions(3, {"manasurge rune", "manasurge rune", "regeneration infusion", "fire beam rune"}),
+	resolvers.inscriptions(3, {"manasurge rune", "manasurge rune", "regeneration infusion", "shatter afflictions rune"}),
 
 	summon = {{name = "wisp", number=3, hasxp=false}},
 
@@ -543,7 +543,7 @@ newEntity{ name = "Rej Arkatis",
 
 	ai = "tactical", ai_state = { ai_move = "move_astar", talent_in = 1 },
 	ai_tactic = resolvers.tactic("melee"),
-	resolvers.inscriptions(4, {"manasurge rune", "movement infusion", "regeneration infusion", "fire beam rune"}),
+	resolvers.inscriptions(4, {"manasurge rune", "movement infusion", "regeneration infusion", "shatter afflictions rune"}),
 
 	body = { INVEN = 1000, QS_MAINHAND = 1, QS_OFFHAND = 1, MAINHAND = 1, OFFHAND = 1, FINGER = 2, NECK = 1, LITE = 1, BODY = 1, HEAD = 1, CLOAK = 1, HANDS = 1, BELT = 1, FEET = 1, TOOL = 1, QUIVER = 1 },
 	resolvers.equip{
