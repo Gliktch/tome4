@@ -2594,7 +2594,7 @@ newDamageType{
 		state = initState(state)
 		useImplicitCrit(src, state)
 		local target = game.level.map(x, y, Map.ACTOR)
-		if target and target:attr("demon") then
+		if target and (target:attr("demon") and not target:attr("fiery_torment")) then
 			target:heal(dam, src)
 			return -dam
 		elseif target then
