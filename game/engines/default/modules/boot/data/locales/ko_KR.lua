@@ -190,13 +190,13 @@ section "mod-boot/data/general/npcs/troll.lua"
 t("giant", "거인", "entity type")
 t("troll", "트롤", "entity subtype")
 t("forest troll", "숲 트롤", "entity name")
-t("Green-skinned and ugly, this massive humanoid glares at you, clenching wart-covered green fists.", "녹색 피부를 가진 거대하고 못생긴 이족 보행체가 사마귀투성이인 녹색 주먹을 꽉 쥐며 당신을 응시한다.", "_t")
+t("Green-skinned and ugly, this massive humanoid glares at you, clenching wart-covered green fists.", "못생기고 피부가 초록색인, 거대한 인간형 생물이 사마귀로 덮인 녹색 주먹을 움켜쥐고 당신을 노려보고 있습니다.", "_t")
 t("stone troll", "바위 트롤", "entity name")
-t("A giant troll with scabrous black skin. With a shudder, you notice the belt of dwarf skulls around his massive waist.", "우둘투둘한 검은 거죽을 가진 자이언트 트롤입니다. 당신은 전율하면서 그의 거대한 허리춤에 달린 허리띠가 드워프 해골로 만들어졌다는 것을 알아차립니다.", "_t")
+t("A giant troll with scabrous black skin. With a shudder, you notice the belt of dwarf skulls around his massive waist.", "우둘투둘한 검은 가죽을 가진 거대한 트롤입니다. 당신은 그의 거대한 허리춤에 둘러진 허리띠가 드워프 해골로 장식되어 있다는 걸 알아차리고 전율합니다.", "_t")
 t("cave troll", "동굴 트롤", "entity name")
-t("This huge troll wields a massive spear and has a disturbingly intelligent look in its piggy eyes.", "이 거대한 트롤은 거대한 창을 휘두르며, 이상하게도 그 살찐 눈에 총명한 표정을 짓습니다.", "_t")
+t("This huge troll wields a massive spear and has a disturbingly intelligent look in its piggy eyes.", "이 거대한 트롤은 거대한 창을 휘두르며, 이상하게도 그 돼지 같은 눈동자에서 총명한 빛이 엿보입니다.", "_t")
 t("mountain troll", "산 트롤", "entity name")
-t("A large and athletic troll with an extremely tough and warty hide.", "아주 질기고 사마귀 투성이 거죽을 지닌 크고 건강한 트롤입니다.", "_t")
+t("A large and athletic troll with an extremely tough and warty hide.", "거대하고 튼튼한 트롤입니다. 가죽이 아주 질기고 사마귀 투성이입니다.", "_t")
 t("mountain troll thunderer", "산 트롤 번개 부르미", "entity name")
 
 ------------------------------------------------
@@ -415,8 +415,8 @@ t([[#{bold}##GOLD#Forgotten Cults - Expansion#LAST##{normal}#
 #LIGHT_UMBER#Sick of your own head:#WHITE#  Replace it with a nice cozy horror!
 #LIGHT_UMBER#A ton#WHITE# of artifacts, lore, events... 
 
-]], [[#{bold}##GOLD#금지된 교단 - 확장팩#LAST##{normal}#
-#{italic}##ANTIQUE_WHITE#모든 모험가들이 부를 쫓는 것은 아니며, 세상을 지키는 모든 이들이 선행을 염두에 두고 있는 것도 아니다. 최근들어 공포의 목격 건수가 엄청나게 늘어나고 있습니다. 길에서 벗어난 이들이 몇 년 후에 공포스럽게 변이되고, 부분적으로 미쳐 있는 상태로 발견됩니다. 마즈'에이알 밑 깊은곳에서 뭔가가 준동하고 있음이 명백해지고 있습니다. 그게 바로 당신입니다.#{normal}##LAST#
+]], [[#{bold}##GOLD#금단의 교단 - 확장팩#LAST##{normal}#
+#{italic}##ANTIQUE_WHITE#모험가들이라고 모두 행운을 찾고 있는 건 아니고, 세상을 지키고 있다고 모두 선행을 염두에 두고 있는 것도 아닙니다. 최근에 공포체들을 목격하는 빈도가 엄청하게 증가했습니다. 익숙한 길에서 벗어나버린 사람들은 몇 년 뒤에야 발견될 것이고, 그들은 무시무시하게 변이되어 있고, 또 약간 미친 상태일 겁니다. 물론 발견이 된다면 말이지요. 마즈'에이알 지하 깊은 곳에 무언가가 있다는 게 확실해지고 있습니다. 그 무언가가 바로 당신입니다.#{normal}##LAST#
 
 #{bold}#특징#{normal}#:
 #LIGHT_UMBER#새로운 직업:#WHITE# 뒤틀린 자. 타락한 힘에 무릎 꿇은 이들로, 스스로를 서서히 공포로 변화시키고, 자신의 뜻에 따라 공포들을 소환 합니다. 피부를 벗어버리고, 얼굴을 녹여내 적들을 공격합니다. 이미 촉수로 변한 팔을 갖고 있는데, 어떤 이가 당신을 막을 수 있을까요?
@@ -466,7 +466,7 @@ t("Overwrite character?", "캐릭터를 덮어씌우시겠습니까?", "_t")
 t("There is already a character with this name, do you want to overwrite it?", "이미 존재하는 캐릭터의 이름입니다만, 덮어씌우시겠습니까?", "_t")
 t("No", "아니요", "_t")
 t("Yes", "네", "_t")
-t("This game is not compatible with your version of T-Engine, you can still try it but it might break.", "이 게임은 현재 T-Engint 버전과 호환되지 않으므로, 실행 시 심각한 오류를 발생시킬 수 있습니다.", "_t")
+t("This game is not compatible with your version of T-Engine, you can still try it but it might break.", "이 게임은 현재 T-Engine 버전과 호환되지 않기에 실행 시 심각한 오류가 발생할 수도 있습니다.", "_t")
 
 ------------------------------------------------
 section "mod-boot/dialogs/Profile.lua"
