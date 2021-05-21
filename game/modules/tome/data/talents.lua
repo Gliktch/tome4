@@ -38,6 +38,24 @@ function Talents.aiLowerTacticals(tactical)
 	return tacts
 end
 
+local oldNewTalentType = Talents.newTalentType
+Talents.newTalentType = function(self, t)
+	-- That's some trikery ... try to guess where the talent tree comes from, base game or addon
+	local i = 1
+	while true do
+		local info = debug.getinfo(i, "S")
+		if not info then break end
+		if info.source then
+			local _, _, addon = info.source:find("/data%-([^/]+)/")
+			if addon then t.source = addon
+			elseif info.source:find("/data/talents") then t.source = "@vanilla@"
+			end
+		end
+		i = i + 1
+	end
+	return oldNewTalentType(self, t)
+end
+
 local oldNewTalent = Talents.newTalent
 Talents.newTalent = function(self, t)
 	local tt = engine.interface.ActorTalents.talents_types_def[t.type[1]]

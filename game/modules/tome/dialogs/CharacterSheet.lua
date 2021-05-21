@@ -346,6 +346,17 @@ function _M:mouseLink(link, text, _, _, _, w, h, x, y)
 	}, true)
 end
 
+function _M:mouseClick(fct, text, _, _, _, w, h, x, y)
+	self:mouseZones({
+		{ x=x, y=y, w=w, h=h, fct=function(button)
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, text)
+			if button == "left" then
+				fct()
+			end
+		end},
+	}, true)
+end
+
 -- Switch between equipment sets (by reference only) for the equip doll
 -- This makes sure the equipment shown in the equipdoll matches the tab setting
 -- Done this way to make sure the actor's equipment is never actually touched
@@ -479,7 +490,8 @@ function _M:drawDialog(kind, actor_to_compare)
 	local text = ""
 	local dur_text = ""
 
-	if player.__te4_uuid and profile.auth and profile.auth.drupid and not config.settings.disable_all_connectivity and config.settings.tome.upload_charsheet then
+	-- if player.__te4_uuid and profile.auth and profile.auth.drupid and not config.settings.disable_all_connectivity and config.settings.tome.upload_charsheet then
+	if true then profile.auth.drupid=1 player.__te4_uuid="jklljkljlk"
 		local path = "https://te4.org/characters/"..profile.auth.drupid.."/tome/"..player.__te4_uuid
 		local LinkTxt = ("Online URL: #LIGHT_BLUE##{underline}#%s#{normal}#"):tformat(path)
 		local Link_w, Link_h = self.font:size(LinkTxt)
@@ -612,6 +624,13 @@ function _M:drawDialog(kind, actor_to_compare)
 			local follow = (player.faction == "zigur" or player:attr("zigur_follower")) and _t"Zigur follower" or _t"Antimagic adherent"
 			self:mouseTooltip(self.TOOLTIP_ANTIMAGIC_USER, s:drawColorStringBlended(self.font, "#ORCHID#"..follow, w+200, h, 255, 255, 255, true))
 		end
+
+		if player.randventurer_seed then
+			local text = ("- Seed: #LIGHT_STEEL_BLUE#%s"):tformat(player.randventurer_seed)
+			h = h + self.font_h
+			self:mouseClick(function() core.key.setClipboard(player.randventurer_seed) Dialog:simplePopup("Wanderer Seed", "Copied to clipboard!") end, _t"Click to copy to clipboard. You can share the wanderer seed with your friends, this way they can play with the same set of talents.", s:drawColorStringBlended(self.font, text, w, h, 255, 255, 255, true))
+		end
+
 		h = h + self.font_h
 		s:drawStringBlended(self.font, _t"Size : "..(player:TextSizeCategory():capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		h = h + self.font_h
