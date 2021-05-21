@@ -26,7 +26,6 @@ module(..., package.seeall, class.inherit(Dialog))
 
 __show_only = true
 
-local title_font = core.display.newFont(FontPackage:getFont("default"), 32)
 local aura = {
 	Shader.new("awesomeaura", {flameScale=0.6, time_factor=8000}),
 	Shader.new("awesomeaura", {flameScale=0.6, time_factor=8000}),
@@ -116,16 +115,20 @@ local credits = {
 	false,
 	false,
 
-	{_t"Code Helpers", title=1},
+	{_t"Code Heroes", title=1},
 	{"Antagonist"},
 	{"Bunny"},
 	{"Graziel"},
 	{"Grayswandir"},
 	{"John 'Hachem Muche' Viles"},
 	{"Jules 'Quicksilver' Bean"},
+	{"K'van 'nsrr' Pinkham"},
 	{"Madmonk"},
 	{"Mark 'Marson' Carpente"},
+	{"Mr Frog"},
 	{"Neil Stevens"},
+	{"Otowakotori"},
+	{"Ryan Yappert"},
 	{"Samuel 'Effigy' Wegner"},
 	{"Sebastian 'Sebsebeleb' Vråle"},
 	{"Shani"},
@@ -136,10 +139,12 @@ local credits = {
 	false,
 
 	{_t"Community Managers", title=2},
+	{"Bastien 'Cathbald' Rogler"},
 	{"Bradley 'AuraOfTheDawn' Kersey"},
 	{"Faeryan"},
 	{"Erik 'Lord Xandor' Tillford"},
 	{"Michael 'Dekar' Olscher"},
+	{"Mikko 'Moasseman' Suojoki"},
 	{"Rob 'stuntofthelitter' Stites"},
 	{"Reenen 'Canderel' Laurie"},
 	{"Sheila"},
@@ -152,6 +157,60 @@ local credits = {
 	{"Brian Jeffears"},
 	{"Greg Wooledge"},
 	{"Ralph Versteegen"},
+	false,
+	false,
+
+	{_t"Chinese Translation Lead", title=2},
+	{"Otowakotori", font="chinese"},
+	{"Yutio888", font="chinese"},
+
+	{_t"Chinese Translators", title=1},
+	{"Alasdan Wormsage", font="chinese"},
+	{"Amyhistoria", font="chinese"},
+	{"Cafe", font="chinese"},
+	{"Grammier", font="chinese"},
+	{"Kissfiring", font="chinese"},
+	{"Jinsediaoying", font="chinese"},
+	{"Koihik", font="chinese"},
+	{"Marblezls", font="chinese"},
+	{"MonsterRhode", font="chinese"},
+	{"Otowakotori", font="chinese"},
+	{"Yutio888", font="chinese"},
+	{"Weichiche", font="chinese"},
+	{"Zhouwei_e", font="chinese"},
+	{"大菠萝", font="chinese"},
+	{"风中脚步", font="chinese"},
+	{"林大彤", font="chinese"},
+	{"马达哦", font="chinese"},
+	
+	{"Chinese Translation Proofreaders and Testers", title=2},
+	{"Feihuxia", font="chinese"},
+	{"sSs1897", font="chinese"},
+	{"枫鼠儿", font="chinese"},
+	{"念奴娇下月怀古", font="chinese"},
+	{"清蒸猫锅", font="chinese"},
+	{"羽落", font="chinese"},
+	false,
+	false,
+
+	{_t"Korean Translation", title=1},
+	{"Cinornu (Dong-il Lee)"},
+	{"Khelerd (Junhyung Lim)"},
+	{"Stéphanois (Youngchan Lee)"},
+	{"Lua (Jaewook Lee)"},
+	{"LifeFF"},
+	{"Woo'hyun"},
+	{"HighSeeker"},
+	{"Ne_Cobalt"},
+	{"ukdong90"},
+	{"draconian"},
+	{"Monakin (Jinwoo An)"},
+	{"3llyyc"},
+	false,
+	false,
+
+	{_t"Japanese Translation", title=1},
+	{"Atsushi Miyagi"},
 	false,
 	false,
 
@@ -184,6 +243,15 @@ local credits = {
 	{"Font: square: http://strlen.com/square"},
 	{"Font: Salsa: http://www.google.com/fonts/specimen/Salsa"},
 }
+
+local title_font = core.display.newFont(FontPackage:getFont("default"), 32)
+local line_fonts = {}
+for i, line in ipairs(credits) do if type(line) == "table" then
+	local fontpackage = line.font or "default"
+	if not line_fonts[fontpackage] then
+		line_fonts[fontpackage] = core.display.newFont(FontPackage:getFont("default", nil, fontpackage == "default" and "fantasy" or fontpackage), 32)
+	end
+end end
 
 function _M:init()
 	Dialog.init(self, "", game.w, game.h, nil, nil, nil, nil, false, "invisible")
@@ -232,10 +300,11 @@ function _M:makeEntry(credit)
 		txt.step_h = txt.h
 		txt.offset_y = 0
 	else
-		local w, h = title_font:size(credit[1]) + 20, 42
+		local cur_font = line_fonts[credit.font or "default"]
+		local w, h = cur_font:size(credit[1]) + 20, 42
 		local s = core.display.newSurface(w, h)
 		s:alpha(0)
-		s:drawStringBlended(title_font, credit[1], 10, 0, 255, 255, 255, false)
+		s:drawStringBlended(cur_font, credit[1], 10, 0, 255, 255, 255, false)
 		txt = {}
 		txt.w, txt.h = w, h
 		txt._tex, txt._tex_w, txt._tex_h = s:glTexture()

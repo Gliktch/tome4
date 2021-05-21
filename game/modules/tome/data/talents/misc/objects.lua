@@ -17,12 +17,12 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-newTalentType{ no_silence=true, is_spell=true, type="sher'tul/fortress", name = _t"fortress", description = _t"Yiilkgur abilities." }
-newTalentType{ no_silence=true, is_spell=true, type="spell/objects", name = _t"object spells", description = _t"Spell abilities of the various objects of the world." }
-newTalentType{ no_silence=true, type="other/objects", name = _t"object powers", description = _t"Abilities of the various objects of the world." }
-newTalentType{ type="technique/objects", name = _t"object techniques", description = _t"Techniques of the various objects of the world." }
-newTalentType{ type="wild-gift/objects", name = _t"object techniques", description = _t"Wild gifts of the various objects of the world." }
-newTalentType{ type="misc/objects", name = _t"object techniques", description = _t"Powers of the various objects of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="sher'tul/fortress", name = _t("fortress", "talent type"), description = _t"Yiilkgur abilities." }
+newTalentType{ no_silence=true, is_spell=true, type="spell/objects", name = _t("object spells", "talent type"), description = _t"Spell abilities of the various objects of the world." }
+newTalentType{ no_silence=true, type="other/objects", name = _t("object powers", "talent type"), description = _t"Abilities of the various objects of the world." }
+newTalentType{ type="technique/objects", name = _t("object techniques", "talent type"), description = _t"Techniques of the various objects of the world." }
+newTalentType{ type="wild-gift/objects", name = _t("object techniques", "talent type"), description = _t"Wild gifts of the various objects of the world." }
+newTalentType{ type="misc/objects", name = _t("object techniques", "talent type"), description = _t"Powers of the various objects of the world." }
 
 --local oldTalent = newTalent
 --local newTalent = function(t) if type(t.hide) == "nil" then t.hide = true end return oldTalent(t) end
@@ -178,7 +178,7 @@ newTalent{
 		if self.player then -- prompt the player to pick a new element
 			local state = {}
 			local Chat = require("engine.Chat")
-			local chat = Chat.new("command-staff", {name=_t"Command Staff: "..staff:getName{do_color=true, no_add_name=true}}, self, {version=staff, state=state, co=coroutine.running()})
+			local chat = Chat.new("command-staff", staff, self, {version=staff, state=state, co=coroutine.running()})
 			local d = chat:invoke()
 			if not coroutine.yield() then return nil end
 			return true

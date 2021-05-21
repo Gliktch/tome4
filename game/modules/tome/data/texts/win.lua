@@ -26,6 +26,7 @@ for name, q in pairs(p.quests) do
 		if order and d then descs[#descs+1] = {o=order, d=d} print("[ENDING] from quest", name, order, d[1]) end
 	end
 end
+p:triggerHook{"Player:winnerDescs", descs=descs, how=p.winner}
 table.sort(descs, function(a, b) return a.o < b.o end)
 
 local desc = {}

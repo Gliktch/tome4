@@ -29,6 +29,8 @@ function _M:init(t)
 	self.actor = assert(t.actor, "no actorframe actor")
 	self.w = assert(t.w, "no actorframe w")
 	self.h = assert(t.h, "no actorframe h")
+	self.allow_cb = t.allow_cb
+	self.allow_shader = t.allow_shader
 	self.tiles = t.tiles or Tiles.new(self.w, self.h, nil, nil, true, nil)
 
 	Base.init(self, t)
@@ -45,9 +47,9 @@ function _M:display(x, y, nb_keyframes, ox, oy)
 	local o = self.actor
 	if o and o.toScreen then
 		if o.image then
-			o:toScreen(self.tiles, x, y, self.w, self.h)
+			o:toScreen(self.tiles, x, y, self.w, self.h, nil, self.allow_cb, self.allow_shader)
 		elseif o.image and o.add_mos then
-			o:toScreen(self.tiles, x, y - h, self.w, self.h * 2)
+			o:toScreen(self.tiles, x, y - h, self.w, self.h * 2, nil, self.allow_cb, self.allow_shader)
 		end
 	end
 

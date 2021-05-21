@@ -79,9 +79,10 @@ local make_poltergeist = function(type)
     o = game.zone:makeEntity(game.level, "object", filter, nil, true)
     if not o then
         if type == "greater" then
-            o = game.state:generateRandart{lev=resolvers.current_level+10}
+            local o_tmp = game.zone:makeEntity(game.level, "object", {type="weapon", properties={"randart_able"}, not_properties={"unique"}, ego_filter={keep_egos=true, ego_chance=-1000}}, nil, true)
+            o = game.state:generateRandart{base=o_tmp, lev=resolvers.current_level+10}
         else
-            o = game.zone:makeEntity(game.level, "object", {tome={double_greater=1}}, nil, true)
+            o = game.zone:makeEntity(game.level, "object", {type="weapon", tome={double_greater=1}}, nil, true)
         end
     end
     o.no_drop = false

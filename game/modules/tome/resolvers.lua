@@ -555,6 +555,38 @@ function resolvers.calc.store(t, e)
 	return nil
 end
 
+--- Resolves drops creation for an actor
+function resolvers.store_multi(data, def, faction, door, sign)
+	return {__resolver="store_multi", def, faction, door, sign, data=data}
+end
+--- Actually resolve the drops creation
+function resolvers.calc.store_multi(t, e)
+	if t[3] then
+		e.image = t[3]
+		if t[4] then e.add_mos = {{display_x=0.6, image=t[4]}} end
+	end
+
+	e.store_faction = t[2]
+	local data = t.data
+	t = t[1]
+
+	e.block_move = function(self, x, y, who, act, couldpass)
+		if who and who.player and act then
+			if self.store_faction and who:reactionToward({faction=self.store_faction}) < 0 then return true end
+			self.store:loadup(game.level, game.zone)
+			self.store:interact(who, self:getName())
+		end
+		return true
+	end
+	print("[STORE-MULTI] "..(data[t] and "loaded" or "created").." for entity", t, e, e.name)
+	e.store = data[t] or game:getStore(t)
+	e.store.faction = e.store_faction
+	data[t] = e.store
+
+	-- Delete the origin field
+	return nil
+end
+
 --- Resolves chat creation for an actor
 function resolvers.chatfeature(def, faction)
 	return {__resolver="chatfeature", def, faction}
@@ -564,8 +596,13 @@ function resolvers.calc.chatfeature(t, e)
 	e.chat_faction = t[2]
 	t = t[1]
 
-	if e.chat_faction then
-		e.chat_display_entity = engine.Entity.new{image="faction/"..e.chat_faction..".png"}
+	if e.chat_display then
+		e.chat_display_entity = engine.Entity.new(e.chat_display)
+		if e.chat_faction and not e.chat_display_entity.image then
+			e.chat_display_entity.image = "faction/"..e.chat_faction..".png"
+		end
+	elseif e.chat_faction then
+		e.chat_display_entity = engine.Entity.new{image="faction/"..e.chat_faction..".png", name=e.name}
 	end
 
 	e.block_move = function(self, x, y, who, act, couldpass)
@@ -809,9 +846,11 @@ function resolvers.calc.sustains_at_birth(_, e)
 	e.on_added = function(self)
 		for tid, _ in pairs(self.talents) do
 			local t = self:getTalentFromId(tid)
-			if t and t.mode == "sustained" and not self:isTalentActive(tid) then
+			if t and t.mode == "sustained" and not t.no_sustain_autocast and not self:isTalentActive(tid) then
 				self.energy.value = game.energy_to_act
+				self:attr("sustains_at_birth_running", 1)
 				self:useTalent(tid, nil, nil, nil, nil, true)
+				self:attr("sustains_at_birth_running", -1)
 			end
 		end
 	end

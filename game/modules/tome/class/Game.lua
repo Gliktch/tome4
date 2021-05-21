@@ -17,6 +17,7 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
+
 require "engine.class"
 require "engine.GameTurnBased"
 require "engine.interface.GameMusic"
@@ -95,6 +96,15 @@ function _M:run()
 	class:triggerHook{"ToME:run"}
 	local ret = self:runReal()
 	class:triggerHook{"ToME:runDone"}
+
+	-- Alter window title, for fun & glory !
+	local worldname = nil
+	if self:getPlayer(true) and self:getPlayer(true).descriptor and self:getPlayer(true).descriptor.world then
+		local world = Birther:getBirthDescriptor("world", self:getPlayer(true).descriptor.world)
+		if world.display_name then worldname = world.display_name end
+	end
+	if worldname then core.display.setWindowTitle(worldname) end
+
 	return ret
 end
 
@@ -262,7 +272,7 @@ function _M:newGame()
 	local nb_unlocks, max_unlocks, categories = self:countBirthUnlocks()
 	local unlocks_order = { class=1, race=2, cometic=3, other=4 }
 	local unlocks = {}
-	for cat, d in pairs(categories) do unlocks[#unlocks+1] = {desc=d.nb.."/"..d.max.." ".._t(cat), order=unlocks_order[cat] or 99} end
+	for cat, d in pairs(categories) do unlocks[#unlocks+1] = {desc=d.nb.."/"..d.max.." ".._t(cat, "talent category"), order=unlocks_order[cat] or 99} end
 	table.sort(unlocks, "order")
 	self.creating_player = true
 	self.extra_birth_option_defs = {}
@@ -320,6 +330,7 @@ function _M:newGame()
 					self.creating_player = false
 
 					birth_done()
+					self.state:selectBonusZone()
 					self.player:check("on_birth_done")
 					self:setTacticalMode(self.always_target)
 					self:triggerHook{"ToME:birthDone"}
@@ -330,8 +341,16 @@ function _M:newGame()
 				if __module_extra_info.no_birth_popup then d.key:triggerVirtual("EXIT") end
 			end
 
-			if self.player.no_birth_levelup or __module_extra_info.no_birth_popup then birthend()
-			else self.player:playerLevelup(birthend, true) end
+			local birthend_lvlup = function()
+				if self.player.no_birth_levelup or __module_extra_info.no_birth_popup then birthend()
+				else self.player:playerLevelup(birthend, true) end
+			end
+			if self.player.custom_birthend then
+				self.player:custom_birthend(birth, birthend_lvlup)
+				self.player.custom_birthend = nil
+			else
+				birthend_lvlup()
+			end
 		-- Player was loaded from a premade
 		else
 			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
@@ -365,7 +384,8 @@ function _M:newGame()
 			self:setTacticalMode(self.always_target)
 			self:triggerHook{"ToME:birthDone"}
 		end
-	end, quickbirth, 800, 600)
+	end, quickbirth, math.min(math.max(game.w * 0.8, 800), 1200, game.w), 600)
+	-- end, quickbirth, 800, 600)
 	self:registerDialog(birth)
 end
 
@@ -792,7 +812,7 @@ function _M:getSaveDescription()
 Difficulty: %s / %s
 Campaign: %s
 Exploring level %s of %s.]]):tformat(
-		player.name, player.level, _t(player.descriptor.subrace), _t(player.descriptor.subclass),
+		player.name, player.level, _t(player.descriptor.subrace, "birth descriptor name"), _t(player.descriptor.subclass, "birth descriptor name"),
 		_t(player.descriptor.difficulty), _t(player.descriptor.permadeath),
 		_t(player.descriptor.world),
 		self.level and self.level.level or "--", self.zone and self.zone.name or "--"
@@ -803,12 +823,12 @@ end
 function _M:getVaultDescription(e)
 	e = e:findMember{main=true} -- Because vault "chars" are actualy parties for tome
 	return {
-		name = ([[%s the %s %s]]):tformat(e.name, _t(e.descriptor.subrace), _t(e.descriptor.subclass)),
+		name = ([[%s the %s %s]]):tformat(e.name, _t(e.descriptor.subrace, "birth descriptor name"), _t(e.descriptor.subclass, "birth descriptor name")),
 		descriptors = e.descriptor,
 		description = ([[%s the %s %s.
 Difficulty: %s / %s
 Campaign: %s]]):tformat(
-		e.name, _t(e.descriptor.subrace), _t(e.descriptor.subclass),
+		e.name, _t(e.descriptor.subrace, "birth descriptor name"), _t(e.descriptor.subclass, "birth descriptor name"),
 		_t(e.descriptor.difficulty), _t(e.descriptor.permadeath),
 		_t(e.descriptor.world)
 		),
@@ -1230,6 +1250,9 @@ function _M:changeLevelReal(lev, zone, params)
 		local x, y = nil, nil
 		if force_back_pos then
 			x, y = force_back_pos.x, force_back_pos.y
+		elseif params.auto_spot_stair then
+			local spot = self.level:pickSpot(params.auto_spot_stair)
+			if spot then x, y = spot.x, spot.y end
 		elseif (params.auto_zone_stair or self.level.data.auto_zone_stair) and left_zone then
 			-- Dirty but quick
 			local list, catchall = {}, {}
@@ -1975,6 +1998,9 @@ function _M:onRegisterDialog(d)
 	self.tooltip2_x, self.tooltip2_y = nil, nil
 	if self.player then self.player:updateMainShader() end
 
+	-- Cleanup WASD
+	self.wasd_state = {cnt=0, cd=12, base_cd=3}
+
 --	if self.player and self.player.runStop then self.player:runStop(_t"dialog poping up") end
 --	if self.player and self.player.restStop then self.player:restStop(_t"dialog poping up") end
 end
@@ -2061,9 +2087,21 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			package.loaded["engine.ui.Dialog"] = nil
+			package.loaded["engine.dialogs.Chat"] = nil
+			package.loaded["mod.dialogs.Chat"] = nil
+			package.loaded["mod.dialogs.elements.ChatPortrait"] = nil
+			package.loaded["engine.Chat"] = nil
+			local Chat = require "engine.Chat"
+			Chat.chat_dialog = "mod.dialogs.Chat"
+			local chat = Chat.new("tareyal+test", engine.Entity.new{name=_t"Imperium courrier", image="npc/undead_risen_mistress_vira.png"}, game.player)
+			chat:invoke()
+do return end
+			DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)
+			DamageType:get(DamageType.FIRE).projector(game.player, game.player.x, game.player.y, DamageType.FIRE, 100)
+do return end
 			game.player:takeHit(100, game.player)
 			game.player:useEnergy()
-			-- DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)
 do return end
 			local f, err = loadfile("/data/general/events/glowing-chest.lua")
 			print(f, err)
@@ -2860,6 +2898,10 @@ function _M:takeScreenshot(for_savefile)
 	else
 		return core.display.getScreenshot(0, 0, self.w, self.h)
 	end
+end
+
+function _M:isAllowedBuild(what)
+	return profile.mod.allow_build[what]
 end
 
 function _M:setAllowedBuild(what, notify)

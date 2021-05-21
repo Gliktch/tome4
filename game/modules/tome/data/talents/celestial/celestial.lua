@@ -18,32 +18,33 @@
 -- darkgod@te4.org
 
 -- Celestial Spells
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/guardian", name = _t"guardian", min_lev = 10, description = _t"Your devotion grants you additional protection." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/chants", name = _t"chants", generic = true, description = _t"Chant the glory of the Sun." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/chants-chants", name = _t"chants", generic = true, on_mastery_change = function(self, m, tt) if self:knowTalentType("celestial/chants") ~= nil then self.talents_types_mastery[tt] = self.talents_types_mastery["celestial/chants"] end end, description = _t"Chant the glory of the Sun." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/light", name = _t"light", generic = true, description = _t"Invoke the power of the light to heal and mend." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/combat", name = _t"combat", description = _t"Your devotion allows you to combat your foes with indomitable determination." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/radiance", name = _t"radiance", description = _t"You channel the light of the sun through your body." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/crusader", name = _t"crusader", description = _t"Forgo your shield for the chance to crush your foes with a mighty two handed weapon." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/sunlight", name = _t"sunlight", description = _t"Summon the power of the Sun to burn your foes." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/sun", name = _t"sun", description = _t"Summon the power of the Sun to burn your foes." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/glyphs", name = _t"glyphs", min_lev = 10, description = _t"Bind the brilliant powers into glyphs to trap your foes." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/twilight", name = _t"twilight", description = _t"Stand between the darkness and the light, harnessing both." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/star-fury", name = _t"star fury", description = _t"Call the fury of the Stars and the Moon to destroy your foes." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/hymns", name = _t"hymns", generic = true, on_mastery_change = function(self, m, tt) if self:knowTalentType("celestial/hymns") ~= nil then self.talents_types_mastery[tt] = self.talents_types_mastery["celestial/hymns"] end end, description = _t"Chant the glory of the Moon." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/hymns-hymns", name = _t"hymns", generic = true, description = _t"Chant the glory of the Moon." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/circles", name = _t"circles", min_lev = 10, description = _t"Bind the power of the Moon into circles at your feet." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/eclipse", name = _t"eclipse", description = _t"The moment of the Eclipse is the moment of Truth, when Sun and Moon are in tandem and the energies of the world hang in the balance. Intense focus allows the greatest Anorithils to harness these energies to unleash devastating forces..." }
-newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/other", name = _t"other", description = _t"Other celestial powers." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/guardian", name = _t("guardian", "talent type"), min_lev = 10, description = _t"Your devotion grants you additional protection." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/chants", name = _t("chants", "talent type"), generic = true, description = _t"Chant the glory of the Sun." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/chants-chants", name = _t("chants", "talent type"), generic = true, on_mastery_change = function(self, m, tt) if self:knowTalentType("celestial/chants") ~= nil then self.talents_types_mastery[tt] = self.talents_types_mastery["celestial/chants"] end end, description = _t"Chant the glory of the Sun." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/light", name = _t("light", "talent type"), generic = true, description = _t"Invoke the power of the light to heal and mend." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/combat", name = _t("combat", "talent type"), description = _t"Your devotion allows you to combat your foes with indomitable determination." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/radiance", name = _t("radiance", "talent type"), description = _t"You channel the light of the sun through your body." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/crusader", name = _t("crusader", "talent type"), description = _t"Forgo your shield for the chance to crush your foes with a mighty two handed weapon." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/sunlight", name = _t("sunlight", "talent type"), description = _t"Summon the power of the Sun to burn your foes." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/sun", name = _t("sun", "talent type"), description = _t"Summon the power of the Sun to burn your foes." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/glyphs", name = _t("glyphs", "talent type"), min_lev = 10, description = _t"Bind the brilliant powers into glyphs to trap your foes." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/twilight", name = _t("twilight", "talent type"), description = _t"Stand between the darkness and the light, harnessing both." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/star-fury", name = _t("star fury", "talent type"), description = _t"Call the fury of the Stars and the Moon to destroy your foes." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/hymns", name = _t("hymns", "talent type"), generic = true, on_mastery_change = function(self, m, tt) if self:knowTalentType("celestial/hymns") ~= nil then self.talents_types_mastery[tt] = self.talents_types_mastery["celestial/hymns"] end end, description = _t"Chant the glory of the Moon." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/hymns-hymns", name = _t("hymns", "talent type"), generic = true, description = _t"Chant the glory of the Moon." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/circles", name = _t("circles", "talent type"), min_lev = 10, description = _t"Bind the power of the Moon into circles at your feet." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/eclipse", name = _t("eclipse", "talent type"), description = _t"The moment of the Eclipse is the moment of Truth, when Sun and Moon are in tandem and the energies of the world hang in the balance. Intense focus allows the greatest Anorithils to harness these energies to unleash devastating forces..." }
+newTalentType{ allow_random=true, no_silence=true, is_spell=true, type="celestial/other", name = _t("other", "talent type"), description = _t"Other celestial powers." }
 
 
-newTalentType{ no_silence=true, is_spell=true, type="celestial/other", name = _t"other", description = _t"Various celestial talents." }
+newTalentType{ no_silence=true, is_spell=true, type="celestial/other", name = _t("other", "talent type"), description = _t"Various celestial talents." }
 
 -- Fallen Class Evolution
-newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/dirges", name = _t"Dirges", description = _t"The songs the Fallen sing." }
-newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/darkside", name = _t"Darkside", description = _t"Signature magics of the Fallen.  The sun shines for the guilty and the innocent alike." }
-newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/dark-sun", name = _t"Dark Sun", description = _t"Celestial combat techniques inspired by the dark places that are not empty." }
-newTalentType{ allow_random=false, no_silence=true, is_spell=true, generic=true, type="celestial/dirge", name = _t"Dirges", description = _t"Sing of death and damnation.", on_mastery_change = function(self, m, tt) self.talents_types_mastery["celestial/dirges"] = self.talents_types_mastery[tt] end }
+newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/dirges", name = _t("Dirges", "talent type"), description = _t"The songs the Fallen sing." }
+newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/darkside", name = _t("Darkside", "talent type"), description = _t"Signature magics of the Fallen.  The sun shines for the guilty and the innocent alike." }
+newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/dark-sun", name = _t("Dark Sun", "talent type"), description = _t"Celestial combat techniques inspired by the dark places that are not empty." }
+
+newTalentType{ allow_random=false, no_silence=true, is_spell=true, generic=true, type="celestial/dirge", name = _t("Dirges", "talent type"), description = _t"Sing of death and damnation.", on_mastery_change = function(self, m, tt) self.talents_types_mastery["celestial/dirges"] = self.talents_types_mastery[tt] end }
 
 -- Generic requires for celestial spells based on talent level
 divi_req1 = {

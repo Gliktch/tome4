@@ -346,6 +346,17 @@ function _M:mouseLink(link, text, _, _, _, w, h, x, y)
 	}, true)
 end
 
+function _M:mouseClick(fct, text, _, _, _, w, h, x, y)
+	self:mouseZones({
+		{ x=x, y=y, w=w, h=h, fct=function(button)
+			game.tooltip_x, game.tooltip_y = 1, 1; game:tooltipDisplayAtMap(game.w, game.h, text)
+			if button == "left" then
+				fct()
+			end
+		end},
+	}, true)
+end
+
 -- Switch between equipment sets (by reference only) for the equip doll
 -- This makes sure the equipment shown in the equipdoll matches the tab setting
 -- Done this way to make sure the actor's equipment is never actually touched
@@ -479,7 +490,8 @@ function _M:drawDialog(kind, actor_to_compare)
 	local text = ""
 	local dur_text = ""
 
-	if player.__te4_uuid and profile.auth and profile.auth.drupid and not config.settings.disable_all_connectivity and config.settings.tome.upload_charsheet then
+	-- if player.__te4_uuid and profile.auth and profile.auth.drupid and not config.settings.disable_all_connectivity and config.settings.tome.upload_charsheet then
+	if true then profile.auth.drupid=1 player.__te4_uuid="jklljkljlk"
 		local path = "https://te4.org/characters/"..profile.auth.drupid.."/tome/"..player.__te4_uuid
 		local LinkTxt = ("Online URL: #LIGHT_BLUE##{underline}#%s#{normal}#"):tformat(path)
 		local Link_w, Link_h = self.font:size(LinkTxt)
@@ -604,14 +616,21 @@ function _M:drawDialog(kind, actor_to_compare)
 		h = 0
 		w = 0
 		s:drawStringBlended(self.font, _t"Sex  : "..((player.descriptor and _t(player.descriptor.sex)) or (player.female and _t"Female" or _t"Male")), w, h, 0, 200, 255, true) h = h + self.font_h
-		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptor and _t(player.descriptor.subrace)) or _t(player.type):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
+		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptor and _t(player.descriptor.subrace, "birth descriptor name")) or _t(player.type, "entity type"):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		local class_evo = ""
 		if player.descriptor and player.descriptor.class_evolution then class_evo = " ("..player.descriptor.class_evolution..")" end
-		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptor and _t(player.descriptor.subclass or "")) or _t(player.subtype):capitalize())..class_evo, w, h, 0, 200, 255, true)
+		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptor and _t(player.descriptor.subclass or "", "birth descriptor name")) or _t(player.subtype, "entity subtype"):capitalize())..class_evo, w, h, 0, 200, 255, true)
 		if player:attr("forbid_arcane") then
 			local follow = (player.faction == "zigur" or player:attr("zigur_follower")) and _t"Zigur follower" or _t"Antimagic adherent"
 			self:mouseTooltip(self.TOOLTIP_ANTIMAGIC_USER, s:drawColorStringBlended(self.font, "#ORCHID#"..follow, w+200, h, 255, 255, 255, true))
 		end
+
+		if player.randventurer_seed then
+			local text = ("- Seed: #LIGHT_STEEL_BLUE#%s"):tformat(player.randventurer_seed)
+			h = h + self.font_h
+			self:mouseClick(function() core.key.setClipboard(player.randventurer_seed) Dialog:simplePopup("Wanderer Seed", "Copied to clipboard!") end, _t"Click to copy to clipboard. You can share the wanderer seed with your friends, this way they can play with the same set of talents.", s:drawColorStringBlended(self.font, text, w, h, 255, 255, 255, true))
+		end
+
 		h = h + self.font_h
 		s:drawStringBlended(self.font, _t"Size : "..(player:TextSizeCategory():capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		h = h + self.font_h
@@ -875,7 +894,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 			local combatc = actor_to_compare and actor_to_compare:getCombatStats(type, inven_id, item) or {}
 			local color
 			local weap_type = combat.talented or table.get(combat.mean, "talented")
-			local text2 = (combat.obj and combat.obj.slot_forbid == "OFFHAND" and _t"Two-Handed, " or "")..(weap_type and _t(weap_type) or "")
+			local text2 = (combat.obj and combat.obj.slot_forbid == "OFFHAND" and _t"Two-Handed, " or "")..(weap_type and _t(weap_type, "entity combat talented") or "")
 			s:drawColorStringBlended(self.font, (text or _t"Weapon")..(weap_type and " ("..text2..")" or "")..":", w, h, 255, 255, 255, true) h = h + self.font_h
 
 			text = compare_fields(player, actor_to_compare,
@@ -1333,7 +1352,7 @@ Ability to reduce opponent resistances to your damage]]
 						return _t"Item_Talents"
 					end
 					local mastery = player:getTalentTypeMastery(tt.type)
-					local cat = _t(tt.type:gsub("/.*", "")):bookCapitalize()
+					local cat = _t(tt.type:gsub("/.*", ""), "talent category"):bookCapitalize()
 					return cat.."/"..(tt.name or ""):bookCapitalize().." ("..mastery..")"
 				end
 			elseif self.talent_sorting == 2 then -- Alphabetically, so no groups at all.
@@ -1716,7 +1735,7 @@ function _M:dump()
 		 local ttknown = player:knowTalentType(tt.type)
 		if not (player.talents_types[tt.type] == nil) and ttknown then
 			local cat = tt.type:gsub("/.*", "")
-			local catname = ("%s / %s"):format(_t(cat):capitalize(), tt.name:capitalize())
+			local catname = ("%s / %s"):format(_t(cat, "talent category"):capitalize(), tt.name:capitalize())
 			nl((" - %-35s(mastery %.02f)"):format(catname, player:getTalentTypeMastery(tt.type)))
 
 			-- Find all talents of this school

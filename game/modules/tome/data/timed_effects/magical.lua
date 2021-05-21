@@ -4322,7 +4322,8 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# is abandoned by the Stone's power.", _t"-Deeprock Form" end,
 	activate = function(self, eff)
 		if self:knowTalent(self.T_VOLCANIC_ROCK) then
-			self:learnTalent(self.T_VOLCANO, true, self:getTalentLevelRaw(self.T_VOLCANIC_ROCK) * 2, {no_unlearn=true})
+		    eff.volcano = self:getTalentLevelRaw(self.T_VOLCANIC_ROCK)
+			self:learnTalent(self.T_VOLCANO, true, eff.volcano * 2, {no_unlearn=true})
 			self:effectTemporaryValue(eff, "talent_cd_reduction", {[self.T_VOLCANO] = 15})
 
 			local t = self:getTalentFromId(self.T_VOLCANIC_ROCK)
@@ -4332,7 +4333,8 @@ newEffect{
 		end
 
 		if self:knowTalent(self.T_BOULDER_ROCK) then
-			self:learnTalent(self.T_THROW_BOULDER, true, self:getTalentLevelRaw(self.T_BOULDER_ROCK) * 2, {no_unlearn=true})
+		    eff.boulder = self:getTalentLevelRaw(self.T_BOULDER_ROCK)
+			self:learnTalent(self.T_THROW_BOULDER, true, eff.boulder * 2, {no_unlearn=true})
 
 			local t = self:getTalentFromId(self.T_BOULDER_ROCK)
 			eff.natureDam, eff.naturePen = t.getDam(self, t), t.getPen(self, t)
@@ -4370,8 +4372,8 @@ newEffect{
 		game.level.map:updateMap(self.x, self.y)
 	end,
 	deactivate = function(self, eff)
-		if self:knowTalent(self.T_VOLCANIC_ROCK) then self:unlearnTalent(self.T_VOLCANO, self:getTalentLevelRaw(self.T_VOLCANIC_ROCK) * 2) end
-		if self:knowTalent(self.T_BOULDER_ROCK) then self:unlearnTalent(self.T_THROW_BOULDER, self:getTalentLevelRaw(self.T_BOULDER_ROCK) * 2) end
+		if eff.volcano then self:unlearnTalent(self.T_VOLCANO, eff.volcano * 2) end
+		if eff.boulder then self:unlearnTalent(self.T_THROW_BOULDER,  eff.boulder * 2) end
 
 		self.replace_display = nil
 		self:removeAllMOs()

@@ -427,7 +427,7 @@ function _M:descAttribute(attr)
 		for ttn, i in pairs(self.wielder.talents_types_mastery) do
 			local tt = Talents.talents_types_def[ttn]
 			local cat = tt.type:gsub("/.*", "")
-			local name = _t(cat):capitalize().._t(" / ")..tt.name:capitalize()
+			local name = _t(cat, "talent category"):capitalize().._t(" / ")..tt.name:capitalize()
 			tms[#tms+1] = ("%0.2f %s"):tformat(i, name)
 		end
 		return table.concat(tms, ",")
@@ -559,7 +559,7 @@ end
 function _M:getName(t)
 	t = t or {}
 	local qty = self:getNumber()
-	local name = _t(self.name) or _t"object"
+	local name = _t(self.name, "entity name") or _t"object"
 	if t.trans_only then
 		return name
 	end
@@ -697,33 +697,39 @@ function _M:compareFields(item1, items, infield, field, outformat, text, mod, is
 	end
 	for i=1, #items do
 		if items[i][infield] and items[i][infield][field] then
-			if added == 0 then
-				ret:add(" (")
-			elseif added > 1 then
-				ret:add(_t(" / "))
-			end
-			added = added + 1
-			add = true
-			if items[i][infield][field] ~= (item1[field] or 0) then
-				local outformatres
-				local resvalue = (items[i][infield][field] + (add_table[field] or 0)) * mod
-				if type(outformat) == "function" then
-					outformatres = outformat(item1value, resvalue)
-				else outformatres = outformat:format(item1value - resvalue) end
-				if isdiffinversed then
-					ret:add(items[i][infield][field] < (item1[field] or 0) and {"color","RED"} or {"color","LIGHT_GREEN"}, outformatres, {"color", "LAST"})
-				else
-					ret:add(items[i][infield][field] > (item1[field] or 0) and {"color","RED"} or {"color","LIGHT_GREEN"}, outformatres, {"color", "LAST"})
+			local resvalue = (items[i][infield][field] + (add_table[field] or 0)) * mod
+		
+			if item1value ~= 0 or resvalue ~= 0 then
+				if added == 0 then
+					ret:add(" (")
+				elseif added > 1 then
+					ret:add(_t(" / "))
 				end
-			else
-				ret:add("-")
+				
+				if items[i][infield][field] ~= (item1[field] or 0) then
+					local outformatres
+					
+					if type(outformat) == "function" then
+						outformatres = outformat(item1value, resvalue)
+					else outformatres = outformat:format(item1value - resvalue) end
+					if isdiffinversed then
+						ret:add(items[i][infield][field] < (item1[field] or 0) and {"color","RED"} or {"color","LIGHT_GREEN"}, outformatres, {"color", "LAST"})
+					else
+						ret:add(items[i][infield][field] > (item1[field] or 0) and {"color","RED"} or {"color","LIGHT_GREEN"}, outformatres, {"color", "LAST"})
+					end
+				else
+					ret:add("-")
+				end
+				
+				added = added + 1
+				add = true
 			end
 		end
 	end
 	if added > 0 then
 		ret:add(")")
 	end
-	if add then
+	if add and (resvalue ~= 0 or added > 0)then
 		ret:add(true)
 		return ret
 	end
@@ -750,6 +756,20 @@ function _M:compareTableFields(item1, items, infield, field, outformat, text, kf
 				tab[k][i + 1] = v
 			end
 		end
+	end
+	local kdel = {}
+	for k, t in pairs(tab) do
+		local del = true
+		for i, v in pairs(t) do
+			if v ~= 0 then 
+				del = nil 
+				break 
+			end
+		end
+		kdel[k] = del
+	end
+	for k, _ in pairs(kdel) do
+		tab[k] = nil
 	end
 	local count1 = 0
 	for k, v in pairs(tab) do
@@ -1617,7 +1637,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 				local tt = Talents.talents_types_def[ttn]
 				if tt then
 					local cat = tt.type:gsub("/.*", "")
-					local name = _t(cat):capitalize().._t(" / ")..tt.name:capitalize()
+					local name = _t(cat, "talent category"):capitalize().._t(" / ")..tt.name:capitalize()
 					local diff = (ttid[2] or 0) - (ttid[1] or 0)
 					if diff ~= 0 then
 						if ttid[1] then
@@ -1865,43 +1885,43 @@ function _M:getTextualDesc(compare_with, use_actor)
 
 		compare_fields(w, compare_with, field, "resist_unseen", "%-d%%", _t"Reduce all damage from unseen attackers: ")
 
-		if w.undead then
+		if w.undead and w.undead > 0 then
 			desc:add(_t"The wearer is treated as an undead.", true)
 		end
 
-		if w.demon then
+		if w.demon and w.demon > 0 then
 			desc:add(_t"The wearer is treated as a demon.", true)
 		end
 
-		if w.blind then
+		if w.blind and w.blind > 0 then
 			desc:add(_t"The wearer is blinded.", true)
 		end
 
-		if w.sleep then
+		if w.sleep and w.sleep > 0 then
 			desc:add(_t"The wearer is asleep.", true)
 		end
 
-		if w.blind_fight then
+		if w.blind_fight and w.blind_fight > 0 then
 			desc:add({"color", "YELLOW"}, _t"Blind-Fight: ", {"color", "LAST"}, _t"This item allows the wearer to attack unseen targets without any penalties.", true)
 		end
 
-		if w.lucid_dreamer then
+		if w.lucid_dreamer and w.lucid_dreamer > 0 then
 			desc:add({"color", "YELLOW"}, _t"Lucid Dreamer: ", {"color", "LAST"}, _t"This item allows the wearer to act while sleeping.", true)
 		end
 
-		if w.no_breath then
+		if w.no_breath and w.no_breath > 0 then
 			desc:add(_t"The wearer no longer has to breathe.", true)
 		end
 
-		if w.quick_weapon_swap then
+		if w.quick_weapon_swap and w.quick_weapon_swap > 0 then
 			desc:add({"color", "YELLOW"}, _t"Quick Weapon Swap:", {"color", "LAST"}, _t"This item allows the wearer to swap to their secondary weapon without spending a turn.", true)
 		end
 
-		if w.avoid_pressure_traps then
+		if w.avoid_pressure_traps and w.avoid_pressure_traps > 0 then
 			desc:add({"color", "YELLOW"}, _t"Avoid Pressure Traps: ", {"color", "LAST"}, _t"The wearer never triggers traps that require pressure.", true)
 		end
 
-		if w.speaks_shertul then
+		if w.speaks_shertul and w.speaks_shertul > 0 then
 			desc:add(_t"Allows you to speak and read the old Sher'Tul language.", true)
 		end
 
@@ -1996,7 +2016,7 @@ function _M:getTextualDesc(compare_with, use_actor)
 				desc.add(("Attach on item of type '#ORANGE#%s#LAST#'"):tformat(self.on_type):toTString(), true)
 			end
 		end
-		if self.on_slot then desc.add(("Attach on item worn on slot '#ORANGE#%s#LAST#'"):tformat(self.on_slot:lower():gsub('_', ' ')):toTString(), true) end
+		if self.on_slot then desc.add(("Attach on item worn on slot '#ORANGE#%s#LAST#'"):tformat(_t(self.on_slot, "entity on slot"):lower():gsub('_', ' ')):toTString(), true) end
 
 		if self.object_tinker and (self.object_tinker.combat or self.object_tinker.wielder) then
 			desc:add({"color","YELLOW"}, _t"When attach to an other item:", {"color", "LAST"}, true)
@@ -2541,6 +2561,7 @@ function _M:canAttachTinker(tinker, override)
 	if tinker.on_subtype and tinker.on_subtype ~= rawget(self, "subtype") then return end
 	if tinker.on_slot and tinker.on_slot ~= self.slot then return end
 	if self.tinker and not override then return end
+	if self.forbid_tinkers then return end
 	return true
 end
 

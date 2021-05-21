@@ -127,7 +127,7 @@ newTalent{
 	tactical = {BUFF = 2},
 	on_pre_use_ai = artifice_tools_npc_select, -- NPC's automatically pick a tool
 	action = function(self, t)
-		local chat = Chat.new("artifice", self, self, {player=self, slot=1, chat_tid=t.id, tool_ids=artifice_tool_tids})
+		local chat = Chat.new("artifice", {}, self, {player=self, slot=1, chat_tid=t.id, tool_ids=artifice_tool_tids})
 		local d = chat:invoke()
 		d.key:addBinds{ EXIT = function()
 			game:unregisterDialog(d)

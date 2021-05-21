@@ -542,34 +542,6 @@ newEffect{
 }
 
 newEffect{
-	name = "HUSK_OFS", image = "talents/animus_purge.png",
-	desc = _t"Husk out of sight",
-	long_desc = function(self, eff) return _t"The husk is out of sight of its host; direct control will be lost!" end,
-	type = "other",
-	subtype = { miscellaneous=true },
-	status = "detrimental",
-	parameters = { },
-	on_gain = function(self, err) return _t"#LIGHT_RED##Target# is out of sight of its master; direct control will break!", _t"+Out of sight" end,
-	activate = function(self, eff)
-	end,
-	deactivate = function(self, eff)
-	end,
-	on_timeout = function(self, eff)
-		if game.player ~= self then return true end
-
-		if eff.dur <= 1 then
-			game:onTickEnd(function()
-				game.logPlayer(self, "#LIGHT_RED#You lost sight of your husk for too long; it disintegrates!")
-				game.player:runStop(_t"husk out of sight")
-				game.player:restStop(_t"husk out of sight")
-				game.party:setPlayer(self.summoner)
-				self:die(self)
-			end)
-		end
-	end,
-}
-
-newEffect{
 	name = "CONTINUUM_DESTABILIZATION",
 	desc = _t"Continuum Destabilization",
 	long_desc = function(self, eff) return ("The target has been affected by space or time manipulations and is becoming more resistant to them (+%d)."):tformat(eff.power) end,
@@ -706,7 +678,7 @@ newEffect{
 				return
 		else
 				game._chronoworlds.see_threads_base = nil
-				local chat = Chat.new("chronomancy-see-threads", {name=_t"See the Threads"}, self, {turns=eff.max_dur})
+				local chat = Chat.new("chronomancy-see-threads", {name=_t"See the Threads", image = "talents/see_the_threads.png"}, self, {turns=eff.max_dur})
 				chat:invoke()
 			end
 		end)
@@ -1923,12 +1895,12 @@ newEffect{
 		table.sort(preys, "rank")
 		for _, p in ripairs(preys) do
 			local mprank, mpcolour = p:TextRank()
-			desc = desc..("\n- %s%s#LAST#"):tformat(mpcolour, p.name:capitalize())
+			desc = desc..("\n- %s%s#LAST#"):tformat(mpcolour, p:getName():capitalize())
 		end
 
 		local subtypes_list = table.get(self, "mark_prey2", game.level.id)
 		for st, _ in pairs(subtypes_list or {}) do
-			desc2 = desc2..("\n- #ffa0ff#%s#LAST#"):tformat(tostring(st):capitalize())
+			desc2 = desc2..("\n- #ffa0ff#%s#LAST#"):tformat(_t(tostring(st), "entity subtype"):capitalize())
 		end
 
 		return desc..desc2
@@ -3631,6 +3603,22 @@ newEffect{
 	activate = function(self, eff)
 	end,
 	deactivate = function(self, eff)
+	end,
+}
+
+newEffect{
+	name = "WEAK_GODMODE",
+	desc = _t"Weakdamage Mode", image = "effects/darkgod.png",
+	long_desc = function(self, eff) return ("All damage reduced to -90%%."):tformat() end,
+	type = "other",
+	subtype = { cheat=true },
+	status = "beneficial",
+	parameters = {power = 1},
+	decrease = 0, no_remove = true,
+	activate = function(self, eff)
+		local all = self.inc_damage.all or 0
+		all = -90 - all
+		self:effectTemporaryValue(eff, "inc_damage", {all=all})
 	end,
 }
 

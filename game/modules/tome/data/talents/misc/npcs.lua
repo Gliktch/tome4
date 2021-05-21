@@ -20,16 +20,16 @@
 local Object = require "mod.class.Object"
 
 -- race & classes
-newTalentType{ type="technique/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
-newTalentType{ no_silence=true, is_spell=true, type="chronomancy/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
-newTalentType{ no_silence=true, is_spell=true, type="spell/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
-newTalentType{ no_silence=true, is_spell=true, type="corruption/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
-newTalentType{ is_nature=true, type="wild-gift/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
-newTalentType{ type="psionic/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
-newTalentType{ type="other/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
-newTalentType{ type="undead/other", name = _t"other", hide = true, description = _t"Talents of the various entities of the world." }
-newTalentType{ type="undead/keepsake", name = _t"keepsake shadow", generic = true, description = _t"Keepsake shadows's innate abilities." }
-newTalentType{ is_mind=true, type="cursed/misc", name = _t"misc", description = _t"Talents of the various entities of the world." }
+newTalentType{ type="technique/other", name = _t("other", "talent type"), hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="chronomancy/other", name = _t("other", "talent type"), hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="spell/other", name = _t("other", "talent type"), hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="corruption/other", name = _t("other", "talent type"), hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ is_nature=true, type="wild-gift/other", name = _t("other", "talent type"), hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ type="psionic/other", name = _t("other", "talent type"), hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ type="other/other", name = _t("other", "talent type"), hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ type="undead/other", name = _t("other", "talent type"), hide = true, description = _t"Talents of the various entities of the world." }
+newTalentType{ type="undead/keepsake", name = _t("keepsake shadow", "talent type"), generic = true, description = _t"Keepsake shadows's innate abilities." }
+newTalentType{ is_mind=true, type="cursed/misc", name = _t("misc", "talent type"), description = _t"Talents of the various entities of the world." }
 
 local oldTalent = newTalent
 local newTalent = function(t) if type(t.hide) == "nil" then t.hide = true end return oldTalent(t) end

@@ -90,7 +90,7 @@ _M._no_save_fields.DHashProps = true
 -- alt_node fields (controls fields copied with cloneActor by default)
 _M.clone_nodes = table.merge({running_fov=false, running_prev=false,
 	-- spawning/death fields:
-	make_escort=false, escort_quest=false, summon=false, on_added_to_level=false, on_added=false, clone_on_hit=false, on_die=false, die=false, self_ressurect=false,
+	make_escort=false, escort_quest=false, summon=false, on_added_to_level=false, on_added=false, clone_on_hit=false, on_die=false, die=false, self_resurrect=false,
 	-- AI fields:
 	on_acquire_target=false, seen_by=false,
 	-- NPC interaction:
@@ -1980,7 +1980,7 @@ end
 -- Gets the full name of the Actor
 function _M:getName()
 	-- I18N actor names.
-	local name = _t(self.name) or _t"actor"
+	local name = _t(self.name, "entity name") or _t"actor"
 	return name
 end
 function _M:tooltip(x, y, seen_by)
@@ -2012,7 +2012,7 @@ function _M:tooltip(x, y, seen_by)
 	local ts = tstring{}
 	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self:getName(), {"color", "WHITE"})
 	if self.type == "humanoid" or self.type == "giant" then ts:add({"font","italic"}, "(", self.female and _t"female" or _t"male", ")", {"font","normal"}, true) else ts:add(true) end
-	ts:add(_t(self.type):capitalize(), " / ", _t(self.subtype):capitalize(), true)
+	ts:add(_t(self.type, "entity type"):capitalize(), " / ", _t(self.subtype, "entity subtype"):capitalize(), true)
 	ts:add(_t"Rank: ") ts:merge(rank_color:toTString()) ts:add(rank, {"color", "WHITE"}, true)
 	if self.hide_level_tooltip then ts:add({"color", 0, 255, 255}, _t"Level: unknown", {"color", "WHITE"}, true)
 	else ts:add({"color", 0, 255, 255}, ("Level: %d"):tformat(self.level), {"color", "WHITE"}, true) end
@@ -4334,6 +4334,8 @@ function _M:updateModdableTile()
 	if self.moddable_tile_base_alter then basebody = self:moddable_tile_base_alter(basebody) end
 	add[#add+1] = {image = base..basebody, bodyplace="body", auto_tall=1}
 
+	self:triggerHook{"Actor:updateModdableTile:skin", base=base, add=add}
+
 	if self.moddable_tile_tatoo then add[#add+1] = {image = base..self.moddable_tile_tatoo..".png", bodyplace="body", auto_tall=1} end
 
 	if not self:attr("disarmed") then
@@ -5911,9 +5913,10 @@ function _M:preUseTalent(ab, silent, fake, ignore_ressources)
 			end
 		end
 	end
-	if self:triggerHook{"Actor:preUseTalent", t=ab, silent=silent, fake=fake} then
+	if self:triggerHook{"Actor:preUseTalent", t=ab, silent=silent, fake=fake, ignore_ressources=ignore_ressources} then
 		return false
 	end
+	if self:fireTalentCheck("callbackOnTalentPre", ab, silent, fake, ignore_ressources) then return false end
 
 	if not ab.never_fail then
 		-- Confused ? lose a turn!
@@ -6055,6 +6058,7 @@ local sustainCallbackCheck = {
 	callbackOnWear = "talents_on_wear",
 	callbackOnTakeoff = "talents_on_takeoff",
 	callbackOnTalentChange = "talents_on_talent_change",
+	callbackOnTalentPre = "talents_on_talent_pre",
 	callbackOnTalentPost = "talents_on_talent_post",
 	callbackOnTemporaryEffect = "talents_on_tmp",
 	callbackOnTemporaryEffectRemove = "talents_on_tmp_remove",
@@ -7510,6 +7514,8 @@ _M.StatusTypes = {poison=true,	disease=true, cut=true, confusion=true, blind=tru
 	planechange=function(self) return game.level and game.level.data and game.level.data.no_planechange and 100 or 0 end,
 	summon=function(self) return self:attr("suppress_summon") and 100 or 0 end,
 }
+--- List of all of the above that are "bad" for the actor to be immune to, instead of beneficial
+_M.StatusTypesIsBad = {	worldport = true, planechange = true, summon = true, }
 
 --- list of actor status types that are associated with temporary effects
 _M.StatusTypesIsEffect = {}
@@ -7565,6 +7571,9 @@ function _M:canBe(what, eid)
 	local test = self.StatusTypes[what]
 	if not test then return true, 100 end
 	local resist = util.bound(type(test) == "function" and test(self) or 100*(self:attr(test) or 0), 0, 100)
+	if not self.StatusTypesIsBad[what] and self:attr("all_bad_immune") then	
+		resist = util.bound(resist + self:attr("all_bad_immune") * 100, 0, 100)
+	end
 	return resist == 0 and true or rng.percent(100-resist), 100-resist
 end
 

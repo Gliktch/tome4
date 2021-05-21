@@ -498,7 +498,8 @@ newTalent{
 	getChance = function(self, t) return self:combatTalentScale(t, 8, 25) end,
 	getPower = function(self, t) return self:combatTalentScale(t, 10, 50) end,
 	callbackOnTalentPost = function(self, t, ab)
-		if not ab.is_spell or ab.id == t.id or ab.no_energy == true then return end
+		if not ab.is_spell or ab.id == t.id or ab.no_energy == true or not self.x or not self.y then return end
+		if self:attr("sustains_at_birth_running") then return end
 		if not rng.percent(t.getChance(self, t)) then return end
 		self:projectApply({type="ball", radius=self:getTalentRadius(t), ignore_nullify_all_friendlyfire=true}, self.x, self.y, Map.ACTOR, function(target)
 			if target:attr("undead") then

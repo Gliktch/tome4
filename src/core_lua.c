@@ -739,17 +739,25 @@ static int sdl_font_size(lua_State *L)
 	return 0;
 }
 
+// This is stupid but needed because some fontshave varying hieight & lineskip relativities
+// and we always need the bigger of the two because we output to a final texture
+static int font_needed_height(TTF_Font *f) {
+	int h = TTF_FontHeight(f);
+	int l = TTF_FontLineSkip(f);
+	return (h > l) ? h : l;
+}
+
 static int sdl_font_height(lua_State *L)
 {
 	TTF_Font **f = (TTF_Font**)auxiliar_checkclass(L, "sdl{font}", 1);
-	lua_pushnumber(L, TTF_FontHeight(*f));
+	lua_pushnumber(L, font_needed_height(*f));
 	return 1;
 }
 
 static int sdl_font_lineskip(lua_State *L)
 {
 	TTF_Font **f = (TTF_Font**)auxiliar_checkclass(L, "sdl{font}", 1);
-	lua_pushnumber(L, TTF_FontLineSkip(*f));
+	lua_pushnumber(L, font_needed_height(*f));
 	return 1;
 }
 
@@ -981,7 +989,7 @@ static int sdl_font_draw(lua_State *L)
 	int b = luaL_checknumber(L, 6);
 	bool no_linefeed = lua_toboolean(L, 7);
 	bool direct_uid_draw = lua_toboolean(L, 8);
-	int h = TTF_FontHeight(*f);
+	int h = font_needed_height(*f);
 	SDL_Color color = {r,g,b};
 
 	int fullmax = max_texture_size / 2;
@@ -1799,6 +1807,32 @@ static int sdl_load_image_mem(lua_State *L)
 	lua_pushnumber(L, (*s)->h);
 
 	return 3;
+}
+
+static int sdl_find_empty_margins(lua_State *L) {
+	SDL_Surface **ss = (SDL_Surface**)auxiliar_checkclass(L, "sdl{surface}", 1);
+	SDL_Surface *s = *ss;
+
+	int x1 = s->w, x2 = 0, y1 = s->h, y2 = 0;
+
+	for (int x = 0; x < s->w; x++) {
+		for (int y = 0; y < s->h; y++) {
+			Uint32 *const target_pixel = (Uint32 *)((Uint8 *)s->pixels + y * s->pitch + x * s->format->BytesPerPixel);
+			Uint8 r, g, b, a;
+			SDL_GetRGBA(*target_pixel, s->format, &r, &g, &b, &a);
+			if (a != 0) {
+				if (x < x1) x1 = x;
+				if (y > x2) x2 = x;
+				if (y < y1) y1 = y;
+				if (y > y2) y2 = y;
+			}
+		}
+	}
+	lua_pushnumber(L, x1);
+	lua_pushnumber(L, x2);
+	lua_pushnumber(L, y1);
+	lua_pushnumber(L, y2);
+	return 4;
 }
 
 static int sdl_free_surface(lua_State *L)
@@ -3526,6 +3560,7 @@ static const struct luaL_Reg sdl_surface_reg[] =
 	{"close", sdl_free_surface},
 	{"erase", sdl_surface_erase},
 	{"getSize", sdl_surface_get_size},
+	{"getEmptyMargins", sdl_find_empty_margins},
 	{"merge", sdl_surface_merge},
 	{"toScreen", sdl_surface_toscreen},
 	{"toScreenWithTexture", sdl_surface_toscreen_with_texture},
