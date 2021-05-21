@@ -58,7 +58,7 @@ if tries < 100 then
 			self.autoexplore_ignore = true
 			if rng.percent(20) then game.log("There is nothing there.") return end
 
-			local m = game.zone:makeEntity(game.level, "actor", {properties={"undead"}, add_levels=10, random_boss={nb_classes=1, rank=3, ai = "tactical", loot_quantity = 0, no_loot_randart = true}}, nil, true)
+			local m = game.zone:makeEntity(game.level, "actor", {properties={"undead"}, add_levels=10, random_boss={nb_classes=1, rank=3.2, ai = "tactical", loot_quantity = 0, no_loot_randart = true}}, nil, true)
 			local x, y = util.findFreeGrid(who.x, who.y, 5, true, {[engine.Map.ACTOR]=true})
 			if m and x and y then
 				game.zone:addEntity(game.level, m, "actor", x, y)

@@ -28,6 +28,7 @@ require "mod.class.interface.PlayerStats"
 require "mod.class.interface.PlayerDumpJSON"
 require "mod.class.interface.PlayerExplore"
 require "mod.class.interface.PartyDeath"
+require "mod.class.interface.PlayerQuestPopup"
 local Map = require "engine.Map"
 local Dialog = require "engine.ui.Dialog"
 local ActorTalents = require "engine.interface.ActorTalents"
@@ -45,6 +46,7 @@ module(..., package.seeall, class.inherit(
 	mod.class.interface.PlayerStats,
 	mod.class.interface.PlayerDumpJSON,
 	mod.class.interface.PlayerExplore,
+	mod.class.interface.PlayerQuestPopup,
 	mod.class.interface.PartyDeath
 ))
 
@@ -421,6 +423,7 @@ function _M:act()
 		if self:enoughEnergy() then
 			game.paused = true
 			if game.uiset.logdisplay:getNewestLine() ~= "" then game.log("") end
+			if config.settings.cheat then game.log("Game Turn %d", game.turn) end
 		end
 	elseif not self.player then
 		self:useEnergy()
@@ -758,16 +761,16 @@ function _M:lineFOV(tx, ty, extra_block, block, sx, sy)
 	local sees_target = game.level.map.seens(tx, ty)
 
 	extra_block = type(extra_block) == "function" and extra_block
-		or type(extra_block) == "string" and function(_, x, y) return game.level.map:checkAllEntities(x, y, extra_block) end
+		or type(extra_block) == "string" and function(self, x, y) return game.level.map:checkAllEntities(x, y, extra_block, self) end
 
 	block = block or function(_, x, y)
 		if sees_target then
-			return game.level.map:checkAllEntities(x, y, "block_sight") or
-				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
+			return game.level.map:checkAllEntities(x, y, "block_sight", self) or
+				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move", self) and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
 				extra_block and extra_block(self, x, y)
 		elseif core.fov.distance(sx, sy, x, y) <= self.sight and (game.level.map.remembers(x, y) or game.level.map.seens(x, y)) then
-			return game.level.map:checkEntity(x, y, Map.TERRAIN, "block_sight") or
-				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
+			return game.level.map:checkEntity(x, y, Map.TERRAIN, "block_sight", self) or
+				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move", self) and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
 				extra_block and extra_block(self, x, y)
 		else
 			return true
@@ -1062,6 +1065,8 @@ function _M:restCheck()
 		act:incStamina(act.stamina_regen * perc)
 		act:incMana(act.mana_regen * perc)
 		act:incPsi(act.psi_regen * perc)
+		act:incPositive(act.positive_regen * perc)
+		act:incNegative(act.negative_regen * perc)
 	end end
 
 	-- Reload
@@ -1318,6 +1323,32 @@ function _M:runStopped()
 	-- if you stop at an object (such as on a trap), then mark it as seen
 	local obj = game.level.map:getObject(x, y, 1)
 	if obj then game.level.map.attrs(x, y, "obj_seen", true) end
+end
+
+--- Explain why the hotkeys page changed and how to get it back
+function _M:hotkeyPageTutorial()
+	config.settings.tome.tutorial_hotkey_pages = true
+	game:saveSettings("tome.tutorial_hotkey_pages", ("tome.tutorial_hotkey_pages = true\n"))
+	Dialog:simpleLongPopup("Hotkeys Bar Swapping", [[You have pressed a key to switch your hotkeys for the first time.
+By default the keys to switch are #{bold}#Page.Up#{normal}# and #{bold}#Page.Down#{normal}#.
+It can also be switched by using the mouse wheel when the mouse is over the hotkeys.
+So do not panic if you do not see your hotkeys anymore, just swap back and they will be there.]], 600)
+end
+
+--- Switch to previous hotkey page
+function _M:prevHotkeyPage()
+	if not config.settings.tome.tutorial_hotkey_pages then self:hotkeyPageTutorial() end
+	return engine.interface.PlayerHotkeys.prevHotkeyPage(self)
+end
+--- Switch to next hotkey page
+function _M:nextHotkeyPage()
+	if not config.settings.tome.tutorial_hotkey_pages then self:hotkeyPageTutorial() end
+	return engine.interface.PlayerHotkeys.nextHotkeyPage(self)
+end
+--- Switch to hotkey page
+function _M:setHotkeyPage(v)
+	if not config.settings.tome.tutorial_hotkey_pages then self:hotkeyPageTutorial() end
+	return engine.interface.PlayerHotkeys.setHotkeyPage(self, v)
 end
 
 --- Uses an hotkeyed talent
@@ -1677,65 +1708,6 @@ function _M:on_targeted(act)
 		else
 			game.logPlayer(self, "#LIGHT_RED#You sense that Something has taken notice of you ...")
 		end
-	end
-end
-
------- Quest Events
-local quest_popups = {}
-local function tick_end_quests()
-	local QuestPopup = require "mod.dialogs.QuestPopup"
-
-	local list = {}
-	for quest_id, status in pairs(quest_popups) do
-		list[#list+1] = { id=quest_id, status=status }
-	end
-	quest_popups = {}
-	table.sort(list, function(a, b) return a.status > b.status end)
-
-	local lastd = nil
-	for _, q in ipairs(list) do
-		local quest = game.player:hasQuest(q.id)
-		local d = QuestPopup.new(quest, q.status)
-		if lastd then
-			lastd.unload = function(self) game:registerDialog(d) end
-		else
-			game:registerDialog(d)
-		end
-		lastd = d
-	end
-end
-
-function _M:questPopup(quest, status)
-	if game and game.creating_player then return end
-	if not quest_popups[quest.id] or quest_popups[quest.id] < status then
-		quest_popups[quest.id] = status
-		if not game:onTickEndGet("quest_popups") then game:onTickEnd(tick_end_quests, "quest_popups") end
-	end
-end
-
-function _M:on_quest_grant(quest)
-	game.logPlayer(game.player, "#LIGHT_GREEN#Accepted quest '%s'! #WHITE#(Press 'j' to see the quest log)", quest.name)
-	if not config.settings.tome.quest_popup then game.bignews:saySimple(60, "#LIGHT_GREEN#Accepted quest '%s'!", quest.name)
-	else self:questPopup(quest, -1) end
-end
-
-function _M:on_quest_status(quest, status, sub)
-	if sub then
-		game.logPlayer(game.player, "#LIGHT_GREEN#Quest '%s' status updated! #WHITE#(Press 'j' to see the quest log)", quest.name)
-		if not config.settings.tome.quest_popup then game.bignews:saySimple(60, "#LIGHT_GREEN#Quest '%s' updated!", quest.name)
-		else self:questPopup(quest, engine.Quest.PENDING) end
-	elseif status == engine.Quest.COMPLETED then
-		game.logPlayer(game.player, "#LIGHT_GREEN#Quest '%s' completed! #WHITE#(Press 'j' to see the quest log)", quest.name)
-		if not config.settings.tome.quest_popup then game.bignews:saySimple(60, "#LIGHT_GREEN#Quest '%s' completed!", quest.name)
-		else self:questPopup(quest, status) end
-	elseif status == engine.Quest.DONE then
-		game.logPlayer(game.player, "#LIGHT_GREEN#Quest '%s' is done! #WHITE#(Press 'j' to see the quest log)", quest.name)
-		if not config.settings.tome.quest_popup then game.bignews:saySimple(60, "#LIGHT_GREEN#Quest '%s' done!", quest.name)
-		else self:questPopup(quest, status) end
-	elseif status == engine.Quest.FAILED then
-		game.logPlayer(game.player, "#LIGHT_RED#Quest '%s' is failed! #WHITE#(Press 'j' to see the quest log)", quest.name)
-		if not config.settings.tome.quest_popup then game.bignews:saySimple(60, "#LIGHT_RED#Quest '%s' failed!", quest.name)
-		else self:questPopup(quest, status) end
 	end
 end
 

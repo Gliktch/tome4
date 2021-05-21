@@ -349,7 +349,7 @@ newEntity{
 			who.turn_procs.shield_wintry = true
 			
 			local dam = special.shield_wintry(who)
-			local damage = who:spellCrit(dam)
+			local damage = who:mindCrit(dam)
 			local check = math.max(who:combatSpellpower(), who:combatMindpower(), who:combatAttack())
 			local tg = {type="ball", range=0, radius=4, selffire=false, friendlyfire=false}
 			local grids = who:project(tg, who.x, who.y, DamageType.COLDNEVERMOVE, {dur=3, dam=dam, apply_power = check})
@@ -540,7 +540,7 @@ newEntity{
 			who.turn_procs.shield_wrathful[target.uid] = true
 			
 
-			local tg = {type="hit", range=10}
+			local tg = {type="hit", range=10, friendlyfire=false}
 			local dam = special.shield_wrathful(who)
 			local damage = who:spellCrit(dam)
 

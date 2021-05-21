@@ -129,6 +129,7 @@ newTalent{
 		local damage = t.getDamage(self, t) * power
 		local knockback = t.getKnockback(self, t)
 		t.forceHit(self, t, target, self.x, self.y, damage, knockback, 7, power, 10)
+		game:playSoundNear(self, "actions/punch" .. tostring(rng.range(2, 4)))
 		return true
 	end,
 	passives = function(self, t, p)

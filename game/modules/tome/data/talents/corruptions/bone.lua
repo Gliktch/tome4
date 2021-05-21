@@ -191,9 +191,10 @@ newTalent{
 	iconOverlay = function(self, t, p)
 		local p = self.sustain_talents[t.id]
 		if not p or not p.nb then return "" end
-		return p.nb.."/"..t.getNb(self, t), "buff_font_smaller"
+		return  "#LIGHT_GREEN#"..p.nb.."/"..t.getNb(self, t).."#LAST#", "buff_font_smaller"
 	end,
 	callbackOnRest = function(self, t)
+		if game and game.zone and game.zone.wilderness then return end
 		local nb = t.getNb(self, t)
 		local p = self.sustain_talents[t.id]
 		if not p or p.nb < nb then return true end

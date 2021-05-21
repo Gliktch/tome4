@@ -789,7 +789,7 @@ newTalent{
 		return false -- NPC's don't actually use the action function
 	end,
 	action = function(self, t)
-		local chat = Chat.new("trap-priming", self, self, {player=self, trapping_tids=traps_getunlocked(self, t), chat_talent=t})
+		local chat = Chat.new("trap-priming", t, self, {player=self, trapping_tids=traps_getunlocked(self, t), chat_talent=t})
 		local d = chat:invoke()
 		d.key:addBinds{ EXIT = function()
 			self:talentDialogReturn(self.trap_primed, self.trap_primed)

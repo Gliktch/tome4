@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 -- race & classes
-newTalentType{ type="tutorial", name = _t"tutorial", hide = true, description = _t"Tutorial-specific talents." }
+newTalentType{ type="tutorial", name = _t("tutorial", "talent type"), hide = true, description = _t"Tutorial-specific talents." }
 
 newTalent{
 	name = "Shove", short_name = "TUTORIAL_PHYS_KB",

@@ -40,7 +40,7 @@ for _, room in ripairs(bsp.rooms) do
 end
 
 -- Connect them
-for _, edge in ipairs(bsp:mstEdges(1)) do
+for _, edge in ipairs(bsp:mstEdges(5)) do
 	local points = edge.points
 	tm:put(rng.table(points), '+')
 end

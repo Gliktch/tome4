@@ -240,20 +240,20 @@ newTalent{
 			life=target.life*modifier/100, max_life=target.max_life*modifier/100, die_at=target.die_at*modifier/100,
 			exp_worth=0, forceLevelup=function() end,
 			ai_target = {actor=target},
-			ai = "summoned", ai_real = target.ai,
+			ai = "summoned", ai_real = "tactical",
 			desc = _t[[A dark, shadowy shape whose form resembles the creature it was copied from. It is not a perfect replica, though, and it makes you feel uneasy to look at it.]],
 		}
 		table.mergeAdd(m.resists, {[DamageType.DARKNESS]=50, [DamageType.LIGHT]=- 50})
 		table.mergeAdd(m.inc_damage, {all = -50})
-		m:removeTimedEffectsOnClone()
 		m:unlearnTalentsOnClone()
 
 		if m.talents.T_SUMMON then m.talents.T_SUMMON = nil end
 		if m.talents.T_MULTIPLY then m.talents.T_MULTIPLY = nil end
 
 		game.zone:addEntity(game.level, m, "actor", x, y)
+		m:removeTimedEffectsOnClone()
+		
 		game.level.map:particleEmitter(x, y, 1, "shadow")
-
 		game:playSoundNear(self, "talents/spell_generic")
 		return true
 	end,

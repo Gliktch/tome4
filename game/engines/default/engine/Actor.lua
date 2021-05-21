@@ -519,18 +519,18 @@ function _M:lineFOV(tx, ty, extra_block, block, sx, sy)
 		(game.level.map.lites(tx, ty) or act and self:canSee(act))
 
 	extra_block = type(extra_block) == "function" and extra_block
-		or type(extra_block) == "string" and function(_, x, y) return game.level.map:checkAllEntities(x, y, extra_block) end
+		or type(extra_block) == "string" and function(self, x, y) return game.level.map:checkAllEntities(x, y, extra_block, self) end
 
 	block = block
 		or sees_target and function(_, x, y)
-			return game.level.map:checkAllEntities(x, y, "block_sight") or
-				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
+			return game.level.map:checkAllEntities(x, y, "block_sight", self) or
+				game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move", self) and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
 				extra_block and extra_block(self, x, y)
 			end
 		or function(_, x, y)
 			if (self.sight and core.fov.distance(sx, sy, x, y) <= self.sight or not self.sight) and game.level.map.lites(x, y) then
-				return game.level.map:checkEntity(x, y, Map.TERRAIN, "block_sight") or
-					game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move") and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
+				return game.level.map:checkEntity(x, y, Map.TERRAIN, "block_sight", self) or
+					game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "block_move", self) and not game.level.map:checkEntity(x, y, engine.Map.TERRAIN, "pass_projectile") or
 					extra_block and extra_block(self, x, y)
 			else
 				return true
@@ -613,5 +613,5 @@ function _M:him_her() return string.him_her(self) end
 function _M:his_her_self() return string.his_her_self(self) end
 
 function _M:getName()
-	return _t(self.name)
+	return _t(self.name, "entity name")
 end

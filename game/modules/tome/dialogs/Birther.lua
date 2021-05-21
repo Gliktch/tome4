@@ -90,7 +90,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	self.c_ok = Button.new{text=_t"     Play!     ", fct=function() self:atEnd("created") end}
 	self.c_random = Button.new{text=_t"Random!", fct=function() self:randomBirth() end}
 	self.c_premade = Button.new{text=_t"Load premade", fct=function() self:loadPremadeUI() end}
-	self.c_tile = Button.new{text=_t"Select custom tile", fct=function() self:selectTile() end}
+	self.c_tile = Button.new{text=_t"Custom tile", fct=function() self:selectTile() end}
 	self.c_cancel = Button.new{text=_t"Cancel", fct=function() self:atEnd("quit") end}
 	self.c_tut = Button.new{text=_t"Tutorial", fct=function() self:tutorial() end}
 	self.c_options = Button.new{text=_t"Customize", fct=function() self:customizeOptions() end}
@@ -123,7 +123,9 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	self.c_permadeath_text = Textzone.new{auto_width=true, auto_height=true, text=_t"Permadeath: "}
 	self.c_permadeath = Dropdown.new{width=150, fct=function(item) self:permadeathUse(item) end, on_select=function(item) self:updateDesc(item) end, list=self.all_permadeaths, nb_items=#self.all_permadeaths}
 
-	self.c_desc = TextzoneList.new{width=math.floor(self.iw / 3 - 10), height=self.ih - self.c_female.h - self.c_ok.h - self.c_difficulty.h - self.c_campaign.h - 10, scrollbar=true, pingpong=20, no_color_bleed=true}
+	local raceclass_w = math.min(262, math.floor(self.iw / 3 - 10))
+
+	self.c_desc = TextzoneList.new{width=self.iw - 2 * raceclass_w, height=self.ih - self.c_female.h - self.c_ok.h - self.c_difficulty.h - self.c_campaign.h - 10, scrollbar=true, pingpong=20, no_color_bleed=true}
 
 	self:setDescriptor("base", "base")
 	self:setDescriptor("world", self.default_campaign)
@@ -132,7 +134,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	self:setDescriptor("sex", "Female")
 
 	self:generateRaces()
-	self.c_race = TreeList.new{width=math.floor(self.iw / 3 - 10), height=self.ih - self.c_female.h - self.c_ok.h - (self.c_extra_options.hide and 0 or self.c_extra_options.h) - self.c_difficulty.h - self.c_campaign.h - 10, scrollbar=true, columns={
+	self.c_race = TreeList.new{width=raceclass_w, height=self.ih - self.c_female.h - self.c_ok.h - (self.c_extra_options.hide and 0 or self.c_extra_options.h) - self.c_difficulty.h - self.c_campaign.h - 10, scrollbar=true, columns={
 		{width=100, display_prop="name"},
 	}, tree=self.all_races,
 		fct=function(item, sel, v) self:raceUse(item, sel, v) end,
@@ -141,7 +143,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	}
 
 	self:generateClasses()
-	self.c_class = TreeList.new{width=math.floor(self.iw / 3 - 10), height=self.ih - self.c_female.h - self.c_ok.h - self.c_difficulty.h - self.c_campaign.h - 10, scrollbar=true, columns={
+	self.c_class = TreeList.new{width=raceclass_w, height=self.ih - self.c_female.h - self.c_ok.h - self.c_difficulty.h - self.c_campaign.h - 10, scrollbar=true, columns={
 		{width=100, display_prop="name"},
 	}, tree=self.all_classes,
 		fct=function(item, sel, v) self:classUse(item, sel, v) end,
@@ -393,10 +395,10 @@ function _M:makeDefault()
 	self:setDescriptor("permadeath", "Adventure")
 	self:setDescriptor("race", "Human")
 	self:setDescriptor("subrace", "Cornac")
-	-- self:setDescriptor("class", "Mage")
-	-- self:setDescriptor("subclass", "Archmage")
-	self:setDescriptor("class", "Warrior")
-	self:setDescriptor("subclass", "Berserker")
+	self:setDescriptor("class", "Adventurer")
+	self:setDescriptor("subclass", "Wanderer")
+	-- self:setDescriptor("class", "Warrior")
+	-- self:setDescriptor("subclass", "Berserker")
 	__module_extra_info.no_birth_popup = true
 	self:atEnd("created")
 end
@@ -676,7 +678,7 @@ function _M:updateDescriptors()
 
 			if #clist > 0 then
 				table.sort(clist, function(a, b) return a.name < b.name end)
-				table.insert(self.cosmetic_options, {name=_t(kind:gsub("_", " "):capitalize()), kind=kind, color=function() return colors.simple(colors.GOLD) end, nodes=clist})
+				table.insert(self.cosmetic_options, {name=_t(kind:gsub("_", " "):capitalize(), "birth facial category"), kind=kind, color=function() return colors.simple(colors.GOLD) end, nodes=clist})
 			end
 		end
 	end end
@@ -804,7 +806,7 @@ function _M:generateCampaigns()
 		if self:isDescriptorAllowed(d, {difficulty=true, permadeath=true, race=true, subrace=true, class=true, subclass=true}) then
 			local locked = self:getLock(d)
 			if locked == true then
-				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
+				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end
@@ -831,7 +833,7 @@ function _M:generateDifficulties()
 		if self:isDescriptorAllowed(d, {permadeath=true, race=true, subrace=true, class=true, subclass=true}) then
 			local locked = self:getLock(d)
 			if locked == true then
-				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
+				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end
@@ -863,7 +865,7 @@ function _M:generatePermadeaths()
 		if self:isDescriptorAllowed(d, {race=true, subrace=true, class=true, subclass=true}) then
 			local locked = self:getLock(d)
 			if locked == true then
-				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext, locked_select=d.locked_select }
+				list[#list+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}:toString(), id=d.name, locked=true, desc=util.getval(d.locked_desc, self)..locktext, locked_select=d.locked_select }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end
@@ -898,7 +900,7 @@ function _M:generateRaces()
 				if d.descriptor_choices.subrace[sd.name] == "allow" then
 					local locked = self:getLock(sd)
 					if locked == true then
-						nodes[#nodes+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}, id=sd.name, pid=d.name, locked=true, desc=util.getval(sd.locked_desc, self)..locktext }
+						nodes[#nodes+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}, id=sd.name, pid=d.name, locked=true, desc=util.getval(sd.locked_desc, self)..locktext }
 					elseif locked == false then
 						local desc = sd.desc
 						if type(desc) == "table" then desc = table.concat(sd.desc, "\n") end
@@ -910,7 +912,7 @@ function _M:generateRaces()
 
 			local locked = self:getLock(d)
 			if locked == true then
-				tree[#tree+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, "-- locked --", {"font", "normal"}}, id=d.name, shown = oldtree[d.name], nodes = nodes, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
+				tree[#tree+1] = { name = tstring{{"font", "italic"}, {"color", "GREY"}, _t"-- locked --", {"font", "normal"}}, id=d.name, shown = oldtree[d.name], nodes = nodes, locked=true, desc=util.getval(d.locked_desc, self)..locktext }
 			elseif locked == false then
 				local desc = d.desc
 				if type(desc) == "table" then desc = table.concat(d.desc, "\n") end

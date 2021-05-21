@@ -52,8 +52,8 @@ function _M:project(t, x, y, damtype, dam, particles)
 --	if type(dam) == "number" and dam < 0 then return end
 	local typ = Target:getType(t)
 	typ.source_actor = self
-	typ.start_x = typ.start_x or typ.x or typ.source_actor and typ.source_actor.x or self.x
-	typ.start_y = typ.start_y or typ.y or typ.source_actor and typ.source_actor.y or self.y
+	typ.start_x = typ.start_x or typ.x or (typ.source_actor and typ.source_actor.x or self.x)
+	typ.start_y = typ.start_y or typ.y or (typ.source_actor and typ.source_actor.y or self.y)
 
 	local grids = {}
 	local function addGrid(x, y)
@@ -66,7 +66,7 @@ function _M:project(t, x, y, damtype, dam, particles)
 	local stop_x, stop_y = typ.start_x, typ.start_y
 	local stop_radius_x, stop_radius_y = typ.start_x, typ.start_y
 	local l, is_corner_blocked
-	if typ.source_actor.lineFOV then
+	if typ.source_actor.lineFOV and typ.source_actor.x and typ.source_actor.y then
 		l = typ.source_actor:lineFOV(x, y, nil, nil, typ.start_x, typ.start_y)
 	else
 		l = core.fov.line(typ.start_x, typ.start_y, x, y)

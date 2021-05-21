@@ -34,6 +34,7 @@ local function knives(self)
 		physcrit = 0,
 		dammod = {dex=0.7, str=0.5},
 		melee_project = {},
+		no_garrote = true,
 		special_on_crit = {fct=function(combat, who, target)
 			if not self:knowTalent(self.T_PRECISE_AIM) then return end
 			if not rng.percent(self:callTalent(self.T_PRECISE_AIM, "getChance")) then return end
@@ -192,7 +193,7 @@ APR: %d
 Crit Chance: %+d%%
 Crit mult: %d%%
 Uses Stats: %s
-]]):tformat(t.range(self, t), dmg, dmg*damrange, atk, _t(talented), apr, crit, crit_mult, stat_desc)
+]]):tformat(t.range(self, t), dmg, dmg*damrange, atk, _t(talented, "entity combat talented"), apr, crit, crit_mult, stat_desc)
 	end,
 	info = function(self, t)
 		local nb = t.getNb(self,t)
@@ -204,7 +205,7 @@ Uses Stats: %s
 		local weapon_apr = knives.apr
 		local weapon_crit = knives.physcrit
 		return ([[Equip a bandolier holding up to %d throwing knives, allowing you to attack from range.  You automatically reload %d knives per turn while resting, or half as many while moving.
-		The base power, Accuracy, Armour penetration, and critical strike chance of your knives increase with talent level, and damage is improved with Dagger Mastery.
+		The base power, Armour penetration, and critical strike chance of your knives increase with talent level, accuracy increase with your accuracy, and damage is improved with Dagger Mastery.
 		Throwing Knives count as melee attacks for the purpose of on-hit effects.
 		Effective Throwing Knife Stats:
 

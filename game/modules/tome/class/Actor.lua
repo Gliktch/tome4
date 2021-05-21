@@ -90,7 +90,7 @@ _M._no_save_fields.DHashProps = true
 -- alt_node fields (controls fields copied with cloneActor by default)
 _M.clone_nodes = table.merge({running_fov=false, running_prev=false,
 	-- spawning/death fields:
-	make_escort=false, escort_quest=false, summon=false, on_added_to_level=false, on_added=false, clone_on_hit=false, on_die=false, die=false, self_ressurect=false,
+	make_escort=false, escort_quest=false, summon=false, on_added_to_level=false, on_added=false, clone_on_hit=false, on_die=false, die=false, self_resurrect=false,
 	-- AI fields:
 	on_acquire_target=false, seen_by=false,
 	-- NPC interaction:
@@ -115,7 +115,7 @@ _M.__is_actor = true
 _M.stats_per_level = 3
 
 -- Speeds are multiplicative, not additive
-_M.temporary_values_conf.global_speed_add = "newest"
+_M.temporary_values_conf.global_speed_add = "add"
 _M.temporary_values_conf.movement_speed = "add" -- Prevent excessive movement speed compounding
 _M.temporary_values_conf.combat_physspeed = "add" -- Prevent excessive attack speed compounding
 _M.temporary_values_conf.combat_spellspeed = "add" -- Prevent excessive spell speed compounding
@@ -1981,7 +1981,7 @@ end
 -- Gets the full name of the Actor
 function _M:getName()
 	-- I18N actor names.
-	local name = _t(self.name) or _t"actor"
+	local name = _t(self.name, "entity name") or _t"actor"
 	return name
 end
 function _M:tooltip(x, y, seen_by)
@@ -2013,7 +2013,7 @@ function _M:tooltip(x, y, seen_by)
 	local ts = tstring{}
 	ts:add({"uid",self.uid}) ts:merge(rank_color:toTString()) ts:add(self:getName(), {"color", "WHITE"})
 	if self.type == "humanoid" or self.type == "giant" then ts:add({"font","italic"}, "(", self.female and _t"female" or _t"male", ")", {"font","normal"}, true) else ts:add(true) end
-	ts:add(_t(self.type):capitalize(), " / ", _t(self.subtype):capitalize(), true)
+	ts:add(_t(self.type, "entity type"):capitalize(), " / ", _t(self.subtype, "entity subtype"):capitalize(), true)
 	ts:add(_t"Rank: ") ts:merge(rank_color:toTString()) ts:add(rank, {"color", "WHITE"}, true)
 	if self.hide_level_tooltip then ts:add({"color", 0, 255, 255}, _t"Level: unknown", {"color", "WHITE"}, true)
 	else ts:add({"color", 0, 255, 255}, ("Level: %d"):tformat(self.level), {"color", "WHITE"}, true) end
@@ -2304,9 +2304,10 @@ function _M:regenAmmo()
 	if not r then return end
 	if ammo.combat.shots_left >= ammo.combat.capacity then ammo.combat.shots_left = ammo.combat.capacity return end
 	ammo.combat.reload_counter = (ammo.combat.reload_counter or 0) + 1
-	if ammo.combat.reload_counter == r then
+	if ammo.combat.reload_counter >= r then
+		local reloaded = self.reloadRate and self:reloadRate() or 1
 		ammo.combat.reload_counter = 0
-		ammo.combat.shots_left = util.bound(ammo.combat.shots_left + 1, 0, ammo.combat.capacity)
+		ammo.combat.shots_left = util.bound(ammo.combat.shots_left + reloaded, 0, ammo.combat.capacity)
 	end
 end
 
@@ -2604,11 +2605,6 @@ function _M:onTakeHit(value, src, death_note)
 				game:delayedLogDamage(src, self, 0, ("#SLATE#(%d deflected)#LAST#"):tformat(oldval - value), false)
 			end
 		end
-	end
-
-	if value > 0 and self:hasEffect(self.EFF_RAMPAGE) then
-		local eff = self:hasEffect(self.EFF_RAMPAGE)
-		value = self.tempeffect_def[self.EFF_RAMPAGE].do_onTakeHit(self, eff, value)
 	end
 
 	if value > 0 and self:hasEffect(self.EFF_BECKONED) then
@@ -3855,7 +3851,11 @@ end
 
 function _M:resetToFull()
 	if self.dead then return end
-	self.life = self.max_life
+	if self.max_life_reset_to_full then
+		self.life = self.max_life_reset_to_full
+	else
+		self.life = self.max_life
+	end
 
 	-- go through all resources
 	for res, res_def in ipairs(_M.resources_def) do
@@ -4261,6 +4261,28 @@ function _M:updateModdableTilePrepare()
 		end
 		return false
 	end
+	
+	if self.tk_weapon_particle then
+		self:removeParticles(self.tk_weapon_particle)
+		self.tk_weapon_particle = nil
+	end
+	local i = self:getInven(self.INVEN_PSIONIC_FOCUS)
+	if i and i[1] and i[1].image then
+		local s = 17
+		if i[1].twohanded then
+			s = 21
+			if i[1].subtype == "staff" then
+				s = 24
+			end
+		elseif i[1].subtype == "dagger" then
+			s = 14
+		elseif i[1].type == "gem" or i[1].subtype == "mindstar" then
+			s = 11
+		end
+	
+		self.tk_weapon_particle = self:addParticles(Particles.new("tk_rotating_weapon", 1, {img=i[1].image:sub(0,-5), toback=true, scale=s}))
+	end
+	
 	self:removeAllMOs()
 	return true
 end
@@ -4312,6 +4334,8 @@ function _M:updateModdableTile()
 	local basebody = self.moddable_tile_base_shimmer or self.moddable_tile_base or "base_01.png"
 	if self.moddable_tile_base_alter then basebody = self:moddable_tile_base_alter(basebody) end
 	add[#add+1] = {image = base..basebody, bodyplace="body", auto_tall=1}
+
+	self:triggerHook{"Actor:updateModdableTile:skin", base=base, add=add}
 
 	if self.moddable_tile_tatoo then add[#add+1] = {image = base..self.moddable_tile_tatoo..".png", bodyplace="body", auto_tall=1} end
 
@@ -5891,9 +5915,10 @@ function _M:preUseTalent(ab, silent, fake, ignore_ressources)
 			end
 		end
 	end
-	if self:triggerHook{"Actor:preUseTalent", t=ab, silent=silent, fake=fake} then
+	if self:triggerHook{"Actor:preUseTalent", t=ab, silent=silent, fake=fake, ignore_ressources=ignore_ressources} then
 		return false
 	end
+	if self:fireTalentCheck("callbackOnTalentPre", ab, silent, fake, ignore_ressources) then return false end
 
 	if not ab.never_fail then
 		-- Confused ? lose a turn!
@@ -6035,6 +6060,7 @@ local sustainCallbackCheck = {
 	callbackOnWear = "talents_on_wear",
 	callbackOnTakeoff = "talents_on_takeoff",
 	callbackOnTalentChange = "talents_on_talent_change",
+	callbackOnTalentPre = "talents_on_talent_pre",
 	callbackOnTalentPost = "talents_on_talent_post",
 	callbackOnTemporaryEffect = "talents_on_tmp",
 	callbackOnTemporaryEffectRemove = "talents_on_tmp_remove",
@@ -7490,6 +7516,8 @@ _M.StatusTypes = {poison=true,	disease=true, cut=true, confusion=true, blind=tru
 	planechange=function(self) return game.level and game.level.data and game.level.data.no_planechange and 100 or 0 end,
 	summon=function(self) return self:attr("suppress_summon") and 100 or 0 end,
 }
+--- List of all of the above that are "bad" for the actor to be immune to, instead of beneficial
+_M.StatusTypesIsBad = {	worldport = true, planechange = true, summon = true, }
 
 --- list of actor status types that are associated with temporary effects
 _M.StatusTypesIsEffect = {}
@@ -7545,6 +7573,9 @@ function _M:canBe(what, eid)
 	local test = self.StatusTypes[what]
 	if not test then return true, 100 end
 	local resist = util.bound(type(test) == "function" and test(self) or 100*(self:attr(test) or 0), 0, 100)
+	if not self.StatusTypesIsBad[what] and self:attr("all_bad_immune") then	
+		resist = util.bound(resist + self:attr("all_bad_immune") * 100, 0, 100)
+	end
 	return resist == 0 and true or rng.percent(100-resist), 100-resist
 end
 
@@ -8297,16 +8328,18 @@ function _M:projectDoAct(typ, tg, damtype, dam, particles, px, py, tmp)
 	if not game.level.map:checkAllEntities(px, py, "projected", self, typ, px, py, damtype, dam, particles) then
 		-- Check self- and friendly-fire, and if the projection "misses"
 		local act = game.level.map(px, py, engine.Map.ACTOR)
+		local shouldHit = true
 		if act and act == self and not (
-			((type(typ.selffire) == "number" and rng.percent(typ.selffire))
-			or
-			(type(typ.selffire) ~= "number" and typ.selffire))
-			and (act == game.player and (typ.player_selffire or act.allow_player_selffire))  -- Disable friendlyfire for player projectiles unless explicitly overriden
-			)
-			then
+				((type(typ.selffire) == "number" and rng.percent(typ.selffire))
+						or
+						(type(typ.selffire) ~= "number" and typ.selffire))
+						and (act == game.player and (typ.player_selffire or act.allow_player_selffire))  -- Disable friendlyfire for player projectiles unless explicitly overriden
+		) then
+			shouldHit = false
 		elseif act and self.reactionToward and (self:reactionToward(act) >= 0) and not ((type(typ.friendlyfire) == "number" and rng.percent(typ.friendlyfire)) or (type(typ.friendlyfire) ~= "number" and typ.friendlyfire)) then
-		-- Otherwise hit
-		else
+			shouldHit = false
+		end
+		if shouldHit or (act == self and self:attr("encased_in_ice")) then
 			DamageType:projectingFor(self, {project_type=tg})
 			if type(damtype) == "function" then if damtype(px, py, tg, self, tmp) then return true end
 			else DamageType:get(damtype).projector(self, px, py, damtype, dam, tmp, nil, tg) end

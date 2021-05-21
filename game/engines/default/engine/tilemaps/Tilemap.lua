@@ -27,10 +27,22 @@ module(..., package.seeall, class.make)
 
 function _M:init(size, fill_with)
 	if size then
-		self:setSize(size[1], size[2], fill_with)
+		if size.getClass and size:getClass() == _M then
+			self:setSize(size.data_w, size.data_h)
+			self.data = table.clone(size.data, true)
+		elseif size.x and size.y then
+			self:setSize(size.x, size.y, fill_with)
+		else
+			self:setSize(size[1], size[2], fill_with)
+		end
 	end
 	self.merged_pos = self:point(1, 1)
 	self.on_merged_at = {}
+end
+
+--- Does nothing, to be overridden if needed
+function _M:build()
+	return self
 end
 
 function _M:getSize()
@@ -139,8 +151,24 @@ point_meta = {
 		if type(b) == "number" then return _M:point(a.x / b, a.y / b)
 		else return _M:point(a.x / b.x, a.y / b.y) end
 	end,
+	__unm = function(a)
+		return _M:point(-a.x, -a.y)
+	end,
+	__len = function(a)
+		return a:area()
+	end,
 	__eq = function(a, b)
 		return a.x == b.x and a.y == b.y
+	end,
+	__lt = function(a, b)
+		if type(a) == "number" then return a < b.x and a < b.y end
+		if type(b) == "number" then return a.x < b and a.y < b end
+		return a.x < b.x and a.y < b.y
+	end,
+	__le = function(a, b)
+		if type(a) == "number" then return a <= b.x and a <= b.y end
+		if type(b) == "number" then return a.x <= b and a.y <= b end
+		return a.x <= b.x and a.y <= b.y
 	end,
 	__tostring = function(p)
 		return ("Point(%d x %d)"):format(p.x, p.y)
@@ -156,6 +184,10 @@ point_meta = {
 			return core.fov.distance(p.x, p.y, p2.x, p2.y)
 		end,
 		addDir = function(p, dir)
+			local dx, dy = util.dirToCoord(dir)
+			return _M:point(p.x + dx, p.y + dy)
+		end,
+		dir = function(p, dir) -- same as addDir
 			local dx, dy = util.dirToCoord(dir)
 			return _M:point(p.x + dx, p.y + dy)
 		end,
@@ -518,6 +550,7 @@ end
 
 --- Returns the bounding rectangle of a list of points
 function _M:pointsBoundingRectangle(list)
+	if #list == 0 then return self:point(1, 1), self:point(1, 1) end
 	local to = self:point(1, 1)
 	local from = self:point(999999, 999999)
 	for _, p in ipairs(list) do
@@ -531,11 +564,23 @@ end
 
 local group_meta
 
---- Make a point data, can be added
+--- Make a group data
 function _M:group(list)
-	local g = {list=list}
+	local g = {list=list, is_tm_group=true}
 	setmetatable(g, group_meta)
 	g:updateReverse()
+	return g
+end
+
+--- Return a group that is the merge of all groups
+function _M:mergeGroups(...)
+	local g = self:group{}
+	local groups = {...}
+	-- Assume if the first arg is not a group that it is a list of groups
+	if not groups[1].is_tm_group then groups = groups[1] end
+	for _, ag in ipairs(groups) do
+		for _, p in ipairs(ag.list) do g:add(p:clone()) end
+	end
 	return g
 end
 
@@ -642,6 +687,9 @@ group_meta = {
 			end
 			g:updateReverse()
 		end,
+		iterate = function(g)
+			return ipairs_value(g.list)
+		end,
 		fill = function(g, map, ...)
 			local chars = {...}
 			for i, p in ipairs(g.list) do
@@ -651,6 +699,14 @@ group_meta = {
 		hasPoint = function(g, x, y)
 			if type(x) == "table" then x, y = x.x, x.y end
 			return g.reverse[x] and g.reverse[x][y]
+		end,
+		allMatch = function(g, map, list)
+			if type(list) ~= "table" then list = {list} end
+			list = table.reverse(list)
+			for p in g:iterate() do
+				if not list[map:get(p)] then return false end
+			end
+			return true
 		end,
 		pickSpot = function(group, mode, what, mapcheck)
 			local function check(x, y)
@@ -689,7 +745,7 @@ group_meta = {
 							return jn
 						end
 					end
-				elseif mode == "corder" then
+				elseif mode == "corner" then
 					local g8 = check(jn.x+0, jn.y-1)
 					local g2 = check(jn.x+0, jn.y+1)
 					local g4 = check(jn.x-1, jn.y+0)
@@ -700,24 +756,24 @@ group_meta = {
 					local g9 = check(jn.x+1, jn.y-1)
 					if not what or what == "any" or what == "straight" then
 						if not g8 and g2 and not g4 and g6 and not g7 and not g3  and not g1 and not g9 then
-							return jn
+							return jn, 3
 						elseif g4 and not g6 and g2 and not g8  and not g7 and not g3  and not g1 and not g9 then
-							return jn
+							return jn, 1
 						elseif g4 and not g6 and not g2 and g8  and not g7 and not g3  and not g1 and not g9 then
-							return jn
+							return jn, 7
 						elseif not g4 and g6 and not g2 and g8  and not g7 and not g3  and not g1 and not g9 then
-							return jn
+							return jn, 9
 						end
 					end
 					if what == "any" or what == "diagonal" then
 						if not g4 and not g6 and not g2 and not g8 and g7 and not g3 and g1 and not g7 then
-							return jn
+							return jn, 4
 						elseif not g4 and not g6 and not g2 and not g8  and g7 and not g3  and not g1 and g9 then
-							return jn
+							return jn, 8
 						elseif not g4 and not g6 and not g2 and not g8  and not g7 and g3  and not g1 and g9 then
-							return jn
+							return jn, 6
 						elseif not g4 and not g6 and not g2 and not g8  and not g7 and g3  and g1 and not g9 then
-							return jn
+							return jn, 2
 						end
 					end
 				elseif mode == "has-neighbours" then
@@ -728,6 +784,30 @@ group_meta = {
 					if nb == what then
 						return jn
 					end
+				elseif mode == "most" then
+					local list, least = {}, nil
+					for j = 1, #group.list do
+						local jn = group.list[j]
+						if what == "north" then
+							if not least or jn.y < least then least = jn.y end
+						elseif what == "south" then
+							if not least or jn.y > least then least = jn.y end
+						elseif what == "west" then
+							if not least or jn.x < least then least = jn.x end
+						elseif what == "east" then
+							if not least or jn.x > least then least = jn.x end
+						end
+					end
+					for j = 1, #group.list do
+						local jn = group.list[j]
+						if what == "north" or what == "south" then
+							if jn.y == least then list[#list+1] = jn end
+						elseif what == "west" or what == "east" then
+							if jn.x == least then list[#list+1] = jn end
+						end
+					end
+					if #list == 0 then return nil end
+					return rng.table(list)
 				end
 			end
 			return nil
@@ -800,17 +880,26 @@ function _M:findGroups(cond)
 
 	return groups
 end
+function _M:iterateGroups(cond)
+	return ipairs_value(self:findGroups(cond))
+end
 
 --- Return a list of groups of tiles representing each of the connected areas
 function _M:findGroupsNotOf(wall)
 	wall = table.reverse(wall)
 	return self:findGroups(function(c) return not wall[c] end)
 end
+function _M:iterateGroupsNotOf(floor)
+	return ipairs_value(self:findGroupsNotOf(floor))
+end
 
 --- Return a list of groups of tiles representing each of the connected areas
 function _M:findGroupsOf(floor)
 	floor = table.reverse(floor)
 	return self:findGroups(function(c) return floor[c] end)
+end
+function _M:iterateGroupsOf(floor)
+	return ipairs_value(self:findGroupsOf(floor))
 end
 
 --- Apply a custom method over the given groups, sorting them from bigger to smaller
@@ -1004,6 +1093,16 @@ function _M:groupOuterRectangle(group)
 	return self:point(x1, y1), self:point(x2, y2), x2 - x1 + 1, y2 - y1 + 1
 end
 
+--- Trim the map (returns a new one) on each sides until we hit a non-wall
+function _M:trim(walls)
+	if type(walls) ~= "table" then walls = {walls} end
+	local group = self:mergeGroups(self:findGroupsNotOf(walls))
+	local from, to = group:bounds()
+	local tm = _M.new(to - from + 1)
+	tm:merge(-from + 1 + 1, self)
+	return tm
+end
+
 --- Carve out a simple linear path from coords until a tile is reached
 function _M:carveLinearPath(char, from, dir, stop_at, dig_only_into, ignore_first)
 	local x, y = math.floor(from.x), math.floor(from.y)
@@ -1088,9 +1187,16 @@ function _M:printResult()
 		print("------------- Tilemap result")		
 		return
 	end
-	print("------------- Tilemap result --[[")
-	for _, line in ipairs(self:getResult()) do
-		print(line)
+	print("------------- Tilemap ("..self.data_w.."x"..self.data_h..") result --[[")
+	local p = core.game.stdout_write
+	for y = 1, self.data_h do
+		for x = 1, self.data_w do
+			local c = tostring(self.data[y][x])
+			-- Check if we have more than one character (check as UTF8 as some tilemaps use them for more meaning)
+			if c:nextUTF(1) then c = "…" end
+			p(c)
+		end
+		p("\n")
 	end
 	print("]]-----------")
 end
@@ -1243,7 +1349,7 @@ function _M:smartDoor(pos, chance, door_char, walls)
 	if pos.x <= 1 or pos.y <= 1 or pos.x >= self.data_w or pos.y >= self.data_h then return false end
 
 	walls = self:makeCharsTable(walls, {'#','⍓'})
-	
+
 	local c8 = self.data[pos.y-1][pos.x]
 	local c2 = self.data[pos.y+1][pos.x]
 	local c4 = self.data[pos.y][pos.x-1]
@@ -1680,13 +1786,14 @@ binpack_meta = {
 			end
 			return true
 		end,
-		merge = function(self)
+		merge = function(self, into)
 			self.merged_maps = {}
 			for map, params in pairs(self.maps) do if params.computed then
 				if map.build then map:build() end
-				self.into:merge(params.pos, map)
+				(into or self.into):merge(params.pos, map)
 				self.merged_maps[#self.merged_maps+1] = map
 			end end
+			return self
 		end,
 		hasMerged = function(self, map)
 			if map then
@@ -1710,6 +1817,22 @@ binpack_meta = {
 		end,
 		iteratorMerged = function(self)
 			return ipairs(self.merged_maps)
+		end,
+		spaceOut = function(self)
+			-- Find out the bounding box of the compacted rooms list
+			local mx, my = 1, 1
+			local mw, mh = 0, 0
+			for map, params in pairs(self.maps) do if params.computed then
+				mw, mh = math.max(mw, map.data_w), math.max(mh, map.data_h)
+				mx = math.max(mx, params.pos.x + map.data_w - 1)
+				my = math.max(my, params.pos.y + map.data_h - 1)
+			end end
+			local sx, sy = self.size_x / mx, self.size_y / my
+			for map, params in pairs(self.maps) do if params.computed then
+				params.pos.x = math.floor(params.pos.x * sx)
+				params.pos.y = math.floor(params.pos.y * sy)
+			end end
+			return self
 		end,
 	},
 }

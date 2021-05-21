@@ -327,7 +327,7 @@ newEntity{ define_as = "STORM_WYRM_CLAW",
 	name = "storm wyrm claw",
 	display = "/", color=colors.BLUE,
 	desc = _t[[Bluish and wickedly sharp. It makes your arm hair stand on end.]],
-	alch = "I recommend severing one of dewclaws. They're smaller and easier to remove, but they've never been blunted by use, so be careful you don't poke yourself. Oh yes, and don't get eaten.",
+	alch = "I recommend severing one of their dewclaws. They're smaller and easier to remove, but they've never been blunted by use, so be careful you don't poke yourself. Oh yes, and don't get eaten.",
 }
 
 newEntity{ define_as = "GREEN_WORM",

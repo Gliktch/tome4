@@ -17,12 +17,12 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-newTalentType{ type="technique/horror", name = _t"horror techniques", hide = true, description = _t"Physical talents of the various horrors of the world." }
-newTalentType{ type="psionic/horror", name = _t"horror techniques", hide = false, description = _t"Psionic talents of the various horrors of the world." }
-newTalentType{ type="wild-gift/horror", name = _t"horror techniques", hide = false, description = _t"Psionic talents of the various horrors of the world." }
-newTalentType{ no_silence=true, is_spell=true, type="spell/horror", name = _t"horror spells", hide = true, description = _t"Spell talents of the various horrors of the world." }
-newTalentType{ no_silence=true, is_spell=true, type="corruption/horror", name = _t"horror spells", hide = true, description = _t"Spell talents of the various horrors of the world." }
-newTalentType{ type="other/horror", name = _t"horror powers", hide = true, description = _t"Unclassified talents of the various horrors of the world." }
+newTalentType{ type="technique/horror", name = _t("horror techniques", "talent type"), hide = true, description = _t"Physical talents of the various horrors of the world." }
+newTalentType{ type="psionic/horror", name = _t("horror techniques", "talent type"), hide = false, description = _t"Psionic talents of the various horrors of the world." }
+newTalentType{ type="wild-gift/horror", name = _t("horror techniques", "talent type"), hide = false, description = _t"Psionic talents of the various horrors of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="spell/horror", name = _t("horror spells", "talent type"), hide = true, description = _t"Spell talents of the various horrors of the world." }
+newTalentType{ no_silence=true, is_spell=true, type="corruption/horror", name = _t("horror spells", "talent type"), hide = true, description = _t"Spell talents of the various horrors of the world." }
+newTalentType{ type="other/horror", name = _t("horror powers", "talent type"), hide = true, description = _t"Unclassified talents of the various horrors of the world." }
 
 local oldTalent = newTalent
 local newTalent = function(t) if type(t.hide) == "nil" then t.hide = true end return oldTalent(t) end
@@ -135,7 +135,7 @@ newTalent{
 			local reapplied = false
 			if target then
 				local actor_frenzy = false
-				if target.name == "devourer" then
+				if target.knowTalent and target:knowTalent(target.T_GNASHING_TEETH) then
 					actor_frenzy = true
 				end
 				if actor_frenzy then

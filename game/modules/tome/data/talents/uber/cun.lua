@@ -440,28 +440,58 @@ uberTalent{
 	passives = function(self, t, tmptable)
 		self:talentTemporaryValue(tmptable, "unused_generics", 5)
 	end,
+	getRewards = function(self, t)
+		local EscortRewards = require("mod.class.EscortRewards")
+		local ERewardsList = EscortRewards:listRewards()
+		local r_all, r_normal, r_antimagic = {}, {}, {}
+		for _, rewards in pairs(ERewardsList) do
+			if rewards.types then
+				if rewards.antimagic and rewards.antimagic.types then
+					r_normal = table.merge(r_normal, rewards.types)
+					r_antimagic = table.merge(r_antimagic, rewards.antimagic.types)
+				else
+					r_all = table.merge(r_all, rewards.types)
+				end
+			end
+		end
+		return {
+			all=r_all,
+			normal=r_normal,
+			antimagic=r_antimagic
+		}
+	end,
+	getRewardTexts = function(self, t)
+		local rewards = t.getRewards(self, t)
+		local t_all, t_normal, t_antimagic = "", "", ""
+		local tt_to_string = function(tt)
+			local tt_def = self:getTalentTypeFrom(tt)
+			local cat = tt_def.type:gsub("/.*", "")
+			return _t(cat, "talent category"):capitalize() .. " / " .. tt_def.name:capitalize()
+		end
+		local all_list = table.keys(rewards.all) table.sort(all_list)
+		for _, tt in ipairs(all_list) do
+			t_all = t_all .. ("- %s\n"):tformat(tt_to_string(tt))
+		end
+		local normal_list = table.keys(rewards.normal) table.sort(normal_list)
+		for _, tt in ipairs(normal_list) do
+			t_normal = t_normal .. ("- %s\n"):tformat(tt_to_string(tt))
+		end
+		local antimagic_list = table.keys(rewards.antimagic) table.sort(antimagic_list)
+		for _, tt in ipairs(antimagic_list) do
+			t_antimagic = t_antimagic .. ("- %s\n"):tformat(tt_to_string(tt))
+		end
+		return t_all, t_normal, t_antimagic
+	end,
 	info = function(self, t)
-		return ([[Gain 5 generic talent points and learn a new talent category from one of the below at 1.0 mastery, unlocked. Group 1 categories are available to anyone; Group 2 are available only to characters that know antimagic, and Group 3 are not available to antimagic characters.
+		local t_all, t_normal, t_antimagic = t.getRewardTexts(self, t)
+		return ([[Gain 5 generic talent points and learn a new talent category from one of the below at 1.0 mastery, unlocked. Group 1 categories are available to anyone; Group 2 are not available to magic users, and Group 3 are not available to antimagic characters.
 		GROUP 1:
-		- Technique / Conditioning
-		- Cunning / Survival
-		- Wild Gift / Harmony
+%s
 		GROUP 2:
-		- Wild Gift / Call of the Wild
-		- Wild Gift / Mindstar Mastery
-		- Psionic / Dreaming
-		- Psionic / Augmented Mobility
-		- Psionic / Feedback
+%s
 		GROUP 3:
-		- Spell / Divination
-		- Spell / Staff Combat
-		- Spell / Stone Alchemy
-		- Corruption / Vile Life
-		- Corruption / Hexes
-		- Corruption / Curses
-		- Celestial / Chants
-		- Chronomancy / Chronomancy]])
-		:tformat()
+%s]])
+		:tformat(t_all, t_antimagic, t_normal)
 	end,
 }
 

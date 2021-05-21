@@ -168,7 +168,7 @@ newTalent{
 	require = divi_req_high4,
 	points = 5,
 	mode = "passive",
-	getPower = function(self, t) return 15 + self:combatTalentSpellDamage(t, 1, 100) end,
+	getPower = function(self, t) return math.ceil(15 + self:combatTalentSpellDamage(t, 1, 100)) end,
 	getDef = function(self, t) return 5 + self:combatTalentSpellDamage(t, 1, 35) end,
 	getLightDamageIncrease = function(self, t) return self:combatTalentScale(t, 2.5, 10) end,
 	getResPen = function(self, t) return self:combatTalentLimit(t, 60, 17, 50) end,

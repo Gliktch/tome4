@@ -56,4 +56,7 @@ return {
 			game.player:hasQuest("staff-absorption"):start_ambush(game.player)
 		end
 	end,
+	on_leave = function()
+		game:setAllowedBuild("wanderer", true)
+	end,
 }

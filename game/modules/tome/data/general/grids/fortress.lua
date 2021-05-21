@@ -40,6 +40,8 @@ newEntity{
 	always_remember = true,
 	does_block_move = true,
 	block_sight = true,
+	block_sense = true,
+	block_esp = true,
 	air_level = -20,
 }
 for i = 1, 1 do
@@ -64,6 +66,8 @@ newEntity{
 	notice = true,
 	always_remember = true,
 	block_sight = true,
+	block_sense = true,
+	block_esp = true,
 	is_door = true,
 	door_opened = "SOLID_DOOR_OPEN",
 	door_sound = "ambient/door_creaks/scifi_door",
@@ -101,3 +105,23 @@ newEntity{
 }
 newEntity{ base = "SOLID_DOOR_SEALED", define_as = "SOLID_DOOR_SEALED_HORIZ", image = "terrain/solidwall/solid_floor1.png", add_mos={{image = "terrain/solidwall/solid_wall_closed_doors1.png"}}, add_displays = {class.new{image="terrain/solidwall/solid_wall_top_block1.png", z=18, display_y=-1, add_mos={{image="terrain/padlock2.png", display_y=0.1}}}}, door_opened = "SOLID_DOOR_HORIZ_OPEN"}
 newEntity{ base = "SOLID_DOOR_SEALED", define_as = "SOLID_DOOR_SEALED_VERT", image = "terrain/solidwall/solid_floor1.png", add_displays = {class.new{image="terrain/solidwall/solid_door1_vert.png", z=17}, class.new{image="terrain/solidwall/solid_door1_vert_north.png", z=18, display_y=-1, add_mos={{image="terrain/padlock2.png", display_x=0.2, display_y=-0.4}}}}, door_opened = "SOLID_DOOR_OPEN_VERT"}
+
+
+newEntity{
+	define_as = "SOLID_VAULTDOOR",
+	type = "wall", subtype = "floor",
+	name = "door", image = "terrain/solidwall/granite_door1.png",
+	display = '+', color_r=238, color_g=154, color_b=77, back_color=colors.DARK_UMBER,
+	nice_tiler = { method="door3d", north_south="SOLID_VAULTDOOR_VERT", west_east="SOLID_VAULTDOOR_HORIZ" },
+	notice = true,
+	always_remember = true,
+	block_sight = true,
+	block_sense = true,
+	block_esp = true,
+	is_door = true,
+	door_player_check = _t"This door seems to have been sealed off. You think you can open it.",
+	door_opened = "SOLID_DOOR_OPEN",
+	door_sound = "ambient/door_creaks/scifi_door",
+}
+newEntity{ base = "SOLID_VAULTDOOR", define_as = "SOLID_VAULTDOOR_HORIZ", image = "terrain/solidwall/solid_floor1.png", add_mos={{image = "terrain/solidwall/solid_wall_closed_doors1.png"}}, add_displays = {class.new{image="terrain/solidwall/solid_wall_top_block1.png", z=18, display_y=-1}}, door_opened = "SOLID_DOOR_HORIZ_OPEN"}
+newEntity{ base = "SOLID_VAULTDOOR", define_as = "SOLID_VAULTDOOR_VERT", image = "terrain/solidwall/solid_floor1.png", add_displays = {class.new{image="terrain/solidwall/solid_door1_vert.png", z=17}, class.new{image="terrain/solidwall/solid_door1_vert_north.png", z=18, display_y=-1}}, door_opened = "SOLID_DOOR_OPEN_VERT"}

@@ -86,8 +86,6 @@ function _M:onPartyDeath(src, death_note)
 
 		local msg, short_msg
 		if not death_note.special_death_msg then
-			msg = _t"%s the level %d %s %s was %s to death by %s%s%s on level %s of %s."
-			short_msg = _t"%s(%d %s %s) was %s to death by %s%s on %s %s."
 			local srcname
 			if src.getName and src.unique then srcname = src:getName()
 			elseif src.getName then srcname = src:getName():a_an()
@@ -106,31 +104,29 @@ function _M:onPartyDeath(src, death_note)
 					_t" (how embarrassing)",
 				}
 			end
-			msg = msg:format(
-				game.player.name, game.player.level, _t(game.player.descriptor.subrace):lower(), _t(game.player.descriptor.subclass):lower(),
+			msg = ("%s the level %d %s %s was %s to death by %s%s%s on level %s of %s."):tformat(
+				game.player.name, game.player.level, _t(game.player.descriptor.subrace, "birth descriptor name"):lower(), _t(game.player.descriptor.subclass, "birth descriptor name"):lower(),
 				death_mean or _t"battered",
 				srcname,
 				src.name == top_killer and _t" (yet again)" or "",
 				killermsg,
 				game.level.level, game.zone.name
 			)
-			short_msg = short_msg:format(
-				game.player.name, game.player.level, _t(game.player.descriptor.subrace):lower(), _t(game.player.descriptor.subclass):lower(),
+			short_msg = ("%s(%d %s %s) was %s to death by %s%s on %s %s."):tformat(
+				game.player.name, game.player.level, _t(game.player.descriptor.subrace, "birth descriptor name"):lower(), _t(game.player.descriptor.subclass, "birth descriptor name"):lower(),
 				death_mean or _t"battered",
 				srcname,
 				killermsg,
 				game.zone.name, game.level.level
 			)
 		else
-			msg = _t"%s the level %d %s %s %s on level %s of %s."
-			short_msg = _t"%s(%d %s %s) %s on %s %s."
-			msg = msg:format(
-				game.player.name, game.player.level, _t(game.player.descriptor.subrace):lower(), _t(game.player.descriptor.subclass):lower(),
+			msg = ("%s the level %d %s %s %s on level %s of %s."):tformat(
+				game.player.name, game.player.level, _t(game.player.descriptor.subrace, "birth descriptor name"):lower(), _t(game.player.descriptor.subclass, "birth descriptor name"):lower(),
 				death_note.special_death_msg,
 				game.level.level, game.zone.name
 			)
-			short_msg = short_msg:format(
-				game.player.name, game.player.level, _t(game.player.descriptor.subrace):lower(), _t(game.player.descriptor.subclass):lower(),
+			short_msg = ("%s(%d %s %s) %s on %s %s."):tformat(
+				game.player.name, game.player.level, _t(game.player.descriptor.subrace, "birth descriptor name"):lower(), _t(game.player.descriptor.subclass, "birth descriptor name"):lower(),
 				death_note.special_death_msg,
 				game.zone.name, game.level.level
 			)

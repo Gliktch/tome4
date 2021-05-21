@@ -79,7 +79,13 @@ function _M:use(item)
 			game.log("#LIGHT_BLUE#Demi-God mode ON")
 		end
 	elseif act == "weakdamage" then
-		game.player.inc_damage.all = -90
+		if game.player:hasEffect(game.player.EFF_WEAK_GODMODE) then
+			game.player:removeEffect(game.player.EFF_WEAK_GODMODE, false, true)
+			game.log("#LIGHT_BLUE#Weakdamage mode OFF")
+		else
+			game.player:setEffect(game.player.EFF_WEAK_GODMODE, 1, {})
+			game.log("#LIGHT_BLUE#Weakdamage mode ON")
+		end
 	elseif act == "magic_map" then
 		game.log("#LIGHT_BLUE#Revealing Map.")
 		game.level.map:liteAll(0, 0, game.level.map.w, game.level.map.h)

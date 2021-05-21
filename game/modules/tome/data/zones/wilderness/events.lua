@@ -17,11 +17,5 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-local descriptor = table.get(game:getPlayer(true), "descriptor")
-
 return {
-	-- always spawn noxious-caldera for Yeeks (event file does additional tests)
-	{name="noxious-caldera", percent=(table.get(descriptor, "race") == "Yeek" and 100 or 30)},
-	 -- always spawn sludgenest for Thalore (event file does additional tests)
-	{name="sludgenest", percent=(table.get(descriptor, "subrace") == "Thalore" and 100 or 30)},
 }

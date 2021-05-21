@@ -147,7 +147,7 @@ newEntity{ base = "BASE_STAFF",
 		element = DamageType.FIRE,
 		is_greater = true,
 		melee_element = true,
-		sentient = "agressive",
+		sentient = "aggressive",
 	},
 	wielder = {
 		combat_spellpower = 10,
@@ -787,6 +787,7 @@ newEntity{
 			spider.summoner = who
 			spider.summon_time = 10
 			spider.exp_worth = 0
+			spider.no_drops = 0
 
 			local setupSummon = getfenv(who:getTalentFromId(who.T_SPIDER).action).setupSummon
 			setupSummon(who, spider, x, y)
@@ -849,6 +850,7 @@ newEntity{ base = "BASE_KNIFE",
 		physcrit = 8,
 		dammod = {dex=0.55,str=0.35},
 		no_stealth_break = true,
+		no_garrote = true,
 		melee_project={[DamageType.RANDOM_SILENCE] = 10},
 		special_on_kill = {desc=_t"Enter stealth for 3 turns.", fct=function(combat, who, target)
 			who:setEffect(who.EFF_SILENT_STEALTH, 3, { power = 30 })
@@ -1116,7 +1118,7 @@ newEntity{ base = "BASE_HELM", define_as = "HELM_KROLTAR",
 		self:specialSetAdd({"wielder","combat_mentalresist"}, 15)
 		self:specialSetAdd({"wielder","combat_physresist"}, 15)
 		self:specialSetAdd({"wielder","inc_stats"}, { [Stats.STAT_LCK] = 14 })
-		game.logPlayer(who, "#GOLD#As the helm of Kroltar approaches the your scale armour, they begin to fume and emit fire.")
+		game.logPlayer(who, "#GOLD#As the helm of Kroltar approaches the scale armour, they begin to fume and emit fire.")
 	end,
 	on_set_broken = function(self, who)
 		game.logPlayer(who, "#GOLD#The fumes and fire fade away.")
@@ -1543,7 +1545,6 @@ newEntity{ base = "BASE_WIZARD_HAT", define_as = "SET_TEMPORAL_FEZ",
 		self:specialSetAdd({"wielder","inc_damage"}, { [engine.DamageType.PHYSICAL] = 10 })
 	end,
 	on_set_broken = function(self, who)
-		self.use_talent = nil
 		game.logPlayer(who, "#STEEL_BLUE#A time vortex briefly appears in front of you.")
 	end,
 }
@@ -5320,7 +5321,7 @@ newEntity{ base = "BASE_LIGHT_ARMOR", --Thanks SageAcrin!
 		on_pre_use_ai = function(self, who, silent, fake)
 			return not who:hasEffect(who.EFF_INVISIBILITY)
 		end,
-		invispower = function(self, who) return 10+who:getCun()/6+who:getMag()/6 end,
+		invispower = function(self, who) return math.ceil(10+who:getCun()/6+who:getMag()/6) end,
 		use = function(self, who)
 			game.logSeen(who, "%s pulls %s %s around %s like a dark shroud!", who:getName():capitalize(), who:his_her(), self:getName({do_color = true, no_add_name = true}), who:his_her_self())
 			who:setEffect(who.EFF_INVISIBILITY, 10, {power=self.use_power.invispower(self, who), penalty=0.5, regen=true})
@@ -6991,7 +6992,9 @@ newEntity{ base = "BASE_KNIFE", --Shibari's #1
 					who:project(tg, x, y, function(tx, ty)
 							local target = game.level.map(tx, ty, engine.Map.ACTOR)
 							if not target or target == who then return end
-							target:setEffect(target.EFF_DAZED, 3, {apply_power=who:combatAttack()})
+							if target:canBe("stun") then
+								target:setEffect(target.EFF_DAZED, 3, {apply_power=who:combatAttack()})
+							end
 					end)
 
 					i = i + 1

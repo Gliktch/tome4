@@ -117,7 +117,7 @@ newTalent{
 			game.level.map:particleEmitter(self.x, self.y, 1, "circle", {oversize=0.7, a=187, limit_life=8, appear=8, speed=4, img="spiral_light", radius=1})
 		end
 		
-		game:playSoundNear(self, "talents/fallen_stardust")
+		game:playSoundNear(self, "talents/stardust")
 		return true
 	end,
 	
@@ -159,7 +159,7 @@ newTalent{
 									 end
 																		 end)
 		
-		game:playSoundNear(self, "talents/fallen_sun_whoosh")
+		game:playSoundNear(self, "talents/sun_whoosh")
 		self:addParticles(Particles.new("meleestorm", 2, {radius=t.radius(self, t), img="spinningwinds_black"}))
 		if not self:attr("zero_resource_cost") and not self:attr("force_talent_ignore_ressources") then
 			self:incPositive(-1 * self:getPositive()) 

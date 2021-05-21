@@ -712,7 +712,7 @@ newInscription{
 	end,
 	getPower = function(self, t) 
 		local data = self:getInscriptionData(t.short_name)
-		return data.power + data.inc_stat * 2
+		return math.ceil(data.power + data.inc_stat * 2)
 	end,
 	getMove = function(self, t) 
 		local data = self:getInscriptionData(t.short_name)
@@ -1096,10 +1096,8 @@ newInscription{
 				if #effs == 0 then break end
 				local eff = rng.tableRemove(effs)
 
-				if eff[1] == "effect" then
-					target:removeEffect(eff[2])
-				else
-					target:forceUseTalent(eff[2], {ignore_energy=true})
+				if eff then
+					target:dispel(eff[2], self)
 				end
 				self:attr("allow_on_heal", 1)
 				self:heal(data.heal + data.inc_stat, t)
@@ -1540,7 +1538,7 @@ newInscription{
 	tactical = { DEFEND = 3, ESCAPE = 2 },
 	action = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		self:setEffect(self.EFF_INVISIBILITY, data.dur, {power=data.power + data.inc_stat, penalty=0.4})
+		self:setEffect(self.EFF_INVISIBILITY, data.dur, {power=math.ceil(data.power + data.inc_stat), penalty=0.4})
 		return true
 	end,
 	info = function(self, t)

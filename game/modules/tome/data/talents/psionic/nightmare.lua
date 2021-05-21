@@ -83,7 +83,7 @@ newTalent{
 		return([[Puts targets in a radius %d cone into a nightmarish sleep for %d turns, rendering them unable to act.  Every %d points of damage the target suffers will reduce the effect duration by one turn.
 		Each turn, they'll suffer %0.2f darkness damage.  This damage will not reduce the duration of the effect.
 		When Nightmare ends, the target will suffer from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it %d%% sleep immunity for each turn of the Insomnia effect.
-		The damage threshold and mind damage will scale with your Mindpower.]]):tformat(radius, duration, power, damDesc(self, DamageType.DARKNESS, (damage)), insomnia)
+		The damage threshold and darkness damage will scale with your Mindpower.]]):tformat(radius, duration, power, damDesc(self, DamageType.DARKNESS, (damage)), insomnia)
 	end,
 }
 
@@ -130,6 +130,9 @@ newTalent{
 		engine.interface.ActorAI.init(m, m)
 		m.inc_damage.all = (m.inc_damage.all or 0) - 50
 		
+		game.zone:addEntity(game.level, m, "actor", x, y)
+		game.level.map:particleEmitter(x, y, 1, "generic_teleport", {rm=60, rM=130, gm=20, gM=110, bm=90, bM=130, am=70, aM=180})
+
 		-- Remove some talents
 		m:unlearnTalentsOnClone()
 
@@ -148,9 +151,6 @@ newTalent{
 				m:removeEffect(eff[2])
 			end
 		end
-
-		game.zone:addEntity(game.level, m, "actor", x, y)
-		game.level.map:particleEmitter(x, y, 1, "generic_teleport", {rm=60, rM=130, gm=20, gM=110, bm=90, bM=130, am=70, aM=180})
 
 		game.logSeen(target, "#F53CBE#%s's Inner Demon manifests!", target:getName():capitalize())
 

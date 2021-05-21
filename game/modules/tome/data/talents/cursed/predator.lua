@@ -250,7 +250,7 @@ newTalent{
 	require = cursed_lev_req3,
 	points = 5,
 	no_npc_use = true,
-	getStealthPower = function(self, t) return self:combatTalentMindDamage(t, 0, 70) end,
+	getStealthPower = function(self, t) return math.ceil(self:combatTalentMindDamage(t, 0, 70)) end,
 	getPhysPower = function(self, t) return self:combatTalentMindDamage(t, 20, 70) end,
 	passives = function(self, t, p)
 		if self.x and self.y and game.level.map:checkAllEntities(self.x, self.y, "cursedMiasma") then

@@ -379,9 +379,9 @@ newEntity{ base = "BASE_NPC_ELDRICTH_EYE",
 	_eldritch_eye_rarity = 1,
 	vim_regen = 100,
 	resists = {[DamageType.BLIGHT] = 80},
-	talent_cd_reduction = {all=1},
 	resolvers.talents{
 		[Talents.T_VIRULENT_DISEASE]=3,
+		[Talents.T_DRAIN]=3,
 	},
 }
 
@@ -534,7 +534,7 @@ newEntity{ base = "BASE_NPC_HORROR",
 
 	ai = "tactical", ai_state = { ai_move="move_complex", talent_in=2, ally_compassion=0 },
 
-	combat = { dam=resolvers.levelup(resolvers.rngavg(16,22), 1, 1.5), atk=resolvers.levelup(18, 1, 1), apr=4, dammod={wil=0.25, cun=0.1}, damtype=engine.DamageType.PHYSICALBLEED, },
+	combat = { dam=resolvers.levelup(resolvers.rngavg(16,22), 1, 1.5), atk=resolvers.levelup(18, 1, 1), apr=4, dammod={wil=0.25, cun=0.1}, damtype=DamageType.PHYSICALBLEED, },
 	combat_physspeed = 4, --Crazy fast attack rate
 
 	resists = {[DamageType.PHYSICAL] = 10, [DamageType.MIND] = 40, [DamageType.ARCANE] = -20},

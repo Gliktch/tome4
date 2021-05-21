@@ -101,14 +101,16 @@ newTalent{
 			return
 		end
 		target:pull(self.x, self.y, tg.range)
-		target:setEffect(target.EFF_DAZED, 1, {apply_power=self:combatMindpower()})
+		if target:canBe("stun") then
+			target:setEffect(target.EFF_DAZED, 1, {apply_power=self:combatMindpower()})
+		end
 		game:playSoundNear(self, "talents/arcane")
 
 		return true
 	end,
 	info = function(self, t)
 		local range = self:getTalentRange(t)
-		return ([[Briefly extend your telekinetic reach to grab an enemy and haul them towards you.
+		return ([[Briefly extend your telekinetic reach to grab an enemy, haul them towards you and daze them for 1 turn.
 		Works on enemies up to %d squares away.
 		The cooldown decreases, and the range increases, with additional talent points spent.]]):
 		tformat(range)

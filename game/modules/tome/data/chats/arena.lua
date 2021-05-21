@@ -85,7 +85,7 @@ text = _t[[#LIGHT_GREEN#*The gate opens, revealing a mature human woman in crims
 #LIGHT_GREEN#She looks at you with a wide smile*
 #WHITE# My, my, what a fine @playerdescriptor.race@ you are. What was your name again, @playername@? I am soo delighted to be your rival today.
 #LIGHT_GREEN#*She speaks quietly as if telling a secret* #WHITE#You know, so few get past the little one as of late, it's such a bore.#LIGHT_GREEN#*She giggles*#WHITE#
-So! I am Reala, the Crimson. I came directly from Angolwen. Despite, you know, the whole thing with the Spellblaze, people still enjoy a few magic tricks!
+So! I am Riala, the Crimson. I came directly from Angolwen. Despite, you know, the whole thing with the Spellblaze, people still enjoy a few magic tricks!
 #LIGHT_GREEN#*She snaps her fingers, and then flames start dancing around her!*#WHITE#
 Fryjia told me about you, the poor thing, so I will not underestimate such a promising aspirant #LIGHT_GREEN#*She smiles warmly* #WHITE#So, let's make haste my dear!
 There is a battle to fight here!]],
@@ -95,7 +95,7 @@ There is a battle to fight here!]],
 }
 
 newChat{ id="riala-defeat",
-text = _t[[#LIGHT_GREEN#*With the final blow, Reala falls...to suddenly burst in flames!!
+text = _t[[#LIGHT_GREEN#*With the final blow, Riala falls...to suddenly burst in flames!!
 #LIGHT_GREEN#You stare at the blazing inferno with understandable confusion,
 #LIGHT_GREEN#until you hear her voice from behind*#WHITE#
 Oh, my dear! That was quite the fight, wasn't it? I concede you the honor of victory.

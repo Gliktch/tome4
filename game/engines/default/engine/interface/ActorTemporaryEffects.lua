@@ -56,6 +56,7 @@ function _M:newEffect(t)
 	-- I18N
 	t.desc = _t(t.desc)
 
+	assert(not self.tempeffect_def["EFF_"..t.name], "effect already exists with id EFF_"..t.name)
 	self.tempeffect_def["EFF_"..t.name] = t
 	t.id = "EFF_"..t.name
 	self["EFF_"..t.name] = "EFF_"..t.name

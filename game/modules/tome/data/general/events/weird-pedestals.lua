@@ -72,7 +72,7 @@ for i = 1, 3 do
 						special_rarity="humanoid_random_boss",
 						random_boss={
 							nb_classes=1,
-							rank=3, ai = "tactical",
+							rank=3.2, ai = "tactical",
 							life_rating=function(v) return v * 1.3 + 2 end,
 							loot_quality = "store",
 							loot_quantity = 1,

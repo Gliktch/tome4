@@ -40,7 +40,7 @@ newTalent{
 	action = function(self, t)
 		local damage = t.getDamage(self, t)
 		self:setEffect(self.EFF_SELF_JUDGEMENT, 5, {src=self, power=damage/5, no_ct_effect=true, unresistable=true}, true)
-		game:playSoundNear(self, "talents/fallen_chop")
+		game:playSoundNear(self, "talents/chop")
 			return true
 	end,
 	callbackOnActBase = function(self, t)
@@ -184,7 +184,7 @@ newTalent{
 				reduce = math.floor(dam * (st - lt) / (st))
 			end
 			local length = t.getTime(self, t)
-			if src.logCombat then src:logCombat(self, "#CRIMSON##Target# suffers from %s from #Source#, mitigating the blow!#LAST#.", is_attk and "an attack" or "damage") end
+			if src.logCombat then src:logCombat(self, "#CRIMSON##Target# suffers from %s from #Source#, mitigating the blow!#LAST#.", is_attk and _t"an attack" or _t"damage") end
 			dam = dam - reduce
 			
 			self:setEffect(self.EFF_SELF_JUDGEMENT, length, {power=reduce/length})

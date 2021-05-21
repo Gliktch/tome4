@@ -124,6 +124,16 @@ function ripairs(t)
 	end
 end
 
+function ipairs_value(t)
+	local i = 1
+	return function()
+		if i > #t then return nil end
+		local oi = i
+		i = i + 1
+		return t[oi], oi
+	end
+end
+
 function table.weak_keys(t)
 	t = t or {}
 	setmetatable(t, {__mode="k"})
@@ -640,6 +650,18 @@ function table.get(table, ...)
 		table = table[key]
 	end
 	return table, true
+end
+
+--[=[
+  Strict verion of table.get, only returns if fully found
+]=]
+function table.sget(table, ...)
+	if type(table) ~= 'table' then return nil end
+	for _, key in ipairs({...}) do
+		if type(table) ~= 'table' then return nil end
+		table = table[key]
+	end
+	return table
 end
 
 --[=[

@@ -3525,7 +3525,7 @@ function _M:infiniteDungeonChallengeFinish(zone, level)
 			a.rank = 4
 			a.desc = ("An evil twin of %s%s"):tformat(a.name, (a.desc and ":\n"..a.desc or ""))
 			a.name = ("Mirror Challenge of %s"):tformat(a.name)
-			a.killer_message = _t"but nobody knew why #sex# suddenly became evil"
+			a.killer_message = _t"but nobody knew why they suddenly became evil"
 			a.color_r = 150 a.color_g = 150 a.color_b = 150
 			a:removeAllMOs()
 			a.ai = "none"
@@ -3819,4 +3819,34 @@ function _M:unlockTalentCheck(tid, who)
 		end
 	end
 	return false, self.unlocked_talents[tid]
+end
+
+--- Get a list of possible "bonus zones" and pick at most one of them, to combat zone bloat
+-- Bonus zones need to be implemented as an event for a zone (usualy "wilderness" but not required)
+function _M:selectBonusZone()
+	local always_list, list = {}, {}
+
+	local function add(campaign, zone, event, level_range, always_cond)
+		if not game:getPlayer(true):hasDescriptor("world", campaign) then return end
+		if always_cond and always_cond() then always_list[#always_list+1] = {zone=zone, event=event, level_range=level_range}
+		else list[#list+1] = {zone=zone, event=event, level_range=level_range} end
+	end
+
+	-- always spawn noxious-caldera for Yeeks until the unlock isn't needed anymore
+	add("Maj'Eyal", "wilderness", "noxious-caldera", nil, function() return not game:isAllowedBuild("psionic_solipsist") and game:getPlayer(true):hasDescriptor("race", "Yeek") end)
+	 -- always spawn sludgenest for Thalore until the unlock isn't needed anymore
+	add("Maj'Eyal", "wilderness", "sludgenest", nil, function() return not game:isAllowedBuild("wilder_oozemancer") and game:getPlayer(true):hasDescriptor("subrace", "Thalore") end)
+	-- always spawn conclave-vault event for Shalore until the unlock isn't needed anymore
+	add("Maj'Eyal", "halfling-ruins", "conclave-vault", {3, 3}, function() return not game:isAllowedBuild("race_ogre") and game:getPlayer(true):hasDescriptor("subrace", "Shalore") end)
+
+	-- list and always_list are provided for weird corner cases, DO NOT USE THEM unless you *reallllllllllllllllllllly* need to
+	self:triggerHook{"GameState:bonusZone", add=add, list=list, always_list=always_list}
+
+	if #always_list > 0 then
+		self.selected_bonus_zone = rng.table(always_list)
+		print("[GameState] Selected bonus zone for always condition", self.selected_bonus_zone.zone, self.selected_bonus_zone.event, table.serialize(self.selected_bonus_zone.level_range or {}))
+	elseif #list > 0 then
+		self.selected_bonus_zone = rng.table(list)
+		print("[GameState] Selected bonus zone for normal condition", self.selected_bonus_zone.zone, self.selected_bonus_zone.event, table.serialize(self.selected_bonus_zone.level_range or {}))
+	end
 end
