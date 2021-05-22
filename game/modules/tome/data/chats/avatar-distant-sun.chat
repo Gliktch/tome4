@@ -298,7 +298,7 @@
         "name": "chat",
         "data": {
             "chatid": "chat11",
-            "chat": "#YELLOW#SO BE IT. I SHALL FIND SOMEONE MORE WORTHY OF MY BLESSINGS.",
+            "chat": "#YELLOW#I HAVE LITTLE PATIENCE FOR TIME WASTERS. THIS SHALL BE THE LAST TIME WE SPEAK.",
             "answer1": "#GRAY#[prodigy point refunded]"
         },
         "class": "chat",
@@ -325,7 +325,7 @@
             }
         },
         "pos_x": 2017,
-        "pos_y": 1316
+        "pos_y": 1318
     },
     "39": {
         "id": 39,
@@ -378,7 +378,7 @@
                 "connections": []
             }
         },
-        "pos_x": 2424,
-        "pos_y": 1318.5714285714287
+        "pos_x": 2477,
+        "pos_y": 1329
     }
 }
