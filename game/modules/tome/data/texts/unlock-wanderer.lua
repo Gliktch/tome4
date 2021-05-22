@@ -21,6 +21,7 @@ return _t"New Class: #LIGHT_GREEN#Wanderer",
 _t[[You have wanderer quite a lot since your birth!
 You can now create new characters with the #LIGHT_GREEN#Wanderer class#WHITE#.
 
-Wanderers start the game with 4 randomly selected talent trees points and gain new random ones as they levelup.
+Wanderers start the game with 3 randomly selected class trees, 1 randomly selected generic tree and Combat Training.
+Every 5 levels the gain a new random class tree and every 10 levels they gain a new generic tree.
 They are a #{bold}#bonus#{normal}# class, in no way meant to be balanced or even working with all possible talent combos.
 Use at your own risk, and have fun.]]
