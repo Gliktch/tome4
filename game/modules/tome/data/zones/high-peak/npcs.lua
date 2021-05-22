@@ -400,12 +400,16 @@ newEntity{ base = "BASE_NPC_SHERTUL", define_as = "CALDIZAR_AOADS",
 
 	invulnerable = 1,
 	archmage_widebeam = 1,
+	archmage_widebeam_always = 1,
 
 	resists = {all = 70},
 	inc_damage = {all=10000},
 
 	ai = "tactical", ai_state = { talent_in=1, ai_move="move_astar", },
 
+	talent_cd_reduction = {
+		[Talents.T_ELEMENTAL_ARRAY_BURST] = 1000,
+	},
 	resolvers.talents{
 		[Talents.T_ELEMENTAL_ARRAY_BURST]=100,
 	}

@@ -2810,7 +2810,7 @@ newEffect{
 
 					if self:reactionToward(target) < 0 then
 						local dam = eff.dam * (1 + (5 - core.fov.distance(self.x, self.y, target.x, target.y)) / 8)
-						target:setEffect(target.EFF_WEIGHT_OF_THE_SUN, 2, {reduce = 30})  -- Quickly wears off when outside of AoE
+						target:setEffect(target.EFF_WEIGHT_OF_THE_SUN, 2, {reduce = 30, resists = self:attr("sun_paladin_avatar")})  -- Quickly wears off when outside of AoE
 						DamageType:get(DamageType.FIRE).projector(self, target.x, target.y, DamageType.FIRE, dam/3)
 						DamageType:get(DamageType.LIGHT).projector(self, target.x, target.y, DamageType.LIGHT, dam/3)
 						DamageType:get(DamageType.PHYSICAL).projector(self, target.x, target.y, DamageType.PHYSICAL, dam/3)
@@ -2824,7 +2824,7 @@ newEffect{
 newEffect{
 	name = "WEIGHT_OF_THE_SUN", image = "talents/irresistible_sun.png",
 	desc = _t"Weight of the Sun",
-	long_desc = function(self, eff) return ("The target is struggling against immense gravity, all damage it does is reduced by %d%%."):tformat(eff.reduce) end,
+	long_desc = function(self, eff) return ("The target is struggling against immense gravity, all damage it does is reduced by %d%%.%s"):tformat(eff.reduce, eff.resists and _t" Due to facing an Avatar of a Distant Sun, fire and light resistances are reduced to 0%." or "") end,
 	type = "magical",
 	subtype = { sun=true,},
 	status = "detrimental",
@@ -2833,6 +2833,10 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# can move freely once more.", _t"-Weight of the Sun" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "numbed", eff.reduce)
+		if eff.resists then
+			game.log("plop")
+			self:effectTemporaryValue(eff, "resists", {[DamageType.LIGHT]=-self:combatGetResist(DamageType.LIGHT), [DamageType.FIRE]=-self:combatGetResist(DamageType.FIRE)})
+		end
 	end,
 }
 

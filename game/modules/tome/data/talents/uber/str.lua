@@ -283,13 +283,14 @@ uberTalent{
 	require = {
 		birth_descriptors={{"subclass", "Sun Paladin"}},
 		special={desc=_t"Unlocked the evolution", fct=function(self) return profile.mod.allow_build.paladin_avatar end},
+		special2={desc=_t"Found a distant patron", fct=function(self) return not self:attr("pissed_of_distant_sun") end},
 		stat = {mag=25},
 		talent = {"T_SUN_VENGEANCE", "T_WEAPON_OF_LIGHT", "T_SEARING_SIGHT", "T_JUDGEMENT"},
 	},
 	is_class_evolution = "Sun Paladin",
 	cant_steal = true,
 	mode = "passive",
-	on_learn = function(self, t)
+	becomeAvatar = function(self, t)
 		self.descriptor.class_evolution = _t"Avatar of a Distant Sun"
 
 		self:attr("sun_paladin_avatar", 1)
@@ -298,6 +299,12 @@ uberTalent{
 		self:addTemporaryValue("all_damage_convert", DamageType.LIGHT)
 		self:addTemporaryValue("all_damage_convert_percent", 50)
 		self:learnTalent(self.T_GRAVITIC_EFFULGENCE, true)
+	end,
+	on_learn = function(self, t, kind)
+		if not game.party:hasMember(self) then return end
+		local Chat = require "engine.Chat"
+		local chat = Chat.new("avatar-distant-sun", {name=_t"Distant Sun", image="talents/avatar_of_a_distant_sun.png"}, self)
+		chat:invoke()
 	end,
 	info = function(self, t)
 		return ([[During your studies of celestial forces you came in contact with an entity far beyond Eyal: the living incarnation of a Star!
@@ -309,6 +316,7 @@ uberTalent{
 		- #GOLD#Gravitic Effulgence#LAST#: whenever your Weapon of Light hits the damage is now a radius 2 sphere and all foes in range 5 are drawn to it. (You can toggle this effect)
 		- The damage and chance to trigger of #GOLD#Searing Sight#LAST# is doubled
 		- Whenever #GOLD#Sun's Vengeance#LAST# triggers the remaining cooldown of Judgement is reduced by 6.
+		- If you also know #GOLD#Irresistible Sun#LAST#, it will set the fire and light resistances of those affected to 0%%
 
 		#{italic}##GOLD#Will you bind yourself to the Distant Sun?#{normal}#
 		]]):tformat()

@@ -71,7 +71,7 @@ newChat{ id="distant-sun-unsure",
 			player:hasQuest("high-peak"):win("distant-sun")
 		end},
 		{_t"#LIGHT_GREEN#[In a last incredible display of willpower you fight the Distant Sun for a few seconds, letting you project your thoughts to Aeryn.]#WHITE# High Lady! Kill me #{bold}#NOW#{normal}#",
-			cond=function(npc, player) return not void_portal_open(nil, player) and aeryn_alive(npc, player) and player:getWil() >= 55 end, jump="distant-sun-stab"
+			cond=function(npc, player) return not void_portal_open(nil, player) and aeryn_alive(npc, player) and player:getWil() >= 55 end, switch_npc=aeryn_alive(), jump="distant-sun-stab"
 		},
 		{_t"#LIGHT_GREEN#[In a last incredible display of willpower you fight the Distant Sun for a few seconds, unsure how to stop it.]#WHITE##{bold}#NO!#{normal}#",
 			switch_npc=shertul, cond=function(npc, player) return not void_portal_open(nil, player) and not aeryn_alive(npc, player) and player:getWil() >= 55 end, jump="distant-sun-shertul"
@@ -163,7 +163,7 @@ You will do as asked, for the good of all Yeeks! The Way is always right.
 			player:hasQuest("high-peak"):win("yeek-sacrifice")
 		end},
 		{_t"#LIGHT_GREEN#[In a last incredible display of willpower you fight the Way for a few seconds, letting you project your thoughts to Aeryn.]#WHITE# High Lady! Kill me #{bold}#NOW#{normal}#",
-			cond=function(npc, player) return not void_portal_open(nil, player) and aeryn_alive(npc, player) and player:getWil() >= 55 end, jump="yeek-stab"
+			cond=function(npc, player) return not void_portal_open(nil, player) and aeryn_alive(npc, player) and player:getWil() >= 55 end, switch_npc=aeryn_alive(), jump="yeek-stab"
 		},
 	}
 }
@@ -198,7 +198,7 @@ newChat{ id="welcome",
 But the portal to the Void is already open. It must be closed before the Creator can come through or all will have been in vain!
 After searching the remains of the Sorcerers you find a note explaining that the portal can only be closed with a sentient being's sacrifice.]],
 	answers = {
-		{_t"Aeryn, I am sorry but one of us needs to be sacrificed for the world to go on. #LIGHT_GREEN#[sacrifice Aeryn for the sake of the world]", jump="aeryn-sacrifice", cond=aeryn_alive},
+		{_t"Aeryn, I am sorry but one of us needs to be sacrificed for the world to go on. #LIGHT_GREEN#[sacrifice Aeryn for the sake of the world]", jump="aeryn-sacrifice", switch_npc=aeryn_alive(), cond=aeryn_alive},
 		{_t"I will close it. #LIGHT_GREEN#[sacrifice yourself for the sake of the world]", action=function(npc, player)
 			player.no_resurrect = true
 			player:die(player, {special_death_msg=("sacrificing %s for the sake of the world"):tformat(string.his_her_self(player))})
@@ -230,7 +230,7 @@ newChat{ id="welcome",
 You have won the game!
 Both Maj'Eyal and the Far East are safe from the dark schemes of the Sorcerers and their God.]],
 	answers = {
-		{_t"Aeryn, are you well?", jump="aeryn-ok", cond=aeryn_alive},
+		{_t"Aeryn, are you well?", jump="aeryn-ok", switch_npc=aeryn_alive(), cond=aeryn_alive},
 		{_t"[leave]", action=function(npc, player) player:hasQuest("high-peak"):win("full") end},
 	}
 }
