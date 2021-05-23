@@ -4632,6 +4632,7 @@ newEffect{
 	on_lose = function(self, err) return nil, true end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "generic_damage_penalty", eff.power)
+		self:effectTemporaryValue(eff, "dazzled", 1)
 	end,
 }
 
