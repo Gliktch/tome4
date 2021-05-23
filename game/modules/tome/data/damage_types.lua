@@ -2621,7 +2621,9 @@ newDamageType{
 			if target.turn_procs and target.turn_procs.been_retched then
 				mult = 0.5 ^ target.turn_procs.been_retched
 			end
+			src:attr("can_heal_necrotic_minions", 1)
 			target:heal(dam * 1.5 * mult, src)
+			src:attr("can_heal_necrotic_minions", -1)
 			if target.turn_procs then
 				target.turn_procs.been_retched = (target.turn_procs.been_retched or 0) + 1
 			end
