@@ -813,7 +813,7 @@ Difficulty: %s / %s
 Campaign: %s
 Exploring level %s of %s.]]):tformat(
 		player.name, player.level, _t(player.descriptor.subrace, "birth descriptor name"), _t(player.descriptor.subclass, "birth descriptor name"),
-		_t(player.descriptor.difficulty), _t(player.descriptor.permadeath),
+		_t(player.descriptor.difficulty, "birth descriptor name"), _t(player.descriptor.permadeath),
 		_t(player.descriptor.world),
 		self.level and self.level.level or "--", self.zone and self.zone.name or "--"
 		),
