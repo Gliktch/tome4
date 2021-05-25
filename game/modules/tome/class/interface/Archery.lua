@@ -612,14 +612,10 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 	end
 	
 	-- Siege Arrows
-	if hitted and ammo and ammo.siege_impact and (not self.shattering_impact_last_turn or self.shattering_impact_last_turn < game.turn) then
+	if hitted and ammo and ammo.siege_impact then
 		local dam = dam * ammo.siege_impact
-		local invuln = target.invulnerable
-		game.logSeen(target, "The shattering blow creates a shockwave!")
-		target.invulnerable = 1 -- Target already hit, don't damage it twice
-		self:project({type="ball", radius=1, friendlyfire=false}, target.x, target.y, DamageType.PHYSICAL, dam)
-		target.invulnerable = invuln
-		self.shattering_impact_last_turn = game.turn
+		game.logSeen(target, "The siege arrow creates a shockwave!")
+		self:project({type="ball", radius=1, friendlyfire=false, act_exclude={[target.uid]=true}}, target.x, target.y, DamageType.PHYSICAL, dam)
 	end
 
 	if self ~= target then
