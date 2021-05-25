@@ -672,6 +672,7 @@ newEffect{
 		if eff.true_seeing then
 			eff.inv = self:addTemporaryValue("invisible", -(self:attr("invisible") or 0))
 			eff.stealth = self:addTemporaryValue("stealth", -((self:attr("stealth") or 0) + (self:attr("inc_stealth") or 0)))
+			self:resetCanSeeCacheOf() -- updates visual for player instantly
 		end
 	end,
 	deactivate = function(self, eff)
