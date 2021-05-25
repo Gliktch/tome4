@@ -158,7 +158,7 @@ newTalent{
 	require = cursed_wil_req4,
 	points = 5,
 	mode = "passive",
-	getTime = function(self, t) return self:combatTalentScale(t, 3, 5) end,
+	getTime = function(self, t) return math.ceil(self:combatTalentScale(t, 3, 5)) end,
 	getThreshold = function(self, t) return self:combatTalentLimit(t, 10, 30, 15) end,
 	getSpillThreshold = function(self, t) return 40 end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
