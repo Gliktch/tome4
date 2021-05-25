@@ -2094,7 +2094,7 @@ function _M:setupCommands()
 			package.loaded["engine.Chat"] = nil
 			local Chat = require "engine.Chat"
 			Chat.chat_dialog = "mod.dialogs.Chat"
-			local chat = Chat.new("tareyal+test", engine.Entity.new{name=_t"Imperium courrier", image="npc/undead_risen_mistress_vira.png"}, game.player)
+			local chat = Chat.new("tareyal+test", engine.Entity.new{name=_t"Imperium courrier"}, game.player)
 			chat:invoke()
 do return end
 			DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)

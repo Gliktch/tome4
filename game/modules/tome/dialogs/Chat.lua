@@ -39,8 +39,8 @@ end
 function _M:makeUI()
 	self.c_desc = Textzone.new{has_box=true, ui="chat", font=self.chat.dialog_text_font, width=self.iw, height=1, auto_height=true, text=self.text, can_focus=false}
 	self.c_list = VariableList.new{font=self.chat.dialog_answer_font, width=self.iw, max_height=game.h * 0.70 - self.c_desc.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
-	local npc_frame = ChatPortrait.new{ui="chat", actor=self:getActorPortrait(self.npc.chat_display_entity or self.npc)}
-	local player_frame = ChatPortrait.new{ui="chat", actor=self:getActorPortrait(self.player.chat_display_entity or self.player)}
+	local npc_frame = ChatPortrait.new{ui="chat", actor=self:getActorPortrait(self.chat.npc_force_display_entity or self.npc.chat_display_entity or self.npc)}
+	local player_frame = ChatPortrait.new{ui="chat", actor=self:getActorPortrait(self.chat.player_force_display_entity or self.player.chat_display_entity or self.player)}
 
 	local uis = {
 		{hcenter=0, top=-12, ui=self.c_desc},
@@ -69,23 +69,35 @@ function _M:getActorPortrait(actor)
 		if self.player.getCurrentTalent and self.player:getCurrentTalent() then
 			local t = self.player:getTalentFromId(self.player:getCurrentTalent())
 			if t then
-				return Entity.new{name=t.name, image=t.image or "talents/default.png"}
+				local image = t.image or "portrait/unknown.png"
+				if image:find("^talents/") and fs.exists("/data/gfx/shockbolt/"..image:gsub("^talents/", "portrait/")) then
+					image = image:gsub("^talents/", "portrait/")
+				end
+				return Entity.new{name=t.name, image=image, chat_ignore_margins=true}
 			else
-				return Entity.new{name=actor.name, image="talents/default.png"}
+				return Entity.new{name=actor.name, image="portrait/unknown.png", chat_ignore_margins=true}
 			end
 		else
-			return Entity.new{name=actor.name, image="talents/default.png"}
+			return Entity.new{name=actor.name, image="portrait/unknown.png", chat_ignore_margins=true}
 		end
 	end
 
 	-- No need for anything special
 	if actor.image:find("^portrait/") then return actor end
 
-	-- Find the npc portrait
+	-- Find the portrait
 	if actor.image == "invis.png" and actor.add_mos and actor.add_mos[1] and actor.add_mos[1].image and actor.add_mos[1].image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.add_mos[1].image:gsub("^npc/", "portrait/")) then
 		return Entity.new{name=actor.name, image=actor.add_mos[1].image:gsub("^npc/", "portrait/")}
 	elseif actor.image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^npc/", "portrait/")) then
 		return Entity.new{name=actor.name, image=actor.image:gsub("^npc/", "portrait/")}
+	elseif actor.image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^npc/", "portrait/")) then
+		return Entity.new{name=actor.name, image=actor.image:gsub("^npc/", "portrait/")}
+	elseif actor.image:find("^object/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^object/", "portrait/")) then
+		return Entity.new{name=actor.name, image=actor.image:gsub("^object/", "portrait/")}
+	elseif actor.image:find("^object/artifact/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^object/artifact/", "portrait/")) then
+		return Entity.new{name=actor.name, image=actor.image:gsub("^object/artifact/", "portrait/")}
+	elseif actor.image:find("^talents/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^talents/", "portrait/")) then
+		return Entity.new{name=actor.name, image=actor.image:gsub("^talents/", "portrait/")}
 	end
 
 	-- Last resort, use it as it is

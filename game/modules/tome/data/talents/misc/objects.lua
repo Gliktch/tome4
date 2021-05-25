@@ -180,7 +180,7 @@ newTalent{
 			local Chat = require("engine.Chat")
 			local chat = Chat.new("command-staff", staff, self, {version=staff, state=state, co=coroutine.running()})
 			local d = chat:invoke()
-			if not coroutine.yield() then return nil end
+			self:talentDialog(d)
 			return true
 		else -- NPC picks a new element
 			local element, aspect = staff:getStaffPreferredElement(self)

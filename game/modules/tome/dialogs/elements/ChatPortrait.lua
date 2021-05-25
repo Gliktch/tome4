@@ -39,11 +39,12 @@ function _M:init(t)
 	end
 	if self.image then
 		local iw, ih = self.image:getSize()
+		self.oiw, self.oih = iw, ih
 		if iw <= 64 then iw, ih = iw * 2, ih * 2 end
 		self.iw, self.ih = iw, ih
-		if self.image.getEmptyMargins then
+		if self.image.getEmptyMargins and not t.actor.ignore_margins then
 			local x1, x2, y1, y2 = self.image:getEmptyMargins()
-			self.iy = y1
+			self.iy = 0
 		else
 			self.iy = 0
 		end
@@ -63,7 +64,7 @@ function _M:generate()
 	self.back = self:getUITexture("ui/portrait_frame_back.png")
 	self.w, self.h = self.front.w, self.front.h
 
-	if self.image then self.item = {self.image:glTexture(Tiles.sharp_scaling)} end
+	if self.image then self.item = {self.image:glTexture(false, true)} end
 
 	self.name_tex = self:drawFontLine(self.font, self.name, nil, 0xff, 0xee, 0xcb)
 end
@@ -76,7 +77,7 @@ function _M:display(x, y, nb_keyframes, screen_x, screen_y)
 	if self.actor_frame then
 		self.actor_frame:display(dx, dy - self.iy)
 	elseif self.item then
-		self.item[1]:toScreen(dx, dy - self.iy, self.iw, self.ih)
+		self.item[1]:toScreenFull(dx, dy - self.iy, self.iw, self.ih, self.item[2] * self.iw / self.oiw, self.item[3] * self.ih / self.oih)
 	end
 	core.display.glScissor(false)
 	self.front.t:toScreenFull(x, y, self.front.w, self.front.h, self.front.tw, self.front.th)
