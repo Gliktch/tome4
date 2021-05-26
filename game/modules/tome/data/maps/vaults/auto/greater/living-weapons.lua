@@ -172,15 +172,27 @@ local make_poltergeist = function(type)
         }
         e[#e+1] = resolvers.inscription("IMPLANT:_STEAM_GENERATOR", {cooldown=32, power=10}),
         make_req(el, o, "steamsaw")
+    elseif o.subtype == "whip" and o.slot_forbid == "OFFHAND" then
+        class = "Berserker"
+        e.autolevel = "warrior"
+        e[#e+1] = resolvers.talents{
+            [Talents.T_EXOTIC_WEAPONS_MASTERY]={base=1, every=10, max=5},
+        }
 	elseif o.subtype == "whip" then
-		class = "Corruptor"
-		e.autolevel = "caster"
-        e.ai_tactic = resolvers.tactic"ranged"
-		e[#e+1] = resolvers.talents{
-			[Talents.T_CORRUPTED_NEGATION]={base=3, every=12, max=6},
-			[Talents.T_DRAIN]={base=5, every=10, max=7},
-			[Talents.T_BLOOD_GRASP]={base=4, every=5, max=7},
-		}
+        class = "Marauder"
+        e.autolevel = "archer"
+        e[#e+1] = resolvers.talents{
+            [Talents.T_EXOTIC_WEAPONS_MASTERY]={base=1, every=10, max=5},
+        }
+        make_req(el, o, "whip")
+    elseif o.subtype == "trident" then
+        class = "Bulwark"
+        e.autolevel = "warrior"
+        e[#e+1] = resolvers.talents{
+            [Talents.T_EXOTIC_WEAPONS_MASTERY]={base=1, every=10, max=5},
+            [Talents.T_ARMOUR_TRAINING]=2
+        }
+        make_req(el, o, "shield")
     elseif o.type == "weapon" and o.slot_forbid == "OFFHAND" then
         class = "Berserker"
         e.autolevel = "warrior"
