@@ -581,13 +581,12 @@ function _M:actBase()
 
 	for _, defs in pairs(self._applied_resources_inconstant_drain or {}) do
 		local cost = util.getval(defs.cost, self, defs.ab) or 0
-		cost = self:alterTalentCost(defs.ab, defs.res_def.sustain_prop, cost)
-		if cost ~= 0 then
-			if defs.invert_values then
-				self[defs.res_def.incFunction](self, cost)
-			else
-				self[defs.res_def.incFunction](self, -cost)
-			end
+		cost = self:alterTalentCost(defs.ab, defs.res_def.drain_prop, cost)
+		self:removeTemporaryValue(defs.res_def.regen_prop, defs.temporary_value)
+		if defs.res_def.invert_values then
+			defs.temporary_value = self:addTemporaryValue(defs.res_def.regen_prop, cost)
+		else
+			defs.temporary_value = self:addTemporaryValue(defs.res_def.regen_prop, -cost)
 		end
 	end
 	self:regenResources()
@@ -6378,9 +6377,17 @@ function _M:postUseTalent(ab, ret, silent)
 				-- apply drain costs
 				cost = ab[res_def.drain_prop]
 				if type(cost) == "function" then -- non-constant resource drain
+					local init_cost = util.getval(cost, self, ab) or 0
+					init_cost = self:alterTalentCost(ab, res_def.drain_prop, init_cost)
+					local temporary_value
+					if res_def.invert_values then
+						temporary_value = self:addTemporaryValue(res_def.regen_prop, init_cost)
+					else
+						temporary_value = self:addTemporaryValue(res_def.regen_prop, -init_cost)
+					end
 					local tid_res = ab.id .. "_" .. res_def.drain_prop
 					self._applied_resources_inconstant_drain = self._applied_resources_inconstant_drain or {}
-					self._applied_resources_inconstant_drain[tid_res] = {ab = ab, res_def = res_def, cost = cost}
+					self._applied_resources_inconstant_drain[tid_res] = {ab = ab, res_def = res_def, cost = cost, temporary_value = temporary_value}
 					ret._applied_inconstant_drains[res_def.short_name] = tid_res
 					trigger = true
 				elseif cost then
@@ -6429,6 +6436,8 @@ function _M:postUseTalent(ab, ret, silent)
 			-- reverse non-constant resource drain
 			if ret._applied_inconstant_drains then
 				for _, tid_res in pairs(ret._applied_inconstant_drains) do
+					local defs = self._applied_resources_inconstant_drain[tid_res]
+					self:removeTemporaryValue(defs.res_def.regen_prop, defs.temporary_value)
 					self._applied_resources_inconstant_drain[tid_res] = nil
 				end
 			end
