@@ -109,6 +109,7 @@ function _M:relearningLore(v)
 end
 
 function _M:learnLore(lore, nopopup, silent, nostop, after_learn_cb)
+	print("[LORE] learning..", lore)
 	local l = self:getLore(lore, silent)
 	if not l then return end
 	local learnt = false

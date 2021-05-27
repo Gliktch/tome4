@@ -2087,6 +2087,7 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			package.loaded["engine.ui.Textzone"] = nil
 			package.loaded["engine.ui.Dialog"] = nil
 			package.loaded["engine.dialogs.Chat"] = nil
 			package.loaded["mod.dialogs.Chat"] = nil

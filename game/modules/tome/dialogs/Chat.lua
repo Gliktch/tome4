@@ -37,24 +37,36 @@ function _M:init(chat, id, width)
 end
 
 function _M:makeUI()
-	self.c_desc = Textzone.new{has_box=true, ui="chat", font=self.chat.dialog_text_font, width=self.iw, height=1, auto_height=true, text=self.text, can_focus=false}
+	self.c_desc = Textzone.new{has_box=true, ui="chat", font=self.chat.dialog_text_font, width=self.iw - 30, height=1, auto_height=true, text=self.text, can_focus=false}
 	self.c_list = VariableList.new{font=self.chat.dialog_answer_font, width=self.iw, max_height=game.h * 0.70 - self.c_desc.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
-	local npc_frame = ChatPortrait.new{ui="chat", actor=self:getActorPortrait(self.chat.npc_force_display_entity or self.npc.chat_display_entity or self.npc)}
-	local player_frame = ChatPortrait.new{ui="chat", actor=self:getActorPortrait(self.chat.player_force_display_entity or self.player.chat_display_entity or self.player)}
+	local npc_frame = ChatPortrait.new{ui="chat", side="right", actor=self:getActorPortrait(self.chat.npc_force_display_entity or self.npc.chat_display_entity or self.npc)}
+	local player_frame = ChatPortrait.new{ui="chat", side="left", actor=self:getActorPortrait(self.chat.player_force_display_entity or self.player.chat_display_entity or self.player)}
 
 	local uis = {
 		{hcenter=0, top=-12, ui=self.c_desc},
 		{right=0, bottom=0, ui=self.c_list},
-		{left=-player_frame.w+self.frame.ox1-5, vcenter=-self.ix-4, ui=player_frame, ignore_size=true},
-		{right=-npc_frame.w-self.frame.ox2-5, vcenter=-self.ix-4, ui=npc_frame, ignore_size=true},
+		{left=-player_frame.w+self.frame.ox1-5, top=self.frame.oy1-self.iy, ui=player_frame, ignore_size=true},
+		{right=-npc_frame.w-self.frame.ox2-5, top=self.frame.oy1-self.iy, ui=npc_frame, ignore_size=true},
 	}
+
+	-- Only for size info
+	local back = self:getUITexture("ui/portrait_frame_back.png")
+	local deco_down = self:getUITexture("ui/chat_ui_deco_padding_left_down.png")
 
 	self:loadUI(uis)
 	self:setFocus(self.c_list)
 	self:setupUI(false, true, function(w, h)
+		local frameh = -self.frame.oy1 + self.frame.oy2
+		-- Ensure minimal height
+		if h + frameh < back.h then h = back.h - frameh end
+		-- Ensure if it's too big but too small to not have the down deco, to increase it a it
+		if h + frameh > back.h and h + frameh < back.h + deco_down.h / 2 then h = back.h - frameh + deco_down.h / 2 end
 		self.force_x = game.w / 2 - w / 2
 		self.force_y = game.h - h - 20
+		return w, h
 	end)
+	npc_frame:adjustHeight(self.h)
+	player_frame:adjustHeight(self.h)
 end
 
 function _M:getActorPortrait(actor)
