@@ -602,10 +602,16 @@ function _M:setupUI(resizex, resizey, on_resize, addmw, addmh)
 			mw = mw + self.frame.ox1 - self.frame.ox2
 		end
 
-		if on_resize then on_resize(resizex and mw or self.w, resizey and mh or self.h) end
+		if on_resize then
+			local rw, rh = on_resize(resizex and mw or self.w, resizey and mh or self.h)
+			if rw and rh then resizex, resizey = true, true mw, mh = rw, rh end
+		end
 		nw, nh = resizex and mw or self.w, resizey and mh or self.h
 	else
-		if on_resize then on_resize(self.w, self.h) end
+		if on_resize then
+			local rw, rh = on_resize(self.w, self.h)
+			if rw and rh then self.w, self.h = rw, rh end
+		end
 		nw, nh = self.w, self.h
 	end
 

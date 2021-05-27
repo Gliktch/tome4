@@ -27,6 +27,7 @@ local ActorFrame = require "engine.ui.ActorFrame"
 module(..., package.seeall, class.inherit(Base))
 
 function _M:init(t)
+	self.side = assert(t.side, "no ChatPortrait side")
 	assert(t.actor, "no ChatPortrait actor")
 	
 	self.name = t.actor.getName and t.actor:getName() or _t(t.actor.name) or _t"???"
@@ -39,11 +40,12 @@ function _M:init(t)
 	end
 	if self.image then
 		local iw, ih = self.image:getSize()
+		self.oiw, self.oih = iw, ih
 		if iw <= 64 then iw, ih = iw * 2, ih * 2 end
 		self.iw, self.ih = iw, ih
-		if self.image.getEmptyMargins then
+		if self.image.getEmptyMargins and not t.actor.ignore_margins then
 			local x1, x2, y1, y2 = self.image:getEmptyMargins()
-			self.iy = y1
+			self.iy = 0
 		else
 			self.iy = 0
 		end
@@ -51,6 +53,7 @@ function _M:init(t)
 		self.iy = 0
 		self.iw, self.ih = 128, 128
 	end
+	self.h_deco = 0
 
 	Base.init(self, t)
 end
@@ -61,14 +64,33 @@ function _M:generate()
 
 	self.front = self:getUITexture("ui/portrait_frame_front.png")
 	self.back = self:getUITexture("ui/portrait_frame_back.png")
+	self.deco_down = self:getUITexture("ui/chat_ui_deco_padding_"..self.side.."_down.png")
+	self.deco_up = self:getUITexture("ui/chat_ui_deco_padding_"..self.side.."_up.png")
 	self.w, self.h = self.front.w, self.front.h
 
-	if self.image then self.item = {self.image:glTexture(Tiles.sharp_scaling)} end
+	if self.image then self.item = {self.image:glTexture(false, true)} end
 
 	self.name_tex = self:drawFontLine(self.font, self.name, nil, 0xff, 0xee, 0xcb)
 end
 
+function _M:adjustHeight(h)
+	self.h_deco = h - self.back.h
+end
+
 function _M:display(x, y, nb_keyframes, screen_x, screen_y)
+	local deco_x
+	if self.h_deco >= self.deco_up.h + self.deco_down.h then
+		if self.side == "left" then deco_x = x + self.back.w - self.deco_up.w else deco_x = x end
+		self.deco_up.t:toScreenFull(deco_x, y, self.deco_up.w, self.deco_up.h, self.deco_up.tw, self.deco_up.th)
+		y = y + self.deco_up.h
+		screen_y = screen_y + self.deco_up.h
+	end
+	if self.h_deco >= 1 then
+		if self.side == "left" then deco_x = x + self.back.w - self.deco_down.w else deco_x = x end
+		local deco_h = math.min(self.deco_down.h, self.h_deco)
+		self.deco_down.t:toScreenFull(deco_x, y + self.back.h, self.deco_down.w, deco_h, self.deco_down.tw, deco_h * self.deco_down.th / self.deco_down.h)
+	end
+
 	self.back.t:toScreenFull(x, y, self.back.w, self.back.h, self.back.tw, self.back.th)
 	core.display.glScissor(true, screen_x + 15, screen_y + 15, 128, 192)
 	local dx, dy = x + 15 + (128 - self.iw) / 2, y + 15 + (192 - self.ih) / 2
@@ -76,7 +98,7 @@ function _M:display(x, y, nb_keyframes, screen_x, screen_y)
 	if self.actor_frame then
 		self.actor_frame:display(dx, dy - self.iy)
 	elseif self.item then
-		self.item[1]:toScreen(dx, dy - self.iy, self.iw, self.ih)
+		self.item[1]:toScreenFull(dx, dy - self.iy, self.iw, self.ih, self.item[2] * self.iw / self.oiw, self.item[3] * self.ih / self.oih)
 	end
 	core.display.glScissor(false)
 	self.front.t:toScreenFull(x, y, self.front.w, self.front.h, self.front.tw, self.front.th)

@@ -17,12 +17,13 @@
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
 
-
-
 local Dialog = require "engine.ui.Dialog"
 local DamageType = require "engine.DamageType"
 local o = version
 local src = game.player
+
+-- If staff does not provide a portrait, use the talent
+if not npc.has_command_staff_portrait then cur_chat.npc_force_display_entity = src:getTalentFromId(src.T_COMMAND_STAFF) end
 
 if o.factory_settings then
 	print("Just started the chat, and we apparently have o.factory_settings.")

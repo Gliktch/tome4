@@ -165,6 +165,13 @@ function _M:makeFrame(base, w, h, iw, ih)
 		f.b5 = self:getUITexture(base.."5.png")
 		if not w then w = iw + f.b4.w + f.b6.w end
 		if not h then h = ih + f.b8.h + f.b2.h end
+		if self.ui_conf[self.ui].specifics and self.ui_conf[self.ui].specifics[base] then
+			local conf = self.ui_conf[self.ui].specifics[base]
+			w = w + (conf.offset_w or 0)
+			h = h + (conf.offset_h or 0)
+			f.ox = conf.offset_x or 0
+			f.oy = conf.offset_y or 0
+		end
 	end
 	f.w = math.floor(w)
 	f.h = math.floor(h)
@@ -179,8 +186,8 @@ function _M:drawFrame(f, x, y, r, g, b, a, w, h, total_w, total_h, loffset_x, lo
 	total_w = total_w or 0
 	total_h = total_h or 0
 	
-	x = math.floor(x)
-	y = math.floor(y)
+	x = math.floor(x) + (f.ox or 0)
+	y = math.floor(y) + (f.oy or 0)
 	
 	f.w = math.floor(w or f.w)
 	f.h = math.floor(h or f.h)
