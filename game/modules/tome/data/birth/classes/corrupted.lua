@@ -132,7 +132,6 @@ newBirthDescriptor{
 		end,
 	},
 	talents_types = {
-		["technique/combat-training"]={true, 0.0},
 		["cunning/survival"]={false, 0.0},
 		["corruption/sanguisuge"]={true, 0.3},
 		["corruption/hexes"]={true, 0.3},

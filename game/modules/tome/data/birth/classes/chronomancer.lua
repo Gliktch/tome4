@@ -114,7 +114,6 @@ newBirthDescriptor{
 		["chronomancy/chronomancy"]={true, 0.3},
 		["chronomancy/fate-weaving"]={true, 0.3},
 		["chronomancy/spacetime-weaving"]={true, 0.3},
-		["technique/combat-training"]={true, 0.0},
 
 		-- locked generic
 		["chronomancy/energy"]={false, 0.3},

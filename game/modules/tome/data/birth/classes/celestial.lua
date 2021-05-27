@@ -76,7 +76,7 @@ newBirthDescriptor{
 		["technique/shield-offense"]={true, 0.0},
 		["technique/2hweapon-assault"]={true, 0.0},
 		["technique/combat-techniques-active"]={false, 0.0},
-		["technique/combat-training"]={true, 0.3},
+		["technique/combat-training"]={true, 0.0},
 		["cunning/survival"]={false, 0.0},
 		["technique/combat-techniques-passive"]={true, 0.0},
 		["celestial/sun"]={true, 0.3},
@@ -149,7 +149,6 @@ newBirthDescriptor{
 	power_source = {arcane=true},
 	stats = { mag=6, cun=3, },
 	talents_types = {
-		["technique/combat-training"]={true, 0.0},
 		["cunning/survival"]={false, 0.0},
 		["celestial/sunlight"]={true, 0.3},
 		["celestial/chants"]={true, 0.3},
