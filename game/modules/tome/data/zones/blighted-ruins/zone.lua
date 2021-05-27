@@ -19,11 +19,11 @@
 
 return {
 	name = _t"Blighted Ruins",
-	level_range = {1, 5},
+	level_range = {1, 7},
 	level_scheme = "player",
 	max_level = 3,
 	decay = {300, 800},
-	actor_adjust_level = function(zone, level, e) return zone.base_level + e:getRankLevelAdjust() + (zone.max_level - level.level) + rng.range(-1,2) end,
+	actor_adjust_level = function(zone, level, e) return zone.base_level + level.level-1 + e:getRankLevelAdjust() + 1 end,
 	level_adjust_level = function(zone, level) return zone.base_level + (zone.max_level - level.level) end,
 	width = 50, height = 50,
 	tier1 = true,

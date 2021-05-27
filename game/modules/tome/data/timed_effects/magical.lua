@@ -410,7 +410,7 @@ newEffect{
 	subtype = { ward=true, },
 	status = "beneficial",
 	parameters = { wards = {} },
-	on_gain = function(self, err) return _t"#Target# summons a prismatic shield to protect him!", _t"+Prismatic" end,
+	on_gain = function(self, err) return _t"#Target# summons a prismatic shield for protection!", _t"+Prismatic" end,
 	on_lose = function(self, err) return _t"#Target#'s prismatic shield fades.", _t"-Prismatic" end,
 	activate = function(self, eff)
 	end,
@@ -440,7 +440,7 @@ newEffect{
 	subtype = { arcane=true, },
 	status = "beneficial",
 	parameters = {},
-	on_gain = function(self, err) return _t"#Target# is being purged of his physical ailments!", _t"+Purging" end,
+	on_gain = function(self, err) return _t"#Target# is being purged of physical ailments!", _t"+Purging" end,
 	on_lose = function(self, err) return _t"#Target#'s is no longer being purged.", _t"-Purging" end,
 	activate = function(self, eff)
 	end,
