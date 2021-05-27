@@ -35,7 +35,7 @@ return {
 	system_rotation = dir, system_rotationv = 0,
 	generator = function()
 	return {
-		life = 42,
+		life = 15,
 		--size = 30, sizev = 2.1*64*radius/16, sizea = 0,
 		size = 3.5*64*radius, sizev = 0, sizea = 0,
 
@@ -47,7 +47,7 @@ return {
 		r = 1, rv = 0, ra = 0,
 		g = 1, gv = 0, ga = 0,
 		b = 1, bv = 0, ba = 0,
-		a = 1, av = 0, aa = 0,
+		a = 0.7, av = 0, aa = 0,
 	}
 end, },
 function(self)

@@ -153,6 +153,12 @@ newTalent{
 	tactical = { DEFEND = 3, ATTACK = 2 },
 	getLife = function(self, t) return math.ceil(self:combatTalentScale(t, 5, 12)) end,
 	on_pre_use = function(self, t) return self.in_combat and not self:hasEffect(self.EFF_MIRROR_IMAGE_REAL) end,
+	callbackOnDeath = function(self, t)
+		-- Remove mirror image on death
+		for uid, e in pairs(game.level.entities) do
+			if e.is_mirror_image and e.summoner and e.summoner == self then e:disappear() end
+		end
+	end,
 	action = function(self, t)
 		if not self:canBe("summon") then game.logPlayer(self, "You cannot summon; you are suppressed!") return end
 
@@ -242,6 +248,7 @@ newTalent{
 			iceblock_pierce = self.iceblock_pierce,
 			no_breath = 1,
 			remove_from_party_on_death = true,
+			is_mirror_image = 1,
 		}
 
 		image:resolve()

@@ -48,7 +48,7 @@ newTalent{
 	equilibrium = 5,
 	cooldown = 25,
 	range = 10,
-	radius = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8, 0.5, 0, 0, true)) end,
+	radius = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
 	requires_target = true,
 	no_npc_use = true,
 --[[ WIP: how to set up tactics: (Not implemented at this time)

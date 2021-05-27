@@ -51,7 +51,7 @@ defineTile('2', "FLOOR", {random_filter={type="ammo", add_levels=10, tome_mod="v
 
 return {
 [[XXXXXXXXXXXXXXXXX]],
-[[XE$..#.....#..$EX]],
+[[XE$...........$EX]],
 [[X$2$##..P..##$2$X]],
 [[X.$##.......##$.X]],
 [[X.##...X^X...##.X]],
@@ -61,7 +61,7 @@ return {
 [[X.T.^.#1D1#.^.T.X]],
 [[X...XXX111XXX...X]],
 [[X......X#X......X]],
-[[X##..e.X.X.e..##X]],
+[[X.#..e.X.X.e..#.X]],
 [[X.##...X^X...##.X]],
 [[X.$##.......##$.X]],
 [[X$2$##..P..##$2$X]],

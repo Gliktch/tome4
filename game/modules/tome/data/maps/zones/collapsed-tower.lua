@@ -78,20 +78,21 @@ defineTile('!', "DOOR_VAULT")
 defineTile('>', "DYNAMIC_ZONE_EXIT")
 
 
-defineTile('b', "FLOOR", {random_filter={add_levels=20, tome_mod="gvault"}}, {random_filter={add_levels=5, name="skeleton magus"}})
+defineTile('b', "FLOOR", {random_filter={add_levels=15, tome_mod="gvault"}}, {random_filter={add_levels=5, name="skeleton magus"}})
 defineTile('$', "FLOOR", {random_filter={add_levels=25, type="money"}})
-defineTile('j', "FLOOR", {random_filter={add_levels=10, type="jewelry", tome_mod="gvault"}})
-defineTile('t', "FLOOR", {random_filter={add_levels=5, tome_mod="gvault"}}, turret())
+defineTile('j', "FLOOR", {random_filter={add_levels=5, type="jewelry", tome_mod="vault"}})
+defineTile('J', "FLOOR", {random_filter={add_levels=10, type="jewelry", tome_mod="gvault"}})
+defineTile('t', "FLOOR", {random_filter={add_levels=5, tome_mod="vault"}}, turret())
 
 local def = {
 [[##############]],
-[[#tjj##########]],
+[[#tjJ##########]],
 [[#b$$##########]],
 [[##.##t$..t####]],
 [[#t.+...>..####]],
 [[##.##...$.####]],
 [[#b$$#$...t####]],
-[[#tjj##########]],
+[[#tjJ##########]],
 [[##############]],
 }
 

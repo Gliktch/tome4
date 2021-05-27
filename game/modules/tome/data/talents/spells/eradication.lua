@@ -53,7 +53,7 @@ newTalent{
 			DamageType.BONEYARD, {resist=t:_getResist(self), cooldown=t:_getCooldown(self), power=t:_getPower(self), resurrect=t:_getResurrect(self)},
 			self:getTalentRadius(t),
 			5, nil,
-			MapEffect.new{zdepth=3, color_br=255, color_bg=255, color_bb=255, effect_shader="shader_images/boneyard_ground_gfx_3.png"},
+			MapEffect.new{zdepth=3, alpha=85, color_br=255, color_bg=255, color_bb=255, effect_shader="shader_images/boneyard_ground_gfx_3.png"},
 			nil,
 			true, true
 		)

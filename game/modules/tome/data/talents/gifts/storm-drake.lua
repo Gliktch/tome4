@@ -129,7 +129,7 @@ newTalent{
 	on_unlearn = function(self, t) self.resists[DamageType.LIGHTNING] = (self.resists[DamageType.LIGHTNING] or 0) - 1 end,
 	getMoveDamage = function(self, t) return self:combatTalentMindDamage(t, 10, 30) end,
 	getDamage = function(self, t) return self:combatTalentMindDamage(t, 10, 150) end,
-	getRadius = function(self, t) return math.floor(self:combatTalentScale(t, 2, 4, 0.5, 0, 0, true)) end,
+	getRadius = function(self, t) return math.floor(self:combatTalentScale(t, 2, 4)) end,
 	action = function(self, t)
 		local tg = {type="hit", range=self:getTalentRange(t), selffire=false, talent=t}
 		local x, y = self:getTarget(tg)
