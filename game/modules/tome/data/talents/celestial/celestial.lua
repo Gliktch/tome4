@@ -43,7 +43,8 @@ newTalentType{ no_silence=true, is_spell=true, type="celestial/other", name = _t
 newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/dirges", name = _t("Dirges", "talent type"), description = _t"The songs the Fallen sing." }
 newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/darkside", name = _t("Darkside", "talent type"), description = _t"Signature magics of the Fallen.  The sun shines for the guilty and the innocent alike." }
 newTalentType{ allow_random=false, no_silence=true, is_spell=true, type="celestial/dark-sun", name = _t("Dark Sun", "talent type"), description = _t"Celestial combat techniques inspired by the dark places that are not empty." }
-newTalentType{ allow_random=false, no_silence=true, is_spell=true, generic=true, type="celestial/dirge", name = _t("Dirges", "talent type"), description = _t"Sing of death and damnation." }
+
+newTalentType{ allow_random=false, no_silence=true, is_spell=true, generic=true, type="celestial/dirge", name = _t("Dirges", "talent type"), description = _t"Sing of death and damnation.", on_mastery_change = function(self, m, tt) self.talents_types_mastery["celestial/dirges"] = self.talents_types_mastery[tt] end }
 
 -- Generic requires for celestial spells based on talent level
 divi_req1 = {

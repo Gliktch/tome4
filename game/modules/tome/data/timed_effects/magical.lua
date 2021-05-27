@@ -672,6 +672,7 @@ newEffect{
 		if eff.true_seeing then
 			eff.inv = self:addTemporaryValue("invisible", -(self:attr("invisible") or 0))
 			eff.stealth = self:addTemporaryValue("stealth", -((self:attr("stealth") or 0) + (self:attr("inc_stealth") or 0)))
+			self:resetCanSeeCacheOf() -- updates visual for player instantly
 		end
 	end,
 	deactivate = function(self, eff)
@@ -5509,9 +5510,9 @@ newEffect{
 	status = "beneficial",
 	parameters = { shield=50, cd=5 },
 	callbackOnTemporaryEffectAdd = function(self, eff, eff_id, e_def, eff_incoming)
-		if not self:hasProc("dirge_shield") then
+		if not self:hasEffect(self.EFF_NO_PESTILENCE) then
 			if e_def.status == "detrimental" and e_def.type ~= "other" and eff_incoming.src ~= self then
-				self:setProc("dirge_shield", true, eff.cd)
+				self:setEffect(self.EFF_NO_PESTILENCE, eff.cd, {src=self})
 				if self:hasEffect(self.EFF_DAMAGE_SHIELD) then
 					local shield = self:hasEffect(self.EFF_DAMAGE_SHIELD)
 					local shield_power = self:spellCrit(eff.shield)
