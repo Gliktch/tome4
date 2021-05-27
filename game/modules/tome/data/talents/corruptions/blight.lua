@@ -41,7 +41,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Increases your spell critical damage multiplier by %d%%.
+		return ([[Increases your critical damage multiplier by %d%%.
 		The multiplier will increase with your Spellpower.]]):
 		tformat(self:combatTalentSpellDamage(t, 20, 50))
 	end,

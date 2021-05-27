@@ -89,9 +89,8 @@ newTalent{
 		local inc = t.getDurInc(self, t)
 		return ([[Improves your ability to perform counterstrikes after blocks in the following ways:
 		Allows counterstrikes after incomplete blocks.
-		Increases the duration of the counterstrike debuff on attackers by %d %s.
 		Increases the number of counterstrikes you can perform on a target while they're vulnerable by %d.
-		Increases the crit chance of counterstrikes by %d%%. This increase scales with your Dexterity.]]):tformat(inc, (inc > 1 and _t"turns" or _t"turn"), inc, t.getCritInc(self, t))
+		Increases the crit chance of counterstrikes by %d%%. This increase scales with your Dexterity.]]):tformat(inc, t.getCritInc(self, t))
 	end,
 }
 
