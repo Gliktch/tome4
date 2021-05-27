@@ -125,9 +125,7 @@ newTalent{
 	callbackOnActBase = function(self, t)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
-		if p.stamina then self:removeTemporaryValue("stamina_regen", p.stamina) end
 		if p.turns then p.turns = p.turns + 1 end
-		p.stamina = self:addTemporaryValue("stamina_regen", -(t.drain_stamina(self, t, p.turns) - t.drain_stamina(self, t, 0)))
 
 		-- This should be redundant but there are cases the value won't properly update, ie direct life reductions
 		if p.resid then self:removeTemporaryValue("resists", p.resid) end
