@@ -68,5 +68,6 @@ if not config.settings.tome.log_fade then config.settings.tome.log_fade = 3 end
 if not config.settings.tome.scroll_dist then config.settings.tome.scroll_dist = 50 end
 if not config.settings.tome.hotkey_icons_rows then config.settings.tome.hotkey_icons_rows = 1 end
 if not config.settings.tome.hotkey_icons_size then config.settings.tome.hotkey_icons_size = 48 end
+if not config.settings.locale then config.settings.locale = "en_US" end
 
 print("[TOME] Loaded default settings")
