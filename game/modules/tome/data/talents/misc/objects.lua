@@ -132,6 +132,7 @@ newTalent{
 		local oh = self:hasOffWeaponType("mindstar")
 		if mh then apply(mh) end
 		if oh then apply(oh) end
+		return true
 	end,
 	info = function(self, t)
 		return ([[Alter the flow of energies of your equiped mindstars, changing their damage type between nature and mind.]]):tformat()
