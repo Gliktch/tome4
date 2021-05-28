@@ -580,13 +580,15 @@ function _M:actBase()
 	end
 
 	for _, defs in pairs(self._applied_resources_inconstant_drain or {}) do
-		local cost = util.getval(defs.cost, self, defs.ab) or 0
-		cost = self:alterTalentCost(defs.ab, defs.res_def.drain_prop, cost)
-		self:removeTemporaryValue(defs.res_def.regen_prop, defs.temporary_value)
-		if defs.res_def.invert_values then
-			defs.temporary_value = self:addTemporaryValue(defs.res_def.regen_prop, cost)
-		else
-			defs.temporary_value = self:addTemporaryValue(defs.res_def.regen_prop, -cost)
+		local new_cost = util.getval(defs.cost, self, defs.ab) or 0
+		new_cost = self:alterTalentCost(defs.ab, defs.res_def.drain_prop, new_cost)
+		if not defs.res_def.invert_values then
+			new_cost = - new_cost
+		end
+		if defs.old_cost ~= new_cost then
+			self:removeTemporaryValue(defs.res_def.regen_prop, defs.temporary_value)
+			defs.temporary_value = self:addTemporaryValue(defs.res_def.regen_prop, new_cost)
+			defs.old_cost = new_cost
 		end
 	end
 	self:regenResources()
@@ -6379,15 +6381,13 @@ function _M:postUseTalent(ab, ret, silent)
 				if type(cost) == "function" then -- non-constant resource drain
 					local init_cost = util.getval(cost, self, ab) or 0
 					init_cost = self:alterTalentCost(ab, res_def.drain_prop, init_cost)
-					local temporary_value
-					if res_def.invert_values then
-						temporary_value = self:addTemporaryValue(res_def.regen_prop, init_cost)
-					else
-						temporary_value = self:addTemporaryValue(res_def.regen_prop, -init_cost)
+					if not res_def.invert_values then
+						init_cost = - init_cost
 					end
+					local temporary_value = self:addTemporaryValue(res_def.regen_prop, init_cost)
 					local tid_res = ab.id .. "_" .. res_def.drain_prop
 					self._applied_resources_inconstant_drain = self._applied_resources_inconstant_drain or {}
-					self._applied_resources_inconstant_drain[tid_res] = {ab = ab, res_def = res_def, cost = cost, temporary_value = temporary_value}
+					self._applied_resources_inconstant_drain[tid_res] = {ab = ab, res_def = res_def, cost = cost, old_cost = init_cost, temporary_value = temporary_value}
 					ret._applied_inconstant_drains[res_def.short_name] = tid_res
 					trigger = true
 				elseif cost then
