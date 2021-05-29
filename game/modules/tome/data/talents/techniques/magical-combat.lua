@@ -29,6 +29,23 @@ newTalent{
 	cooldown = 5,
 	tactical = { BUFF = 2 },
 	getChance = function(self, t) return self:combatLimit(self:getTalentLevel(t) * (1 + self:getCun(9, true)), 100, 20, 0, 70, 50) end, -- Limit < 100%
+	callbackOnAITalentTactics = function(self, t, hd)
+		local p = self:isTalentActive(t.id)
+		if not p then return end
+		if hd.t.allow_for_arcane_combat then
+			hd.tactical = {}
+		end
+		if hd.tactical then
+			local tactical = hd.tactical
+			if tactical.attack and type(tactical.attack) == "table" and tactical.attack.weapon then
+				tactical.attack.weapon = tactical.attack.weapon + 1
+			end
+			if tactical.attackarea and type(tactical.attackarea) == "table" and tactical.attackarea.weapon then
+				tactical.attackarea.weapon = tactical.attackarea.weapon + 1
+			end
+		end
+		return true
+	end,
 	canUseTalent = function(self, t, proc) -- Returns true if the actor can currently trigger the "proc" talent with Arcane Combat
 		local talent = self:getTalentFromId(proc)
 		if not talent or not talent.allow_for_arcane_combat then return false end
