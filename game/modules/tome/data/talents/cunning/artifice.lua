@@ -607,7 +607,7 @@ newTalent{
 	points = 1,
 	tactical = { ATTACK = {PHYSICAL = 1},
 		DISABLE = function(self, t, target)
-			return target:checkClassification("unliving") and 0 or self:knowTalent(self.T_DART_LAUNCHER_MASTERY) and 2 or {sleep = 1, poison = 1}
+			return self:knowTalent(self.T_DART_LAUNCHER_MASTERY) and 2 or {sleep = 1, poison = 1}
 		end
 	},
 	range = 5,
