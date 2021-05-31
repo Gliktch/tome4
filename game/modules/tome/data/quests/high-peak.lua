@@ -120,7 +120,7 @@ function win(self, how)
 
 	if how == "full" then world:gainAchievement("WIN_FULL", game.player)
 	elseif how == "aeryn-sacrifice" then world:gainAchievement("WIN_AERYN", game.player)
-	elseif how == "self-sacrifice" or how == "distant-sun-sacrifice" or how == "distant-sun-selfless" then world:gainAchievement("WIN_SACRIFICE", game.player)
+	elseif how == "self-sacrifice" then world:gainAchievement("WIN_SACRIFICE", game.player)
 	elseif how == "yeek-sacrifice" then world:gainAchievement("YEEK_SACRIFICE", game.player)
 	elseif how == "yeek-selfless" then world:gainAchievement("YEEK_SELFLESS", game.player)
 	elseif how == "distant-sun" then world:gainAchievement("AOADS_BURN", game.player)

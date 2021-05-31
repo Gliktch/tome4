@@ -76,7 +76,7 @@
         "name": "chat",
         "data": {
             "chatid": "welcome",
-            "chat": "<<<You feel you the gentle warmth of your Distant Sun patron. It speaks directly to your mind!>>>\n#YELLOW#I AM HERE. DO YOU DESIRE TO SMITE EVIL, DESTROY THE DARKNESS AND SCOUR THE EARTH? I SHALL AID YOU IN THIS QUEST. TOGETHER, WE WILL BE UNSTOPPABLE. ALL DARKNESS SHALL BE CONSUMED BY OUR LIGHT.\n#LAST#",
+            "chat": "<<<You feel the gentle warmth of your Distant Sun patron. It speaks directly to your mind!>>>\n#YELLOW#I AM HERE. DO YOU DESIRE TO SMITE EVIL, DESTROY THE DARKNESS AND SCOUR THE EARTH? I SHALL AID YOU IN THIS QUEST. TOGETHER, WE WILL BE UNSTOPPABLE. ALL DARKNESS SHALL BE CONSUMED BY OUR LIGHT.\n#LAST#",
             "answer1": "Yes, give me your power!",
             "answer2": "Who... Who are you?"
         },

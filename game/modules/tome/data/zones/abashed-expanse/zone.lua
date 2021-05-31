@@ -34,6 +34,7 @@ return {
 	no_level_connectivity = true,
 	force_controlled_teleport = true,
 	no_autoexplore = true,
+	in_orbit = true,
 	effects = {"EFF_ZONE_AURA_ABASHED"},
 
 	generator =  {

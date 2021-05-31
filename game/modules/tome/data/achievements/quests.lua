@@ -124,7 +124,7 @@ newAchievement{
 newAchievement{
 	name = "Last Instant of Sanity", id = "AOADS_SELFLESS",
 	show = "name", huge=true,
-	desc = _t[[Won ToME by closing the Void portal and letting yourself be killed by Aeryn to prevent the your mad patron sun from burning the world in a searing flash.]],
+	desc = _t[[Won ToME by closing the Void portal and letting yourself be killed by Aeryn to prevent your mad patron sun from burning the world in a searing flash.]],
 }
 newAchievement{
 	name = "They Came Back For Eyal", id = "AOADS_SHERTUL",

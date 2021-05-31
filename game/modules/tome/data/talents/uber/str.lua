@@ -299,6 +299,7 @@ uberTalent{
 		self:addTemporaryValue("all_damage_convert", DamageType.LIGHT)
 		self:addTemporaryValue("all_damage_convert_percent", 50)
 		self:learnTalent(self.T_GRAVITIC_EFFULGENCE, true)
+		game.level.map:particleEmitter(self.x, self.y, 5, "sunburst", {radius=5, max_alpha=80})
 	end,
 	on_learn = function(self, t, kind)
 		if not game.party:hasMember(self) then return end
