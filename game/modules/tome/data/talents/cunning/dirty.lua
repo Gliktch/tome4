@@ -162,8 +162,8 @@ newTalent{
 	range = 1,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1, 1.5) end,
-	getDuration = function(self, t) return self:combatTalentScale(t, 2, 4, "log") end,
-	getDebuffs = function(self, t) return math.floor(self:combatTalentScale(t, 1, 3, "log")) end,
+	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 2, 5)) end,
+	getDebuffs = function(self, t) return math.floor(self:combatTalentScale(t, 1.5, 3)) end,
 	speed = "weapon",
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)

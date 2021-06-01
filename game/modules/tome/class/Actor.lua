@@ -1881,6 +1881,7 @@ function _M:textRank(use_rank)
 	elseif use_rank == 3.5 then rank, color = _t"unique", "#SANDY_BROWN#"
 	elseif use_rank == 4 then rank, color = _t"boss", "#ORANGE#"
 	elseif use_rank == 5 then rank, color = _t"elite boss", "#GOLD#"
+	elseif use_rank == 11 then rank, color = _t"godslayer", "#FF4000#"
 	elseif use_rank >= 10 then rank, color = _t"god", "#FF4000#"
 	end
 	return rank, color
@@ -4817,6 +4818,7 @@ end
 function _M:checkTwoHandedPenalty()
 	self:removeEffect(self.EFF_2H_PENALTY, true, true)
 	if not self:attr("allow_mainhand_2h_in_1h") then return end
+	if self:attr("allow_mainhand_2h_in_1h_no_penalty") then return end
 	local mi, oi = self:getInven(self.INVEN_MAINHAND), self:getInven(self.INVEN_OFFHAND)
 	if not mi or not oi then return end
 	local mh, oh = mi[1], oi[1]

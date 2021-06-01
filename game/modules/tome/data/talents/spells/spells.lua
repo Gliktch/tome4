@@ -120,6 +120,7 @@ spells_req_high5 = {
 }
 
 function thaumaturgyCheck(self)
+	if self:attr("archmage_widebeam_always") then return true end
 	if not self:attr("archmage_widebeam") then return false end
 	local inven = self:getInven("BODY")
 	if not inven then return true end

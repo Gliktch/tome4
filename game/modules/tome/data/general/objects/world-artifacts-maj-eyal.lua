@@ -501,7 +501,7 @@ newEntity{ base = "BASE_KNIFE",
 		dam = 45,
 		apr = 11,
 		physcrit = 18,
-		dammod = {dex=0.55,str=0.35},
+		dammod = {dex=0.5,str=0.5},
 	},
 	wielder = {
 		lite = 1,
@@ -1176,7 +1176,7 @@ newEntity{ base = "BASE_KNIFE", -- Thanks Grayswandir!
 		dam = 20,
 		apr = 10,
 		physcrit = 12,
-		dammod = {dex=0.45,str=0.45,},
+		dammod = {dex=0.5,str=0.5,},
 		lifesteal = 6,
 		melee_project = {
 			[DamageType.FIRE] = 20,

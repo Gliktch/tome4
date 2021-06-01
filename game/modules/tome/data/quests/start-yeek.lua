@@ -20,7 +20,7 @@
 name = _t"Following The Way"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = _t"You have been tasked to remove at leastg one of the threats to the yeeks.\n"
+	desc[#desc+1] = _t"You have been tasked to remove at least one of the threats to the yeeks.\n"
 	desc[#desc+1] = _t"Protect the Way, and vanquish your foes.\n"
 	if self:isCompleted("murgol") then
 		if self:isCompleted("murgol-invaded") then

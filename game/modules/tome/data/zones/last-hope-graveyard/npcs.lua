@@ -104,9 +104,11 @@ newEntity{ define_as = "CELIA",
 			game.player:setQuestStatus("lichform", engine.Quest.COMPLETED, "heart")
 
 			local o = game.zone:makeEntityByName(game.level, "object", "CELIA_HEART")
-			o:identify(true)
-			if p:addObject(p.INVEN_INVEN, o) then
-				game.logPlayer(p, "You receive: %s.", o:getName{do_color=true})
+			if o then
+				o:identify(true)
+				if p:addObject(p.INVEN_INVEN, o) then
+					game.logPlayer(p, "You receive: %s.", o:getName{do_color=true})
+				end
 			end
 
 			local Dialog = require("engine.ui.Dialog")

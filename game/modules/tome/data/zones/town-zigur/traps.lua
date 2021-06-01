@@ -71,6 +71,7 @@ newEntity{ base = "BASE_STORE", define_as = "LIBRARY",
 newEntity{ base = "BASE_STORE", define_as = "TRAINER",
 	name="Trainer",
 	display='1', color=colors.UMBER, image = "store/shop_door2.png", add_mos={{display_x=0.6, image="store/shop_sign_trainer.png"}},
+	chat_display = {name=_t"Grim-looking fighter", image="portrait/antimagic.png"},
 	resolvers.chatfeature("zigur-trainer", "zigur"),
 }
 

@@ -24,7 +24,7 @@ newTalent{
 	mode = "passive",
 	points = 5,
 	require = { stat = { con=function(level) return 14 + level * 9 end }, },
-	getRes = function(self, t) return self:combatTalentScale(t, 4, 15, 0.75, 0, 0, true) end,
+	getRes = function(self, t) return self:combatTalentScale(t, 3.16, 12.2, 0.75) end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "resists", {all = t.getRes(self, t)})
 	end,

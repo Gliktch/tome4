@@ -1,0 +1,58 @@
+{
+    "22": {
+        "id": 22,
+        "name": "chat",
+        "data": {
+            "chatid": "welcome",
+            "chat": "**DO NOT TRANSLATE YET**\n<<<You feel a gentle warmth in your mind. Something speaks directly to your mind!>>>\n#YELLOW#WELL MET FRIEND! I AM A FAR AWAY STAR, AND VERY FRIENDLY, ALSO LIBERTY NEEDS TO WRITE ME!\n#LAST#",
+            "answer1": "sOUNDS COOL!"
+        },
+        "class": "chat",
+        "html": "chat1",
+        "typenode": true,
+        "inputs": {
+            "input_1": {
+                "connections": []
+            }
+        },
+        "outputs": {
+            "output_1": {
+                "connections": [
+                    {
+                        "node": "24",
+                        "output": "input_1"
+                    }
+                ]
+            }
+        },
+        "pos_x": 213,
+        "pos_y": 362
+    },
+    "24": {
+        "id": 24,
+        "name": "lua-code",
+        "data": {
+            "code": "player:callTalent(player.T_AVATAR_DISTANT_SUN_UNLOCK_CHECKER, \"doUnlock\")"
+        },
+        "class": "lua-code",
+        "html": "lua-code",
+        "typenode": true,
+        "inputs": {
+            "input_1": {
+                "connections": [
+                    {
+                        "node": "22",
+                        "input": "output_1"
+                    }
+                ]
+            }
+        },
+        "outputs": {
+            "output_1": {
+                "connections": []
+            }
+        },
+        "pos_x": 775,
+        "pos_y": 381
+    }
+}

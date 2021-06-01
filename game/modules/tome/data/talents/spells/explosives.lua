@@ -24,7 +24,7 @@ newTalent{
 	points = 5,
 	mana = 5,
 	cooldown = 4,
-	range = function(self, t) return math.floor(self:combatTalentScale(t, 5, 9, 0.5, 0, 0, true)) end,
+	range = function(self, t) return math.min(10, math.floor(self:combatTalentScale(t, 5, 9))) end,
 	radius = function(self, t) return self:callTalent(self.T_EXPLOSION_EXPERT, "getRadius") end,
 	direct_hit = true,
 	requires_target = true,
@@ -154,22 +154,17 @@ newTalent{
 	require = spells_req2,
 	mode = "passive",
 	points = 5,
-	on_learn = function(self, t)
-		self.resists[DamageType.FIRE] = (self.resists[DamageType.FIRE] or 0) + 3
-		self.resists[DamageType.COLD] = (self.resists[DamageType.COLD] or 0) + 3
-		self.resists[DamageType.LIGHTNING] = (self.resists[DamageType.LIGHTNING] or 0) + 3
-		self.resists[DamageType.ACID] = (self.resists[DamageType.ACID] or 0) + 3
-	end,
-	on_unlearn = function(self, t)
-		self.resists[DamageType.FIRE] = self.resists[DamageType.FIRE] - 3
-		self.resists[DamageType.COLD] = self.resists[DamageType.COLD] - 3
-		self.resists[DamageType.LIGHTNING] = self.resists[DamageType.LIGHTNING] - 3
-		self.resists[DamageType.ACID] = self.resists[DamageType.ACID] - 3
+	getResists = function(self, t) return self:combatTalentScale(t, 4, 17) end,
+	passives = function(self, t, p) 
+		self:talentTemporaryValue(p, "resists",{[DamageType.FIRE]=t.getResists(self, t)})
+		self:talentTemporaryValue(p, "resists",{[DamageType.COLD]=t.getResists(self, t)})
+		self:talentTemporaryValue(p, "resists",{[DamageType.LIGHTNING]=t.getResists(self, t)})
+		self:talentTemporaryValue(p, "resists",{[DamageType.ACID]=t.getResists(self, t)})
 	end,
 	info = function(self, t)
 		return ([[Grants %d%% protection to you, your golem and other friendly creatures against the elemental damage of your own bombs, and against external elemental damage (fire, cold, lightning and acid) by %d%%.
 		At talent level 5 it also protects against all side effects of your bombs.]]):
-		tformat(math.min(100, self:getTalentLevelRaw(t) * 20), self:getTalentLevelRaw(t) * 3)
+		tformat(math.min(100, self:getTalentLevelRaw(t) * 20), t.getResists(self, t))
 	end,
 }
 
@@ -210,7 +205,7 @@ newTalent{
 	points = 5,
 	mana = 32,
 	cooldown = 10,
-	range = function(self, t) return math.floor(self:combatTalentScale(t, 5, 9, 0.5, 0, 0, true)) end,
+	range = function(self, t) return math.floor(self:combatTalentScale(t, 5, 9)) end,
 	radius = 2,
 	direct_hit = true,
 	requires_target = true,

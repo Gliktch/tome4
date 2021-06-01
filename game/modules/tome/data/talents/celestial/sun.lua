@@ -152,6 +152,9 @@ newTalent{
 			if self.talents_cd[self.T_SUN_BEAM] <= 0 then self.talents_cd[self.T_SUN_BEAM] = nil end
 		else
 			self:setEffect(self.EFF_SUN_VENGEANCE, 2, {})
+			if self:attr("sun_paladin_avatar") then
+				self:alterTalentCoolingdown(self.T_JUDGEMENT, -6)
+			end
 		end
 	end,
 	info = function(self, t)

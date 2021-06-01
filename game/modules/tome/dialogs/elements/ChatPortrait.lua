@@ -45,7 +45,7 @@ function _M:init(t)
 		self.iw, self.ih = iw, ih
 		if self.image.getEmptyMargins and not t.actor.ignore_margins then
 			local x1, x2, y1, y2 = self.image:getEmptyMargins()
-			self.iy = 0
+			self.iy = y1
 		else
 			self.iy = 0
 		end

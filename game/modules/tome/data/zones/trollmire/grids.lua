@@ -66,6 +66,10 @@ for i = 1, 20 do
 		{"small_willow_moss", {"shadow", "trunk", "foliage_spring"}},
 		{"willow", {tall=-1, "shadow", "trunk", "foliage_spring"}},
 		{"willow_moss", {tall=-1, "shadow", "trunk", "foliage_spring"}},
+		-- {"small_willow_02", {"shadow", "trunk", "foliage_bare"}},
+		-- {"willow_02", {tall=-1, "shadow", "trunk", "foliage_bare"}},
+		-- {"small_willow_02", {"shadow", "trunk", "foliage_spring"}},
+		-- {"willow_02", {tall=-1, "shadow", "trunk", "foliage_spring"}},
 	}, 1))
 end
 

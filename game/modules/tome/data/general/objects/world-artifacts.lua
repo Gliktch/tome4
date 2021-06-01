@@ -370,6 +370,7 @@ newEntity{ base = "BASE_LITE", define_as = "SUMMERTIDE_PHIAL",
 	desc = _t[[A small crystal phial that captured Sunlight during the Summertide.]],
 	special_desc = function(self) return _t"When attacking in melee, deals 15 light damage and lights tiles in radius 1." end,
 	cost = 200,
+	material_level = 1,
 
 	max_power = 15, power_regen = 1,
 	use_power = {
@@ -848,7 +849,7 @@ newEntity{ base = "BASE_KNIFE",
 		dam = 25,
 		apr = 10,
 		physcrit = 8,
-		dammod = {dex=0.55,str=0.35},
+		dammod = {dex=0.65,str=0.35},
 		no_stealth_break = true,
 		no_garrote = true,
 		melee_project={[DamageType.RANDOM_SILENCE] = 10},
@@ -2966,7 +2967,7 @@ newEntity{ base = "BASE_KNIFE",
 		dam = 25,
 		apr = 10,
 		physcrit = 9,
-		dammod = {dex=0.45,str=0.45, mag=0.1},
+		dammod = {dex=0.5,str=0.5, mag=0.15},
 		convert_damage = {
 			[DamageType.DARKNESS] = 50,
 		},
@@ -6140,7 +6141,7 @@ Passed on and on, this blade has developed a thirst of its own.]],
 		dam = 27,
 		apr = 8,
 		physcrit = 9,
-		dammod = {str=0.45, dex=0.55, mag=0.05},
+		dammod = {str=0.35, dex=0.55, mag=0.2},
 		talent_on_hit = { T_DISPERSE_MAGIC = {level=1, chance=15},},
 		special_on_hit = {desc=_t"steals up to 50 mana from the target", fct=function(combat, who, target)
 			local manadrain = util.bound(target:getMana(), 0, 50)
@@ -8221,7 +8222,7 @@ Their killing spree ended when one of the victims got lucky and managed to stab 
 		dam = 35,
 		apr = 10,
 		physcrit = 15,
-		dammod = {str=0.45, dex=0.45},
+		dammod = {str=0.5, dex=0.5},
 		melee_project = { [DamageType.COLD]=30 },
 		special_on_crit = {desc=_t"freezes the target", fct=function(combat, who, target)
 			if not target or target == self then return end
