@@ -39,8 +39,8 @@ end
 function _M:makeUI()
 	self.c_desc = Textzone.new{has_box=true, ui="chat", font=self.chat.dialog_text_font, width=self.iw - 30, height=1, auto_height=true, text=self.text, can_focus=false}
 	self.c_list = VariableList.new{font=self.chat.dialog_answer_font, width=self.iw, max_height=game.h * 0.70 - self.c_desc.h, list=self.list, fct=function(item) self:use(item) end, select=function(item) self:select(item) end}
-	local npc_frame = ChatPortrait.new{ui="chat", side="right", actor=self:getActorPortrait(self.chat.npc_force_display_entity or self.npc.chat_display_entity or self.npc)}
-	local player_frame = ChatPortrait.new{ui="chat", side="left", actor=self:getActorPortrait(self.chat.player_force_display_entity or self.player.chat_display_entity or self.player)}
+	local npc_frame = ChatPortrait.new{ui="chat", side="right", actor=self:getActorPortraitFull(self.chat.npc_force_display_entity or self.npc.chat_display_entity or self.npc)}
+	local player_frame = ChatPortrait.new{ui="chat", side="left", actor=self:getActorPortraitFull(self.chat.player_force_display_entity or self.player.chat_display_entity or self.player)}
 
 	local uis = {
 		{hcenter=0, top=-12, ui=self.c_desc},
@@ -67,6 +67,13 @@ function _M:makeUI()
 	end)
 	npc_frame:adjustHeight(self.h)
 	player_frame:adjustHeight(self.h)
+end
+
+function _M:getActorPortraitFull(actor)
+	print("[ToME:CHAT] Grabbing portrait for ", actor.name, actor.image)
+	local e = self:getActorPortrait(actor)
+	print("[ToME:CHAT] Grabed portrait => ", e.image)
+	return e
 end
 
 function _M:getActorPortrait(actor)
@@ -98,12 +105,35 @@ function _M:getActorPortrait(actor)
 	if actor.image:find("^portrait/") then return actor end
 
 	-- Find the portrait
-	if actor.image == "invis.png" and actor.add_mos and actor.add_mos[1] and actor.add_mos[1].image and actor.add_mos[1].image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.add_mos[1].image:gsub("^npc/", "portrait/")) then
+	if actor.isClassName and actor:isClassName("engine.Grid") and (actor.add_mos or actor.add_displays) then
+		-- First one to have a portrait
+		for i, mo in ripairs(actor.add_displays or {}) do
+			if mo.image:find("^terrain/") and fs.exists("/data/gfx/shockbolt/"..mo.image:gsub("^terrain/", "portrait/")) then
+				return Entity.new{name=actor.name, image=mo.image:gsub("^terrain/", "portrait/")}
+			end
+		end
+		for i, mo in ripairs(actor.add_mos or {}) do
+			if mo.image:find("^terrain/") and fs.exists("/data/gfx/shockbolt/"..mo.image:gsub("^terrain/", "portrait/")) then
+				return Entity.new{name=actor.name, image=mo.image:gsub("^terrain/", "portrait/")}
+			end
+		end
+		-- If not, first one
+		if actor.add_displays then local mo = actor.add_displays[#actor.add_displays]
+			if mo then return Entity.new{name=actor.name, image=mo.image} end
+		end
+		if actor.add_mos then local mo = actor.add_mos[#actor.add_mos]
+			if mo then return Entity.new{name=actor.name, image=mo.image} end
+		end
+		-- If not, the terrain itself (how? we checked for one of add_mos & add_displays but heh)
+		if actor.image:find("^terrain/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^terrain/", "portrait/")) then
+			return Entity.new{name=actor.name, image=actor.image:gsub("^terrain/", "portrait/")}
+		end
+	elseif actor.image == "invis.png" and actor.add_mos and actor.add_mos[1] and actor.add_mos[1].image and actor.add_mos[1].image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.add_mos[1].image:gsub("^npc/", "portrait/")) then
 		return Entity.new{name=actor.name, image=actor.add_mos[1].image:gsub("^npc/", "portrait/")}
 	elseif actor.image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^npc/", "portrait/")) then
 		return Entity.new{name=actor.name, image=actor.image:gsub("^npc/", "portrait/")}
-	elseif actor.image:find("^npc/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^npc/", "portrait/")) then
-		return Entity.new{name=actor.name, image=actor.image:gsub("^npc/", "portrait/")}
+	elseif actor.image:find("^player/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^player/", "portrait/")) then
+		return Entity.new{name=actor.name, image=actor.image:gsub("^player/", "portrait/")}
 	elseif actor.image:find("^object/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^object/", "portrait/")) then
 		return Entity.new{name=actor.name, image=actor.image:gsub("^object/", "portrait/")}
 	elseif actor.image:find("^object/artifact/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^object/artifact/", "portrait/")) then
