@@ -33,14 +33,14 @@ function _M:init(what)
 
 	game.logPlayer(game.player, "#VIOLET#Option unlocked: %s", self.name)
 
-	Dialog.init(self, ("Option unlocked: %s"):tformat(self.name), 600, 400)
+	Dialog.init(self, ("Option unlocked: %s"):tformat(self.name), math.min(math.max(game.w * 0.8, 800), 1200, game.w), 400)
 
-	self.c_desc = Textzone.new{width=math.floor(self.iw - 10), height=self.ih, no_color_bleed=true, auto_height=true, text=self.str}
+	self.c_desc = Textzone.new{width=math.floor(self.iw - 10), no_color_bleed=true, auto_height=true, text=self.str}
 
 	self:loadUI{
 		{left=0, top=0, ui=self.c_desc},
 	}
-	self:setupUI(not rw, not rh)
+	self:setupUI(true, true)
 
 	self.key:addBinds{
 		ACCEPT = accept_key and "EXIT",
