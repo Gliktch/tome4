@@ -6499,11 +6499,11 @@ function _M:postUseTalent(ab, ret, silent)
 				end)
 			end
 		end
-	end
 
-	if not ab.innate and self:hasEffect(self.EFF_RAMPAGE) and ab.id ~= self.T_RAMPAGE and ab.id ~= self.T_SLAM then
-		local eff = self:hasEffect(self.EFF_RAMPAGE)
-		value = self.tempeffect_def[self.EFF_RAMPAGE].do_postUseTalent(self, eff, value)
+		if not ab.innate and self:hasEffect(self.EFF_RAMPAGE) and ab.id ~= self.T_RAMPAGE and ab.id ~= self.T_SLAM then
+			local eff = self:hasEffect(self.EFF_RAMPAGE)
+			value = self.tempeffect_def[self.EFF_RAMPAGE].do_postUseTalent(self, eff, value)
+		end	
 	end
 
 	if ab.is_summon and ab.is_nature and self:attr("heal_on_nature_summon") then
