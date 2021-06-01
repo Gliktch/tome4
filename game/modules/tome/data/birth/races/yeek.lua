@@ -161,6 +161,7 @@ newBirthDescriptor
 		confusion_immune = 0.35,
 		max_air = 200,
 		moddable_tile = "yeek",
+		moddable_tile_nude = 1,
 		random_name_def = "yeek_#sex#",
 	},
 	experience = 0.85,

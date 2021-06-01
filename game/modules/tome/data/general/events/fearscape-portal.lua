@@ -59,6 +59,7 @@ local changer = function(id)
 		ambient_music = "World of Ice.ogg",
 		reload_lists = false,
 		persistent = "zone",
+		in_orbit = true,
 		
 		no_worldport = game.zone.no_worldport,
 		min_material_level = util.getval(game.zone.min_material_level),

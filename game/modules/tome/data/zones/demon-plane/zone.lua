@@ -29,6 +29,7 @@ return {
 --	all_lited = true,
 	persistent = "zone",
 	no_worldport = true,
+	in_orbit = true,
 	is_demon_plane = true,
 	ambient_music = "Straight Into Ambush.ogg",
 	min_material_level = 4,
