@@ -2836,7 +2836,7 @@ newEffect{
 		self:effectTemporaryValue(eff, "numbed", eff.reduce)
 		if eff.resists then
 			game.log("plop")
-			self:effectTemporaryValue(eff, "resists", {[DamageType.LIGHT]=-self:combatGetResist(DamageType.LIGHT), [DamageType.FIRE]=-self:combatGetResist(DamageType.FIRE)})
+			self:effectTemporaryValue(eff, "resists_cap", {[DamageType.LIGHT]=-(self.resists_cap.all or 0)-(self.resists_cap.LIGHT or 0), [DamageType.FIRE]=-(self.resists_cap.all or 0)-(self.resists_cap.FIRE or 0)})
 		end
 	end,
 }
