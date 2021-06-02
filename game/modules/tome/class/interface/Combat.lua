@@ -1389,6 +1389,7 @@ function _M:combatAttackRanged(weapon, ammo)
 	local stats
 	if self:attr("use_psi_combat") then stats = (self:getCun(100, true) - 10) * (0.6 + self:callTalent(self.T_RESONANT_FOCUS, "bonus")/100)
 	elseif weapon and weapon.wil_attack then stats = self:getWil(100, true) - 10
+	elseif weapon and weapon.mag_attack then stats = self:getMag(100, true) - 10
 	else stats = self:getDex(100, true) - 10
 	end
 	local d = self:combatAttackBase(weapon, ammo) + stats + (self.combat_atk_ranged or 0)
