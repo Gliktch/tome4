@@ -5920,7 +5920,7 @@ function _M:preUseTalent(ab, silent, fake, ignore_ressources)
 	end
 	if self:fireTalentCheck("callbackOnTalentPre", ab, silent, fake, ignore_ressources) then return false end
 
-	if not ab.never_fail then
+	if self:getCurrentTalentModeLast() ~= "forced" and not ab.never_fail then
 		-- Confused ? lose a turn!
 		if self:attr("confused") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") then
 			if rng.percent(util.bound(self:attr("confused"), 0, 50)) then
@@ -6482,7 +6482,7 @@ function _M:postUseTalent(ab, ret, silent)
 	end
 
 	-- break stealth, channels, etc...
-	if not self.turn_procs.resetting_talents then
+	if self:getCurrentTalentModeLast() ~= "forced" and not self.turn_procs.resetting_talents then
 		-- Cancel stealth!
 		if not util.getval(ab.no_break_stealth, self, ab) and util.getval(ab.no_energy, self, ab) ~= true then self:breakStealth() end
 
@@ -6502,11 +6502,11 @@ function _M:postUseTalent(ab, ret, silent)
 				end)
 			end
 		end
-	end
 
-	if not ab.innate and self:hasEffect(self.EFF_RAMPAGE) and ab.id ~= self.T_RAMPAGE and ab.id ~= self.T_SLAM then
-		local eff = self:hasEffect(self.EFF_RAMPAGE)
-		value = self.tempeffect_def[self.EFF_RAMPAGE].do_postUseTalent(self, eff, value)
+		if not ab.innate and self:hasEffect(self.EFF_RAMPAGE) and ab.id ~= self.T_RAMPAGE and ab.id ~= self.T_SLAM then
+			local eff = self:hasEffect(self.EFF_RAMPAGE)
+			value = self.tempeffect_def[self.EFF_RAMPAGE].do_postUseTalent(self, eff, value)
+		end	
 	end
 
 	if ab.is_summon and ab.is_nature and self:attr("heal_on_nature_summon") then

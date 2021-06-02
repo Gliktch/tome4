@@ -1179,6 +1179,10 @@ function _M:getCurrentTalentMode()
 	return self._temp_data and self._temp_data.current_talent_mode and self._temp_data.current_talent_mode[1] or "none"
 end
 
+function _M:getCurrentTalentModeLast()
+	return self._temp_data and self._temp_data.current_talent_mode and self._temp_data.current_talent_mode[#self._temp_data.current_talent_mode] or "none"
+end
+
 function _M:setCurrentTalentMode(mode, tid)
 	if not self._temp_data then self._temp_data = {} end
 	if not self._temp_data.current_talent_mode then self._temp_data.current_talent_mode = {} end
