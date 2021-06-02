@@ -1386,6 +1386,10 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 			end --(DEBUGGING transitional)
 			if type(tactical) == "function" then tactical = tactical(self, t, aitarget) end
 		end
+		local hd = {"ActorAI:aiTalentTactics", tactical=table.clone(tactical, true), t=t, ai_target=ai_target}
+		self:triggerHook(hd)
+		self:fireTalentCheck("callbackOnAITalentTactics", hd)
+		tactical = hd.tactical
 		if log_detail >= 2 then print("[aiTalentTactics]__ using talent tactical table for", t.id) table.print(tactical, "\t___") end
 		if not tactical then return false end
 
