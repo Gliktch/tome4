@@ -28,7 +28,7 @@ newTalent{
 	range = 1,
 	stamina = 20,
 	require = spells_req1,
-	tactical = { ATTACK = 0.2 },
+	tactical = { ATTACK = {weapon = 2} },
 	is_melee = true,
 	on_pre_use = function(self, t, silent) if not self:hasMHWeapon() then if not silent then game.logPlayer(self, "You require a weapon to use this talent.") end return false end return true end,
 	requires_target = true,

@@ -6073,6 +6073,7 @@ local sustainCallbackCheck = {
 	callbackOnPartyRemove = "talents_on_party_remove",
 	callbackOnTargeted = "talents_on_targeted",
 	callbackOnCloned = "talents_on_cloned",
+	callbackOnAITalentTactics = "talents_on_ai_talent_tactics",
 }
 _M.sustainCallbackCheck = sustainCallbackCheck
 

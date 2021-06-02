@@ -292,7 +292,7 @@ local function createLichShadow(self, level, tCallShadows, tShadowWarriors, tSha
 				value = value * self.avoid_master_damage
 			end
 
-			if self:knowTalent(self.T_SHADOW_FADE) and not self:isTalentCoolingDown(self.T_SHADOW_FADE) and not (self.avoid_master_damage == 0) then
+			if self:knowTalent(self.T_SHADOW_FADE) and not self:isTalentCoolingDown(self.T_SHADOW_FADE) and (value > 0) then
 				self:forceUseTalent(self.T_SHADOW_FADE, {ignore_energy=true})
 			end
 
