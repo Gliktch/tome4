@@ -1551,12 +1551,11 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 						if log_detail > 2 then print("\t__cached weight for tactic:", tact, "vs", act.uid, act.name, "==", tid_cache[tact] and tid_cache[tact][act]) end
 						tgt_weight = nil
 					end
-					local have_functional_value = false
+					
 					if not tgt_weight then -- compute the tactic weight value for this target
 						local val = val
 						if type(val) == "function" then -- evaluate a function
 							if log_detail > 2 then print("\t resolving functional tactic value", val) end
-							have_functional_value = true
 							val = val(self, t, act) or 0
 							if log_detail > 2 then print("\t tactic value:", val) table.print(val, "\t\t") end
 						end
@@ -1649,13 +1648,9 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 									print(("\t***TACTICAL WEIGHT CACHE MATCHES: [%d]%s %s (%s) on [%d]%s{%s}: %s vs %s(cache)"):format(self.uid, self.name, t.id, tact, act.uid, act.name, msg, tgt_weight, cache_tgt_weight))
 								end
 							end
-							if not have_functional_value then
-								tid_cache[tact][act] = tgt_weight
-								tid_cache[tact][act.uid] = act.aiDHash
-								if log_detail > 3 then print("\t__updated cached weight for tactic:", tact, "vs", act.uid, act.name, "==", tid_cache[tact][act]) end
-							else
-								if log_detail > 3 then print("\tNot cached weight for tactic:", tact, "vs", act.uid, act.name, "==", tgt_weight) end
-							end
+							tid_cache[tact][act] = tgt_weight
+							tid_cache[tact][act.uid] = act.aiDHash
+							if log_detail > 3 then print("\t__updated cached weight for tactic:", tact, "vs", act.uid, act.name, "==", tid_cache[tact][act]) end
 						end
 					end -- end compute target weight branch
 					weighted_sum = weighted_sum + tgt_weight
