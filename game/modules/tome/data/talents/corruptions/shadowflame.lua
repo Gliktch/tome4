@@ -323,7 +323,7 @@ newTalent{
 					self.x, self.y = x1, y1
 				end
 			end
-			local x2, y2 = util.findFreeGrid(p.target_x, p.target_y, 20, true, {[Map.ACTOR]=true})
+			local x2, y2 = util.findFreeGrid(p.target_x or p.x, p.target_y or p.y, 20, true, {[Map.ACTOR]=true})
 			if not p.target.dead then
 				if x2 then
 					p.target:move(x2, y2, true)
