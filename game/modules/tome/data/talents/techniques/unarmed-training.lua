@@ -31,7 +31,9 @@ newTalent{
 		local fct = function()
 			self.before_empty_hands_combat = self.combat
 			self.combat = table.clone(self.combat, true)
-			self.combat.physspeed = math.min(0.8, self.combat.physspeed or 1000)
+			local lastspeed = self.combat.physspeed or 1
+			self.combat.physspeed = math.max(0.2, lastspeed - 0.2)
+			self.empty_hands_bonus = self.combat.physspeed - lastspeed
 			if not self.combat.sound then self.combat.sound = {"actions/punch%d", 1, 4} end
 			if not self.combat.sound_miss then self.combat.sound_miss = "actions/melee_miss" end
 		end
@@ -42,7 +44,9 @@ newTalent{
 		end
 	end,
 	on_unlearn = function(self, t)
-		self.combat = self.before_empty_hands_combat
+		self.combat.physspeed = (self.combat.physspeed or 0.8) - self.empty_hands_bonus
+		self.combat.sound = self.before_empty_hands_combat.sound
+		self.combat.sound_miss = self.before_empty_hands_combat.sound_miss
 	end,
 	getDamage = function(self, t) return self.level * 0.5 end,
 	info = function(self, t)
