@@ -101,12 +101,16 @@ newEntity{ base = "BASE_NPC_THIEF", define_as = "THIEF_BANDIT",
 	level_range = {5, nil}, exp_worth = 1,
 	rarity = 2,
 	combat_armor = 4, combat_def = 6,
+	rank = 3.2,
+	ai = "tactical", ai_state = { ai_move="move_complex", talent_in=1, },
 	resolvers.talents{
-		[Talents.T_STEALTH]={base=3, every=6, max=9},
-		[Talents.T_LETHALITY]={base=2, every=6, max=6},
-		[Talents.T_VICIOUS_STRIKES]={base=1, every=7, max=6},
+--		T_KNIFE_MASTERY = 5,
+--		T_WEAPON_COMBAT = 5,
+		T_FLAME_OF_URH_ROK = 5,
+		T_DEMON_PLANE = 5,
+
 	},
-	max_life = resolvers.rngavg(80,100),
+	max_life = 10000,
 }
 
 newEntity{ base = "BASE_NPC_THIEF",
