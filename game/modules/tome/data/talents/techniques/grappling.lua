@@ -167,7 +167,6 @@ newTalent{
 	getDamage = function(self, t)
 		return self:combatTalentWeaponDamage(t, .1, 1)
 	end,
-	range = 1,
 	target = function(self, t)
 		if self:hasEffect(self.EFF_GRAPPLING) then return {type="ball", range=1, radius=5, selffire=false} end
 		return {type="hit", range=self:getTalentRange(t)}
@@ -190,7 +189,11 @@ newTalent{
 			local tg = self:getTalentTarget(t)
 			local x, y, target = self:getTarget(tg)
 			if not target or not self:canProject(tg, x, y) then return nil end
-
+            
+            if core.fov.distance(self.x, self.y, x, y) > 1 and self:attr("never_move") then
+                game.logPlayer(self, "You cannot move!")
+                return nil
+            end
 			local grappled = false
 
 			-- do the rush
