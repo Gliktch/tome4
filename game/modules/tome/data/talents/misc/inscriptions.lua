@@ -379,7 +379,7 @@ newInscription{
 	action = function(self, t)
 		local power = t.getPower(self, t)
 		local dur = t.getDuration(self, t)
-		self:setEffect(self.EFF_DAMAGE_SHIELD, dur, {power=power, reflect=100})
+		self:setEffect(self.EFF_DAMAGE_SHIELD, dur, {power=power, reflect=100, image="reflectionshield_17", shield_intensity=0.6})
 		return true
 	end,
 	info = function(self, t)
