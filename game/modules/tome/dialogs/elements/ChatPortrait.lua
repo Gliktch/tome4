@@ -28,7 +28,7 @@ module(..., package.seeall, class.inherit(Base))
 
 function _M:init(t)
 	self.side = assert(t.side, "no ChatPortrait side")
-	assert(t.actor, "no ChatPortrait actor")
+	self.actor = assert(t.actor, "no ChatPortrait actor")
 	
 	self.name = t.actor.getName and t.actor:getName() or _t(t.actor.name) or _t"???"
 	if t.actor.moddable_tile then
@@ -53,6 +53,7 @@ function _M:init(t)
 		self.iy = 0
 		self.iw, self.ih = 128, 128
 	end
+
 	self.h_deco = 0
 
 	Base.init(self, t)
@@ -67,6 +68,13 @@ function _M:generate()
 	self.deco_down = self:getUITexture("ui/chat_ui_deco_padding_"..self.side.."_down.png")
 	self.deco_up = self:getUITexture("ui/chat_ui_deco_padding_"..self.side.."_up.png")
 	self.w, self.h = self.front.w, self.front.h
+
+	if self.actor.chat_portrait_background then
+		self.back_texture = self:getUITexture(self.actor.chat_portrait_background)
+		if self.actor.chat_portrait_size then
+			self.iw, self.ih = self.iw * self.actor.chat_portrait_size, self.ih * self.actor.chat_portrait_size
+		end
+	end
 
 	if self.image then self.item = {self.image:glTexture(false, true)} end
 
@@ -92,6 +100,11 @@ function _M:display(x, y, nb_keyframes, screen_x, screen_y)
 	end
 
 	self.back.t:toScreenFull(x, y, self.back.w, self.back.h, self.back.tw, self.back.th)
+
+	if self.back_texture then
+		self.back_texture.t:toScreenFull(x + 15, y + 15, self.back_texture.w, self.back_texture.h, self.back_texture.tw, self.back_texture.th)
+	end
+
 	core.display.glScissor(true, screen_x + 15, screen_y + 15, 128, 192)
 	local dx, dy = x + 15 + (128 - self.iw) / 2, y + 15 + (192 - self.ih) / 2
 	if self.ih > 192 then dy = y + 15 end
@@ -101,6 +114,7 @@ function _M:display(x, y, nb_keyframes, screen_x, screen_y)
 		self.item[1]:toScreenFull(dx, dy - self.iy, self.iw, self.ih, self.item[2] * self.iw / self.oiw, self.item[3] * self.ih / self.oih)
 	end
 	core.display.glScissor(false)
+
 	self.front.t:toScreenFull(x, y, self.front.w, self.front.h, self.front.tw, self.front.th)
 
 	core.display.glScissor(true, screen_x + 4, screen_y + 229, 152, 23)

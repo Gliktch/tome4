@@ -2482,7 +2482,7 @@ function _M:on_prepickup(who, idx)
 	end
 	if who.player and self.force_lore_artifact then
 		game.party:additionalLore(self.unique, self:getName(), "artifacts", self.desc)
-		game.party:learnLore(self.unique)
+		game.party:learnLore(self.unique, false, false, false, nil, self)
 	end
 end
 
@@ -2501,7 +2501,7 @@ function _M:on_identify()
 		end
 		if self.unique and self.desc and not self.no_unique_lore then
 			game.party:additionalLore(self.unique, self:getName{no_add_name=true, do_color=false, no_count=true}, "artifacts", self.desc)
-			game.party:learnLore(self.unique, false, false, true)
+			game.party:learnLore(self.unique, false, false, true, nil, self)
 		end
 	end)
 end

@@ -70,9 +70,10 @@ function _M:makeUI()
 end
 
 function _M:getActorPortraitFull(actor)
-	print("[ToME:CHAT] Grabbing portrait for ", actor.name, actor.image)
 	local e = self:getActorPortrait(actor)
-	print("[ToME:CHAT] Grabed portrait => ", e.image)
+	if e.image and (e.image:find("talents/") or e.image:find("effects/")) then
+		e = Entity.new{name=e.name, image=e.image, chat_portrait_background="ui/chat_talents_bg.png", chat_portrait_size=0.75}
+	end
 	return e
 end
 

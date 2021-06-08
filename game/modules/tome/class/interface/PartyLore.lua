@@ -108,7 +108,7 @@ function _M:relearningLore(v)
 	self.relearning_lore = v
 end
 
-function _M:learnLore(lore, nopopup, silent, nostop, after_learn_cb)
+function _M:learnLore(lore, nopopup, silent, nostop, after_learn_cb, display_entity)
 	print("[LORE] learning..", lore)
 	local l = self:getLore(lore, silent)
 	if not l then return end
@@ -124,7 +124,7 @@ function _M:learnLore(lore, nopopup, silent, nostop, after_learn_cb)
 	if not self:knownLore(lore) or l.always_pop then
 		game.logPlayer(self, "Lore found: #0080FF#%s", l.name)
 		if not nopopup then
-			LorePopup.new(l, game.w * 0.6, 0.8, after_learn_cb)
+			LorePopup.new(l, game.w * 0.6, 0.8, after_learn_cb, display_entity)
 			game.logPlayer(self, "You can read all your collected lore in the game menu, by pressing Escape.")
 		end
 		learnt = true

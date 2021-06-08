@@ -3622,9 +3622,7 @@ newEffect{
 		return {dam=dam}
 	end,
 	activate = function(self, eff)
-		if core.shader.allow("adv") then
-			eff.particle1, eff.particle2 = self:addParticles3D("volumetric", {kind="fast_sphere", shininess=40, density=40, radius=1.4, scrollingSpeed=0.001, growSpeed=0.004, img="squares_x3_01"})
-		end
+		eff.particle1 = self:addParticles(Particles.new("circle", 1, {shader=true, toback=true, oversize=1.4, a=155, appear=8, speed=0, img="webs_of_fate_aura", radius=0}))
 	end,
 	deactivate = function(self, eff)
 		self:removeParticles(eff.particle1)
