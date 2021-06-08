@@ -102,7 +102,7 @@ newTalent{
 				m:takeHit(split, src)
 				m:setTarget(src or nil)
 				game:delayedLogMessage(self, nil, "guardian_damage", "#STEEL_BLUE##Source# shares damage with %s guardian!", string.his_her(self))
-				game:delayedLogDamage(src or self, self, 0, ("#STEEL_BLUE#(%d shared)#LAST#"):tformat(split), nil)
+				game:delayedLogDamage(src or self, self, 0, ("#STEEL_BLUE#(%d shared)#LAST#"):tformat(split*2), nil)
 
 			else
 				game.logPlayer(self, "Not enough space to summon warden!")
