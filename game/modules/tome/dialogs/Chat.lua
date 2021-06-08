@@ -51,7 +51,6 @@ function _M:makeUI()
 
 	-- Only for size info
 	local back = self:getUITexture("ui/portrait_frame_back.png")
-	local deco_down = self:getUITexture("ui/chat_ui_deco_padding_left_down.png")
 
 	self:loadUI(uis)
 	self:setFocus(self.c_list)
@@ -60,7 +59,15 @@ function _M:makeUI()
 		-- Ensure minimal height
 		if h + frameh < back.h then h = back.h - frameh end
 		-- Ensure if it's too big but too small to not have the down deco, to increase it a it
-		if h + frameh > back.h and h + frameh < back.h + deco_down.h / 2 then h = back.h - frameh + deco_down.h / 2 end
+		if h + frameh > back.h then
+			if h + frameh < back.h + 16 then h = back.h - frameh + 16 game.log("==adjusting to %d", 16)
+			elseif h + frameh < back.h + 32 then h = back.h - frameh + 32 game.log("==adjusting to %d", 32)
+			elseif h + frameh < back.h + 48 then h = back.h - frameh + 48 game.log("==adjusting to %d", 48)
+			elseif h + frameh < back.h + 64 then h = back.h - frameh + 64 game.log("==adjusting to %d", 64)
+			elseif h + frameh < back.h + 80 then h = back.h - frameh + 80 game.log("==adjusting to %d", 80)
+			end
+		end
+
 		self.force_x = game.w / 2 - w / 2
 		self.force_y = game.h - h - 20
 		return w, h

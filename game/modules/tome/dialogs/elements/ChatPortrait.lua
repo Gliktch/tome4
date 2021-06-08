@@ -65,7 +65,11 @@ function _M:generate()
 
 	self.front = self:getUITexture("ui/portrait_frame_front.png")
 	self.back = self:getUITexture("ui/portrait_frame_back.png")
-	self.deco_down = self:getUITexture("ui/chat_ui_deco_padding_"..self.side.."_down.png")
+	self.deco_downs = {}
+	for i in ipairs_value{16, 32, 48, 64, 80} do
+		self.deco_downs[i] = self:getUITexture("ui/chat_ui_deco_padding_"..self.side.."_down_"..i..".png")
+	end
+	self.deco_down = nil
 	self.deco_up = self:getUITexture("ui/chat_ui_deco_padding_"..self.side.."_up.png")
 	self.w, self.h = self.front.w, self.front.h
 
@@ -83,20 +87,26 @@ end
 
 function _M:adjustHeight(h)
 	self.h_deco = h - self.back.h
+	local ch = math.find_closest_lower(self.h_deco, {16, 32, 48, 64, 80})
+	if not ch then
+		self.deco_down = nil
+	else
+		self.deco_down = self.deco_downs[ch]
+	end
 end
 
 function _M:display(x, y, nb_keyframes, screen_x, screen_y)
 	local deco_x
-	if self.h_deco >= self.deco_up.h + self.deco_down.h then
+	if self.deco_down and self.h_deco >= self.deco_up.h + self.deco_down.h then
 		if self.side == "left" then deco_x = x + self.back.w - self.deco_up.w else deco_x = x end
 		self.deco_up.t:toScreenFull(deco_x, y, self.deco_up.w, self.deco_up.h, self.deco_up.tw, self.deco_up.th)
 		y = y + self.deco_up.h
 		screen_y = screen_y + self.deco_up.h
 	end
-	if self.h_deco >= 1 then
+	if self.deco_down then
 		if self.side == "left" then deco_x = x + self.back.w - self.deco_down.w else deco_x = x end
 		local deco_h = math.min(self.deco_down.h, self.h_deco)
-		self.deco_down.t:toScreenFull(deco_x, y + self.back.h, self.deco_down.w, deco_h, self.deco_down.tw, deco_h * self.deco_down.th / self.deco_down.h)
+		self.deco_down.t:toScreenFull(deco_x, y + self.back.h, self.deco_down.w, deco_h, self.deco_down.tw, self.deco_down.th)
 	end
 
 	self.back.t:toScreenFull(x, y, self.back.w, self.back.h, self.back.tw, self.back.th)
