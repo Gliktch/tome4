@@ -2223,7 +2223,7 @@ do return end
 
 			if config.settings.tome.rest_before_explore then
 				local ok = false
-				self.player:restInit(nil, nil, nil, function() ok = self.player.resting.rested_fully end, function() if ok then self:onTickEnd(ae) self.tick_loopback = true end end)
+				self.player:restInit(nil, nil, nil, function() ok = self.player.resting and self.player.resting.rested_fully end, function() if ok then self:onTickEnd(ae) self.tick_loopback = true end end)
 			else
 				ae()
 			end

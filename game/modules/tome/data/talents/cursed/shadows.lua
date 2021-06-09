@@ -44,7 +44,9 @@ newTalent{
 	is_teleport = true,
 	action = function(self, t)
 		local x, y, range
-		if self.ai_state.shadow_wall then
+		if self.player then
+			x, y, range = self.x, self.y, 10
+		elseif self.ai_state.shadow_wall then
 			x, y, range = self.ai_state.shadow_wall_target.x, self.ai_state.shadow_wall_target.y, 1
 		elseif self.ai_target.x and self.ai_target.y then
 			x, y, range = self.ai_target.x, self.ai_target.y, 1
