@@ -3600,6 +3600,7 @@ newEffect{
 	on_timeout = function(self, eff)
 		local severed = false
 		local src = eff.src or self
+		if src:attr("dead") or not src.x then return end
 		if core.fov.distance(self.x, self.y, src.x, src.y) >= eff.free or src.dead or not game.level:hasEntity(src) then severed = true end
 		if rng.percent(eff.free_chance) then severed = true end
 
