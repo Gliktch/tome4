@@ -48,7 +48,7 @@ newTalent{
 		return 10
 	end,
 	action = function(self, t)
-		self:setEffect(self.EFF_DAMAGE_SHIELD, t.getDuration(self, t), {color={0xcb/255, 0xcb/255, 0xcb/255}, power=t.getShield(self, t)})
+		self:setEffect(self.EFF_DAMAGE_SHIELD, t.getDuration(self, t), {color={0xcb/255, 0xcb/255, 0xcb/255}, power=t.getShield(self, t), image="bonearmour_shield", shield_intensity=0.3})
 		return true
 	end,
 	info = function(self, t)

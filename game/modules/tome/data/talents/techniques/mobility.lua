@@ -182,7 +182,7 @@ newTalent{
 			end
 		end
 
-		self:move(dx, dy, true)
+		self:forceMoveAnim(dx, dy)
 
 		game:onTickEnd(function()
 			self:setEffect(self.EFF_WILD_SPEED, 3, {power=t.getSpeed(self,t)})
