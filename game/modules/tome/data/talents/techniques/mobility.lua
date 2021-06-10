@@ -172,6 +172,8 @@ newTalent{
 			local dest_grid = ok_grids[#ok_grids]
 			if dest_grid then -- land short
 				if dx ~= dest_grid[1] or dy ~= dest_grid[2] then
+					dx = dest_grid[1]
+					dy = dest_grid[2]
 					game.logPlayer(self, "Your Disengage was partially blocked.")
 				end
 			else
@@ -179,8 +181,8 @@ newTalent{
 				return false
 			end
 		end
-		
-		self:pull(dx, dy, t:_getDist(self))
+
+		self:move(dx, dy, true)
 
 		game:onTickEnd(function()
 			self:setEffect(self.EFF_WILD_SPEED, 3, {power=t.getSpeed(self,t)})
