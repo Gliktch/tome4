@@ -668,7 +668,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Open a hole in space, summoning an animated blade for 10 turns.]]):tformat()
+		return ([[Open a hole in space, summoning an animated blade for 15 turns.]]):tformat()
 	end,
 }
 
