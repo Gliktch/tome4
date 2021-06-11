@@ -100,7 +100,7 @@ newTalent {
 		end
 		pen_off(self, t, target, x, y)
 	end,
-	archery_target_parameters = {one_shot = true},
+	archery_target_parameters = {limit_shots = 1, multishots = 1}, -- {one_shot = true},
 	damage_multiplier = function(self, t)
 		return self:combatTalentWeaponDamage(t, 1.5, 1.9)
 	end,
@@ -149,7 +149,7 @@ newTalent {
 	archery_onhit = function(self, t, target, x, y)
 		pen_off(self, t, target, x, y)
 	end,
-	archery_target_parameters = {one_shot = true},
+	archery_target_parameters = {limit_shots = 1, multishots = 1}, --{one_shot = true},
 	speed = "archery",
 	action = function(self, t)
 		local tg = {type = "hit"}
