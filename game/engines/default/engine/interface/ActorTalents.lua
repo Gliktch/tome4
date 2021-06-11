@@ -365,7 +365,7 @@ function _M:useTalentMessage(ab)
 	if not ab.message then return nil end
 	local str = util.getval(ab.message, self, ab)
 	local _, _, target = self:getTarget()
-	local tname = _t"unknown"
+	local tname = _t("unknown", "entity name")
 	if target then tname = target:getName() end
 	str = str:noun_sub("@Source@", self:getName():capitalize())
 	str = str:noun_sub("@source@", self:getName())

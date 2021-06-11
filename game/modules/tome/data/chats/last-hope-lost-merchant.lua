@@ -40,7 +40,7 @@ Thanks to you I made it safely to this great city! I am planning to open my most
 		{_t"What about the unique object?", cond=function(npc, player) return game.state:isAdvanced() end, jump="unique1"},
 		{_t"Ambush Trap?  Sounds useful.", cond=function(npc, player) return trap end, jump="trap"},
 		{_t"Smelly Toxin?  What kind of smell?", cond=function(npc, player) return poison end, jump="poison"},
-		{_t"Sorry, I have to go!"},
+		{_t("Sorry, I have to go!", "chat_last-hope-lost-merchant")},
 	}
 }
 
@@ -56,7 +56,7 @@ But since you have saved me, I'm willing to part from it for only 3000 gold piec
 newChat{ id="traplearn",
 	text = _t[[Nice doing business with you my friend. There you go!]],
 	answers = {
-		{_t"Thanks.", action=function(npc, player)
+		{_t("Thanks.", "chat_last-hope-lost-merchant"), action=function(npc, player)
 			game.state:unlockTalent(player.T_AMBUSH_TRAP, player)
 			player:incMoney(-3000)
 		end},
@@ -75,7 +75,7 @@ newChat{ id="poison",
 newChat{ id="poisonlearn",
 	text = _t[[Here you are.  Just be sure not to get any on yourself!]],
 	answers = {
-		{_t"Thanks.", action=function(npc, player)
+		{_t("Thanks.", "chat_last-hope-lost-merchant"), action=function(npc, player)
 			player:incMoney(-1500)
 			player:learnTalent(player.T_STONING_POISON, true, 1)
 		end},

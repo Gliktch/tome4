@@ -25,7 +25,7 @@ newChat{ id="welcome",
 			npc.store:interact(player)
 		end},
 		{_t"I am looking for mindstar training.", jump="training"},
-		{_t"Sorry, I have to go!"},
+		{_t("Sorry, I have to go!", "chat_zigur-mindstar-store")},
 	}
 }
 

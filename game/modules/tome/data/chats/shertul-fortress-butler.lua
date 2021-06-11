@@ -99,7 +99,7 @@ newChat{ id="storage",
 You are the master. You can use this place as you desire. However, most of the energies are depleted and only some rooms are usable.
 To the south you will find the storage room.]],
 	answers = {
-		{_t"Thanks.", jump="welcome"},
+		{_t("Thanks.", "chat_shertul-fortress-butler"), jump="welcome"},
 	}
 }
 

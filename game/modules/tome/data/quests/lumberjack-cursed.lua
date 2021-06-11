@@ -60,7 +60,7 @@ on_status_change = function(self, who, status, sub)
 				game:addEntity(game.level, o, "object")
 				o:identify(true)
 				who:addObject(who.INVEN_INVEN, o)
-				require("engine.ui.Dialog"):simplePopup(_t"Thanks", ("You saved %s of us, please take this as a reward. (They give you %s)"):tformat(self.lumberjacks_died == 0 and _t"all" or _t"most", o:getName{do_color=true}))
+				require("engine.ui.Dialog"):simplePopup(_t"Thanks", ("You saved %s of us, please take this as a reward. (They give you %s)"):tformat(self.lumberjacks_died == 0 and _t("all", "quest_lumberjack") or _t"most", o:getName{do_color=true}))
 			end
 		end
 		who:setQuestStatus(self.id, engine.Quest.DONE)
