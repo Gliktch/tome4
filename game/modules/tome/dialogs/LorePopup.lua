@@ -21,12 +21,13 @@ require "engine.class"
 local Dialog = require "engine.ui.Dialog"
 local ListColumns = require "engine.ui.ListColumns"
 local TextzoneList = require "engine.ui.TextzoneList"
+local EntityDisplay = require "engine.ui.EntityDisplay"
 local Image = require "engine.ui.Image"
 local Separator = require "engine.ui.Separator"
 
 module(..., package.seeall, class.inherit(Dialog))
 
-function _M:init(l, w, force_height, after_learn_cb)
+function _M:init(l, w, force_height, after_learn_cb, display_entity)
 	self.after_learn_cb = after_learn_cb
 	self.title_shadow = false
 	self.color = l.text_color or {r=0x3a, g=0x35, b=0x33}
@@ -62,7 +63,7 @@ function _M:init(l, w, force_height, after_learn_cb)
 	local required_h = self.font:height() + self.font_h * (#list - 1)
 	local h = math.min(force_height and (force_height * game.h) or 999999999, required_h)
 	local c_text = require("engine.ui.Textzone").new{
-		width=w+10, height=h, scrollbar=(h < required_h) and true or false, text=text, color=self.color,
+		width=(display_entity and (w - 90) or w)+10, height=h, scrollbar=(h < required_h) and true or false, text=text, color=self.color,
 	}
 	c_text:setTextShadow(false)
 
@@ -86,6 +87,12 @@ function _M:init(l, w, force_height, after_learn_cb)
 				{left = 3, top = 3 + image.h, ui=c_text},
 			}
 		end
+	elseif display_entity then
+		local frame = EntityDisplay.new{ui="parchment", width=64, height=64, entity=display_entity, back_image="ui/lore_frame_entity.png"}
+		uis = {
+			{left = 13, top = 3, ui=c_text},
+			{right = 13, top = 3, ui=frame},
+		}
 	end
 	
 	local on_end = function() 

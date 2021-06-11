@@ -124,7 +124,7 @@ end
 
 on_caravan_destroyed = function(self, who)
 	local Chat = require "engine.Chat"
-	local chat = Chat.new("keepsake-caravan-destroyed", {name=_t"Last of the Caravan"}, game.player)
+	local chat = Chat.new("keepsake-caravan-destroyed", {name=_t"Last of the Caravan", image="portrait/keepsake_caravan_destroyed.png"}, game.player)
 	chat:invoke()
 end
 
@@ -213,7 +213,7 @@ end
 
 on_kyless_death = function(self, who, kyless)
 	local Chat = require "engine.Chat"
-	local chat = Chat.new("keepsake-kyless-death", {name=_t"Death of Kyless"}, game.player)
+	local chat = Chat.new("keepsake-kyless-death", {name=_t"Death of Kyless", image="portrait/keepsake_kyless_death.png"}, game.player)
 	chat:invoke()
 
 	who:setQuestStatus("keepsake", engine.Quest.COMPLETED, "kyless-killed")
@@ -244,7 +244,7 @@ end
 
 on_berethh_encounter = function(self, who, berethh)
 	local Chat = require "engine.Chat"
-	local chat = Chat.new("keepsake-berethh-encounter", {name=_t"Berethh"}, game.player)
+	local chat = Chat.new("keepsake-berethh-encounter", {name=_t"Berethh", image="portrait/keepsake_berethh_encounter.png"}, game.player)
 	chat:invoke()
 end
 

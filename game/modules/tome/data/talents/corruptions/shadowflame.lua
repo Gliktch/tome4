@@ -156,8 +156,13 @@ newTalent{
 		if self:isTalentActive(t.id) then -- always hit enemies while in the Fearscape (affects AI)
 			return {type="ball", nolock=true, pass_terrain=true, nowarning=true, range=20, radius=20, requires_knowledge=false, selffire=false, block_path=false, block_radius=false}
 		else -- always hit the primary target
-			local tgt = self.ai_target.actor
-			return {type="hit", range=self:getTalentRange(t), talent=t, x=tgt and tgt.x, y=tgt and tgt.y}
+			return {type="hit", range=self:getTalentRange(t), talent=t}
+		end
+	end,
+	onAIGetTarget = function(self, t) 
+		if self.ai_target and self.ai_target.actor then
+			local target = self.ai_target.actor
+			return target.x, target.y, target
 		end
 	end,
 	range = 5,
@@ -272,6 +277,7 @@ newTalent{
 		local ret = {
 			target = target,
 			x = self.x, y = self.y,
+			target_x = target.x, target_y = target.y,
 			particle = particle,
 			drain_add = 0,
 		}
@@ -317,7 +323,7 @@ newTalent{
 					self.x, self.y = x1, y1
 				end
 			end
-			local x2, y2 = util.findFreeGrid(p.x, p.y, 20, true, {[Map.ACTOR]=true})
+			local x2, y2 = util.findFreeGrid(p.target_x or p.x, p.target_y or p.y, 20, true, {[Map.ACTOR]=true})
 			if not p.target.dead then
 				if x2 then
 					p.target:move(x2, y2, true)

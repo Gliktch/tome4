@@ -2087,6 +2087,7 @@ function _M:setupCommands()
 			print("===============")
 		end end,
 		[{"_g","ctrl"}] = function() if config.settings.cheat then
+			package.loaded["engine.ui.Textzone"] = nil
 			package.loaded["engine.ui.Dialog"] = nil
 			package.loaded["engine.dialogs.Chat"] = nil
 			package.loaded["mod.dialogs.Chat"] = nil
@@ -2094,7 +2095,7 @@ function _M:setupCommands()
 			package.loaded["engine.Chat"] = nil
 			local Chat = require "engine.Chat"
 			Chat.chat_dialog = "mod.dialogs.Chat"
-			local chat = Chat.new("tareyal+test", engine.Entity.new{name=_t"Imperium courrier", image="npc/undead_risen_mistress_vira.png"}, game.player)
+			local chat = Chat.new("tareyal+test", engine.Entity.new{name=_t"Imperium courrier", image="talents/arcane_power.png"}, game.player)
 			chat:invoke()
 do return end
 			DamageType:get(DamageType.ACID).projector(game.player, game.player.x, game.player.y, DamageType.ACID, 100)
@@ -2222,7 +2223,7 @@ do return end
 
 			if config.settings.tome.rest_before_explore then
 				local ok = false
-				self.player:restInit(nil, nil, nil, function() ok = self.player.resting.rested_fully end, function() if ok then self:onTickEnd(ae) self.tick_loopback = true end end)
+				self.player:restInit(nil, nil, nil, function() ok = self.player.resting and self.player.resting.rested_fully end, function() if ok then self:onTickEnd(ae) self.tick_loopback = true end end)
 			else
 				ae()
 			end

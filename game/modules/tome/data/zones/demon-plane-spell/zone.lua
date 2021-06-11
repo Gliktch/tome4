@@ -29,6 +29,7 @@ return {
 	no_worldport = true,
 	is_demon_plane = true,
 	no_planechange = true,
+	in_orbit = true,
 	ambient_music = "Straight Into Ambush.ogg",
 	effects = {"EFF_ZONE_AURA_FEARSCAPE"},
 	generator =  {

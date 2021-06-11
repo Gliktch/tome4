@@ -20,10 +20,16 @@
 chat = {
 	frame_alpha = 1,
 	frame_darkness = 0.6,
-	frame_ox1 = -64,
-	frame_ox2 = 64,
+	frame_ox1 = -14,
+	frame_ox2 = 14,
 	frame_oy1 = -5,
 	frame_oy2 = 10,
 	-- force_min_w = 64 * 4,
 	-- force_min_h = 64 * 4,
+	specifics = {
+		["ui/textbox"] = {
+			offset_w = -(64 - 30) * 2,
+			offset_x = 64 - 30,
+		},
+	},
 }

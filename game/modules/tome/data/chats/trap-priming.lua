@@ -26,7 +26,7 @@ local base_chat
 local function generate_traps()
 	local answers = {{_t"[Cancel]", tier=0}}
 		for i, tid in pairs(trapping_tids) do
-			local t = npc:getTalentFromId(tid)
+			local t = player:getTalentFromId(tid)
 			local tier = t.trap_mastery_level
 			local canlearn, unlearnable = player:canLearnTalent(t)
 			if t.allow_primed_trigger and tier <= chat_level then -- trap can be primed

@@ -227,3 +227,30 @@ newTalent{
 		tformat(weapon, shield, cooldown, cleanse)
 	end,
 }
+
+
+
+newTalent{
+	name = "Avatar Distant Sun Unlock Checker", short_name = "AVATAR_DISTANT_SUN_UNLOCK_CHECKER", image = "talents/avatar_of_a_distant_sun.png",
+	type = {"celestial/other",1},
+	mode = "passive",
+	hide = "always",
+	no_unlearn_last = true,
+	callbackOnAct = function(self, t)
+		if not game.zone or not game.zone.in_orbit or not self.in_combat then return end
+		if not rng.chance(20) then return end
+
+		local chat = require("engine.Chat").new("avatar-distant-sun-unlock", t, self)
+		chat:invoke()
+	end,
+	doUnlock = function(self, t)
+		game:setAllowedBuild("paladin_avatar", true)
+		self:unlearnTalent(self.T_AVATAR_DISTANT_SUN_UNLOCK_CHECKER)
+		self:project({type="ball", radius=200, friendlyfire=false}, self.x, self.y, DamageType.FIRE, 5000)
+		game.level.map:particleEmitter(self.x, self.y, 20, "fireflash", {radius=20, proj_x=self.x, proj_y=self.y, src_x=self.x, src_y=self.y})
+		game.log('#CRIMSON#As your "talk" with the star ends, you feel its power, the whole area around you erupts in flames, burning your foes to cinders!')
+	end,
+	info = function(self, t)
+		return "Move along, nothing to see" -- No need to translate
+	end,
+}

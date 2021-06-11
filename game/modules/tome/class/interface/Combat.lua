@@ -127,7 +127,7 @@ function _M:attackTarget(target, damtype, mult, noenergy, force_unarmed)
 --		if ret then return false end
 --	end
 
-	if not target.turn_procs.warding_weapon and target:knowTalent(target.T_WARDING_WEAPON) and target:getTalentLevelRaw(target.T_WARDING_WEAPON) >= 5
+	if not target.turn_procs.warding_weapon and target:knowTalent(target.T_WARDING_WEAPON) and target:getTalentLevel(target.T_WARDING_WEAPON) >= 5
 		and rng.percent(target:callTalent(target.T_WARDING_WEAPON, "getChance")) then
 		local t = self:getTalentFromId(self.T_WARDING_WEAPON)
 		if target:getPsi() >= t.psi then
@@ -1389,6 +1389,7 @@ function _M:combatAttackRanged(weapon, ammo)
 	local stats
 	if self:attr("use_psi_combat") then stats = (self:getCun(100, true) - 10) * (0.6 + self:callTalent(self.T_RESONANT_FOCUS, "bonus")/100)
 	elseif weapon and weapon.wil_attack then stats = self:getWil(100, true) - 10
+	elseif weapon and weapon.mag_attack then stats = self:getMag(100, true) - 10
 	else stats = self:getDex(100, true) - 10
 	end
 	local d = self:combatAttackBase(weapon, ammo) + stats + (self.combat_atk_ranged or 0)

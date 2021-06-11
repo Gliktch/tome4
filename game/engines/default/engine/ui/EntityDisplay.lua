@@ -30,6 +30,7 @@ function _M:init(t)
 	self.w = assert(t.width, "no entity width")
 	self.h = assert(t.height, "no entity height")
 	self.back_color = t.back_color
+	self.back_image = t.back_image
 
 	Base.init(self, t)
 end
@@ -37,6 +38,10 @@ end
 function _M:generate()
 	self.mouse:reset()
 	self.key:reset()
+
+	if self.back_image then
+		self.back_texture = self:getUITexture(self.back_image)
+	end
 end
 
 function _M:display(x, y)
@@ -44,6 +49,9 @@ function _M:display(x, y)
 
 	if self.back_color then
 		core.display.drawQuad(x, y, self.w, self.h, unpack(self.back_color))
+	end
+	if self.back_texture then
+		self.back_texture.t:toScreenFull(x + (self.w - self.back_texture.w) / 2, y + (self.h - self.back_texture.h) / 2, self.back_texture.w, self.back_texture.h, self.back_texture.tw, self.back_texture.th)
 	end
 
 	self.entity:toScreen(nil, x, y, self.w, self.h)

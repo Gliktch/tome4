@@ -370,7 +370,7 @@ newTalent{
 		-- store old values to restore later
 		local apr, rpen, evasion = self.combat_apr, self.resists_pen.PHYSICAL, target.evasion
 		self:attr("combat_apr", 10000)
-		src:attr("ignore_enemy_resist", 1)
+		self:attr("ignore_enemy_resist", 1)
 		target.evasion = 0
 		local bleed = t.getBleed(self, t)
 		local oldlife = target.life
@@ -380,7 +380,7 @@ newTalent{
 		local ok, err = pcall(do_attack)
 		if ok then ok, err = pcall(do_attack) end
 		self.combat_apr, target.evasion = apr, evasion
-		src:attr("ignore_enemy_resist", -1)
+		self:attr("ignore_enemy_resist", -1)
 		if not ok then error(err) end
 		self.turn_procs.auto_melee_hit = nil
 		
@@ -607,7 +607,7 @@ newTalent{
 	points = 1,
 	tactical = { ATTACK = {PHYSICAL = 1},
 		DISABLE = function(self, t, target)
-			return target:checkClassification("unliving") and 0 or self:knowTalent(self.T_DART_LAUNCHER_MASTERY) and 2 or {sleep = 1, poison = 1}
+			return self:knowTalent(self.T_DART_LAUNCHER_MASTERY) and 2 or {sleep = 1, poison = 1}
 		end
 	},
 	range = 5,
@@ -636,7 +636,7 @@ newTalent{
 			local target = game.level.map(px, py, engine.Map.ACTOR)
 			if not target then return nil end
 			self:project(tg, x, y, DamageType.PHYSICAL, self:physicalCrit(t.getDamage(self,t)))
-			if target:checkClassification("living") and (self:knowTalent(self.T_DART_LAUNCHER_MASTERY) or target:canBe("sleep") and target:canBe("poison")) then
+			if (self:knowTalent(self.T_DART_LAUNCHER_MASTERY) or target:canBe("sleep") and target:canBe("poison")) then
 				target:setEffect(target.EFF_SEDATED, 4, {src=self, power=t.getSleepPower(self,t), slow=slow, insomnia=20, no_ct_effect=true, apply_power=self:combatAttack()})
 				game.level.map:particleEmitter(target.x, target.y, 1, "generic_charge", {rm=180, rM=200, gm=100, gM=120, bm=30, bM=50, am=70, aM=180})
 			else

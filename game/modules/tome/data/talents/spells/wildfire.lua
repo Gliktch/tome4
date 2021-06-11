@@ -102,7 +102,7 @@ newTalent{
 			local nb = 0
 			for eff_id, p in pairs(self.tmp) do
 				local e = self.tempeffect_def[eff_id]
-				if e.type == "magical" and e.status == "detrimental" then nb = nb + 1 end
+				if (e.type == "magical" or e.type == "physical") and e.status == "detrimental" then nb = nb + 1 end
 			end
 			return nb
 		end,
@@ -110,13 +110,7 @@ newTalent{
 			local nb = 0
 			for eff_id, p in pairs(aitarget.tmp) do
 				local e = self.tempeffect_def[eff_id]
-				if e.type == "magical" and e.status == "beneficial" then nb = nb + 1 end
-			end
-			for tid, act in pairs(aitarget.sustain_talents) do
-				if act then
-					local talent = aitarget:getTalentFromId(tid)
-					if talent.is_spell then nb = nb + 1 end
-				end
+				if (e.type == "magical" or e.type == "physical") and e.status == "beneficial" then nb = nb + 1 end
 			end
 			return nb^0.5
 		end},

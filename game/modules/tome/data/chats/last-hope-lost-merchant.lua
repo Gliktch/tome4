@@ -19,6 +19,8 @@
 local q = game.player:hasQuest("lost-merchant")
 if q and q:isStatus(q.COMPLETED, "saved") then
 
+npc.chat_display_entity = engine.Entity.new{name=_t"Urthol's Wondrous Emporium", image="portrait/shop_urthol_s_wondrous_emporium.png"}
+
 local p = game:getPlayer(true)
 
 local trap = p:knowTalentType("cunning/trapping") and not game.state:unlockTalentCheck(player.T_AMBUSH_TRAP, player)

@@ -222,14 +222,13 @@ newEntity{
 
 	charm_on_use = {
 		{100, function(self, who) return ("increase the duration of %d beneficial effects by %d"):tformat(self.extending_amt, self.extending_dur) end, function(self, who)
-			local effs = who:effectsFilter(function(eff)
+			local eff_ids = who:effectsFilter(function(eff)
 				if eff.status == "beneficial" and eff.type ~= "other" then return true end
-			end)
-			if #effs <= 0 then return end
-			for i = 1, math.floor(self.extending_amt) do
-				local eff = rng.tableRemove(effs)
+			end, self.extending_amt)
+			for _, eff_id in pairs(eff_ids) do 
+				local eff = who:hasEffect(eff_id)
 				if eff and eff.dur then
-					eff.dur = eff.dur + math.floor(self.extending_amt)
+					eff.dur = eff.dur + math.floor(self.extending_dur)
 				end
 			end
 		end},
@@ -250,14 +249,13 @@ newEntity{
 
 	charm_on_use = {
 		{100, function(self, who) return ("increase the duration of %d beneficial effects by %d"):tformat(self.extending_amt, self.extending_dur) end, function(self, who)
-			local effs = who:effectsFilter(function(eff)
+			local eff_ids = who:effectsFilter(function(eff)
 				if eff.status == "beneficial" and eff.type ~= "other" then return true end
-			end)
-			if #effs <= 0 then return end
-			for i = 1, math.floor(self.extending_amt) do
-				local eff = rng.tableRemove(effs)
+			end, self.extending_amt)
+			for _, eff_id in pairs(eff_ids) do 
+				local eff = who:hasEffect(eff_id)
 				if eff and eff.dur then
-					eff.dur = eff.dur + math.floor(self.extending_amt)
+					eff.dur = eff.dur + math.floor(self.extending_dur)
 				end
 			end
 		end},

@@ -583,7 +583,7 @@ newTalent{
 	name = "Stoning Poison",
 	type = {"cunning/poisons-effects", 1},
 	require = {stat = {cun=40}, level=25},
-	hide = true,
+	type_no_req = true,
 	points = 1,
 	mode = "sustained",
 	cooldown = 10,

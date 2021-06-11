@@ -132,6 +132,7 @@ newTalent{
 		local oh = self:hasOffWeaponType("mindstar")
 		if mh then apply(mh) end
 		if oh then apply(oh) end
+		return true
 	end,
 	info = function(self, t)
 		return ([[Alter the flow of energies of your equiped mindstars, changing their damage type between nature and mind.]]):tformat()
@@ -180,7 +181,7 @@ newTalent{
 			local Chat = require("engine.Chat")
 			local chat = Chat.new("command-staff", staff, self, {version=staff, state=state, co=coroutine.running()})
 			local d = chat:invoke()
-			if not coroutine.yield() then return nil end
+			self:talentDialog(d)
 			return true
 		else -- NPC picks a new element
 			local element, aspect = staff:getStaffPreferredElement(self)

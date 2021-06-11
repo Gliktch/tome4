@@ -153,6 +153,9 @@ newTalent{
 		else
 			self:setEffect(self.EFF_SUN_VENGEANCE, 2, {})
 		end
+		if self:attr("sun_paladin_avatar") then
+			self:alterTalentCoolingdown(self.T_JUDGEMENT, -6)
+		end
 	end,
 	info = function(self, t)
 		local crit = t.getCrit(self, t)

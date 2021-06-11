@@ -44,7 +44,9 @@ newTalent{
 	is_teleport = true,
 	action = function(self, t)
 		local x, y, range
-		if self.ai_state.shadow_wall then
+		if self.player then
+			x, y, range = self.x, self.y, 10
+		elseif self.ai_state.shadow_wall then
 			x, y, range = self.ai_state.shadow_wall_target.x, self.ai_state.shadow_wall_target.y, 1
 		elseif self.ai_target.x and self.ai_target.y then
 			x, y, range = self.ai_target.x, self.ai_target.y, 1
@@ -316,7 +318,7 @@ local function createShadow(self, level, tCallShadows, tShadowWarriors, tShadowM
 				value = value * self.avoid_master_damage
 			end
 
-			if self:knowTalent(self.T_SHADOW_FADE) and not self:isTalentCoolingDown(self.T_SHADOW_FADE) and not (self.avoid_master_damage == 0) then
+			if self:knowTalent(self.T_SHADOW_FADE) and not self:isTalentCoolingDown(self.T_SHADOW_FADE) and (value > 0) then
 				self:forceUseTalent(self.T_SHADOW_FADE, {ignore_energy=true})
 			end
 

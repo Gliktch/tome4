@@ -123,7 +123,11 @@ newBirthDescriptor{
 		resolvers.inventorybirth{ id=true,
 			{type="weapon", subtype="greatsword", name="iron greatsword", autoreq=true, ego_chance= -1000},
 		},
-
+		resolvers.generic(function(self)
+			if not profile.mod.allow_build.paladin_avatar then
+				self:learnTalent(self.T_AVATAR_DISTANT_SUN_UNLOCK_CHECKER, true)
+			end
+		end),
 	},
 	copy_add = {
 		life_rating = 2,

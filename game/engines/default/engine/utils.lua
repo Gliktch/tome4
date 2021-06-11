@@ -76,6 +76,20 @@ function math.triangle_area(p1, p2, p3)
 	return math.abs(0.5 * lu * lv * math.sin(av - au))
 end
 
+function math.find_closest_lower(x, list)
+	table.sort(list)
+	for i in ripairs_value(list) do
+		if x >= i then return i end
+	end
+end
+
+function math.find_closest_higher(x, list)
+	table.sort(list)
+	for i in ipairs_value(list) do
+		if x <= i then return i end
+	end
+end
+
 function lpeg.anywhere (p)
 	return lpeg.P{ p + 1 * lpeg.V(1) }
 end
@@ -130,6 +144,16 @@ function ipairs_value(t)
 		if i > #t then return nil end
 		local oi = i
 		i = i + 1
+		return t[oi], oi
+	end
+end
+
+function ripairs_value(t)
+	local i = #t
+	return function()
+		if i == 0 then return nil end
+		local oi = i
+		i = i - 1
 		return t[oi], oi
 	end
 end

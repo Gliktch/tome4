@@ -283,8 +283,8 @@ newEntity{ base = "BASE_LITE", define_as = "WINTERTIDE_PHIAL",
 	material_level = 2,
 
 	wielder = {
-		lite = 1,
-		infravision = 6,
+		lite = 2,
+		infravision = 7,
 	},
 
 	max_power = 60, power_regen = 1,

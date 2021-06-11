@@ -945,7 +945,7 @@ newTalent{
 	end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
 		if self:isTalentCoolingDown(t) then return end
-		if (self.life / self.max_life) >= 0.3 then return end
+		if ((self.life-dam) / self.max_life) > 0.3 then return end
 
 		game.logSeen(self, "#RED#%s reacts immediately after taking severe wounds!#LAST#", self:getName():capitalize())
 		self.energy.value = self.energy.value + game.energy_to_act * 1.5
@@ -954,7 +954,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Yeeks live fast, think fast, and sacrifice fast for the Way.
 		Your global speed is increased by %0.1f%%.
-		If your life drops below 30%% you gain 1.5 turns.  This effect can only happen once every %d turns.]]):tformat(100*t.speedup(self, t), self:getTalentCooldown(t))
+		If your life is below 30%% after taking damage you gain 1.5 turns.  This effect can only happen once every %d turns.]]):tformat(100*t.speedup(self, t), self:getTalentCooldown(t))
 	end,
 }
 

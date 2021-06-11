@@ -129,8 +129,8 @@ newTalent{
 	info = function(self, t)
 		return ([[Assume a defensive mental state.
 		For one turn, you will fully block the next melee attack used against you with your telekinetically-wielded weapon and then strike the attacker with it for %d%% weapon damage.
-		At raw talent level 3 you will also disarm the attacker for 3 turns.
-		At raw talent level 5 you will be able to reflexively block up to one attack per turn with a %d%% chance, based on your cunning. Each trigger requires and uses 10 Psi.
+		At talent level 3 you will also disarm the attacker for 3 turns.
+		At talent level 5 you will be able to reflexively block up to one attack per turn with a %d%% chance, based on your cunning. Each trigger requires and uses 10 Psi.
 		This requires a telekinetically-wielded weapon.]]):
 		tformat(100 * t.getWeaponDamage(self, t), t.getChance(self, t))
 	end,

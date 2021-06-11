@@ -59,7 +59,7 @@ on_status_change = function(self, who, status, sub)
 			end
 
 			local Chat = require"engine.Chat"
-			local chat = Chat.new("sorcerer-end", {name=_t"Endgame"}, game:getPlayer(true))
+			local chat = Chat.new("sorcerer-end", {name=_t"Endgame", image="portrait/win.png"}, game:getPlayer(true))
 			chat:invoke()
 
 			self:end_end_combat()
@@ -123,6 +123,9 @@ function win(self, how)
 	elseif how == "self-sacrifice" then world:gainAchievement("WIN_SACRIFICE", game.player)
 	elseif how == "yeek-sacrifice" then world:gainAchievement("YEEK_SACRIFICE", game.player)
 	elseif how == "yeek-selfless" then world:gainAchievement("YEEK_SELFLESS", game.player)
+	elseif how == "distant-sun" then world:gainAchievement("AOADS_BURN", game.player)
+	elseif how == "distant-sun-selfless" then world:gainAchievement("AOADS_SELFLESS", game.player)
+	elseif how == "distant-sun-shertul" then world:gainAchievement("AOADS_SHERTUL", game.player)
 	end
 	
 	local p = game:getPlayer(true)
@@ -176,6 +179,24 @@ function onWin(self, who)
 	desc[#desc+1] = _t""
 	desc[#desc+1] = _t"The Sorcerers are dead, and the Orc Pride lies in ruins, thanks to your efforts."
 	desc[#desc+1] = _t""
+
+	-- Avatars are special
+	if who:isQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun") then
+		desc[#desc+1] = _t"Your patron's plan worked. As your body was crushed by the raw forces of the void portal it opened wide. In an instant the connection was made and waves of heat came through."
+		desc[#desc+1] = _t"The mad sun brought forth all its power through the portal, turning the High Peak into a giant searing needle!"
+		desc[#desc+1] = _t"A few minutes later the whole world was set ablaze, nothing survived except Faeros elementals."
+		return 0, desc
+	elseif who:isQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun-stab") then
+		desc[#desc+1] = _t"In the aftermath of the battle the Distant Sun tried to force you to open the portal to bring it forth onto Eyal."
+		desc[#desc+1] = _t"Through an incredible display of willpower you resisted long enough to ask Aeryn to kill you."
+		desc[#desc+1] = _t"She sadly agreed and ran her sword through you, enabling you to do the last sacrifice you could for the world."
+		return 0, desc
+	elseif who:isQuestStatus("high-peak", engine.Quest.COMPLETED, "distant-sun-shertul") then
+		desc[#desc+1] = _t"In the aftermath of the battle the Distant Sun tried to force you to open the portal to bring it forth onto Eyal."
+		desc[#desc+1] = _t"Through an incredible display of willpower you resisted for a few decisive seconds. During this time a Sher'tul appeared, took the Staff and killed you."
+		desc[#desc+1] = _t"Though you succumbed to the fight, your mind was already gone, burnt to ashes by your mad patron sun. But the world was saved."
+		return 0, desc
+	end
 
 	-- Yeeks are special
 	if who:isQuestStatus("high-peak", engine.Quest.COMPLETED, "yeek") then

@@ -579,6 +579,18 @@ function _M:actBase()
 		end
 	end
 
+	for _, defs in pairs(self._applied_resources_inconstant_drain or {}) do
+		local new_cost = util.getval(defs.cost, self, defs.ab) or 0
+		new_cost = self:alterTalentCost(defs.ab, defs.res_def.drain_prop, new_cost)
+		if not defs.res_def.invert_values then
+			new_cost = - new_cost
+		end
+		if defs.old_cost ~= new_cost then
+			self:removeTemporaryValue(defs.res_def.regen_prop, defs.temporary_value)
+			defs.temporary_value = self:addTemporaryValue(defs.res_def.regen_prop, new_cost)
+			defs.old_cost = new_cost
+		end
+	end
 	self:regenResources()
 
 	-- update psionic feedback
@@ -1881,6 +1893,7 @@ function _M:textRank(use_rank)
 	elseif use_rank == 3.5 then rank, color = _t"unique", "#SANDY_BROWN#"
 	elseif use_rank == 4 then rank, color = _t"boss", "#ORANGE#"
 	elseif use_rank == 5 then rank, color = _t"elite boss", "#GOLD#"
+	elseif use_rank == 11 then rank, color = _t"godslayer", "#FF4000#"
 	elseif use_rank >= 10 then rank, color = _t"god", "#FF4000#"
 	end
 	return rank, color
@@ -4817,6 +4830,7 @@ end
 function _M:checkTwoHandedPenalty()
 	self:removeEffect(self.EFF_2H_PENALTY, true, true)
 	if not self:attr("allow_mainhand_2h_in_1h") then return end
+	if self:attr("allow_mainhand_2h_in_1h_no_penalty") then return end
 	local mi, oi = self:getInven(self.INVEN_MAINHAND), self:getInven(self.INVEN_OFFHAND)
 	if not mi or not oi then return end
 	local mh, oh = mi[1], oi[1]
@@ -5918,7 +5932,7 @@ function _M:preUseTalent(ab, silent, fake, ignore_ressources)
 	end
 	if self:fireTalentCheck("callbackOnTalentPre", ab, silent, fake, ignore_ressources) then return false end
 
-	if not ab.never_fail then
+	if self:getCurrentTalentModeLast() ~= "forced" and not ab.never_fail then
 		-- Confused ? lose a turn!
 		if self:attr("confused") and (ab.mode ~= "sustained" or not self:isTalentActive(ab.id)) and util.getval(ab.no_energy, self, ab) ~= true and not fake and not self:attr("force_talent_ignore_ressources") then
 			if rng.percent(util.bound(self:attr("confused"), 0, 50)) then
@@ -6071,6 +6085,7 @@ local sustainCallbackCheck = {
 	callbackOnPartyRemove = "talents_on_party_remove",
 	callbackOnTargeted = "talents_on_targeted",
 	callbackOnCloned = "talents_on_cloned",
+	callbackOnAITalentTactics = "talents_on_ai_talent_tactics",
 }
 _M.sustainCallbackCheck = sustainCallbackCheck
 
@@ -6347,7 +6362,7 @@ function _M:postUseTalent(ab, ret, silent)
 				trigger = true; self:incMaxFeedback(-util.getval(ab.sustain_feedback, self, ab))
 			end
 			local cost
-			ret._applied_costs,	ret._applied_drains = {}, {} -- to store the resource effects
+			ret._applied_costs,	ret._applied_drains, ret._applied_inconstant_drains = {}, {}, {} -- to store the resource effects
 			for res, res_def in ipairs(_M.resources_def) do
 				-- apply sustain costs
 				cost = ab[res_def.sustain_prop]
@@ -6366,7 +6381,19 @@ function _M:postUseTalent(ab, ret, silent)
 				end
 				-- apply drain costs
 				cost = ab[res_def.drain_prop]
-				if cost then
+				if type(cost) == "function" then -- non-constant resource drain
+					local init_cost = util.getval(cost, self, ab) or 0
+					init_cost = self:alterTalentCost(ab, res_def.drain_prop, init_cost)
+					if not res_def.invert_values then
+						init_cost = - init_cost
+					end
+					local temporary_value = self:addTemporaryValue(res_def.regen_prop, init_cost)
+					local tid_res = ab.id .. "_" .. res_def.drain_prop
+					self._applied_resources_inconstant_drain = self._applied_resources_inconstant_drain or {}
+					self._applied_resources_inconstant_drain[tid_res] = {ab = ab, res_def = res_def, cost = cost, old_cost = init_cost, temporary_value = temporary_value}
+					ret._applied_inconstant_drains[res_def.short_name] = tid_res
+					trigger = true
+				elseif cost then
 					cost = util.getval(cost, self, ab) or 0
 					cost = self:alterTalentCost(ab, res_def.drain_prop, cost)
 					if cost ~= 0 then
@@ -6407,6 +6434,14 @@ function _M:postUseTalent(ab, ret, silent)
 					else
 						self[res_def.incMaxFunction](self, cost)
 					end
+				end
+			end
+			-- reverse non-constant resource drain
+			if ret._applied_inconstant_drains then
+				for _, tid_res in pairs(ret._applied_inconstant_drains) do
+					local defs = self._applied_resources_inconstant_drain[tid_res]
+					self:removeTemporaryValue(defs.res_def.regen_prop, defs.temporary_value)
+					self._applied_resources_inconstant_drain[tid_res] = nil
 				end
 			end
 			-- reverse resource drains
@@ -6479,7 +6514,7 @@ function _M:postUseTalent(ab, ret, silent)
 	end
 
 	-- break stealth, channels, etc...
-	if not self.turn_procs.resetting_talents then
+	if self:getCurrentTalentModeLast() ~= "forced" and not self.turn_procs.resetting_talents then
 		-- Cancel stealth!
 		if not util.getval(ab.no_break_stealth, self, ab) and util.getval(ab.no_energy, self, ab) ~= true then self:breakStealth() end
 
@@ -6499,11 +6534,11 @@ function _M:postUseTalent(ab, ret, silent)
 				end)
 			end
 		end
-	end
 
-	if not ab.innate and self:hasEffect(self.EFF_RAMPAGE) and ab.id ~= self.T_RAMPAGE and ab.id ~= self.T_SLAM then
-		local eff = self:hasEffect(self.EFF_RAMPAGE)
-		value = self.tempeffect_def[self.EFF_RAMPAGE].do_postUseTalent(self, eff, value)
+		if not ab.innate and self:hasEffect(self.EFF_RAMPAGE) and ab.id ~= self.T_RAMPAGE and ab.id ~= self.T_SLAM then
+			local eff = self:hasEffect(self.EFF_RAMPAGE)
+			value = self.tempeffect_def[self.EFF_RAMPAGE].do_postUseTalent(self, eff, value)
+		end	
 	end
 
 	if ab.is_summon and ab.is_nature and self:attr("heal_on_nature_summon") then

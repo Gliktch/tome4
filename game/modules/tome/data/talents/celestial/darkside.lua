@@ -40,10 +40,11 @@ newTalent{
 		local hit = self:attackTarget(target, nil, t.getDamage(self, t), true)
 		
 		if hit then
+			target:setEffect(target.EFF_BRUTALIZED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			if target:canBe("stun") then
-				target:setEffect(target.EFF_BRUTALIZED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
+				target:setEffect(target.EFF_STUNNED, t.getDuration(self, t), {apply_power=self:combatPhysicalpower()})
 			else
-				game.logSeen(target, "%s resists the brutality!", target.name:capitalize())
+				game.logSeen(target, "%s resists the stun!", target.name:capitalize())
 			end
 		end
 		

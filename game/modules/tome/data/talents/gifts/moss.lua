@@ -40,7 +40,7 @@ newTalent{
 	getPin = function(self, t) return math.ceil(self:combatTalentLimit(t, 100, 25, 45)) end, -- Limit < 100%
 	range = 0,
 	radius = function(self, t)
-		return math.floor(self:combatTalentScale(t,2.5, 4.5, nil, 0, 0, true)) --uses raw talent level
+		return math.floor(self:combatTalentScale(t, 2.35, 4.25))
 	end,
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
@@ -90,7 +90,7 @@ newTalent{
 	getHeal = function(self, t) return math.floor(self:combatTalentLimit(t, 200, 62, 110)) end, -- Limit < 200%	
 	range = 0,
 	radius = function(self, t)
-		return math.floor(self:combatTalentScale(t,2.5, 4.5, nil, 0, 0, true))
+		return math.floor(self:combatTalentScale(t, 2.35, 4.25))
 	end,
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
@@ -138,7 +138,7 @@ newTalent{
 	getFail = function(self, t) return self:combatTalentLimit(t, 50, 20, 35) end, -- Limit < 50%
 	range = 0,
 	radius = function(self, t)
-		return math.floor(self:combatTalentScale(t,2.5, 4.5, nil, 0, 0, true)) 
+		return math.floor(self:combatTalentScale(t, 2.35, 4.25)) 
 	end,
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}
@@ -187,7 +187,7 @@ newTalent{
 	getPower = function(self, t) return math.max(0,self:combatTalentLimit(t, 50, 20, 40)) end, -- Limit < 50%
 	range = 0,
 	radius = function(self, t)
-		return math.floor(self:combatTalentScale(t,2.5, 4.5, nil, 0, 0, true))
+		return math.floor(self:combatTalentScale(t, 2.35, 4.25))
 	end,
 	target = function(self, t)
 		return {type="ball", range=self:getTalentRange(t), radius=self:getTalentRadius(t)}

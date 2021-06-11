@@ -410,7 +410,7 @@ newEffect{
 	subtype = { ward=true, },
 	status = "beneficial",
 	parameters = { wards = {} },
-	on_gain = function(self, err) return _t"#Target# summons a prismatic shield to protect him!", _t"+Prismatic" end,
+	on_gain = function(self, err) return _t"#Target# summons a prismatic shield for protection!", _t"+Prismatic" end,
 	on_lose = function(self, err) return _t"#Target#'s prismatic shield fades.", _t"-Prismatic" end,
 	activate = function(self, eff)
 	end,
@@ -440,7 +440,7 @@ newEffect{
 	subtype = { arcane=true, },
 	status = "beneficial",
 	parameters = {},
-	on_gain = function(self, err) return _t"#Target# is being purged of his physical ailments!", _t"+Purging" end,
+	on_gain = function(self, err) return _t"#Target# is being purged of physical ailments!", _t"+Purging" end,
 	on_lose = function(self, err) return _t"#Target#'s is no longer being purged.", _t"-Purging" end,
 	activate = function(self, eff)
 	end,
@@ -672,6 +672,7 @@ newEffect{
 		if eff.true_seeing then
 			eff.inv = self:addTemporaryValue("invisible", -(self:attr("invisible") or 0))
 			eff.stealth = self:addTemporaryValue("stealth", -((self:attr("stealth") or 0) + (self:attr("inc_stealth") or 0)))
+			self:resetCanSeeCacheOf() -- updates visual for player instantly
 		end
 	end,
 	deactivate = function(self, eff)
@@ -836,7 +837,7 @@ newEffect{
 		self.damage_shield_absorb = eff.power
 		self.damage_shield_absorb_max = eff.power
 		if core.shader.active(4) then
-			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {img=eff.image or "shield7"}, {type="shield", shieldIntensity=0.2, color=eff.color or {0.4, 0.7, 1.0}}))
+			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {img=eff.image or "shield7"}, {type="shield", shieldIntensity=eff.shield_intensity or 0.2, color=eff.color or {0.4, 0.7, 1.0}}))
 		else
 			eff.particle = self:addParticles(Particles.new("damage_shield", 1))
 		end
@@ -2810,7 +2811,7 @@ newEffect{
 
 					if self:reactionToward(target) < 0 then
 						local dam = eff.dam * (1 + (5 - core.fov.distance(self.x, self.y, target.x, target.y)) / 8)
-						target:setEffect(target.EFF_WEIGHT_OF_THE_SUN, 2, {reduce = 30})  -- Quickly wears off when outside of AoE
+						target:setEffect(target.EFF_WEIGHT_OF_THE_SUN, 2, {reduce = 30, resists = self:attr("sun_paladin_avatar")})  -- Quickly wears off when outside of AoE
 						DamageType:get(DamageType.FIRE).projector(self, target.x, target.y, DamageType.FIRE, dam/3)
 						DamageType:get(DamageType.LIGHT).projector(self, target.x, target.y, DamageType.LIGHT, dam/3)
 						DamageType:get(DamageType.PHYSICAL).projector(self, target.x, target.y, DamageType.PHYSICAL, dam/3)
@@ -2824,7 +2825,7 @@ newEffect{
 newEffect{
 	name = "WEIGHT_OF_THE_SUN", image = "talents/irresistible_sun.png",
 	desc = _t"Weight of the Sun",
-	long_desc = function(self, eff) return ("The target is struggling against immense gravity, all damage it does is reduced by %d%%."):tformat(eff.reduce) end,
+	long_desc = function(self, eff) return ("The target is struggling against immense gravity, all damage it does is reduced by %d%%.%s"):tformat(eff.reduce, eff.resists and _t" Due to facing an Avatar of a Distant Sun, fire and light resistances are reduced to 0%." or "") end,
 	type = "magical",
 	subtype = { sun=true,},
 	status = "detrimental",
@@ -2833,6 +2834,10 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# can move freely once more.", _t"-Weight of the Sun" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "numbed", eff.reduce)
+		if eff.resists then
+			game.log("plop")
+			self:effectTemporaryValue(eff, "resists_cap", {[DamageType.LIGHT]=-(self.resists_cap.all or 0)-(self.resists_cap.LIGHT or 0), [DamageType.FIRE]=-(self.resists_cap.all or 0)-(self.resists_cap.FIRE or 0)})
+		end
 	end,
 }
 
@@ -3617,9 +3622,7 @@ newEffect{
 		return {dam=dam}
 	end,
 	activate = function(self, eff)
-		if core.shader.allow("adv") then
-			eff.particle1, eff.particle2 = self:addParticles3D("volumetric", {kind="fast_sphere", shininess=40, density=40, radius=1.4, scrollingSpeed=0.001, growSpeed=0.004, img="squares_x3_01"})
-		end
+		eff.particle1 = self:addParticles(Particles.new("circle", 1, {shader=true, toback=true, oversize=1.4, a=155, appear=8, speed=0, img="webs_of_fate_aura", radius=0}))
 	end,
 	deactivate = function(self, eff)
 		self:removeParticles(eff.particle1)
@@ -4632,6 +4635,7 @@ newEffect{
 	on_lose = function(self, err) return nil, true end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "generic_damage_penalty", eff.power)
+		self:effectTemporaryValue(eff, "dazzled", 1)
 	end,
 }
 
@@ -5508,9 +5512,9 @@ newEffect{
 	status = "beneficial",
 	parameters = { shield=50, cd=5 },
 	callbackOnTemporaryEffectAdd = function(self, eff, eff_id, e_def, eff_incoming)
-		if not self:hasProc("dirge_shield") then
+		if not self:hasEffect(self.EFF_NO_PESTILENCE) then
 			if e_def.status == "detrimental" and e_def.type ~= "other" and eff_incoming.src ~= self then
-				self:setProc("dirge_shield", true, eff.cd)
+				self:setEffect(self.EFF_NO_PESTILENCE, eff.cd, {src=self})
 				if self:hasEffect(self.EFF_DAMAGE_SHIELD) then
 					local shield = self:hasEffect(self.EFF_DAMAGE_SHIELD)
 					local shield_power = self:spellCrit(eff.shield)

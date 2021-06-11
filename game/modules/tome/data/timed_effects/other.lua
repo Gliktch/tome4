@@ -3847,7 +3847,7 @@ newEffect{
 		if eff.resistGain and eff.resistGain > 0 then
 			local gainList = {}
 			for id, resist in pairs(eff.target.resists) do
-				if resist > 0 and id ~= "all" then
+				if resist > 0 and id ~= "all" and id ~= "absolute" then
 					gainList[id] = eff.resistGain * 0.01 * resist
 				end
 			end
@@ -3940,7 +3940,7 @@ newEffect{
 		if eff.resistLoss and eff.resistLoss < 0 then
 			local lossList = {}
 			for id, resist in pairs(self.resists) do
-				if resist > 0 and id ~= "all" then
+				if resist > 0 and id ~= "all" and id ~= "absolute" then
 					lossList[id] = eff.resistLoss * 0.01 * resist
 				end
 			end
@@ -4147,6 +4147,15 @@ newEffect{
 	deactivate = function(self, eff) end,
 }
 
+newEffect{
+	name = "NO_PESTILENCE", image = "talents/dirge_of_pestilence.png",
+	desc = _t"Pestilence Saturation",
+	long_desc = function(self, eff) return _t"The target recently benefited from Dirge of Pestilence" end,
+	type = "other",
+	subtype = { dirge=true },
+	status = "neutral",
+	parameters = { },
+}
 
 newEffect{
 	name = "SELF_JUDGEMENT", image = "talents/self_judgement.png",

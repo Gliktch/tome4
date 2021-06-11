@@ -133,8 +133,8 @@ function _M:trigger(x, y, who)
 	else
 		local tname = who:getName()
 		local str =self.message
-		str = str:gsub("@target@", tname)
-		str = str:gsub("@Target@", tname:capitalize())
+		str = str:noun_sub("@target@", tname)
+		str = str:noun_sub("@Target@", tname:capitalize())
 		game.logSeen(who, "%s", str)
 	end
 	local known, del = false, false

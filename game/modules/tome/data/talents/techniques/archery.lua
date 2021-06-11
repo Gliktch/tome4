@@ -61,8 +61,8 @@ newTalent{
 		if self.mark_steady then self.mark_steady = nil end
 	end,
 	archery_onhit = function(self, t, target, x, y)
-		if self:knowTalent(self.T_MASTER_MARKSMAN) then
-			local chance = 15 + (self.mark_steady or 0)
+		if self:knowTalent(self.T_MASTER_MARKSMAN) or self.mark_steady then
+			local chance = (self:knowTalent(self.T_MASTER_MARKSMAN) and 15 or 0) + (self.mark_steady or 0)
 			if self:hasEffect(self.EFF_TRUESHOT) then chance = chance + (chance * self:callTalent(self.T_TRUESHOT, "getMarkChance")/100) end
 			if self:isTalentActive(self.T_AIM) then	
 				chance = chance + self:callTalent(self.T_AIM, "getMarkChance") 

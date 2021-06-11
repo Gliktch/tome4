@@ -99,13 +99,13 @@ newTalent{
 			if self:attr("burning_wake") and self:attr("cleansing_flame") then return 1	end
 		end },
 	range = 0,
-	radius = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8, 0.5, 0, 0, true)) end,
+	radius = function(self, t) return math.floor(self:combatTalentScale(t, 4, 8)) end,
 	requires_target = true,
 	target = function(self, t)
 		return {type="cone", range=self:getTalentRange(t), radius=self:getTalentRadius(t), selffire=false, talent=t}
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 250) end,
-	getStunDuration = function(self, t) return self:combatTalentScale(t, 3, 7, 0.5, 0, 0, true) end,
+	getStunDuration = function(self, t) return self:combatTalentScale(t, 2.5, 5.5) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local x, y = self:getTarget(tg)
@@ -146,7 +146,7 @@ newTalent{
 	cooldown = 8,
 	tactical = { ATTACKAREA = { FIRE = 2 } },
 	range = 7,
-	radius = function(self, t) return math.floor(self:combatTalentScale(t, 2, 6, 0.5, 0, 0, true)) end,
+	radius = function(self, t) return math.floor(self:combatTalentScale(t, 2, 5.5)) end,
 	proj_speed = 4,
 	direct_hit = true,
 	requires_target = true,

@@ -1386,6 +1386,10 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 			end --(DEBUGGING transitional)
 			if type(tactical) == "function" then tactical = tactical(self, t, aitarget) end
 		end
+		local hd = {"ActorAI:aiTalentTactics", tactical=table.clone(tactical, true), t=t, ai_target=ai_target}
+		self:triggerHook(hd)
+		self:fireTalentCheck("callbackOnAITalentTactics", hd)
+		tactical = hd.tactical
 		if log_detail >= 2 then print("[aiTalentTactics]__ using talent tactical table for", t.id) table.print(tactical, "\t___") end
 		if not tactical then return false end
 
@@ -1568,7 +1572,7 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 							else
 								val_type, val_wt = next(val, val_type) if not val_wt then break end
 							end
-							if act == self and self:attr("encased_in_ice") and tact == "attack" or tact == "attackarea" then
+							if act == self and self:attr("encased_in_ice") and (tact == "attack" or tact == "attackarea") then
 								weight = s_mult * math.abs(benefit) -- Frozen status ignores selffire and allows self-fire
 							elseif act == self then -- hit self
 								weight = selffire*friendlyfire*s_mult*benefit -- matches actor:project

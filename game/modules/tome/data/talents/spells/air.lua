@@ -138,8 +138,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local targets = t.getTargetCount(self, t)
-		return ([[Invokes a forking beam of lightning doing %0.2f to %0.2f damage (%0.2f average) and forking to another target.
-		It can hit up to %d targets up to 10 grids apart, and will never hit the same one twice; nor will it hit the caster.
+		return ([[Invokes an arc of lightning doing %0.2f to %0.2f damage (%0.2f average) and chaining to another target.
+		The arc can jump to %d targets at most, up to 10 grids apart, and will never jump to the same target twice, or to the caster. The arc will also strike all creatures between each target.
 		The damage will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.LIGHTNING, damage / 3),
 			damDesc(self, DamageType.LIGHTNING, damage),
