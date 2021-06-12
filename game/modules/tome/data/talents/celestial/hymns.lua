@@ -364,6 +364,7 @@ newTalent{
 	points = 5,
 	mode = "passive",
 	negative = 0, -- forces learning of Negative pool
+	no_difficulty_boost = true, -- avoid double boost from difficulty
 	passives = function(self, t)
 		self:setTalentTypeMastery("celestial/hymns-hymns", self:getTalentMastery(t))
 	end,
