@@ -96,7 +96,7 @@ t("seed", "種", "nil")
 t("south", "南", "nil")
 t("southeast", "南東", "nil")
 t("southwest", "南西", "nil")
-t("spell", "魔法", "nil")
+t("spell", "魔術", "nil")
 t("standard", "標準", "nil")
 t("standby", "警護指向", "nil")
 t("starstaff", "天球杖", "nil")
@@ -333,13 +333,7 @@ t("", "", "_t")
 ------------------------------------------------
 section "engine/engine/Chat.lua"
 
-
--- new text
---[==[
-t("following chain...", "following chain...", "log")
-t(" - %s : %d", " - %s : %d", "log")
---]==]
-
+t("???", "？？？", "_t")
 
 ------------------------------------------------
 section "engine/engine/DebugConsole.lua"
@@ -1199,7 +1193,7 @@ t("Talent Use Confirmation", "タレント使用確認", "_t")
 t("Use %s?", "%sを使用しますか？", "tformat")
 t("Cancel", "キャンセル", "_t")
 t("Continue", "続行", "_t")
-t("unknown", "不明", "_t")
+t("unknown", "不明", "entity name")
 t("%s %s %s.", "%sはタレントを%s：%s.", "logSeen")
 t("deactivates", "解除", "_t")
 t("activates", "起動", "_t")
@@ -1222,6 +1216,8 @@ t("- Is %s", "%s", "tformat")
 t("%s", "%s", "logSeen")
 --]==]
 
+-- old translated text
+t("unknown", "不明", "_t")
 
 ------------------------------------------------
 section "engine/engine/interface/GameTargeting.lua"
@@ -1467,7 +1463,7 @@ This is all optional, you are not forced to use this feature at all, but the dev
 
 　#LIGHT_BLUE#https://te4.org/#LAST#にもユーザーページーがあり、お友達にキャラクターのお披露目も。
 　あくまでも追加要素的なものですから、無理に利用しなくても構いません。ですが、開発者として使っていただけるとバランス調整が大変助かります。]], "_t")
-t("Login in...", "ログイン・・・", "_t")
+t("Logging in...", "　ログイン中・・・", "_t")
 t("Please wait...", "お待ちください・・・", "_t")
 t("Profile logged in!", "プロフィールログイン！", "_t")
 t("Your online profile is now active. Have fun!", "　オンラインプロフィールが有効になりました！　ゲームをお楽しみください！", "_t")
@@ -1478,7 +1474,7 @@ t("Registering on https://te4.org/, please wait...", "https://te4.org/に登録�
 t("Logged in!", "ログイン！", "_t")
 t("Profile created!", "プロフィール作成！", "_t")
 t("Profile creation failed!", "プロフィール作成失敗！", "_t")
-t("Creation failed: %s (you may also register on https://te4.org/)", "作成に失敗しました。: %s（https://te4.org/でも登録できます）", "tformat")
+t("Creation failed: %s (you may also register on https://te4.org/)", "　作成に失敗しました。: %s（https://te4.org/でも登録できます）", "tformat")
 t("Try again in in a few moments, or try online at https://te4.org/", "　数分待ってまた試してみて下さい。https://te4.org/でも登録できます。", "_t")
 
 ------------------------------------------------
@@ -1638,9 +1634,13 @@ t("Expert Shaders Design", "シェーダーデザイン", "_t")
 t("Soundtracks", "サウンドトラック", "_t")
 t("Sound Designer", "サウンドデザイナー", "_t")
 t("Lore Creation and Writing", "ストーリー文書考案・作成", "_t")
-t("Code Helpers", "プログラムメンバー", "_t")
+t("Code Heroes", "プログラム関係でご協力頂いた方々", "_t")
 t("Community Managers", "コミュニティ管理者", "_t")
 t("Text Editors", "テキスト編集", "_t")
+t("Chinese Translation Lead", "中国語訳担当リーダー", "_t")
+t("Chinese Translators", "中国語訳スタッフ", "_t")
+t("Korean Translation", "韓国語訳スタッフ", "_t")
+t("Japanese Translation", "日本語訳スタッフ", "_t")
 t("The Community", "コミュニティ", "_t")
 t("Others", "そのほかご協力頂いた方々", "_t")
 
@@ -1775,7 +1775,7 @@ t([[#{bold}##GOLD#Embers of Rage - Expansion#LAST##{normal}#
 #LIGHT_UMBER#新クラス：#WHITE#ブッチャー、ガンナー、サイコガンナー、アナイアレーター、魔工学士。蒸気の力を制御して強烈な兵器を操り、オークに仇為す者たちを殲滅！  
 #LIGHT_UMBER#新種族：#WHITE#オーク、イエティ、白蹄族。「西の災厄」が引き起こした惨事より仲間たちを守りつつ、オークの数少ない「輩」を見出しましょう。
 #LIGHT_UMBER#工士アイテム：#WHITE#強力な工士アイテムを作成して装備品を強化します。ブーツにロケット噴射装置を組み込んだり、グローブに拘束機能を追加したり、そのほかにもいろいろ。
-#LIGHT_UMBER#軟膏：#WHITE#工士アイテムに関連します。強力な医療軟膏を作成して注射し、ハーブ注入物やルーンの代わりに活用します。
+#LIGHT_UMBER#軟膏：#WHITE#工士アイテムに関連します。強力な医療軟膏を作成して注射し、ハーブ物やルーンの代わりに活用します。
 #LIGHT_UMBER#大量の#WHITE#アーティファクト、ストーリー文書、ゾーン、イベント・・・ 
 
 ]], "_t")
@@ -1819,10 +1819,12 @@ t("Your username is too short", "ユーザー名が短すぎます", "_t")
 t("Password", "パスワード", "_t")
 t("Your password is too short", "パスワードが短すぎます", "_t")
 t("Login...", "ログイン", "_t")
-t("Login in your account, please wait...", "アカウントにログイン中・・・", "_t")
+t("Logging in your account, please wait...", "　登録したアカウントにログインしています。しばらくお待ちください・・・", "_t")
 t("Steam client not found.", "Steamのクライアントが見つかりません。", "_t")
+-- untranslated text
+--[==[
 t("#LIGHT_BLUE##{underline}#%s#LAST##{normal}#", "#LIGHT_BLUE##{underline}#%s#LAST##{normal}#", "tformat")
-
+--]==]
 
 
 ------------------------------------------------

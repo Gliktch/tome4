@@ -813,7 +813,7 @@ Difficulty: %s / %s
 Campaign: %s
 Exploring level %s of %s.]]):tformat(
 		player.name, player.level, _t(player.descriptor.subrace, "birth descriptor name"), _t(player.descriptor.subclass, "birth descriptor name"),
-		_t(player.descriptor.difficulty), _t(player.descriptor.permadeath),
+		_t(player.descriptor.difficulty, "birth descriptor name"), _t(player.descriptor.permadeath),
 		_t(player.descriptor.world),
 		self.level and self.level.level or "--", self.zone and self.zone.name or "--"
 		),
@@ -1681,7 +1681,7 @@ function _M:logMessage(source, srcSeen, target, tgtSeen, style, ...)
 		if source.player then
 			srcname = "#fbd578#"..source.name.."#LAST#"
 		elseif srcSeen then
-			srcname = engine.Entity.check(source, "getName") or source.name or _t"unknown"
+			srcname = engine.Entity.check(source, "getName") or source.name or _t("unknown", "entity name")
 		end
 		if srcname ~= _t"something" then Dstring = source.__is_actor and source.getDisplayString and source:getDisplayString() end
 	style = style:noun_sub("#source#", srcname)
@@ -1691,7 +1691,7 @@ function _M:logMessage(source, srcSeen, target, tgtSeen, style, ...)
 		if target.player then
 			tgtname = "#fbd578#"..target.name.."#LAST#"
 		elseif tgtSeen then
-			tgtname = engine.Entity.check(target, "getName") or target.name or _t"unknown"
+			tgtname = engine.Entity.check(target, "getName") or target.name or _t("unknown", "entity name")
 		end
 	end
 	style = style:noun_sub("#target#", tgtname)

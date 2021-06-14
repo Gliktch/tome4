@@ -23,7 +23,7 @@ Stop! You are clearly a stranger! Where do you come from? The Gates of Morning a
 	answers = {
 		{_t"My lady, I am indeed a stranger in these lands. I come from the west, from Maj'Eyal.", jump="from",
 		  cond=function(npc, player) return player:hasQuest("strange-new-world") and player:hasQuest("strange-new-world"):isCompleted("helped-fillarel") end},
-		{_t"Sorry, I have to go!"},
+		{_t("Sorry, I have to go!", "chat_gates-of-morning-welcome")},
 	}
 }
 

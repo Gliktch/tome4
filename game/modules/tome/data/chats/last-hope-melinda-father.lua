@@ -52,7 +52,7 @@ newChat{ id="welcome",
 		{_t"Hi, I was just checking in to see if Melinda is all right.", jump="reward", cond=function(npc, player) return not npc.rewarded_for_saving_melinda end, action=function(npc, player) npc.rewarded_for_saving_melinda = true end},
 		{_t"Hi, I would like to talk to Melinda please.", jump="rewelcome", switch_npc={name=_t"Melinda"}, cond=function(npc, player) return ql and not ql:isCompleted("moved-in") and not ql.inlove end},
 		{_t"Hi, I would like to talk to Melinda please.", jump="rewelcome-love", switch_npc={name=_t"Melinda"}, cond=function(npc, player) return ql and not ql:isCompleted("moved-in") and ql.inlove end},
-		{_t"Sorry, I have to go!"},
+		{_t("Sorry, I have to go!", "chat_last-hope-melinda-father")},
 	}
 }
 

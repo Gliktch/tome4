@@ -46,7 +46,7 @@ There are also those Zigur-something people that claim to fight magic. Why are t
 newChat{ id="zigur",
 	text = _t[[Well then please do something about this evil magic!]],
 	answers = {
-		{_t"I will!", action=function(npc, player) player:hasQuest("lightning-overload"):done_derth() end},
+		{_t("I will!", "chat_derth-attack-over"), action=function(npc, player) player:hasQuest("lightning-overload"):done_derth() end},
 	}
 }
 

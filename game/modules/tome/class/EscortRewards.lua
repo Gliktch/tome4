@@ -483,7 +483,7 @@ function _M:getReward(reward_type)
 	end
 end
 
-local saves_name = { mental=_t"mental", spell=_t"spell", phys=_t"physical"}
+local saves_name = { mental=_t("mental", "save name"), spell=_t("spell", "save name"), phys=_t("physical", "save name")}
 local saves_tooltips = { mental="MENTAL", spell="SPELL", phys="PHYS"}
 
 function _M:rewardChatAnwsers(who, reward, jump_to, on_chose)

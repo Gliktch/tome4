@@ -55,7 +55,7 @@ Ahh, the intruder at last... And what shall we do with you? Why did you kill my 
 	answers = {
 		{_t"I heard some cries, and your men... they were in my way. What's going on here?", jump="what"},
 		{_t"I thought there might be some treasure to be had around here.", jump="greed"},
-		{_t"Sorry, I have to go!", jump="hostile"},
+		{_t("Sorry, I have to go!", "chat_assassin-lord"), jump="hostile"},
 	}
 }
 
