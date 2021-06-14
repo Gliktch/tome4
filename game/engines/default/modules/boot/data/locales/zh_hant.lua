@@ -90,7 +90,7 @@ This is all optional, you are not forced to use this feature at all, but the dev
 
 你也會在獲得一個 #LIGHT_BLUE#https:/te4.org/#LAST# 上的用戶頁面，可以用來向你的朋友炫耀。
 這一切都是可選的，你可以自願使用或者關閉這些功能。開發者會根據你的用戶反饋來協助調整遊戲平衡。]], "_t")
-t("Login in...", "登錄中…", "_t")
+t("Logging in...", "登錄中…", "_t")
 t("Please wait...", "請等待…", "_t")
 t("Profile logged in!", "賬戶登錄成功！", "_t")
 t("Your online profile is now active. Have fun!", "你的在線賬戶已可用。玩得開心！", "_t")
@@ -261,9 +261,13 @@ t("Expert Shaders Design", "特效設計", "_t")
 t("Soundtracks", "遊戲音樂", "_t")
 t("Sound Designer", "音效設計", "_t")
 t("Lore Creation and Writing", "劇情撰寫", "_t")
-t("Code Helpers", "程序設計", "_t")
+t("Code Heroes", "程序設計", "_t")
 t("Community Managers", "社區經理", "_t")
 t("Text Editors", "文本編輯", "_t")
+t("Chinese Translation Lead", "漢化組組長", "_t")
+t("Chinese Translators", "漢化組成員", "_t")
+t("Korean Translation", "韓文翻譯組成員", "_t")
+t("Japanese Translation", "日文翻譯組成員", "_t")
 t("The Community", "遊戲社區", "_t")
 t("Others", "其他", "_t")
 
@@ -446,7 +450,7 @@ t("Your username is too short", "你的用戶名過短", "_t")
 t("Password", "密碼", "_t")
 t("Your password is too short", "你的密碼過短", "_t")
 t("Login...", "登錄中…", "_t")
-t("Login in your account, please wait...", "正在登錄賬戶，請稍後…", "_t")
+t("Logging in your account, please wait...", "正在登錄賬戶，請稍候…", "_t")
 t("Steam client not found.", "找不到Steam客戶端", "_t")
 -- untranslated text
 --[==[
