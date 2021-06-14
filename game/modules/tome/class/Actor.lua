@@ -4320,6 +4320,7 @@ function _M:updateModdableTile()
 			table.insert(self.shimmer_particles_active, p)
 		end
 	end
+	if not self.moddable_tile then return end
 
 	local base = "player/"..self.moddable_tile:gsub("#sex#", self.female and "female" or "male").."/"
 

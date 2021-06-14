@@ -3882,6 +3882,7 @@ newEffect{
 		eff.target:removeEffect(eff.target.EFF_FED_UPON, false, true)
 	end,
 	updateFeed = function(self, eff)
+		if not eff then return end
 		local source = eff.src
 		local target = eff.target
 
