@@ -60,11 +60,11 @@ function _M:makeUI()
 		if h + frameh < back.h then h = back.h - frameh end
 		-- Ensure if it's too big but too small to not have the down deco, to increase it a it
 		if h + frameh > back.h then
-			if h + frameh < back.h + 16 then h = back.h - frameh + 16 game.log("==adjusting to %d", 16)
-			elseif h + frameh < back.h + 32 then h = back.h - frameh + 32 game.log("==adjusting to %d", 32)
-			elseif h + frameh < back.h + 48 then h = back.h - frameh + 48 game.log("==adjusting to %d", 48)
-			elseif h + frameh < back.h + 64 then h = back.h - frameh + 64 game.log("==adjusting to %d", 64)
-			elseif h + frameh < back.h + 80 then h = back.h - frameh + 80 game.log("==adjusting to %d", 80)
+			if h + frameh < back.h + 16 then h = back.h - frameh + 16
+			elseif h + frameh < back.h + 32 then h = back.h - frameh + 32
+			elseif h + frameh < back.h + 48 then h = back.h - frameh + 48
+			elseif h + frameh < back.h + 64 then h = back.h - frameh + 64
+			elseif h + frameh < back.h + 80 then h = back.h - frameh + 80
 			end
 		end
 
@@ -148,6 +148,8 @@ function _M:getActorPortrait(actor)
 		return Entity.new{name=actor.name, image=actor.image:gsub("^object/artifact/", "portrait/")}
 	elseif actor.image:find("^talents/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^talents/", "portrait/")) then
 		return Entity.new{name=actor.name, image=actor.image:gsub("^talents/", "portrait/")}
+	elseif actor.image:find("^faction/") and fs.exists("/data/gfx/shockbolt/"..actor.image:gsub("^faction/", "portrait/")) then
+		return Entity.new{name=actor.name, image=actor.image:gsub("^faction/", "portrait/")}
 	end
 
 	-- Last resort, use it as it is
