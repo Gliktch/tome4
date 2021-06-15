@@ -276,6 +276,7 @@ newTalent{
 	points = 5,
 	mode = "passive",
 	positive = 0, -- forces learning of Positive pool
+	no_difficulty_boost = true, -- avoid double boost from difficulty
 	passives = function(self, t)
 		self:setTalentTypeMastery("celestial/chants-chants", self:getTalentMastery(t))
 	end,
