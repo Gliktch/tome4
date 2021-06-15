@@ -22,7 +22,7 @@ newChat{ id="welcome",
 I take it you are satisfied with the portal.]],
 	answers = {
 		{_t"Yes, thank you."},
-		{_t"Whatever."},
+		{_t("Whatever.", "chat_zemekkys-done")},
 	}
 }
 

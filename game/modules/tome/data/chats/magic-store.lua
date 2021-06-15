@@ -39,7 +39,7 @@ newChat{ id="welcome",
 			npc.store:interact(player)
 		end},
 		{_t"I want to recharge some of my equipment.", action=recharge},
-		{_t"Sorry, I have to go!"},
+		{_t("Sorry, I have to go!", "chat_magic-store")},
 	}
 }
 

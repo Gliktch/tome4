@@ -21,7 +21,7 @@ newChat{ id="welcome",
 	text = _t[[Please save me! I will make it worth your whi..
 *#LIGHT_GREEN#The assassin lord hits him in the face.#WHITE#*Shut up!]],
 	answers = {
-		{_t"Sorry, I have to go!", action = function(npc, player) npc.can_talk = nil end},
+		{_t("Sorry, I have to go!", "chat_lost-merchant"), action = function(npc, player) npc.can_talk = nil end},
 	}
 }
 

@@ -142,7 +142,7 @@ g.on_move = function(self, x, y, who, act, couldpass)
 		return false
 	end
 	require("engine.ui.Dialog"):yesnoPopup(_t"Coral Portal", _t"Do you wish to enter the portal, destroy it, or ignore it (press escape)?", function(ret)
-		if ret == "Quit" then
+		if ret == _t("Quit", "dialog_portal") then
 			game.log("#VIOLET#Ignoring the portal...")
 			return
 		end
@@ -151,7 +151,7 @@ g.on_move = function(self, x, y, who, act, couldpass)
 		else self:break_portal()
 		end
 
-	end, _t"Destroy", _t"Enter", false, _t"Quit")
+	end, _t"Destroy", _t"Enter", false, _t("Quit", "dialog_portal"))
 	
 	return false
 end

@@ -27,7 +27,7 @@ newChat{ id="welcome",
 		{_t"I have destroyed the leaders of all the Orc Prides.", jump="prides-dead", cond=function(npc, player) return player:isQuestStatus("orc-pride", engine.Quest.COMPLETED) end},
 		{_t"I am back from the Charred Scar, where the orcs took the staff.", jump="charred-scar", cond=function(npc, player) return player:hasQuest("charred-scar") and player:hasQuest("charred-scar"):isCompleted() end},
 		{_t"A dying paladin gave me this map; something about orc breeding pits. [tell her the story]", jump="orc-breeding-pits", cond=function(npc, player) return player:hasQuest("orc-breeding-pits") and player:isQuestStatus("orc-breeding-pits", engine.Quest.COMPLETED, "wuss-out") and not player:isQuestStatus("orc-breeding-pits", engine.Quest.COMPLETED, "wuss-out-done") end},
-		{_t"Sorry, I have to go!"},
+		{_t("Sorry, I have to go!", "chat_gates-of-morning-main")},
 	}
 }
 

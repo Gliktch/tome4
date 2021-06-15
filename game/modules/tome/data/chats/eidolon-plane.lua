@@ -67,7 +67,7 @@ newChat{ id="jump_error",
 	text = _t[[It seems the threads of time and space have been disrupted...
 I will try to send you to safety.]],
 	answers = {
-		{_t"Thanks.", action=function(npc, player) game:changeLevel(1, "wilderness") end},
+		{_t("Thanks.", "chat_eidolon-plane"), action=function(npc, player) game:changeLevel(1, "wilderness") end},
 	}
 }
 
