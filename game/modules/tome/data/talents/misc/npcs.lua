@@ -2585,7 +2585,7 @@ newTalent{
 			local x, y = self:getTarget(tg)
 			if not x or not y then return nil end
 			if core.fov.distance(self.x, self.y, x, y) > tg.range then return nil end
-			local dam = self:mindCrit(t.getDam(self, t))
+			local dam = t.getDam(self, t)
 
 			for i = 1, self:getTalentRange(t) do
 				self:project(tg, x, y, DamageType.DIG, 1)
