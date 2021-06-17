@@ -352,7 +352,7 @@ newEntity{
 			local damage = who:mindCrit(dam)
 			local check = math.max(who:combatSpellpower(), who:combatMindpower(), who:combatAttack())
 			local tg = {type="ball", range=0, radius=4, selffire=false, friendlyfire=false}
-			local grids = who:project(tg, who.x, who.y, DamageType.COLDNEVERMOVE, {dur=3, dam=dam, apply_power = check})
+			local grids = who:project(tg, who.x, who.y, DamageType.COLDNEVERMOVE, {dur=3, dam=damage, apply_power = check})
 			game.level.map:particleEmitter(who.x, who.y, tg.radius, "circle", {oversize=1.1, a=255, limit_life=16, grow=true, speed=0, img="ice_nova", radius=tg.radius})
 			game:playSoundNear(self, "talents/ice")
 		end,			
