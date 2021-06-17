@@ -98,7 +98,8 @@ function _M:init(t, no_default)
 		end
 		if file and fs.exists("/data/gfx/shockbolt/player/human_female/"..filecheck..".png") then
 			self.moddable_tile = file
-			-- print("[UNIQUE MODDABLE] auto moddable set for ", self.name, file)
+			self.moddable_tile2 = false
+			-- print("[UNIQUE MODDABLE] auto moddable set (case 1) for ", self.name, file)
 		else
 			-- Try using the artifact image name
 			if type(self.image) == "string" and self.image:find("^object/artifact/") then
@@ -115,7 +116,8 @@ function _M:init(t, no_default)
 				end
 				if file and fs.exists("/data/gfx/shockbolt/player/human_female/"..filecheck..".png") then
 					self.moddable_tile = file
-					-- print("[UNIQUE MODDABLE] auto moddable set for ", self.name, file)
+					self.moddable_tile2 = false
+					-- print("[UNIQUE MODDABLE] auto moddable set (case 2) for ", self.name, file)
 				else
 					print("[UNIQUE MODDABLE] auto moddable failed for ", self.name)
 				end

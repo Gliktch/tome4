@@ -4367,7 +4367,7 @@ function _M:updateModdableTile()
 
 	i = self:getObjectModdableTile(self.INVEN_FEET); if i and i.moddable_tile then add[#add+1] = {image = base..(i.moddable_tile)..".png", bodyplace="feet", auto_tall=1} end
 	i = self:getObjectModdableTile(self.INVEN_BODY); if i and i.moddable_tile2 then add[#add+1] = {image = base..(i.moddable_tile2)..".png", bodyplace="body", auto_tall=1}
-	elseif not self:attr("moddable_tile_nude") then add[#add+1] = {image = base..(self:attr("moddable_tile_lower_underwear") or "lower_body_01.png"), bodyplace="body", auto_tall=1} end
+	elseif not self:attr("moddable_tile_nude") and (not i or i.moddable_tile2 ~= false) then add[#add+1] = {image = base..(self:attr("moddable_tile_lower_underwear") or "lower_body_01.png"), bodyplace="body", auto_tall=1} end
 	i = self:getObjectModdableTile(self.INVEN_BODY); if i and i.moddable_tile then add[#add+1] = {image = base..(i.moddable_tile)..".png", bodyplace="body", auto_tall=1}
 	elseif not self:attr("moddable_tile_nude") then add[#add+1] = {image = base..(self:attr("moddable_tile_higher_underwear") or "upper_body_01.png"), bodyplace="body", auto_tall=1} end
 	i = self:getObjectModdableTile(self.INVEN_CLOAK); if i and i.moddable_tile then add[#add+1] = {image = base..(i.moddable_tile):format("shoulder")..".png", bodyplace="body", auto_tall=1} end
