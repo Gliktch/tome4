@@ -64,8 +64,10 @@ function _M:positioned(x, y, sx, sy)
 		self:sound("button")
 		self.fct(self.c_list.list[self.c_list.sel])
 	end}
-	self.popup = Dialog.new(nil, self.w, self.c_list.h, sx, sy + self.h, nil, nil, false, "simple")
-	self.popup.frame.a = 0.7
+	local dui = "simple"
+	if self.ui_conf[self.ui] and self.ui_conf[self.ui].dropdown_ui then dui = self.ui_conf[self.ui].dropdown_ui end
+	self.popup = Dialog.new(nil, self.w, self.c_list.h, sx, sy + self.h, nil, nil, false, dui)
+	if dui == "simple" then self.popup.frame.a = 0.7 end
 	self.popup:loadUI{{left=0, top=0, ui=self.c_list}}
 	self.popup:setupUI(true, true)
 	self.popup.key:addBind("EXIT", function()

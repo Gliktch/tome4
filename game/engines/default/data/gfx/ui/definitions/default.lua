@@ -35,6 +35,16 @@ dark = {
 	frame_oy1 = -42,
 	frame_oy2 =  42,
 	title_bar = {x=0, y=-18, w=4, h=25},
+	dropdown_ui = "darksimple",
+}
+
+darksimple = {
+	frame_shadow = nil,
+	frame_alpha = 0.82,
+	frame_ox1 = -2,
+	frame_ox2 =  2,
+	frame_oy1 = -2,
+	frame_oy2 =  2,
 }
 
 stone = {
