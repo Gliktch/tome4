@@ -24,6 +24,7 @@ require "engine.class"
 -- @classmod engine.Particles
 module(..., package.seeall, class.make)
 
+_M.loaded_particles = {}
 local __particles_gl = {}
 setmetatable(__particles_gl, {__mode="v"})
 
@@ -62,8 +63,14 @@ function _M:loaded()
 			print("[PARTICLES] system"..self.def.." does not exist, replacing with dummy")
 			self.def = "dummy"
 		end
-		
-		local f, err = loadfile("/data/gfx/particles/"..self.def..".lua")
+
+		local file = "/data/gfx/particles/"..self.def..".lua"
+		local cached = _M.loaded_particles[file]
+		if not cached then
+			cached = { loadfile(file) }
+			_M.loaded_particles[file] = cached
+		end
+		local f, err = unpack(cached)
 		if not f and err then error(err) end
 		local t = self.args or {}
 		local _
