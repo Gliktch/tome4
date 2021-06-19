@@ -2146,7 +2146,7 @@ newEffect{
 	display_desc = function(self, eff) return ("%s Psionic Shield"):tformat(_t(eff.kind):capitalize()) end,
 	long_desc = function(self, eff) return ("Reduces all incoming %s damage by %d."):tformat(eff.what, eff.power) end,
 	type = "mental",
-	subtype = { psionic=true, shield=true },
+	subtype = { psionic=true },
 	status = "beneficial",
 	parameters = { power=10, kind="kinetic" },
 	activate = function(self, eff)
@@ -2687,7 +2687,7 @@ newEffect{
 	desc = _t"Shadow Empathy",
 	long_desc = function(self, eff) return ("%d%% of all damage is redirected to a random shadow."):tformat(eff.power) end,
 	type = "mental",
-	subtype = { mind=true, shield=true },
+	subtype = { mind=true },
 	status = "beneficial",
 	parameters = { power=10 },
 	activate = function(self, eff)
@@ -2704,7 +2704,7 @@ newEffect{
 	desc = _t"Shadow Decoy",
 	long_desc = function(self, eff) return ("A random shadow absorbed a fatal blow for you, granting you a negative shield of %d."):tformat(eff.power) end,
 	type = "mental",
-	subtype = { mind=true, shield=true },
+	subtype = { mind=true},
 	status = "beneficial",
 	parameters = { power=10 },
 	activate = function(self, eff)
