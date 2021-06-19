@@ -109,7 +109,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local shieldflat = t.getShieldFlat(self, t)
 		return ([[Infuse your weapon with the power of the Sun, adding %0.1f light damage on each melee hit.
-		Additionally, if you have a temporary damage shield active, melee hits will increase its power by %d once per turn.
+		Additionally, if you have a temporary damage shield active, melee hits will increase its power by %d and set its duration to 2 (if not already higher), once per turn.
 		The damage dealt and shield bonus will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.LIGHT, damage), shieldflat)
 	end,
