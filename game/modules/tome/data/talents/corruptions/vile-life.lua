@@ -198,9 +198,10 @@ newTalent{
 					self:removeEffect(eff_id)
 					game:delayedLogMessage(self, target, "vile_transplant"..e.desc, ("#CRIMSON##Source# transfers an effect (%s) to #Target#!"):tformat(e.desc))
 					self:incVim(-t.getVim(self, t))  -- Vim costs life if there isn't enough so no need to check total
+					nb = nb - 1
 				end
 			end
-			nb = nb - 1
+			
 		end)
 		local _ _, _, _, x, y = self:canProject(tg, x, y)
 		game.level.map:particleEmitter(x, y, tg.radius, "circle", {oversize=0.7, g=100, r=100, a=90, limit_life=8, appear=8, speed=2, img="blight_circle", radius=self:getTalentRadius(t)})
