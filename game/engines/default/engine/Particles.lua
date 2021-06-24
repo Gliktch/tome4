@@ -64,13 +64,19 @@ function _M:loaded()
 			self.def = "dummy"
 		end
 
-		local file = "/data/gfx/particles/"..self.def..".lua"
-		local cached = _M.loaded_particles[file]
-		if not cached then
-			cached = { loadfile(file) }
-			_M.loaded_particles[file] = cached
+		local f, err
+		do local file = "/data/gfx/particles/"..self.def..".lua"
+			if config.settings.cheat then
+				f, err = loadfile(file)
+			else
+				local cached = _M.loaded_particles[file]
+				if not cached then
+					cached = { loadfile(file) }
+					_M.loaded_particles[file] = cached
+				end
+				f, err = unpack(cached)
+			end
 		end
-		local f, err = unpack(cached)
 		if not f and err then error(err) end
 		local t = self.args or {}
 		local _

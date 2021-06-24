@@ -178,20 +178,24 @@ function _M:loaded()
 	else
 		print("[SHADER] Loading from /data/gfx/shaders/"..self.name..".lua")
 		local f, err
-		do  local file = "/data/gfx/shaders/"..self.name..".lua"
-			local cached = _M.loaded_shaders[file]
-			if not cached then
-				cached = { loadfile(file) }
-				_M.loaded_shaders[file] = cached
+		do local file = "/data/gfx/shaders/" .. self.name .. ".lua"
+			if config.settings.cheat then
+				f, err = loadfile(file)
+			else
+				local cached = _M.loaded_shaders[file]
+				if not cached then
+					cached = { loadfile(file) }
+					_M.loaded_shaders[file] = cached
+				end
+				f, err = unpack(cached)
 			end
-			f, err = unpack(cached)
 			if not f and err then
 				if config.settings.cheat then
 					error(err)
 				else
 					print("[SHADER] "..self.name.." not found, using fallback")
 					file = "/data/gfx/shaders/fallback.lua"
-					cached = _M.loaded_shaders[file]
+					local cached = _M.loaded_shaders[file]
 					if not cached then
 						cached = { loadfile(file) }
 						_M.loaded_shaders[file] = cached

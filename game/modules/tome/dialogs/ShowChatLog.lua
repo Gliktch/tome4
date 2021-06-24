@@ -258,7 +258,9 @@ function _M:setScroll(i, do_shifty_thing)
 		local size = self.line_size[str] or 1
 		if cur + size > self.scroll then
 			local gen
-			if self.cache[str] then
+			if config.settings.cheat then
+				gen = self.font:draw(str, self.iw - 10, 255, 255, 255, false, true)
+			elseif self.cache[str] then
 				gen = self.cache[str]
 			else
 				gen = self.font:draw(str, self.iw - 10, 255, 255, 255, false, true)
