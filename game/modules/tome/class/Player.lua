@@ -1354,6 +1354,8 @@ end
 --- Uses an hotkeyed talent
 -- This requires the ActorTalents interface to use talents and a method player:playerUseItem(o, item, inven) to use inventory objects
 function _M:activateHotkey(id)
+	if game.target_mode then print("[HOTKEY] refusing to activate due to targetting mode", game.target_mode) return end
+
 	local kind, tid = self:getHotkeyInfo(id)
 	if kind == "talent" then
 		local t = self:getTalentFromId(tid)
