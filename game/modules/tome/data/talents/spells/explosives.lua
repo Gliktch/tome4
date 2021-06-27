@@ -292,8 +292,8 @@ newTalent{
 		if ammo then dam = t.computeDamage(self, t, ammo) end
 		dam = damDesc(self, DamageType.PHYSICAL, dam)
 		return ([[Crush together two alchemist gems, making them extremely unstable.
-		You then throw them to a target area, where they explode on impact, dealing %0.2f physical damage and knocking back any creatures in the blast radius.
+		You then throw them to a target area, where they explode on impact, dealing %0.2f physical damage and knocking back any creatures in the blast radius %s.
 		Each kind of gem will also provide a specific effect.
-		The damage will improve with better gems and with your Spellpower.]]):tformat(dam)
+		The damage will improve with better gems and with your Spellpower.]]):tformat(dam, Desc.vs(Desc.sp, Desc.ps))
 	end,
 }

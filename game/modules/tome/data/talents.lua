@@ -21,6 +21,7 @@ local tacticals = {}
 local Entity = require "engine.Entity"
 local Tiles = require "engine.Tiles"
 local Astar = require "engine.Astar"
+Desc = require("mod.class.interface.DescHelper")
 
 ---convert TACTIC labels in talent tactical tables to lower case
 function Talents.aiLowerTacticals(tactical)
@@ -152,9 +153,9 @@ Talents.is_a_type = {
 }
 
 Talents.damDesc = damDesc
+Talents.Desc = Desc
 Talents.main_env = getfenv(1)
 Talents.ai_tactics_list = tacticals
-
 -- Summoning AI helper functions
 
 --- Generate targeting parameters for summoning talents

@@ -55,9 +55,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hit the target twice with your two-handed weapon, doing %d%% damage. Each hit will try to stun the target for %d turns.
-		The stun chance increases with your Physical Power.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 0.7), t.getDuration(self, t))
+		return ([[Hit the target twice with your two-handed weapon, doing %d%% damage. Each hit will try to stun the target for %d turns. %s]])
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 0.7), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps))
 	end,
 }
 

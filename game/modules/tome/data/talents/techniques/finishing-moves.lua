@@ -65,10 +65,9 @@ newTalent{
 		local damage = t.getDamage(self, t) * 100
 		local stun = t.getDuration(self, t, 0)
 		local stunmax = t.getDuration(self, t, 5)
-		return ([[A finishing uppercut that deals %d%% damage, and attempts to stun your target for %d to %d turns, depending on the amount of combo points you've accumulated.
-		The stun chance will improve with your Physical Power.
+		return ([[A finishing uppercut that deals %d%% damage, and attempts to stun your target for %d to %d turns %s, depending on the amount of combo points you've accumulated.
 		Using this talent removes your combo points.]])
-		:tformat(damage, stun, stunmax)
+		:tformat(damage, stun, stunmax, Desc.vs(Desc.pp, Desc.ps))
 	end,
 }
 
@@ -259,9 +258,9 @@ newTalent{
 		local maxDamage = damage * 2
 		local stamina = t.getStamina(self, t, 0)/self.max_stamina*100
 		local staminamax = t.getStamina(self, t, 5)/self.max_stamina*100
-		return ([[A vicious finishing strike that deals %d%% damage increased by 20%% per combo point you have up to a max of %d%%. If the target ends up with low enough life (<20%%), it might be instantly killed.
+		return ([[A vicious finishing strike that deals %d%% damage increased by 20%% per combo point you have up to a max of %d%%. If the target ends up with low enough life (<20%%), it might be instantly killed %s.
 		Killing a target with Haymaker will instantly restore %d%% to %d%% of your maximum stamina, depending on the amount of combo points you've accumulated.
 		Using this talent removes your combo points.]])
-		:tformat(damage, maxDamage, stamina, staminamax)
+		:tformat(damage, maxDamage, Desc.vs(Desc.pp, Desc.ps), stamina, staminamax)
 	end,
 }

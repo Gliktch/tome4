@@ -265,11 +265,11 @@ newTalent{
 	info = function(self, t)
 		return ([[Ghouls are nothing but mere tools to you, for %d turns you render them bloated with dark forces.
 		Anytime a ghoul or ghast is hit it will explode in a messy splash of gore, dealing %0.2f frostdusk damage to all foes in radius %d of it.
-		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces one attribute by %d.
+		Any creature caught in the blast also receives a random disease %s that deals %0.2f blight damage over 6 turns and reduces one attribute by %d.
 		Only one ghoul may explode per turn. The one with the least time left to live is always the first to do so.
 		The damage and disease power is increased by your Spellpower.
 		]]):
-		tformat(t:_getDur(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, t:_getDamage(self)), t:_getDiseasePower(self))
+		tformat(t:_getDur(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ss), damDesc(self, DamageType.BLIGHT, t:_getDamage(self)), t:_getDiseasePower(self))
 	end,
 }
 

@@ -60,10 +60,10 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t) * 100
 		local duration = t.getDuration(self, t)
-		return ([[Attack with your melee weapons for %d%% weapon damage as physical and temporal (warp) damage. If either attack hits you may stun, blind, pin, or confuse the target for %d turns.
+		return ([[Attack with your melee weapons for %d%% weapon damage as physical and temporal (warp) damage. If either attack hits you may stun, blind, pin, or confuse the target for %d turns %s.
 		
 		Blade Threading talents will freely swap to your dual-weapons when activated if you have them in your secondary slots.  Additionally you may use the Attack talent in a similar manner.]])
-		:tformat(damage, duration)
+		:tformat(damage, duration, Desc.vs(Desc.sp, Desc.max(Desc.ps, Desc.ms)))
 	end
 }
 
@@ -256,9 +256,9 @@ newTalent{
 		local shear = t.getShear(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[Attack up to three adjacent targets for %d%% weapon damage.  If any attack hits you'll create a temporal shear dealing %0.2f temporal damage in a radius %d cone.
-		Each target you hit with your weapons beyond the first increases the damage of the shear by 25%%.  Targets reduced below 20%% of maximum life by the shear may be instantly slain.
+		Each target you hit with your weapons beyond the first increases the damage of the shear by 25%%.  Targets reduced below 20%% of maximum life by the shear may be instantly slain %s.
 		The cone damage improves with your Spellpower.]])
-		:tformat(damage, damDesc(self, DamageType.TEMPORAL, shear), radius)
+		:tformat(damage, damDesc(self, DamageType.TEMPORAL, shear), radius, Desc.vs(Desc.sp, Desc.ps))
 	end
 }
 

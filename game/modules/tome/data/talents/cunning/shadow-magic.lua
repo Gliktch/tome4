@@ -153,9 +153,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Step through the shadows to your target, dazing it for %d turns and hitting it with all your weapons for %d%% darkness weapon damage.
+		return ([[Step through the shadows to your target, dazing it for %d turns %s and hitting it with all your weapons for %d%% darkness weapon damage.
 		Dazed targets are significantly impaired, but any damage will free them.
 		To Shadowstep, you need to be able to see the target.]]):
-		tformat(duration, t.getDamage(self, t) * 100)
+		tformat(duration, Desc.vs(), t.getDamage(self, t) * 100)
 	end,
 }

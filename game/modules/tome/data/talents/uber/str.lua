@@ -73,9 +73,9 @@ uberTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You accurately jump to the target and deal 200%% weapon damage to all foes within radius 1 on impact as well as dazing them for 3 turns.
+		return ([[You accurately jump to the target and deal 200%% weapon damage to all foes within radius 1 on impact as well as dazing them for 3 turns %s.
 		When you jump you free yourself from any stun, daze and pinning effects.]])
-		:tformat()
+		:tformat(Desc.vs())
 	end,
 }
 

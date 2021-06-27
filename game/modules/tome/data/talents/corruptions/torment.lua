@@ -64,8 +64,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Reach out and touch the blood and health of your foes. Any creatures caught in the radius 2 ball will be unable to heal above their current life value (at the time of the casting) for %d turns.]]):
-		tformat(t.getDuration(self, t))
+		return ([[Reach out and touch the blood and health of your foes. Any creatures caught in the radius 2 ball will be unable to heal above their current life value (at the time of the casting) for %d turns %s.]]):
+		tformat(t.getDuration(self, t), Desc.vs(Desc.sp, Desc.ss))
 	end,
 }
 
