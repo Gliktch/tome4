@@ -75,7 +75,7 @@ newTalent{
 		local insomnia = t.getInsomniaPower(self, t)
 		return([[Puts the target into a deep sleep for %d turns %s, rendering it unable to act.  Every %d points of damage the target suffers will reduce the effect duration by one turn.
 		When Slumber ends, the target will suffer from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it %d%% sleep immunity for each turn of the Insomnia effect.
-		The damage threshold will scale with your Mindpower.]]):tformat(duration, Desc.vs(Desc.mp, Desc.ms), power, insomnia)
+		The damage threshold will scale with your Mindpower.]]):tformat(duration, Desc.vs"mm", power, insomnia)
 	end,
 }
 

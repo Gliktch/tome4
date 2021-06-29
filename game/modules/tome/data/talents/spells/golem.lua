@@ -79,7 +79,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Your golem rushes to the target, dealing %d%% damage and knocking it back %s.
-		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):tformat(100 * damage, Desc.vs(Desc.pp, Desc.ps))
+		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):tformat(100 * damage, Desc.vs"pp")
 	end,
 }
 
@@ -181,7 +181,7 @@ newTalent{
 		return ([[Your golem rushes to the target, crushing it into the ground for %d turns %s and doing %d%% damage.
 		Pinning chance will increase with talent level.
 		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):
-		tformat(duration, Desc.vs(Desc.pp, Desc.ps), 100 * damage)
+		tformat(duration, Desc.vs"pp", 100 * damage)
 	end,
 }
 
@@ -249,7 +249,7 @@ newTalent{
 		return ([[Your golem rushes to the target and creates a shockwave with radius 2, dazing all foes for %d turns %s and doing %d%% damage.
 		Daze chance increases with talent level.
 		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):
-		tformat(duration, Desc.vs(Desc.pp, Desc.ps), 100 * damage)
+		tformat(duration, Desc.vs"pp", 100 * damage)
 	end,
 }
 
@@ -505,6 +505,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Breathe poison on your foes, doing %d damage over a few turns %s.
-		The damage will increase with your Magic.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "mag", 30, 460)), Desc.vs(Desc.sp, Desc.ps))
+		The damage will increase with your Magic.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "mag", 30, 460)), Desc.vs"sp")
 	end,
 }

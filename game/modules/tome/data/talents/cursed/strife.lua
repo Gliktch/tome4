@@ -83,7 +83,7 @@ newTalent{
 		return ([[Turn your attention to a nearby foe, and dominate them with your overwhelming presence %s. They will be unable to move for %d turns and vulnerable to attacks. They will lose %d Armour, %d Defense and your attacks will gain %d%% resistance penetration. If the target is adjacent to you, your domination will include a melee attack.
 		Effects will improve with your Willpower.
 
-		This talent will also attack with your shield, if you have one equipped.]]):tformat(Desc.vs(Desc.mp, Desc.ms), duration, -armorChange, -defenseChange, resistPenetration)
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(Desc.vs"mm", duration, -armorChange, -defenseChange, resistPenetration)
 	end,
 }
 

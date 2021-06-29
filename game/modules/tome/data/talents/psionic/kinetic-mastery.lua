@@ -49,7 +49,7 @@ newTalent{
 		Kinetic Leech will put enemies to sleep %s.
 		Kinetic Strike will hit 2 adjacent enemies in a sweeping attack.
 		The damage bonus and resistance penetration scale with your Mindpower.
-		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs(Desc.mp, Desc.ps), Desc.vs(Desc.mp, Desc.ms))
+		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs"mp", Desc.vs"mm")
 	end,
 }
 
@@ -151,7 +151,7 @@ newTalent{
 		When used on yourself, you will launch in a straight line, knocking enemies flying and doing %0.1f Physical damage to each.
 		You can break through %d walls while doing this.
 		The damage and range increases with Mindpower.]]):
-		tformat(range, dam, Desc.vs(Desc.mp, Desc.ps), math.floor(range/2), dam/2, t.getKBResistPen(self, t), dam, math.floor(range/2))
+		tformat(range, dam, Desc.vs"mp", math.floor(range/2), dam/2, t.getKBResistPen(self, t), dam, math.floor(range/2))
 	end,
 }
 
@@ -255,6 +255,6 @@ newTalent{
 		local dam = t.getDamage(self, t)
 		return ([[Bind the target mercilessly with constant, bone-shattering pressure, pinning %s and slowing it by 50%% %s for %d turns and dealing %0.1f Physical damage each turn.
 		The duration and damage improve with Mindpower.]]):
-		tformat(Desc.vs(Desc.mp, Desc.ps), Desc.vs(), dur, damDesc(self, DamageType.PHYSICAL, dam))
+		tformat(Desc.vs"mp", Desc.vs(), dur, damDesc(self, DamageType.PHYSICAL, dam))
 	end,
 }

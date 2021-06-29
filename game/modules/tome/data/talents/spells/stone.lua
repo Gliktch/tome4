@@ -178,7 +178,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[Causes a violent earthquake that deals %0.2f physical damage in a radius of %d each turn for %d turns, and potentially stuns any and all creatures it affects %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, damage), radius, duration, Desc.vs(Desc.sp, Desc.ps))
+		tformat(damDesc(self, DamageType.PHYSICAL, damage), radius, duration, Desc.vs"sp")
 	end,
 }
 

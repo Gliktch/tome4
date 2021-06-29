@@ -59,7 +59,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Condenses ambient water on a target, freezing it for %d turns %s and damaging it for %0.2f.
 		If this is used on a friendly target the cooldown is reduced by 33%%.
-		The damage will increase with your Spellpower.]]):tformat(t.getDuration(self, t), Desc.vs(Desc.sp, Desc.ps), damDesc(self, DamageType.COLD, damage))
+		The damage will increase with your Spellpower.]]):tformat(t.getDuration(self, t), Desc.vs"sp", damDesc(self, DamageType.COLD, damage))
 	end,
 }
 
@@ -92,7 +92,7 @@ newTalent{
 		return ([[Blast a wave of cold all around you with a radius of %d, doing %0.2f cold damage and freezing creatures to the ground for 4 turns %s.
 		Affected creatures can still act, but cannot move.
 		For each affected creature that is also wet the cooldown of Shatter decreases by 2.
-		The damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.COLD, damage), Desc.vs(Desc.sp, Desc.ps))
+		The damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.COLD, damage), Desc.vs"sp")
 	end,
 }
 
@@ -154,7 +154,7 @@ newTalent{
 		At most, it will affect %d foes.
 		If you are yourself Frozen, it will instantly be destroyed.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.COLD, damage), Desc.vs(Desc.sp, Desc.ss), targetcount)
+		tformat(damDesc(self, DamageType.COLD, damage), Desc.vs"ss", targetcount)
 	end,
 }
 

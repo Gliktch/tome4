@@ -214,6 +214,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire a shot at your target's throat, mouth, or equivalent body part, doing %d%% damage and silencing it for %d turns %s.]])
-		:tformat(self:combatTalentWeaponDamage(t, 0.9, 1.7) * 100, t.getDur(self,t), Desc.vs(Desc.acc, Desc.ms))
+		:tformat(self:combatTalentWeaponDamage(t, 0.9, 1.7) * 100, t.getDur(self,t), Desc.vs"am")
 	end,
 }

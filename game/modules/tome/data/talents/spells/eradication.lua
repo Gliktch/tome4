@@ -65,7 +65,7 @@ newTalent{
 		Any foes inside gain the brittle bones effect, reducing their physical resistance by %d%% and making all cooldowns %d%% longer %s.
 		When one of your minions stands in the boneyard they gain %d more physical and spell power.
 		At level 5 when a minion dies inside the boneyard it has a %d%% chance to resurrect instantly. This effect may only happen once per minion.
-		]]):tformat(self:getTalentRadius(t), t:_getResist(self), t:_getCooldown(self), Desc.vs(Desc.sp, Desc.ss),  t:_getPower(self), t:_getResurrect(self))
+		]]):tformat(self:getTalentRadius(t), t:_getResist(self), t:_getCooldown(self), Desc.vs"ss",  t:_getPower(self), t:_getResurrect(self))
 	end,
 }
 
@@ -136,7 +136,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Teleport all foes in radius %d to your boneyard, as close to its center as possible %s.
 		Up to %d ghouls or skeletons are created around them by the boneyard, without any additional soul cost, but they only last 5 turns.
-		]]):tformat(self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ss), t:_getNb(self))
+		]]):tformat(self:getTalentRadius(t), Desc.vs"ss", t:_getNb(self))
 	end,
 }
 
@@ -171,7 +171,7 @@ newTalent{
 		return ([[Your target's doom draws near %s. Its healing factor is reduced by 80%%, and it will take %d%% of its remaining life (or %0.2f, whichever is lower) over 10 turns as frostdusk damage.
 		This spell is so powerful that every 3 turns it tears a part of the target's soul, generating one soul for you.
 		The damage will increase with your Spellpower.]]):
-		tformat(Desc.vs(Desc.sp, Desc.ss), t.getDamage(self, t), t.getMax(self, t))
+		tformat(Desc.vs"ss", t.getDamage(self, t), t.getMax(self, t))
 	end,
 }
 

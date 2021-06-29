@@ -296,7 +296,7 @@ newTalent{
 		If you manage to kill the target while the spell is in effect, you'll be returned to the point in time you cast this spell and the target will be slain.
 		This spell splits the timeline.  Attempting to use another spell that also splits the timeline while this effect is active will be unsuccessful.
 		The resistance penalty will scale with your Spellpower.]])
-		:tformat(duration, power, Desc.vs(Desc.sp, Desc.ss))
+		:tformat(duration, power, Desc.vs"ss")
 	end,
 }
 

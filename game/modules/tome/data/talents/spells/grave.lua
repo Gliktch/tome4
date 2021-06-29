@@ -60,7 +60,7 @@ newTalent{
 		At level 5 it hits all foes in range 1 around the target.
 		Any creature hit will take %d%% more damage from your necrotic minions for 3 turns %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.COLD, damage), t:_getMinionsInc(self), Desc.vs(Desc.sp, Desc.ss))
+		tformat(damDesc(self, DamageType.COLD, damage), t:_getMinionsInc(self), Desc.vs"ss")
 	end,
 }
 

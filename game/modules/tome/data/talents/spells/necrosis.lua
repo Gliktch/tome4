@@ -184,6 +184,6 @@ newTalent{
 		For each rune you have a random foe in sight will be hit by a spike of decrepitude, dealing %0.2f frostdusk damage.
 		A foe can only be hit by one spike per turn.
 		If your life is below 1, the spikes also reduce all damage done by the targets by %d%% %s.]]):
-		tformat(damDesc(self, DamageType.FROSTDUSK, t.getDamage(self, t)), t.getReduce(self, t), Desc.vs(Desc.sp, Desc.ss))
+		tformat(damDesc(self, DamageType.FROSTDUSK, t.getDamage(self, t)), t.getReduce(self, t), Desc.vs"ss")
 	end,
 }

@@ -107,7 +107,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		local desc = Desc.vs(Desc.sp, Desc.ps)
+		local desc = Desc.vs"sp"
 		return ([[Use elemental damage dealt to you to trigger terrible effects on the source:
 		- Fire: burn for %0.2f fire damage over 5 turns %s
 		- Cold: freeze for 3 turns with %d iceblock power %s
@@ -155,7 +155,7 @@ newTalent{
 	info = function(self, t)
 		return ([[You manipulate the vim of enemies in radius %d to temporarily invert all healing done to them (but not natural regeneration) %s.
 		For 5 turns all healing will instead damage them for %d%% of the healing done as blight.
-		The effect will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ss), t.getPower(self,t))
+		The effect will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), Desc.vs"ss", t.getPower(self,t))
 	end,
 }
 
@@ -212,6 +212,6 @@ newTalent{
 	info = function(self, t)
 		return ([[You transfer up to %d physical or magical detrimental effects currently affecting you to a nearby creature at a cost of %d vim per effect %s.
 		Specific effect immunities will not prevent the transfer.]]):
-		tformat(t.getNb(self, t), t.getVim(self, t), Desc.vs(Desc.sp, Desc.ss))
+		tformat(t.getNb(self, t), t.getVim(self, t), Desc.vs"ss")
 	end,
 }

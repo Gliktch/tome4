@@ -128,7 +128,7 @@ newTalent{
 		return ([[Open a radius 1 rift in spacetime at the targeted location for %d turns, increasing in radius by 1 each turn to a maximum of %d.
 		All caught within the rift are pulled towards the center and take %0.2f gravity damage. %s
 The damage will increase with your Spellpower.]]):
-		tformat(dur, rad, damDesc(self, DamageType.PHYSICAL, dam), Desc.vs(Desc.pp, Desc.ps))
+		tformat(dur, rad, damDesc(self, DamageType.PHYSICAL, dam), Desc.vs"pp")
 	end,
 }
 
@@ -240,7 +240,7 @@ newTalent{
 							All creatures within radius 2 take %d%% weapon damage as physical (gravity) and are pulled closer %s.
 							Then, all adjacent creatures take %d%% weapon damage.  This second strike shields you for between %d and %d, increasing with more enemies hit.  The shield lasts for 2 turns.
 The shield strength will increase with your Spellpower.]]):
-		tformat(t.getOuterDamage(self, t) * 100, Desc.vs(Desc.pp, Desc.ps),
+		tformat(t.getOuterDamage(self, t) * 100, Desc.vs"pp",
 					 t.getInnerDamage(self, t) * 100,
 					 t.getShield(self, t), t.getShield(self, t)*2)
 	end,

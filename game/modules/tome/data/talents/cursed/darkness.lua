@@ -432,7 +432,7 @@ newTalent{
 		local damageIncrease = getDamageIncrease(self)
 		return ([[Sends a torrent of searing darkness through your foes, doing %d darkness damage. There is a 25%% chance the rushing darkness will blind them for 3 turns %s and cause them to lose track of their target %s.
 		If you know the Creeping Darkness talent, a short-lived trail of darkness is left in the beam's wake. Its damage is identical to that of Creeping Darkness's.
-		The damage will increase with your Mindpower. You do +%d%% damage to anything that has entered your creeping dark.]]):tformat(damDesc(self, DamageType.DARKNESS, damage), Desc.vs(Desc.mp, Desc.ps), Desc.vs(), damageIncrease)
+		The damage will increase with your Mindpower. You do +%d%% damage to anything that has entered your creeping dark.]]):tformat(damDesc(self, DamageType.DARKNESS, damage), Desc.vs"mp", Desc.vs(), damageIncrease)
 	end,
 }
 

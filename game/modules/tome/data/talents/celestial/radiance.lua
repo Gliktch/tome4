@@ -98,7 +98,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Fire a glowing orb of light at each enemy within your Radiance.  Each orb will slowly follow its target until it connects, dealing %d light damage to anything else it contacts along the way.  When the target is reached the orb will explode dealing %d light damage in radius 1 and healing you for 50%% of the damage dealt.
 		All targets struck by your Judgement will be blighted by light, reducing saves by %d, reducing critical power by %d%%, and causing light damage received to splash in radius 2 for %d%% damage against all hostile targets for 4 turns %s.]]):
-		tformat(t.getMoveDamage(self, t), t.getExplosionDamage(self, t), t.getSavePen(self,t), t.getCritPen(self,t), t.getSplashPct(self,t), Desc.vs(Desc.sp, Desc.ss))
+		tformat(t.getMoveDamage(self, t), t.getExplosionDamage(self, t), t.getSavePen(self,t), t.getCritPen(self,t), t.getSplashPct(self,t), Desc.vs"ss")
 	end,
 }
 
@@ -158,7 +158,7 @@ newTalent{
 		return ([[Your Radiance is so powerful it burns all foes caught in it, dealing %0.1f light damage to all foes caught inside every turn.
 		Each enemy effected has a %d%% chance of being dazed and blinded by the light for 3 turns %s. The daze and blind can be applied to each enemy at most once every 7 turns.
 		The damage increases with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.LIGHT, t.getDamage(self, t)), t.getDaze(self, t), Desc.vs(Desc.sp, Desc.ps))
+		tformat(damDesc(self, DamageType.LIGHT, t.getDamage(self, t)), t.getDaze(self, t), Desc.vs"sp")
 	end,
 }
 

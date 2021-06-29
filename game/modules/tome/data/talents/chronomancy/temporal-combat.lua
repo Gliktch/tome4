@@ -81,7 +81,7 @@ newTalent{
 		return ([[When you hit with Weapon Folding you have a %d%% chance of dealing an additional %0.2f temporal damage to enemies in a radius of %d.
 		Affected targets may also have their physical and temporal resistance reduced by %d%% for %d turns %s.
 		This effect has a cooldown.  If it triggers while on cooldown it will reduce the cooldown of Fold Gravity and Fold Warp by one turn.]])
-		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage), radius, resists, Desc.vs(Desc.sp, Desc.ss), duration)
+		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage), radius, resists, Desc.vs"ss", duration)
 	end,
 }
 
@@ -127,7 +127,7 @@ newTalent{
 		return ([[When you hit with Weapon Folding you have a %d%% chance of dealing an additional %0.2f physical and %0.2f temporal (warp) damage to enemies in a radius of %d.
 		Each target hit may be stunned, blinded, pinned, or confused for %d turns %s.
 		This effect has a cooldown.  If it triggers while on cooldown it will reduce the cooldown of Fold Gravity and Fold Fate by one turn.]])
-		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage/2), damDesc(self, DamageType.PHYSICAL, damage/2), radius, Desc.vs(Desc.sp, Desc.max(Desc.ms, Desc.ps)), duration)
+		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage/2), damDesc(self, DamageType.PHYSICAL, damage/2), radius, Desc.vs("sp", Desc.max("ms", "ps")), duration)
 	end,
 }
 
@@ -175,7 +175,7 @@ newTalent{
 		return ([[When you hit with Weapon Folding you have a %d%% chance of dealing an additional %0.2f physical (gravity) damage to enemies in a radius of %d.
 		Affected targets may also be slowed, decreasing their global speed speed by %d%% for %d turns %s.
 		This effect has a cooldown.  If it triggers while on cooldown it will reduce the cooldown of Fold Fate and Fold Warp by one turn.]])
-		:tformat(chance, damDesc(self, DamageType.PHYSICAL, damage), radius, slow, duration, Desc.vs(Desc.sp, Desc.ps))
+		:tformat(chance, damDesc(self, DamageType.PHYSICAL, damage), radius, slow, duration, Desc.vs"sp")
 	end,
 }
 
@@ -288,9 +288,9 @@ newTalent{
 		Fold Gravity: Deals %0.2f physical damage to enemies in a radius of %d.  Affected targets will be slowed (%d%%) for %d turns %s.
 		
 		Each Fold has an eight turn cooldown.  If an effect would be triggered while on cooldown it will reduce the cooldown of the other two Folds by one turn.]])
-		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage), radius, resists, duration, Desc.vs(Desc.sp, Desc.ss),
-				damDesc(self, DamageType.PHYSICAL, damage/2), damDesc(self, DamageType.TEMPORAL, damage/2), radius, Desc.vs(Desc.sp, Desc.ps),Desc.vs(Desc.sp, Desc.ps),Desc.vs(Desc.sp, Desc.ms),Desc.vs(Desc.sp, Desc.ps),
-		duration, damDesc(self, DamageType.PHYSICAL, damage), radius, slow, duration, Desc.vs(Desc.sp, Desc.ps))
+		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage), radius, resists, duration, Desc.vs"ss",
+				damDesc(self, DamageType.PHYSICAL, damage/2), damDesc(self, DamageType.TEMPORAL, damage/2), radius, Desc.vs"sp",Desc.vs"sp",Desc.vs"sm",Desc.vs"sp",
+		duration, damDesc(self, DamageType.PHYSICAL, damage), radius, slow, duration, Desc.vs"sp")
 	end,
 }
 
@@ -344,6 +344,6 @@ newTalent{
 		return ([[Attack the target with either your ranged or melee weapons for %d%% damage.
 		If the attack hits you'll breach the target's immunities, reducing armor hardiness, stun, pin, blindness, and confusion immunity by 50%% for %d turns %s.
 		Breach chance scales with your Spellpower.]])
-		:tformat(damage, duration, Desc.vs(Desc.sp, Desc.ss))
+		:tformat(damage, duration, Desc.vs"ss")
 	end
 }

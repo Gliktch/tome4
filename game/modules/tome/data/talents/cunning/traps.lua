@@ -1168,7 +1168,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Lay a pressure triggered trap that collapses the ground under the target, dealing %0.2f physical damage while burying them (removing from combat) for 5 turns %s.
 Victims may resist being buried, in which case they are pinned (ignores 50%% pin immunity) instead %s.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), Desc.vs(Desc.acc, Desc.ps), Desc.vs())
+		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), Desc.vs"ap", Desc.vs())
 	end,
 }
 
@@ -1461,7 +1461,7 @@ newTalent{
 		return ([[Lay a trap that releases a radius 3 cloud of thick poisonous gas lasting 4 turns.
 		Each turn, the cloud poisons all within (%0.2f nature damage over 5 turns) %s.   There is a 25%% chance the poison is enhanced with crippling, numbing or insidious effects.
 		This trap can use a primed trigger and a high level lure can trigger it.%s]]):
-		tformat(damDesc(self, DamageType.POISON, t.getDamage(self, t)), Desc.vs(Desc.acc, Desc.ps), instant)
+		tformat(damDesc(self, DamageType.POISON, t.getDamage(self, t)), Desc.vs"ap", instant)
 	end,
 }
 
@@ -1764,7 +1764,7 @@ newTalent{
 		Each anomaly lasts %d turns (up to the amount of time since the last anomaly dissipated, based on your Trap Mastery skill).
 		The trap may trigger more than once, but requires at least 2 turns to recharge between activations.
 This design does not require advanced preparation to use.]]):
-		tformat(damDesc(self, engine.DamageType.TEMPORAL, t.getDamage(self, t)), Desc.vs(Desc.max(Desc.acc, Desc.sp), Desc.ps), t.getDuration(self,t))
+		tformat(damDesc(self, engine.DamageType.TEMPORAL, t.getDamage(self, t)), Desc.vs(Desc.max("acc", "sp"), "ps"), t.getDuration(self,t))
 	end,
 }
 
@@ -2148,7 +2148,7 @@ newTalent{
 		return ([[Deploy a hidden spring-loaded catapult that will trigger (by pressure) for any creature passing over it.  Victims will be knocked back %s towards a target location up to %d grids away and be dazed for 5 turns.
 		This trap has a %d%% chance to reset itself after triggering, but can only trigger once per turn.
 		The chance to affect the target improves with your combat accuracy.]]):
-		tformat(t.getDistance(self, t),  Desc.vs(Desc.acc, Desc.ps), t.resetChance(self, t))
+		tformat(t.getDistance(self, t),  Desc.vs"ap", t.resetChance(self, t))
 	end,
 }
 

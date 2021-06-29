@@ -193,7 +193,7 @@ newTalent{
 		#ORANGE#Despair:#LAST# Reduces mind resist, mindsave, armour and defence by %d.
 		#ORANGE#Terrified:#LAST# Deals %0.2f mind and %0.2f darkness damage per turn and increases cooldowns by %d%%.
 		#ORANGE#Haunted:#LAST# Causes the target to suffer %0.2f mind and %0.2f darkness damage for each detrimental mental effect every turn.
-		]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.MIND, damInstil), damDesc(self, DamageType.DARKNESS, damInstil), t.getDuration(self, t), Desc.vs(Desc.mp, Desc.ms),
+		]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.MIND, damInstil), damDesc(self, DamageType.DARKNESS, damInstil), t.getDuration(self, t), Desc.vs"mm",
 		t.getParanoidAttackChance(self, t),
 		-t.getDespairStatChange(self, t),
 		damDesc(self, DamageType.MIND, damTerri), damDesc(self, DamageType.DARKNESS, damTerri), t.getTerrifiedPower(self, t),

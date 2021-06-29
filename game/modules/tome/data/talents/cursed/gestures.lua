@@ -203,7 +203,7 @@ newTalent{
 		This talent requires two free or mindstar-equipped hands and has a 25%% chance to inflict brainlock, which can critically hit. The damage will increase with your Mindpower.
 		If attacking with two mindstars the attack will trigger their proc effects, if any.
 		Mindstars bonuses from damage and physical criticals: (+%d damage, +%d critical chance)]])
-		:tformat(damDesc(self, DamageType.MIND, baseDamage * 0.5), damDesc(self, DamageType.MIND, baseDamage), Desc.vs(Desc.mp, Desc.ms), stunChance, Desc.vs(Desc.mp, Desc.ps), bonusDamage, bonusCritical)
+		:tformat(damDesc(self, DamageType.MIND, baseDamage * 0.5), damDesc(self, DamageType.MIND, baseDamage), Desc.vs"mm", stunChance, Desc.vs"mp", bonusDamage, bonusCritical)
 	end,
 }
 

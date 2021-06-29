@@ -44,9 +44,9 @@ newTalent{
 		self:talentTemporaryValue(p, "combat_physcrit", t.getCrit(self, t))
 	end,
 	info = function(self, t)
-		return ([[Your mighty blows inspire utter terror on your foes. Any melee strike you do that deals more than %d%% of the target's total life puts them in a mortal terror, dazing them for 5 turns %s.
+		return ([[Your mighty blows inspire utter terror on your foes. Any melee strike you do that deals more than %d%% of the target's total life puts them in a mortal terror, dazing %s them for 5 turns.
 		Your critical strike chance also increase by %d%%.]]):
-		tformat(t.threshold(self, t), Desc.vs(Desc.pp, Desc.ps), t.getCrit(self, t))
+		tformat(t.threshold(self, t), Desc.vs"pp", t.getCrit(self, t))
 	end,
 }
 

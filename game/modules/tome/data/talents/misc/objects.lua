@@ -429,7 +429,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[The target has a %d%% chance (stacking to a maximum of %d%%) to fail to cast any spell %s.  At level 2 magical effects may be disrupted, at level 3 magical sustains may be disrupted, and at level 5 magical constructs and undead may be stunned %s.]]):tformat(t.getpower(self, t),t.maxpower(self,t), Desc.vs(Desc.mp, Desc.ps), Desc.vs(Desc.mp, Desc.ps))
+		return ([[The target has a %d%% chance (stacking to a maximum of %d%%) to fail to cast any spell %s.  At level 2 magical effects may be disrupted, at level 3 magical sustains may be disrupted, and at level 5 magical constructs and undead may be stunned %s.]]):tformat(t.getpower(self, t),t.maxpower(self,t), Desc.vs"mp", Desc.vs"mp")
 	end,
 }
 

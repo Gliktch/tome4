@@ -71,7 +71,7 @@ newTalent{
 		Affected creatures are pinned to the ground and take %0.1f nature%s damage each turn for %d turns.
 		A creature entangled by the vines will have a chance to break free each turn, and will automatically succeed if it is more than %d grids away from you.
 		Damage increases with talent level and Willpower.]]):
-		tformat(rad, Desc.vs(Desc.mp, Desc.ps), damDesc(self, DamageType.NATURE, dam), xs, turns, rad+4)
+		tformat(rad, Desc.vs"mp", damDesc(self, DamageType.NATURE, dam), xs, turns, rad+4)
 	end,
 }
 

@@ -216,7 +216,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Inflicts %0.2f temporal damage.  If your target survives, it may be removed from time for %d turns %s.
-		The damage will scale with your Spellpower.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), duration, Desc.vs(Desc.sp, Desc.ss))
+		The damage will scale with your Spellpower.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), duration, Desc.vs"ss")
 	end,
 }
 

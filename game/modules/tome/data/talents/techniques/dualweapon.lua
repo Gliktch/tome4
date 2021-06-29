@@ -204,7 +204,7 @@ newTalent{
 		local dam = 100 * t.getDamage(self, t)
 		return ([[With a quick shift of your momentum, you execute a surprise unarmed strike in place of your normal offhand attack.
 		This allows you to attack with your mainhand weapon for %d%% damage and unarmed for %d%% damage.  If the unarmed attack hits, the target is confused (%d%% power) for %d turns %s.]])
-		:tformat(dam, dam*1.25, t.getConfusePower(self, t), t.getConfuseDuration(self, t), Desc.vs(Desc.acc, Desc.ms))
+		:tformat(dam, dam*1.25, t.getConfusePower(self, t), t.getConfuseDuration(self, t), Desc.vs"am")
 	end,
 }
 
@@ -256,7 +256,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Attack with your offhand weapon for %d%% damage. If the attack hits, the target is stunned for %d turns %s, and you hit it with your mainhand weapon doing %d%% damage.
 		]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 0.7, 1.5), t.getStunDuration(self, t), Desc.vs(Desc.acc, Desc.ps), 100 * self:combatTalentWeaponDamage(t, 0.7, 1.5))
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.7, 1.5), t.getStunDuration(self, t), Desc.vs"ap", 100 * self:combatTalentWeaponDamage(t, 0.7, 1.5))
 	end,
 }
 
@@ -449,8 +449,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local range = self:getTalentRange(t)
-		return ([[You quickly move up to %d tiles to arrive adjacent to a target location you can see, leaping around or over anyone in your way.  During your movement, you attack all foes within one grid of your path with both weapons for %d%% weapon damage, causing those struck to bleed for 50%% of the damage dealt over 5 turns %s.]]):
-		tformat(range, damage*100, Desc.vs(Desc.pp, Desc.ps))
+		return ([[You quickly move up to %d tiles to arrive adjacent to a target location you can see, leaping around or over anyone in your way.  During your movement, you attack all foes within one grid of your path with both weapons for %d%% weapon damage, causing those struck to bleed %s for 50%% of the damage dealt over 5 turns.]]):
+		tformat(range, damage*100, Desc.vs"pp")
 	end,
 }
 

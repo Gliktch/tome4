@@ -49,7 +49,7 @@ newTalent{
 		All foes in range %d catch a dire plague for 5 turns %s, dealing %0.2f darkness damage each turn.
 		The Dire Plague is considered a disease but is not prevented by disease immunity.
 		Every turn there is a %d%% chance of a piece of the soul to be ripped away, increasing your souls by 1.
-		]]):tformat(self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ss), damDesc(self, DamageType.DARKNESS, t:_getDamage(self)), t:_getChance(self))
+		]]):tformat(self:getTalentRadius(t), Desc.vs"ss", damDesc(self, DamageType.DARKNESS, t:_getDamage(self)), t:_getChance(self))
 	end,
 }
 
@@ -94,7 +94,7 @@ newTalent{
 		return ([[You call upon an eerie night to aid you for %d turns.
 		Each turn you automatically fire a beam of darkness towards a random foe (prioritizing the ones further away) that deals %0.2f darkness damage and has 25%% chance to blind any foes caught inside for 4 turns %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(t:_getDur(self), damDesc(self, DamageType.DARKNESS, t:_getDamage(self)), Desc.vs(Desc.sp, Desc.ps))
+		tformat(t:_getDur(self), damDesc(self, DamageType.DARKNESS, t:_getDamage(self)), Desc.vs"sp")
 	end,
 }
 

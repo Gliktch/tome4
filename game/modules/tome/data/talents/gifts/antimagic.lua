@@ -114,7 +114,7 @@ newTalent{
 		The damage will increase with the greater of your Mindpower or Physical power.
 
 		Learning this talent will let your Nature damage and penetration bonuses apply to all Manaburn damage regardless of source.]]):
-		tformat(Desc.vs(Desc.max(Desc.pp, Desc.mp), Desc.ms), t.getduration(self,t), rad, t.getFloorDuration(self,t), t.getDamage(self, t), t.getEquiRegen(self, t))
+		tformat(Desc.vs(Desc.max("pp", "mp"), "ms"), t.getduration(self,t), rad, t.getFloorDuration(self,t), t.getDamage(self, t), t.getEquiRegen(self, t))
 	end,
 }
 

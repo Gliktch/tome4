@@ -115,7 +115,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[Inflicts %0.2f temporal damage, and attempts to stun all targets in a radius %d ball for %d turns %s.
 		The damage will scale with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.TEMPORAL, damage), radius, duration, Desc.vs(Desc.sp, Desc.ps))
+		tformat(damDesc(self, DamageType.TEMPORAL, damage), radius, duration, Desc.vs"sp")
 	end,
 }
 

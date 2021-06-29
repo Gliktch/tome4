@@ -86,7 +86,7 @@ newTalent{
 	info = function(self, t)
 		local range = self:getTalentRange(t)
 		return ([[Teleports you to up to %d tiles away, to a targeted location in line of sight.
-		At talent level 5 you may swap positions with a target creature %s.]]):tformat(range, Desc.vs(Desc.sp, Desc.ss))
+		At talent level 5 you may swap positions with a target creature %s.]]):tformat(range, Desc.vs"ss")
 	end,
 }
 
@@ -295,6 +295,6 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[When you teleport you fire a pulse that jolts enemies out of phase in a radius of %d around both the start and the destination point. 
 		Each target has a %d%% chance per tile you travelled to be stunned, blinded, confused, or pinned for %d turns %s.]]):
-		tformat(radius, chance, duration, Desc.vs(Desc.sp, Desc.max(Desc.ps, Desc.ms)))
+		tformat(radius, chance, duration, Desc.vs("sp", Desc.max("ps", "ms")))
 	end,
 }

@@ -50,7 +50,7 @@ newTalent{
 		Thermal Leech will reduce enemy damage by %d%% %s.
 		Thermal Strike will have its secondary cold/freeze explode in radius 1.
 		The damage bonus and resistance penetration scale with your Mindpower.
-		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs(Desc.mp, Desc.ps), t.getDamagePenalty(self, t), Desc.vs(Desc.mp, Desc.ps))
+		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs"mp", t.getDamagePenalty(self, t), Desc.vs"mp")
 	end,
 }
 
@@ -91,7 +91,7 @@ newTalent{
 		return ([[Quickly drain the heat from your target's brain, dealing %0.1f Cold damage.
 		Affected creatures will also be brainlocked for 4 turns %s, putting a random talent on cooldown, and freezing cooldowns.
 		The damage increases with your Mindpower.]]):
-		tformat(damDesc(self, DamageType.COLD, dam), Desc.vs(Desc.mp, Desc.ms))
+		tformat(damDesc(self, DamageType.COLD, dam), Desc.vs"mm")
 	end,
 }
 
@@ -146,7 +146,7 @@ newTalent{
 		Those afflicted will be dealt %0.1f Cold and %0.1f Fire damage, and be pinned (Frozen Feet) and disarmed for %d turns %s.
 		Targets suffering both types of damage will also have have their Armour and saves reduced by %d %s.
 		The chance to apply the effects and the duration increase with your Mindpower.]]):
-		tformat(rad, damDesc(self, DamageType.COLD, dam), damDesc(self, DamageType.FIRE, dam), dur, Desc.vs(Desc.mp, Desc.ps), t.getArmor(self, t), Desc.vs())
+		tformat(rad, damDesc(self, DamageType.COLD, dam), damDesc(self, DamageType.FIRE, dam), dur, Desc.vs"mp", t.getArmor(self, t), Desc.vs())
 	end,
 }
 

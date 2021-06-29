@@ -114,7 +114,7 @@ newTalent{
 		All enemies effected will take %0.2f light damage.
 		At talent level 3 you gain %d%% light, darkness, and fire resistance for %d turns.
 		The damage done and resistances will increase with your Spellpower.]]):
-		tformat(radius, duration, Desc.vs(Desc.sp, Desc.ps) , damDesc(self, DamageType.LIGHT, damage), res, resdur )
+		tformat(radius, duration, Desc.vs"sp" , damDesc(self, DamageType.LIGHT, damage), res, resdur )
    end,
 }
 

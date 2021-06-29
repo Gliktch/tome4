@@ -70,7 +70,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire a shot into your target's eyes, blinding it for %d turns %s and doing %d%% damage.]])
-		:tformat(t.getBlindDur(self, t), Desc.vs(Desc.acc, Desc.ps), 100 * self:combatTalentWeaponDamage(t, 1, 1.5))
+		:tformat(t.getBlindDur(self, t), Desc.vs"ap", 100 * self:combatTalentWeaponDamage(t, 1, 1.5))
 	end,
 }
 
@@ -104,7 +104,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fire a mighty shot at your target, doing %d%% damage and knocking it back %s.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5), Desc.vs(Desc.acc, Desc.ps))
+		return ([[You fire a mighty shot at your target, doing %d%% damage and knocking it back %s.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5), Desc.vs"ap")
 	end,
 }
 

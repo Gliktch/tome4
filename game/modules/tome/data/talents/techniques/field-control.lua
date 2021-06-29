@@ -110,7 +110,7 @@ newTalent{
 	info = function(self, t)
 		return ([[A mighty kick that pushes your target away %d grids %s.
 		If another creature is in the way, it will also be pushed away.]])
-		:tformat(t.getDist(self, t), Desc.vs(Desc.max(Desc.acc, Desc.pp), Desc.ps))
+		:tformat(t.getDist(self, t), Desc.vs(Desc.max("acc", "pp"), "ps"))
 	end,
 }
 

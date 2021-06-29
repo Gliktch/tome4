@@ -292,7 +292,7 @@ newTalent{
 		It has a 25%% chance to either stun %s or freeze %s the targets for 3 turns (if Crystalline Focus or Uttercold are active, respectively).
 		Each time you deal damage with a beam spell, the remaining cooldown is reduced by 1 (this can happen only once per turn).
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.THAUM, damage), Desc.vs(Desc.sp, Desc.ps), Desc.vs(Desc.sp, Desc.ps))
+		tformat(damDesc(self, DamageType.THAUM, damage), Desc.vs"sp", Desc.vs"sp")
 	end,
 }
 

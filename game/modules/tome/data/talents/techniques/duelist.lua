@@ -179,7 +179,7 @@ newTalent{
 		return ([[Make a cunning feint that tricks your target into swapping places with you.  While moving, you take the opportunity to trip them, pinning and dazing them for 2 turns %s.
 		Switching places distracts your foes and allows you to improve your defenses:  For %d turns, Dual Weapon Mastery yields one extra parry each turn and you are %d%% less likely to miss your parry opportunities.
 		]]):
-		tformat(Desc.vs(Desc.acc, Desc.ps), t.getDuration(self, t), t.getParryEfficiency(self, t))
+		tformat(Desc.vs"ap", t.getDuration(self, t), t.getParryEfficiency(self, t))
 	end,
 }
 
@@ -232,6 +232,6 @@ newTalent{
 		return ([[Exploiting a gap in your target's defenses, you make a lethal strike with your offhand weapon for %d%% damage that causes them to drop their weapon, disarming them for %d turns %s.
 		Tempo will reduce the cooldown of this talent by 1 turn each time it is triggered defensively.
 		]]):
-		tformat(dam*100, dur, Desc.vs(Desc.acc, Desc.ps))
+		tformat(dam*100, dur, Desc.vs"ap")
 	end,
 }

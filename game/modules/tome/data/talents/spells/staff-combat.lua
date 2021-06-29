@@ -185,6 +185,6 @@ newTalent{
 		local dazedur = t.getDazeDuration(self, t)
 		return ([[Hit a target for %d%% melee damage and stun it for %d turns %s.
 		At level 5, this attack cannot miss.]]):
-		tformat(100 * damage, dazedur, Desc.vs(Desc.sp, Desc.ps))
+		tformat(100 * damage, dazedur, Desc.vs"sp")
 	end,
 }

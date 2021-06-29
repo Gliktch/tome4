@@ -65,7 +65,7 @@ newTalent{
 		damDesc(self, DamageType.LIGHTNING, damage / 3),
 		damDesc(self, DamageType.LIGHTNING, damage),
 		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2),
-		Desc.vs(Desc.sp, Desc.ps))
+		Desc.vs"sp")
 	end,
 }
 
@@ -98,8 +98,8 @@ newTalent{
 		tformat(damDesc(self, DamageType.LIGHTNING, damage / 3),
 		damDesc(self, DamageType.LIGHTNING, damage),
 		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2),
-		Desc.vs(Desc.sp, Desc.ps),
-		Desc.vs(Desc.sp, Desc.ss))
+		Desc.vs"sp",
+		Desc.vs"ss")
 	end,
 }
 
@@ -141,7 +141,7 @@ newTalent{
 		local radius = t.getRadius(self, t)
 		return ([[Each time one of your lightning spells dazes a target, it has a %d%% chance to creates a chain reaction that summons a mighty Hurricane %s that lasts for 10 turns around the target with a radius of %d.
 		Each turn, the afflicted creature and all creatures around it will take %0.2f to %0.2f lightning damage (%0.2f average).
-		The damage will increase with your Spellpower.]]):tformat(chance, Desc.vs(Desc.sp, Desc.ss), radius,
+		The damage will increase with your Spellpower.]]):tformat(chance, Desc.vs"ss", radius,
 		damDesc(self, DamageType.LIGHTNING, damage / 3),
 		damDesc(self, DamageType.LIGHTNING, damage),
 		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
@@ -188,6 +188,6 @@ newTalent{
 		local daze = t.getDaze(self, t)
 		return ([[Surround yourself with a Tempest, increasing all your lightning damage by %d%% and ignoring %d%% lightning resistance of your targets.
 		Your Lightning and Chain Lightning spells also gain a %d%% chance to daze, and your Thunderstorm spell gains a %d%% chance to daze. %s]])
-		:tformat(damageinc, ressistpen, daze, daze / 2, Desc.vs(Desc.sp, Desc.ps))
+		:tformat(damageinc, ressistpen, daze, daze / 2, Desc.vs"sp")
 	end,
 }

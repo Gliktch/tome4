@@ -114,7 +114,7 @@ newTalent {
 				t.pin_duration(self, t),
 				t.slow_power(self, t) * 100,
 				t.slow_duration(self, t),
-				Desc.vs(Desc.acc, Desc.ps))
+				Desc.vs"ap")
 	end,
 }
 
@@ -219,7 +219,7 @@ newTalent {
 		return ([[Fire three shots in quick succession at a vulnerable point on the target (usually the head).
 		Each shot deals %d%% Ranged damage and will try to stun or increase the target's stun duration by 1 %s.
 		These shots will bypass other enemies between you and your target.]])
-		:tformat(t.damage_multiplier(self, t) * 100, Desc.vs(Desc.acc, Desc.ps))
+		:tformat(t.damage_multiplier(self, t) * 100, Desc.vs"ap")
 	end,
 }
 

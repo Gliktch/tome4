@@ -50,7 +50,7 @@ newTalent{
 		Charge Leech will also inflict confusion (%d%% effect) %s.
 		Charged Strike will have its secondary lightning burst chain to up to 3 targets in a radius of 3.
 		The damage bonus and resistance penetration scale with your Mindpower.
-		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs(Desc.mp, Desc.ps), t.getConfuse(self, t), Desc.vs(Desc.mp, Desc.ms))
+		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs"mp", t.getConfuse(self, t), Desc.vs"mm")
 	end,
 }
 
@@ -120,7 +120,7 @@ newTalent{
 		Enemies standing in the net will take %0.1f Lightning damage and be slowed by %d%% %s.
 		When you move through the net, a static charge will accumulate on your weapon which will add %0.1f additional Lightning damage to your next attack for each turn you spend within its area.
 		These effects scale with your Mindpower.]]):
-		tformat(self:getTalentRadius(t), duration, damDesc(self, DamageType.LIGHTNING, damage), t.getSlow(self, t), Desc.vs(Desc.mp, Desc.ps), damDesc(self, DamageType.LIGHTNING, t.getWeaponDamage(self, t)))
+		tformat(self:getTalentRadius(t), duration, damDesc(self, DamageType.LIGHTNING, damage), t.getSlow(self, t), Desc.vs"mp", damDesc(self, DamageType.LIGHTNING, t.getWeaponDamage(self, t)))
 	end,
 }
 

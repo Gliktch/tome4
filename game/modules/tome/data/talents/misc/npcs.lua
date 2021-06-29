@@ -158,7 +158,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Releases stinging spores at the target, blinding it for %d turns %s.]]):
-		tformat(t.getDuration(self, t), Desc.vs(desc.pp, Desc.ps))
+		tformat(t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -220,7 +220,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is stunned for %d turns %s.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -253,7 +253,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage and trying to disarm the target for %d turns %s.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -288,7 +288,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is constricted for %d turns %d.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -322,7 +322,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with your weapon doing %d%% damage. If the attack hits, the target is knocked back up to 4 grids %s.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1.5, 2), Desc.vs(Desc.pp, Desc.ps))
+		return ([[Hits the target with your weapon doing %d%% damage. If the attack hits, the target is knocked back up to 4 grids %s.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1.5, 2), Desc.vs"pp")
 	end,
 }
 
@@ -452,7 +452,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is afflicted with a disease %s, inflicting %0.2f blight damage per turn for %d turns and reducing constitution by 10%% + 4.  The disease damage increases with your Strength, and the chance to apply it increases with your Physical Power.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, Desc.vs(Desc.pp, Desc.ss), DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, Desc.vs"ps", DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
 	end,
 }
 
@@ -488,7 +488,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is afflicted with a disease %s, inflicting %0.2f blight damage per turn for %d turns and reducing dexterity by 10%% + 4.  The disease damage increases with your Strength, and the chance to apply it increases with your Physical Power.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, Desc.vs(Desc.pp, Desc.ss), DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1),damDesc(self, Desc.vs"ps", DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
 	end,
 }
 
@@ -524,7 +524,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target doing %d%% damage. If the attack hits, the target is afflicted with a disease %s, inflicting %0.2f blight damage per turn for %d turns and reducing strength by 10%% + 4.  The disease damage increases with your Strength, and the chance to apply it increases with your Physical Power.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), Desc.vs(Desc.pp, Desc.ss), damDesc(self, DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), Desc.vs"ps", damDesc(self, DamageType.BLIGHT,t.getDamage(self, t)),t.getDuration(self, t))
 	end,
 }
 
@@ -549,7 +549,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Try to confuse the target's mind for %d (power %d%%) turns %s.]]):tformat(t.getDuration(self, t), t.getConfusion(self, t), Desc.vs(Desc.sp, Desc.ms))
+		return ([[Try to confuse the target's mind for %d (power %d%%) turns %s.]]):tformat(t.getDuration(self, t), t.getConfusion(self, t), Desc.vs"sm")
 	end,
 }
 
@@ -657,7 +657,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Hurl ice shard at the target dealing %0.2f ice damage, 25%% chance of freezing %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.COLD, damage), Desc.vs(Desc.sp, Desc.ps))
+		tformat(damDesc(self, DamageType.COLD, damage), Desc.vs"sp")
 	end,
 }
 
@@ -844,7 +844,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target doing %d%% damage; if the attack hits, the target is pinned to the ground for %d turns %s.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.4), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps))
+		return ([[Hits the target doing %d%% damage; if the attack hits, the target is pinned to the ground for %d turns %s.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.4), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -875,7 +875,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[You project thick black ink, blinding targets in a radius %d cone for %d turns %s.]]):tformat(t.radius(self, t), duration, Desc.vs(Desc.pp, Desc.ps))
+		return ([[You project thick black ink, blinding targets in a radius %d cone for %d turns %s.]]):tformat(t.radius(self, t), duration, Desc.vs"pp")
 	end,
 }
 
@@ -1289,7 +1289,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target with a mighty blow to the legs doing %d%% weapon damage. If the attack hits, the target is unable to move for %d turns %s.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.4), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps))
+		tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.4), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -1314,7 +1314,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Sends a telepathic attack, silencing the target for %d turns %s.]]):
-		tformat(t.getDuration(self, t), Desc.vs(Desc.mp, Desc.ms))
+		tformat(t.getDuration(self, t), Desc.vs"mm")
 	end,
 }
 
@@ -2274,7 +2274,7 @@ newTalent{
 		return ([[Grab a target and pull it next to you, covering it with frost while reducing its movement speed by 50%% for %d turns %s.
 		The ice will also deal %0.2f cold damage.
 		The damage and chance to slow will increase with your Spellpower.]]):
-		tformat(t.getDuration(self, t), damDesc(self, Desc.vs(Desc.sp, Desc.ps), DamageType.COLD, self:combatTalentSpellDamage(t, 5, 140)))
+		tformat(t.getDuration(self, t), damDesc(self, Desc.vs"sp", DamageType.COLD, self:combatTalentSpellDamage(t, 5, 140)))
 	end,
 }
 
@@ -2329,7 +2329,7 @@ newTalent{
 		return ([[A punch to the body that deals %d%% damage, drains %d of the target's stamina per combo point, and dazes the target for %d to %d turns %s, depending on the amount of combo points you've accumulated.
 		The daze chance will increase with your Physical Power.
 		Using this talent removes your combo points.]])
-		:tformat(damage, drain, daze, dazemax, Desc.vs(Desc.pp, Desc.ps))
+		:tformat(damage, drain, daze, dazemax, Desc.vs"pp")
 	end,
 }
 
@@ -2467,7 +2467,7 @@ newTalent{
 	info = function(self, t)
 		local returndamage = t.getReturnDamage(self, t)
 		return ([[Designate a target as a martyr for 10 turns %s. When the martyr deals damage, it also damages itself for %d%% of the damage dealt.]]):
-		tformat(Desc.vs(Desc.sp, Desc.ss), returndamage)
+		tformat(Desc.vs"ss", returndamage)
 	end,
 }
 
@@ -2516,7 +2516,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target with your weapon doing %d%% damage and two shield strikes doing %d%% damage each, trying to overpower your target.
 		If the last attack hits, the target is knocked back 4 grids %s.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3), 100 * self:combatTalentWeaponDamage(t, 0.8, 1.3, self:getTalentLevel(self.T_SHIELD_EXPERTISE)), Desc.vs(Desc.acc, Desc.ps))
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3), 100 * self:combatTalentWeaponDamage(t, 0.8, 1.3, self:getTalentLevel(self.T_SHIELD_EXPERTISE)), Desc.vs"ap")
 	end,
 }
 
@@ -2678,7 +2678,7 @@ newTalent{
 		Upon landing, your target takes %0.1f Physical damage and is stunned for 4 turns %s.  All other creatures within radius 2 of the landing point take %0.1f Physical damage and are knocked away from you.
 		This talent ignores %d%% of the knockback resistance of the thrown target, which takes half damage if it resists being thrown.
 		The damage improves with your Mindpower and the range increases with both Mindpower and Strength.]]):
-		tformat(range, dam, Desc.vs(Desc.mp, Desc.ps), dam/2, t.getKBResistPen(self, t))
+		tformat(range, dam, Desc.vs"mp", dam/2, t.getKBResistPen(self, t))
 	end,
 }
 
@@ -2931,7 +2931,7 @@ newTalent{
 		return ([[Throws a vial of sticky smoke that explodes in radius %d on your foes, reducing their vision range by %d for 5 turns. %s
 		Creatures affected by smoke bomb can never prevent you from stealthing, even if their proximity would normally forbid it.
 		Use of this will not break stealth.]]):
-		tformat(self:getTalentRadius(t), t.getSightLoss(self,t), Desc.vs(Desc.acc, Desc.ps))
+		tformat(self:getTalentRadius(t), t.getSightLoss(self,t), Desc.vs"ap")
 	end,
 }
 
@@ -3021,7 +3021,7 @@ newTalent{
 		local speedpen = t.getSpeedPenalty(self, t)
 		return ([[You hit your target, doing %d%% damage. If your attack connects, the target is crippled for %d turns %s, losing %d%% melee, spellcasting and mind speed.
 		The status power improves with Cunning.]]):
-		tformat(100 * damage, duration, Desc.vs(Desc.acc, Desc.ps), speedpen)
+		tformat(100 * damage, duration, Desc.vs"ap", speedpen)
 	end,
 }
 
@@ -3411,7 +3411,7 @@ newTalent{
 		local damagetwo = t.getDamageTwo(self, t)
 		return ([[When you avoid a melee blow while unarmed, you have a %d%% chance to throw the target to the ground.  If the throw lands, the target will take %0.2f damage and be dazed %s for 2 turns, or %0.2f damage and be stunned %s for 2 turns if the target is grappled.  You may attempt up to %0.1f throws per turn.
 		The chance of throwing increases with your Accuracy, the damage scales with your Physical Power, and the number of attempts with your Strength and Dexterity.]]):
-		tformat(t.getchance(self,t), damDesc(self, DamageType.PHYSICAL, (damage)), Desc.vs(Desc.acc, Desc.ps), damDesc(self, DamageType.PHYSICAL, (damagetwo)), Desc.vs(Desc.acc, Desc.ps), t.getThrows(self, t))
+		tformat(t.getchance(self,t), damDesc(self, DamageType.PHYSICAL, (damage)), Desc.vs"ap", damDesc(self, DamageType.PHYSICAL, (damagetwo)), Desc.vs"ap", t.getThrows(self, t))
 	end,
 }
 
@@ -3518,7 +3518,7 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[You reach out with shadowy vines toward your target, pulling it to you and silencing %s it for %d turns and dazing %s it for 2 turns.]]):
-		tformat(Desc.vs(Desc.acc, Desc.ms), duration, Desc.vs(Desc.acc, Desc.ps))
+		tformat(Desc.vs"am", duration, Desc.vs"ap")
 	end,
 }
 
@@ -3642,7 +3642,7 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[For an instant, your weapons turn into a shadow leash that tries to grab the target's weapon, disarming it for %d turns %s.]]):
-		tformat(duration, Desc.vs(Desc.acc, Desc.ps))
+		tformat(duration, Desc.vs"ap")
 	end,
 }
 

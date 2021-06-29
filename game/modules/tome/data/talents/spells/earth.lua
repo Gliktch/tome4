@@ -158,7 +158,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Conjures a mudslide, dealing %0.2f physical damage in a radius of %d. Any creatures caught inside will be knocked back 8 spaces %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, damage), self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ps))
+		tformat(damDesc(self, DamageType.PHYSICAL, damage), self:getTalentRadius(t), Desc.vs"sp")
 	end,
 }
 

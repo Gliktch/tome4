@@ -104,7 +104,7 @@ newTalent{
 		return ([[You reach out with the shadows silencing %s and disarming %s your target for %d turns.
 		The shadows will deal %d darkness damage to the target and pull it to you.
 		The chance to apply debuffs improves with your Accuracy and the damage with your Spellpower.]]):
-		tformat(Desc.vs(Desc.acc, Desc.ms), Desc.vs(Desc.acc, Desc.ps), duration, damDesc(self, DamageType.DARKNESS, damage))
+		tformat(Desc.vs"am", Desc.vs"ap", duration, damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
 

@@ -334,6 +334,6 @@ newTalent{
 		local aging = t.getAgingChance(self, t)
 		return ([[While your cosmic cycle is expanding, creatures in its radius have a %d%% chance to suffer the effects of aging; pinning %s, blinding %s, or confusing %s them for 3 turns.
 		While your cosmic cycle is contracting, creatures in its radius suffer from age regression; reducing their three highest stats by %d.
-		The chance and stat reduction will scale with your Spellpower.]]):tformat(aging, Desc.vs(Desc.sp, Desc.ps), Desc.vs(Desc.sp, Desc.ps), Desc.vs(Desc.sp, Desc.ms), regress)
+		The chance and stat reduction will scale with your Spellpower.]]):tformat(aging, Desc.vs"sp", Desc.vs"sp", Desc.vs"sm", regress)
 	end,
 }

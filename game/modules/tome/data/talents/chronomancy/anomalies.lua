@@ -775,7 +775,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Stuns up to five targets in a radius %d ball %s.]]):
-		tformat(self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ps))
+		tformat(self:getTalentRadius(t), Desc.vs"sp")
 	end,
 }
 
@@ -1306,7 +1306,7 @@ newTalent{
 		return t.doAction(self, t, true)
 	end,
 	info = function(self, t)
-		return ([[Creates a gravity well in a radius %d ball, pinning up to five targets %s.]]):tformat(self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ps))
+		return ([[Creates a gravity well in a radius %d ball, pinning up to five targets %s.]]):tformat(self:getTalentRadius(t), Desc.vs"sp")
 	end,
 }
 
@@ -1569,7 +1569,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Turns up to 5 targets in a radius %d ball to stone for %d turns %s.]]):
-		tformat(getAnomalyRadius(self, t), getAnomalyDuration(self, t), Desc.vs(Desc.sp, Desc.ss))
+		tformat(getAnomalyRadius(self, t), getAnomalyDuration(self, t), Desc.vs"ss")
 	end,
 }
 

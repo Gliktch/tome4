@@ -219,7 +219,7 @@ newTalent{
 		Each target moved beyond the first increases the damage %0.2f (up to %0.2f bonus damage).
 		Targets take reduced damage the further they are from the epicenter (20%% less per tile).
 		The additional damage scales with your Spellpower.]])
-		:tformat(damage, Desc.vs(Desc.sp, Desc.ps), radius, damDesc(self, DamageType.PHYSICAL, aoe), damDesc(self, DamageType.PHYSICAL, aoe/8), damDesc(self, DamageType.PHYSICAL, aoe/2))
+		:tformat(damage, Desc.vs"sp", radius, damDesc(self, DamageType.PHYSICAL, aoe), damDesc(self, DamageType.PHYSICAL, aoe/8), damDesc(self, DamageType.PHYSICAL, aoe/2))
 	end
 }
 

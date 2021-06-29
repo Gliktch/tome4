@@ -81,7 +81,7 @@ newTalent{
 		Your mucus will poison all foes crossing it, dealing %0.1f nature damage every turn for 5 turns (stacking) %s.
 		In addition, each turn, you will restore %0.1f Equilibrium while in your own mucus, and other friendly creatures in your mucus will restore 1 Equilibrium both for you and for themselves.
 		The Poison damage and Equilibrium regeneration increase with your Mindpower, and laying down more mucus in the same spot will intensify its effects and refresh its duration.]]):
-		tformat(dur, dur, damDesc(self, DamageType.NATURE, dam), Desc.vs(Desc.mp, Desc.ps),  equi)
+		tformat(dur, dur, damDesc(self, DamageType.NATURE, dam), Desc.vs"mp",  equi)
 	end,
 }
 

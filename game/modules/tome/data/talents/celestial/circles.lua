@@ -126,7 +126,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local damage = t.getDamage(self, t)
 		return ([[Creates a circle of radius %d at your feet; the circle protects you from silence effects while you remain in its radius while silencing %s and dealing %d light damage to everyone else who enters. The circle lasts %d turns.]]):
-		tformat(radius, Desc.vs(Desc.sp, Desc.ms), damDesc(self, DamageType.LIGHT, damage), duration)
+		tformat(radius, Desc.vs"sm", damDesc(self, DamageType.LIGHT, damage), duration)
 	end,
 }
 
@@ -167,7 +167,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Creates a circle of radius %d at your feet; the circle slows incoming projectiles by %d%% and attempts to push all creatures other than yourself out of its radius %s, inflicting %0.2f light damage and %0.2f darkness damage per turn as it does so.  The circle lasts %d turns.
 		The effects will increase with your Spellpower.]]):
-		tformat(radius, damage*5, Desc.vs(Desc.sp, Desc.ps), (damDesc (self, DamageType.LIGHT, damage)), (damDesc (self, DamageType.DARKNESS, damage)), duration)
+		tformat(radius, damage*5, Desc.vs"sp", (damDesc (self, DamageType.LIGHT, damage)), (damDesc (self, DamageType.DARKNESS, damage)), duration)
 	end,
 }
 

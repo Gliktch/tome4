@@ -131,7 +131,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[By crushing an alchemist gem you generate a thunderclap in a cone of radius %d dealing %0.2f physical damage and %0.2f lightning damage.
 		All creatures caught inside are knocked back and disarmed %s for %d turns.
-		The duration and damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), Desc.vs(Desc.sp, Desc.ps), t.getDuration(self, t))
+		The duration and damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), Desc.vs"sp", t.getDuration(self, t))
 	end,
 }
 

@@ -76,7 +76,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Curses your target, decreasing all damage it does by %d%% for 10 turns %s.
-		The effects will improve with your Spellpower.]]):tformat(t.imppower(self,t), Desc.vs(Desc.sp, Desc.ss))
+		The effects will improve with your Spellpower.]]):tformat(t.imppower(self,t), Desc.vs"ss")
 	end,
 }
 
@@ -107,7 +107,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Curses your target, preventing normal life regeneration and dealing %0.2f darkness damage over 10 turns %s.
-		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.DARKNESS, self:combatTalentSpellDamage(t, 10, 70)*10),  Desc.vs(Desc.sp, Desc.ss))
+		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.DARKNESS, self:combatTalentSpellDamage(t, 10, 70)*10),  Desc.vs"ss")
 	end,
 }
 
@@ -138,6 +138,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Curses your target, decreasing all its resistances by %d%% for 7 turns %s.
-		The effect will improve with your Spellpower.]]):tformat(self:combatTalentSpellDamage(t, 10, 40), Desc.vs(Desc.sp, Desc.ss))
+		The effect will improve with your Spellpower.]]):tformat(self:combatTalentSpellDamage(t, 10, 40), Desc.vs"ss")
 	end,
 }

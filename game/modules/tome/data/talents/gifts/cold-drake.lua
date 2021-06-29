@@ -72,7 +72,7 @@ newTalent{
 		Every level in Ice Claw additionally raises your Physical Save by 2.
 		Each point in cold drake talents also increases your cold resistance by 1%%.
 
-		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * t.damagemult(self, t), self:getTalentRadius(t), Desc.vs(Desc.mp, Desc.ps))
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * t.damagemult(self, t), self:getTalentRadius(t), Desc.vs"mp")
 	end,
 }
 
@@ -202,7 +202,7 @@ newTalent{
 		local icedam = t.getIceDamage(self, t)
 		return ([[Summons an icy wall of %d length for %d turns. Ice walls are transparent, but block projectiles and enemies.
 		Ice walls also emit freezing cold, dealing %0.2f damage for each ice wall within radius %d of an enemy, and with each wall giving a 25%% chance to freeze an enemy %s. This cold cannot hurt the talent user or their allies.
-		Each point in cold drake talents also increases your cold resistance by 1%%.]]):tformat(3 + math.floor(self:getTalentLevel(t) / 2) * 2, t.getDuration(self, t), damDesc(self, DamageType.COLD, icedam),  icerad, Desc.vs(Desc.mp, Desc.ps))
+		Each point in cold drake talents also increases your cold resistance by 1%%.]]):tformat(3 + math.floor(self:getTalentLevel(t) / 2) * 2, t.getDuration(self, t), damDesc(self, DamageType.COLD, icedam),  icerad, Desc.vs"mp")
 	end,
 }
 
@@ -259,6 +259,6 @@ newTalent{
 	info = function(self, t)
 		return ([[You breathe ice in a frontal cone of radius %d. Any target caught in the area will take %0.2f cold damage and be frozen for 3 turns %s.
 		The damage will increase with your Strength, the critical chance is based on your Mental crit rate, and the Freeze apply power is based on your Mindpower.
-		Each point in cold drake talents also increases your cold resistance by 1%%.]]):tformat( self:getTalentRadius(t), damDesc(self, DamageType.COLD, t.getDamage(self, t)), Desc.vs(Desc.mp, Desc.ps))
+		Each point in cold drake talents also increases your cold resistance by 1%%.]]):tformat( self:getTalentRadius(t), damDesc(self, DamageType.COLD, t.getDamage(self, t)), Desc.vs"mp")
 	end,
 }

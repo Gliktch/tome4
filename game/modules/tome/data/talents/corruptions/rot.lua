@@ -53,7 +53,7 @@ newTalent{
 		return ([[Bite the target, dealing %d%% melee damage  
 		If the attack hits you'll inject blight poison into the target, dealing %0.2f blight damage and a further %0.2f blight damage over 4 turns %s.
 		The bonus damage improves with your Spellpower.]])
-		:tformat(damage, damDesc(self, DamageType.BLIGHT, poison/4), damDesc(self, DamageType.BLIGHT, poison), Desc.vs(Desc.sp, Desc.ss) )
+		:tformat(damage, damDesc(self, DamageType.BLIGHT, poison/4), damDesc(self, DamageType.BLIGHT, poison), Desc.vs"ss" )
 	end
 }
 
@@ -335,7 +335,7 @@ info = function(self, t)
 		return ([[You have a %d%% chance on dealing blight damage to cause the target to rot away, silencing, disarming, blinding or pinning them for %d turns %s. This effect has a cooldown.
 At talent level 4, this affects targets in a radius 1 ball.
 Your worms also have a %d%% chance to blind, silence, disarm or pin with their melee attacks %s, lasting 2 turns.]]):
-		tformat(chance, duration, Desc.vs(Desc.sp, Desc.max(Desc.ps, Desc.ms)), chance/2, Desc.vs(Desc.sp, Desc.ss))
+		tformat(chance, duration, Desc.vs("sp", Desc.max("ps", "ms")), chance/2, Desc.vs"ss")
 	end,
 }
 
@@ -393,6 +393,6 @@ If not cleared after five turns it will inflict %0.2f blight damage as the larva
 Even if this disease is removed early, there is still a %d%% chance for the larvae to hatch.
 You can never have more than 5 worms active from any source at a time.
 The damage dealt will increase with your Spellpower.]]):
-		tformat(Desc.vs(Desc.sp, Desc.ss), damDesc(self, DamageType.ACID, (damage/2)), damDesc(self, DamageType.BLIGHT, (damage/2)), damDesc(self, DamageType.BLIGHT, (burst)), chance)
+		tformat(Desc.vs"ss", damDesc(self, DamageType.ACID, (damage/2)), damDesc(self, DamageType.BLIGHT, (damage/2)), damDesc(self, DamageType.BLIGHT, (burst)), chance)
 	end,
 }

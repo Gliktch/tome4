@@ -59,7 +59,7 @@ newTalent{
 		local dam = t.getDamage(self, t)
 		return ([[Creates a globe of pure light within a radius of %d that illuminates the area and deals %0.2f damage to all creatures.
 		At level 3, it also blinds all who see it (except the caster) for %d turns %s.]]):
-		tformat(radius, damDesc(self, DamageType.LIGHT, dam), turn, Desc.vs(Desc.sp, Desc.ps))
+		tformat(radius, damDesc(self, DamageType.LIGHT, dam), turn, Desc.vs"sp")
 	end,
 }
 
@@ -116,7 +116,7 @@ newTalent{
 		Whenever you would take damage there is %d%% chance to become ethereal for an instant and fully ignore it.
 		If you do get hit, the shield glows brightly, sending triggering a flash of light on the attacker, dealing %0.2f light damage in radius %d around it and dazzling any affected creature (deal 10%% less damage) for 5 turns %s. This can only happen every %d turns.
 		The damage and ignore chance will increase with your Spellpower.]]):
-		tformat(t.getEvade(self, t), damDesc(self, DamageType.LIGHT, damage), self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ss), t.getDur(self, t))
+		tformat(t.getEvade(self, t), damDesc(self, DamageType.LIGHT, damage), self:getTalentRadius(t), Desc.vs"ss", t.getDur(self, t))
 	end,
 }
 

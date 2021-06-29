@@ -281,6 +281,6 @@ newTalent{
 		At this point you'll begin breaking the dreams of enemies who hear the forge, reducing their Mental Save by %d and giving them a %d%% chance of spell failure due to the tremendous echo in their minds for %d turns %s.
 		Broken Dreams has a %d%% chance to brainlock your enemies %s.
 		The damage and dream breaking effect will scale with your Mindpower.]]):
-		tformat(radius, damDesc(self, DamageType.MIND, damage), damDesc(self, DamageType.FIRE, damage), power, fail, duration, Desc.vs(Desc.mp, Desc.ms), chance, Desc.vs(Desc.mp, Desc.ms))
+		tformat(radius, damDesc(self, DamageType.MIND, damage), damDesc(self, DamageType.FIRE, damage), power, fail, duration, Desc.vs"mm", chance, Desc.vs"mm")
 	end,
 }

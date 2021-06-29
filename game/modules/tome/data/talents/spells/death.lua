@@ -72,7 +72,7 @@ newTalent{
 		- 15 effects: %0.2f
 		And so on...
 		Damage increases with your Spellpower.
-		]]):tformat(dam, t:_getMax(self), Desc.vs(Desc.sp, Desc.ss), dam*t.incFormula(2), dam*t.incFormula(5), dam*t.incFormula(10), dam*t.incFormula(15))
+		]]):tformat(dam, t:_getMax(self), Desc.vs"ss", dam*t.incFormula(2), dam*t.incFormula(5), dam*t.incFormula(10), dam*t.incFormula(15))
 	end,
 }
 

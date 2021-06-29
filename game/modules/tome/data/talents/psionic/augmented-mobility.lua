@@ -113,7 +113,7 @@ newTalent{
 		return ([[Briefly extend your telekinetic reach to grab an enemy, haul them towards you and daze them for 1 turn %s.
 		Works on enemies up to %d squares away.
 		The cooldown decreases, and the range increases, with additional talent points spent.]]):
-		tformat(Desc.vs(Desc.mp, Desc.ps), range)
+		tformat(Desc.vs"mp", range)
 	end,
 }
 

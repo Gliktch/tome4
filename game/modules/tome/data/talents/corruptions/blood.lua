@@ -73,7 +73,7 @@ newTalent{
 		return ([[You extract corrupted blood from your own body, hitting everything in a frontal cone of radius %d for %0.2f blight damage.
 		Each creature hit has a %d%% chance of being infected by a random disease %s, doing %0.2f blight damage and weakening either Constitution, Strength or Dexterity for 6 turns.
 		The damage will increase with your Spellpower.]]):
-		tformat(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 190)), t.getChance(self, t), Desc.vs(Desc.sp, Desc.ss), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 220)))
+		tformat(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 190)), t.getChance(self, t), Desc.vs"ss", damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 220)))
 	end,
 }
 

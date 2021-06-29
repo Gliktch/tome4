@@ -60,7 +60,7 @@ uberTalent{
 	info = function(self, t)
 		return ([[When a single blow deals more than 15%% of your total life, a torrent of blood gushes from your body, creating a bloody tidal wave for 4 turns that deals %0.2f blight damage, heals you for 50%% of the damage done, and knocks foes back %s.
 		The damage increases with your Constitution.]])
-		:tformat(100 + self:getCon() * 3, Desc.vs(Desc.sp, Desc.ps))
+		:tformat(100 + self:getCon() * 3, Desc.vs"sp")
 	end,
 }
 

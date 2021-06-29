@@ -152,7 +152,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Your abilities in sowing confusion and chaos have reached their peak.  Whenever a foe attempts to apply a detrimental physical effect to you, they have a %d%% chance to fail. If there is an adjacent enemy to you, you misdirect your foe into applying it to them at %d%% duration %s.
 You gain %d defense.]]):
-		tformat(t.getChance(self,t),t.getDuration(self,t), Desc.vs(Desc.acc, Desc.ps), t.getDefense(self, t))
+		tformat(t.getChance(self,t),t.getDuration(self,t), Desc.vs"ap", t.getDefense(self, t))
 	end,
 }
 

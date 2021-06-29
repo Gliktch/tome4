@@ -115,7 +115,7 @@ newTalent{
 		This damage will distort affected targets, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
 		Investing in this talent will increase the physical resistance reduction from all of your distortion effects.
 		If the target is already distorted, they'll be stunned for %d turns as well %s.
-		The damage will scale with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, damage), Desc.vs(Desc.mp, Desc.ps), distort, power, Desc.vs(Desc.mp, Desc.ps))
+		The damage will scale with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, damage), Desc.vs"mp", distort, power, Desc.vs"mp")
 	end,
 }
 
@@ -161,7 +161,7 @@ newTalent{
 		This damage will distort affected targets, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
 		If the target is already distorted when Ravage is applied, the damage will be increased by 50%% and the target will lose one beneficial physical effect or sustain each turn.
 		Investing in this talent will increase the physical resistance reduction from all of your distortion effects.
-		The damage will scale with your Mindpower.]]):tformat(Desc.vs(Desc.mp, Desc.ps), damDesc(self, DamageType.PHYSICAL, damage), duration, distort)
+		The damage will scale with your Mindpower.]]):tformat(Desc.vs"mp", damDesc(self, DamageType.PHYSICAL, damage), duration, distort)
 	end,
 }
 

@@ -132,7 +132,7 @@ newTalent{
 							The damage will increase with your Spellpower.
 							The duration of the circle can be increased by a critical hit.
 							You can activate this talent to draw the pattern in your own blood, creating it underneath you at the cost of %d%% of your maximum life.
-]]):tformat(rad, Desc.vs(Desc.sp, Desc.ps), damDesc(self, DamageType.LIGHT, burn), 2, dur, cost)
+]]):tformat(rad, Desc.vs"sp", damDesc(self, DamageType.LIGHT, burn), 2, dur, cost)
 	end,
 }
 
@@ -172,7 +172,7 @@ newTalent{
 		return ([[Dooms all enemies within a radius 2 ball for 20 turns %s. Each time an affected target uses a talent, it takes %0.2f physical damage as its life is drawn out. In addition, any bleed applied to the target will have its power increased by %d%%.
 							The damage will increase with your Spellpower.
 							The chance to apply will increase with your Spellpower.]]):
-		tformat(Desc.vs(Desc.sp, Desc.ss), damDesc(self, DamageType.PHYSICAL, t.getPower(self, t)), t.getBleedIncrease(self, t)*100)
+		tformat(Desc.vs"ss", damDesc(self, DamageType.PHYSICAL, t.getPower(self, t)), t.getBleedIncrease(self, t)*100)
 	end,
 }
 
@@ -265,6 +265,6 @@ newTalent{
 		return ([[Draw on the wounds of enemies within range 10, healing yourself and putting them into a merciful sleep %s.
 							You are healed for %d%% of the remaining damage of bleed effects on enemies in range (minimum %d per bleed). Enemies fall asleep for %d turns longer than their longest-lasting bleed, rendering them unable to act. The strength of the sleep effect is based on the strength of the bleed. Excess damage will reduce their sleep duration.
 							
-							When the sleep ends, each target will benefit from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it 50%% sleep immunity.]]):tformat(Desc.vs(Desc.sp, Desc.ms), conversion, minimum, extension)
+							When the sleep ends, each target will benefit from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it 50%% sleep immunity.]]):tformat(Desc.vs"sm", conversion, minimum, extension)
 	end,
 }

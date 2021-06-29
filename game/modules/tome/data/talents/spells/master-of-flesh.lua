@@ -269,7 +269,7 @@ newTalent{
 		Only one ghoul may explode per turn. The one with the least time left to live is always the first to do so.
 		The damage and disease power is increased by your Spellpower.
 		]]):
-		tformat(t:_getDur(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ss), damDesc(self, DamageType.BLIGHT, t:_getDamage(self)), t:_getDiseasePower(self))
+		tformat(t:_getDur(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), self:getTalentRadius(t), Desc.vs"ss", damDesc(self, DamageType.BLIGHT, t:_getDamage(self)), t:_getDiseasePower(self))
 	end,
 }
 

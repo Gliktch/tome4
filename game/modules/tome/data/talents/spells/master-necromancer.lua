@@ -103,7 +103,7 @@ newTalent{
 		if you know Corpse Explosion or Putrescent Liquefaction the duration of those effects are increased by %d.
 		All non-undead foes caught inside are dazed for %d turns %s.
 		In addition all your minions (created after you learn this spell) have a passive health regeneration.]]):
-		tformat(t:_getSpeed(self), t:_getHeal(self), t:_getGhoulDur(self), t:_getGhoulDur(self), t:_getDaze(self), Desc.vs(Desc.sp, Desc.ps))
+		tformat(t:_getSpeed(self), t:_getHeal(self), t:_getGhoulDur(self), t:_getGhoulDur(self), t:_getDaze(self), Desc.vs"sp")
 	end,
 }
 

@@ -119,7 +119,7 @@ newTalent{
 		return ([[You let out a powerful roar that sends your foes in radius %d into utter confusion (power: %d%%) for 3 turns %s.
 		The sound wave is so strong, your foes also take %0.2f physical damage.
 		The damage improves with your Strength.
-		Each point in fire drake talents also increases your fire resistance by 1%%.]]):tformat(radius, power, Desc.vs(Desc.pp, Desc.ms), self:combatTalentStatDamage(t, "str", 30, 380))
+		Each point in fire drake talents also increases your fire resistance by 1%%.]]):tformat(radius, power, Desc.vs"pm", self:combatTalentStatDamage(t, "str", 30, 380))
 	end,
 }
 

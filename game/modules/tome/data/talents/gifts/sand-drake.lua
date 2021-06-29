@@ -94,7 +94,7 @@ return ([[Attack the target for %d%% Nature weapon damage.
 		Huge:  %d%%
 		Gargantuan:  %d%%]]):
 		tformat(100 * t.getDamage(self, t),
-			Desc.vs(Desc.pp, Desc.ps),
+			Desc.vs"pp",
 			t.getPassiveCrit(self, t),
 			t.maxSwallow(self, t, 1),
 			t.maxSwallow(self, t, 2),
@@ -221,6 +221,6 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[You breathe sand in a frontal cone of radius %d. Any target caught in the area will take %0.2f physical damage, and will be blinded for %d turns %s.
 		The damage will increase with your Strength, the critical chance is based on your Mental crit rate, and the Blind apply power is based on your Mindpower.
-		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.PHYSICAL, damage), duration, Desc.vs(Desc.mp, Desc.ps))
+		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.PHYSICAL, damage), duration, Desc.vs"mp")
 	end,
 }

@@ -99,7 +99,7 @@ newTalent{
 		return ([[Sends out a blast wave of gravity in a radius %d cone, dealing %0.2f base physical (gravity) damage and knocking back targets caught in the area %s.
 		Targets knocked into walls or other targets take 25%% additional damage and deal 25%% damage to targets they're knocked into.
 		Closer targets will be knocked back further and the damage will scale with your Spellpower.]]):
-		tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), Desc.vs(Desc.sp, Desc.ps))
+		tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), Desc.vs"sp")
 	end,
 }
 
@@ -178,7 +178,7 @@ newTalent{
 		Each target moved beyond the first increases the damage by %0.2f (up to a maximum of %0.2f bonus damage).
 		Targets take reduced damage the further they are from the epicenter (20%% less per tile).
 		The damage dealt will scale with your Spellpower.]])
-		:tformat(radius, Desc.vs(Desc.sp, Desc.ps), damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.PHYSICAL, damage/8), damDesc(self, DamageType.PHYSICAL, damage/2))
+		:tformat(radius, Desc.vs"sp", damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.PHYSICAL, damage/8), damDesc(self, DamageType.PHYSICAL, damage/2))
 	end,
 }
 
@@ -263,6 +263,6 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local slow = t.getSlow(self, t)
 		return ([[Increases local gravity in a radius of %d for %d turns, dealing %0.2f physical (gravity) damage as well as decreasing the global speed of all affected targets by %d%% %s.
-		The damage done will scale with your Spellpower.]]):tformat(radius, duration, damDesc(self, DamageType.PHYSICAL, damage), slow*100, Desc.vs(Desc.sp, Desc.ps))
+		The damage done will scale with your Spellpower.]]):tformat(radius, duration, damDesc(self, DamageType.PHYSICAL, damage), slow*100, Desc.vs"sp")
 	end,
 }

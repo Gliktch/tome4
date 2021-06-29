@@ -128,7 +128,7 @@ newTalent{
 		return ([[Grab a target and teleport it to your side or if adjacent up to 6 spaces away from you %s, pinning it there with a bone rising from the ground for %d turns %s.
 		The bone will also deal %0.2f physical damage.
 		The damage will increase with your Spellpower.]]):
-		tformat(Desc.vs(Desc.sp, Desc.ss), t.getDuration(self, t), Desc.vs(Desc.sp, Desc.ps), damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		tformat(Desc.vs"ss", t.getDuration(self, t), Desc.vs"sp", damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
 	end,
 }
 

@@ -60,7 +60,7 @@ newTalent{
 		local dam = t.getDamage(self, t)
 		return ([[Focus energies into a beam to lash all creatures in a line with physical force, doing %d Physical damage and knocking them off balance (-15%% damage penalty) for 2 turns %s.
 		The damage will scale with your Mindpower.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, dam), Desc.vs(Desc.mp, Desc.ps))
+		tformat(damDesc(self, DamageType.PHYSICAL, dam), Desc.vs"mp")
 	end,
 }
 
@@ -143,7 +143,7 @@ newTalent{
 		The plasma will explode on impact, dealing %0.1f Lightning damage within radius %d.
 		This talent will apply cross tier Brainlock %s.
 		The damage will increase with your Mindpower.]]):
-		tformat(damDesc(self, DamageType.LIGHTNING, dam), self:getTalentRadius(t), Desc.vs(Desc.mp, Desc.ms))
+		tformat(damDesc(self, DamageType.LIGHTNING, dam), self:getTalentRadius(t), Desc.vs"mm")
 	end,
 }
 

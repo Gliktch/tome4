@@ -256,7 +256,7 @@ newTalent{
 		To turn off an aura without spiking it, deactivate it and target yourself. The damage will improve with your Mindpower.
 		You can only have two of these auras active at once.]]):
 		tformat(damDesc(self, DamageType.PHYSICAL, dam), mast, damDesc(self, DamageType.PHYSICAL, dam), mast, spikecost, t.getSpikedRange(self, t),
-		damDesc(self, DamageType.PHYSICAL, spikedam), Desc.vs(Desc.mp, Desc.ps))
+		damDesc(self, DamageType.PHYSICAL, spikedam), Desc.vs"mp")
 	end,
 }
 
@@ -539,7 +539,7 @@ newTalent{
 		#{bold}#Activating the aura takes no time but de-activating it does.#{normal}#
 		To turn off an aura without spiking it, deactivate it and target yourself. The damage will improve with your Mindpower.
 		You can only have two of these auras active at once.]]):
-		tformat(damDesc(self, DamageType.LIGHTNING, dam), mast, damDesc(self, DamageType.LIGHTNING, dam), mast, spikecost, nb, damDesc(self, DamageType.LIGHTNING, spikedam), Desc.vs(Desc.mp, Desc.ps))
+		tformat(damDesc(self, DamageType.LIGHTNING, dam), mast, damDesc(self, DamageType.LIGHTNING, dam), mast, spikecost, nb, damDesc(self, DamageType.LIGHTNING, spikedam), Desc.vs"mp")
 	end,
 }
 

@@ -75,7 +75,7 @@ newTalent{
 		If the attack hits, the target is confused (%d%% effect) for %d turns %s.
 		Damage done increases with the quality of your headgear, your Strength, and your physical damage bonuses.
 		Confusion power increases with your Dexterity.]]):
-		tformat(dam, t.getConfusion(self, t), duration, Desc.vs(Desc.acc, Desc.ms))
+		tformat(dam, t.getConfusion(self, t), duration, Desc.vs"am")
 	end,
 }
 

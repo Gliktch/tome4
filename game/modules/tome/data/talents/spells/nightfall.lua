@@ -100,7 +100,7 @@ newTalent{
 		Only one bane can affect a creature.
 		Banes last for %d turns, and also deal %0.2f darkness damage.
 		The damage will increase with your Spellpower.]]):
-		tformat(self:getTalentRadius(t), Desc.vs(Desc.sp, Desc.ss), t.getBaneDur(self,t), damDesc(self, DamageType.DARKNESS, damage))
+		tformat(self:getTalentRadius(t), Desc.vs"ss", t.getBaneDur(self,t), damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
 

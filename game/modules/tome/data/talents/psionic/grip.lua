@@ -55,7 +55,7 @@ newTalent{
 		local dur = t.getDuration(self, t)
 		return ([[Bind the target in crushing bands of telekinetic force, immobilizing it for %d turns %s.
 		The duration will improve with your Mindpower.]]):
-		tformat(dur, Desc.vs(Desc.mp, Desc.ps))
+		tformat(dur, Desc.vs"mp")
 	end,
 }
 

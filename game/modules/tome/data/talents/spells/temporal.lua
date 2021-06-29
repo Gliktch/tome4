@@ -48,7 +48,7 @@ newTalent{
 		local slow = t.getSlow(self, t)
 		local proj = t.getProj(self, t)
 		return ([[Project a bolt of time distortion, decreasing the target's global speed by %d%% and all projectiles it fires by %d%% for 7 turns %s.]]):
-		tformat(100 * slow, proj, Desc.vs(Desc.sp, Desc.ss))
+		tformat(100 * slow, proj, Desc.vs"ss")
 	end,
 }
 
@@ -112,7 +112,7 @@ newTalent{
 		return ([[Removes the target from the flow of time for %d turns %s. In this state, the target can neither act nor be harmed.
 		Time does not pass at all for the target, no talents will cooldown, no resources will regen, and so forth.
 		The duration will increase with your Spellpower.]]):
-		tformat(duration, Desc.vs(Desc.sp, Desc.ss))
+		tformat(duration, Desc.vs"ss")
 	end,
 }
 

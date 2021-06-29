@@ -228,7 +228,7 @@ newTalent{
 		local stun = t.getStun(self, t)
 		return ([[Crush your enemy with your Dream Hammer, inflicting %d%% weapon damage.  If the attack hits, the target is stunned for %d turns %s.
 		Learning this talent increases your Physical Power for Dream Hammer damage calculations by %d and all damage with Dream Hammer attacks by %d%%.
-		]]):tformat(damage * 100, stun, Desc.vs(Desc.mp, Desc.ps), power, percent * 100)
+		]]):tformat(damage * 100, stun, Desc.vs"mp", power, percent * 100)
 	end,
 }
 

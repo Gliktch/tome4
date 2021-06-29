@@ -105,7 +105,7 @@ newTalent{
 		return ([[Your quick wit gives you a big advantage against disabled targets, increasing your damage by %d%% for each disabling effect the target is under, to a maximum of %d%%.
 For this purpose, disabling effects are stun, blind, daze, confuse, pin, disarm, cripple and silence.
 In addition, for each disabling effect the target is under, your melee attacks have a %d%% (to a maximum of %d%%) chance to inflict a new effect on them (that they do not already have): either disarm, cripple (25%% power) or pin for 2 turns %s.]]):
-		tformat(dam, dam*3, chance, chance*3, Desc.vs(Desc.acc, Desc.ps))
+		tformat(dam, dam*3, chance, chance*3, Desc.vs"ap")
 	end,
 }
 
@@ -142,7 +142,7 @@ newTalent{
 		local speed = t.getSlow(self,t)
 		local duration = t.getDuration(self, t)
 		return ([[Throw a cloud of blinding dust in a radius %d cone. Enemies within will be blinded, as well as having their accuracy reduced by %d and movement speed decreased by %d%% for %d turns %s.
-		]]):tformat(self:getTalentRadius(t), accuracy, speed, duration, Desc.vs(Desc.acc, Desc.ps))
+		]]):tformat(self:getTalentRadius(t), accuracy, speed, duration, Desc.vs"ap")
 	end,
 }
 

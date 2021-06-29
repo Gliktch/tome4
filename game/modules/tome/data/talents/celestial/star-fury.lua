@@ -175,6 +175,6 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[A star falls on a radius %d area, doing %0.2f darkness damage on impact and stunning all within the area for 4 turns %s.
 		The damage dealt will increase with your Spellpower.]]):
-		tformat(radius, damDesc(self, DamageType.DARKNESS, damage), Desc.vs(Desc.sp, Desc.ps))
+		tformat(radius, damDesc(self, DamageType.DARKNESS, damage), Desc.vs"sp")
 	end,
 }

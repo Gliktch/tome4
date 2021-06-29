@@ -160,7 +160,7 @@ newTalent{
 		return ([[Leap onto an adjacent target with your shield, striking them for %d%% damage and dazing them for 2 turns %s, then using them as a springboard to leap to a tile within range %d.
 The shield bash will use Dexterity instead of Strength for the shield's bonus damage.
 At talent level 5, you will immediately enter a blocking stance on landing.]])
-		:tformat(dam, Desc.vs(Desc.pp, Desc.ps), range)
+		:tformat(dam, Desc.vs"pp", range)
 	end,
 }
 

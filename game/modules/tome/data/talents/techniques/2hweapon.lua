@@ -146,7 +146,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Shout your warcry in a frontal cone of radius %d. Any targets caught inside will be confused (power %d%%) for %d turns %s.]]):
-		tformat(self:getTalentRadius(t),t.getConfusion(self, t), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ms))
+		tformat(self:getTalentRadius(t),t.getConfusion(self, t), t.getDuration(self, t), Desc.vs"pm")
 	end,
 }
 
@@ -202,7 +202,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Tries to perform a killing blow, doing %d%% weapon damage and dealing an automatic critical hit. If the target ends up with low enough life (<20%%), it might be instantly killed %s.
-		At level 4, it drains half your remaining stamina, and uses it to increase the blow damage by 100%% of it.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3), Desc.vs(Desc.pp, Desc.ps))
+		At level 4, it drains half your remaining stamina, and uses it to increase the blow damage by 100%% of it.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3), Desc.vs"pp")
 	end,
 }
 
@@ -249,7 +249,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned for %d turns. %s]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps))
+		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -314,7 +314,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns %s.
 		Also if the target is protected by a temporary damage shield there is %d%% chance to shatter it.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5),t.getArmorReduc(self, t), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps), t.getShatter(self, t))
+		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5),t.getArmorReduc(self, t), t.getDuration(self, t), Desc.vs"pp", t.getShatter(self, t))
 	end,
 }
 
@@ -355,7 +355,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's Accuracy is reduced by %d for %d turns %s.]])
 		:tformat(
-			100 * self:combatTalentWeaponDamage(t, 1, 1.5), 3 * self:getTalentLevel(t), t.getDuration(self, t), Desc.vs(Desc.pp, Desc.ps))
+			100 * self:combatTalentWeaponDamage(t, 1, 1.5), 3 * self:getTalentLevel(t), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 

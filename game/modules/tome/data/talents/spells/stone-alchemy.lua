@@ -231,6 +231,6 @@ newTalent{
 		Stoned creatures are highly resistant to fire and lightning, and somewhat resistant to physical attacks.
 		At level 3 the touch will become a beam.
 		This spell may fail against creatures resistant to being stunned, that are specifically immune to stoning, or certain bosses.]]):
-		tformat(duration, Desc.vs(Desc.sp, Desc.ss))
+		tformat(duration, Desc.vs"ss")
 	end,
 }

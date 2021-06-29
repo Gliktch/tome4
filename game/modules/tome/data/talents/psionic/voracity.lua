@@ -80,7 +80,7 @@ newTalent{
 		This will slow %s all targets within radius %d by %d%% (max %d%%) for four turns, draining %0.1f (max %0.1f) stamina from each.
 		You replenish %d (max %d) Psi from the first target, with each additional target restoring 20%% less than the one before it.
 		The strength of these effects increases as your Psi depletes and with your Mindpower.]])
-		:tformat(Desc.vs(Desc.mp, Desc.ps), range, t.getSlow(self, t)*100, t.getSlow(self, t, 0)*100, t.getDam(self, t), t.getDam(self, t, 0), t.getLeech(self, t), t.getLeech(self, t, 0))
+		:tformat(Desc.vs"mp", range, t.getSlow(self, t)*100, t.getSlow(self, t, 0)*100, t.getDam(self, t), t.getDam(self, t, 0), t.getLeech(self, t), t.getLeech(self, t, 0))
 	end,
 }
 
@@ -140,7 +140,7 @@ newTalent{
 		This will freeze %s all targets within radius %d for %d (max %d) turns, and deal %0.1f (max %0.1f) Cold damage.
 		You replenish %d (max %d) Psi from the first target, with each additional target restoring 20%% less than the one before it.
 		The damage and the strength of these effects increases as your Psi depletes and with your Mindpower.]])
-		:tformat(Desc.vs(Desc.mp, Desc.ps), range, t.getDur(self, t), t.getDur(self, t, 0), damDesc(self, DamageType.COLD, t.getDam(self, t)), damDesc(self, DamageType.COLD, t.getDam(self, t, 0)), t.getLeech(self, t), t.getLeech(self, t, 0))
+		:tformat(Desc.vs"mp", range, t.getDur(self, t), t.getDur(self, t, 0), damDesc(self, DamageType.COLD, t.getDam(self, t)), damDesc(self, DamageType.COLD, t.getDam(self, t, 0)), t.getLeech(self, t), t.getLeech(self, t, 0))
 	end,
 }
 
@@ -209,7 +209,7 @@ newTalent{
 		This deals %0.1f (max %0.1f) Lightning damage to all targets around you within radius %d, and has a %d%% (max %d%%) chance to daze %s them for 3 turns.
 		You replenish %d (max %d) Psi from the first target, with each additional target restoring 20%% less than the one before it.
 		The strength of these effects increases as your Psi depletes and with your Mindpower.]])
-		:tformat(t.getDam(self, t), t.getDam(self, t, 0), range, t.getDaze(self, t), t.getDaze(self, t, 0), Desc.vs(Desc.mp, Desc.ps), t.getLeech(self, t), t.getLeech(self, t, 0))
+		:tformat(t.getDam(self, t), t.getDam(self, t, 0), range, t.getDaze(self, t), t.getDaze(self, t, 0), Desc.vs"mp", t.getLeech(self, t), t.getLeech(self, t, 0))
 	end,
 }
 

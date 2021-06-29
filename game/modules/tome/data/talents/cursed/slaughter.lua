@@ -265,7 +265,7 @@ newTalent{
 		else
 			size = _t"Small"
 		end
-		return ([[Charge through your opponents, attacking anyone near your path for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage. %s opponents may be knocked away from your path %s. You can attack a maximum of %d times, and can hit targets along your path more than once.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, size, Desc.vs(Desc.pp, Desc.ps), maxAttackCount)
+		return ([[Charge through your opponents, attacking anyone near your path for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage. %s opponents may be knocked away from your path %s. You can attack a maximum of %d times, and can hit targets along your path more than once.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, size, Desc.vs"pp", maxAttackCount)
 	end,
 }
 

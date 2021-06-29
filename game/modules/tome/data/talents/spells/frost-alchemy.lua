@@ -101,7 +101,7 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Invoke a blast of cold all around you with a radius of %d, doing %0.1f Cold damage and freezing creatures to the ground for %d turns %s.
 		Affected creatures can still act, but cannot move.
-		The duration will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.COLD, t.getDamage(self, t)), t.getDuration(self, t), Desc.vs(Desc.sp, Desc.ps))
+		The duration will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.COLD, t.getDamage(self, t)), t.getDuration(self, t), Desc.vs"sp")
 	end,
 }
 

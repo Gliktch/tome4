@@ -112,7 +112,7 @@ newTalent{
 		local damage = t.getDamage(self, t) * 100
 		return ([[When you avoid a melee blow from an adjacent foe, you have a %d%% chance to get a free, automatic melee attack against the attacker for %d%% damage, up to %0.1f times per turn.
 		Unarmed fighters using it will also attempt to throw the target to the ground if the attack lands, dazing them for 2 turns or stunning them for 2 turns if the target is grappled %s.
-		The chance of countering and number of counter attacks increase with your Cunning.]]):tformat(t.counterchance(self,t), damage,  t.getCounterAttacks(self, t), Desc.vs(Desc.acc, Desc.ps))
+		The chance of countering and number of counter attacks increase with your Cunning.]]):tformat(t.counterchance(self,t), damage,  t.getCounterAttacks(self, t), Desc.vs"ap")
 	end,
 }
 

@@ -281,9 +281,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Smash your shield into the face of all adjacent foes dealing %d%% shield damage and knocking them back %d grids %s.
-		In addition, all creatures knocked back will also be dazed for %d turns.
+		In addition, all creatures knocked back will also be dazed for %d turns %s.
 		If known, activating this talent will refresh your Rush cooldown if the attack hits.
-		The distance increases with your talent level, and the Daze duration with your Strength.]]):tformat(t.getShieldDamage(self, t)*100, t.getDist(self, t), Desc.vs(Desc.acc, Desc.ps), t.getDuration(self, t))
+		The distance increases with your talent level, and the Daze duration with your Strength.]]):tformat(t.getShieldDamage(self, t)*100, t.getDist(self, t), Desc.vs"ap", t.getDuration(self, t), Desc.vs())
 	end,
 }
 

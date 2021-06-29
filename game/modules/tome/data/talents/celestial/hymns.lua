@@ -524,6 +524,6 @@ newTalent{
 		return ([[Your passion for singing the praises of the Moons reaches its zenith.
 		Your Hymns now fire shadowy beams that will hit up to %d of your foes within radius 5 for %0.2f damage, with a 25%% chance of blinding %s.
 		This powerful effect will drain %0.1f negative energy each time it fires at at least 1 target; no beam will fire if your negative energy is too low.
-		These values scale with your Spellpower.]]):tformat(t.getTargetCount(self, t), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), Desc.vs(Desc.sp, Desc.ps), t.getNegativeDrain(self, t))
+		These values scale with your Spellpower.]]):tformat(t.getTargetCount(self, t), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), Desc.vs"sp", t.getNegativeDrain(self, t))
 	end,
 }

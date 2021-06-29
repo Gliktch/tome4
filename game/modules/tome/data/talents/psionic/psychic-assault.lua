@@ -105,7 +105,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		return ([[Inflicts %0.2f mind damage and cripples the target's higher mental functions, reducing cunning by %d and confusing (%d%% power) the target for %d turns. %s
 		The damage, cunning penalty, and confusion power will scale with your Mindpower.]]):
-		tformat(damDesc(self, DamageType.MIND, (damage)), cunning_damage, power, duration, Desc.vs(Desc.mp, Desc.ms))
+		tformat(damDesc(self, DamageType.MIND, (damage)), cunning_damage, power, duration, Desc.vs"mm")
 	end,
 }
 
@@ -134,7 +134,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[Sends out a blast of telepathic static in a %d radius, inflicting %0.2f mind damage.  This attack can brainlock affected targets %s.
-		The damage will increase with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.MIND, damage), Desc.vs(Desc.mp, Desc.ms))
+		The damage will increase with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.MIND, damage), Desc.vs"mm")
 	end,
 }
 
