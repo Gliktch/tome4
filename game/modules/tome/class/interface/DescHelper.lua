@@ -23,42 +23,62 @@ require "bit"
 --- Provide some helper functions for description
 -- @classmod engine.generator.interface.ActorTalentsDescHelper
 module(..., package.seeall, class.make)
+local acc, def, pp, sp, mp, ps, ss, ms = _t"Accuracy", _t"Defense", _t"Physical Power", _t"Spellpower", _t"Mindpower", _t"Physical Save", _t"Spell Save", _t"Mental Save"
 
+_M.power_save_simple_pairs = {
+    ap = { acc, ps },
+    as = { acc, ss },
+    am = { acc, ms },
+    pp = { pp, ps },
+    ps = { pp, ss },
+    pm = { pp, ms },
+    sp = { sp, ps },
+    ss = { sp, ss },
+    sm = { sp, ms },
+    mp = { mp, ps },
+    ms = { mp, ss },
+    mm = { mp, ms },
+}
+_M.powers_saves = {
+    a = acc,
+    acc = acc,
+    atk = acc,
+    attack = acc,
+    accuracy = acc,
+    pp = pp,
+    physicalpower = pp,
+    sp = sp,
+    spellpower = sp,
+    mp = mp,
+    mindpower = mp,
+    d = def,
+    def = def,
+    defense = def,
+    ps = ps,
+    physicalsave = ps,
+    ss = ss,
+    spellsave = ss,
+    ms = ms,
+    mindsave = ms,
+}
 _M.powers = {
-    _t"Accuracy", _t"Physical Power", _t"Accuracy/Physical Power", _t"Spellpower",
-    _t"Accuracy/Spellpower", _t"Physical Power/Spellpower", _t"Accuracy/Physical Power/Spellpower", _t"Mindpower",
-    _t"Accuracy/Mindpower", _t"Physical Power/Mindpower",_t"Accuracy/Physical Power/Mindpower", _t"Spellpower/Mindpower",
-    _t"Accuracy/Spellpower/Mindpower", _t"Physical Power/Spellpower/Mindpower", _t"Accuracy/Physical Power/Spellpower/Mindpower"
+    p = pp,
+    s = sp,
+    m = mp,
 }
-
 _M.saves = {
-    _t"Defense", _t"Physical Save", _t"Defense/Physical Save", "Spell Save",
-    _t"Defense/Spell Save", _t"Physical Save/Spell Save", _t"Defense/Physical Save/Spell Save", _t"Mental Save",
-    _t"Defense/Mental Save", _t"Physical Save/Mental Save", _t"Defense/Physical Save/Mental Save", _t"Spell Save/Mental Save",
-    _t"Defense/Spell Save/Mental Save", _t"Physical Save/Spell Save/Mental Save", _t"Defense/Physical Save/Spell Save/Mental Save"
+    p = ps,
+    s = ss,
+    m = ms,
 }
-
-_M.powers_short = {
-    _t"Acc", _t"PP", _t"Acc/PP", _t"SP",
-    _t"Acc/SP", _t"PP/SP", _t"Acc/PP/SP", _t"MP",
-    _t"Acc/MP", _t"PP/MP",_t"Acc/PP/MP", _t"SP/MP",
-    _t"Acc/SP/MP", _t"PP/SP/MP", _t"Acc/PP/SP/MP"
-}
-
-_M.saves_short = {
-    _t"Def", _t"PS", _t"Def/PS", "SS",
-    _t"Def/SS", _t"PS/SS", _t"Def/PS/SS", _t"MS",
-    _t"Def/MS", _t"PS/MS", _t"Def/PS/MS", _t"SS/MS",
-    _t"Def/SS/MS", _t"PS/SS/MS", _t"Def/PS/SS/MS"
-}
-_M.acc = 1
-_M.pp = 2
-_M.sp = 4
-_M.mp = 8
-_M.def = _M.acc
-_M.ps = _M.pp
-_M.ss = _M.sp
-_M.ms = _M.mp
+_M.acc = "acc"
+_M.pp = "pp"
+_M.sp = "sp"
+_M.mp = "mp"
+_M.def = "def"
+_M.ps = "ps"
+_M.ss = "ss"
+_M.ms = "ms"
 _M.atk = _M.acc
 _M.attack = _M.acc
 _M.accuracy = _M.acc
@@ -70,44 +90,36 @@ _M.physicalsave = _M.ps
 _M.spellsave = _M.ss
 _M.mentalsave = _M.ms
 
-_M.max = function(...)
+_M.concat = function(...)
     local arg = { ... }
-    local res = 0
+    local transformed = {}
     for _, v in ipairs(arg) do
-        res = bit.bor(res, v)
+        transformed[#transformed + 1] = _M.powers_saves[v] or tostring(v)
     end
-    return res
+    return transformed
 end
+_M.max = _M.concat
 
-_M.max_power = function(...)
-    return _M.powers[_M.max(...)]
-end
-
-_M.max_save = function(...)
-    return _M.saves[_M.max(...)]
-end
-
+-- possible input:
+-- 1. power: "pp", "ps", etc; save: nil   stored in power_save_simple_pairs
+-- 2. power: string/table; save: string/table
+--      string: search in _M.powers/saves/powers_saves and replace with proper desc
+--      tables: simply concat them with "/"
 _M.vs = function(power, save)
-    power = type(power) == "number" and _M.powers[power] or power
-    save = type(save) == "number" and _M.saves[save] or save
-    if power and save then
-        return string.tformat("(%s vs %s)", power, save)
-    else
-        return _t"(Bypass Saves)"
+    if not save and _M.power_save_simple_pairs[power] then
+        local pair = _M.power_save_simple_pairs[power]
+        return string.tformat("(%s vs %s)", pair[1], pair[2])
     end
-end
-
-_M.max_power_short = function(...)
-    return _M.powers_short[_M.max(...)]
-end
-
-_M.max_save_short = function(...)
-    return _M.saves_short[_M.max(...)]
-end
-
-_M.vs_short = function(power, save)
-    power = type(power) == "number" and _M.powers_short[power] or power
-    save = type(save) == "number" and _M.saves_short[save] or save
+    if type(power) == "table" then
+        power = table.concat(power, "/")
+    else
+        power = _M.powers[power] or _M.powers_saves[power] or power
+    end
+    if type(save) == "table" then
+        save = table.concat(save, "/")
+    else
+        save = _M.saves[save] or _M.powers_saves[save] or save
+    end
     if power and save then
         return string.tformat("(%s vs %s)", power, save)
     else
