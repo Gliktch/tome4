@@ -232,10 +232,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You rush toward your foe, readying your shot. If you reach the enemy, you release the shot, imbuing it with great power.
-		The shot does %d%% weapon damage and knocks back your target by %d.
+		The shot does %d%% weapon damage and knocks back your target by %d %s.
 		The cooldown of this talent is reduced by 1 each time you move.
 		This requires a sling to use.]]):
-		tformat(t.getDamage(self,t)*100, t.getDist(self, t))
+		tformat(t.getDamage(self,t)*100, t.getDist(self, t), Desc.vs())
 	end,
 }
 

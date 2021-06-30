@@ -76,7 +76,7 @@ _M.concat = function(...)
     local arg = { ... }
     local transformed = {}
     for _, v in ipairs(arg) do
-        transformed[#transformed + 1] = _M.powers_saves[v] or tostring(v)
+        transformed[#transformed + 1] = _M.powers_saves[v] or _t(tostring(v))
     end
     return transformed
 end

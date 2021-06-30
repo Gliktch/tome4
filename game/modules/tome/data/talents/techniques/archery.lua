@@ -231,7 +231,6 @@ newTalent{
 	requires_target = true,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1.0, 1.4) end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 2.5, 5)) end,
-	getMarkChance = function(self, t) return math.floor(self:combatTalentScale(t, 5, 20)) end,
 	on_pre_use = function(self, t, silent) return archerPreUse(self, t, silent) end,
 	getChance = function(self,t) 
 		local chance = 20
@@ -261,11 +260,10 @@ newTalent{
 	info = function(self, t)
 		local dam = t.getDamage(self,t)*100
 		local dur = t.getDuration(self,t)
-		local mark = t.getMarkChance(self,t)
 		local chance = t.getChance(self,t)
 		return ([[You fire a shot for %d%% damage that attempts to pin %s your target to the ground for %d turns, as well as giving your next Steady Shot or Shoot 100%% increased chance to critically hit and mark (regardless of whether the pin succeeds) %s.
-		This shot has a 20%% chance to mark the target %s.]]):
-		tformat(dam, Desc.vs"ap", dur, mark, chance, Desc.vs(), Desc.vs())
+		This shot has a %d%% chance to mark the target %s.]]):
+		tformat(dam, Desc.vs"ap", dur, Desc.vs(), chance, Desc.vs())
 	end,
 }
 
