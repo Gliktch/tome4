@@ -62,11 +62,11 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with two shield strikes, doing %d%% and %d%% shield damage. If it hits a second time, it stuns the target for %d turns %s).]])
+		return ([[Hits the target with two shield strikes, doing %d%% and %d%% shield damage. If it hits a second time, it stuns the target for %d turns %s.]])
 		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.7, self:getTalentLevel(self.T_SHIELD_EXPERTISE)),
 		100 * self:combatTalentWeaponDamage(t, 1.2, 2.1, self:getTalentLevel(self.T_SHIELD_EXPERTISE)),
-		t.getStunDuration(self, t)),
-		Desc.vs(_t"Accuracy(Str)", "ps")
+		t.getStunDuration(self, t),
+		Desc.vs(_t"Accuracy(Str)", "ps"))
 	end,
 }
 
