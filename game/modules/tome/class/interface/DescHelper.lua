@@ -71,24 +71,6 @@ _M.saves = {
     s = ss,
     m = ms,
 }
-_M.acc = "acc"
-_M.pp = "pp"
-_M.sp = "sp"
-_M.mp = "mp"
-_M.def = "def"
-_M.ps = "ps"
-_M.ss = "ss"
-_M.ms = "ms"
-_M.atk = _M.acc
-_M.attack = _M.acc
-_M.accuracy = _M.acc
-_M.defense = _M.def
-_M.physicalpower = _M.pp
-_M.spellpower = _M.sp
-_M.mindpower = _M.mp
-_M.physicalsave = _M.ps
-_M.spellsave = _M.ss
-_M.mentalsave = _M.ms
 
 _M.concat = function(...)
     local arg = { ... }
