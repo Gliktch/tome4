@@ -197,8 +197,8 @@ Specific information on each talent appears its tooltip.]]
 -------------------------------------------------------------
 TOOLTIP_SPEED_GLOBAL = _t[[#GOLD#Global Speed#LAST#
 Global speed represents how fast you are and affects everything you do.
-Higher is faster, so at 200% global speed you can performa twice as many actions as you would at 100% speed.
-Note that the amount of time to performa various actions like moving, casting spells, and attacking is also affected by their respective speeds.
+Higher is faster, so at 200% global speed you can perform twice as many actions as you would at 100% speed.
+Note that the amount of time to perform various actions like moving, casting spells, and attacking is also affected by their respective speeds.
 ]]
 TOOLTIP_SPEED_MOVEMENT = _t[[#GOLD#Movement Speed#LAST#
 How quickly you move compared to normal.
@@ -266,8 +266,8 @@ This damage can be reduced by the target's armour or by percentile damage resist
 It is improved by Strength or Dexterity, depending on your weapon. Some talents can change the stats that affect it.
 ]]
 TOOLTIP_COMBAT_BLOCK = _t[[#GOLD#Shield Block Value#LAST#
-The amount of damage a shield will block when actively used in defense.
-Usually this is only effective against Physical damage, but some special shields (and talents) allow the wearer to block other types.
+The base amount of damage a shield will block when actively used in defense.
+Mind damage cannot be blocked. Against other damage types you gain a 50%% bonus to the block value if the shield used grants resistance to that damage type.
 ]]
 TOOLTIP_COMBAT_APR = _t[[#GOLD#Armour Penetration#LAST#
 Armour penetration allows you to ignore a part of the target's armour (this only works for armour, not damage resistance).

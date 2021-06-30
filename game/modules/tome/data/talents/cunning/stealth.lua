@@ -22,7 +22,7 @@
 -- returns detect, closest = total detection power, distance to closest enemy
 -- if estimate is true, only counts the detection power of seen actors
 local function stealthDetection(self, radius, estimate)
-	if not self.x then return nil end
+	if not self.x then return 0, math.huge end
 	local dist = 0
 	local closest, detect = math.huge, 0
 	for i, act in ipairs(self.fov.actors_dist) do

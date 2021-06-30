@@ -2947,7 +2947,7 @@ end
 -- @param radius the radius in which to search
 -- @param block true if we only consider line of sight
 -- @param what a table which can have the fields Map.ACTOR, Map.OBJECT, ..., set to true. If so it will only return grids that are free of this kind of entities.
-function util.findFreeGrid(sx, sy, radius, block, what)
+function util.findFreeGrid(sx, sy, radius, block, what, checker)
 	if not sx or not sy then return nil, nil, {} end
 	what = what or {}
 	local grids = core.fov.circle_grids(sx, sy, radius, block)
@@ -2961,6 +2961,7 @@ function util.findFreeGrid(sx, sy, radius, block, what)
 		end
 		if game.level.map:checkEntity(x, y, game.level.map.TERRAIN, "block_move") then ok = false end
 --		print("findFreeGrid", x, y, "from", sx,sy,"=>", ok)
+		if checker and not checker(x, y) then ok = false end
 		if ok then
 			gs[#gs+1] = {x, y, core.fov.distance(sx, sy, x, y), rng.range(1, 1000)}
 		end

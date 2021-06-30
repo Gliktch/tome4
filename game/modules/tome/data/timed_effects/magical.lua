@@ -367,7 +367,7 @@ newEffect{
 	long_desc = function(self, eff) return ("The target is protected a raging storm deflecting up to %d instances of damage over %d."):
 		tformat(eff.blocks, eff.threshold) end,
 	type = "magical",
-	subtype = { lightning=true, shield=true },
+	subtype = { lightning=true},
 	status = "beneficial",
 	charges = function(self, eff) return math.floor(eff.blocks) end,
 	parameters = {threshold = 1, blocks = 1,},
@@ -1332,7 +1332,7 @@ newEffect{
 	desc = _t"Providence",
 	long_desc = function(self, eff) return ("The target is under protection, removing one negative effect per turn."):tformat() end,
 	type = "magical",
-	subtype = { light=true, shield=true },
+	subtype = { light=true},
 	status = "beneficial",
 	parameters = {},
 	on_timeout = function(self, eff)
@@ -1795,7 +1795,7 @@ newEffect{
 	desc = _t"Bone Shield",
 	long_desc = function(self, eff) return ("Any attacks doing more than %d%% of your life is reduced to %d%%."):tformat(eff.power, eff.power) end,
 	type = "magical",
-	subtype = { arcane=true, shield=true },
+	subtype = { arcane=true},
 	status = "beneficial",
 	parameters = { power=30 },
 	on_gain = function(self, err) return _t"#Target# protected by flying bones.", _t"+Bone Shield" end,
@@ -2835,7 +2835,6 @@ newEffect{
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "numbed", eff.reduce)
 		if eff.resists then
-			game.log("plop")
 			self:effectTemporaryValue(eff, "resists_cap", {[DamageType.LIGHT]=-(self.resists_cap.all or 0)-(self.resists_cap.LIGHT or 0), [DamageType.FIRE]=-(self.resists_cap.all or 0)-(self.resists_cap.FIRE or 0)})
 		end
 	end,
@@ -5508,7 +5507,7 @@ newEffect{
 	desc = _t"Dirge of Pestilence",
 	long_desc = function(self, eff) return ("The target will gain a shield upon suffering a detrimental effect"):tformat() end,
 	type = "magical",
-	subtype = { shield=true },
+	subtype = { dirge=true },
 	status = "beneficial",
 	parameters = { shield=50, cd=5 },
 	callbackOnTemporaryEffectAdd = function(self, eff, eff_id, e_def, eff_incoming)

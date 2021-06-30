@@ -1756,7 +1756,7 @@ newTalent{
 		return true
 	end,
 	short_info = function(self, t)
-		return ([[Creates a radius 5 gravitic anomaly lasting up to %d turns.  Hostile creatures are dealt %d temporal damgae and pulled in.  Triggers out to range 1.]]):
+		return ([[Creates a radius 5 gravitic anomaly lasting up to %d turns.  Hostile creatures are dealt %d temporal damage and pulled in.  Triggers out to range 1.]]):
 		tformat(t.getDuration(self,t), damDesc(self, engine.DamageType.TEMPORAL, t.getDamage(self, t)))
 	end,
 	info = function(self, t)

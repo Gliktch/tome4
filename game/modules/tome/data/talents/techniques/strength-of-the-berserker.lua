@@ -199,7 +199,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns %s.
-		Also if the target is protected by a temporary damage shield there is %d%% chance to shatter it %s.]])
+		Also if the target is protected by any temporary magical or psionic damage absorbing shields there is %d%% chance to shatter a random shield %s.]])
 		:tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.5), t.getArmorReduc(self, t), t.getDuration(self, t), Desc.vs"pp", t.getShatter(self, t), Desc.vs())
 	end,
 }

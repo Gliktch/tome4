@@ -232,7 +232,7 @@ newTalent{
 			when = ("\n#DARK_SEA_GREEN#Next free ghoul in %d turn(s).\n#LAST#"):tformat(t:_getEvery(self) - self.__call_mausoleum_turns)
 		end
 
-		return ([[You control dead matter around you, lyring in the ground, decaying.
+		return ([[You control dead matter around you, lying in the ground, decaying.
 		When you enter combat and every %d turns thereafter a ghoul of level %d automatically raises to fight for you.
 		At level 3 you can forcefully activate this spell to summon up to %d ghasts around you.
 		At level 5 every 4 summoned ghouls or ghasts a ghoulking is summoned for free.
