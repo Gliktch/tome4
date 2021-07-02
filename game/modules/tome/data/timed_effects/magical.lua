@@ -2134,7 +2134,7 @@ newEffect{
 newEffect{
 	name = "SPELLSHOCKED",
 	desc = _t"Spellshocked",
-	long_desc = function(self, eff) return ("Overwhelming magic has temporarily interfered with all damage resistances, lowering them by %d%%."):tformat(eff.power) end,
+	long_desc = function(self, eff) return ("Overwhelming magic has temporarily interfered with all damage resistances, lowering them by %d%%. This is a special cross-tier effect, may be applied if the attacker's power is on higher tier (every 20 points counts as a tier) than your spell save in a save check."):tformat(eff.power) end,
 	type = "magical",
 	subtype = { ["cross tier"]=true },
 	status = "detrimental",

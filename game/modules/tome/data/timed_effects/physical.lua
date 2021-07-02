@@ -1947,7 +1947,7 @@ newEffect{
 newEffect{
 	name = "OFFBALANCE",
 	desc = _t"Off-balance",
-	long_desc = function(self, eff) return (_t"Badly off balance. Global damage is reduced by 15%.") end,
+	long_desc = function(self, eff) return (_t"Badly off balance. Global damage is reduced by 15%. This is a special cross-tier effect, may be applied if the attacker's power is on higher tier (every 20 points counts as a tier) than your physical save in a save check.") end,
 	type = "physical",
 	subtype = { ["cross tier"]=true },
 	status = "detrimental",
