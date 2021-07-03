@@ -1363,17 +1363,18 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local chance = 25
 		local do_wet = false
-		if _G.type(dam) == "table" then chance, dam, do_wet = dam.chance, dam.dam, dam.do_wet end
+		local apply_power
+		if _G.type(dam) == "table" then chance, dam, do_wet, apply_power = dam.chance, dam.dam, dam.do_wet, dam.apply_power end
 
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 chance = 50 end
 
 		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam, state)
 		if rng.percent(chance) then
-			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.5, apply_power=dam.apply_power}, state)
+			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.5, apply_power=apply_power}, state)
 		end
 		if target and do_wet and not target:hasEffect(target.EFF_FROZEN) then
-			target:setEffect(target.EFF_WET, 3, {apply_power=dam.apply_power or math.max(src:combatSpellpower(), src:combatMindpower()), min_dur=1})
+			target:setEffect(target.EFF_WET, 3, {apply_power=apply_power or math.max(src:combatSpellpower(), src:combatMindpower()), min_dur=1})
 		end
 		return realdam
 	end,
@@ -1387,17 +1388,18 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local chance = 25
 		local do_wet = false
-		if _G.type(dam) == "table" then chance, dam, do_wet = dam.chance, dam.dam, dam.do_wet end
+		local apply_power
+		if _G.type(dam) == "table" then chance, dam, do_wet, apply_power = dam.chance, dam.dam, dam.do_wet, dam.apply_power end
 
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 chance = 50 end
 
 		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam, state)
 		if rng.percent(chance) then
-			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.5, apply_power=dam.apply_power or src:combatMindpower()}, state)
+			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.5, apply_power=apply_power or src:combatMindpower()}, state)
 		end
 		if target and do_wet and not target:hasEffect(target.EFF_FROZEN) then
-			target:setEffect(target.EFF_WET, 3, {apply_power=dam.apply_power or src:combatMindpower(), min_dur=1})
+			target:setEffect(target.EFF_WET, 3, {apply_power=apply_power or src:combatMindpower(), min_dur=1})
 		end
 		return realdam
 	end,
