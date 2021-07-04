@@ -98,7 +98,7 @@ Negative energy represents your reserve of negative "celestial" power, most clos
 TOOLTIP_VIM = _t[[#GOLD#Vim#LAST#
 Vim represents the amount of life energy you control. Each corruption talent requires some.
 It does not regenerate naturally; you need to drain it from yourself or your victims.
-Each time you kill a creature you gain 30% of your Willpower + 1 as Vim.  This value is multiplied by half the rank of the creature.
+Each time you kill a creature you gain 50% of your Willpower + 1 as Vim.  This value is multiplied by the rank of the creature.
 If you can't pay for the Vim cost of a talent you may instead pay with life at a rate of 200% of the Vim cost.
 ]]
 
