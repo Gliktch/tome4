@@ -183,8 +183,10 @@ newTalent{
 	getLife = function(self, t) return self:callTalent(self.T_MITOSIS, "getMaxHP")*t.getModHP(self, t) end,
 	getWepDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.7, 1.8) end,
 	on_pre_use = function(self, t)
-		local _, nb = checkMaxSummon(self, true, nil, "bloated_ooze")
-		return nb < t.getMax(self, t)
+		local check, nb = checkMaxSummon(self, true)
+		local max = self:callTalent(self.T_MITOSIS, "getMax") or 0
+		if check or max == 0 then return false end
+		return nb < max
 	end,
 	action = function(self, t)
 		local ot = self:getTalentFromId(self.T_MITOSIS)
