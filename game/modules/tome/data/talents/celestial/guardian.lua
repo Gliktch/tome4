@@ -232,7 +232,7 @@ newTalent{
 
 newTalent{
 	name = "Avatar Distant Sun Unlock Checker", short_name = "AVATAR_DISTANT_SUN_UNLOCK_CHECKER", image = "talents/avatar_of_a_distant_sun.png",
-	type = {"celestial/other",1},
+	type = {"base/class",1},
 	mode = "passive",
 	hide = "always",
 	no_unlearn_last = true,
