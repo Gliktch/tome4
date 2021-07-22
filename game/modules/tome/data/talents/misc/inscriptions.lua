@@ -751,11 +751,11 @@ newInscription{
 	end,
 	getThreshold = function(self, t) 
 		local data = self:getInscriptionData(t.short_name)
-		return math.round(data.threshold)
+		return math.ceil(data.threshold)
 	end,
 	getBlocks = function(self, t) 
 		local data = self:getInscriptionData(t.short_name)
-		return math.round(data.blocks + data.inc_stat)
+		return math.ceil(data.blocks + data.inc_stat)
 	end,
 	action = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
