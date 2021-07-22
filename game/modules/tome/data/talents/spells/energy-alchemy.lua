@@ -152,7 +152,7 @@ newTalent{
 	target = function(self, t) return{type="hit", range=self:getTalentRange(t), talent=t, friendlyblock=false, friendlyfire=false} end,
 	callbackOnActBase = function(self, t)
 		local tgts = {}
-		local grids = core.fov.circle_grids(self.x, self.y, 6, true)
+		local grids = core.fov.circle_grids(self.x, self.y, self:getTalentRange(t), true)
 		for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 			local a = game.level.map(x, y, Map.ACTOR)
 			if a and self:reactionToward(a) < 0 then
