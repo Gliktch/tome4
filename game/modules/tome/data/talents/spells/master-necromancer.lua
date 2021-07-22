@@ -49,7 +49,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Your mastery of necromancy becomes so total that an aura of undeath radiates around you in radius %d.
 		Any undead minion standing inside of it is protected, increasing all their resistances by %d%%.
-		In addition when you create new minions they inherit %d%% of your spellpower (applied to any powers), spell crit chance (applied to any crit chances), saves, resists and damage increases (applied to all elements).
+		In addition when you create new minions they inherit %d%% of your spellpower (applied to any powers), spell crit chance (applied to any crit chances), saves, resists, and highest damage increase (applied to all elements).
 		]]):tformat(self:getTalentRadius(t), t:_getResists(self), t:_getInherit(self))
 	end,
 }
