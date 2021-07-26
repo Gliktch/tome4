@@ -1883,8 +1883,12 @@ newTalent{
 					local who = game.level.map(px, py, engine.Map.ACTOR)
 					if who == self.summoner then return end
 					if who then
-						who:setEffect(who.EFF_SILENCED, self.dur, {apply_power=self.check_hit})
 						
+						if who:canBe("silence") then
+        					who:setEffect(who.EFF_SILENCED, self.dur, {apply_power=self.check_hit})
+        				else
+        					game.logSeen(who, "%s resists the silence!", who:getName():capitalize())
+        				end
 						local effs = {}
 
 						-- Go through all spell effects
