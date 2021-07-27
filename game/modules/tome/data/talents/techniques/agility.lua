@@ -93,7 +93,13 @@ newTalent{
 	range = 1,
 	is_special_melee = true,
 	on_pre_use = function(self, t, silent)
-		return preUse(self, t, silent)
+		if not self:hasShield() then
+		    if not silent then
+			    game.logPlayer(self, "You require a shield to use this talent.")
+			end
+			return false
+		end
+		return true
 	end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1.5, 3.0) end,
 	getDist = function(self, t) return math.floor(self:combatTalentScale(t, 3, 5)) end,
