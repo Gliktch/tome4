@@ -7630,6 +7630,7 @@ function _M:on_set_temporary_effect(eff_id, e, p)
 	p.getName = e.getName
 	p.resolveSource = e.resolveSource
 
+	local old = self.tmp[eff_id]
 	local olddur = old and not e.on_merge and old.dur or 0 -- let mergable effects handle their own duration
 	-- Adjust duration based on saves
 	if p.apply_power and (save_for_effects[e.type] or p.apply_save) then
