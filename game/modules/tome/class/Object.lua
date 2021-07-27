@@ -42,7 +42,7 @@ _M.projectile_class = "mod.class.Projectile"
 _M.logCombat = Combat.logCombat
 
 -- ego fields that are appended as a list when the ego is applied (by Zone:applyEgo)
-_M._special_ego_rules = {special_on_hit=true, special_on_crit=true, special_on_kill=true, charm_on_use=true, on_block=true}
+_M._special_ego_rules = {special_on_hit=true, special_on_crit=true, special_on_kill=true, charm_on_use=true, on_block=true, talent_on_spell=true, talent_on_wild_gift=true, talent_on_mind=true, talent_on_hit=true}
 
 _M.requirement_flags_names = {
 	allow_wear_massive = _t"Massive armour training",
