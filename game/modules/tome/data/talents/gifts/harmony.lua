@@ -35,7 +35,7 @@ newTalent{
 		end
 		return false
 	end,
-	is_heal = true,
+	is_heal = true, ignore_is_heal_test = true,
 	getdur = function(self,t) return math.floor(self:combatTalentLimit(t, 30, 6, 14)) end, -- limit to <30
 	action = function(self, t)
 		local nb = 0
