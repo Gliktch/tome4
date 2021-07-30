@@ -28,13 +28,7 @@ newTalent{
 		if self ~= game:getPlayer(true) then return end
 		if not game.state.birth.supports_lich_transform then return end
 		if self:getTalentLevelRaw(t) < 5 then return end
-		if not self:callTalent(self.T_LICH, "canGrantQuest") then return end
 		self:grantQuest(game.state.birth.supports_lich_transform)
-		if self:isQuestStatus("grave-necromancer", engine.Quest.DONE) then
-			game:onTickEnd(function()
-		        self:setQuestStatus("lichform", engine.Quest.COMPLETED, "heart")
-			end)
-		end
 	end,
 	getLifeBonus = function(self, t)
 		return self:combatTalentStatDamage(t, "con", 30, 1000)
