@@ -50,9 +50,9 @@ end
 
 on_grant = function(self, who)
 	if who:isQuestStatus("grave-necromancer", engine.Quest.DONE) then
-        game:onTickEnd(function()
-            who:setQuestStatus(self.id, engine.Quest.COMPLETED, "heart")
-        end)
+            game:onTickEnd(function()
+                who:setQuestStatus(self.id, engine.Quest.COMPLETED, "heart")
+            end)
 	end
 end
 
