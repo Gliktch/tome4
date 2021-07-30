@@ -49,6 +49,12 @@ function _M:loadTileset(file)
 	for k, e in pairs(ts) do self.tilesets[k] = e end
 end
 
+function _M:loadTilesetsMatch(dir, pattern)
+	for f in fs.iterate(dir, function(f) return f:find(pattern, 1, 1) and f:find("%.lua$") end) do
+		self:loadTileset(dir..f)
+	end
+end
+
 function _M:init(w, h, fontname, fontsize, texture, allow_backcolor)
 	self.allow_backcolor = allow_backcolor
 	self.texture = texture
