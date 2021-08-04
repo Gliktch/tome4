@@ -2074,6 +2074,14 @@ function _M:applyRandomClass(b, data, instant)
 			}
 			if b.combat_old.sound then b.combat.sound = b.combat_old.sound end
 			if b.combat_old.sound_miss then b.combat.sound_miss = b.combat_old.sound_miss end
+			if b._levelup_info then
+				for i, v in ipairs(b._levelup_info) do
+					if v.kchain[1] == "combat" and v.k == "dam" then
+						table.remove(b._levelup_info, i)
+						break
+					end
+				end
+			end
 		end
 
 		print("[applyRandomClass]", b.uid, b.name, "Adding class", class.name, mclass.name)
@@ -2599,6 +2607,14 @@ function _M:applyRandomClassNew(b, data, instant)
 			}
 			if b.combat_old.sound then b.combat.sound = b.combat_old.sound end
 			if b.combat_old.sound_miss then b.combat.sound_miss = b.combat_old.sound_miss end
+			if b._levelup_info then
+				for i, v in ipairs(b._levelup_info) do
+					if v.kchain[1] == "combat" and v.k == "dam" then
+						table.remove(b._levelup_info, i)
+						break
+					end
+				end
+			end
 		end
 
 		print("[applyRandomClassNew]", b.uid, b.name, "Adding class", class.name, mclass.name, "level_rate", level_rate)
