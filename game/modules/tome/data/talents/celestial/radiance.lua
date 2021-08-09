@@ -27,7 +27,7 @@ newTalent{
 	mode = "passive",
 	require = divi_req_high1,
 	points = 5,
-	radius = function(self, t) return self:combatTalentLimit(t, 14, 4, 10) end,
+	radius = function(self, t) return math.floor(self:combatTalentLimit(t, 14, 4, 10)) end,
 	getResist = function(self, t) return self:combatTalentLimit(t, 100, 25, 67) end,
 	getLightResist = function(self, t) return self:combatTalentScale(t, 15, 35) end,
 	getAffinity = function(self, t) return self:combatTalentLimit(t, 50, 15, 33) end,
