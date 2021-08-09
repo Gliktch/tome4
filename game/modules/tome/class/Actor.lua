@@ -1390,29 +1390,34 @@ function _M:move(x, y, force)
 			end
 		end
 
+		local can_move = true
 		-- Sleeping?  Do nothing..
 		if not force and self:attr("sleep") and not self:attr("lucid_dreamer") then
 			game.logPlayer(self, "You are asleep and unable to move!")
-		-- Encased in ice, attack the ice
+			can_move = false
+			-- Encased in ice, attack the ice
 		elseif not force and self:attr("encased_in_ice") then
 			self:attackTarget(self)
 			moved = true
-		-- Should we prob travel through walls ?
+			can_move = false
+			-- Should we prob travel through walls ?
 		elseif not force and self:attr("prob_travel") and not self:attr("prob_travel_deny") and game.level.map:checkEntity(x, y, Map.TERRAIN, "block_move", self) then
-			moved = self:probabilityTravel(x, y, self:attr("prob_travel"))
-			if self:attr("prob_travel_penalty") then
+			moved = self:probabilityTravel(x, y, self:attr("prob_travel")) and (self.x ~= ox or self.y ~= oy)
+			if moved and self:attr("prob_travel_penalty") then
 				local d = core.fov.distance(ox, oy, self.x, self.y)
 				self:setEffect(self.EFF_PROB_TRAVEL_UNSTABLE, d * self:attr("prob_travel_penalty"), {})
 			end
+			can_move = not moved
+		end
 		-- Never move but tries to attack ? ok
-		elseif not force and self:attr("never_move") then
+		if not moved and can_move and not force and self:attr("never_move") then
 			-- A bit weird, but this simple asks the collision code to detect an attack
 			if not game.level.map:checkAllEntities(x, y, "block_move", self, true) then
 				game.logPlayer(self, "You are unable to move!")
 			end
-		else
-			moved = engine.Actor.move(self, x, y, force)
+			can_move = false
 		end
+		moved = moved or (can_move and engine.Actor.move(self, x, y, force))
 		if not force and moved and (self.x ~= ox or self.y ~= oy) and not self.did_energy then
 			local eff = self:hasEffect(self.EFF_CURSE_OF_SHROUDS)
 			if eff then eff.moved = true end
@@ -1475,7 +1480,7 @@ function _M:move(x, y, force)
 		t.curseFloor(self, t, x, y)
 	end
 
-	if moved and self:isTalentActive(self.T_BODY_OF_STONE) and not self:attr("preserve_body_of_stone") then
+	if moved and ox and oy and (ox ~= self.x or oy ~= self.y) and self:isTalentActive(self.T_BODY_OF_STONE) and not self:attr("preserve_body_of_stone") then
 		self:forceUseTalent(self.T_BODY_OF_STONE, {ignore_energy=true})
 	end
 
