@@ -215,7 +215,7 @@ newTalent{
 	getTargetCount = function(self, t) return math.floor(self:getTalentLevel(t)) end,
 	callbackOnActBase = function(self, t)
 		local tgts = {}
-		local grids = core.fov.circle_grids(self.x, self.y, 6, true)
+		local grids = core.fov.circle_grids(self.x, self.y, self:getTalentRange(t), true)
 		for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 			local a = game.level.map(x, y, Map.ACTOR)
 			if a and self:reactionToward(a) < 0 then
@@ -250,9 +250,9 @@ newTalent{
 	info = function(self, t)
 		local targetcount = t.getTargetCount(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Conjures a furious, raging lightning storm with a radius of 6 that follows you as long as this spell is active.
+		return ([[Conjures a furious, raging lightning storm with a radius of %d that follows you as long as this spell is active.
 		Each turn, a random lightning bolt will hit up to %d of your foes for 1.00 to %0.2f damage (%0.2f average) in a radius of 1.
 		The damage will increase with your Spellpower.]]):
-		tformat(targetcount, damDesc(self, DamageType.LIGHTNING, damage), damDesc(self, DamageType.LIGHTNING, damage / 2))
+		tformat(self:getTalentRange(t), targetcount, damDesc(self, DamageType.LIGHTNING, damage), damDesc(self, DamageType.LIGHTNING, damage / 2))
 	end,
 }
