@@ -103,7 +103,7 @@ newTalent{
 	range = 20,
 	tactical = { HEAL = 2, CLOSEIN = 2 },
 	action = function(self, t)
-		local tg = {type="hit", range=self:getTalentRange(t)}
+		local tg = {type="hit", range=self:getTalentRange(t), nowarning=true}
 		local x, y, target = self:getTarget(tg)
 		if not x or not y or not target then return nil end
 		if not target:hasEffect(target.EFF_STONE_VINE) then return nil end
