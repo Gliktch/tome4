@@ -843,9 +843,10 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 		h = h + self.font_h
 
 		local nb_inscriptions = 0
-		for i = 1, player.max_inscriptions do if player.inscriptions[i] then nb_inscriptions = nb_inscriptions + 1 end end
-		self:mouseTooltip(self.TOOLTIP_INSCRIPTIONS, s:drawColorStringBlended(self.font, ("#AQUAMARINE#Inscriptions (%d/%d)"):tformat(nb_inscriptions, player.max_inscriptions), w, h, 255, 255, 255, true)) h = h + self.font_h
-		for i = 1, player.max_inscriptions do if player.inscriptions[i] then
+		local max_inscriptions = (player == game.player) and player.max_inscriptions or 6
+		for i = 1, max_inscriptions do if player.inscriptions[i] then nb_inscriptions = nb_inscriptions + 1 end end
+		self:mouseTooltip(self.TOOLTIP_INSCRIPTIONS, s:drawColorStringBlended(self.font, ("#AQUAMARINE#Inscriptions (%d/%d)"):tformat(nb_inscriptions, math.max(nb_inscriptions, player.max_inscriptions)), w, h, 255, 255, 255, true)) h = h + self.font_h
+		for i = 1, max_inscriptions do if player.inscriptions[i] then
 			local t = player:getTalentFromId("T_"..player.inscriptions[i])
 			local desc = player:getTalentFullDescription(t)
 			self:mouseTooltip("#GOLD##{bold}#"..t.name.."#{normal}##WHITE#\n"..tostring(desc), s:drawColorStringBlended(self.font, ("#LIGHT_GREEN#%s"):format(t.name), w, h, 255, 255, 255, true)) h = h + self.font_h
