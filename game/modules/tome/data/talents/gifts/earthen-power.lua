@@ -37,6 +37,14 @@ newTalent{
 			self:combatTalentLimit(t, 0.5, 0.075, 0.2),
 			self:combatTalentScale(t, 5, 9, "log")
 	end,
+	callbackPriorities = { callbackOnMeleeHitProcs = -3, },
+	callbackOnMeleeHitProcs = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		if hitted and not self.dead then
+			local m, mm, e, em = t.getValues(self, t)
+			self:incMana(math.min(dam * m, mm))
+			self:incEquilibrium(-math.min(dam * e, em))
+		end
+	end,
 	getDamage = function(self, t) return 30 end,
 	getPercentInc = function(self, t) return math.sqrt(self:getTalentLevel(t) / 5) / 1.5 end,
 	info = function(self, t)
@@ -80,6 +88,17 @@ newTalent{
 	sustain_equilibrium = 15,
 	cooldown = 30,
 	tactical = { BUFF = 2 },
+	callbackPriorities={callbackOnMeleeHitProcs = 1 },
+	callbackOnMeleeHitProcs = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		if self:isTalentActive(self.T_SHARDS) and hitted and not self.dead and not self.turn_procs.shield_shards then
+			local t = self:getTalentFromId(self.T_SHARDS)
+			self.turn_procs.shield_shards = true
+			self.logCombat(self, target, "#Source# counter attacks #Target# with %s shield shards!", string.his_her(self))
+			self:attr("ignore_counterstrike", 1)
+			self:attackTarget(target, DamageType.NATURE, self:combatTalentWeaponDamage(t, 0.4, 1), true)
+			self:attr("ignore_counterstrike", -1)
+		end
+	end,
 	activate = function(self, t)
 		return {}
 	end,

@@ -1625,6 +1625,14 @@ newEffect{
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("combat_def", eff.defense)
 	end,
+	callbackPriorities = { callbackOnMeleeHitProcs = -2, },
+	callbackOnMeleeHitProcs = function(self, eff, target, hitted, crit, weapon, damtype, mult, dam, missed)
+		if not hitted and not self.dead and missed and not self:attr("stunned") and not self:attr("dazed") and not self:attr("stoned") then
+			local t = self:getTalentFromId(self.T_SET_UP)
+			local power = t.getPower(self, t)
+			target:setEffect(target.EFF_SET_UP, 2, {src = self, power=power})
+		end
+	end,
 }
 
 newEffect{

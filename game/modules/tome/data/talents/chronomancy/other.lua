@@ -806,6 +806,17 @@ newTalent{
 			self.carbon_armor = self.carbon_armor + 1
 		end
 	end,
+	callbackOnMeleeHitProcs = function(self, t, target, hitted)
+		-- Ablative armor
+		if hitted and not self.dead and self:attr("carbon_spikes") then
+			if self.carbon_armor >= 1 then
+				self.carbon_armor = self.carbon_armor - 1
+			else
+				-- Deactivate without loosing energy
+				self:forceUseTalent(self.T_CARBON_SPIKES, {ignore_energy=true})
+			end
+		end
+	end,
 	do_carbonLoss = function(self, t)
 		if self.carbon_armor >= 1 then
 			self.carbon_armor = self.carbon_armor - 1

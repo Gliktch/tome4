@@ -211,6 +211,13 @@ newTalent{
 			DamageType:get(DamageType.TEMPORAL).projector(self, target.x, target.y, DamageType.TEMPORAL, dam)
 		end
 	end,
+	callbackPriorities = { callbackOnMeleeProject = -25 },
+	callbackOnMeleeProject = function(self, t, target, hitted)
+		-- Temporal Cast
+		if hitted then
+			t.doWeaponFolding(self, t, target)
+		end
+	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local chance = t.getChance(self, t)
