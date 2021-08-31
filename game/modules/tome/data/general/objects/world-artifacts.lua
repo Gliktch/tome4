@@ -894,9 +894,9 @@ newEntity{ base = "BASE_KNIFE", define_as = "ART_PAIR_MOON",
 			damage = function(self, who)
 				return self.set_complete and who:getCun()*2 or 70
 			end,
-			fct=function(self, who, target, dam, special)
+			fct=function(combat, who, target, dam, special)
 				local tg = {type="hit", range=1, radius=0, selffire=false}
-				local damage = special.damage(self, who)
+				local damage = special.damage(combat.self, who)
 				who:project(tg, target.x, target.y, engine.DamageType.DARKNESS, damage)
 		end},
 	},
@@ -949,9 +949,9 @@ newEntity{ base = "BASE_KNIFE", define_as = "ART_PAIR_STAR",
 			damage = function(self, who)
 				return self.set_complete and who:getDex()*2 or 70
 			end,
-			fct=function(self, who, target, dam, special)
+			fct=function(combat, who, target, dam, special)
 				local tg = {type="hit", range=1, radius=0, selffire=false}
-				local damage = special.damage(self, who)
+				local damage = special.damage(combat.self, who)
 				who:project(tg, target.x, target.y, engine.DamageType.LIGHT, damage)
 		end},
 	},
