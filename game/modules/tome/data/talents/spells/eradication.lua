@@ -33,7 +33,7 @@ newTalent{
 	getResist = function(self, t) return math.floor(self:combatTalentScale(t, 5, 15)) end,
 	getCooldown = function(self, t) return math.floor(self:combatTalentScale(t, 10, 30)) end,
 	getPower = function(self, t) return math.floor(self:combatTalentScale(t, 10, 55)) end,
-	getResurrect = function(self, t) return math.floor(self:combatTalentScale(t, 1, 9)) end,
+	getResurrect = function(self, t) return 100 end,
 	callbackOnSummonDeath = function(self, t, summon, src, death_note)
 		if summon.summoner ~= self or not summon.necrotic_minion or summon.boneyard_resurrected or summon.no_boneyard_resurrect then return end
 		local ok = false
@@ -43,7 +43,9 @@ newTalent{
 		if not ok then return end
 
 		if summon.summon_time_max then summon.summon_time = math.ceil(summon.summon_time_max * 0.66) end
+		summon.life = summon.max_life * t:_getResurrect(self) / 100
 		summon.boneyard_resurrected = true
+		summon:takeHit(0)
 		game.logSeen(summon, "#GREY#%s is resurrected by the boneyard!", summon:getName():capitalize())
 		return true
 	end,
@@ -64,7 +66,7 @@ newTalent{
 		return ([[Spawn a boneyard of radius %d around you that lasts for 8 turns.
 		Any foes inside gain the brittle bones effect, reducing their physical resistance by %d%% and making all cooldowns %d%% longer.
 		When one of your minions stands in the boneyard they gain %d more physical and spell power.
-		At level 5 when a minion dies inside the boneyard it has a %d%% chance to resurrect instantly. This effect may only happen once per minion.
+		When a minion dies inside the boneyard, it resurrects instantly with %d%% of its maximum health. This effect may only happen once per minion.
 		]]):tformat(self:getTalentRadius(t), t:_getResist(self), t:_getCooldown(self), t:_getPower(self), t:_getResurrect(self))
 	end,
 }

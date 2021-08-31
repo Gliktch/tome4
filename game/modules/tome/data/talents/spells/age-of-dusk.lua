@@ -113,8 +113,8 @@ newTalent{
 		When this happens the darkness damage of the plague is a critical hit and all Dire Plagues in radius %d around it (including itself) have their durations increased by %d turns.
 		The duration increase may happen only once per turn.
 		If Crepuscule is currently active it fires an additional free beam at the target.
-		In addition the chance to rip a soul by Dire Plague increases by %d%%.
-		]]):tformat(self:getTalentRadius(t), t:_getDur(self), t:_getChance(self))
+		In addition the chance to rip a soul by Dire Plague increases by %d%%, to %d%%.
+		]]):tformat(self:getTalentRadius(t), t:_getDur(self), t:_getChance(self), self:callTalent(self.T_DIRE_PLAGUE, "getChance") * (1+t:_getChance(self)/100))
 	end,
 }
 
