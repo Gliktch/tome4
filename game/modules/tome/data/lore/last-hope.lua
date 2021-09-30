@@ -111,7 +111,7 @@ newLore{
 	category = "last hope",
 	name = _t"All Hail King Toknor the Brave!",
 	always_pop = true,
-	lore = _t[[Born the 23th Allure, Year of Pyre 682
+	lore = _t[[Born the 7th Allure, Year of Pyre 682
 Died the 2th Summertide, Year of Ascendancy 108
 
 King of Kings, Founder of Last Hope, Purger of Orcs, Father of the Age of Ascendancy. Great is the memory of the warrior who fought for peace, and won.
