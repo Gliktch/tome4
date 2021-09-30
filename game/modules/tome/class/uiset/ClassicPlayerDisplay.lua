@@ -308,9 +308,23 @@ function _M:display()
 	self:mouseTooltip(self.TOOLTIP_LIFE, self:makeTextureBar(_t"#c00000#Life    :", nil, player.life, player.max_life, player.life_regen * util.bound((player.healing_factor or 1), 0, 2.5), x, h, 255, 255, 255, colors.DARK_RED, colors.VERY_DARK_RED)) h = h + self.font_h
 
 	local shield, max_shield = 0, 0
-	if player:attr("time_shield") then shield = shield + player.time_shield_absorb max_shield = max_shield + player.time_shield_absorb_max end
-	if player:attr("damage_shield") then shield = shield + player.damage_shield_absorb max_shield = max_shield + player.damage_shield_absorb_max end
-	if player:attr("displacement_shield") then shield = shield + player.displacement_shield max_shield = max_shield + player.displacement_shield_max end
+	for eff_id, p in pairs(player.tmp) do
+		if player.tempeffect_def[eff_id].shield_bar then
+			local eshield, emax_shield = player.tempeffect_def[eff_id].shield_bar(player, p)
+			shield = shield + eshield
+			max_shield = max_shield + emax_shield
+		end
+	end
+	
+	for tid, act in pairs(player.sustain_talents) do
+		local t = player:getTalentFromId(tid)
+		if t and t.shield_bar then
+			local eshield, emax_shield = t.shield_bar(player, t, act)
+			shield = shield + eshield
+			max_shield = max_shield + emax_shield
+		end
+	end
+	
 	if max_shield > 0 then
 		self:mouseTooltip(self.TOOLTIP_DAMAGE_SHIELD, self:makeTextureBar(_t"#WHITE#Shield:", nil, shield, max_shield, nil, x, h, 255, 255, 255, {r=colors.GREY.r / 3, g=colors.GREY.g / 3, b=colors.GREY.b / 3}, {r=colors.GREY.r / 6, g=colors.GREY.g / 6, b=colors.GREY.b / 6})) h = h + self.font_h
 	end

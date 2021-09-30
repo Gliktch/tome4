@@ -135,6 +135,16 @@ newEffect{
 	parameters = {},
 	on_gain = function(self, err) return _t"#Target# turns to #GREY#STONE#LAST#!", _t"+Stoned" end,
 	on_lose = function(self, err) return _t"#Target# is no longer a #GREY#statue#LAST#.", _t"-Stoned" end,
+	callbackPriorities = {callbackOnHit = 200},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		if cb.value >= self.max_life * 0.3 then
+		-- Make the damage high enough to kill it
+			cb.value = self.max_life + 1
+			game.logSeen(self, "%s shatters into pieces!", self:getName():capitalize())
+		end
+		return cb
+	end,
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("stoned", 1)
 		eff.poison = self:addTemporaryValue("poison_immune", 1)
@@ -708,15 +718,18 @@ newEffect{
 newEffect{
 	name = "DISPLACEMENT_SHIELD", image = "talents/displacement_shield.png",
 	desc = _t"Displacement Shield",
-	long_desc = function(self, eff) return ("The target is surrounded by a space distortion that randomly sends (%d%% chance) incoming damage to another target (%s). Absorbs %d/%d damage before it crumbles."):tformat(eff.chance, eff.target and eff.target:getName() or "unknown", self.displacement_shield, eff.power) end,
+	long_desc = function(self, eff) return ("The target is surrounded by a space distortion that randomly sends (%d%% chance) incoming damage to another target (%s). Absorbs %d/%d damage before it crumbles."):tformat(eff.chance, eff.target and eff.target:getName() or "unknown", eff.power, eff.power_max) end,
 	type = "magical",
 	subtype = { teleport=true, shield=true },
 	status = "beneficial",
-	parameters = { power=10, target=nil, chance=25 },
+	parameters = { power=10, power_max=10, target=nil, chance=25 },
+	charges = function(self, eff) return math.ceil(eff.power) end,
+	shield_bar = function(self, eff) return eff.power, eff.power_max end,
 	on_gain = function(self, err) return _t"The very fabric of space alters around #target#.", _t"+Displacement Shield" end,
 	on_lose = function(self, err) return _t"The fabric of space around #target# stabilizes to normal.", _t"-Displacement Shield" end,
 	on_aegis = function(self, eff, aegis)
-		self.displacement_shield = self.displacement_shield + eff.power * aegis / 100
+		eff.power = eff.power * (1 + aegis / 100)
+		eff.power_max = eff.power_max * (1 + aegis / 100)
 		if core.shader.active(4) then
 			self:removeParticles(eff.particle)
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.3, img="runicshield"}, {type="runicshield", shieldIntensity=0.14, ellipsoidalFactor=1.2, time_factor=4000, bubbleColor={0.5, 1, 0.2, 1.0}, auraColor={0.4, 1, 0.2, 1}}))
@@ -730,14 +743,31 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
+	callbackPriorities={callbackOnHit = -270}, --Displacement Shield, Time Shield, then Damage Shield.
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 or not eff.target then return cb end
+		if rng.percent(eff.chance) then
+			game:delayedLogMessage(self, src,  "displacement_shield"..(eff.target.uid or ""), "#CRIMSON##Source# teleports some damage to #Target#!")
+			local displaced = math.min(value, eff.power)
+			game:delayedLogDamage(src, self, 0, ("#CRIMSON#(%d teleported)#LAST#"):tformat(displaced), false)
+			eff.target:takeHit(displaced, src)
+			game:delayedLogDamage(src, eff.target, displaced, ("#CRIMSON#%d teleported#LAST#"):tformat(displaced), false)
+			if eff.power and displaced < eff.power then
+				eff.power = eff.power - displaced
+				value = 0
+			else
+				self:removeEffect(self.EFF_DISPLACEMENT_SHIELD)
+				value = value - displaced
+			end
+		end
+		cb.value = value
+		return cb
+	end,
 	activate = function(self, eff)
 		eff.power = self:getShieldAmount(eff.power)
 		eff.dur = self:getShieldDuration(eff.dur)
-		self.displacement_shield = eff.power
-		self.displacement_shield_max = eff.power
-		self.displacement_shield_chance = eff.chance
-		--- Warning there can be only one time shield active at once for an actor
-		self.displacement_shield_target = eff.target
+		eff.power_max = eff.power
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {img="shield6"}, {type="shield", shieldIntensity=0.08, horizontalScrollingSpeed=-1.2, time_factor=6000, color={0.5, 1, 0.2}}))
 		else
@@ -752,22 +782,19 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 		self:removeParticles(eff.particle)
-		self.displacement_shield = nil
-		self.displacement_shield_max = nil
-		self.displacement_shield_chance = nil
-		self.displacement_shield_target = nil
 	end,
 }
 
 newEffect{
 	name = "DAMAGE_SHIELD", image = "talents/barrier.png",
 	desc = _t"Damage Shield",
-	long_desc = function(self, eff) return ("The target is surrounded by a magical shield, absorbing %d/%d damage %s before it crumbles."):tformat(self.damage_shield_absorb, eff.power, ((self.damage_shield_reflect and self.damage_shield_reflect > 0) and ("(reflecting %d%% back to the attacker)"):tformat(self.damage_shield_reflect) or "")) end,
+	long_desc = function(self, eff) return ("The target is surrounded by a magical shield, absorbing %d/%d damage %s before it crumbles."):tformat(eff.power, eff.power_max, ((eff.reflect and eff.reflect > 0) and ("(reflecting %d%% back to the attacker)"):tformat(eff.reflect) or "")) end,
 	type = "magical",
 	subtype = { arcane=true, shield=true },
 	status = "beneficial",
-	parameters = { power=100 },
-	charges = function(self, eff) return math.ceil(self.damage_shield_absorb) end,
+	parameters = { power=100, power_max=100 },
+	charges = function(self, eff) return math.ceil(eff.power) end,
+	shield_bar = function(self, eff) return eff.power, eff.power_max end,
 	on_gain = function(self, err) return _t"A shield forms around #target#.", _t"+Shield" end,
 	on_lose = function(self, err) return _t"The shield around #target# crumbles.", _t"-Shield" end,
 	on_merge = function(self, old_eff, new_eff)
@@ -776,25 +803,20 @@ newEffect{
 		new_eff_adj.dur = self:getShieldDuration(new_eff.dur)
 		-- If the new shield would be stronger than the existing one, just replace it
 		if old_eff.dur > new_eff_adj.dur then return old_eff end
-		if math.max(self.damage_shield_absorb, self.damage_shield_absorb_max) <= new_eff_adj.power then
+		if math.max(eff.power, eff.power_max) <= new_eff_adj.power then
 			self:removeEffect(self.EFF_DAMAGE_SHIELD)
 			self:setEffect(self.EFF_DAMAGE_SHIELD, new_eff.dur, new_eff)
 			return self:hasEffect(self.EFF_DAMAGE_SHIELD)
 		end
-		if self.damage_shield_absorb <= new_eff_adj.power then
+		if eff.power <= new_eff_adj.power then
 			-- Don't update a reflection shield with a normal shield
 			if old_eff.reflect and not new_eff.reflect then
 				return old_eff
 			elseif old_eff.reflect and new_eff.reflect and math.min(old_eff.reflect, new_eff.reflect) > 0 then
 				old_eff.reflect = math.min(old_eff.reflect, new_eff.reflect)
-				if self:attr("damage_shield_reflect") then
-					self:attr("damage_shield_reflect", old_eff.reflect, true)
-				else
-					old_eff.refid = self:addTemporaryValue("damage_shield_reflect", old_eff.reflect)
-				end
 			end
 			-- Otherwise, keep the existing shield for use with Aegis, but update absorb value and maybe duration
-			self.damage_shield_absorb = new_eff_adj.power -- Use adjusted values here since we bypass setEffect()
+			--self.damage_shield_absorb = new_eff_adj.power -- Use adjusted values here since we bypass setEffect()
 			if not old_eff.dur_extended or old_eff.dur_extended <= 20 then
 				old_eff.dur = new_eff_adj.dur
 				if not old_eff.dur_extended then
@@ -807,7 +829,8 @@ newEffect{
 		return old_eff
 	end,
 	on_aegis = function(self, eff, aegis)
-		self.damage_shield_absorb = self.damage_shield_absorb + eff.power * aegis / 100
+		eff.power = eff.power * (1 + aegis / 100)
+		eff.power_max = eff.power_max * (1 + aegis / 100)
 		if core.shader.active(4) then
 			self:removeParticles(eff.particle)
 			local bc = {0.4, 0.7, 1.0, 1.0}
@@ -827,15 +850,63 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
+	callbackPriorities={callbackOnHit = -280}, 
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 then return cb end
+		-- Phased attack?
+		local adjusted_value = value
+		if src and src.attr and src:attr("damage_shield_penetrate") then
+			adjusted_value = value * (1 - (util.bound(src.damage_shield_penetrate, 0, 100) / 100))
+		end
+		-- Shield Reflect?
+		local reflection, reflect_damage = 0
+		if eff.reflect then
+			reflection = eff.reflect/100
+		end
+		-- Absorb damage into the shield
+		eff.power = eff.power or 0
+		if adjusted_value <= eff.power then
+			eff.power = eff.power - adjusted_value
+			if reflection > 0 then reflect_damage = adjusted_value end
+			value = value - adjusted_value
+		else
+			if reflection > 0 then reflect_damage = eff.power end
+			value = adjusted_value - eff.power
+			adjusted_value = eff.power
+			eff.power = 0
+		end
+		game:delayedLogDamage(src, self, 0, ("#SLATE#(%d absorbed)#LAST#"):tformat(adjusted_value), false)
+		if reflection and reflect_damage and reflection > 0 and reflect_damage > 0 and src.y and src.x and not src.dead and not self.__damage_shield_reflect_running then
+			local a = game.level.map(src.x, src.y, Map.ACTOR)
+			if a and self:reactionToward(a) < 0 then
+				local reflected = reflect_damage * reflection
+				self.__damage_shield_reflect_running = true
+				a:takeHit(reflected, self)
+				self.__damage_shield_reflect_running = nil
+				game:delayedLogDamage(self, src, reflected, ("#SLATE#%d reflected#LAST#"):tformat(reflected), false)
+				game:delayedLogMessage(self, src, "reflection" ,"#CRIMSON##Source# reflects damage back to #Target#!#LAST#")
+			end
+		end
+
+		if adjusted_value > 0 and eff and eff.on_absorb then
+			eff.on_absorb(self, eff, src, adjusted_value)
+		end
+
+		if not eff.power or eff.power <= 0 then
+			game.logPlayer(self, "Your shield crumbles under the damage!")
+			self:removeEffect(self.EFF_DAMAGE_SHIELD)
+			self:removeEffect(self.EFF_PSI_DAMAGE_SHIELD)
+		end
+		
+		cb.value = value
+		return cb
+	end,
 	activate = function(self, eff)
 		self:removeEffect(self.EFF_PSI_DAMAGE_SHIELD)
 		eff.power = self:getShieldAmount(eff.power)
+		eff.power_max = eff.power
 		eff.dur = self:getShieldDuration(eff.dur)
-		eff.tmpid = self:addTemporaryValue("damage_shield", eff.power)
-		if eff.reflect then eff.refid = self:addTemporaryValue("damage_shield_reflect", eff.reflect) end
-		--- Warning there can be only one time shield active at once for an actor
-		self.damage_shield_absorb = eff.power
-		self.damage_shield_absorb_max = eff.power
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {img=eff.image or "shield7"}, {type="shield", shieldIntensity=eff.shield_intensity or 0.2, color=eff.color or {0.4, 0.7, 1.0}}))
 		else
@@ -844,12 +915,9 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 		self:removeParticles(eff.particle)
-		self:removeTemporaryValue("damage_shield", eff.tmpid)
-		if eff.refid then self:removeTemporaryValue("damage_shield_reflect", eff.refid) end
-		self.damage_shield_absorb = nil
-		self.damage_shield_absorb_max = nil
 	end,
 }
+
 
 newEffect{
 	name = "MARTYRDOM", image = "talents/martyrdom.png",
@@ -4251,18 +4319,21 @@ newEffect{
 	desc = _t"Eldritch Stone Shield",
 	long_desc = function(self, eff)
 		return ("The target is surrounded by a stone shield absorbing %d/%d damage.  When the shield is removed, it will explode for up to %d (currently %d) Arcane damage in a radius %d."):
-		tformat(eff.power, eff.max, eff.maxdam, math.min(eff.maxdam, self:getEquilibrium() - self:getMinEquilibrium()), eff.radius)
+		tformat(eff.power, eff.power_max, eff.maxdam, math.min(eff.maxdam, self:getEquilibrium() - self:getMinEquilibrium()), eff.radius)
 	end,
 	type = "magical",
 	subtype = { earth=true, shield=true },
 	status = "beneficial",
-	parameters = { power=100, radius=3 , maxdam=500},
+	parameters = { power=100, power_max = 100, radius=3 , maxdam=500},
+	charges = function(self, eff) return math.ceil(eff.power) end,
+	shield_bar = function(self, eff) return eff.power, eff.power_max end,
 	on_gain = function(self, err) return _t"#Target# is encased in a stone shield." end,
 	on_lose = function(self, err)
 		return ("The stone shield around #Target# %s"):tformat(self:getEquilibrium() - self:getMinEquilibrium() > 0 and _t"explodes!" or _t"crumbles.")
 	end,
 	on_aegis = function(self, eff, aegis)
-		eff.power = eff.power + eff.max * aegis / 100
+		eff.power = eff.power + eff.power_max * aegis / 100
+		eff.power_max = eff.power_max + eff.power_max * aegis / 100
 		if core.shader.active(4) then
 			self:removeParticles(eff.particle)
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.3, img="runicshield_stonewarden"}, {type="runicshield", shieldIntensity=0.2, oscillationSpeed=4, ellipsoidalFactor=1.3, time_factor=5000, auraColor={0x61/255, 0xff/255, 0x6a/255, 1}}))
@@ -4276,10 +4347,23 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
+	callbackPriorities = {callbackOnHit = -260},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		local abs = math.min(cb.value, eff.power)
+		self:incEquilibrium(abs * 2)
+		if eff.power > abs then
+			eff.power = eff.power - abs
+			cb.value = 0
+		else
+			cb.value = cb.value - abs
+			self:removeEffect(self.EFF_ELDRITCH_STONE)
+		end
+		game:delayedLogDamage(src, self, 0, ("#SLATE#(%d to stone)#LAST#"):tformat(abs), false)
+	end,
 	activate = function(self, eff)
 		eff.power = self:getShieldAmount(eff.power)
 		eff.dur = self:getShieldDuration(eff.dur)
-		eff.max = eff.power
+		eff.power_max = eff.power
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.3, img="runicshield_stonewarden"}, {type="runicshield", shieldIntensity=0.2, oscillationSpeed=4, ellipsoidalFactor=1.3, time_factor=9000, auraColor={0x61/255, 0xff/255, 0x6a/255, 0}}))
 		else
@@ -4497,6 +4581,14 @@ newEffect{
 	parameters = {},
 	on_gain = function(self, err) return _t"#Target# is hexed.", _t"+Domination Hex" end,
 	on_lose = function(self, err) return _t"#Target# is free from the hex.", _t"-Domination hex" end,
+	callbackPriorities = {callbackOnHit = -1000},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		if src and src == eff.src then
+			self:removeEffect(self.EFF_DOMINATION_HEX)
+		end
+		return cb
+	end,
 	activate = function(self, eff)
 		self:setTarget() -- clear ai target
 		eff.olf_faction = self.faction
@@ -5232,9 +5324,7 @@ local rime_wraith_def = {
 					pcall(function() DamageType:get(DamageType.COLD).projector(eff.src, m.x, m.y, DamageType.COLD, dam) end)
 					eff.src:attr("damage_shield_penetrate", -100)
 				else
-					eff.src:attr("can_heal_necrotic_minions", 1)
 					m:heal(heal, eff.src)
-					eff.src:attr("can_heal_necrotic_minions", -1)
 				end
 			end)
 		end
@@ -5519,8 +5609,7 @@ newEffect{
 					local shield_power = self:spellCrit(eff.shield)
 					
 					shield.power = shield.power + shield_power
-					self.damage_shield_absorb = self.damage_shield_absorb + shield_power
-					self.damage_shield_absorb_max = self.damage_shield_absorb_max + shield_power
+					shield.power_max = shield.power_max + shield_power
 					shield.dur = math.max(eff_incoming.dur, shield.dur)
 				else
 					self:setEffect(self.EFF_DAMAGE_SHIELD, eff_incoming.dur, {color={0xff/255, 0x3b/255, 0x3f/255}, power=self:spellCrit(eff.shield)})

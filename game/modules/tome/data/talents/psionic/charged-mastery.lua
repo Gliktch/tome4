@@ -138,6 +138,13 @@ newTalent{
 		return self:combatTalentMindDamage(t, 0, 300) + self.max_life * self:combatTalentLimit(t, 1, .015, .055)
 	end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5)) end,
+	callbackPriorities = {callbackOnHit = 350},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value > self.life then
+			self:forceUseTalent(t.id, {ignore_energy=true})
+		end
+	end,
 	activate = function(self, t)
 		return {}
 	end,

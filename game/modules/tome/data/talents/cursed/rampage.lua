@@ -74,12 +74,15 @@ newTalent{
 
 		return true
 	end,
-	onTakeHit = function(t, self, fractionDamage)
-		if fractionDamage < 0.08 then return false end
-		if self:hasEffect(self.EFF_RAMPAGE) then return false end
-		if rng.percent(50) then
-			t.action(self, t, 0)
-			return true
+	callbackPriorities = {callbackOnHit = -100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if cb.value > 0 then
+			local fractiondamage = cb.value / self.max_life
+			if fractionDamage < 0.08 then return end
+			if self:hasEffect(self.EFF_RAMPAGE) then return end
+			if rng.percent(50) then
+				t.action(self, t, 0)
+			end
 		end
 	end,
 	info = function(self, t)
