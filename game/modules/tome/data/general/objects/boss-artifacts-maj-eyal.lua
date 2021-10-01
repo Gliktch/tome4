@@ -68,8 +68,9 @@ It is said the Conclave created this weapon for their warmaster during the dark 
 				local Map = require "engine.Map"
 
 				-- special_on_hit doesn't know what item triggered it, so find it
-				local self, item, inven_id = who:findInAllInventoriesBy("define_as", "LONGSWORD_WINTERTIDE")
-				if not self or not who:getInven(inven_id).worn then return end
+				local self = combat.self
+				local inven_id = self and self.in_inven and self.in_inven.id
+				if not self or not inven_id or not who:getInven(inven_id).worn then return end
 
 				if who.turn_procs.wintertide_sword then return end
 
