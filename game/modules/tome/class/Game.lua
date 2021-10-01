@@ -1818,7 +1818,6 @@ function _M:onTurn()
 
 	if self.turn % 500 ~= 0 then return end
 	self:dieClonesDie()
-	truncate_printlog(Savefile.TRUNCATE_PRINTLOG_TO)
 end
 
 function _M:updateFOV()

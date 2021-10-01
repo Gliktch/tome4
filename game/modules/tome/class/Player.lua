@@ -791,9 +791,10 @@ function _M:onTakeHit(value, src, death_note)
 	end
 
 	-- Hit direction warning
-	if src.x and src.y and (self.x ~= src.x or self.y ~= src.y) then
+	if not self.turn_procs.__hit_warning and src.x and src.y and (self.x ~= src.x or self.y ~= src.y) then
 		local range = core.fov.distance(src.x, src.y, self.x, self.y)
 		if range > 1 then
+			self.turn_procs.__hit_warning = true
 			local angle = math.atan2(src.y - self.y, src.x - self.x)
 			game.level.map:particleEmitter(self.x, self.y, 1, "hit_warning", {angle=math.deg(angle)})
 		end

@@ -24,6 +24,7 @@ require "engine.class"
 -- @classmod engine.Shader
 module(..., package.seeall, class.make)
 
+_M.loaded_shaders = {}
 _M.verts = {}
 _M.frags = {}
 _M.progsperm = {}
@@ -176,13 +177,31 @@ function _M:loaded()
 		end
 	else
 		print("[SHADER] Loading from /data/gfx/shaders/"..self.name..".lua")
-		local f, err = loadfile("/data/gfx/shaders/"..self.name..".lua")
-		if not f and err then
+		local f, err
+		do local file = "/data/gfx/shaders/" .. self.name .. ".lua"
 			if config.settings.cheat then
-				error(err)
+				f, err = loadfile(file)
 			else
-				print("[SHADER] "..self.name.." not found, using fallback")
-				f, err = loadfile("/data/gfx/shaders/fallback.lua")
+				local cached = _M.loaded_shaders[file]
+				if not cached then
+					cached = { loadfile(file) }
+					_M.loaded_shaders[file] = cached
+				end
+				f, err = unpack(cached)
+			end
+			if not f and err then
+				if config.settings.cheat then
+					error(err)
+				else
+					print("[SHADER] "..self.name.." not found, using fallback")
+					file = "/data/gfx/shaders/fallback.lua"
+					local cached = _M.loaded_shaders[file]
+					if not cached then
+						cached = { loadfile(file) }
+						_M.loaded_shaders[file] = cached
+					end
+					f, err = unpack(cached)
+				end
 			end
 		end
 		setfenv(f, setmetatable(self.args or {}, {__index=_G}))
