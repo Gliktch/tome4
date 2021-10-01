@@ -233,8 +233,8 @@ newTalent{
 			self:project(tg, a.x, a.y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(1, self:spellCrit(t.getDamage(self, t)), 3), daze=(self:attr("lightning_daze_tempest") or 0) / 2, power_check=self:combatSpellpower()})
 			if core.shader.active() then game.level.map:particleEmitter(a.x, a.y, tg.radius, "ball_lightning_beam", {radius=tg.radius, tx=x, ty=y}, {type="lightning"})
 			else game.level.map:particleEmitter(a.x, a.y, tg.radius, "ball_lightning_beam", {radius=tg.radius, tx=x, ty=y}) end
-			game:playSoundNear(self, "talents/lightning")
 		end
+		game:playSoundNear(self, "talents/lightning")
 	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/thunderstorm")
