@@ -40,6 +40,15 @@ newTalent{
 			game.logSeen(target, "%s resists the terror!", target:getName():capitalize())
 		end
 	end,
+	callbackPriorities = {
+		callbackOnMeleeAttack = -30,
+	},
+	callbackOnMeleeAttack = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		-- Mortal Terror
+		if hitted and not target.dead then
+			t.do_terror(self, t, target, dam)
+		end
+	end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "combat_physcrit", t.getCrit(self, t))
 	end,
@@ -63,6 +72,11 @@ newTalent{
 	-- called by _M:attackTargetWith in mod.class.interface.Combat.lua
 	do_bloodbath = function(self, t)
 		self:setEffect(self.EFF_BLOODBATH, t.getDuration(self, t), {regen=t.getRegen(self, t), max=t.getMax(self, t), hp=t.getHealth(self,t)})
+	end,
+	callbackOnMeleeAttack = function(self, t, target, hitted, crit)
+		if hitted and crit then
+			t.do_bloodbath(self, t)
+		end
 	end,
 	info = function(self, t)
 		local regen = t.getRegen(self, t)

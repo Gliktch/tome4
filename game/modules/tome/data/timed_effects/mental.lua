@@ -320,6 +320,13 @@ newEffect{
 		self:removeParticles(eff.particle)
 		self:removeTemporaryValue("inc_damage", eff.incDamageId)
 	end,
+	callbackOnMeleeHitProcs = function(self, eff, target, hitted, crit, weapon, damtype, mult, dam)
+		if hitted and eff.hateBonus and eff.hateBonus > 0 then
+			target:incHate(eff.hateBonus)
+			game.logPlayer(target, "#F53CBE#You revel in attacking a weakened foe! (+%d hate)", eff.hateBonus)
+			eff.hateBonus = nil
+		end
+	end,
 }
 
 newEffect{
@@ -408,6 +415,11 @@ newEffect{
 	subtype = { gloom=true, confusion=true },
 	status = "detrimental",
 	parameters = {},
+	callbackOnMeleeHitProcs = function(self, eff, target, hitted, crit)
+		if hitted and crit then
+			self:removeEffect(self.EFF_DISMAYED)
+		end
+	end,
 	on_gain = function(self, err) return _t"#F53CBE##Target# is dismayed!", _t"+Dismayed" end,
 	on_lose = function(self, err) return _t"#Target# overcomes the dismay", _t"-Dismayed" end,
 	activate = function(self, eff)
@@ -447,6 +459,14 @@ newEffect{
 	on_timeout = function(self, eff)
 		if not eff.target or eff.target.dead or not eff.target:hasEffect(eff.target.EFF_STALKED) then
 			self:removeEffect(self.EFF_STALKER)
+		end
+	end,
+	callbackPriorities = { callbackOnMeleeAttack = -100 },
+	callbackOnMeleeAttack = function(self, eff, target, hitted)
+		-- handle stalk targeting for hits (also handled in Actor for turn end effects)
+		if hitted and target ~= self then
+				-- mark if stalkee was hit
+			eff.hit = eff.hit or eff.target == target
 		end
 	end,
 }
@@ -1988,6 +2008,18 @@ newEffect{
 	end,
 	do_onTakeHit = function(self, eff, dam)
 	end,
+	callbackPriorities = {callbackOnMeleeAttack = -1},
+	callbackOnMeleeAttack = function(self, eff, target, hitted, crit)
+		-- Rampage
+		if hitted and crit then
+			if eff and not eff.critHit and eff.actualDuration < eff.maxDuration and self:knowTalent(self.T_BRUTALITY) then
+				game.logPlayer(self, "#F53CBE#Your rampage is invigorated by your fierce attack! (+1 duration)")
+				eff.critHit = true
+				eff.actualDuration = eff.actualDuration + 1
+				eff.dur = eff.dur + 1
+			end
+		end
+	end,
 	do_postUseTalent = function(self, eff)
 		if eff.dur > 0 then
 			eff.dur = eff.dur - 1
@@ -2889,6 +2921,14 @@ newEffect{
 	deactivate = function(self, eff)
 		if eff.particle1 then self:removeParticles(eff.particle1) end
 		if eff.particle2 then self:removeParticles(eff.particle2) end
+	end,
+	callbackPriorities = {callbackOnMeleeProject = -12},
+	callbackOnMeleeProject = function(self, eff, target, hitted, crit)
+		-- Static dis-Charge
+		if hitted and not target.dead then
+			DamageType:get(DamageType.LIGHTNING).projector(self, target.x, target.y, DamageType.LIGHTNING, eff.power)
+			self:removeEffect(self.EFF_STATIC_CHARGE)
+		end
 	end,
 }
 

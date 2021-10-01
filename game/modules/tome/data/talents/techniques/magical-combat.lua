@@ -29,6 +29,12 @@ newTalent{
 	cooldown = 5,
 	tactical = { BUFF = 2 },
 	getChance = function(self, t) return self:combatLimit(self:getTalentLevel(t) * (1 + self:getCun(9, true)), 100, 20, 0, 70, 50) end, -- Limit < 100%
+	callbackPriorities = { callbackOnMeleeProject = -25 },
+	callbackOnMeleeProject = function(self, t, target, hitted)
+		if hitted and not target.dead then
+			t.do_trigger(self, t, target)
+		end
+	end,
 	callbackOnAITalentTactics = function(self, t, hd)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
@@ -237,6 +243,20 @@ newTalent{
 	radius = function(self, t) return self:getTalentLevel(t) < 5 and 1 or 2 end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 100) end,
 	getSPMult = function(self, t) return self:combatTalentScale(t, 1/7, 5/7) end,
+	callbackPriorities = { callbackOnMeleeProject = -20 },
+	callbackOnMeleeProject = function(self, t, target, hitted, crit)
+		-- Arcane Destruction
+		if hitted and crit then
+			local chance = (self:hasShield() or self:hasDualWeapon()) and 50 or 100
+			if rng.percent(chance) then
+				self:project({type="ball", radius=self:getTalentRadius(t), friendlyfire=false}, target.x, target.y, DamageType.ARCANE, t.getDamage(self, t))
+				if not self:hasProc("arcane_destruction_particle") then
+					self:setProc("arcane_destruction_particle")
+					game.level.map:particleEmitter(target.x, target.y, self:getTalentRadius(t), "ball_arcane", {radius=2, tx=target.x, ty=target.y})
+				end
+			end
+		end
+	end,
 	info = function(self, t)
 		return ([[Raw magical damage channels through the caster's weapon, increasing raw Physical Power by %d%% of your Magic (current bonus: %d).
 		Each time you crit with a melee blow, you will unleash a radius %d ball of arcane damage, doing %0.2f.

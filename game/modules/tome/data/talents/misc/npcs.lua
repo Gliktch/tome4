@@ -3382,6 +3382,11 @@ newTalent{
 	getThrows = function(self, t)
 		return self:combatScale(self:getStr() + self:getDex()-20, 0, 0, 2.24, 180)
 	end,
+	callbackOnMeleeHitProcs = function(self, t, target, hitted)
+		if not hitted and not self.dead and not self:attr("stunned") and not self:attr("dazed") and not self:attr("stoned") and self:isNear(target.x, target.y,1) then
+			t.do_throw(self, target, t)
+		end
+	end,
 	-- called by _M:attackTargetWith function in mod\class\interface\Combat.lua (includes adjacency check)
 	do_throw = function(self, target, t)
 		local ef = self:hasEffect(self.EFF_DEFENSIVE_GRAPPLING)

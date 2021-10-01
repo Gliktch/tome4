@@ -190,6 +190,15 @@ newTalent{
 	getKnockback = function(self, t)
 		return 3 + math.floor(self:getTalentLevel(t))
 	end,
+	callbackPriorities = { callbackOnMeleeProject = -25 },
+	callbackOnMeleeProject = function(self, t, target, hitted)
+		if hitted and not target.dead and self.use_psi_combat then
+			local psiweapon = self:getInven("PSIONIC_FOCUS") and self:getInven("PSIONIC_FOCUS")[1]
+			if psiweapon and psiweapon.combat and psiweapon.subtype ~= "mindstar" then
+				t.do_combat(self, t, target)
+			end
+		end
+	end,
 	callbackOnActBase = function(self, t)
 		if not aura_should_proc(self, t) then return end
 		local mast = aura_mastery(self, t)
@@ -309,6 +318,15 @@ newTalent{
 	end,
 	getSpikeCost = function(self, t)
 		return t.sustain_psi*2/3
+	end,
+	callbackPriorities = { callbackOnMeleeProject = -25 },
+	callbackOnMeleeProject = function(self, t, target, hitted)
+		if hitted and not target.dead and self.use_psi_combat then
+			local psiweapon = self:getInven("PSIONIC_FOCUS") and self:getInven("PSIONIC_FOCUS")[1]
+			if psiweapon and psiweapon.combat and psiweapon.subtype ~= "mindstar" then
+				t.do_combat(self, t, target)
+			end
+		end
 	end,
 	callbackOnActBase = function(self, t)
 		if not aura_should_proc(self, t) then return end
@@ -432,6 +450,15 @@ newTalent{
 	end,
 	getNumSpikeTargets = function(self, t)
 		return 3 + math.floor(0.5*self:getTalentLevel(t))
+	end,
+	callbackPriorities = { callbackOnMeleeProject = -25 },
+	callbackOnMeleeProject = function(self, t, target, hitted)
+		if hitted and not target.dead and self.use_psi_combat then
+			local psiweapon = self:getInven("PSIONIC_FOCUS") and self:getInven("PSIONIC_FOCUS")[1]
+			if psiweapon and psiweapon.combat and psiweapon.subtype ~= "mindstar" then
+				t.do_combat(self, t, target)
+			end
+		end
 	end,
 	callbackOnActBase = function(self, t)
 		if not aura_should_proc(self, t) then return end

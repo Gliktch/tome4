@@ -34,6 +34,13 @@ newTalent{
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 70)+10 end,  -- This doesn't crit or generally scale easily so its safe to be aggressive
 	getManaCost = function(self, t) return 0 end,
+	callbackPriorities = { callbackOnMeleeProject = -25 },
+	callbackOnMeleeProject = function(self, t, target, hitted)
+		if hitted and not target.dead then
+			local dam = self:callTalent(self.T_SHADOW_COMBAT, "getDamage")
+			DamageType:get(DamageType.DARKNESS).projector(self, target.x, target.y, DamageType.DARKNESS, dam)
+		end
+	end,
 	activate = function(self, t)
 		local ret = {}
 		if core.shader.active(4) then

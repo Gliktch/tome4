@@ -285,12 +285,15 @@ newTalent{
 		end
 		return deflected
 	end,
-	-- Counterattack handled in _M:attackTargetWith function in mod.class.interface.Combat.lua (requires EFF_GESTURE_OF_GUARDING)
-	on_hit = function(self, t, who)
-		if rng.percent(t.getCounterAttackChance(self, t)) and self:isTalentActive(self.T_GESTURE_OF_PAIN) and canUseGestures(self) then
-			self:logCombat(who, "#F53CBE##Source# lashes back at #Target#!")
-			local tGestureOfPain = self:getTalentFromId(self.T_GESTURE_OF_PAIN)
-			tGestureOfPain.attack(self, tGestureOfPain, who)
+	callbackPriorities = { callbackOnMeleeHitProcs = -1, },
+	callbackOnMeleeHitProcs = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		-- Gesture of Guarding counterattack
+		if hitted and not self.dead and not self:attr("stunned") and not self:attr("dazed") and not self:attr("stoned") and self:hasEffect(self.EFF_GESTURE_OF_GUARDING) then
+			if rng.percent(t.getCounterAttackChance(self, t)) and self:isTalentActive(self.T_GESTURE_OF_PAIN) and canUseGestures(self) then
+				self:logCombat(target, "#F53CBE##Source# lashes back at #Target#!")
+				local tGestureOfPain = self:getTalentFromId(self.T_GESTURE_OF_PAIN)
+				tGestureOfPain.attack(self, tGestureOfPain, target)
+			end
 		end
 	end,
 	on_learn = gestures_gfx_update,

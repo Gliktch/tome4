@@ -1883,8 +1883,6 @@ function _M:getTextualDesc(compare_with, use_actor)
 
 		compare_fields(w, compare_with, field, "paradox_reduce_anomalies", "%+d", _t"Reduces paradox anomalies(equivalent to willpower): ")
 
-		compare_fields(w, compare_with, field, "damage_backfire", "%+d%%", _t"Damage Backlash: ", nil, true)
-
 		compare_fields(w, compare_with, field, "resist_unseen", "%-d%%", _t"Reduce all damage from unseen attackers: ")
 
 		if w.undead and w.undead > 0 then

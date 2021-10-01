@@ -157,6 +157,14 @@ newTalent{
 	do_weakness = function(self, t, target)
 		target:setEffect(target.EFF_WEAKENED_DEFENSES, 3, {inc = - 5, max = - t.getReductionMax(self, t)})
 	end,
+	callbackPriorities = {callbackOnMeleeAttack = -10},
+	callbackOnMeleeAttack = function(self, t, target, hitted)
+		-- Exploit Weakness
+		if hitted and not target.dead then
+			local t = self:getTalentFromId(self.T_EXPLOIT_WEAKNESS)
+			t.do_weakness(self, t, target)
+		end
+	end,
 	activate = function(self, t)
 		return {
 			dam = self:addTemporaryValue("inc_damage", {[DamageType.PHYSICAL]=-10}),

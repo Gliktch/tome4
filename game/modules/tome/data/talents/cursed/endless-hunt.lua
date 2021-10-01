@@ -79,6 +79,23 @@ newTalent{
 			stalk.hit_turns = 0
 		end
 	end,
+	callbackPriorities = { callbackOnMeleeAttack = -99 },
+	callbackOnMeleeAttack = function(self, eff, target, hitted)
+		-- handle stalk targeting for hits (also handled in Actor for turn end effects)
+		if hitted and target ~= self and not self:hasEffect(self.EFF_STALKER) then
+			-- mark if stalkee was hit
+			local stalk = self:isTalentActive(self.T_STALK)
+
+			if not stalk.hit then
+				-- mark a new target
+				stalk.hit = true
+				stalk.hit_target = target
+			elseif stalk.hit_target ~= target then
+				-- more than one target; clear it
+				stalk.hit_target = nil
+			end
+		end
+	end,
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[When you focus your attacks on a single foe and strike them in melee for two consecutive turns, your hatred of them overcomes you and you begin to stalk them with single-minded purpose. The effect will last for %d turns, or until your prey is dead. Stalking gives you bonuses against your foe that grow each turn you hit them, and diminish each turn you don't.
