@@ -395,10 +395,16 @@ function _M:act()
 		end
 	end
 
+<<<<<<< HEAD
+	self.shader_old_life = self.life
+	self.old_air = self.air
+	self.old_psi = self.psi
+=======
 	self.shader_old_life = self:getLife()
 	self.old_air = self:getAir()
 	self.old_psi = self:getPsi()
-
+	self.old_healwarn = (self:attr("no_healing") or ((self.healing_factor or 1) <= 0))
+>>>>>>> resourcification
 
 	-- Clean log flasher
 --	game.flash:empty()

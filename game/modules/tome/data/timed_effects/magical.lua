@@ -1666,9 +1666,7 @@ newEffect{
 				[Stats.STAT_CUN] = -eff.power,
 		})
 		-- Make sure the target doesn't have more life then it should
-		if self.life > self.max_life then
-			self.life = self.max_life
-		end
+		self:incLife(0)
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("inc_stats", eff.stat)
@@ -3119,7 +3117,7 @@ newEffect{
 		self:effectTemporaryValue(eff, "inc_damage", {all=300})
 	end,
 	deactivate = function(self, eff)
-		self:heal(1)
+		self:incLife(0)
 	end,
 }
 
@@ -3860,7 +3858,7 @@ newEffect{
 		if cb.value <= 0 then return cb.value end
 
 		-- Kill it!!
-		if not self.dead and not self:isTalentActive(self.T_REALITY_SMEARING) and self:canBe("instakill") and self.life > 0 and self.life < self.max_life * 0.2 then
+		if not self.dead and not self:isTalentActive(self.T_REALITY_SMEARING) and self:canBe("instakill") and self:getLife() > 0 and self:getLife() < self:getMaxLife() * 0.2 then
 			game.logSeen(self, "%s has been removed from the timeline!", self:getName():capitalize())
 			self:die(src)
 		end
@@ -4861,7 +4859,7 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# is no more the Lord of Skulls.", true end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "max_life", eff.life)
-		self:heal(self.max_life, self)
+		self:heal(self:getMaxLife(), self)
 
 		self.lord_of_skulls = true
 		self.old_los_name = self.name

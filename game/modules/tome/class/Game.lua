@@ -248,8 +248,8 @@ function _M:newGame()
 		end
 
 		if self.player.max_life_bonus then
-			self.player.max_life = self.player.max_life + self.player.max_life_bonus
-			self.player.life = self.player.life + self.player.max_life_bonus
+			self.player:incMaxLife(self.player.max_life_bonus)
+			self.player:incLife(self.player.max_life_bonus)
 			self.player.max_life_bonus = nil
 		end
 
@@ -1415,7 +1415,7 @@ function _M:changeLevelReal(lev, zone, params)
 		local perc = util.bound(math.floor((self.turn - self.level.last_turn) / 10), 0, 10)
 		for uid, target in pairs(self.level.entities) do
 			if target.life and target.max_life and ((self.player:reactionToward(target) < 0) or target:attr("hostile_for_level_change")) then
-				target.life = util.bound(target.life + target.max_life * perc / 10, 0, target.max_life)
+				target:incLife(target:getMaxLife() * perc / 10, true)
 				target.changed = true
 				target.talents_cd = {}
 

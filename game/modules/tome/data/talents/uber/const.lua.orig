@@ -22,11 +22,17 @@ uberTalent{
 	mode = "passive",
 	cooldown = 15,
 	require = { special={desc=_t"Be close to the draconic world", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("drake_touched") and self:attr("drake_touched") >= 2) end} },
+<<<<<<< HEAD
 	callbackPriorities = {callbackOnHit = 300},
 	callbackOnHit = function(self, t, cb, src, death_note)
 		if cb.value <= 0 then return end
-		if (self:getLife() - cb.value) < (self:getMaxLife() * 0.3) and not self:isTalentCoolingDown(t) then
+		if self.life - cb.value < self.max_life * 0.3 and not self:isTalentCoolingDown(t) then
+			self:heal(self.max_life * 0.4, t)
+=======
+	trigger = function(self, t, value)
+		if self:getLife() - value < self:getMaxLife() * 0.3 and not self:isTalentCoolingDown(t) then
 			self:heal(self:getMaxLife() * 0.4, t)
+>>>>>>> resourcification
 			self:startTalentCooldown(t)
 			game.logSeen(self,"%s's draconic body hardens and heals!",self:getName())
 		end

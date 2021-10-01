@@ -176,7 +176,7 @@ newTalent{
 		return true
 	end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
-		if ( dam > (0.15 * self.max_life) ) then
+		if ( dam > (0.15 * self:getMaxLife()) ) then
 			local damageReduction = dam * t.getDamageReduction(self, t)
 			dam = dam - damageReduction
 

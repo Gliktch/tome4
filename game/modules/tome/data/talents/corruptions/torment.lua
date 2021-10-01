@@ -136,7 +136,7 @@ newTalent{
 	callbackPriorities={callbackOnHit = -1},  -- Before Bone Shield but after Rot
 	callbackOnHit = function(self, t, cb)
 		local eff = self:hasEffect(self.EFF_BLOOD_GRASP)
-		local max_life = self.max_life - (eff and eff.life or 0)
+		local max_life = self:getMaxLife() - (eff and eff.life or 0)
 		local l, c = t.getPower(self, t)
 		if cb.value >= max_life * l  / 100 then
 		

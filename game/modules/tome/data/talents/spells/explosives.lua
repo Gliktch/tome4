@@ -126,7 +126,9 @@ newTalent{
 			end
 		end)
 
-		if ammo.alchemist_bomb and ammo.alchemist_bomb.leech then self:heal(math.min(self.max_life * ammo.alchemist_bomb.leech / 100, dam_done), ammo) end
+		if ammo.alchemist_bomb and ammo.alchemist_bomb.leech then 
+			self:heal(math.min(self:getMaxLife() * ammo.alchemist_bomb.leech / 100, dam_done), ammo) 
+		end
 
 		local _ _, x, y = self:canProject(tg, x, y)
 		game.level.map:particleEmitter(x, y, tg.radius, particle, {radius=tg.radius, grids=grids, tx=x, ty=y})
@@ -276,7 +278,9 @@ newTalent{
 			end
 		end)
 
-		if ammo.alchemist_bomb and ammo.alchemist_bomb.leech then self:heal(math.min(self.max_life * ammo.alchemist_bomb.leech / 100, dam_done)) end
+		if ammo.alchemist_bomb and ammo.alchemist_bomb.leech then 
+			self:heal(math.min(self:getMaxLife() * ammo.alchemist_bomb.leech / 100, dam_done)) 
+		end
 
 		local _ _, x, y = self:canProject(tg, x, y)
 		game.level.map:particleEmitter(x, y, tg.radius, particle, {radius=tg.radius, grids=grids, tx=x, ty=y})

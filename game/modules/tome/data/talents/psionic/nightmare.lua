@@ -112,13 +112,14 @@ newTalent{
 			return
 		end
 		if target:attr("summon_time") then return end
-		local ml = target.max_life/2/target.rank
+		local ml = target:getMaxLife()/2/target.rank
 		local m = target:cloneActor{
 			shader = "shadow_simulacrum", shader_args = { color = {0.6, 0.0, 0.3}, base = 0.6, time_factor = 1500 },
 			faction = self.faction,
 			summoner = self, summoner_gain_exp=true, exp_worth=0,
 			summon_time = 10,
-			max_life = ml, life = util.bound(target.life, target.die_at, ml),
+			max_life = ml, 
+			life = util.bound(target.life, target:getMinLife(), ml),
 			max_level = target.level,
 			ai_target = {actor=target},
 			ai = "summoned", ai_real = "tactical",

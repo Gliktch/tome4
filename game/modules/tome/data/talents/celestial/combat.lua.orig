@@ -231,7 +231,8 @@ newTalent{
 	sustain_positive = 20,
 	cooldown = 30,
 	tactical = { DEFEND = 2 },
-	getLife = function(self, t) return self:getMaxLife() * self:combatTalentLimit(t, 1.5, 0.2, 0.5) end, -- Limit < 150% max life (to survive a large string of hits between turns)
+<<<<<<< HEAD
+	getLife = function(self, t) return self.max_life * self:combatTalentLimit(t, 1.5, 0.2, 0.5) end, -- Limit < 150% max life (to survive a large string of hits between turns)
 	callbackPriorities = {callbackOnHit = 350},
 	callbackOnHit = function(self, t, cb, src, death_note)		
 		if cb.value  >= self.life then
@@ -251,6 +252,9 @@ newTalent{
 		
 		return cb
 	end,
+=======
+	getLife = function(self, t) return self:getMaxLife() * self:combatTalentLimit(t, 1.5, 0.2, 0.5) end, -- Limit < 150% max life (to survive a large string of hits between turns)
+>>>>>>> resourcification
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/heal")
 		local ret = {}

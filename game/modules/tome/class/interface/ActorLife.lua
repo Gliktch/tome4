@@ -43,15 +43,15 @@ function _M:takeHit(value, src, death_note)
 	if value <= 0 then return false, 0 end
 
 	if death_note and death_note.cant_die then
-		if value >= self.life then value = self.life - 1 end
+		if value >= self:getLife() then value = self:getLife() - 1 end
 	end
 
-	self.life = self.life - value
+	self:incLife(-value)
 	self.changed = true
-	if self.life <= self.die_at and not self.dead then
+	if self:getLife() <= self:getMinLife() and not self.dead then
 		return oktodie(self, value, src, death_note)
 	-- Allow double-death ONLY for npcs
-	elseif self.life <= self.die_at and self.dead then
+	elseif self:getLife() <= self:getMinLife() and self.dead then
 		if not game.party or not game.party:hasMember(self) then
 			return oktodie(self, value, src, death_note)
 		end

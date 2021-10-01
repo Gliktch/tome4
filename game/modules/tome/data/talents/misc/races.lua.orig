@@ -960,7 +960,11 @@ newTalent{
 	end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
 		if self:isTalentCoolingDown(t) then return end
-		if ((self:getLife() - dam) / self:getMaxLife()) >= 0.3 then return end
+<<<<<<< HEAD
+		if ((self.life-dam) / self.max_life) > 0.3 then return end
+=======
+		if (self:getLife() / self:getMaxLife()) >= 0.3 then return end
+>>>>>>> resourcification
 
 		game.logSeen(self, "#RED#%s reacts immediately after taking severe wounds!#LAST#", self:getName():capitalize())
 		self.energy.value = self.energy.value + game.energy_to_act * 1.5

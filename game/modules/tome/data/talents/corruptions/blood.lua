@@ -103,7 +103,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Project a bolt of corrupted blood, doing %0.2f blight damage and healing you for 20%% the damage dealt.
-			50%% of the damage dealt will be gained as maximum life for 7 turns (before the healing).
+		You also gain Sanguine Infusion for 7 turns, increasing your maximum life by 50%% of the damage dealt. This happens before the healing.
 		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.BLIGHT, t.getDamage(self, t)))
 	end,
 }

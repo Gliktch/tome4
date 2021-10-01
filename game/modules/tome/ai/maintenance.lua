@@ -37,7 +37,7 @@ newAI("maintenance", function(self, t_filter, t_list)
 	local avail = {}
 
 	-- find a healing action to perform if needed
-	if self.life/self.max_life < 0.95 then
+	if self:getLife()/self:getMaxLife() < 0.95 then
 		avail[#avail+1] = self:aiHealingAction(aitarget, t_filter, t_list)
 	end
 	

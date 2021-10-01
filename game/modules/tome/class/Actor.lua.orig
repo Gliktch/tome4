@@ -593,8 +593,6 @@ function _M:actBase()
 	end
 	self:regenResources()
 
-
-
 	-- Suffocate ?
 	-- The idea here is that we suffocate (EFF_SUFFOCATING checks this flag) if a) something (including own effects) tries to suffocate us between our actBase calls, or
 	-- b) we cannot breathe on the current terrain. The first is force_suffocate flag. It only works for one base turn, of course.
@@ -1468,7 +1466,7 @@ function _M:move(x, y, force)
 		t.curseFloor(self, t, x, y)
 	end
 
-	if moved and self:isTalentActive(self.T_BODY_OF_STONE) and not self:attr("preserve_body_of_stone") then
+	if moved and ox and oy and (ox ~= self.x or oy ~= self.y) and self:isTalentActive(self.T_BODY_OF_STONE) and not self:attr("preserve_body_of_stone") then
 		self:forceUseTalent(self.T_BODY_OF_STONE, {ignore_energy=true})
 	end
 
@@ -1886,6 +1884,7 @@ function _M:textRank(use_rank)
 	elseif use_rank == 3.5 then rank, color = _t"unique", "#SANDY_BROWN#"
 	elseif use_rank == 4 then rank, color = _t"boss", "#ORANGE#"
 	elseif use_rank == 5 then rank, color = _t"elite boss", "#GOLD#"
+	elseif use_rank == 11 then rank, color = _t"godslayer", "#FF4000#"
 	elseif use_rank >= 10 then rank, color = _t"god", "#FF4000#"
 	end
 	return rank, color
@@ -2843,11 +2842,19 @@ function _M:onTakeHit(value, src, death_note)
 
 	if self.on_takehit then value = self:check("on_takehit", value, src, death_note) end
 
+<<<<<<< HEAD
 	local cb = {value=value}
 	if self:fireTalentCheck("callbackOnHit", cb, src, death_note) then value = cb.value end
 	if self.summoner then
 		cb = {value=value}
 		if self.summoner:fireTalentCheck("callbackOnSummonHit", cb, self, src, death_note) then value = cb.value end
+=======
+	if value <= 0 then return 0 end
+	-- VITALITY?
+	if self:knowTalent(self.T_VITALITY) and self.life > self:getMaxLife() /2 and self.life - value <= self:getMaxLife()/2 then
+		local t = self:getTalentFromId(self.T_VITALITY)
+		t.do_vitality_recovery(self, t)
+>>>>>>> resourcification
 	end
 
 	local hd = {"Actor:takeHit", value=value, src=src, death_note=death_note}
@@ -2857,23 +2864,107 @@ function _M:onTakeHit(value, src, death_note)
 		local hateGain = 0
 		local hateMessage
 
-		if value / src:getMaxLife() > 0.33 then
+		if value / src.max_life > 0.33 then
 			-- you deliver a big hit
 			hateGain = hateGain + src.hate_per_powerful_hit
 			hatemessage = _t"#F53CBE#Your powerful attack feeds your madness!"
 		end
 
 		if hateGain >= 0.1 then
-			src:incHate(hateGain)
+			src.hate = math.min(src.max_hate, src.hate + hateGain)
 			if hateMessage then
 				game.logPlayer(src, ("%s (+%d hate)"):tformat(hateMessage), hateGain)
 			end
 		end
+<<<<<<< HEAD
 	end	
 	
+=======
+
+		local tal = self:isTalentActive(self.T_HEARTSTART)
+		if tal then
+			self:forceUseTalent(self.T_HEARTSTART, {ignore_energy=true})
+		end
+	end
+
+	-- Shade's reform
+	if value >= self.life and self.ai_state and self.ai_state.can_reform then
+		local t = self:getTalentFromId(self.T_SHADOW_REFORM)
+		if rng.percent(t.getChance(self, t)) then
+			value = 0
+			self.life = self:getMaxLife()
+			game.logSeen(self, "%s fades for a moment and then reforms whole again!", self:getName():capitalize())
+			game.level.map:particleEmitter(self.x, self.y, 1, "teleport_out")
+			game:playSoundNear(self, "talents/heal")
+			game.level.map:particleEmitter(self.x, self.y, 1, "teleport_in")
+		end
+	end
+
+	-- Shadow decoy
+	if value >= self.life and self:isTalentActive(self.T_SHADOW_DECOY) then
+		local t = self:getTalentFromId(self.T_SHADOW_DECOY)
+		if t.onDie(self, t, value, src) then
+			value = 0
+		end
+	end
+
+	if value <= 0 then return 0 end
+	-- Vim leech
+	if self:knowTalent(self.T_LEECH) and src.hasEffect and src:hasEffect(src.EFF_VIMSENSE) then
+		local vt = self:getTalentFromId(self.T_LEECH)
+		self:incVim(vt.getVim(self, vt))
+		self:heal(vt.getHeal(self, vt), src)
+		--if self.player then src:logCombat(src, "#AQUAMARINE#You leech a part of #Target#'s vim.") end
+	end
+
+	-- Invisible on hit
+	if value >= self:getMaxLife() * 0.10 and self:attr("invis_on_hit") and rng.percent(self:attr("invis_on_hit")) then
+		self:setEffect(self.EFF_INVISIBILITY, 5, {power=self:attr("invis_on_hit_power")})
+		for tid, _ in pairs(self.invis_on_hit_disable) do self:forceUseTalent(tid, {ignore_energy=true}) end
+	end
+
+	-- Bloodspring
+	if value >= self:getMaxLife() * 0.15 and self:knowTalent(self.T_BLOODSPRING) then
+		self:triggerTalent(self.T_BLOODSPRING)
+	end
+
+	if self:knowTalent(self.T_DUCK_AND_DODGE) then
+		local t = self:getTalentFromId(self.T_DUCK_AND_DODGE)
+		if value >= self:getMaxLife() * t.getThreshold(self, t) then
+			self:setEffect(self.EFF_EVASION, t.getDuration(self, t), {chance=t.getEvasionChance(self, t), defense = t.getDefense(self)})
+		end
+	end
+
+	-- Damage shield on hit
+	if self:attr("contingency") and value >= self:getMaxLife() * self:attr("contingency") / 100 and not self:hasEffect(self.EFF_DAMAGE_SHIELD) then
+		self:setEffect(self.EFF_DAMAGE_SHIELD, 3, {power=value * self:attr("contingency_shield") / 100})
+		for tid, _ in pairs(self.contingency_disable) do self:forceUseTalent(tid, {ignore_energy=true}) end
+	end
+
+	-- Spell cooldowns on hit
+	if self:attr("reduce_spell_cooldown_on_hit") and value >= self:getMaxLife() * self:attr("reduce_spell_cooldown_on_hit") / 100 then
+		local alt = {}
+		for tid, cd in pairs(self.talents_cd) do
+			if rng.percent(self:attr("reduce_spell_cooldown_on_hit_chance")) then alt[tid] = true end
+		end
+		for tid, cd in pairs(alt) do
+			self:alterTalentCoolingdown(tid, -1)
+		end
+	end
+
+	-- Life leech
+	if value > 0 and src and not src.dead and src.attr and src:attr("life_leech_chance") and rng.percent(src.life_leech_chance) then
+		local leech = math.min(value, self.life) * src.life_leech_value / 100
+		if leech > 0 then
+			src:heal(leech, self)
+			game:delayedLogMessage(src, self, "life_leech"..self.uid, "#CRIMSON##Source# leeches life from #Target#!")
+		end
+	end
+
+>>>>>>> resourcification
 	-- Life steal from weapon
 	if value > 0 and src and not src.dead and src.attr and src:attr("lifesteal") then
-		local leech = math.min(value, self:getLife()) * src.lifesteal / 100
+		local leech = math.min(value, self.life) * src.lifesteal / 100
 		if leech > 0 then
 			src:heal(leech, self)
 			game:delayedLogMessage(src, self, "lifesteal"..self.uid, "#CRIMSON##Source# steals life from #Target#!")
@@ -3725,11 +3816,15 @@ end
 
 function _M:resetToFull()
 	if self.dead then return end
+<<<<<<< HEAD
 	if self.max_life_reset_to_full then
 		self.life = self.max_life_reset_to_full
 	else
-		self.life = self:getMaxLife()
+		self.life = self.max_life
 	end
+=======
+	self.life = self:getMaxLife()
+>>>>>>> resourcification
 
 	-- go through all resources
 	for res, res_def in ipairs(_M.resources_def) do

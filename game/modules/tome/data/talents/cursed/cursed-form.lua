@@ -32,7 +32,7 @@ newTalent{
 		return combatTalentDamage(self, t, 15, 50)
 	end,
 	getMaxUnnaturalBodyHeal = function(self, t) -- Add up to 50% max life to pool
-		return t.getHealPerKill(self, t) * 2 + self:combatTalentLimit(t, .5, 0.03, 0.055) * self.max_life
+		return t.getHealPerKill(self, t) * 2 + self:combatTalentLimit(t, .5, 0.03, 0.055) * self:getMaxLife()
 	end,
 	getRegenRate = function(self, t) return 3 + combatTalentDamage(self, t, 15, 25) end,
 	updateHealingFactor = function(self, t)
@@ -57,8 +57,8 @@ newTalent{
 		end
 	end,
 	on_kill = function(self, t, target) -- called by _M:die in mod.class.Actor.lua
-		if target and target.max_life then
-			local heal = math.min(t.getHealPerKill(self, t), target.max_life)
+		if target and target.getMaxLife then
+			local heal = math.min(t.getHealPerKill(self, t), target:getMaxLife())
 			if heal > 0 then
 				self.unnatural_body_heal = math.min(self.life, (self.unnatural_body_heal or 0) + heal)
 				self.unnatural_body_heal = math.min(self.unnatural_body_heal, t.getMaxUnnaturalBodyHeal(self, t))
