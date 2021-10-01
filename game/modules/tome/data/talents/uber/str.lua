@@ -283,7 +283,7 @@ uberTalent{
 	require = {
 		birth_descriptors={{"subclass", "Sun Paladin"}},
 		special={desc=_t"Unlocked the evolution", fct=function(self) return profile.mod.allow_build.paladin_avatar end},
-		special2={desc=_t"Found a distant patron", fct=function(self) return not self:attr("pissed_of_distant_sun") end},
+		special2={desc=_t"Has not angered distant patron", fct=function(self) return not self:attr("pissed_of_distant_sun") end},
 		stat = {mag=25},
 		talent = {"T_SUN_VENGEANCE", "T_WEAPON_OF_LIGHT", "T_SEARING_SIGHT", "T_JUDGEMENT"},
 	},
