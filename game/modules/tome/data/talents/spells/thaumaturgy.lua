@@ -95,10 +95,10 @@ newTalent{
 		end
 		local choice = rng.rarityTable(tids, "cd")
 		if not choice then return end
-		self:forceUseTalent(choice.tid, {ignore_cooldown=true, ignore_energy=true, force_target=self._orb_of_thaumaturgy_recurs or target})
 
 		if self._orb_of_thaumaturgy_recurs then self.turn_procs.multicaster_orb = true
 		else self.turn_procs.multicaster = true end
+		self:forceUseTalent(choice.tid, {ignore_cooldown=true, ignore_energy=true, force_target=self._orb_of_thaumaturgy_recurs or target})
 	end,	
 	activate = function(self, t)
 		local ret = {}
