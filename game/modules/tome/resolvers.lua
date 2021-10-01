@@ -986,6 +986,11 @@ function resolvers.calc.talented_ai_tactic(t, e)
 			for k, v in pairs(e.ai_tactic) do
 				if type(v) == "number" and v > 0 then
 					print("running talented_ai_tactic resolver but aborting due to existing tactics")
+					local t = e.__ai_tactic_resolver
+					if t and t.old_on_added_to_level then
+						t.old_on_added_to_level(e, level, x, y)
+						t.old_on_added_to_level = nil
+					end
 					return
 				end
 			end
@@ -995,7 +1000,10 @@ function resolvers.calc.talented_ai_tactic(t, e)
 		local t = e.__ai_tactic_resolver
 		if not t then print("talented_ai_tactic: No resolver table. Aborting") return end
 		e.__ai_tactic_resolver = nil
-		if t.old_on_added_to_level then t.old_on_added_to_level(e, level, x, y) end
+		if t.old_on_added_to_level then
+			t.old_on_added_to_level(e, level, x, y)
+			t.old_on_added_to_level = nil
+		end
 		
 		if type(t[1]) == "function" then
 		print("running talented_ai_tactic resolver custom function from on_added_to_level")
