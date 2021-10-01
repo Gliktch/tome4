@@ -43,7 +43,7 @@ newTalent{
 		if not ok then return end
 
 		if summon.summon_time_max then summon.summon_time = math.ceil(summon.summon_time_max * 0.66) end
-		summon.life = summon.max_life * t:_getResurrect(self) / 100
+		summon.life = summon:getMaxLife() * t:_getResurrect(self) / 100
 		summon.boneyard_resurrected = true
 		summon:takeHit(0)
 		game.logSeen(summon, "#GREY#%s is resurrected by the boneyard!", summon:getName():capitalize())
@@ -163,7 +163,7 @@ newTalent{
 		self:project(tg, x, y, function(px, py)
 			local target = game.level.map(px, py, Map.ACTOR)
 			if not target then return end
-			local dam = target.life * t.getDamage(self, t) / 100
+			local dam = target:getLife() * t.getDamage(self, t) / 100
 			dam = math.min(dam, t.getMax(self, t))
 			target:setEffect(target.EFF_IMPENDING_DOOM, 10, {apply_power=self:combatSpellpower(), dam=dam/10, src=self})
 		end, 1, {type="freeze"})
@@ -193,7 +193,7 @@ newTalent{
 	callbackPriorities={callbackOnActBase = 100}, -- trigger after most others
 	callbackOnActBase = function(self, t)
 		local p = self:isTalentActive(t.id) if not p then return end
-		if p.cur_value > 0 and self.life < 1 then self:heal(p.cur_value, self) end
+		if p.cur_value > 0 and self:getLife() < 1 then self:heal(p.cur_value, self) end
 		p.cur_value = 0
 	end,
 	callbackOnDealDamage = function(self, t, value, target, dead, death_node)
