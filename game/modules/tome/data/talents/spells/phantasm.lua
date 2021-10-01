@@ -73,7 +73,7 @@ newTalent{
 	cooldown = 10,
 	tactical = { BUFF = 2 },
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 200) end,
-	getEvade = function(self, t) return self:combatTalentSpellDamage(t, 1, 16) + 5 end,
+	getEvade = function(self, t) return math.min(50, self:combatTalentSpellDamage(t, 1, 16) + 5) end,
 	getDur = function(self, t) return self:combatTalentLimit(t, 5, 15, 9) end,
 	radius = function(self, t) return self:combatTalentScale(t, 1, 4) end,
 	callbackOnActBase = function(self, t)
