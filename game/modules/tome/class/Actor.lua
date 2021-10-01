@@ -3940,6 +3940,8 @@ function _M:onTemporaryValueChange(prop, v, base)
 		self:recomputeGlobalSpeed()
 	elseif base == self.talents_types_mastery then
 		self:updateTalentTypeMastery(prop)
+	elseif base == self.talents_mastery_bonus then
+		self:updateAllTalentsPassives()
 	elseif prop == "disarmed" then
 		self:updateModdableTile()
 	end
