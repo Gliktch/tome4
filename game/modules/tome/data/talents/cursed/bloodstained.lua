@@ -57,7 +57,7 @@ newTalent{
 	requires_target = true,
 	is_melee = true,
 	is_teleport = true,
-	getBleedDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.7, 2.1) end,
+	getBleedDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.5, 1.7) end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1.0, 1.0) end,
 	target = function(self, t) return {type="hit", pass_terrain = true, range=self:getTalentRange(t)} end,
 	on_learn = function(self, t) self:learnTalent(self.T_BLOOD_CLOT, true) end,
@@ -85,7 +85,7 @@ newTalent{
 		-- Attack
 		if target and target.x and core.fov.distance(self.x, self.y, target.x, target.y) == 1 then
 			target:setEffect(target.EFF_BLOOD_RUSH_MARK, 6, {src=self})
-			local hit = self:attackTarget(target, nil, 1, true)
+			local hit, damage = self:attackTarget(target, nil, 1, true)
 			if hit then
 				if target.dead then
 					game:onTickEnd(function() 
@@ -93,17 +93,8 @@ newTalent{
 												 end)
 				end
 				if target:canBe('cut') then
-					local sw = self:getInven("MAINHAND")
-					if sw then
-						sw = sw[1] and sw[1].combat
-					end
-					sw = sw or self.combat
-					local dam = self:combatDamage(sw)
-					local damrange = self:combatDamageRange(sw)
-					dam = rng.range(dam, dam * damrange)
-					dam = dam * t.getBleedDamage(self, t)
-					target:setEffect(target.EFF_CUT, 5, {power=dam / 5, src=self})
-				end
+					target:setEffect(target.EFF_CUT, 5, {src=self, power=(damage*t.getBleedDamage(self, t) / 5)})
+				end	
 			end
 		end
 		

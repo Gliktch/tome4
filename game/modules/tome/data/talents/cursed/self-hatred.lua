@@ -166,16 +166,6 @@ newTalent{
 		if not state then return {dam = dam} end
 		if self:attr("invulnerable") then return {dam = dam} end
 		
-		local psrc = src.__project_source
-		if psrc then
-			local kind = util.getval(psrc.getEntityKind)
-			if kind == "projectile" or kind == "trap" or kind == "object" then
-				-- continue
-			else
-				return
-			end
-		end
-		
 		local lt = t.getThreshold(self, t)/100
 		local st = t.getSpillThreshold(self, t)/100
 		if dam > self.max_life*lt then

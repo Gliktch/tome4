@@ -663,7 +663,7 @@ newTalent{
 	mode = "passive",
 	require = techs_dex_req4,
 	getSpeed = function(self, t) return math.floor(self:combatTalentLimit(t, 25, 5, 15))/100 end,
-	getTalentCount = function(self, t) return math.floor(self:combatTalentLimit(t, 4, 1, 3.5)) end,
+	getTalentCount = function(self, t) return math.floor(self:combatTalentLimit(t, 4, 1.1, 3.1)) end,
 	getCooldown = function(self, t) return math.floor(self:combatTalentLimit(t, 5, 2, 4.5)) end,
 	proc = function(self, t)
 		if not self:isTalentCoolingDown(t) then 

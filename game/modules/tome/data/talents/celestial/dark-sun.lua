@@ -42,10 +42,10 @@ newTalent{
 		local dur = t.getDuration(self, t)
 		local rad = 1
 		local max_radius = t.getMaxRadius(self, t)
-		dam = self:spellCrit(dam)
 		local oe = game.level.map(px, py, Map.TERRAIN+1)
 		if (oe and oe.is_maelstrom) or game.level.map:checkEntity(x, y, Map.TERRAIN, "block_move") then return nil end
 		
+		dam = self:spellCrit(dam)
 		local e = Object.new{
 			old_feat = oe,
 			type = "void", subtype = "black hole",
