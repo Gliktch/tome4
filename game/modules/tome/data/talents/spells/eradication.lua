@@ -66,13 +66,8 @@ newTalent{
 		return ([[Spawn a boneyard of radius %d around you that lasts for 8 turns.
 		Any foes inside gain the brittle bones effect, reducing their physical resistance by %d%% and making all cooldowns %d%% longer %s.
 		When one of your minions stands in the boneyard they gain %d more physical and spell power.
-<<<<<<< HEAD
-		At level 5 when a minion dies inside the boneyard it has a %d%% chance to resurrect instantly. This effect may only happen once per minion.
-		]]):tformat(self:getTalentRadius(t), t:_getResist(self), t:_getCooldown(self), Desc.vs"ss",  t:_getPower(self), t:_getResurrect(self))
-=======
-		When a minion dies inside the boneyard, it resurrects instantly with %d%% of its maximum health. This effect may only happen once per minion.
-		]]):tformat(self:getTalentRadius(t), t:_getResist(self), t:_getCooldown(self), t:_getPower(self), t:_getResurrect(self))
->>>>>>> necromancer_bones_fixes
+		When a minion dies inside the boneyard, it resurrects instantly with %d%% of its maximum health. This effect may only happen once per minion.]]):
+		tformat(self:getTalentRadius(t), t:_getResist(self), t:_getCooldown(self), Desc.vs"ss",  t:_getPower(self), t:_getResurrect(self))
 	end,
 }
 
