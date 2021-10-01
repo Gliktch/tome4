@@ -77,18 +77,18 @@ newTalent{
 	info = function(self, t)
 		local xs = ""
 		if self:knowTalent(self.T_POISONED_SPIKES) then
-			xs = ("poisoned for %0.1f Nature damage over 6 turns (%d%% healing reduction)"):tformat(damDesc(self, DamageType.NATURE, self:callTalent(self.T_POISONED_SPIKES, "getDamage")), self:callTalent(self.T_POISONED_SPIKES, "getHeal"))
+			xs = ("poisoned for %0.1f Nature damage over 6 turns (%d%% healing reduction) %s"):tformat(damDesc(self, DamageType.NATURE, self:callTalent(self.T_POISONED_SPIKES, "getDamage")), self:callTalent(self.T_POISONED_SPIKES, "getHeal"), Desc.vs(Desc.max("pp", "sp"), "ps"))
 		end
 		if self:knowTalent(self.T_ELDRITCH_SPIKES) then
-			xs = xs..(", blasted for %0.1f Arcane damage (and silenced for %d turns),"):tformat(damDesc(self, DamageType.ARCANE, self:callTalent(self.T_ELDRITCH_SPIKES, "getDamage")), self:callTalent(self.T_ELDRITCH_SPIKES, "getSilence"))
+			xs = xs..(", blasted for %0.1f Arcane damage (and silenced for %d turns %s),"):tformat(damDesc(self, DamageType.ARCANE, self:callTalent(self.T_ELDRITCH_SPIKES, "getDamage")), self:callTalent(self.T_ELDRITCH_SPIKES, "getSilence"), Desc.vs(Desc.max("pp", "sp"), "ms"))
 		end
 		if self:knowTalent(self.T_IMPALING_SPIKES) then
-			xs = xs..(" impaled for %0.1f Physical damage (and disarmed for %d turns),"):tformat(damDesc(self, DamageType.PHYSICAL, self:callTalent(self.T_IMPALING_SPIKES, "getDamage")), self:callTalent(self.T_IMPALING_SPIKES, "getDisarm"))
+			xs = xs..(" impaled for %0.1f Physical damage (and disarmed for %d turns %s),"):tformat(damDesc(self, DamageType.PHYSICAL, self:callTalent(self.T_IMPALING_SPIKES, "getDamage")), self:callTalent(self.T_IMPALING_SPIKES, "getDisarm"), Desc.vs(Desc.max("pp", "sp"), "ps"))
 		end
 		return ([[Stony spikes erupt from the ground in a radius %d cone.
-		Creatures caught in the area will be %scut for %0.1f Physical damage dealt over 6 turns.
-		The damage increases with your Spellpower, and the chance to apply the detrimental effect(s) improves with Spellpower or Physical Power, whichever is greater.]])
-		:tformat(self:getTalentRadius(t), xs ~="" and xs.._t" and " or "", damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		Creatures caught in the area will be %scut for %0.1f Physical damage dealt over 6 turns %s.
+		The damage increases with your Spellpower.]])
+		:tformat(self:getTalentRadius(t), xs ~="" and xs.._t" and " or "", damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), Desc.vs(Desc.max("pp", "sp"), "ps"))
 	end,
 }
 
@@ -104,9 +104,9 @@ newTalent{
 	end, -- fix
 	info = function(self, t)
 		local dam = t.getDamage(self, t)
-		return ([[Coats your stone spikes with insidious poison, dealing %0.1f total nature damage over 6 turns while reducing all healing by %d%%.
-		The damage increases with Spellpower and the chance to poison and healing reduction increases with either Spellpower or Physical Power, whichever is greater.]]):
-		tformat(damDesc(self, DamageType.NATURE, t.getDamage(self, t)), t.getHeal(self, t))
+		return ([[Coats your stone spikes with insidious poison, dealing %0.1f total nature damage over 6 turns while reducing all healing by %d%% %s.
+		The damage increases with Spellpower.]]):
+		tformat(damDesc(self, DamageType.NATURE, t.getDamage(self, t)), t.getHeal(self, t), Desc.vs(Desc.max("pp", "sp"), "ps"))
 	end,
 }
 
@@ -120,9 +120,9 @@ newTalent{
 	getSilence = function(self, t) return math.ceil(self:combatTalentLimit(t, 12, 4, 8.5)) end,
 	info = function(self, t)
 		local dam = t.getDamage(self, t)
-		return ([[Imbues your stone spikes with arcane forces, dealing %0.1f Arcane damage and silencing each target hit for %d turns.
-		The damage increases with Spellpower and the chance to silence increases with either Spellpower or Physical Power, whichever is greater.]]):
-		tformat(damDesc(self, DamageType.ARCANE, t.getDamage(self, t)), t.getSilence(self, t))
+		return ([[Imbues your stone spikes with arcane forces, dealing %0.1f Arcane damage and silencing each target hit for %d turns %s.
+		The damage increases with Spellpower.]]):
+		tformat(damDesc(self, DamageType.ARCANE, t.getDamage(self, t)), t.getSilence(self, t), Desc.vs(Desc.max("pp", "sp"), "ms"))
 	end,
 }
 
@@ -135,9 +135,9 @@ newTalent{
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 200) end,
 	getDisarm = function(self, t) return math.ceil(self:combatTalentLimit(t, 12, 4, 8.5)) end,
 	info = function(self, t)
-		return ([[Your stone spikes grow in length, instantly dealing %0.1f Physical damage and disarming targets hit for %d turns.
-		The damage increases with Spellpower and the chance to disarm increases with either Spellpower or Physical Power, whichever is greater.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), t.getDisarm(self, t))
+		return ([[Your stone spikes grow in length, instantly dealing %0.1f Physical damage and disarming targets hit for %d turns %s.
+		The damage increases with Spellpower.]]):
+		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), t.getDisarm(self, t), Desc.vs(Desc.max("pp", "sp"), "ps"))
 	end,
 }
 

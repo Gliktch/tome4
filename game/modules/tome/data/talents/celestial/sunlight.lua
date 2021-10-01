@@ -110,11 +110,11 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local res = t.getRes(self, t)
 		local resdur = t.getResDuration(self, t)
-		return ([[Invokes the Sun to cause a flare within radius %d, blinding your foes for %d turns and lighting up the area.
+		return ([[Invokes the Sun to cause a flare within radius %d, blinding your foes for %d turns %s and lighting up the area.
 		All enemies effected will take %0.2f light damage.
 		At talent level 3 you gain %d%% light, darkness, and fire resistance for %d turns.
 		The damage done and resistances will increase with your Spellpower.]]):
-		tformat(radius, duration, damDesc(self, DamageType.LIGHT, damage), res, resdur )
+		tformat(radius, duration, Desc.vs"sp" , damDesc(self, DamageType.LIGHT, damage), res, resdur )
    end,
 }
 

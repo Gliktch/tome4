@@ -1007,6 +1007,7 @@ newDamageType{
 }
 
 -- Temporal + Stun
+-- Deprecated
 newDamageType{
 	name = _t("temporal stun", "damage type"), type = "TEMPORALSTUN",
 	projector = function(src, x, y, type, dam, state)
@@ -1063,7 +1064,7 @@ newDamageType{
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target then
 			if target:canBe("silence") then
-				target:setEffect(target.EFF_SILENCED, math.ceil(dam.dur), {apply_power=dam.power_check or src:combatMindpower() * 0.7})
+				target:setEffect(target.EFF_SILENCED, math.ceil(dam.dur), {apply_power=dam.power_check or src:combatMindpower()})
 			else
 				game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 			end
@@ -1102,7 +1103,7 @@ newDamageType{
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and rng.percent(dam) then
 			if target:canBe("silence") then
-				target:setEffect(target.EFF_SILENCED, 4, {apply_power=src:combatAttack()*0.7, no_ct_effect=true})
+				target:setEffect(target.EFF_SILENCED, 4, {apply_power=src:combatAttack(), no_ct_effect=true})
 			else
 				game.logSeen(target, "%s resists the silence!", target:getName():capitalize())
 			end
@@ -1126,6 +1127,8 @@ newDamageType{
 		end
 	end,
 }
+
+-- Deprecated
 newDamageType{
 	name = _t("blindness", "damage type"), type = "BLINDPHYSICAL",
 	projector = function(src, x, y, type, dam, state)
@@ -1360,23 +1363,49 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local chance = 25
 		local do_wet = false
-		if _G.type(dam) == "table" then chance, dam, do_wet = dam.chance, dam.dam, dam.do_wet end
+		local apply_power
+		if _G.type(dam) == "table" then chance, dam, do_wet, apply_power = dam.chance, dam.dam, dam.do_wet, dam.apply_power end
 
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 chance = 50 end
 
 		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam, state)
 		if rng.percent(chance) then
-			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.5}, state)
+			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.5, apply_power=apply_power}, state)
 		end
 		if target and do_wet and not target:hasEffect(target.EFF_FROZEN) then
-			target:setEffect(target.EFF_WET, 3, {apply_power=math.max(src:combatSpellpower(), src:combatMindpower()), min_dur=1})
+			target:setEffect(target.EFF_WET, 3, {apply_power=apply_power or math.max(src:combatSpellpower(), src:combatMindpower()), min_dur=1})
 		end
 		return realdam
 	end,
 }
 
+-- Cold damage + freeze chance
+newDamageType{
+	name = _t("ice", "damage type"), type = "ICE_MIND", text_color = "#1133F3#",
+	projector = function(src, x, y, type, dam, state)
+		state = initState(state)
+		useImplicitCrit(src, state)
+		local chance = 25
+		local do_wet = false
+		local apply_power
+		if _G.type(dam) == "table" then chance, dam, do_wet, apply_power = dam.chance, dam.dam, dam.do_wet, dam.apply_power end
+
+		local target = game.level.map(x, y, Map.ACTOR)
+		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 chance = 50 end
+
+		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam, state)
+		if rng.percent(chance) then
+			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.5, apply_power=apply_power or src:combatMindpower()}, state)
+		end
+		if target and do_wet and not target:hasEffect(target.EFF_FROZEN) then
+			target:setEffect(target.EFF_WET, 3, {apply_power=apply_power or src:combatMindpower(), min_dur=1})
+		end
+		return realdam
+	end,
+}
 -- Cold damage + freeze chance + 20% slow
+-- Deprecated
 newDamageType{
 	name = _t("slowing ice", "damage type"), type = "ICE_SLOW", text_color = "#1133F3#",
 	projector = function(src, x, y, type, dam, state)
@@ -1407,9 +1436,10 @@ newDamageType{
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 chance = 50 end
 
-		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam, state)
+		dam = _G.type(dam) == "number" and {dam=dam} or dam
+		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam.dam, state)
 		if rng.percent(chance) then
-			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.5}, state)
+			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam.dam*1.5, apply_power=dam.apply_power}, state)
 		end
 		return realdam
 	end,
@@ -1424,9 +1454,10 @@ newDamageType{
 		local chance = 0
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 chance = 15 end
-		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam, state)
+		dam = _G.type(dam) == "number" and {dam=dam} or dam
+		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam.dam, state)
 		if rng.percent(chance) then
-			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam*1.2}, state)
+			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam.dam*1.2, apply_power=dam.apply_power}, state)
 		end
 		return realdam
 	end,
@@ -1442,9 +1473,8 @@ newDamageType{
 		DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam.dam, state)
 		local target = game.level.map(x, y, Map.ACTOR)
 		if target then
-			local apply = dam.apply_power
 			if target:attr("negative_status_effect_immune_frozen") or (target:canBe("pin") and not target:attr("fly") and not target:attr("levitation")) then
-				target:setEffect(target.EFF_FROZEN_FEET, dam.dur, {apply_power=dam.apply_power})
+				target:setEffect(target.EFF_FROZEN_FEET, dam.dur, {apply_power=dam.apply_power or (src.combatSpellpower and math.max(src:combatSpellpower(), src:combatMindpower()))})
 			end
 
 			if dam.shatter_reduce and target:hasEffect(target.EFF_WET) then
@@ -1465,7 +1495,7 @@ newDamageType{
 			-- Freeze it, if we pass the test
 			local sx, sy = game.level.map:getTileToScreen(x, y, true)
 			if target:canBe("stun") then
-				target:setEffect(target.EFF_FROZEN, dam.dur, {hp=dam.hp * 1.5, apply_power=math.max(src:combatSpellpower(), src:combatMindpower()), min_dur=1})
+				target:setEffect(target.EFF_FROZEN, dam.dur, {hp=dam.hp * 1.5, apply_power=dam.apply_power or math.max(src:combatSpellpower(), src:combatMindpower()), min_dur=1})
 				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"Frozen!", {0,255,155})
 			else
 				game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, -3, _t"Resist!", {0,255,155})
@@ -1682,6 +1712,7 @@ newDamageType{
 }
 
 -- Darkness damage + repulsion; checks for spell power against mental resistance
+-- Deprecated
 newDamageType{
 	name = _t("darkness repulsion", "damage type"), type = "DARKKNOCKBACK",
 	projector = function(src, x, y, type, dam, state)
@@ -1740,7 +1771,7 @@ newDamageType{
 		if target and not state[target] then
 			state[target] = true
 			DamageType:get(DamageType.PHYSICAL).projector(src, x, y, DamageType.PHYSICAL, dam, state)
-			if target:checkHit(src:combatMindpower() * 0.8, target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
+			if target:checkHit(src:combatMindpower(), target:combatPhysicalResist(), 0, 95, 15) and target:canBe("knockback") then
 				target:knockback(src.x, src.y, 3)
 				target:crossTierEffect(target.EFF_OFFBALANCE, src:combatMindpower())
 				game.logSeen(target, "%s is knocked back!", target:getName():capitalize())
@@ -1803,7 +1834,7 @@ newDamageType{
 		state = initState(state)
 		useImplicitCrit(src, state)
 		local power
-		if type(dam) == "table" then
+		if _G.type(dam) == "table" then
 			power = dam.apply_power
 			dam = dam.dam
 		end
@@ -2482,6 +2513,7 @@ newDamageType{
 }
 
 -- Physical + Blind
+-- Deprecated
 newDamageType{
 	name = _t("blinding physical", "damage type"), type = "SAND",
 	projector = function(src, x, y, type, dam, state)
@@ -2878,7 +2910,7 @@ newDamageType{
 		if target then
 			if target:isTalentActive(target.T_GRAVITY_LOCUS) then return end
 			if dam.slow then
-				target:setEffect(target.EFF_SLOW, dam.dur, {power=dam.slow, apply_power=apply, no_ct_effect=true})
+				target:setEffect(target.EFF_SLOW, dam.dur, {power=dam.slow, apply_power=dam.apply, no_ct_effect=true})
 			end
 		end
 		DamageType:get(DamageType.PHYSICAL).projector(src, x, y, DamageType.PHYSICAL, dam.dam, state)
@@ -3181,6 +3213,7 @@ newDamageType{
 	end,
 }
 
+-- Deprecated
 newDamageType{
 	name = _t("stop", "damage type"), type = "STOP",
 	projector = function(src, x, y, type, dam, state)
@@ -3197,6 +3230,7 @@ newDamageType{
 	end,
 }
 
+-- Deprecated
 newDamageType{
 	name = _t("debilitating temporal", "damage type"), type = "RETHREAD",
 	projector = function(src, x, y, type, dam, state)
@@ -3365,6 +3399,7 @@ newDamageType{
 }
 
 -- Darkness damage + speed reduction + minion damage inc
+-- Deprecated
 newDamageType{
 	name = _t("decaying darkness", "damage type"), type = "RIGOR_MORTIS",
 	projector = function(src, x, y, type, dam, state)
@@ -3819,6 +3854,7 @@ newDamageType{
 	end,
 }
 
+-- Deprecated
 newDamageType{
 	name = _t("telekinetic shove", "damage type"), type = "TK_PUSHPIN",
 	projector = function(src, x, y, type, dam, state)

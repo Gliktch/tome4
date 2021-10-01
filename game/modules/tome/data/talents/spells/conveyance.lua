@@ -160,7 +160,7 @@ newTalent{
 		local radius = t.getRadius(self, t)
 		local range = t.getRange(self, t)
 		return ([[Teleports you randomly within a small range of up to %d grids.
-		At level 4, it allows you to specify which creature to teleport.
+		At level 4, it allows you to specify which creature to teleport. You need to bypass spell save with your spellpower to teleport hostile creatures.
 		At level 5, it allows you to choose the target area (radius %d).
 		If the target area is not in line of sight, there is a chance the spell will partially fail and teleport the target randomly.
 		The range will increase with your Spellpower.]]):tformat(range, radius)
@@ -275,7 +275,7 @@ newTalent{
 		local range = t.getRange(self, t)
 		local radius = t.getRadius(self, t)
 		return ([[Teleports you randomly within a large range (%d).
-		At level 4, it allows you to specify which creature to teleport.
+		At level 4, it allows you to specify which creature to teleport. You need to bypass spell save with your spellpower to teleport hostile creatures.
 		At level 5, it allows you to choose the target area (radius %d).
 		If the target area is not in line of sight, there is a chance the spell will partially fail and teleport the target randomly.
 		Random teleports have a minimum range of %d.

@@ -52,8 +52,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Shout your warcry in a frontal cone of radius %d. Any targets caught inside will be confused (50%% confusion power) for %d turns.]]):
-		tformat(self:getTalentRadius(t), t.getDuration(self, t))
+		return ([[Shout your warcry in a frontal cone of radius %d. Any targets caught inside will be confused (50%% confusion power) %s for %d turns.]]):
+		tformat(self:getTalentRadius(t), Desc.vs"pm", t.getDuration(self, t))
 	end,
 }
 
@@ -198,10 +198,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns.
-		Also if the target is protected by any temporary magical or psionic damage absorbing shields there is %d%% chance to shatter a random shield.
-		Armor reduction chance increases with your Physical Power.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.5), t.getArmorReduc(self, t), t.getDuration(self, t), t.getShatter(self, t))
+		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns %s.
+		Also if the target is protected by any temporary magical or psionic damage absorbing shields there is %d%% chance to shatter a random shield %s.]])
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.5), t.getArmorReduc(self, t), t.getDuration(self, t), Desc.vs"pp", t.getShatter(self, t), Desc.vs())
 	end,
 }
 

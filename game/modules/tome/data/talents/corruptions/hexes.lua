@@ -51,8 +51,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hexes your target, dazing it and everything in a 2 radius ball around it for 3 turns and giving a %d%% chance to daze affected targets again each turn for 20 turns.
-		The chance will increase with your Spellpower.]]):tformat(t.getchance(self,t))
+		return ([[Hexes your target, dazing it and everything in a 2 radius ball around it for 3 turns %s and giving a %d%% chance to daze affected targets again each turn for 20 turns %s.
+		The chance will increase with your Spellpower.]]):tformat(Desc.vs(), t.getchance(self,t), Desc.vs"ss")
 	end,
 }
 
@@ -88,10 +88,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hexes your target and everything within a radius 2 ball around it for 20 turns. Each time an affected target uses a resource (stamina, mana, vim, ...), it takes %0.2f fire damage.
+		return ([[Hexes your target and everything within a radius 2 ball around it for 20 turns %s. Each time an affected target uses a resource (stamina, mana, vim, ...), it takes %0.2f fire damage.
 		In addition, the cooldown of any talent used while so hexed is increased by %d%% + 1 turn.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 4, 90)), t.getCDincrease(self, t)*100)
+		tformat(Desc.vs"ss", damDesc(self, DamageType.FIRE, self:combatTalentSpellDamage(t, 4, 90)), t.getCDincrease(self, t)*100)
 	end,
 }
 
@@ -127,8 +127,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hexes your target and everything within a radius 2 ball around it. Each time they do damage, they take %d%% of the same damage for 20 turns.
-		The damage will increase with your Spellpower.]]):tformat(t.recoil(self,t))
+		return ([[Hexes your target and everything within a radius 2 ball around it %s. Each time they do damage, they take %d%% of the same damage for 20 turns.
+		The damage will increase with your Spellpower.]]):tformat(Desc.vs"ss", t.recoil(self,t))
 	end,
 }
 
@@ -164,7 +164,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hexes your target, forcing it to be your thrall for %d turns.
-		If you damage the target, it will be freed from the hex.]]):tformat(t.getDuration(self, t))
+		return ([[Hexes your target, forcing it to be your thrall for %d turns %s.
+		If you damage the target, it will be freed from the hex.]]):tformat(t.getDuration(self, t), Desc.vs"ss")
 	end,
 }

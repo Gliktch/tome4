@@ -92,8 +92,8 @@ newTalent{
 	info = function(self, t)
 		local heal = t.healloss(self,t)
 		return ([[Lashes at the target, doing %d%% weapon damage.
-		If the attack hits, the target will bleed for %d%% weapon damage over 7 turns, and all healing will be reduced by %d%%.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.7), 100 * self:combatTalentWeaponDamage(t, 2, 3.2), heal)
+		If the attack hits, the target will bleed %s for %d%% weapon damage over 7 turns, and all healing will be reduced by %d%%.]]):
+		tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.7), Desc.vs"ap", 100 * self:combatTalentWeaponDamage(t, 2, 3.2), heal)
 	end,
 }
 

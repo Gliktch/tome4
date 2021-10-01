@@ -100,9 +100,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your blood turns into an acidic mixture. When you get hit, the attacker is splashed with acid.
-		This deals %0.2f acid damage each turn for 5 turns, and reduces the attacker's Accuracy by %d.
+		This deals %0.2f acid damage each turn for 5 turns, and reduces the attacker's Accuracy by %d %s.
 		At level 3, it will also reduce Armour by %d for 5 turns.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.ACID, self:combatTalentSpellDamage(t, 5, 30)), self:combatTalentSpellDamage(t, 15, 35), self:combatTalentSpellDamage(t, 15, 40))
+		tformat(damDesc(self, DamageType.ACID, self:combatTalentSpellDamage(t, 5, 30)), self:combatTalentSpellDamage(t, 15, 35), Desc.vs(), self:combatTalentSpellDamage(t, 15, 40))
 	end,
 }

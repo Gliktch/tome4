@@ -214,9 +214,9 @@ newTalent{
 		local damagepct = t.getLifeDamage(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Your weapon attacks burn with righteous fury, dealing %d%% of your lost HP as additional Fire damage (up to %d, Current:  %d).
-		Targets struck are also afflicted with a Martyrdom effect that causes them to take %d%% of all damage they deal for 4 turns.
+		Targets struck are also afflicted with a Martyrdom effect %s that causes them to take %d%% of all damage they deal for 4 turns.
 		The bonus damage can only occur once per turn.]]):
-		tformat(damagepct*100, t.getMaxDamage(self, t, 10, 400), damage, martyr)
+		tformat(damagepct*100, t.getMaxDamage(self, t, 10, 400), damage, Desc.vs(), martyr)
 	end,
 }
 

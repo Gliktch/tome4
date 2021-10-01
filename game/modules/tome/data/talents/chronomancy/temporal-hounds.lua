@@ -457,7 +457,7 @@ newTalent{
 		local duration =t.getDuration(self, t)
 		local affinity = t.getResists(self, t)
 		return ([[Command your Temporal Hounds to breathe time, dealing %0.2f temporal damage and reducing the three highest stats of all targets in a radius %d cone.
-		Affected targets will have their stats reduced by %d for %d turns.  You are immune to the breath of your own hounds and your hounds are immune to stat damage from other hounds.
-		When you learn this talent, your hounds gain %d%% temporal damage affinity.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), radius, stat_damage, duration, affinity)
+		Affected targets will have their stats reduced by %d for %d turns %s.  You are immune to the breath of your own hounds and your hounds are immune to stat damage from other hounds.
+		When you learn this talent, your hounds gain %d%% temporal damage affinity.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), radius, stat_damage, duration, Desc.vs"ss", affinity)
 	end,
 }

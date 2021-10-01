@@ -2036,7 +2036,7 @@ newEffect{
 newEffect{
 	name = "BRAINLOCKED",
 	desc = _t"Brainlocked",
-	long_desc = function(self, eff) return ("Renders a random talent unavailable. Talent cooldown is halved until the effect has worn off."):tformat() end,
+	long_desc = function(self, eff) return ("Renders a random talent unavailable. Talent cooldown is halved until the effect has worn off. This is a special cross-tier effect, may be applied if the attacker's power is on higher tier (every 20 points counts as a tier) than your mental save in a save check."):tformat() end,
 	type = "mental",
 	subtype = { ["cross tier"]=true },
 	status = "detrimental",

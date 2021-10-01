@@ -205,7 +205,7 @@ newTalent{
 		local power = t.getPower(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Attack the target with either your ranged or melee weapons for %d%% weapon damage.  For the next %d turns random targeting, such as from Blink Blade and Warden's Call, will focus on this target.
-		Attacks against this target gain %d%% critical chance and critical strike power while you take %d%% less damage from all enemies whose rank is lower then that of your focus target.]])
-		:tformat(damage, duration, power, power, power)
+		Attacks against this target gain %d%% critical chance and critical strike power %s while you take %d%% less damage from all enemies whose rank is lower then that of your focus target.]])
+		:tformat(damage, duration, power, Desc.vs(), power)
 	end
 }

@@ -81,9 +81,9 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Calls forth a ray of light from the Sun, doing %0.1f Light damage to the target.
-		At level 3 the ray will be so intense it will also blind the target and everyone in a radius 2 around it for %d turns.
+		At level 3 the ray will be so intense it will also blind the target and everyone in a radius 2 around it for %d turns. %s
 		The damage dealt will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.LIGHT, damage), t.getDuration(self, t))
+		tformat(damDesc(self, DamageType.LIGHT, damage), t.getDuration(self, t), Desc.vs"sp")
 	end,
 }
 

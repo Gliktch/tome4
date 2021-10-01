@@ -219,7 +219,7 @@ newTalent{
 		local hitCount = t.getHitCount(self, t)
 		local stunDuration = t.getStunDuration(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[While rampaging, you slam up to %d adjacent opponents, stunning them for %d turns and damaging them for between %d and %d physical damage. Your first slam of at least two opponents increases the rampage duration by 1.
-		Damage increases with your Physical Power.]]):tformat(hitCount, stunDuration, damage * 0.5, damage)
+		return ([[While rampaging, you slam up to %d adjacent opponents, stunning them for %d turns %s and damaging them for between %d and %d physical damage. Your first slam of at least two opponents increases the rampage duration by 1.
+		Damage increases with your Physical Power.]]):tformat(hitCount, stunDuration, Desc.vs"pp", damage * 0.5, damage)
 	end,
 }

@@ -278,9 +278,9 @@ newTalent{
 		local fail = t.getFailChance(self,t)
 		return ([[The pounding forge of thought in your mind is released upon your surroundings.  Each turn that you remain stationary, you'll strike the dreamforge, inflicting mind and burning damage on enemies around you.
 		The effect will build over five turns, until it reaches a maximum radius of %d, maximum mind damage of %0.2f, and maximum burning damage of %0.2f.
-		At this point you'll begin breaking the dreams of enemies who hear the forge, reducing their Mental Save by %d and giving them a %d%% chance of spell failure due to the tremendous echo in their minds for %d turns.
-		Broken Dreams has a %d%% chance to brainlock your enemies.
+		At this point you'll begin breaking the dreams of enemies who hear the forge, reducing their Mental Save by %d and giving them a %d%% chance of spell failure due to the tremendous echo in their minds for %d turns %s.
+		Broken Dreams has a %d%% chance to brainlock your enemies %s.
 		The damage and dream breaking effect will scale with your Mindpower.]]):
-		tformat(radius, damDesc(self, DamageType.MIND, damage), damDesc(self, DamageType.FIRE, damage), power, fail, duration, chance)
+		tformat(radius, damDesc(self, DamageType.MIND, damage), damDesc(self, DamageType.FIRE, damage), power, fail, duration, Desc.vs"mm", chance, Desc.vs"mm")
 	end,
 }
