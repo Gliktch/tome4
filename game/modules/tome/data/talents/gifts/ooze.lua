@@ -295,8 +295,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your body's internal organs are indistinct, disguising your vital areas.
-		You have a %d%% chance to shrug off all direct critical hits (physical, mental, spell).
-		In addition you gain %d%% resistance to disease, poison, wounds and blindness.]]):
+		The bonus damage multiplier of critical hits from any direct attack (melee/ranged weapons, spells, mind powers, ...) is reduced by %d%%.
+		In addition you gain %d%% resistance to disease, poison, cuts and blindness.]]):
 		tformat(t.critResist(self, t), 100*t.immunities(self, t))
 	end,
 }

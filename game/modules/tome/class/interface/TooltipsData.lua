@@ -313,10 +313,10 @@ Armour hardiness represents how much of each incoming blows the armour will affe
 Absorbs (hardiness)% of incoming weapon damage, up to a maximum of (armour) damage absorbed.
 ]]
 TOOLTIP_CRIT_REDUCTION = _t[[#GOLD#Crit Reduction#LAST#
-Crit reduction reduces the chance an opponent has of landing a critical strike with a melee or ranged attack.
+Reduces the chance an opponent has of landing a critical strike with a melee or ranged weapon attack.
 ]]
 TOOLTIP_CRIT_SHRUG = _t[[#GOLD#Crits Shrug Off#LAST#
-Gives a chance to ignore the bonus critical damage from any direct damage attacks (melee, spells, ranged, mind powers, ...).
+Reduces the critical damage bonus multiplier from any direct damage attacks (melee/ranged weapons, spells, mind powers, ...).
 ]]
 TOOLTIP_DEFENSE = _t[[#GOLD#Defense#LAST#
 Defense represents your chance to avoid melee weapon attacks and reduces the chance you'll be knocked off-balance by an enemy's attack. It is measured against the attacker's Accuracy.
