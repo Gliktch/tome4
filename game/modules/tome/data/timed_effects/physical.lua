@@ -2420,11 +2420,11 @@ newEffect{
 newEffect{
 	name = "COUNTERSTRIKE", image = "effects/counterstrike.png",
 	desc = _t"Counterstrike",
-	long_desc = function(self, eff) return _t"Vulnerable to deadly counterstrikes. Next melee attack will inflict double damage." end,
+	long_desc = function(self, eff) return ("Vulnerable to deadly counterstrikes. Next melee or ranged weapon attack will inflict double damage. Defense is reduced by %d."):tformat(eff.power) end,
 	type = "physical",
 	subtype = { tactic=true },
 	status = "detrimental",
-	parameters = { nb=1 },
+	parameters = { nb=1, power = 5 },
 	on_gain = function(self, eff) return nil, _t"+Counter" end,
 	on_lose = function(self, eff) return nil, _t"-Counter" end,
 	onStrike = function(self, eff, dam, src)
