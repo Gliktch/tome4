@@ -23,62 +23,62 @@ require "bit"
 --- Provide some helper functions for description
 -- @classmod engine.generator.interface.ActorTalentsDescHelper
 module(..., package.seeall, class.make)
-local acc, def, pp, sp, mp, ps, ss, ms = _t"Accuracy", _t"Defense", _t"Physical Power", _t"Spellpower", _t"Mindpower", _t"Physical Save", _t"Spell Save", _t"Mental Save"
+local acc, def, pp, sp, mp, ps, ss, ms = _t"accuracy", _t"defense", _t"physical power", _t"spellpower", _t"mindpower", _t"physical save", _t"spell Save", _t"mental save"
 
 _M.power_save_simple_pairs = {
-    ap = { acc, ps },
-    as = { acc, ss },
-    am = { acc, ms },
-    pp = { pp, ps },
-    ps = { pp, ss },
-    pm = { pp, ms },
-    sp = { sp, ps },
-    ss = { sp, ss },
-    sm = { sp, ms },
-    mp = { mp, ps },
-    ms = { mp, ss },
-    mm = { mp, ms },
+	ap = { acc, ps },
+	as = { acc, ss },
+	am = { acc, ms },
+	pp = { pp, ps },
+	ps = { pp, ss },
+	pm = { pp, ms },
+	sp = { sp, ps },
+	ss = { sp, ss },
+	sm = { sp, ms },
+	mp = { mp, ps },
+	ms = { mp, ss },
+	mm = { mp, ms },
 }
 _M.powers_saves = {
-    a = acc,
-    acc = acc,
-    atk = acc,
-    attack = acc,
-    accuracy = acc,
-    pp = pp,
-    physicalpower = pp,
-    sp = sp,
-    spellpower = sp,
-    mp = mp,
-    mindpower = mp,
-    d = def,
-    def = def,
-    defense = def,
-    ps = ps,
-    physicalsave = ps,
-    ss = ss,
-    spellsave = ss,
-    ms = ms,
-    mindsave = ms,
+	a = acc,
+	acc = acc,
+	atk = acc,
+	attack = acc,
+	accuracy = acc,
+	pp = pp,
+	physicalpower = pp,
+	sp = sp,
+	spellpower = sp,
+	mp = mp,
+	mindpower = mp,
+	d = def,
+	def = def,
+	defense = def,
+	ps = ps,
+	physicalsave = ps,
+	ss = ss,
+	spellsave = ss,
+	ms = ms,
+	mindsave = ms,
 }
 _M.powers = {
-    p = pp,
-    s = sp,
-    m = mp,
+	p = pp,
+	s = sp,
+	m = mp,
 }
 _M.saves = {
-    p = ps,
-    s = ss,
-    m = ms,
+	p = ps,
+	s = ss,
+	m = ms,
 }
 
 _M.concat = function(...)
-    local arg = { ... }
-    local transformed = {}
-    for _, v in ipairs(arg) do
-        transformed[#transformed + 1] = _M.powers_saves[v] or _t(tostring(v))
-    end
-    return transformed
+	local arg = { ... }
+	local transformed = {}
+	for _, v in ipairs(arg) do
+		transformed[#transformed + 1] = _M.powers_saves[v] or _t(tostring(v))
+	end
+	return transformed
 end
 _M.max = _M.concat
 
@@ -88,23 +88,23 @@ _M.max = _M.concat
 --      string: search in _M.powers/saves/powers_saves and replace with proper desc
 --      tables: simply concat them with "/"
 _M.vs = function(power, save)
-    if not save and _M.power_save_simple_pairs[power] then
-        local pair = _M.power_save_simple_pairs[power]
-        return string.tformat("(%s vs %s)", pair[1], pair[2])
-    end
-    if type(power) == "table" then
-        power = table.concat(power, "/")
-    else
-        power = _M.powers[power] or _M.powers_saves[power] or power
-    end
-    if type(save) == "table" then
-        save = table.concat(save, "/")
-    else
-        save = _M.saves[save] or _M.powers_saves[save] or save
-    end
-    if power and save then
-        return string.tformat("(%s vs %s)", power, save)
-    else
-        return _t"(Bypass Saves)"
-    end
+	if not save and _M.power_save_simple_pairs[power] then
+		local pair = _M.power_save_simple_pairs[power]
+		return string.tformat("(%s vs %s)", pair[1], pair[2])
+	end
+	if type(power) == "table" then
+		power = table.concat(power, "/")
+	else
+		power = _M.powers[power] or _M.powers_saves[power] or power
+	end
+	if type(save) == "table" then
+		save = table.concat(save, "/")
+	else
+		save = _M.saves[save] or _M.powers_saves[save] or save
+	end
+	if power and save then
+		return string.tformat("(%s vs %s)", power, save)
+	else
+		return _t"(bypass saves)"
+	end
 end
