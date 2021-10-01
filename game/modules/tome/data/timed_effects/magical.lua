@@ -5251,6 +5251,8 @@ newEffect{
 		self:tableTemporaryValue(eff.tmpids, "life", eff.health)
 		self:tableTemporaryValue(eff.tmpids, "combat_armor", eff.armor)
 		self:tableTemporaryValue(eff.tmpids, "on_melee_hit", {[DamageType.PHYSICAL]=eff.retaliation})
+		
+		self:takeHit(0)
 	end,
 	on_merge = function(self, old_eff, new_eff, ed)
 		old_eff.health = old_eff.health + new_eff.health
@@ -5264,6 +5266,8 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 		self:tableTemporaryValuesRemove(eff.tmpids)
+		
+		self:takeHit(0)
 	end,
 }
 
