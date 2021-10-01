@@ -96,10 +96,14 @@ g.block_move = function(self, x, y, who, act, couldpass)
 		self.autoexplore_ignore = true
 		self.name = _t"glowing chest (opened)"
 
-		if self.add_displays and self.add_displays[1] then 
-			self.add_displays[1].image = "object/chestopen3.png"
-			self:removeAllMOs()
-			game.level.map:updateMap(x, y)
+		if self.add_displays then
+			for k, v in ipairs(self.add_displays) do
+				if v.image and v.image == "object/chest3.png" then
+					v.image = "object/chestopen3.png"
+					self:removeAllMOs()
+					game.level.map:updateMap(x, y)
+				end
+			end
 		end
 	end end, _t"Open", _t"Leave")
 
