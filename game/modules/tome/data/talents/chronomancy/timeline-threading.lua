@@ -205,9 +205,9 @@ newTalent{
 	info = function(self, t)
 		local braid = t.getBraid(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Your Rethread now braids the lifelines of all targets it hits for %d turns.  Braided targets take %d%% of all damage dealt to other braided targets.
+		return ([[Your Rethread now braids the lifelines of all targets it hits for %d turns %s.  Braided targets take %d%% of all damage dealt to other braided targets.
 		The amount of damage shared will scale with your Spellpower.]])
-		:tformat(duration, braid)
+		:tformat(duration, Desc.vs(), braid)
 	end
 }
 
@@ -292,11 +292,11 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		local power = t.getPower(self, t)
-		return ([[Over the next %d turns, you attempt to remove the target from the timeline, lowering its resistance to physical and temporal damage by %d%%.
+		return ([[Over the next %d turns, you attempt to remove the target from the timeline, lowering its resistance to physical and temporal damage by %d%% %s.
 		If you manage to kill the target while the spell is in effect, you'll be returned to the point in time you cast this spell and the target will be slain.
 		This spell splits the timeline.  Attempting to use another spell that also splits the timeline while this effect is active will be unsuccessful.
 		The resistance penalty will scale with your Spellpower.]])
-		:tformat(duration, power)
+		:tformat(duration, power, Desc.vs"ss")
 	end,
 }
 

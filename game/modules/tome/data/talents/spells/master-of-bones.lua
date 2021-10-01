@@ -313,10 +313,10 @@ newTalent{
 		game:playSoundNear(summon, "talents/skeleton")
 	end,
 	info = function(self, t)
-		return ([[Any time one of your skeleton or bone giant dies, it shatters in radius %d, making any foe bleed for %0.2f physical damage over 5 turns.
+		return ([[Any time one of your skeleton or bone giant dies, it shatters in radius %d, making any foe bleed for %0.2f physical damage over 5 turns %s.
 		If any other skeleton or bone giant minion is in the radius it will pickup some of the bones to enhance itself, increasing maximum and current life by %d, armour by %d and gain %0.2f physical melee retaliation for 20 turns.
 		This talent never works when you kill your own minions.
-		]]):tformat(self:getTalentRadius(t), t:_getDamage(self), t:_getHealth(self), t:_getArmor(self), t:_getRetaliation(self))
+		]]):tformat(self:getTalentRadius(t), t:_getDamage(self), Desc.vs"sp", t:_getHealth(self), t:_getArmor(self), t:_getRetaliation(self))
 	end,
 }
 

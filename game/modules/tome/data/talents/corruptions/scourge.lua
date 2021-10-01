@@ -217,7 +217,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Corrupt the target reducing disease immunity by 100%% for 2 turns and stripping up to 2 nature sustains then strike with both your weapons dealing %d%% damage.]]):
-		tformat(100 * t.getDamage(self, t))
+		return ([[Corrupt the target reducing disease immunity by 100%% for 2 turns and stripping up to 2 nature sustains then strike with both your weapons dealing %d%% damage %s.]]):
+		tformat(100 * t.getDamage(self, t), Desc.vs())
 	end,
 }

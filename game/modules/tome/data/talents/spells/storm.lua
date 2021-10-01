@@ -36,7 +36,7 @@ newTalent{
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
 		local dam = self:spellCrit(t.getDamage(self, t))
-		self:project(tg, self.x, self.y, DamageType.LIGHTNING_DAZE, {daze=75, dam=rng.avg(dam / 3, dam, 3)})
+		self:project(tg, self.x, self.y, DamageType.LIGHTNING_DAZE, {daze=75, dam=rng.avg(dam / 3, dam, 3), power_check=self:combatSpellpower()})
 
 		if core.shader.active(4) then
 			game.level.map:particleEmitter(self.x, self.y, tg.radius, "shader_ring", {radius=tg.radius*2, life=8}, {type="sparks"})
@@ -60,11 +60,12 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Lightning emanates from you in a circular wave with radius %d, doing %0.2f to %0.2f lightning damage (%0.2f average) and possibly dazing anyone affected (75%% chance).
+		return ([[Lightning emanates from you in a circular wave with radius %d, doing %0.2f to %0.2f lightning damage (%0.2f average) and possibly dazing anyone affected (75%% chance) %s.
 		The damage will increase with your Spellpower.]]):tformat(radius,
 		damDesc(self, DamageType.LIGHTNING, damage / 3),
 		damDesc(self, DamageType.LIGHTNING, damage),
-		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
+		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2),
+		Desc.vs"sp")
 	end,
 }
 
@@ -85,18 +86,20 @@ newTalent{
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 		local dam = t.getDamage(self, t)
-		self:projectile(tg, x, y, DamageType.LIGHTNING_DAZE, {shock=5, daze=100, dam=self:spellCrit(rng.avg(dam / 3, dam, 3))}, {type="lightning_explosion"})
+		self:projectile(tg, x, y, DamageType.LIGHTNING_DAZE, {shock=5, daze=100, dam=self:spellCrit(rng.avg(dam / 3, dam, 3)), power_check=self:combatSpellpower()}, {type="lightning_explosion"})
 		game:playSoundNear(self, "talents/lightning")
 		return true
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Conjures up a bolt of lightning, doing %0.2f to %0.2f damage (%0.2f average) and dazing the target for 3 turns.
-		If the target resists the daze effect it is instead shocked, which halves stun/daze/pin resistance, for 5 turns.
+		return ([[Conjures up a bolt of lightning, doing %0.2f to %0.2f damage (%0.2f average) and dazing the target for 3 turns %s.
+		If the target resists the daze effect it is instead shocked, which halves stun/daze/pin resistance, for 5 turns %s.
 		The damage will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.LIGHTNING, damage / 3),
 		damDesc(self, DamageType.LIGHTNING, damage),
-		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
+		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2),
+		Desc.vs"sp",
+		Desc.vs"ss")
 	end,
 }
 
@@ -136,9 +139,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local chance = t.getChance(self, t)
 		local radius = t.getRadius(self, t)
-		return ([[Each time one of your lightning spells dazes a target, it has a %d%% chance to creates a chain reaction that summons a mighty Hurricane that lasts for 10 turns around the target with a radius of %d.
+		return ([[Each time one of your lightning spells dazes a target, it has a %d%% chance to creates a chain reaction that summons a mighty Hurricane %s that lasts for 10 turns around the target with a radius of %d.
 		Each turn, the afflicted creature and all creatures around it will take %0.2f to %0.2f lightning damage (%0.2f average).
-		The damage will increase with your Spellpower.]]):tformat(chance, radius,
+		The damage will increase with your Spellpower.]]):tformat(chance, Desc.vs"ss", radius,
 		damDesc(self, DamageType.LIGHTNING, damage / 3),
 		damDesc(self, DamageType.LIGHTNING, damage),
 		damDesc(self, DamageType.LIGHTNING, (damage + damage / 3) / 2))
@@ -184,7 +187,7 @@ newTalent{
 		local ressistpen = t.getResistPenalty(self, t)
 		local daze = t.getDaze(self, t)
 		return ([[Surround yourself with a Tempest, increasing all your lightning damage by %d%% and ignoring %d%% lightning resistance of your targets.
-		Your Lightning and Chain Lightning spells also gain a %d%% chance to daze, and your Thunderstorm spell gains a %d%% chance to daze.]])
-		:tformat(damageinc, ressistpen, daze, daze / 2)
+		Your Lightning and Chain Lightning spells also gain a %d%% chance to daze, and your Thunderstorm spell gains a %d%% chance to daze. %s]])
+		:tformat(damageinc, ressistpen, daze, daze / 2, Desc.vs"sp")
 	end,
 }

@@ -65,9 +65,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Take an offensive stance. As you attack your foes, you knock your target and foes adjacent to them in a frontal arc back (up to %d grids).
+		return ([[Take an offensive stance. As you attack your foes, you knock %s your target and foes adjacent to them in a frontal arc back (up to %d grids).
 		This consumes stamina rapidly (-1 stamina/turn).]]):
-		tformat(t.range(self, t))
+		tformat(Desc.vs"ap", t.range(self, t))
 	end,
 }
 
@@ -102,7 +102,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Call all foes in a radius of %d around you into battle, getting them into melee range in an instant.]]):tformat(t.radius(self,t))
+		return ([[Call all foes in a radius of %d around you into battle, getting them into melee range in an instant %s.]]):tformat(t.radius(self,t), Desc.vs())
 	end,
 }
 

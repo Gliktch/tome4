@@ -45,11 +45,11 @@ newTalent{
 		The cooldowns of Kinetic Shield, Kinetic Leech, Kinetic Aura, Kinetic Strike and Mindlash are reset.
 		Kinetic Aura effects will have their radius increased by 1.
 		Your Kinetic Shield will have 100%% absorption efficiency and will absorb twice the normal amount of damage.
-		Mindlash will also inflict stun.
-		Kinetic Leech will put enemies to sleep.
+		Mindlash will also inflict stun %s.
+		Kinetic Leech will put enemies to sleep %s.
 		Kinetic Strike will hit 2 adjacent enemies in a sweeping attack.
 		The damage bonus and resistance penetration scale with your Mindpower.
-		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t))
+		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs"mp", Desc.vs"mm")
 	end,
 }
 
@@ -144,14 +144,14 @@ newTalent{
 		return ([[Build telekinetic power and dump it into an adjacent creature or yourself.
 		This will launch them to a targeted location in radius %d.
 
-		Launched enemies take %0.1f Physical damage and are stunned for %d turns upon landing.
+		Launched enemies take %0.1f Physical damage and are stunned %s for %d turns upon landing.
 		When the target lands, creatures within radius 2 take %0.1f Physical damage and are knocked away from you.
 		This talent ignores %d%% of the knockback resistance of the thrown target, which takes half damage if it resists being thrown.
 
 		When used on yourself, you will launch in a straight line, knocking enemies flying and doing %0.1f Physical damage to each.
 		You can break through %d walls while doing this.
 		The damage and range increases with Mindpower.]]):
-		tformat(range, dam, math.floor(range/2), dam/2, t.getKBResistPen(self, t), dam, math.floor(range/2))
+		tformat(range, dam, Desc.vs"mp", math.floor(range/2), dam/2, t.getKBResistPen(self, t), dam, math.floor(range/2))
 	end,
 }
 
@@ -253,8 +253,8 @@ newTalent{
 	info = function(self, t)
 		local dur = t.getDuration(self, t)
 		local dam = t.getDamage(self, t)
-		return ([[Bind the target mercilessly with constant, bone-shattering pressure, pinning and slowing it by 50%% for %d turns and dealing %0.1f Physical damage each turn.
+		return ([[Bind the target mercilessly with constant, bone-shattering pressure, pinning %s and slowing it by 50%% %s for %d turns and dealing %0.1f Physical damage each turn.
 		The duration and damage improve with Mindpower.]]):
-		tformat(dur, damDesc(self, DamageType.PHYSICAL, dam))
+		tformat(Desc.vs"mp", Desc.vs(), dur, damDesc(self, DamageType.PHYSICAL, dam))
 	end,
 }

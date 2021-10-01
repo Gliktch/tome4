@@ -92,16 +92,16 @@ newTalent{
 	end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
-		local grids = self:project(tg, self.x, self.y, DamageType.COLDNEVERMOVE, {dur=t.getDuration(self, t), dam=t.getDamage(self, t)})
+		local grids = self:project(tg, self.x, self.y, DamageType.COLDNEVERMOVE, {dur=t.getDuration(self, t), dam=t.getDamage(self, t), apply_power=self:combatSpellpower()})
 		game.level.map:particleEmitter(self.x, self.y, tg.radius, "ball_ice", {radius=tg.radius})
 		game:playSoundNear(self, "talents/ice")
 		return true
 	end,
 	info = function(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Invoke a blast of cold all around you with a radius of %d, doing %0.1f Cold damage and freezing creatures to the ground for %d turns.
+		return ([[Invoke a blast of cold all around you with a radius of %d, doing %0.1f Cold damage and freezing creatures to the ground for %d turns %s.
 		Affected creatures can still act, but cannot move.
-		The duration will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.COLD, t.getDamage(self, t)), t.getDuration(self, t))
+		The duration will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.COLD, t.getDamage(self, t)), t.getDuration(self, t), Desc.vs"sp")
 	end,
 }
 

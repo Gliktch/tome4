@@ -107,20 +107,21 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
+		local desc = Desc.vs"sp"
 		return ([[Use elemental damage dealt to you to trigger terrible effects on the source:
-		- Fire: burn for %0.2f fire damage over 5 turns
-		- Cold: freeze for 3 turns with %d iceblock power
-		- Acid: blind for %d turns
-		- Lightning: daze for %d turns
-		- Nature: %d%% slow for 4 turns
+		- Fire: burn for %0.2f fire damage over 5 turns %s
+		- Cold: freeze for 3 turns with %d iceblock power %s
+		- Acid: blind for %d turns %s
+		- Lightning: daze for %d turns %s
+		- Nature: %d%% slow for 4 turns %s
 		This effect can only happen once every 10 turns per damage type.
 		The damage will increase with your Spellpower.]]):
 		tformat(
-			damDesc(self, DamageType.FIRE, t.getFire(self, t)),
-			t.getCold(self, t),
-			t.getAcid(self, t),
-			t.getLightning(self, t),
-			t.getNature(self, t)
+			damDesc(self, DamageType.FIRE, t.getFire(self, t)), desc,
+			t.getCold(self, t), desc,
+			t.getAcid(self, t), desc,
+			t.getLightning(self, t), desc,
+			t.getNature(self, t), desc
 		)
 	end,
 }
@@ -152,9 +153,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You manipulate the vim of enemies in radius %d to temporarily invert all healing done to them (but not natural regeneration).
+		return ([[You manipulate the vim of enemies in radius %d to temporarily invert all healing done to them (but not natural regeneration) %s.
 		For 5 turns all healing will instead damage them for %d%% of the healing done as blight.
-		The effect will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), t.getPower(self,t))
+		The effect will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), Desc.vs"ss", t.getPower(self,t))
 	end,
 }
 
@@ -209,9 +210,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You transfer up to %d physical or magical detrimental effects currently affecting you to a nearby creature at a cost of %d vim per effect.
-		Specific effect immunities will not prevent the transfer.
-		The chance to transfer each effect increases with your Spellpower.]]):
-		tformat(t.getNb(self, t), t.getVim(self, t))
+		return ([[You transfer up to %d physical or magical detrimental effects currently affecting you to a nearby creature at a cost of %d vim per effect %s.
+		Specific effect immunities will not prevent the transfer.]]):
+		tformat(t.getNb(self, t), t.getVim(self, t), Desc.vs"ss")
 	end,
 }

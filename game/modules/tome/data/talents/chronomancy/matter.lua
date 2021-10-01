@@ -331,9 +331,9 @@ newTalent{
 	info = function(self, t)
 		local digs = t.getDigs(self, t)
 		local chance = t.getChance(self, t)
-		return ([[While active your physical and temporal damage has a %d%% chance to remove one beneficial physical or magical temporary effect (respectively) from targets you hit.
+		return ([[While active your physical and temporal damage has a %d%% chance to remove one beneficial physical or magical temporary effect (respectively) from targets you hit %s.
 		Only one physical and one magical effect may be removed per turn from each target.
 		Additionally your Dust to Dust spell now digs up to %d tiles into walls.]]):
-		tformat(chance, digs)
+		tformat(chance, Desc.vs(), digs)
 	end,
 }

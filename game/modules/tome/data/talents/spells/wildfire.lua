@@ -58,8 +58,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[A wave of fire emanates from you with a radius of %d, knocking back anything caught inside and setting them ablaze, doing %0.2f fire damage over 3 turns.
-		The damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.FIRE, damage))
+		return ([[A wave of fire emanates from you with a radius of %d, knocking back anything caught inside %s and setting them ablaze, doing %0.2f fire damage over 3 turns.
+		The damage will increase with your Spellpower.]]):tformat(radius, Desc.vs"sp", damDesc(self, DamageType.FIRE, damage))
 	end,
 }
 

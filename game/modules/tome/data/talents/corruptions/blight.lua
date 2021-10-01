@@ -110,9 +110,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Project a corrupted blast of power that removes up to %d magical or physical effects or any type of sustain and deals %0.2f blight damage to any creatures caught in the radius 3 ball.
-		For each effect, the creature has a chance to resist based on its spell save.
-		The damage will increase with your Spellpower.]]):tformat(t.getRemoveCount(self, t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 28, 120)))
+		return ([[Project a corrupted blast of power that removes up to %d magical or physical effects or any type of sustain %s and deals %0.2f blight damage to any creatures caught in the radius 3 ball.
+		The damage will increase with your Spellpower.]]):tformat(t.getRemoveCount(self, t), Desc.vs"ss", damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 28, 120)))
 	end,
 }
 
@@ -142,10 +141,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Infects the target with a corrosive worm for 6 turns that reduces blight and acid resistance by %d%% and feeds off damage taken.
+		return ([[Infects the target with a corrosive worm for 6 turns %s that reduces blight and acid resistance by %d%% and feeds off damage taken.
 		When this effect ends or the target dies the worm will explode, dealing %d acid damage in a 4 radius ball. This damage will increase by %d%% of all damage taken while infected.
 		The damage dealt by the effect will increase with spellpower.]]):
-		tformat(t.getResist(self,t), t.getDamage(self, t), t.getPercent(self, t))
+		tformat(Desc.vs"ss", t.getResist(self,t), t.getDamage(self, t), t.getPercent(self, t))
 	end,
 }
 
@@ -207,13 +206,13 @@ newTalent{
 	info = function(self, t)
 		local dam = damDesc(self, DamageType.BLIGHT, t.getDamage(self,t))
 		local power, heal_factor, fail = t.getEffects(self, t)
-		return ([[A furious storm of blighted poison rages around the caster in a radius of %d for %d turns.  Each creature hit by the storm takes %0.2f blight damage and is poisoned for %0.2f blight damage over 4 turns.
+		return ([[A furious storm of blighted poison %s rages around the caster in a radius of %d for %d turns.  Each creature hit by the storm takes %0.2f blight damage and is poisoned for %0.2f blight damage over 4 turns.
 		At talent level 2 you have a chance to inflict Insidious Blight, which reduces healing by %d%%.
 		At talent level 4 you have a chance to inflict Numbing Blight, which reduces all damage dealt by %d%%.
 		At talent level 6 you have a chance to inflict Crippling Blight, which causes talents to have a %d%% chance of failure.
 		Each possible effect is equally likely.
 		The poison damage dealt is capable of a critical strike.
 		The damage will increase with your Spellpower.]]):
-		tformat(self:getTalentRadius(t), t.getDuration(self, t), dam/4, dam, heal_factor, power, fail)
+		tformat(Desc.vs"ss", self:getTalentRadius(t), t.getDuration(self, t), dam/4, dam, heal_factor, power, fail)
 	end,
 }

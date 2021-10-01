@@ -56,10 +56,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Channel eldritch forces into a melee attack, hitting the target with your weapon and shield for %d%% arcane damage.
-		If either attack hits, the target will be stunned for %d turns and you automatically Block.
-		The chance for the attack to stun increases with your Physical Power, but it is considered a magical attack and thus is resisted with spell save, rather than physical save.
+		If either attack hits, the target will be stunned for %d turns %s and you automatically Block.
 		Damage increases with Spellpower.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 0.6, (100 + self:combatTalentSpellDamage(t, 50, 300)) / 100), t.getDuration(self, t))
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.6, (100 + self:combatTalentSpellDamage(t, 50, 300)) / 100), t.getDuration(self, t), Desc.vs"ps")
 	end,
 }
 
@@ -163,9 +162,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Channel eldritch forces into a ferocious melee attack, hitting the target three times with your shields doing %d%% Nature damage.
-		If any of the attacks hit, the target will be dazed for %d turns and your Block cooldown is reset.
-		The chance for the attack to daze increases with you Physical Power, but it is considered a magical attack and thus is resisted with spell save, rather than physical save.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 0.6, 1.6), t.getDuration(self, t))
+		If any of the attacks hit, the target will be dazed for %d turns %s and your Block cooldown is reset.]])
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.6, 1.6), t.getDuration(self, t), Desc.vs"ps")
 	end,
 }
 
