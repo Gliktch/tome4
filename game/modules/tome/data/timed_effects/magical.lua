@@ -5392,7 +5392,7 @@ newEffect{
 	name = "CLEANSING_FLAMES", image = "talents/cleansing_flames.png",
 	desc = _t"Cleansing Flames",
 	long_desc = function(self, eff) return ("The target is on fire, taking %0.2f fire damage per turn and %d%% chance per turn of removing a physical or magical effect from all targets affected by Inferno, Burning Wake or Cleansing Flames."):tformat(eff.power, eff.chance) end,
-	charges = function(self, eff) return (math.floor(eff.power)) end,
+	charges = function(self, eff) return math.floor(self:damDesc(DamageType.FIRE, eff.power)) end,
 	type = "magical",
 	subtype = { fire=true, cleanse=true },
 	status = "beneficial",
