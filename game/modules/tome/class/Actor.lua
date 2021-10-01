@@ -3173,10 +3173,6 @@ function _M:die(src, death_note)
 		p.kills = p.kills + 1
 	end
 
-	if src and src.knowTalent and src:knowTalent(src.T_STEP_UP) and rng.percent(src:getTalentLevelRaw(src.T_STEP_UP) * 20) then
-		game:onTickEnd(function() src:setEffect(self.EFF_STEP_UP, 1, {}) end)
-	end
-
 	if src and self.reset_rush_on_death and self.reset_rush_on_death == src then
 		game:onTickEnd(function()
 			src:alterTalentCoolingdown(src.T_RUSH, -1000)

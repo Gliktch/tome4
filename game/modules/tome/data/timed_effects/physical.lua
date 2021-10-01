@@ -1299,21 +1299,30 @@ newEffect{
 newEffect{
 	name = "STEP_UP", image = "talents/step_up.png",
 	desc = _t"Step Up",
-	long_desc = function(self, eff) return ("Movement is %d%% faster."):tformat(eff.power) end,
+	long_desc = function(self, eff) return ("Movement is 1000%% faster for next %d moves."):tformat(eff.nb or 1) end,
 	type = "physical",
 	subtype = { speed=true, tactic=true },
 	status = "beneficial",
 	parameters = {power=1000},
 	on_gain = function(self, err) return _t"#Target# prepares for the next kill!", _t"+Step Up" end,
 	on_lose = function(self, err) return _t"#Target# slows down.", _t"-Step Up" end,
+	charges = function(self, eff) return eff.nb or 1 end,
 	get_fractional_percent = function(self, eff)
 		local d = game.turn - eff.start_turn
 		return util.bound(360 - d / eff.possible_end_turns * 360, 0, 360)
 	end,
 	lists = 'break_with_step_up',
+	callbackOnMove = function(self, eff, moved, force, ox, oy)
+		if not moved or force then return end
+		if self:attr("free_movement") then return end
+		eff.nb = (eff.nb or 1) - 1
+		if eff.nb <= 0 then
+			self:removeEffect(self.EFF_STEP_UP, false, true)
+		end
+	end,
 	activate = function(self, eff)
 		eff.start_turn = game.turn
-		eff.possible_end_turns = 10 * (eff.dur+1)
+		eff.possible_end_turns = 10 * (eff.dur+2)
 		eff.tmpid = self:addTemporaryValue("step_up", 1)
 		eff.moveid = self:addTemporaryValue("movement_speed", eff.power/100)
 -- should change priorities rather than forbid all talents
@@ -1322,7 +1331,7 @@ newEffect{
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("step_up", eff.tmpid)
 		if eff.aiid then self:removeTemporaryValue("ai_state", eff.aiid) end
-		self:removeTemporaryValue("movement_speed", eff.moveid)
+		if eff.moveid then self:removeTemporaryValue("movement_speed", eff.moveid) end
 	end,
 }
 
