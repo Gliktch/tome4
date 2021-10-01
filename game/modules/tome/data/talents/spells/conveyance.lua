@@ -68,7 +68,7 @@ newTalent{
 	require = spells_req1,
 	points = 5,
 	random_ego = "utility",
-	mana = function(self, t) return self:attr("phase_door_force_precise") and 1 or 30 end,
+	mana = function(self, t) return self:attr("phase_door_force_precise") and 1 or 20 end,
 	cooldown = function(self, t) return self:attr("phase_door_force_precise") and 3 or 12 end,
 	tactical = teleport_tactical,
 	getRange = function(self, t) return self:combatLimit(self:combatTalentSpellDamage(t, 10, 15), 40, 4, 0, 13.4, 9.4) end, -- Limit to range 40
@@ -88,7 +88,7 @@ newTalent{
 				 _, _, _, tx, ty = self:canProject(tg, tx, ty)
 				if tx then
 					target = game.level.map(tx, ty, Map.ACTOR)
-					if ai_target and target ~= aitarget then target = self end
+					if not self:playerControlled() and aitarget and target ~= aitarget then target = self end
 				end
 			end
 		end
@@ -173,12 +173,12 @@ newTalent{
 	require = spells_req2,
 	points = 5,
 	random_ego = "utility",
-	mana = 20,
-	cooldown = 30,
+	mana = 30,
+	cooldown = 50,
 	tactical = teleport_tactical,
 	getRange = function(self, t) return 100 + self:combatSpellpower(1) end,
 	range = function(self, t) return self:getTalentLevel(t) >= 4 and 10 or 0 end, -- for targeting enemies
-	getRadius = function(self, t) return math.ceil(self:combatTalentLimit(t, 0, 19, 12)) end, -- Limit > 0
+	getRadius = function(self, t) return math.round(self:combatTalentLimit(t, 5, 30, 18)) end, -- Limit > 5
 	minRange = 15,
 	
 	is_teleport = true,
@@ -242,13 +242,6 @@ newTalent{
 			if not x then return nil end
 			_, _, _, x, y = self:canProject(tg, x, y)
 			range = radius
-			-- Check LOS
-			-- Should this even be able to fizzle? The point of teleport is to go far away, i.e. out of line of sight, and teleport isn't particularly accurate anyway 
-			if not self:hasLOS(x, y) and rng.percent(35 + (game.level.map.attrs(self.x, self.y, "control_teleport_fizzle") or 0)) then
-				game.logPlayer(self, "The targetted teleport fizzles and works randomly!")
-				x, y = self.x, self.y
-				range = t.getRange(self, t)
-			end
 			local _ _, x, y = self:canProject(tg, x, y)
 			game.level.map:particleEmitter(target.x, target.y, 1, "teleport")
 			newpos = target:teleportRandom(x, y, range)
@@ -277,7 +270,6 @@ newTalent{
 		return ([[Teleports you randomly within a large range (%d).
 		At level 4, it allows you to specify which creature to teleport. You need to bypass spell save with your spellpower to teleport hostile creatures.
 		At level 5, it allows you to choose the target area (radius %d).
-		If the target area is not in line of sight, there is a chance the spell will partially fail and teleport the target randomly.
 		Random teleports have a minimum range of %d.
 		The range will increase with your Spellpower.]]):tformat(range, radius, t.minRange)
 	end,
