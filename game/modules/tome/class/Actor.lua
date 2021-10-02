@@ -2338,16 +2338,20 @@ function _M:regenFeedback(fake, force)
 end
 
 function _M:levelupIncLife(fake)
-		if not self.life_rating then return end
-		local rating = self.life_rating
-		if not self.fixed_rating then
-			rating = rng.range(math.floor(self.life_rating * 0.5), math.floor(self.life_rating * 1.5))
-		end
-		rating = math.max(self:getRankLifeAdjust(rating), 1)
-		if not fake then self:incMaxLife(rating) end
-		return rating
+	if not self.life_rating then return end
+	local rating = self.life_rating
+	if not self.fixed_rating then
+		rating = rng.range(math.floor(self.life_rating * 0.5), math.floor(self.life_rating * 1.5))
+	end
+	rating = math.max(self:getRankLifeAdjust(rating), 1)
+	if not fake then self:incMaxLife(rating) end
+	return rating
 end
 
+function _M:setMaxLife(value)
+	local delta = value - self:getMaxLife()
+	self:incMaxLife(delta)
+end
 
 function _M:heal(value, src)
 	if self.onHeal then value = self:onHeal(value, src) end
