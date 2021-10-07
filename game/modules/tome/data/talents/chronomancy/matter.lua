@@ -273,52 +273,31 @@ newTalent{
 	doStrip = function(self, t, target, type)
 		local what = type == "PHYSICAL" and "physical" or "magical"
 		local p = self:isTalentActive(self.T_DISINTEGRATION)
-		
-		if what == "physical" and p.physical[target] then return end
-		if what == "magical" and p.magical[target] then return end
+		self.turn_procs.disintegration_physical = self.turn_procs.disintegration_physical or {}
+		self.turn_procs.disintegration_magical = self.turn_procs.disintegration_magical or {}
+		if what == "physical" and self.turn_procs.disintegration_physical[target] then return end
+		if what == "magical" and self.turn_procs.disintegration_magical[target] then return end
 		
 		if rng.percent(t.getChance(self, t)) then
-			local effs = {}
-			-- Go through all spell effects
-			for eff_id, p in pairs(target.tmp) do
-				local e = target.tempeffect_def[eff_id]
-				if e.type == what and e.status == "beneficial" then
-					effs[#effs+1] = {"effect", eff_id}
+			-- effect filter
+			local filter = {type = what, status = "beneficial"}
+			if target:removeEffectsFilter(self, filter, 1) > 0 then
+				game.logSeen(self, "#CRIMSON#%s's beneficial effect was stripped!#LAST#", target:getName():capitalize())
+				if what == "physical" then self.turn_procs.disintegration_physical[target] = true end
+				if what == "magical" then self.turn_procs.disintegration_magical[target] = true end
+				
+				-- The Cure achievement
+				local acheive = self.player and not target.training_dummy and target ~= self
+				if acheive then
+					world:gainAchievement("THE_CURE", self)
 				end
 			end
-	
-			if #effs > 0 then
-				local eff = rng.tableRemove(effs)
-				if eff[1] == "effect" then
-					if target:removeEffect(eff[2], self) then
-						game.logSeen(self, "#CRIMSON#%s's beneficial effect was stripped!#LAST#", target:getName():capitalize())
-						if what == "physical" then p.physical[target] = true end
-						if what == "magical" then p.magical[target] = true end
-						
-						-- The Cure achievement
-						local acheive = self.player and not target.training_dummy and target ~= self
-						if acheive then
-							world:gainAchievement("THE_CURE", self)
-						end
-					end
-				end
-			end
-		end
-	end,
-	callbackOnActBase = function(self, t)
-		-- reset our targets
-		local p = self:isTalentActive(self.T_DISINTEGRATION)
-		if p then
-			p.physical = {}
-			p.magical = {}
 		end
 	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/earth")
 
-		local ret = { 
-			physical = {}, magical ={}
-		}
+		local ret = { }
 		if core.shader.active(4) then
 			ret.particle = self:addParticles(Particles.new("shader_ring_rotating", 1, {rotation=-0.01, radius=1.2}, {type="stone", hide_center=1, zoom=0.6, color1={0.4, 0.4, 0, 1}, color2={0.5, 0.5, 0, 1}, xy={self.x, self.y}}))
 		end
@@ -331,9 +310,9 @@ newTalent{
 	info = function(self, t)
 		local digs = t.getDigs(self, t)
 		local chance = t.getChance(self, t)
-		return ([[While active your physical and temporal damage has a %d%% chance to remove one beneficial physical or magical temporary effect (respectively) from targets you hit.
+		return ([[While active your physical and temporal damage has a %d%% chance to remove one beneficial physical or magical temporary effect (respectively) from targets you hit %s.
 		Only one physical and one magical effect may be removed per turn from each target.
 		Additionally your Dust to Dust spell now digs up to %d tiles into walls.]]):
-		tformat(chance, digs)
+		tformat(chance, Desc.vs(), digs)
 	end,
 }

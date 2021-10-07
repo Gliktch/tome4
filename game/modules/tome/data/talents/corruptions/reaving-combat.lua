@@ -75,6 +75,14 @@ newTalent{
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "disease_immune", t.getDiseaseImmune(self, t))
 	end,
+	callbackPriorities = { callbackOnMeleeProject = - 1000 }, -- happens before most effect
+	callbackOnMeleeProject = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		-- Spread diseases
+		if hitted and rng.percent(t.getDiseaseSpread(self, t)) then
+			-- Use epidemic talent spreading
+			self:callTalent(self.T_EPIDEMIC, "do_spread", target, dam)
+		end
+	end,
 	info = function(self, t)
 		return ([[You gain a %d%% resistance to diseases, and each of your melee attacks have a %d%% chance to spread any diseases on your target.
 		(As the Epidemic talent with the melee attack treated like blight damage.)]]):
@@ -88,6 +96,12 @@ newTalent{
 	mode = "passive",
 	require = str_corrs_req4,
 	points = 5,
+	callbackPriorities = { callbackOnMeleeHitProcs = -20 },
+	callbackOnMeleeHitProcs = function(self, t, target, hitted)
+		if hitted and not self.dead then
+			t.do_splash(self, t, target)
+		end
+	end,
 	do_splash = function(self, t, target)
 		local dam = self:spellCrit(self:combatTalentSpellDamage(t, 5, 30))
 		local atk = self:combatTalentSpellDamage(t, 15, 35)
@@ -100,9 +114,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your blood turns into an acidic mixture. When you get hit, the attacker is splashed with acid.
-		This deals %0.2f acid damage each turn for 5 turns, and reduces the attacker's Accuracy by %d.
+		This deals %0.2f acid damage each turn for 5 turns, and reduces the attacker's Accuracy by %d %s.
 		At level 3, it will also reduce Armour by %d for 5 turns.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.ACID, self:combatTalentSpellDamage(t, 5, 30)), self:combatTalentSpellDamage(t, 15, 35), self:combatTalentSpellDamage(t, 15, 40))
+		tformat(damDesc(self, DamageType.ACID, self:combatTalentSpellDamage(t, 5, 30)), self:combatTalentSpellDamage(t, 15, 35), Desc.vs(), self:combatTalentSpellDamage(t, 15, 40))
 	end,
 }

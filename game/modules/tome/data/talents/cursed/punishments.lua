@@ -137,9 +137,9 @@ newTalent{
 		local hateGain = t.getHateGain(self, t)
 		return ([[Infect a target's mind with a virulent whisper that deals %d Mind damage and spreads amongst your foes, dealing damage and feeding you %0.1f Hate for each new victim. Each turn for %d turns, the initial victim will spread the whisper to a new target within %d tiles if one is available; beyond this, all affected targets have a %d%% chance of spreading the effect each turn for 4 turns.
 
-Targets damaged by this ability have a 25%% chance of suffering Brainlock.
+Targets damaged by this ability have a 25%% chance of suffering Brainlock %s.
 
-The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.MIND, damage), hateGain, math.min(jumpCount, t.getDuration(self, t)), jumpRange, jumpChance)
+The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.MIND, damage), hateGain, math.min(jumpCount, t.getDuration(self, t)), jumpRange, jumpChance, Desc.vs"mm")
 	end,
 }
 
@@ -301,9 +301,9 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local maxDamage = t.getDamage(self, t)
 		local minDamage = maxDamage / duration
-		return ([[Sear your hatred into the mind of a target, dealing escalating Mind damage each turn over %d turns. The victim will suffer %0.1f damage on the first turn, slowly increasing up to %0.1f damage on the last, dealing %d Mind damage in total. Re-applying the effect resets the damage escalation. The victim has a 25%% chance of suffering Brainlock each turn from the unbearable pain.
+		return ([[Sear your hatred into the mind of a target, dealing escalating Mind damage each turn over %d turns. The victim will suffer %0.1f damage on the first turn, slowly increasing up to %0.1f damage on the last, dealing %d Mind damage in total. Re-applying the effect resets the damage escalation. The victim has a 25%% chance of suffering Brainlock each turn from the unbearable pain %s.
 
-The damage increases with your Mindpower.]]):tformat(duration, damDesc(self, DamageType.MIND, minDamage), damDesc(self, DamageType.MIND, maxDamage), maxDamage * (duration + 1) / 2)
+The damage increases with your Mindpower.]]):tformat(duration, damDesc(self, DamageType.MIND, minDamage), damDesc(self, DamageType.MIND, maxDamage), maxDamage * (duration + 1) / 2, Desc.vs"mm")
 	end,
 }
 
@@ -341,7 +341,7 @@ newTalent{
 	info = function(self, t)
 		local chance = t.getChance(self, t)
 		local mindResistChange = t.getMindResistChange(self, t)
-		return ([[Your hateful will splinters into the minds of those you torture, breaking them down. Each time you inflict Mind damage, the victim has a %0.1f%% chance of going mad for 3 turns unless they save against your Mindpower. The madness will lower the victim's Mind resistance by %0.1f%% and cause them to become confused (50%% power), slowed (30%% power), or stunned for the duration.]]):tformat(chance, -mindResistChange)
+		return ([[Your hateful will splinters into the minds of those you torture, breaking them down. Each time you inflict Mind damage, the victim has a %0.1f%% chance of going mad for 3 turns %s. The madness will lower the victim's Mind resistance by %0.1f%% and cause them to become confused (50%% power), slowed (30%% power), or stunned for the duration.]]):tformat(chance, Desc.vs"mm", -mindResistChange)
 	end,
 }
 

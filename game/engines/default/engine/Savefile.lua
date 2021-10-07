@@ -37,7 +37,6 @@ _M.current_save = false
 _M.hotkeys_file = "/save/quick_hotkeys"
 _M.md5_types = {}
 
-_M.TRUNCATE_PRINTLOG_TO = 5000
 
 --- Init a savefile
 -- @param savefile the name of the savefile, usually the player's name. It will be sanitized so dont bother doing it
@@ -272,7 +271,6 @@ function _M:saveGame(game, no_dialog)
 	savefile_pipe:pushGeneric("saveGame_md5", function() self:md5Upload("game", self:nameSaveGame(game)) end)
 
 	local f = fs.open(self.save_dir.."last_log.txt", "w")
-	truncate_printlog(self.TRUNCATE_PRINTLOG_TO)
 	local log = get_printlog()
 	for _, line in ipairs(log) do
 		local max = 1

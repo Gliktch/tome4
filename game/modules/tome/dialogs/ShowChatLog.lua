@@ -62,7 +62,8 @@ function _M:init(title, shadow, log, chat)
 
 	self.scrollbar = Slider.new{size=self.h - 20, max=0}
 	self.line_size = setmetatable({}, {__mode='k'})
-
+	self.cache = {}
+	setmetatable(self.cache, {__mode="v"})
 	self:switchTo(self.last_tab or "__log")
 end
 
@@ -256,7 +257,15 @@ function _M:setScroll(i, do_shifty_thing)
 		local str = self.lines[i].str
 		local size = self.line_size[str] or 1
 		if cur + size > self.scroll then
-			local gen = self.font:draw(str, self.iw - 10, 255, 255, 255, false, true)
+			local gen
+			if config.settings.cheat then
+				gen = self.font:draw(str, self.iw - 10, 255, 255, 255, false, true)
+			elseif self.cache[str] then
+				gen = self.cache[str]
+			else
+				gen = self.font:draw(str, self.iw - 10, 255, 255, 255, false, true)
+				self.cache[str] = gen
+			end
 			if size ~= #gen then
 				self.line_size[str] = #gen
 				shift = shift + #gen - size

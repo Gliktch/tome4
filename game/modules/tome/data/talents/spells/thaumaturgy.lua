@@ -95,10 +95,10 @@ newTalent{
 		end
 		local choice = rng.rarityTable(tids, "cd")
 		if not choice then return end
-		self:forceUseTalent(choice.tid, {ignore_cooldown=true, ignore_energy=true, force_target=self._orb_of_thaumaturgy_recurs or target})
 
 		if self._orb_of_thaumaturgy_recurs then self.turn_procs.multicaster_orb = true
 		else self.turn_procs.multicaster = true end
+		self:forceUseTalent(choice.tid, {ignore_cooldown=true, ignore_energy=true, force_target=self._orb_of_thaumaturgy_recurs or target})
 	end,	
 	activate = function(self, t)
 		local ret = {}
@@ -289,10 +289,10 @@ newTalent{
 		Thaumic damage can never be resisted by anything but "Resistance: All", always uses your highest resistance penetration and highest damage type bonus and can never be altered into other damage types.
 		It can trigger Burning Wake and Hurricane.
 		It is affected by the wet status (+30%% damage) if you are in Shivgoroth Form.
-		It has a 25%% chance to either stun or freeze the targets for 3 turns (if Crystalline Focus or Uttercold are active, respectively).
+		It has a 25%% chance to either stun %s or freeze %s the targets for 3 turns (if Crystalline Focus or Uttercold are active, respectively).
 		Each time you deal damage with a beam spell, the remaining cooldown is reduced by 1 (this can happen only once per turn).
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.THAUM, damage))
+		tformat(damDesc(self, DamageType.THAUM, damage), Desc.vs"sp", Desc.vs"sp")
 	end,
 }
 

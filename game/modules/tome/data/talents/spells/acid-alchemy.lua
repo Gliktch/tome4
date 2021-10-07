@@ -115,9 +115,9 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[A radius %d pool of acid spawns at the target location, doing %0.1f Acid damage each turn for %d turns.
-		All creatures caught in the mire will also suffer a %d%% slowness effect.
+		All creatures caught in the mire will also suffer a %d%% slowness effect %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(radius, damDesc(self, DamageType.ACID, damage), duration, slow)
+		tformat(radius, damDesc(self, DamageType.ACID, damage), duration, slow, Desc.vs"sp")
 	end,
 }
 
@@ -180,7 +180,7 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Acid erupts all around your target, dealing %0.1f acid damage.
-		The acid attack is extremely distracting, and may remove up to %d physical or mental temporary effects or mental sustains (depending on the Spell Save of the target).
-		The damage and chance to remove effects will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.ACID, damage), t.getRemoveCount(self, t))
+		The acid attack is extremely distracting, and may remove up to %d physical or mental temporary effects or mental sustains %s.
+		The damage increases with your Spellpower.]]):tformat(damDesc(self, DamageType.ACID, damage), t.getRemoveCount(self, t), Desc.vs"ss")
 	end,
 }

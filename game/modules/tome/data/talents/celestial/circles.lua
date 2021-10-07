@@ -125,8 +125,8 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local radius = self:getTalentRadius(t)
 		local damage = t.getDamage(self, t)
-		return ([[Creates a circle of radius %d at your feet; the circle protects you from silence effects while you remain in its radius while silencing and dealing %d light damage to everyone else who enters. The circle lasts %d turns.]]):
-		tformat(radius, damDesc(self, DamageType.LIGHT, damage), duration)
+		return ([[Creates a circle of radius %d at your feet; the circle protects you from silence effects while you remain in its radius while silencing %s and dealing %d light damage to everyone else who enters. The circle lasts %d turns.]]):
+		tformat(radius, Desc.vs"sm", damDesc(self, DamageType.LIGHT, damage), duration)
 	end,
 }
 
@@ -165,9 +165,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Creates a circle of radius %d at your feet; the circle slows incoming projectiles by %d%% and attempts to push all creatures other than yourself out of its radius, inflicting %0.2f light damage and %0.2f darkness damage per turn as it does so.  The circle lasts %d turns.
+		return ([[Creates a circle of radius %d at your feet; the circle slows incoming projectiles by %d%% and attempts to push all creatures other than yourself out of its radius %s, inflicting %0.2f light damage and %0.2f darkness damage per turn as it does so.  The circle lasts %d turns.
 		The effects will increase with your Spellpower.]]):
-		tformat(radius, damage*5, (damDesc (self, DamageType.LIGHT, damage)), (damDesc (self, DamageType.DARKNESS, damage)), duration)
+		tformat(radius, damage*5, Desc.vs"sp", (damDesc (self, DamageType.LIGHT, damage)), (damDesc (self, DamageType.DARKNESS, damage)), duration)
 	end,
 }
 
@@ -208,10 +208,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Conjure a surge of celestial power through your circles. Any foe standing within one of your circles will be slowed by %d%% for %d turns and take %d light and %d darkness damage.
+		return ([[Conjure a surge of celestial power through your circles. Any foe standing within one of your circles will be slowed %s by %d%% for %d turns and take %d light and %d darkness damage.
 		Residual power from the surge will emanate from your circles for %d turns; each circle you stand in will increase your celestial resources.
 		Shifting Shadows: +1 negative.
 		Sanctity: +1 postive.
-		Warding: +0.5 postive and negative.]]):tformat(t.getSlow(self, t), t.getSlowDur(self, t), damDesc(self, DamageType.LIGHT, t.getDamage(self, t)), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), t.getDuration(self, t))
+		Warding: +0.5 postive and negative.]]):tformat(Desc.vs(), t.getSlow(self, t), t.getSlowDur(self, t), damDesc(self, DamageType.LIGHT, t.getDamage(self, t)), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), t.getDuration(self, t))
 	end,
 }

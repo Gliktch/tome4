@@ -198,12 +198,12 @@ newTalent{
 		local stunChance = t.getStunChance(self, t)
 		local bonusDamage = t.getBonusDamage(self, t)
 		local bonusCritical = t.getBonusCritical(self, t)
-		return ([[Use a gesture of pain in place of a normal attack to assault the minds of your enemies, inflicting between %0.1f and %0.1f mind damage. If the attack succeeds, there is a %d%% chance to stun your opponent for 3 turns.
+		return ([[Use a gesture of pain in place of a normal attack to assault the minds of your enemies, inflicting between %0.1f and %0.1f mind damage %s. If the attack succeeds, there is a %d%% chance to stun your opponent for 3 turns %s.
 		This strike replaces your melee physical and checks your Mindpower against your opponent's Mental Save, and is thus not affected by your Accuracy or the enemy's Defense. The base damage (doubled) and the critical chance of any Mindstars equipped are added in when this attack is performed.
 		This talent requires two free or mindstar-equipped hands and has a 25%% chance to inflict brainlock, which can critically hit. The damage will increase with your Mindpower.
 		If attacking with two mindstars the attack will trigger their proc effects, if any.
 		Mindstars bonuses from damage and physical criticals: (+%d damage, +%d critical chance)]])
-		:tformat(damDesc(self, DamageType.MIND, baseDamage * 0.5), damDesc(self, DamageType.MIND, baseDamage), stunChance, bonusDamage, bonusCritical)
+		:tformat(damDesc(self, DamageType.MIND, baseDamage * 0.5), damDesc(self, DamageType.MIND, baseDamage), Desc.vs"mm", stunChance, Desc.vs"mp", bonusDamage, bonusCritical)
 	end,
 }
 
@@ -223,8 +223,8 @@ newTalent{
 	info = function(self, t)
 		local resistAllChange = t.getResistAllChange(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Enhance your Gesture of Pain with a malicious curse that causes any victim that is struck to have all resistances lowered by %d%% for %d turns.
-		]]):tformat(-resistAllChange, duration)
+		return ([[Enhance your Gesture of Pain with a malicious curse that causes any victim that is struck to have all resistances lowered by %d%% for %d turns %s.
+		]]):tformat(-resistAllChange, duration, Desc.vs())
 	end,
 }
 
@@ -285,12 +285,15 @@ newTalent{
 		end
 		return deflected
 	end,
-	-- Counterattack handled in _M:attackTargetWith function in mod.class.interface.Combat.lua (requires EFF_GESTURE_OF_GUARDING)
-	on_hit = function(self, t, who)
-		if rng.percent(t.getCounterAttackChance(self, t)) and self:isTalentActive(self.T_GESTURE_OF_PAIN) and canUseGestures(self) then
-			self:logCombat(who, "#F53CBE##Source# lashes back at #Target#!")
-			local tGestureOfPain = self:getTalentFromId(self.T_GESTURE_OF_PAIN)
-			tGestureOfPain.attack(self, tGestureOfPain, who)
+	callbackPriorities = { callbackOnMeleeHitProcs = -1, },
+	callbackOnMeleeHitProcs = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		-- Gesture of Guarding counterattack
+		if hitted and not self.dead and not self:attr("stunned") and not self:attr("dazed") and not self:attr("stoned") and self:hasEffect(self.EFF_GESTURE_OF_GUARDING) then
+			if rng.percent(t.getCounterAttackChance(self, t)) and self:isTalentActive(self.T_GESTURE_OF_PAIN) and canUseGestures(self) then
+				self:logCombat(target, "#F53CBE##Source# lashes back at #Target#!")
+				local tGestureOfPain = self:getTalentFromId(self.T_GESTURE_OF_PAIN)
+				tGestureOfPain.attack(self, tGestureOfPain, target)
+			end
 		end
 	end,
 	on_learn = gestures_gfx_update,

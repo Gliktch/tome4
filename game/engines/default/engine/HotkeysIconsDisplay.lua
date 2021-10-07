@@ -129,6 +129,9 @@ local frames_colors = {
 	disabled = {0.65, 0.65, 0.65},
 }
 
+-- Store it so addons can play with it.
+_M.frames_colors = frames_colors
+
 -- Displays the hotkeys, keybinds & cooldowns
 function _M:display()
 	local a = self.actor
@@ -152,140 +155,156 @@ function _M:display()
 	self.items = {}
 	local w, h = self.frames.w, self.frames.h
 
-	for page = bpage, #page_to_hotkey do for i = 1, 12 do
-		local ts = nil
-		local bi = i
-		local j = i + (12 * (page - 1))
-		if a.hotkey[j] and a.hotkey[j][1] == "talent" then
-			ts = {a.hotkey[j][2], j, "talent", i, page, i + (12 * (page - bpage))}
-		elseif a.hotkey[j] and a.hotkey[j][1] == "inventory" then
-			ts = {a.hotkey[j][2], j, "inventory", i, page, i + (12 * (page - bpage))}
-		end
+	for page = bpage, #page_to_hotkey do 
+		for i = 1, 12 do
+			local ts = nil
+			local bi = i
+			local j = i + (12 * (page - 1))
+			if a.hotkey[j] and a.hotkey[j][1] == "talent" then
+				ts = {a.hotkey[j][2], j, "talent", i, page, i + (12 * (page - bpage))}
+			elseif a.hotkey[j] and a.hotkey[j][1] == "inventory" then
+				ts = {a.hotkey[j][2], j, "inventory", i, page, i + (12 * (page - bpage))}
+			end
 
-		x = self.frames.w * col
-		y = self.frames.h * row
-		self.dragclics[j] = {x,y,w,h}
+			x = self.frames.w * col
+			y = self.frames.h * row
+			self.dragclics[j] = {x,y,w,h}
+			
+			local ind, hktable, cfake = self:displayHotkey(page, i, x, y, ts)
+			
+			self.items[#self.items+1] = hktable
+			self.clics[ind] = {x, y, w, h, fake=cfake}
+		
+			if orient == "down" or orient == "up" then
+				col = col + 1
+				if col >= self.max_cols then
+					col = 0
+					row = row + 1
+					if row >= self.max_rows then return end
+				end
+			elseif orient == "left" or orient == "right" then
+				row = row + 1
+				if row >= self.max_rows then
+					row = 0
+					col = col + 1
+					if col >= self.max_cols then return end
+				end
+			end
+		end 
+	end
+end
 
-		if ts then
-			local s
-			local i = ts[2]
-			local lpage = ts[5]
-			local color, angle, txt = nil, 0, nil
-			local display_entity = nil
-			local frame = "ok"
-			if ts[3] == "talent" then
-				local tid = ts[1]
-				local t = a:getTalentFromId(tid)
-				if t then
-					display_entity = t.display_entity
-					if a:isTalentCoolingDown(t) then
-						if not a:preUseTalent(t, true, true) then
-							color = {190,190,190}
-							frame = "disabled"
-						else
-							frame = "cooldown"
-							color = {255,0,0}
-							angle = 360 * (1 - (a.talents_cd[t.id] / a:getTalentCooldown(t)))
-						end
-						txt = tostring(math.ceil(a:isTalentCoolingDown(t)))
-					elseif a:isTalentActive(t.id) then
-						color = {255,255,0}
-						frame = "sustain"
-					elseif not a:preUseTalent(t, true, true) then
+function _M:displayHotkey(page, i, x, y, ts)
+	local bi = i
+	local w, h = self.frames.w, self.frames.h
+	local a = self.actor
+	
+	if ts then
+		local s
+		local i = ts[2]
+		local lpage = ts[5]
+		local color, angle, txt = nil, 0, nil
+		local display_entity = nil
+		local frame = "ok"
+		if ts[3] == "talent" then
+			local tid = ts[1]
+			local t = a:getTalentFromId(tid)
+			if t then
+				display_entity = t.display_entity
+				if a:isTalentCoolingDown(t) then
+					if not a:preUseTalent(t, true, true) then
 						color = {190,190,190}
 						frame = "disabled"
+					else
+						frame = "cooldown"
+						color = {255,0,0}
+						angle = 360 * (1 - (a.talents_cd[t.id] / a:getTalentCooldown(t)))
 					end
-				end
-			elseif ts[3] == "inventory" then
-				local o = a:findInAllInventories(ts[1], {no_add_name=true, force_id=true, no_count=true})
-				local cnt = 0
-				if o then cnt = o:getNumber() end
-				if cnt == 0 then
+					txt = tostring(math.ceil(a:isTalentCoolingDown(t)))
+				elseif a:isTalentActive(t.id) then
+					color = {255,255,0}
+					frame = "sustain"
+				elseif not a:preUseTalent(t, true, true) then
 					color = {190,190,190}
 					frame = "disabled"
 				end
-				display_entity = o
-				if o and o.use_talent and o.use_talent.id then
-					local t = a:getTalentFromId(o.use_talent.id)
-					display_entity = t and t.display_entity
-				end
-				if o and o.talent_cooldown then
-					local t = a:getTalentFromId(o.talent_cooldown)
-					angle = 360
-					if t and a:isTalentCoolingDown(t) then
-						color = {255,0,0}
-						angle = 360 * (1 - (a.talents_cd[t.id] / a:getTalentCooldown(t)))
-						frame = "cooldown"
-						txt = tostring(math.ceil(a:isTalentCoolingDown(t)))
-					end
-				elseif o and (o.use_talent or o.use_power) then
-					angle = 360 * ((o.power / o.max_power))
+			end
+		elseif ts[3] == "inventory" then
+			local o = a:findInAllInventories(ts[1], {no_add_name=true, force_id=true, no_count=true})
+			local cnt = 0
+			if o then cnt = o:getNumber() end
+			if cnt == 0 then
+				color = {190,190,190}
+				frame = "disabled"
+			end
+			display_entity = o
+			if o and o.use_talent and o.use_talent.id then
+				local t = a:getTalentFromId(o.use_talent.id)
+				display_entity = t and t.display_entity
+			end
+			if o and o.talent_cooldown then
+				local t = a:getTalentFromId(o.talent_cooldown)
+				angle = 360
+				if t and a:isTalentCoolingDown(t) then
 					color = {255,0,0}
-					local cd = o:getObjectCooldown(a)
-					if cd and cd > 0 then
-						frame = "cooldown"
-						txt = tostring(cd)
-					elseif not cd then
-						frame = "disabled"
-					end
+					angle = 360 * (1 - (a.talents_cd[t.id] / a:getTalentCooldown(t)))
+					frame = "cooldown"
+					txt = tostring(math.ceil(a:isTalentCoolingDown(t)))
 				end
-				if o and o.wielded then
-					frame = "sustain"
-				end
-				if o and o.wielded and o.use_talent and o.use_talent.id then
-					local t = a:getTalentFromId(o.use_talent.id)
-					if not a:preUseTalent(t, true, true, true) then
-						angle = 0
-						color = {190,190,190}
-						frame = "disabled"
-					end
+			elseif o and (o.use_talent or o.use_power) then
+				angle = 360 * ((o.power / o.max_power))
+				color = {255,0,0}
+				local cd = o:getObjectCooldown(a)
+				if cd and cd > 0 then
+					frame = "cooldown"
+					txt = tostring(cd)
+				elseif not cd then
+					frame = "disabled"
 				end
 			end
-
-			self.font:setStyle("bold")
-			local ks = game.key:formatKeyString(game.key:findBoundKeys("HOTKEY_"..page_to_hotkey[page]..bi))
-			local key = self.font:draw(ks, self.font:size(ks), colors.ANTIQUE_WHITE.r, colors.ANTIQUE_WHITE.g, colors.ANTIQUE_WHITE.b, true)[1]
-			self.font:setStyle("normal")
-
-			local gtxt = nil
-			if txt then
-				gtxt = self.fontbig:draw(txt, w, colors.WHITE.r, colors.WHITE.g, colors.WHITE.b, true)[1]
-				gtxt.fw, gtxt.fh = self.fontbig:size(txt)
+			if o and o.wielded then
+				frame = "sustain"
 			end
-
-			self.items[#self.items+1] = {i=i, x=x, y=y, e=display_entity or self.default_entity, color=color, angle=angle, key=key, gtxt=gtxt, frame=frame, pagesel=lpage==spage}
-			self.clics[i] = {x,y,w,h}
-		else
-			local i = i + (12 * (page - 1))
-			local angle = 0
-			local color = {190,190,190}
-			local frame = "disabled"
-
-			self.font:setStyle("bold")
-			local ks = game.key:formatKeyString(game.key:findBoundKeys("HOTKEY_"..page_to_hotkey[page]..bi))
-			local key = self.font:draw(ks, self.font:size(ks), colors.ANTIQUE_WHITE.r, colors.ANTIQUE_WHITE.g, colors.ANTIQUE_WHITE.b, true)[1]
-			self.font:setStyle("normal")
-
-			self.items[#self.items+1] = {show_on_drag=true, i=i, x=x, y=y, e=nil, color=color, angle=angle, key=key, gtxt=nil, frame=frame}
-			self.clics[i] = {x,y,w,h, fake=true}
+			if o and o.wielded and o.use_talent and o.use_talent.id then
+				local t = a:getTalentFromId(o.use_talent.id)
+				if not a:preUseTalent(t, true, true, true) then
+					angle = 0
+					color = {190,190,190}
+					frame = "disabled"
+				end
+			end
 		end
 
-		if orient == "down" or orient == "up" then
-			col = col + 1
-			if col >= self.max_cols then
-				col = 0
-				row = row + 1
-				if row >= self.max_rows then return end
-			end
-		elseif orient == "left" or orient == "right" then
-			row = row + 1
-			if row >= self.max_rows then
-				row = 0
-				col = col + 1
-				if col >= self.max_cols then return end
-			end
+		self.font:setStyle("bold")
+		local ks = game.key:formatKeyString(game.key:findBoundKeys("HOTKEY_"..page_to_hotkey[page]..bi))
+		local key = self.font:draw(ks, self.font:size(ks), colors.ANTIQUE_WHITE.r, colors.ANTIQUE_WHITE.g, colors.ANTIQUE_WHITE.b, true)[1]
+		self.font:setStyle("normal")
+
+		local gtxt = nil
+		if txt then
+			gtxt = self.fontbig:draw(txt, w, colors.WHITE.r, colors.WHITE.g, colors.WHITE.b, true)[1]
+			gtxt.fw, gtxt.fh = self.fontbig:size(txt)
 		end
-	end end
+
+		--self.items[#self.items+1] = {i=i, x=x, y=y, e=display_entity or self.default_entity, color=color, angle=angle, key=key, gtxt=gtxt, frame=frame, pagesel=lpage==a.hotkey_page}
+		--self.clics[i] = {x,y,w,h}
+		
+		return i, {i=i, x=x, y=y, e=display_entity or self.default_entity, color=color, angle=angle, key=key, gtxt=gtxt, frame=frame, pagesel=lpage==a.hotkey_page}, nil
+	else
+		local i = i + (12 * (page - 1))
+		local angle = 0
+		local color = {190,190,190}
+		local frame = "disabled"
+
+		self.font:setStyle("bold")
+		local ks = game.key:formatKeyString(game.key:findBoundKeys("HOTKEY_"..page_to_hotkey[page]..bi))
+		local key = self.font:draw(ks, self.font:size(ks), colors.ANTIQUE_WHITE.r, colors.ANTIQUE_WHITE.g, colors.ANTIQUE_WHITE.b, true)[1]
+		self.font:setStyle("normal")
+
+		--self.items[#self.items+1] = {show_on_drag=true, i=i, x=x, y=y, e=nil, color=color, angle=angle, key=key, gtxt=nil, frame=frame}
+		--self.clics[i] = {x,y,w,h, fake=true}
+		return i, {show_on_drag=true, i=i, x=x, y=y, e=nil, color=color, angle=angle, key=key, gtxt=nil, frame=frame}, true
+	end
 end
 
 --- Our toScreen override
@@ -298,7 +317,7 @@ function _M:toScreen()
 		if not item.show_on_drag or (game.mouse and game.mouse.drag) and self.cur_sel then
 			local key = item.key
 			local gtxt = item.gtxt
-			local frame = frames_colors[item.frame]
+			local frame = self.frames_colors[item.frame]
 			local pagesel = item.pagesel and 1 or 0.5
 
 			if item.e then item.e:toScreen(self.tiles, self.display_x + item.x + self.frames.fx, self.display_y + item.y + self.frames.fy, self.icon_w, self.icon_h) end

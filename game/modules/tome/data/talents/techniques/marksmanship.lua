@@ -47,9 +47,9 @@ newTalent{
 		local reload = t.getReload(self,t)
 		local chance = t.getChance(self,t)
 		return ([[Increases weapon damage by %d%% and physical power by 30 when using bows or slings, as well as your reload rate by %d.
-		In addition, your Shoot has a %d%% chance to mark targets on hit.
+		In addition, your Shoot has a %d%% chance to mark targets on hit %s.
 The mark lasts for 5 turns, grants you visibility of the target (even through walls and other concealment), and causes them to become vulnerable to Headshot, Volley and Called Shots.]]):
-tformat(inc * 100, reload, chance)
+tformat(inc * 100, reload, chance, Desc.vs())
 	end,
 }
 
@@ -64,9 +64,9 @@ newTalent{
 	info = function(self, t)
 		local bleed = t.getBleed(self,t)*100
 		local sta = t.getStamina(self,t)
-		return ([[You take advantage of unwary foes (those at or above 90%% life). Against these targets, Shoot, Steady Shot and Headshot bleed targets for %d%% additional damage over 5 turns and have a 50%% increased chance to mark (if capable of marking).
+		return ([[You take advantage of unwary foes (those at or above 90%% life). Against these targets, Shoot, Steady Shot and Headshot bleed targets for %d%% additional damage over 5 turns %s and have a 50%% increased chance to mark (if capable of marking) %s.
 In addition, your Steady Shot, Shoot and Headshot now restore %0.1f stamina on hit.]])
-		:tformat(bleed, sta)
+		:tformat(bleed, Desc.vs"pp", Desc.vs(), sta)
 	end,
 }
 
@@ -113,9 +113,9 @@ newTalent{
 		local rad = self:getTalentRadius(t)
 		local dur = t.getDuration(self,t)
 		local def = t.getDefensePenalty(self,t)
-		return ([[Fire a shot at the target tile that blinds enemies for %d turns, marks them for 2 turns and illuminates the area within radius %d for %d turns. Enemies within the illuminated area lose %d defence and stealth power and cannot benefit from concealment.
-		The status chance increases with your Accuracy, and the defense reduction with your Dexterity.]])
-		:tformat(blind, rad, dur, def)
+		return ([[Fire a shot at the target tile that blinds enemies for %d turns %s, marks them for 2 turns and illuminates the area within radius %d for %d turns. Enemies within the illuminated area lose %d defence and stealth power and cannot benefit from concealment.
+		The defense reduction increases with your Dexterity.]])
+		:tformat(blind, Desc.vs"ap", rad, dur, def)
 	end,
 }
 

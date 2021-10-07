@@ -398,7 +398,6 @@ function _M:act()
 	self.shader_old_life = self.life
 	self.old_air = self.air
 	self.old_psi = self.psi
-	self.old_healwarn = (self:attr("no_healing") or ((self.healing_factor or 1) <= 0))
 
 	-- Clean log flasher
 --	game.flash:empty()
@@ -450,7 +449,6 @@ function _M:resetMainShader()
 	self.shader_old_life = nil
 	self.old_air = nil
 	self.old_psi = nil
-	self.old_healwarn = nil
 	self:updateMainShader()
 end
 
@@ -475,12 +473,11 @@ function _M:updateMainShader()
 			if solipsism_power > 0 then game.fbo_shader:setUniform("solipsism_warning", solipsism_power)
 			else game.fbo_shader:setUniform("solipsism_warning", 0) end
 		end
-		if ((self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) ~= self.old_healwarn) and not self:attr("no_healing_no_warning") then
-			if (self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) then
-				game.fbo_shader:setUniform("intensify", {0.3,1.3,0.3,1})
-			else
-				game.fbo_shader:setUniform("intensify", {0,0,0,0})
-			end
+		-- Can't heal shader warning
+		if (self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) and not self:attr("no_healing_no_warning") then
+			game.fbo_shader:setUniform("intensify", {0.3,1.3,0.3,1})
+		else
+			game.fbo_shader:setUniform("intensify", {0,0,0,0})
 		end
 
 		-- Colorize shader
@@ -791,9 +788,10 @@ function _M:onTakeHit(value, src, death_note)
 	end
 
 	-- Hit direction warning
-	if src.x and src.y and (self.x ~= src.x or self.y ~= src.y) then
+	if not self.turn_procs.__hit_warning and src.x and src.y and (self.x ~= src.x or self.y ~= src.y) then
 		local range = core.fov.distance(src.x, src.y, self.x, self.y)
 		if range > 1 then
+			self.turn_procs.__hit_warning = true
 			local angle = math.atan2(src.y - self.y, src.x - self.x)
 			game.level.map:particleEmitter(self.x, self.y, 1, "hit_warning", {angle=math.deg(angle)})
 		end

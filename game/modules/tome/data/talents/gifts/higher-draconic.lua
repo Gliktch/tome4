@@ -58,34 +58,49 @@ newTalent{
 			end
 		end
 
+		local apply_power = math.max(self:combatPhysicalpower(), self:combatMindpower())
 		if elem == "phys" then
 			attack_mode(self, target, DamageType.PHYSICAL, t.getWeaponDamage(self, t))
-			local tg = {type="ball", range=1, selffire=false, radius=self:getTalentRadius(t), talent=t}
-			local grids = self:project(tg, x, y, DamageType.SAND, {dur=3, dam=self:mindCrit(t.getBurstDamage(self, t))})
+			local tg = {type="ball", range=1, selffire=false, friendlyfire = false, radius=self:getTalentRadius(t), talent=t}
+			local grids = self:project(tg, x, y, DamageType.PHYSICAL, {dur=3, dam=self:mindCrit(t.getBurstDamage(self, t))})
+			self:projectApply(tg, x, y, Map.ACTOR, function(tg) if tg:canBe("blind") then tg:setEffect(tg.EFF_BLINDED, 3, {apply_power = apply_power}) end end, "hostile")
 			game.level.map:particleEmitter(x, y, tg.radius, "ball_matter", {radius=tg.radius, grids=grids, tx=x, ty=y, max_alpha=80})
 			game:playSoundNear(self, "talents/flame")
 		elseif elem == "cold" then
-			attack_mode(self, target, DamageType.ICE, t.getWeaponDamage(self, t))
-			local tg = {type="ball", range=1, selffire=false, radius=self:getTalentRadius(t), talent=t}
-			local grids = self:project(tg, x, y, DamageType.ICE_SLOW, self:mindCrit(t.getBurstDamage(self, t)))
+			attack_mode(self, target, DamageType.COLD, t.getWeaponDamage(self, t))
+			local tg = {type="ball", range=1, selffire=false, friendlyfire = false, radius=self:getTalentRadius(t), talent=t}
+			local grids = self:project(tg, x, y, DamageType.COLD, self:mindCrit(t.getBurstDamage(self, t)))
+			self:projectApply(tg, x, y, Map.ACTOR, function(tg)
+				if tg:canBe("slow") then tg:setEffect(tg.EFF_SLOW, 3, {power = 0.2, apply_power = apply_power}) end
+				if tg:canBe("stun") then tg:setEffect(tg.EFF_FROZEN, 3, {apply_power = apply_power}) end
+			end, "hostile")
 			game.level.map:particleEmitter(x, y, tg.radius, "ball_ice", {radius=tg.radius, grids=grids, tx=x, ty=y, max_alpha=80})
 			game:playSoundNear(self, "talents/flame")
 		elseif elem == "fire" then
-			attack_mode(self, target, DamageType.FIREBURN, t.getWeaponDamage(self, t))
-			local tg = {type="ball", range=1, selffire=false, radius=self:getTalentRadius(t), talent=t}
-			local grids = self:project(tg, x, y, DamageType.FIRE_STUN, self:mindCrit(t.getBurstDamage(self, t)))
+			attack_mode(self, target, DamageType.FIRE, t.getWeaponDamage(self, t))
+			local tg = {type="ball", range=1, selffire=false, friendlyfire = false,radius=self:getTalentRadius(t), talent=t}
+			local grids = self:project(tg, x, y, DamageType.FIRE, self:mindCrit(t.getBurstDamage(self, t)))
+			self:projectApply(tg, x, y, Map.ACTOR, function(tg)
+				if tg:canBe("stun") then tg:setEffect(tg.EFF_STUNNED, 3, {apply_power = apply_power}) end
+			end, "hostile")
 			game.level.map:particleEmitter(x, y, tg.radius, "ball_fire", {radius=tg.radius, grids=grids, tx=x, ty=y, max_alpha=80})
 			game:playSoundNear(self, "talents/flame")
 		elseif elem == "lightning" then
-			attack_mode(self, target, DamageType.LIGHTNING_DAZE, t.getWeaponDamage(self, t))
-			local tg = {type="ball", range=1, selffire=false, radius=self:getTalentRadius(t), talent=t}
-			local grids = self:project(tg, x, y, DamageType.LIGHTNING_DAZE, self:mindCrit(t.getBurstDamage(self, t)))
+			attack_mode(self, target, DamageType.LIGHTNING, t.getWeaponDamage(self, t))
+			local tg = {type="ball", range=1, selffire=false, friendlyfire = false,radius=self:getTalentRadius(t), talent=t}
+			local grids = self:project(tg, x, y, DamageType.LIGHTNING, self:mindCrit(t.getBurstDamage(self, t)))
+			self:projectApply(tg, x, y, Map.ACTOR, function(tg)
+				if tg:canBe("stun") then tg:setEffect(tg.EFF_DAZED, 3, {apply_power = apply_power}) end
+			end, "hostile")
 			game.level.map:particleEmitter(x, y, tg.radius, "ball_lightning", {radius=tg.radius, grids=grids, tx=x, ty=y, max_alpha=80})
 			game:playSoundNear(self, "talents/flame")
 		elseif elem == "acid" then
-			attack_mode(self, target, DamageType.ACID_DISARM, t.getWeaponDamage(self, t))
-			local tg = {type="ball", range=1, selffire=false, radius=self:getTalentRadius(t), talent=t}
-			local grids = self:project(tg, x, y, DamageType.ACID_DISARM, self:mindCrit(t.getBurstDamage(self, t)))
+			attack_mode(self, target, DamageType.ACID, t.getWeaponDamage(self, t))
+			local tg = {type="ball", range=1, selffire=false, friendlyfire = false,radius=self:getTalentRadius(t), talent=t}
+			local grids = self:project(tg, x, y, DamageType.ACID, self:mindCrit(t.getBurstDamage(self, t)))
+			self:projectApply(tg, x, y, Map.ACTOR, function(tg)
+				if tg:canBe("disarm") then tg:setEffect(tg.EFF_DISARMED, 3, {apply_power = apply_power}) end
+			end, "hostile")
 			game.level.map:particleEmitter(x, y, tg.radius, "ball_acid", {radius=tg.radius, grids=grids, tx=x, ty=y, max_alpha=80})
 			game:playSoundNear(self, "talents/flame")
 		end
@@ -96,11 +111,11 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local speed = t.getPassiveSpeed(self, t)
 		return ([[Unleash raw, chaotic elemental damage upon your enemy.
-		You strike your enemy for %d%% weapon damage in one of blinding sand, disarming acid, freezing and slowing ice, dazing lightning or stunning flames, with equal odds.
+		You strike your enemy for %d%% weapon damage in one of blinding sand, disarming acid, freezing and slowing ice, dazing lightning or stunning flames, with equal odds. %s
 		Additionally, you will cause a burst that deals %0.2f of that damage to creatures in radius %d, regardless of if you hit with the blow.
 		Levels in Prismatic Slash increase your Physical and Mental attack speeds by %d%%.
 
-		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1.2, 2.0), burstdamage, radius, 100*speed)
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * self:combatTalentWeaponDamage(t, 1.2, 2.0), Desc.vs(Desc.max("pp", "mp"), "ps"), burstdamage, radius, 100*speed)
 	end,
 }
 
@@ -156,10 +171,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		local effect = t.getEffect(self, t)
-		return ([[You breathe crippling poison in a frontal cone of radius %d. Any target caught in the area will take %0.2f nature damage each turn for 6 turns.
+		return ([[You breathe crippling poison in a frontal cone of radius %d %s. Any target caught in the area will take %0.2f nature damage each turn for 6 turns.
 		The poison also gives enemies a %d%% chance to fail actions more complicated than basic attacks and movement, while it is in effect.
 		The damage will increase with your Strength, and the critical chance is based on your Mental crit rate.
-		Each point in Venomous Breath also increases your nature resistance by 3%%, and your nature damage by 4%%.]] ):tformat(self:getTalentRadius(t), damDesc(self, DamageType.NATURE, t.getDamage(self,t)/6), effect)
+		Each point in Venomous Breath also increases your nature resistance by 3%%, and your nature damage by 4%%.]] ):tformat(self:getTalentRadius(t), Desc.vs(), damDesc(self, DamageType.NATURE, t.getDamage(self,t)/6), effect)
 	end,
 }
 

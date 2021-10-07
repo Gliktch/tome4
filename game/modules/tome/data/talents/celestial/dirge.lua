@@ -170,8 +170,7 @@ newTalent{
 					local shield_power = self:spellCrit(t.getShield(self, t))
 					
 					shield.power = shield.power + shield_power
-					self.damage_shield_absorb = self.damage_shield_absorb + shield_power
-					self.damage_shield_absorb_max = self.damage_shield_absorb_max + shield_power
+					shield.power_max = shield.power_max + shield_power
 					shield.dur = math.max(eff.dur, shield.dur)
 				else
 					self:setEffect(self.EFF_DAMAGE_SHIELD, eff.dur, {color={0xff/255, 0x3b/255, 0x3f/255}, power=self:spellCrit(t.getShield(self, t))})

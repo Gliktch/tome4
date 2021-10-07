@@ -28,6 +28,14 @@ uberTalent{
 		self:attr("unharmed_attack_on_hit", -1)
 		self:attr("show_gloves_combat", -1)
 	end,
+	callbackPriorities = { callbackOnMeleeAttack = 99999 }, -- called after any other effect.
+	callbackOnMeleeAttack = function(self, t, target, hitted)
+		if not self.__unarmed_attack_on_hit and rng.percent(50) then
+			self.__unarmed_attack_on_hit = true
+			self:attackTarget(target, nil, 1, true, true)
+			self.__unarmed_attack_on_hit = nil
+		end
+	end,
 	info = function(self, t)
 		return ([[Each time that you make a melee attack you have a 50%% chance to execute an additional unarmed strike.]])
 		:tformat()
@@ -237,12 +245,20 @@ uberTalent{
 	getMult = function(self, t) return self:combatLimit(self:getDex(), 0.7, 0.9, 50, 0.85, 100) end, -- Limit > 70% damage taken
 	activate = function(self, t)
 		local ret = {}
-		self:talentTemporaryValue(ret, "knockback_on_hit", 1)
-		self:talentTemporaryValue(ret, "movespeed_on_hit", {speed=3, dur=1})
 		return ret
 	end,
 	deactivate = function(self, t, p)
 		return true
+	end,
+	callbackOnMeleeHitProcs = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		if hitted and not self.turn_procs.roll_with_it and rng.percent(util.bound(dam, 0, 100)) then
+			local ox, oy = self.x, self.y
+			game:onTickEnd(function()
+				self:knockback(ox, oy, 1)
+				if not self:hasEffect(self.EFF_WILD_SPEED) then self:setEffect(self.EFF_WILD_SPEED, 1, {power=200}) end
+			end)
+			self.turn_procs.roll_with_it = true
+		end
 	end,
 	info = function(self, t)
 		return ([[You have learned to take a few hits when needed and can flow with the tide of battle.
@@ -276,7 +292,7 @@ uberTalent{
 	end,
 	info = function(self, t)
 		return ([[You fire a shot straight at your enemy's vital areas, wounding them terribly.
-		Enemies hit by this shot will take 450%% weapon damage and will be stunned and crippled (losing 50%% physical, magical and mental attack speeds) for five turns due to the devastating impact of the shot.
-		The stun and cripple chances increase with your Accuracy.]]):tformat()
+		Enemies hit by this shot will take 450%% weapon damage and will be stunned and crippled (losing 50%% physical, magical and mental attack speeds) for five turns due to the devastating impact of the shot. %s
+		]]):tformat(Desc.vs"ap")
 	end,
 }

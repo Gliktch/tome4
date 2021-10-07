@@ -168,8 +168,13 @@ newTalent{
 		if val >= 1000 then fnt = "buff_font_smaller" end
 		return tostring(math.ceil(val)), fnt
 	end,
+	shield_bar = function(self, t) 
+		local p = self:isTalentActive(t.id)
+		return math.ceil(p and p.value or 0), math.ceil(t.getMaxDamage(self, t)) 
+	end,
 	critpower = function(self, t) return self:combatTalentScale(t, 4, 15) end,
 	getRechargeRate = function(self, t) return self:combatTalentLimit(t, 5, 33, 10) end,
+	callbackPriorities = {callbackOnHit = -290},
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/spell_generic2")
 		local ret = {
@@ -200,20 +205,25 @@ newTalent{
 			t.updateParticles(self, t, p)
 		end
 	end,
-	do_onTakeHit = function(self, t, p, damage)
+	callbackOnHit = function(self, t, cb, src, dt)
+		local value = cb.value
+		if cb.value <= 0 then return end
+		local p = self:isTalentActive(t.id)
+		
 		if p.value > 0 then
 			-- absorb 50% damage
-			local deflectDamage = math.floor(math.min(damage * 0.5, p.value))
+			local deflectDamage = math.floor(math.min(cb.value * 0.5, p.value))
 			if deflectDamage > 0 then
-				damage = damage - deflectDamage
+				cb.value = cb.value - deflectDamage
 				p.value = math.max(0, p.value - deflectDamage)
 				p.__update_display = true
 				t.updateParticles(self, t, p)
 
 				game.logPlayer(self, "You have deflected %d incoming damage!", deflectDamage)
+				game:delayedLogDamage(src, self, 0, ("#SLATE#(%d deflected)#LAST#"):tformat(deflectDamage), false)
+				return cb
 			end
 		end
-		return damage
 	end,
 	updateParticles = function(self, t, p)
 		local power = 1 + math.floor(p.value / t.getMaxDamage(self, t) * 9)
@@ -309,9 +319,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local knockback = t.getKnockback(self, t)
 		local dazeDuration = t.getDazeDuration(self, t)
-		return ([[You rage coalesces at a single point, and then explodes outward, blasting enemies within a radius of %d in all directions. The blast causes %d damage and %d knockback at the center, that decreases with distance. Anyone caught in the explosion will also be dazed for 3 turns.
+		return ([[You rage coalesces at a single point, and then explodes outward, blasting enemies within a radius of %d in all directions. The blast causes %d damage and %d knockback at the center, that decreases with distance. Anyone caught in the explosion will also be dazed for 3 turns %s.
 		In addition, your ability to channel force with this talent increases all critical damage by %d%% (currently: %d%%)
-		Damage increases with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, damage), knockback, t.critpower(self, t), self.combat_critical_power or 0)
+		Damage increases with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, damage), knockback, Desc.vs(), t.critpower(self, t), self.combat_critical_power or 0)
 	end,
 }
 

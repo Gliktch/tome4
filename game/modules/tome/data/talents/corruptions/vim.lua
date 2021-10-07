@@ -94,9 +94,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Open a dark portal (radius 3) to the target zone. All creatures caught inside will be teleported to your location, and you to theirs.
-		All creatures (except you) traversing the portal will catch a random disease, doing %0.2f blight damage per turn for 6 turns and reducing one of its physical stats (strength, constitution, dexterity) by %d.
-		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 12, 80)), self:combatTalentSpellDamage(t, 5, 25))
+		return ([[Open a dark portal (radius 3) to the target zone. All creatures caught inside will be teleported to your location %s, and you to theirs.
+		All creatures (except you) traversing the portal will catch a random disease %s, doing %0.2f blight damage per turn for 6 turns and reducing one of its physical stats (strength, constitution, dexterity) by %d.
+		The damage will increase with your Spellpower.]]):tformat(Desc.vs"ss", Desc.vs(), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 12, 80)), self:combatTalentSpellDamage(t, 5, 25))
 	end,
 }
 
@@ -132,9 +132,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Feel the very existence of creatures around you for %d turns, in a radius of 10.
-		The evil touch will reduce their blight resistance by %d%% and all saves by %d, but also make them aware of you.
+		The evil touch will reduce their blight resistance by %d%% and all saves by %d for 2 turns %s, but also make them aware of you.
 		The resistance and save reduction will improve with your Spellpower.]]):
-		tformat(t.getDuration(self,t), t.getResistPenalty(self,t), t.getSaves(self, t))
+		tformat(t.getDuration(self,t), t.getResistPenalty(self,t), t.getSaves(self, t), Desc.vs())
 	end,
 }
 
@@ -147,6 +147,14 @@ newTalent{
 	-- called by _M:onTakeHit function in mod\class\Actor.lua	
 	getVim = function(self, t) return self:combatTalentScale(t, 1.7, 6.5, 0.75) end,
 	getHeal = function(self, t) return self:combatTalentScale(t, 4, 15, 0.75) end,
+	callbackPriorities = {callbackOnHit = -500},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if src.hasEffect and src:hasEffect(src.EFF_VIMSENSE) then
+			self:incVim(t.getVim(self, t))
+			self:heal(t.getHeal(self, t), src)
+			--if self.player then src:logCombat(src, "#AQUAMARINE#You leech a part of #Target#'s vim.") end
+		end
+	end,
 	info = function(self, t)
 		return ([[Each time a creature affected by vimsense hurts you, you regain %0.2f vim and %0.2f health.]]):
 		tformat(t.getVim(self,t),t.getHeal(self,t))

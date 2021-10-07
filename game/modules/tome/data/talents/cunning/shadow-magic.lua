@@ -34,6 +34,13 @@ newTalent{
 	end,
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 1, 70)+10 end,  -- This doesn't crit or generally scale easily so its safe to be aggressive
 	getManaCost = function(self, t) return 0 end,
+	callbackPriorities = { callbackOnMeleeProject = -25 },
+	callbackOnMeleeProject = function(self, t, target, hitted)
+		if hitted and not target.dead then
+			local dam = self:callTalent(self.T_SHADOW_COMBAT, "getDamage")
+			DamageType:get(DamageType.DARKNESS).projector(self, target.x, target.y, DamageType.DARKNESS, dam)
+		end
+	end,
 	activate = function(self, t)
 		local ret = {}
 		if core.shader.active(4) then
@@ -153,9 +160,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Step through the shadows to your target, dazing it for %d turns and hitting it with all your weapons for %d%% darkness weapon damage.
+		return ([[Step through the shadows to your target, dazing it for %d turns %s and hitting it with all your weapons for %d%% darkness weapon damage.
 		Dazed targets are significantly impaired, but any damage will free them.
 		To Shadowstep, you need to be able to see the target.]]):
-		tformat(duration, t.getDamage(self, t) * 100)
+		tformat(duration, Desc.vs(), t.getDamage(self, t) * 100)
 	end,
 }

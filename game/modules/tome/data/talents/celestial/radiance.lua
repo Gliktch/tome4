@@ -27,7 +27,7 @@ newTalent{
 	mode = "passive",
 	require = divi_req_high1,
 	points = 5,
-	radius = function(self, t) return self:combatTalentLimit(t, 14, 4, 10) end,
+	radius = function(self, t) return math.floor(self:combatTalentLimit(t, 14, 4, 10)) end,
 	getResist = function(self, t) return self:combatTalentLimit(t, 100, 25, 67) end,
 	getLightResist = function(self, t) return self:combatTalentScale(t, 15, 35) end,
 	getAffinity = function(self, t) return self:combatTalentLimit(t, 50, 15, 33) end,
@@ -97,8 +97,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Fire a glowing orb of light at each enemy within your Radiance.  Each orb will slowly follow its target until it connects, dealing %d light damage to anything else it contacts along the way.  When the target is reached the orb will explode dealing %d light damage in radius 1 and healing you for 50%% of the damage dealt.
-		All targets struck by your Judgement will be blighted by light, reducing saves by %d, reducing critical power by %d%%, and causing light damage received to splash in radius 2 for %d%% damage against all hostile targets for 4 turns.]]):
-		tformat(t.getMoveDamage(self, t), t.getExplosionDamage(self, t), t.getSavePen(self,t), t.getCritPen(self,t), t.getSplashPct(self,t))
+		All targets struck by your Judgement will be blighted by light, reducing saves by %d, reducing critical power by %d%%, and causing light damage received to splash in radius 2 for %d%% damage against all hostile targets for 4 turns %s.]]):
+		tformat(t.getMoveDamage(self, t), t.getExplosionDamage(self, t), t.getSavePen(self,t), t.getCritPen(self,t), t.getSplashPct(self,t), Desc.vs"ss")
 	end,
 }
 
@@ -156,9 +156,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your Radiance is so powerful it burns all foes caught in it, dealing %0.1f light damage to all foes caught inside every turn.
-		Each enemy effected has a %d%% chance of being dazed and blinded by the light for 3 turns. The daze and blind can be applied to each enemy at most once every 7 turns.
+		Each enemy effected has a %d%% chance of being dazed and blinded by the light for 3 turns %s. The daze and blind can be applied to each enemy at most once every 7 turns.
 		The damage increases with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.LIGHT, t.getDamage(self, t)), t.getDaze(self, t))
+		tformat(damDesc(self, DamageType.LIGHT, t.getDamage(self, t)), t.getDaze(self, t), Desc.vs"sp")
 	end,
 }
 
@@ -178,10 +178,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[The light of your Radiance allows you to see that which would normally be unseen and strike that which would normally be protected.
-		All enemies in your Radiance aura have their invisibility and stealth power reduced by %d; all actors affected by illumination have their defense reduced by %d as well as all evasion bonuses from being unseen negated.
+		All enemies in your Radiance aura have their invisibility and stealth power reduced by %d; all actors affected by illumination have their defense reduced by %d as well as all evasion bonuses from being unseen negated. %s
 		In addition, your light damage is increased by %d%% and your strikes ignore %d%% of the light resistance of your targets.
 		The invisibility, stealth power, and defense reductions increase with your Spellpower.]]):
-		tformat(t.getPower(self, t), t.getDef(self, t), t.getLightDamageIncrease(self, t), t.getResPen(self, t))
+		tformat(t.getPower(self, t), t.getDef(self, t), Desc.vs(), t.getLightDamageIncrease(self, t), t.getResPen(self, t))
 	end,
 }
 

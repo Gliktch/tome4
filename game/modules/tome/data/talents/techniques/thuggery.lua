@@ -72,10 +72,10 @@ newTalent{
 		local dam = damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t))
 		local duration = t.getDuration(self, t)
 		return ([[You smack your forehead against your enemy's head (or whatever sensitive part you can find), causing %0.1f Physical damage.
-		If the attack hits, the target is confused (%d%% effect) for %d turns.
+		If the attack hits, the target is confused (%d%% effect) for %d turns %s.
 		Damage done increases with the quality of your headgear, your Strength, and your physical damage bonuses.
-		Confusion power increases with your Dexterity, and chance increases with Accuracy.]]):
-		tformat(dam, t.getConfusion(self, t), duration)
+		Confusion power increases with your Dexterity.]]):
+		tformat(dam, t.getConfusion(self, t), duration, Desc.vs"am")
 	end,
 }
 

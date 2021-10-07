@@ -126,9 +126,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Your battle cry shatters the will of your foes within a radius of %d, lowering their Defense by %d for 7 turns, making them easier to hit.
-		All evasion and concealment bonuses are also disabled.
-		The chance to hit increases with your Physical Power.]]):
-		tformat(self:getTalentRadius(t), 7 * self:getTalentLevel(t))
+		return ([[Your battle cry shatters the will of your foes within a radius of %d, lowering their Defense by %d for 7 turns %s, making them easier to hit.
+		All evasion and concealment bonuses are also disabled.]]):
+		tformat(self:getTalentRadius(t), 7 * self:getTalentLevel(t), Desc.vs"pm")
 	end,
 }

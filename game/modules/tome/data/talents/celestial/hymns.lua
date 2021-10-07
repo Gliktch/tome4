@@ -309,7 +309,7 @@ newTalent{
 		if self:getNegative() < drain then return end
 
 		local tgts = {}
-		local grids = core.fov.circle_grids(self.x, self.y, 5, true)
+		local grids = core.fov.circle_grids(self.x, self.y, self:getTalentRange(t), true)
 		for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 			local a = game.level.map(x, y, Map.ACTOR)
 			if a and self:reactionToward(a) < 0 then
@@ -349,11 +349,11 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local drain = t.getNegativeDrain(self, t)
 		return ([[Chant the glory of the Moons, conjuring a shroud of dancing shadows that follows you as long as this spell is active.
-		Each turn, a shadowy beam will hit up to %d of your foes within radius 5 for 1 to %0.2f damage.
+		Each turn, a shadowy beam will hit up to %d of your foes within radius %d for 1 to %0.2f damage.
 		This powerful spell will drain %0.1f negative energy for each beam; no beam will fire if your negative energy is too low.
 		You may only have one Hymn active at once.
 		The damage will increase with your Spellpower.]]):
-		tformat(targetcount, damDesc(self, DamageType.DARKNESS, damage), drain)
+		tformat(targetcount, self:getTalentRange(t),  damDesc(self, DamageType.DARKNESS, damage), drain)
 	end,
 }
 
@@ -470,7 +470,7 @@ newTalent{
 		if self:getNegative() < t.getNegativeDrain(self, t) then return end
 
 		local tgts = {}
-		local grids = core.fov.circle_grids(self.x, self.y, 5, true)
+		local grids = core.fov.circle_grids(self.x, self.y, self:getTalentRange(t), true)
 		for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 			local a = game.level.map(x, y, Map.ACTOR)
 			if a and self:reactionToward(a) < 0 then
@@ -522,8 +522,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your passion for singing the praises of the Moons reaches its zenith.
-		Your Hymns now fire shadowy beams that will hit up to %d of your foes within radius 5 for %0.2f damage, with a 25%% chance of blinding.
+		Your Hymns now fire shadowy beams that will hit up to %d of your foes within radius %d for %0.2f damage, with a 25%% chance of blinding %s.
 		This powerful effect will drain %0.1f negative energy each time it fires at at least 1 target; no beam will fire if your negative energy is too low.
-		These values scale with your Spellpower.]]):tformat(t.getTargetCount(self, t), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), t.getNegativeDrain(self, t))
+		These values scale with your Spellpower.]]):tformat(t.getTargetCount(self, t), self:getTalentRange(t), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), Desc.vs"sp", t.getNegativeDrain(self, t))
 	end,
 }

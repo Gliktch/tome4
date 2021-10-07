@@ -74,12 +74,15 @@ newTalent{
 
 		return true
 	end,
-	onTakeHit = function(t, self, fractionDamage)
-		if fractionDamage < 0.08 then return false end
-		if self:hasEffect(self.EFF_RAMPAGE) then return false end
-		if rng.percent(50) then
-			t.action(self, t, 0)
-			return true
+	callbackPriorities = {callbackOnHit = -100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if cb.value > 0 then
+			local fractiondamage = cb.value / self.max_life
+			if fractionDamage < 0.08 then return end
+			if self:hasEffect(self.EFF_RAMPAGE) then return end
+			if rng.percent(50) then
+				t.action(self, t, 0)
+			end
 		end
 	end,
 	info = function(self, t)
@@ -216,7 +219,7 @@ newTalent{
 		local hitCount = t.getHitCount(self, t)
 		local stunDuration = t.getStunDuration(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[While rampaging, you slam up to %d adjacent opponents, stunning them for %d turns and damaging them for between %d and %d physical damage. Your first slam of at least two opponents increases the rampage duration by 1.
-		Damage increases with your Physical Power.]]):tformat(hitCount, stunDuration, damage * 0.5, damage)
+		return ([[While rampaging, you slam up to %d adjacent opponents, stunning them for %d turns %s and damaging them for between %d and %d physical damage. Your first slam of at least two opponents increases the rampage duration by 1.
+		Damage increases with your Physical Power.]]):tformat(hitCount, stunDuration, Desc.vs"pp", damage * 0.5, damage)
 	end,
 }

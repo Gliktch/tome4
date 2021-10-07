@@ -228,6 +228,14 @@ newTalent{
 		self:removeTemporaryValue("invis_on_hit_disable", p.talent)
 		return true
 	end,
+	callbackPriorities = {callbackOnHit = 100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value >= self.max_life * 0.10 and rng.percent(t.getChance(self, t)) then
+			self:setEffect(self.EFF_INVISIBILITY, 5, {power=t.getInvis(self, t)})
+			for tid, _ in pairs(self.invis_on_hit_disable) do self:forceUseTalent(tid, {ignore_energy=true}) end
+		end
+	end,
 	info = function(self, t)
 		return ([[As the only immortal race of Eyal, Shaloren have learnt over the long years to use their innate inner magic to protect themselves.
 		%d%% chance to become invisible (power %d) for 5 turns when hit by a blow doing at least 10%% of your total life.]]):
@@ -608,6 +616,13 @@ newTalent{
 	getDefense = function(self) 
 		local oldevasion = self:hasEffect(self.EFF_EVASION)
 		return self:getStat("lck")/200*(self:combatDefenseBase() - (oldevasion and oldevasion.defense or 0)) -- Prevent stacking
+	end,
+	callbackPriorities = {callbackOnHit = 100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value >= self.max_life * t.getThreshold(self, t) then
+			self:setEffect(self.EFF_EVASION, t.getDuration(self, t), {chance=t.getEvasionChance(self, t), defense = t.getDefense(self)})
+		end
 	end,
 	info = function(self, t)
 		local threshold = t.getThreshold(self, t)

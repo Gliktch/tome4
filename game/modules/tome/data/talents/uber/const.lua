@@ -22,12 +22,15 @@ uberTalent{
 	mode = "passive",
 	cooldown = 15,
 	require = { special={desc=_t"Be close to the draconic world", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("drake_touched") and self:attr("drake_touched") >= 2) end} },
-	trigger = function(self, t, value)
-		if self.life - value < self.max_life * 0.3 and not self:isTalentCoolingDown(t) then
+	callbackPriorities = {callbackOnHit = 300},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if cb.value <= 0 then return end
+		if self.life - cb.value < self.max_life * 0.3 and not self:isTalentCoolingDown(t) then
 			self:heal(self.max_life * 0.4, t)
 			self:startTalentCooldown(t)
 			game.logSeen(self,"%s's draconic body hardens and heals!",self:getName())
 		end
+		return cb
 	end,
 	info = function(self, t)
 		return ([[Your body hardens and recovers quickly. When pushed below 30%% life, you instantly restore 40%% of your total life.]])
@@ -40,27 +43,35 @@ uberTalent{
 	mode = "passive",
 	cooldown = 12,
 	require = { special={desc=_t"Have let Melinda be sacrificed", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:hasQuest("kryl-feijan-escape") and self:hasQuest("kryl-feijan-escape"):isStatus(engine.Quest.FAILED)) end} },
+	callbackPriorities = {callbackOnHit = 100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if cb.value <= 0 or self:isTalentCoolingDown(t) then return end
+		if cb.value >= self.max_life * 0.15 then
+			-- Add a lasting map effect
+			game.level.map:addEffect(self,
+				self.x, self.y, 4,
+				DamageType.BLOODSPRING, {dam={dam=100 + self:getCon() * 3, healfactor=0.5}, x=self.x, y=self.y, st=DamageType.DRAINLIFE, power=50 + self:getCon() * 2},
+				1,
+				5, nil,
+				MapEffect.new{color_br=255, color_bg=20, color_bb=20, effect_shader="shader_images/darkness_effect.png"},
+				function(e, update_shape_only)
+					if not update_shape_only then e.radius = e.radius + 0.5 end
+					return true
+				end,
+				false
+			)
+			game:playSoundNear(self, "talents/tidalwave")
+			self:startTalentCooldown(t)
+			game.logSeen(self,"%s's blood gushes out in a torrent!",self:getName())
+		end
+	end,
 	trigger = function(self, t)
-		-- Add a lasting map effect
-		game.level.map:addEffect(self,
-			self.x, self.y, 4,
-			DamageType.BLOODSPRING, {dam={dam=100 + self:getCon() * 3, healfactor=0.5}, x=self.x, y=self.y, st=DamageType.DRAINLIFE, power=50 + self:getCon() * 2},
-			1,
-			5, nil,
-			MapEffect.new{color_br=255, color_bg=20, color_bb=20, effect_shader="shader_images/darkness_effect.png"},
-			function(e, update_shape_only)
-				if not update_shape_only then e.radius = e.radius + 0.5 end
-				return true
-			end,
-			false
-		)
-		game:playSoundNear(self, "talents/tidalwave")
-		self:startTalentCooldown(t)
+		
 	end,
 	info = function(self, t)
-		return ([[When a single blow deals more than 15%% of your total life, a torrent of blood gushes from your body, creating a bloody tidal wave for 4 turns that deals %0.2f blight damage, heals you for 50%% of the damage done, and knocks foes back.
+		return ([[When a single blow deals more than 15%% of your total life, a torrent of blood gushes from your body, creating a bloody tidal wave for 4 turns that deals %0.2f blight damage, heals you for 50%% of the damage done, and knocks foes back %s.
 		The damage increases with your Constitution.]])
-		:tformat(100 + self:getCon() * 3)
+		:tformat(100 + self:getCon() * 3, Desc.vs"sp")
 	end,
 }
 

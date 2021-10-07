@@ -313,6 +313,8 @@ function _M:onAddObject(o, inven_id, item)
 			end
 		end
 	end
+	
+	o.in_inven = {actor = self, id = inven_id}
 end
 
 --- Called upon removing an object
@@ -323,6 +325,7 @@ function _M:onRemoveObject(o, inven_id, item)
 		end
 	end
 	o.carried = nil
+	o.in_inven = nil
 end
 
 --- Called upon dropping an object

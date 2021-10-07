@@ -32,7 +32,7 @@ local function maxPsiAbsorb(self, t) -- Max psi/turn to prevent runaway psi gain
 end
 
 local function shieldMastery(self, t)
-	return 100-self:combatTalentMindDamage(t, 40, 50)
+	return math.max(5, math.floor(100-self:combatTalentMindDamage(t, 40, 50)))
 end
 
 local function kineticElement(self, t, damtype)

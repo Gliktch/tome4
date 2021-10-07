@@ -51,11 +51,10 @@ newTalent{
 	tactical = { ESCAPE = 2 },
 	no_npc_use = true,
 	no_unlearn_last = true,
-	getRange = function(self, t) return math.floor(self:combatTalentScale(t, 13, 18)) end,
 	-- Check distance in preUseTalent to grey out the talent
 	on_pre_use = function(self, t)
 		local eff = self.sustain_talents[self.T_JUMPGATE]
-		return eff and core.fov.distance(self.x, self.y, eff.jumpgate_x, eff.jumpgate_y) <= t.getRange(self, t)
+		return eff and core.fov.distance(self.x, self.y, eff.jumpgate_x, eff.jumpgate_y) <= self:getTalentRange(self:getTalentFromId(self.T_JUMPGATE))
 	end,
 	is_teleport = true,
 	action = function(self, t)
@@ -71,7 +70,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Instantly travel to your jumpgate, as long as you are within %d tiles of it.]]):tformat(t.getRange(self, t))
+		return ([[Instantly travel to your jumpgate, as long as you are within %d tiles of it.]]):tformat(self:getTalentRange(self:getTalentFromId(self.T_JUMPGATE)))
  	end,
 }
 
@@ -92,11 +91,11 @@ newTalent{
 	sustain_negative = 20,
 	no_npc_use = true,
 	tactical = { ESCAPE = 2 },
+	range = function(self, t) return math.floor(self:combatTalentScale(t, 13, 18)) end,
 	iconOverlay = function(self, t, p)
 		if not self.x or not self.y or not p.jumpgate_x or not p.jumpgate_y then return "" end
 		local val = math.floor(core.fov.distance(self.x, self.y, p.jumpgate_x, p.jumpgate_y))
-		local jt = self:getTalentFromId(self.T_JUMPGATE_TELEPORT)
-		local max = jt.getRange(self, jt)
+		local max = self:getTalentRange(t)
 		local fnt = "buff_font_small"
 		if val >= 1000 then fnt = "buff_font_smaller" end
 		if val <= max then
@@ -143,11 +142,12 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		local jumpgate_teleport = self:getTalentFromId(self.T_JUMPGATE_TELEPORT)
-		local range = jumpgate_teleport.getRange(self, jumpgate_teleport)
-		return ([[Create a shadow jumpgate at your current location. As long as you sustain this spell, you can use 'Jumpgate: Teleport' to instantly travel to the jumpgate, as long as you are within %d tiles of it.
+		local range = self:getTalentRange(t)
+		local cd = self:getTalentCooldown(self:getTalentFromId(self.T_JUMPGATE_TELEPORT))
+		local cost = self:getTalentFromId(self.T_JUMPGATE_TELEPORT).negative * ((100 + self:combatFatigue()) / 100)
+		return ([[Create a shadow jumpgate at your current location. As long as you sustain this spell, you can use 'Jumpgate: Teleport To' to instantly travel to the jumpgate, as long as you are within %d tiles of it.
 		Note that any stairs underneath the jumpgate will be unusable while the spell is sustained, and you may need to cancel this sustain in order to leave certain locations.
-		At talent level 4, you learn to create and sustain a second jumpgate.]]):tformat(range)
+		At talent level 4, you learn to create and sustain a second jumpgate. Each teleport has a cooldown of %d and negative energy cost of %d.]]):tformat(range, cd, cost)
  	end,
  }
 
@@ -182,9 +182,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local duration = t.getConfuseDuration(self, t)
-		return ([[Let out a mental cry that shatters the will of your targets within radius %d, dealing %0.2f darkness damage and confusing (%d%% to act randomly) them for %d turns.
+		return ([[Let out a mental cry that shatters the will of your targets within radius %d, dealing %0.2f darkness damage and confusing (%d%% to act randomly) them for %d turns %s.
 		The damage will improve with your spellpower and the duration will improve with your Cunning.]]):
-		tformat(self:getTalentRadius(t), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), t.getConfuseEfficency(self,t), duration)
+		tformat(self:getTalentRadius(t), damDesc(self, DamageType.DARKNESS, t.getDamage(self, t)), t.getConfuseEfficency(self,t), duration, Desc.vs"sm")
 	end,
 }
 
@@ -273,7 +273,14 @@ newTalent{
 	type = {"celestial/other", 1},
 	mode = "sustained", no_sustain_autoreset = true,
 	points = 1,
-	cooldown = 20,
+	cooldown = function(self, t)
+		local tl = self:getTalentLevelRaw(self:getTalentFromId(self.T_JUMPGATE))
+		if tl < 4 then
+			return math.ceil(self:combatLimit(tl, 0, 20, 1, 8, 4))
+		else
+			return math.ceil(self:combatLimit(tl, 0, 8, 4, 4, 5)) --I5 Limit >0
+		end
+	end,
 	sustain_negative = 20,
 	no_npc_use = true,
 	type_no_req = true,
@@ -292,8 +299,7 @@ newTalent{
 	iconOverlay = function(self, t, p)
 		if not self.x or not self.y or not p.jumpgate2_x or not p.jumpgate2_y then return "" end
 		local val = math.floor(core.fov.distance(self.x, self.y, p.jumpgate2_x, p.jumpgate2_y))
-		local jt = self:getTalentFromId(self.T_JUMPGATE_TELEPORT_TWO)
-		local max = jt.getRange(self, jt)
+		local max = self:getTalentRange(self:getTalentFromId(self.T_JUMPGATE))
 		local fnt = "buff_font_small"
 		if val >= 1000 then fnt = "buff_font_smaller" end
 		if val <= max then
@@ -328,9 +334,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		local jumpgate_teleport = self:getTalentFromId(self.T_JUMPGATE_TELEPORT_TWO)
-		local range = jumpgate_teleport.getRange(self, jumpgate_teleport)
-		return ([[Create a second shadow jumpgate at your location. As long as you sustain this spell, you can use 'Jumpgate: Teleport' to instantly travel to the jumpgate, as long as you are within %d tiles of it.]]):tformat(range)
+		local range = self:getTalentRange(self:getTalentFromId(self.T_JUMPGATE))
+		return ([[Create a second shadow jumpgate at your location. As long as you sustain this spell, you can use 'Jumpgate Two: Teleport To' to instantly travel to the jumpgate, as long as you are within %d tiles of it.]]):tformat(range)
 	end,
 }
 
@@ -343,13 +348,12 @@ newTalent{
 	type_no_req = true,
 	tactical = { ESCAPE = 2 },
 	no_npc_use = true,
-	getRange = function(self, t) return self:callTalent(self.T_JUMPGATE_TELEPORT, "getRange") end,
 	-- Check distance in preUseTalent to grey out the talent
 	is_teleport = true,
 	no_unlearn_last = true,
 	on_pre_use = function(self, t)
 		local eff = self.sustain_talents[self.T_JUMPGATE_TWO]
-		return eff and core.fov.distance(self.x, self.y, eff.jumpgate2_x, eff.jumpgate2_y) <= t.getRange(self, t)
+		return eff and core.fov.distance(self.x, self.y, eff.jumpgate2_x, eff.jumpgate2_y) <= self:getTalentRange(self:getTalentFromId(self.T_JUMPGATE))
 	end,
 	action = function(self, t)
 		local eff = self.sustain_talents[self.T_JUMPGATE_TWO]
@@ -364,6 +368,6 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Instantly travel to your second jumpgate, as long as you are within %d tiles of it.]]):tformat(t.getRange(self, t))
+		return ([[Instantly travel to your second jumpgate, as long as you are within %d tiles of it.]]):tformat(self:getTalentRange(self:getTalentFromId(self.T_JUMPGATE)))
 	end,
 }

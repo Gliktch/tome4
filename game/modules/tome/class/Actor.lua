@@ -1390,29 +1390,34 @@ function _M:move(x, y, force)
 			end
 		end
 
+		local can_move = true
 		-- Sleeping?  Do nothing..
 		if not force and self:attr("sleep") and not self:attr("lucid_dreamer") then
 			game.logPlayer(self, "You are asleep and unable to move!")
-		-- Encased in ice, attack the ice
+			can_move = false
+			-- Encased in ice, attack the ice
 		elseif not force and self:attr("encased_in_ice") then
 			self:attackTarget(self)
 			moved = true
-		-- Should we prob travel through walls ?
+			can_move = false
+			-- Should we prob travel through walls ?
 		elseif not force and self:attr("prob_travel") and not self:attr("prob_travel_deny") and game.level.map:checkEntity(x, y, Map.TERRAIN, "block_move", self) then
-			moved = self:probabilityTravel(x, y, self:attr("prob_travel"))
-			if self:attr("prob_travel_penalty") then
+			moved = self:probabilityTravel(x, y, self:attr("prob_travel")) and (self.x ~= ox or self.y ~= oy)
+			if moved and self:attr("prob_travel_penalty") then
 				local d = core.fov.distance(ox, oy, self.x, self.y)
 				self:setEffect(self.EFF_PROB_TRAVEL_UNSTABLE, d * self:attr("prob_travel_penalty"), {})
 			end
+			can_move = not moved
+		end
 		-- Never move but tries to attack ? ok
-		elseif not force and self:attr("never_move") then
+		if not moved and can_move and not force and self:attr("never_move") then
 			-- A bit weird, but this simple asks the collision code to detect an attack
 			if not game.level.map:checkAllEntities(x, y, "block_move", self, true) then
 				game.logPlayer(self, "You are unable to move!")
 			end
-		else
-			moved = engine.Actor.move(self, x, y, force)
+			can_move = false
 		end
+		moved = moved or (can_move and engine.Actor.move(self, x, y, force))
 		if not force and moved and (self.x ~= ox or self.y ~= oy) and not self.did_energy then
 			local eff = self:hasEffect(self.EFF_CURSE_OF_SHROUDS)
 			if eff then eff.moved = true end
@@ -1475,7 +1480,7 @@ function _M:move(x, y, force)
 		t.curseFloor(self, t, x, y)
 	end
 
-	if moved and self:isTalentActive(self.T_BODY_OF_STONE) and not self:attr("preserve_body_of_stone") then
+	if moved and ox and oy and (ox ~= self.x or oy ~= self.y) and self:isTalentActive(self.T_BODY_OF_STONE) and not self:attr("preserve_body_of_stone") then
 		self:forceUseTalent(self.T_BODY_OF_STONE, {ignore_energy=true})
 	end
 
@@ -2808,195 +2813,7 @@ function _M:onTakeHit(value, src, death_note)
 		end
 	end
 
-	-- Apply Solipsism hit
-	if damage_to_psi > 0 then
-		local t = self:getTalentFromId(self.T_SOLIPSISM)
-		local psi_damage_resist = 1 - t.getPsiDamageResist(self, t)/100
-	--	print("Psi Damage Resist", psi_damage_resist, "Damage", damage_to_psi, "Final", damage_to_psi*psi_damage_resist)
-		if self:getPsi() > damage_to_psi*psi_damage_resist then
-			self:incPsi(-damage_to_psi*psi_damage_resist)
-		else
-			damage_to_psi = self:getPsi()
-			self:incPsi(-damage_to_psi)
-		end
-		local mindcolor = DamageType:get(DamageType.MIND).text_color or "#aaaaaa#"
-		game:delayedLogMessage(self, nil, "Solipsism hit", ("%s#Source# converts some damage to Psi!"):tformat(mindcolor))
-		game:delayedLogDamage(src, self, damage_to_psi*psi_damage_resist, ("%s%d %s#LAST#"):tformat(mindcolor, damage_to_psi*psi_damage_resist, _t"to psi"), false)
-
-		value = value - damage_to_psi
-	end
-
-	if value <= 0 then return 0 end
-	-- VITALITY?
-	if self:knowTalent(self.T_VITALITY) and self.life > self.max_life /2 and self.life - value <= self.max_life/2 then
-		local t = self:getTalentFromId(self.T_VITALITY)
-		t.do_vitality_recovery(self, t)
-	end
-
-	-- Shield of Light
-	tal = self:isTalentActive(self.T_SHIELD_OF_LIGHT)
-	if tal then
-		if value <= 2 then
-			drain = value
-		else
-			drain = 2
-		end
-		if self:getPositive() >= drain then
-			self:incPositive(- drain)
-
-			-- Only calculate crit once per turn to avoid log spam
-			if not self.turn_procs.shield_of_light_heal then
-				local t = self:getTalentFromId(self.T_SHIELD_OF_LIGHT)
-				self.turn_procs.shield_of_light_heal = true
-				self.shield_of_light_heal = self:spellCrit(t.getHeal(self, t))
-			end
-
-			self:heal(self.shield_of_light_heal, tal)
-		end
-	end
-
-	if value >= self.life then
-		local tal = self:isTalentActive(self.T_SECOND_LIFE)
-		if tal then
-			local sl = self:callTalent(self.T_SECOND_LIFE,"getLife")
-			value = 0
-			self.life = 1
-			self:forceUseTalent(self.T_SECOND_LIFE, {ignore_energy=true})
-			local value = self:heal(sl, self)
-			game.logSeen(self, "#YELLOW#%s has been healed by a blast of positive energy!#LAST#", self:getName():capitalize())
-			if value > 0 then
-				if self.player then
-					self:setEmote(require("engine.Emote").new("The Sun Protects!", 45))
-					world:gainAchievement("AVOID_DEATH", self)
-				end
-			end
-		end
-
-		local tal = self:isTalentActive(self.T_HEARTSTART)
-		if tal then
-			self:forceUseTalent(self.T_HEARTSTART, {ignore_energy=true})
-		end
-	end
-
-	-- Shade's reform
-	if value >= self.life and self.ai_state and self.ai_state.can_reform then
-		local t = self:getTalentFromId(self.T_SHADOW_REFORM)
-		if rng.percent(t.getChance(self, t)) then
-			value = 0
-			self.life = self.max_life
-			game.logSeen(self, "%s fades for a moment and then reforms whole again!", self:getName():capitalize())
-			game.level.map:particleEmitter(self.x, self.y, 1, "teleport_out")
-			game:playSoundNear(self, "talents/heal")
-			game.level.map:particleEmitter(self.x, self.y, 1, "teleport_in")
-		end
-	end
-
-	-- Shadow decoy
-	if value >= self.life and self:isTalentActive(self.T_SHADOW_DECOY) then
-		local t = self:getTalentFromId(self.T_SHADOW_DECOY)
-		if t.onDie(self, t, value, src) then
-			value = 0
-		end
-	end
-
-	if value <= 0 then return 0 end
-	-- Vim leech
-	if self:knowTalent(self.T_LEECH) and src.hasEffect and src:hasEffect(src.EFF_VIMSENSE) then
-		local vt = self:getTalentFromId(self.T_LEECH)
-		self:incVim(vt.getVim(self, vt))
-		self:heal(vt.getHeal(self, vt), src)
-		--if self.player then src:logCombat(src, "#AQUAMARINE#You leech a part of #Target#'s vim.") end
-	end
-
-	-- Invisible on hit
-	if value >= self.max_life * 0.10 and self:attr("invis_on_hit") and rng.percent(self:attr("invis_on_hit")) then
-		self:setEffect(self.EFF_INVISIBILITY, 5, {power=self:attr("invis_on_hit_power")})
-		for tid, _ in pairs(self.invis_on_hit_disable) do self:forceUseTalent(tid, {ignore_energy=true}) end
-	end
-
-	-- Bloodspring
-	if value >= self.max_life * 0.15 and self:knowTalent(self.T_BLOODSPRING) then
-		self:triggerTalent(self.T_BLOODSPRING)
-	end
-
-	if self:knowTalent(self.T_DUCK_AND_DODGE) then
-		local t = self:getTalentFromId(self.T_DUCK_AND_DODGE)
-		if value >= self.max_life * t.getThreshold(self, t) then
-			self:setEffect(self.EFF_EVASION, t.getDuration(self, t), {chance=t.getEvasionChance(self, t), defense = t.getDefense(self)})
-		end
-	end
-
-	-- Damage shield on hit
-	if self:attr("contingency") and value >= self.max_life * self:attr("contingency") / 100 and not self:hasEffect(self.EFF_DAMAGE_SHIELD) then
-		self:setEffect(self.EFF_DAMAGE_SHIELD, 3, {power=value * self:attr("contingency_shield") / 100})
-		for tid, _ in pairs(self.contingency_disable) do self:forceUseTalent(tid, {ignore_energy=true}) end
-	end
-
-	-- Spell cooldowns on hit
-	if self:attr("reduce_spell_cooldown_on_hit") and value >= self.max_life * self:attr("reduce_spell_cooldown_on_hit") / 100 then
-		local alt = {}
-		for tid, cd in pairs(self.talents_cd) do
-			if rng.percent(self:attr("reduce_spell_cooldown_on_hit_chance")) then alt[tid] = true end
-		end
-		for tid, cd in pairs(alt) do
-			self:alterTalentCoolingdown(tid, -1)
-		end
-	end
-
-	-- Life leech
-	if value > 0 and src and not src.dead and src.attr and src:attr("life_leech_chance") and rng.percent(src.life_leech_chance) then
-		local leech = math.min(value, self.life) * src.life_leech_value / 100
-		if leech > 0 then
-			src:heal(leech, self)
-			game:delayedLogMessage(src, self, "life_leech"..self.uid, "#CRIMSON##Source# leeches life from #Target#!")
-		end
-	end
-
-	-- Life steal from weapon
-	if value > 0 and src and not src.dead and src.attr and src:attr("lifesteal") then
-		local leech = math.min(value, self.life) * src.lifesteal / 100
-		if leech > 0 then
-			src:heal(leech, self)
-			game:delayedLogMessage(src, self, "lifesteal"..self.uid, "#CRIMSON##Source# steals life from #Target#!")
-		end
-	end
-
 	if self.on_takehit then value = self:check("on_takehit", value, src, death_note) end
-
-	local eff = self:hasEffect(self.EFF_ELDRITCH_STONE)
-	if eff then
-		local abs = math.min(value, eff.power)
-		self:incEquilibrium(abs * 2)
-		if eff.power > abs then
-			eff.power = eff.power - abs
-			value = 0
-		else
-			value = value - abs
-			self:removeEffect(self.EFF_ELDRITCH_STONE)
-		end
-		game:delayedLogDamage(src, self, 0, ("#SLATE#(%d to stone)#LAST#"):tformat(abs), false)
-	end
-
-	if self:knowTalent(self.T_STONESHIELD) and not self.turn_procs.stoneshield then
-		local t = self:getTalentFromId(self.T_STONESHIELD)
-		local m, mm, e, em = t.getValues(self, t)
-		self:incMana(math.min(mm, value * m))
-		self:incEquilibrium(-math.min(em, value * e))
-		self.turn_procs.stoneshield = true
-	end
-
-	local eff = self:hasEffect(self.EFF_STONE_LINK)
-	if eff then
-		if eff.src:attr("dead") then
-			self:removeEffect(self.EFF_STONE_LINK)
-		else
-			game:delayedLogMessage(eff.src, self, "stone_link"..(self.uid or ""), "#OLIVE_DRAB##Source# redirects damage from #Target# to %s!#LAST#", string.his_her_self(eff.src))
-			game:delayedLogDamage(src, self, 0, ("#OLIVE_DRAB#(%d redirected)#LAST#"):tformat(value), false)
-			eff.src:takeHit(value, src)
-			game:delayedLogDamage(src, eff.src, value, ("#OLIVE_DRAB#%d redirected#LAST#"):tformat(value), false)
-			value = 0
-		end
-	end
 
 	local cb = {value=value}
 	if self:fireTalentCheck("callbackOnHit", cb, src, death_note) then value = cb.value end
@@ -3007,24 +2824,41 @@ function _M:onTakeHit(value, src, death_note)
 
 	local hd = {"Actor:takeHit", value=value, src=src, death_note=death_note}
 	if self:triggerHook(hd) then value = hd.value end
+	
+	if value > 0 and src and (src.hate_per_powerful_hit or 0) > 0 and src.knowTalent and src:knowTalent(src.T_HATE_POOL) then
+		local hateGain = 0
+		local hateMessage
 
-	-- Resource leech
-	if value > 0 and src and src.attr and src:attr("resource_leech_chance") and rng.percent(src.resource_leech_chance) then
-		local leech = src.resource_leech_value
-		src:incMana(leech)
-		src:incVim(leech * 0.5)
-		src:incPositive(leech * 0.25)
-		src:incNegative(leech * 0.25)
-		src:incEquilibrium(-leech * 0.35)
-		src:incStamina(leech * 0.65)
-		src:incHate(leech * 0.2)
-		src:incPsi(leech * 0.2)
-		game:delayedLogMessage(src, self, "resource_leech", "#CRIMSON##Source# leeches energies from #Target#!")
+		if value / src.max_life > 0.33 then
+			-- you deliver a big hit
+			hateGain = hateGain + src.hate_per_powerful_hit
+			hatemessage = _t"#F53CBE#Your powerful attack feeds your madness!"
+		end
+
+		if hateGain >= 0.1 then
+			src.hate = math.min(src.max_hate, src.hate + hateGain)
+			if hateMessage then
+				game.logPlayer(src, ("%s (+%d hate)"):tformat(hateMessage), hateGain)
+			end
+		end
+	end	
+	
+	-- Life steal from weapon
+	if value > 0 and src and not src.dead and src.attr and src:attr("lifesteal") then
+		local leech = math.min(value, self.life) * src.lifesteal / 100
+		if leech > 0 then
+			src:heal(leech, self)
+			game:delayedLogMessage(src, self, "lifesteal"..self.uid, "#CRIMSON##Source# steals life from #Target#!")
+		end
 	end
-
-	if self:knowTalent(self.T_DRACONIC_BODY) then
-		local t = self:getTalentFromId(self.T_DRACONIC_BODY)
-		t.trigger(self, t, value)
+	
+		-- Achievements
+	if not self.no_take_hit_achievements and src and src.resolveSource and src:resolveSource().player and value >= 600 then
+		local rsrc = src:resolveSource()
+		world:gainAchievement("SIZE_MATTERS", rsrc)
+		if value >= 1500 then world:gainAchievement("DAMAGE_1500", rsrc) end
+		if value >= 3000 then world:gainAchievement("DAMAGE_3000", rsrc) end
+		if value >= 6000 then world:gainAchievement("DAMAGE_6000", rsrc) end
 	end
 
 	-- Needs to be done last, will break if any damage is taken between doing this and updating the actor's life
@@ -3342,10 +3176,6 @@ function _M:die(src, death_note)
 	if src and src.hasEffect and src:hasEffect(self.EFF_UNSTOPPABLE) then
 		local p = src:hasEffect(self.EFF_UNSTOPPABLE)
 		p.kills = p.kills + 1
-	end
-
-	if src and src.knowTalent and src:knowTalent(src.T_STEP_UP) and rng.percent(src:getTalentLevelRaw(src.T_STEP_UP) * 20) then
-		game:onTickEnd(function() src:setEffect(self.EFF_STEP_UP, 1, {}) end)
 	end
 
 	if src and self.reset_rush_on_death and self.reset_rush_on_death == src then
@@ -4115,6 +3945,8 @@ function _M:onTemporaryValueChange(prop, v, base)
 		self:recomputeGlobalSpeed()
 	elseif base == self.talents_types_mastery then
 		self:updateTalentTypeMastery(prop)
+	elseif base == self.talents_mastery_bonus then
+		self:updateAllTalentsPassives()
 	elseif prop == "disarmed" then
 		self:updateModdableTile()
 	end
@@ -6057,6 +5889,8 @@ local sustainCallbackCheck = {
 	callbackOnCombatAttack = "talents_on_combat_attack",
 	callbackOnMeleeAttackBonuses = "talents_on_melee_attack_bonus",
 	callbackOnMeleeAttack = "talents_on_melee_attack",
+	callbackOnMeleeProject = "talents_on_melee_attack_project",
+	callbackOnMeleeHitProcs = "talents_on_melee_hit_proc",
 	callbackOnMeleeHit = "talents_on_melee_hit",
 	callbackOnMeleeMiss = "talents_on_melee_miss",
 	callbackOnArcheryAttack = "talents_on_archery_attack",
@@ -6716,7 +6550,7 @@ function _M:getTalentFullDescription(t, addlevel, config, fake_mastery)
 	end
 
 	local d = tstring{}
-	d:add({"color",0x6f,0xff,0x83}, _t"Effective talent level: ", {"color",0x00,0xFF,0x00}, ("%.1f"):format(self:getTalentLevel(t)), true)
+	d:add({"color",0x6f,0xff,0x83}, _t"Effective talent level: ", {"color",0x00,0xFF,0x00}, ("%.2f"):format(self:getTalentLevel(t)), true)
 
 	if not config.ignore_mode then
 		if t.mode == "passive" then d:add({"color",0x6f,0xff,0x83}, _t"Use mode: ", {"color",0x00,0xFF,0x00}, _t"Passive", true)

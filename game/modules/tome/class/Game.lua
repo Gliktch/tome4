@@ -1818,7 +1818,6 @@ function _M:onTurn()
 
 	if self.turn % 500 ~= 0 then return end
 	self:dieClonesDie()
-	truncate_printlog(Savefile.TRUNCATE_PRINTLOG_TO)
 end
 
 function _M:updateFOV()
@@ -2940,6 +2939,12 @@ function _M:playSoundNear(who, name)
 	if who and (not who.attr or not who:attr("_forbid_sounds")) and self.level and self.level.map.seens(who.x, who.y) then
 		local pos = {x=0,y=0,z=0}
 		if self.player and self.player.x then pos.x, pos.y = who.x - self.player.x, who.y - self.player.y end
+		if who.turn_procs and type(name) == "string" then
+			who.turn_procs.sounds = who.turn_procs.sounds or {}
+			who.turn_procs.sounds[name] = (who.turn_procs.sounds[name] or 0) + 1
+			local time = who.turn_procs.sounds[name]
+			name = { name, vol = math.min(1, 1 / (2^ (time - 2))) }
+		end
 		self:playSound(name, pos)
 	end
 end

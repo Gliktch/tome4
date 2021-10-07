@@ -506,6 +506,12 @@ uberTalent{
 	end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "all_talents_bonus_level", 1.5)
+
+		if not self._updating_adept then
+			self._updating_adept = true
+			self:updateAllTalentsPassives()
+			self._updating_adept = nil
+		end
 	end,
 }
 

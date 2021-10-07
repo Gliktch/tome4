@@ -429,7 +429,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[The target has a %d%% chance (stacking to a maximum of %d%%) to fail to cast any spell.  At level 2 magical effects may be disrupted, at level 3 magical sustains may be disrupted, and at level 5 magical constructs and undead may be stunned.]]):tformat(t.getpower(self, t),t.maxpower(self,t))
+		return ([[The target has a %d%% chance (stacking to a maximum of %d%%) to fail to cast any spell %s.  At level 2 magical effects may be disrupted, at level 3 magical sustains may be disrupted, and at level 5 magical constructs and undead may be stunned %s.]]):tformat(t.getpower(self, t),t.maxpower(self,t), Desc.vs"mp", Desc.vs"mp")
 	end,
 }
 
@@ -465,8 +465,8 @@ newTalent{
 		return
 	end,
 	info = function(self, t)
-		return ([[You enter into a fighting trance, gaining 15%% resist all, losing 15 mindpower, but gaining 20 mental save. However, each turn after the fifth that this talent is active, there is a chance that you will be overcome and become confused.
-This does not take a turn to use.]]):tformat()
+		return ([[You enter into a fighting trance, gaining 15%% resist all, losing 15 mindpower, but gaining 20 mental save. However, each turn after the fifth that this talent is active, there is a chance that you will be overcome and become confused %s.
+This does not take a turn to use.]]):tformat(Desc.vs())
 	end,
 }
 
