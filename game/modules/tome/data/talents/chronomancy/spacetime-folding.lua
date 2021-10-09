@@ -444,7 +444,7 @@ newTalent{
 		local range = t.getTeleport(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Randomly teleports all enemies within a radius of three.  Enemies will be teleported between %d and %d tiles from you and may be stunned, blinded, confused, or pinned for %d turns.
-		The chance of teleportion will scale with your Spellpower.]]):tformat(range / 2, range, duration)
+		The chance of teleportation will scale with your Spellpower.]]):tformat(range / 2, range, duration)
 	end,
 }
 
