@@ -54,7 +54,7 @@ newEntity{
 		if not x then return end
 
 		local g = game.level.map(x, y, engine.Map.TERRAIN):cloneFull()
-		g.name = _t"Entrance to a dark crypt"
+		g.name = _t"Entrance to a shadowy crypt"
 		g.display='>' g.color_r=128 g.color_g=128 g.color_b=128 g.notice = true
 		g.change_level=1 g.change_zone="shadow-crypt" g.glow=true
 		g.add_displays = g.add_displays or {}
