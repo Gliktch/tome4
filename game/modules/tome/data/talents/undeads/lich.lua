@@ -509,7 +509,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You are so full with power that it overflows out of you whenever you cast a spell.
-		Upon spell cast you have %d%% chances to boost the physical power, spellpower, mindpower and all saves of all friendly undeads in sight (including yourself) by %d for 4 turns.]]):
+		Upon spell cast you have a %d%% chance to boost the physical power, spellpower, mindpower and all saves of all friendly undeads in sight (including yourself) by %d for 4 turns.]]):
 		tformat(t.getChance(self, t), t.getPower(self, t))
 	end,
 }
