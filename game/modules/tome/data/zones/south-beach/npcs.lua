@@ -63,7 +63,7 @@ newEntity{
 			local DamageType = require "engine.DamageType"
 			DamageType:get(DamageType.BLIGHT).projector(self, e.x, e.y, DamageType.BLIGHT, 10000)
 		end
-		self:doEmote(_t"What..! Please lets run!", 120)
+		self:doEmote(_t"What..! Please, let's run!", 120)
 		game.player:setQuestStatus("love-melinda", engine.Quest.COMPLETED, "saved-beach")
 		game.bignews:say(120, "#DARK_GREEN#As Melinda is about to die a powerful wave of blight emanates from her!")
 	end,
