@@ -2636,7 +2636,7 @@ newEffect{
 newEffect{
 	name = "SPELL_FEEDBACK", image = "talents/spell_feedback.png",
 	desc = _t"Spell Feedback",
-	long_desc = function(self, eff) return ("The target suffers %d%% spell failue."):tformat(eff.power) end,
+	long_desc = function(self, eff) return ("The target suffers %d%% spell failure."):tformat(eff.power) end,
 	type = "mental",
 	subtype = { nature=true },
 	status = "detrimental",
