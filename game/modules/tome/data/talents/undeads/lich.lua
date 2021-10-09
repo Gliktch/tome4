@@ -92,7 +92,7 @@ newTalent{
 		end, "hostile")
 	end,
 	info = function(self, t)
-		return ([[Your mere presence is terrying to any foes that dare stand against you.
+		return ([[Your mere presence is terrifying to any foes that dare stand against you.
 		Every turn all foes in radius %d must make a mental save against your spellpower/physical power (whichever is highest) or become frightened (bypassing fear immunity), reducing all their saves by %d, all damage by %d%% and movement speed by %d%%.
 		If they successfully resist, they are immune for %d turns.]]):
 		tformat(self:getTalentRadius(t), t.getSaves(self, t), t.getDam(self, t), t.getSpeed(self, t), t.getImmune(self, t))
