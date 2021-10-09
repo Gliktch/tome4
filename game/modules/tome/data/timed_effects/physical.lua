@@ -3829,7 +3829,7 @@ newEffect{
 newEffect{
 	name = "ESCAPE", image = "talents/escape.png",
 	desc = _t"Escape",
-	long_desc = function(self, eff) return ("Focusing on defense and mobility, reducing all damage taken by %d%%, stamina regeneration by %0.1f and movement speed by %d%%. Melee and ranged attacks will break this effect."):tformat(eff.power, eff.stamina, eff.speed) end,
+	long_desc = function(self, eff) return ("Focusing on defense and mobility: reducing all damage taken by %d%%, and increasing stamina regeneration by %0.1f and movement speed by %d%%. Melee and ranged attacks will break this effect."):tformat(eff.power, eff.stamina, eff.speed) end,
 	type = "physical",
 	subtype = { tactic=true, speed=true },
 	status = "beneficial",
