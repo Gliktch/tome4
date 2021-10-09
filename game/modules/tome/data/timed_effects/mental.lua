@@ -351,7 +351,7 @@ newEffect{
 	status = "detrimental",
 	parameters = {},
 	on_gain = function(self, err) return _t"#F53CBE##Target# is stunned with fear!", _t"+Stunned" end,
-	on_lose = function(self, err) return _t"#Target# overcomes the gloom", _t"-Stunned" end,
+	on_lose = function(self, err) return _t"#Target# overcomes the gloom.", _t"-Stunned" end,
 	activate = function(self, eff)
 		eff.particle = self:addParticles(Particles.new("gloom_stunned", 1))
 		eff.tmpid = self:addTemporaryValue("stunned", 1)
@@ -386,7 +386,7 @@ newEffect{
 	status = "detrimental",
 	parameters = { power = 10 },
 	on_gain = function(self, err) return _t"#F53CBE##Target# is lost in despair!", _t"+Confused" end,
-	on_lose = function(self, err) return _t"#Target# overcomes the gloom", _t"-Confused" end,
+	on_lose = function(self, err) return _t"#Target# overcomes the gloom.", _t"-Confused" end,
 	activate = function(self, eff)
 		eff.particle = self:addParticles(Particles.new("gloom_confused", 1))
 		eff.power = math.floor(util.bound(eff.power, 0, 50))
