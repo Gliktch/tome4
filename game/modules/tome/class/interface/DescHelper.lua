@@ -23,7 +23,7 @@ require "bit"
 --- Provide some helper functions for description
 -- @classmod engine.generator.interface.ActorTalentsDescHelper
 module(..., package.seeall, class.make)
-local acc, def, pp, sp, mp, ps, ss, ms = _t"accuracy", _t"defense", _t"physical power", _t"spellpower", _t"mindpower", _t"physical save", _t"spell Save", _t"mental save"
+local acc, def, pp, sp, mp, ps, ss, ms = _t"accuracy", _t"defense", _t"physical power", _t"spellpower", _t"mindpower", _t"physical save", _t"spell save", _t"mental save"
 
 _M.power_save_simple_pairs = {
 	ap = { acc, ps },
