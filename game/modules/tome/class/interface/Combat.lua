@@ -414,25 +414,29 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 	end
 	self.turn_procs.weapon_type = {kind=weapon and weapon.talented or "unknown", mode=mode}
 
-	-- Does the blow connect? yes .. complex :/
-	local atk, def = self:combatAttack(weapon), target:combatDefense()
+	local atk_bonus = 0
+	do
+		-- add stalker damage and attack bonus
+		local effStalker = self:hasEffect(self.EFF_STALKER)
+		if effStalker and effStalker.target == target then
+			local t = self:getTalentFromId(self.T_STALK)
+			atk_bonus = atk_bonus + t.getAttackChange(self, t, effStalker.bonus)
+			mult = mult * t.getStalkedDamageMultiplier(self, t, effStalker.bonus)
+		end
 
-	-- add stalker damage and attack bonus
-	local effStalker = self:hasEffect(self.EFF_STALKER)
-	if effStalker and effStalker.target == target then
-		local t = self:getTalentFromId(self.T_STALK)
-		atk = atk + t.getAttackChange(self, t, effStalker.bonus)
-		mult = mult * t.getStalkedDamageMultiplier(self, t, effStalker.bonus)
-	end
-
-	-- Predator atk bonus
-	if self:knowTalent(self.T_PREDATOR) then
-		if target and target.type and self.predator_type_history and self.predator_type_history[target.type] then
-			local typebonus = self.predator_type_history[target.type]
-			local t = self:getTalentFromId(self.T_PREDATOR)
-			atk = atk + t.getATK(self, t) * typebonus
+		-- Predator atk bonus
+		if self:knowTalent(self.T_PREDATOR) then
+			if target and target.type and self.predator_type_history and self.predator_type_history[target.type] then
+				local typebonus = self.predator_type_history[target.type]
+				local t = self:getTalentFromId(self.T_PREDATOR)
+				atk_bonus = atk_bonus + t.getATK(self, t) * typebonus
+			end
 		end
 	end
+	self.combat_atk = (self.combat_atk or 0) + atk_bonus
+	-- Does the blow connect? yes .. complex :/
+	local atk, def = self:combatAttack(weapon), target:combatDefense()
+	self.combat_atk = self.combat_atk - atk_bonus
 
 
 	local dam, apr, armor = force_dam or self:combatDamage(weapon), self:combatAPR(weapon), target:combatArmor()

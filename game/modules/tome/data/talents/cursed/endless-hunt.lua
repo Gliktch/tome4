@@ -47,7 +47,7 @@ newTalent{
 		return 0.5 * bonus
 	end,
 	getAttackChange = function(self, t, bonus)
-		return math.floor(self:combatTalentStatDamage(t, "wil", 10, 30) * math.sqrt(bonus))
+		return math.floor(self:combatTalentStatDamage(t, "wil", 14, 42) * math.sqrt(bonus))
 	end,
 	getStalkedDamageMultiplier = function(self, t, bonus)
 		return 1 + self:combatTalentIntervalDamage(t, "str", 0.1, 0.35, 0.4) * bonus / 3
