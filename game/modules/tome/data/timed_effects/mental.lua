@@ -627,7 +627,7 @@ newEffect{
 			end
 		end
 	end,
-	callbackPriorities = {callbackOnHit = -220},
+	callbackPriorities = {callbackOnHit = -1000},
 	callbackOnHit = function(self, eff, cb, src, death_note)
 		if cb.value <= 0 then return end
 		eff.resistChance = (eff.resistChance or 0) + math.min(100, math.max(0, cb.value / self.max_life * 100))
@@ -1993,7 +1993,7 @@ newEffect{
 			end
 		end
 	end,
-	callbackPriorities = {callbackOnHit = -220},
+	callbackPriorities = {callbackOnHit = -295}, -- this works like a shield refresh each turn, and should have higher priority than usual shield.
 	callbackOnHit = function(self, eff, cb, src, death_note)
 		if cb.value <= 0 then return end
 		if not eff.damageShieldMax or eff.damageShield <= 0 then return end
@@ -2788,8 +2788,24 @@ newEffect{
 	subtype = { mind=true },
 	status = "beneficial",
 	parameters = { power=10 },
+	callbackPriorities = {callbackOnHit = -790},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 then return end
+		local shadow = t.getRandomShadow(self, t)
+		if shadow then
+			game:delayedLogMessage(self, src,  "displacement_shield"..(shadow.uid or ""), "#CRIMSON##Source# shares some damage with a shadow!")
+			local displaced = math.min(value * eff.power / 100, shadow.life)
+			shadow:takeHit(displaced, src)
+			game:delayedLogDamage(src, self, 0, ("#PINK#(%d linked)#LAST#"):tformat(displaced), false)
+			game:delayedLogDamage(src, shadow, displaced, ("#PINK#%d linked#LAST#"):tformat(displaced), false)
+			value = value - displaced
+			cb.value = value
+			return cb
+		end
+	end,
 	activate = function(self, eff)
-		self:effectTemporaryValue(eff, "shadow_empathy", eff.power)
+		eff.power = math.min(100, eff.power)
 		eff.particle = self:addParticles(Particles.new("darkness_power", 1))
 	end,
 	deactivate = function(self, eff)
@@ -3026,7 +3042,7 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
-	callbackPriorities={callbackOnHit = -250}, 
+	callbackPriorities={callbackOnHit = -260}, -- Psi damage shield has the same priority as normal damage shield
 	callbackOnHit = function(self, eff, cb, src, death_note)
 		local value = cb.value
 		if value <= 0 then return end
@@ -3071,7 +3087,6 @@ newEffect{
 
 		if not eff.power or eff.power <= 0 then
 			game.logPlayer(self, "Your shield crumbles under the damage!")
-			self:removeEffect(self.EFF_DAMAGE_SHIELD)
 			self:removeEffect(self.EFF_PSI_DAMAGE_SHIELD)
 		end
 		

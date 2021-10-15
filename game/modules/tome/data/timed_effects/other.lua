@@ -1613,7 +1613,10 @@ newEffect{
 	on_timeout = function(self, eff) -- Chance for nightmare fades over time
 		if eff.nightmareChance then eff.nightmareChance = math.max(0, eff.nightmareChance-1) end
 	end,
-	callbackOnHit = function(self, eff, cb)	game:onTickEnd(function()
+	callbackPriorities = {callbackOnHit = 100},
+	callbackOnHit = function(self, eff, cb)
+		if cb.value <= 0 then return true end
+		game:onTickEnd(function()
 		if math.min(eff.unlockLevel, eff.level) >= 4 then
 			-- build chance for a nightmare
 			local def = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES]
@@ -2931,6 +2934,7 @@ newEffect{
 	status = "beneficial",
 	parameters = { power=10 },
 	decrease = 0,
+	callbackPriorities = {callbackOnHit = -780},
 	callbackOnTakeDamage = function(self, eff, src, x, y, type, dam, state)
 		if src ~= self and src.hasEffect and src:hasEffect(src.EFF_TEMPORAL_FUGUE) then
 			-- Find our clones

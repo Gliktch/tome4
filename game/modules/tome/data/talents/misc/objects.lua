@@ -679,7 +679,7 @@ newTalent{
 	mode = "passive",
 	cooldown = 10,
 	callbackOnHit = function(self, t, cb)
-		if not self:isTalentCoolingDown(t) then
+		if cb.value > 0 and not self:isTalentCoolingDown(t) then
 			self:startTalentCooldown(t)
 			cb.value=0
 			game.logSeen(self, "#CRIMSON#%s's shield deflects the blow!", self:getName())

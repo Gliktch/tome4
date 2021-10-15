@@ -116,6 +116,7 @@ newTalent{
 	end,
 	callbackPriorities = {callbackOnHit = -100},
 	callbackOnHit = function(self, t, cb, src, death_note)
+		if src == self or src == self.summoner then return end
 		local value = cb.value + (self.turn_procs.resonance_field_absorb or 0)
 		self.turn_procs.resonance_field_absorb = nil
 		if value <= 0 then return end
@@ -138,7 +139,6 @@ newTalent{
 	no_unlearn_last = true,
 	on_learn = function(self, t)
 		if self:getMaxFeedback() <= 0 then
---			self:incMaxFeedback(100)
 			self:incMaxFeedback(100 - self:getMaxFeedback())
 		end
 		return true

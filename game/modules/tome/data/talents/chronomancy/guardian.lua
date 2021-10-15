@@ -48,7 +48,9 @@ newTalent{
 	getLifeTrigger = function(self, t) return self:combatTalentLimit(t, 10, 30, 15)	end,
 	getDamageSplit = function(self, t) return self:combatTalentLimit(t, 40, 10, 30)/100 end, -- Limit < 40%
 	unlearn_on_clone = true,
+	callbackPriorities = {callbackOnHit = -40}, -- the same priority as mitosis
 	callbackOnHit = function(self, t, cb, src)
+		if cb.value <= 0 then return true end
 		local split = cb.value * t.getDamageSplit(self, t)
 
 		-- If we already have a guardian, split the damage

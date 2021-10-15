@@ -165,6 +165,7 @@ newTalent{
 		max_dam = math.min(max_dam, t.getMaxDamageLimit(self, t))
 		return max_dam * 2 -- Maximum damage is 2x total mana pool
 	end,
+	shield_bar = function(self, t) return self.disruption_shield_power, t.getMaxAbsorb(self, t)  end,
 	explode = function(self, t, dam)
 		game.logSeen(self, "#VIOLET#%s's disruption shield collapses and then explodes in a powerful manastorm!", self:getName():capitalize())
 		dam = math.min(dam, t.getMaxDamage(self, t)) -- Damage cap
@@ -220,6 +221,7 @@ newTalent{
 			self:forceUseTalent(self.T_DISRUPTION_SHIELD, {ignore_energy=true})
 		end
 	end,
+	callbackPriorities = {callbackOnHit = -250},	-- works like shield, later than usual shield
 	callbackOnHit = function(self, t, cb, src, dt)
 		local p = self:isTalentActive(t.id)
 		if not p then return end

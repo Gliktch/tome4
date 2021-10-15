@@ -69,6 +69,7 @@ newTalent{
 		return tostring(math.ceil(val)), fnt
 	end,
 	callbackOnHit = function(self, t, cb, src)
+		if cb.value <= 0 then return true end
 		local absorb = cb.value * 0.3
 		local paradox = absorb * t.getPercent(self, t)
 		

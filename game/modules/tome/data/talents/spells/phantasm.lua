@@ -83,6 +83,7 @@ newTalent{
 		p.icd = p.icd - 1
 		if p.icd <= 0 then p.icd = nil end
 	end,
+	callbackPriorities = {callbackOnHit = -100},	-- happens after shields but before most other reduction
 	callbackOnHit = function(self, t, cb, src, dt)
 		local p = self:isTalentActive(t.id)
 		if not p then return end

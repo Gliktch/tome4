@@ -29,7 +29,7 @@ newTalent{
 	end,
 	getWoundReduction = function(self, t) return self:combatTalentLimit(t, 0.6, 0.225, 0.5) end, -- Limit <60%%
 	getDuration = function(self, t) return 8 end,
-	callbackPriorities = {callbackOnHit = 300},
+	callbackPriorities = {callbackOnHit = 290},	--happens before Dragonic Body
 	callbackOnHit = function(self, t, cb, src, death_note)
 		local value = cb.value
 		if self.life > self.max_life /2 and self.life - value <= self.max_life/2 then

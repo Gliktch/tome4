@@ -93,6 +93,7 @@ newTalent{
 	on_pre_use = function(self, t, silent) if self ~= game.player and not self:isTalentActive(t) then return false end return true end,  -- but don't let them cast it
 	callbackOnHit = function(self, t, cb, src)
 		if src == self then return cb.value end
+		if cb.value <= 0 then return true end
 	
 		local p = self:isTalentActive(t.id)
 		local life_after = self.life - cb.value
