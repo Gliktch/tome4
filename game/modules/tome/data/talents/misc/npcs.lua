@@ -287,7 +287,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target doing %d%% damage. If the attack hits, the target is constricted for %d turns %d.]]):
+		return ([[Hits the target doing %d%% damage. If the attack hits, the target is constricted for %d turns %s.]]):
 		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
