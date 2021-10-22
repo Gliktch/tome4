@@ -718,12 +718,14 @@ function _M:act()
 	end
 
 	-- disable spell sustains
-	if self:attr("spell_failure") then
-		for tid, _ in pairs(self.sustain_talents) do
-			local t = self:getTalentFromId(tid)
-			if t.is_spell and rng.percent(self:attr("spell_failure")/10)then
-				self:forceUseTalent(tid, {ignore_energy=true})
-				if not silent then game.logSeen(self, "%s has been disrupted by #ORCHID#anti-magic forces#LAST#!", t.name) end
+	do  local spell_failure = self:attr("spell_failure")
+		if spell_failure > 0 then
+			for tid, _ in pairs(self.sustain_talents) do
+				local t = self:getTalentFromId(tid)
+				if t.is_spell and rng.percent(spell_failure/10)then
+					self:forceUseTalent(tid, {ignore_energy=true})
+					if not silent then game.logSeen(self, "%s has been disrupted by #ORCHID#anti-magic forces#LAST#!", t.name) end
+				end
 			end
 		end
 	end
