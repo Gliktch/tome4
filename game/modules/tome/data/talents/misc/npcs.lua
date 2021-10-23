@@ -287,7 +287,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target doing %d%% damage. If the attack hits, the target is constricted for %d turns %d.]]):
+		return ([[Hits the target doing %d%% damage. If the attack hits, the target is constricted for %d turns %s.]]):
 		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 1), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
@@ -2333,7 +2333,6 @@ newTalent{
 		local daze = t.getDuration(self, t, 0)
 		local dazemax = t.getDuration(self, t, 5)
 		return ([[A punch to the body that deals %d%% damage, drains %d of the target's stamina per combo point, and dazes the target for %d to %d turns %s, depending on the amount of combo points you've accumulated.
-		The daze chance will increase with your Physical Power.
 		Using this talent removes your combo points.]])
 		:tformat(damage, drain, daze, dazemax, Desc.vs"pp")
 	end,
