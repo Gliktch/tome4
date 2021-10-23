@@ -89,7 +89,7 @@ newTalent{
 	info = function(self, t)
 		local dam = t.getDamage(self, t)
 		return ([[Quickly drain the heat from your target's brain, dealing %0.1f Cold damage.
-		Affected creatures will also be brainlocked for 4 turns %s, putting a random talent on cooldown, and freezing cooldowns.
+		Affected creatures will also be brainlocked for 4 turns %s, putting a random talent on cooldown, and talents cooldown halved.
 		The damage increases with your Mindpower.]]):
 		tformat(damDesc(self, DamageType.COLD, dam), Desc.vs"mm")
 	end,
