@@ -60,7 +60,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local penetration = t.getResistancePenetration(self, t)
 		local cooldownreduction = t.getCooldownReduction(self, t)
-		return ([[Increases your light and darkness resistance penetration by %d%% for %d turns, and reduces the cooldown of all Celestial skills by %d.
+		return ([[Increase your light and darkness resistance penetration by %d%% for %d turns and reduce the remaining cooldown of any Celestial talent by up to %d turns.
 		The resistance penetration will increase with your Cunning.]]):
 		tformat(penetration, duration, cooldownreduction)
 	end,

@@ -302,7 +302,7 @@ i=i+1 newLore{ id = "last-hope-graveyard-"..i, category = "last hope graveyard",
 Inilasac Salocin
 #{normal}#32 - 120#{italic}#
 All tomes shall remember thee
-And thine dark blessings
+And thy dark blessings
 #{normal}#]]}
 
 i=i+1 newLore{ id = "last-hope-graveyard-"..i, category = "last hope graveyard", name = _t"gravestone", text_color = {r=255,g=255,b=255}, special_ui = "tombstone", always_pop = true, red_rose=true, lore = _t[[#{bold}#

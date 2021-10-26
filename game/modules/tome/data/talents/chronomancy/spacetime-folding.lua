@@ -448,8 +448,8 @@ newTalent{
 	info = function(self, t)
 		local range = t.getTeleport(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Randomly teleports all enemies within a radius of three %s.
-		Enemies will be teleported between %d and %d tiles from you and may be stunned %s, blinded %s, confused %s, or pinned %s for %d turns.]]
+		return ([[Randomly teleports all enemies within a radius of three %s.  Enemies will be teleported between %d and %d tiles from you and may be stunned %s, blinded %s, confused %s, or pinned %s for %d turns.
+		The chance of teleportation will scale with your Spellpower.]]
 		):tformat(Desc.vs"ss", range / 2, range, Desc.vs"sp",Desc.vs"sp",Desc.vs"sm",Desc.vs"sp", duration)
 	end,
 }

@@ -121,7 +121,7 @@ My father gave me some funds so that I can take my future into my own hands. I h
 is_am and
 	_t[[I have seen how you fought those corruptors, the way you destroyed their magic. I want to learn to do the same, so that such horrors never happen again. To anyone.]]
 or (is_mage and
-	_t[[Or maybe, well I suppose I can trust you with this, I've always secretly dreamed of learning magic. Real magic I mean not alchemist tricks!
+	_t[[Or maybe... well, I suppose I can trust you with this. I've always secretly dreamed of learning magic! Real magic, I mean, not alchemist tricks!
 I've learnt about a secret place, Angolwen, where I could learn it.]]
 or [[]])),
 	answers = (not is_am and not is_mage) and {

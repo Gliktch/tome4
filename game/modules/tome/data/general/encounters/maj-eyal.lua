@@ -84,7 +84,7 @@ newEntity{
 			else
 				game:changeLevel(1, "crypt-kryl-feijan")
 				game.logPlayer(who, "#LIGHT_RED#You carefully open the door and enter the underground crypt...")
-				game.logPlayer(who, "#LIGHT_RED#As you enter you notice the door has no visible handle on the inside. You are stuck here!")
+				--game.logPlayer(who, "#LIGHT_RED#As you enter you notice the door has no visible handle on the inside. You are stuck here!")
 			end
 		end, _t"Enter the crypt", _t"Leave carefully", true)
 		return true

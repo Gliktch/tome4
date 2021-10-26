@@ -224,7 +224,7 @@ newTalent{
 		local drain = t.getDrain(self, t)
 		return ([[You draw deeply from your connection with nature to create a radius %d storm of natural forces around you for %d turns.
 		This storm moves with you and deals %0.1f Nature damage each turn to all foes it hits.
-		In addtion, it will drain up to %d Mana, %d Vim, %d Positive, and %d Negative energy from each enemy within it's area every turn, while you restore Equilibrium equal to 10%% of the amount drained.
+		In addition, it will drain up to %d Mana, %d Vim, %d Positive, and %d Negative energy from each enemy within its area every turn, while you restore Equilibrium equal to 10%% of the amount drained.
 		The damage and drain increase with your Mindpower.]]):
 		tformat(self:getTalentRadius(t), t.getDuration(self, t), damDesc(self, DamageType.NATURE, t.getDamage(self, t)), drain, drain/2, drain/4, drain/4)
 	end,

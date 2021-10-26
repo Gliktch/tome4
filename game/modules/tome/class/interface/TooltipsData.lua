@@ -144,7 +144,7 @@ The energy of the Sher'Tul Fortress. It is replenished by transmogrifying items 
 ]]
 
 TOOLTIP_LEVEL = _t[[#GOLD#Level and experience#LAST#
-Each time you kill a creature that is over your own level - 5 you gain some experience.
+Each time you kill a creature that is over your own level - 8 you gain some experience.
 When you reach enough experience you advance to the next level. There is a maximum of 50 levels you can gain.
 Each time you level you gain stat and talent points to use to improve your character.
 ]]
