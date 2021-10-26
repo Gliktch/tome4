@@ -301,15 +301,15 @@ newTalent{
 		if not summon.is_bone_giant and not summon.skeleton_minion then return end
 		-- if killer and killer.reactionToward and killer:reactionToward(summon) >= 0 then return end
 		summon:projectApply({type="ball", radius=self:getTalentRadius(t), ignore_nullify_all_friendlyfire=true}, summon.x, summon.y, Map.ACTOR, function(target)
-			if target.summoner == self and (target.is_bone_giant or target.skeleton_minion) then
+			if target ~= self and target.summoner == self and (target.is_bone_giant or target.skeleton_minion) then
 				target:setEffect(target.EFF_SHATTERED_REMAINS, 20, {health=t:_getHealth(self), armor=t:_getArmor(self), retaliation=t:_getRetaliation(self)})
-			elseif self:reactionToward(target) < 0 and target:canBe("bleed") then
+			elseif self:reactionToward(target) < 0 and target:canBe("cut") then
 				target:setEffect(target.EFF_CUT, 5, {power=t:_getDamage(self) / 5, apply_power=self:combatSpellpower(), src=self})
 			end
 		end)
 
 		game.logSeen(summon, "#GREY#%s shatters!", summon:getName():capitalize())
-		game.level.map:particleEmitter(summon.x, summon.y, self:getTalentRadius(t), "bone_explosion", {radius=self:getTalentRadius(t)})
+		game.level.map:particleEmitter(summon.x, summon.y, self:getTalentRadius(t), "bone_explosion", {radius=self:getTalentRadius(t), alpha = 1.0 / self:getTalentRadius(t)})
 		game:playSoundNear(summon, "talents/skeleton")
 	end,
 	info = function(self, t)
@@ -483,7 +483,14 @@ newTalent{
 		elseif self:getTalentLevel(t) >= 3 then def = t.minions_list.e_bone_giant
 		end
 
-		necroSetupSummon(self, def, pos.x, pos.y, lev, nil, true)
+		pos.x, pos.y = util.findFreeGrid(pos.x, pos.y, 3, false, {Map.ACTOR=true})
+		
+		if pos.x then
+			necroSetupSummon(self, def, pos.x, pos.y, lev, nil, true)
+		else
+			pos = {x=skel.x, y=skel.y}
+			skel:die(self)
+		end
 
 		game:playSoundNear(self, "talents/skeleton")
 		return true
