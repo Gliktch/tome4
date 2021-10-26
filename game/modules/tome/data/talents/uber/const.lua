@@ -25,8 +25,8 @@ uberTalent{
 	callbackPriorities = {callbackOnHit = 300},
 	callbackOnHit = function(self, t, cb, src, death_note)
 		if cb.value <= 0 then return end
-		if self.life - cb.value < self.max_life * 0.3 and not self:isTalentCoolingDown(t) then
-			self:heal(self.max_life * 0.4, t)
+		if (self:getLife() - cb.value) < (self:getMaxLife() * 0.3) and not self:isTalentCoolingDown(t) then
+			self:heal(self:getMaxLife() * 0.4, t)
 			self:startTalentCooldown(t)
 			game.logSeen(self,"%s's draconic body hardens and heals!",self:getName())
 		end
@@ -151,8 +151,8 @@ uberTalent{
 			(not self.inscription_forbids or not self.inscription_forbids['inscriptions/infusions'])
 	end} },
 	tactical = { HEAL = function(self) return not self:hasEffect(self.EFF_FUNGAL_BLOOD) and 0 or math.ceil(self:hasEffect(self.EFF_FUNGAL_BLOOD).power / 150) end },
-	healmax = function(self, t) return self.max_life * self:combatStatLimit("con", 0.5, 0.1, 0.25) end, -- Limit < 50% max life
-	fungalPower = function(self, t) return self:getCon()*2 + self.max_life * self:combatStatLimit("con", 0.05, 0.005, 0.01) end,
+	healmax = function(self, t) return self:getMaxLife() * self:combatStatLimit("con", 0.5, 0.1, 0.25) end, -- Limit < 50% max life
+	fungalPower = function(self, t) return self:getCon()*2 + self:getMaxLife() * self:combatStatLimit("con", 0.05, 0.005, 0.01) end,
 	on_pre_use = function(self, t) return self:hasEffect(self.EFF_FUNGAL_BLOOD) and self:hasEffect(self.EFF_FUNGAL_BLOOD).power > 0 and not self:attr("undead") end,
 	trigger = function(self, t)
 		if self.inscription_restrictions and not self.inscription_restrictions['inscriptions/infusions'] then return end
@@ -195,11 +195,11 @@ uberTalent{
 		))
 	end} },
 	on_learn = function(self, t)
-		self.max_life = self.max_life + 500
+		self:incMaxLife(500)
 		self.combat_armor_hardiness = self.combat_armor_hardiness + 20
 	end,
 	on_unlearn = function(self, t)
-		self.max_life = self.max_life - 500
+		self:incMaxLife(-500)
 		self.combat_armor_hardiness = self.combat_armor_hardiness - 20
 	end,
 	info = function(self, t)

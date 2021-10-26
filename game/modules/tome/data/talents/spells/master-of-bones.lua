@@ -465,7 +465,7 @@ newTalent{
 		table.sort(list, function(a, b)
 			local va, vb = skel_value[a.skeleton_minion], skel_value[b.skeleton_minion]
 			if va ~= vb then return va > vb end
-			local pa, pb = a.life / a.max_life, b.life / b.max_life
+			local pa, pb = a:getLife() / a:getMaxLife(), b:getLife() / b:getMaxLife()
 			if pa == pb then return a.creation_turn > b.creation_turn end
 			return pa > pb
 		end)

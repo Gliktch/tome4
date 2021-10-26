@@ -49,7 +49,7 @@ newTalent{
 	archery_onreach = function(self, t, x, y, tg, target)
 		if not target then return end
 		if self:knowTalent(self.T_FIRST_BLOOD) then
-			local perc = (target.life / target.max_life)
+			local perc = (target:getLife() / target:getMaxLife())
 			if perc >= 0.9 then
 				self.turn_procs.first_blood_shoot = target.life
 			end
@@ -168,9 +168,9 @@ newTalent{
 		local dam = t.getDamage(self,t)
 
 		if self:knowTalent(self.T_FIRST_BLOOD) then
-			local perc = (target.life / target.max_life)
+			local perc = (target:getLife() / target:getMaxLife())
 			if perc >= 0.9 then
-				self.turn_procs.first_blood_ss = target.life
+				self.turn_procs.first_blood_ss = target:getLife()
 			end
 		end
 		if target:hasEffect(target.EFF_PIN_DOWN) then self.turn_procs.auto_phys_crit = true end
@@ -436,9 +436,9 @@ newTalent{
 		local dam = t.getDamage(self,t)
 
 		if self:knowTalent(self.T_FIRST_BLOOD) then
-			local perc = (target.life / target.max_life)
+			local perc = (target:getLife() / target:getMaxLife())
 			if perc >= 0.9 then
-				self.turn_procs.first_blood_hs = target.life
+				self.turn_procs.first_blood_hs = target:getLife()
 			end
 		end
 	end,

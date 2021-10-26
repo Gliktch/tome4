@@ -42,7 +42,8 @@ setmetatable(fast_cache, {__mode="v"})
 -- @param desc -- textual description of the resource
 -- @param min, max -- minimum and maximum values for the resource <0, 100>, Assign false for no limit
 -- @param params -- table of additional parameters to merge (last) into the definition table
-function _M:defineResource(name, short_name, talent, regen_prop, desc, min, max, params)
+-- @param function_overrides -- table of functions to merge (last) into the actor definition, keyed according to the keys of the definition, i.e. {incFunction = function(self, v) ... end}
+function _M:defineResource(name, short_name, talent, regen_prop, desc, min, max, params, function_overrides)
 	assert(name, "no resource name")
 	assert(short_name, "no resource short_name")
 	assert(self.resources_def[short_name] == nil, "Attempt to redefine existing resource: "..short_name)
@@ -71,18 +72,38 @@ function _M:defineResource(name, short_name, talent, regen_prop, desc, min, max,
 	def.getFunction = "get"..short_name:lower():capitalize()
 	def.getMinFunction = "getMin"..short_name:lower():capitalize()
 	def.getMaxFunction = "getMax"..short_name:lower():capitalize()
+	def.regenFunction = "regen"..short_name:lower():capitalize()
+	def.ratingFunction = "levelupInc"..short_name:lower():capitalize()
 	def.sustain_prop = "sustain_"..short_name
-	def.drain_prop = "drain_"..def.short_name
-	self[def.incFunction] = function(self, v)
-		self[short_name] = util.bound(self[short_name] + v, self[minname], self[maxname])
+	def.drain_prop = "drain_"..short_name
+	def.rating_prop = short_name.."_rating"
+	self[def.incFunction] = function(self, v, set)
+		if set then self[short_name] = util.bound(v, self[def.getMinFunction](self), self[def.getMaxFunction](self))
+		else self[short_name] = util.bound(self[short_name] + v, self[def.getMinFunction](self), self[def.getMaxFunction](self))
+		end
 	end
-	self[def.incMinFunction] = function(self, v)
-		self[minname] = self[minname] + v
+	self[def.incMinFunction] = function(self, v, set)
+		if set then self[minname] = v else self[minname] = self[minname] + v end
 		self[def.incFunction](self, 0)
 	end
-	self[def.incMaxFunction] = function(self, v)
-		self[maxname] = self[maxname] + v
+	self[def.incMaxFunction] = function(self, v, set)
+		if set then self[maxname] = v else self[maxname] = self[maxname] + v end
 		self[def.incFunction](self, 0)
+	end
+	self[def.regenFunction] = function(self, fake, force)
+		local r_invert = 1
+		local delta = (self[def.regen_prop] or 0) * r_invert
+		local deltab = util.bound(delta + self[def.getFunction](self), self[def.getMinFunction](self), self[def.getMaxFunction](self)) - self[def.getFunction](self)
+		
+		if not fake then
+			self[def.incFunction](self, deltab)
+		end
+		return force and delta or deltab or 0
+	end
+	self[def.ratingFunction] = function(self, fake)
+		local rating = self[def.rating_prop]
+		if rating and not fake then self[def.incMaxFunction](self, rating) end
+		return rating
 	end
 	if talent then -- if there is an associated talent, reference functions return default values
 		self[def.getFunction] = function(self)
@@ -120,6 +141,14 @@ function _M:defineResource(name, short_name, talent, regen_prop, desc, min, max,
 	if params then
 		table.merge(def, params)
 	end
+	if function_overrides then
+		for k, v in pairs(function_overrides) do
+			if def[k] then
+				self[def[k]] = v
+			end
+		end
+	end
+	
 	print("[ActorResource] Defined Resource:", short_name)
 end
 
@@ -188,7 +217,7 @@ function _M:recomputeRegenResources()
 	for i = 1, #_M.resources_def do
 		r = _M.resources_def[i]
 		if r.regen_prop and (not r.talent or self:knowTalent(r.talent)) then
-			fstr = fstr..("self.%s = util.bound(self.%s + self.%s, self.%s, self.%s) "):format(r.short_name, r.short_name, r.regen_prop, r.minname, r.maxname)
+			fstr = fstr..("self:%s() "):format(r.regenFunction)
 		end
 	end
 
@@ -204,8 +233,9 @@ function _M:regenResources()
 	local r
 	for i = 1, #_M.resources_def do
 		r = _M.resources_def[i]
-		if r.regen_prop then
-			self[r.short_name] = util.bound(self[r.short_name] + self[r.regen_prop], self[r.minname], self[r.maxname])
+		if r.regenFunction then
+			--self[r.short_name] = util.bound(self[r.short_name] + self[r.regen_prop], self[r.minname], self[r.maxname])
+			self[r.regenFunction](self)
 		end
 	end
 end

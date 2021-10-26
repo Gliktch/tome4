@@ -59,7 +59,7 @@ newTalent{
 			self.unity_warden:takeHit(split, src)
 		
 		-- Otherwise, summon a new Guardian
-		elseif not self:isTalentCoolingDown(t) and self.max_life and cb.value >= self.max_life * (t.getLifeTrigger(self, t)/100) then
+		elseif not self:isTalentCoolingDown(t) and self.getMaxLife and cb.value >= self:getMaxLife() * (t.getLifeTrigger(self, t)/100) then
 		
 			-- Look for space first
 			local tx, ty = util.findFreeGrid(self.x, self.y, 5, true, {[Map.ACTOR]=true})

@@ -480,13 +480,14 @@ function _M:addedToLevel(level, x, y)
 
 				-- Does this always happen after classes are fully resolved?
 				if self.ai_calculate_tactical then self[#self+1] = resolvers.talented_ai_tactic("instant") end -- regenerate AI TACTICS with the new class(es)
-				self:resolve() self:resolve(nil, true)
+				self:resolve() 
+				self:resolve(nil, true)
 				self:resetToFull()
 			end
 			
 			-- increase maximum life
 			self.max_life = self.max_life*life_mult
-			self.life = self.max_life
+			self:incLife(self:getMaxLife(), true)
 			self:attr("difficulty_boosted", 1)
 		end
 		-- try to equip items in inventory

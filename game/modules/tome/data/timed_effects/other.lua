@@ -1015,7 +1015,7 @@ newEffect{
 		if math.min(eff.unlockLevel, eff.level) >= 3 then
 			local retchThreshold = def.getLivingDeathFactor(level)
 			eff.retchCooldown = eff.retchCooldown or 0
-			if eff.retchCooldown == 0 and self.life > self.max_life * retchThreshold and self.life - dam <= self.max_life * retchThreshold then
+			if eff.retchCooldown == 0 and self:getLife() > self:getMaxLife() * retchThreshold and self:getLife() - dam <= self:getMaxLife() * retchThreshold then
 				local retchLevel = def.getRetchLevel(level)
 				self:forceUseTalent(self.T_RETCH, {ignore_cd=true, ignore_energy=true, force_target=self, force_level=retchLevel})
 				eff.retchCooldown = math.max(16, math.floor(30 - level * 2))
@@ -1177,7 +1177,7 @@ newEffect{
 	callbackOnTakeDamage = function(self, eff, src, x, y, type, dam, state)
 		if math.min(eff.unlockLevel, eff.level) >= 4 then
 			local def = self.tempeffect_def[self.EFF_CURSE_OF_MADNESS]
-			if dam > 0 and dam >= self.max_life * (def.getManiaDamagePercent(eff.level) / 100) and not self.turn_procs.CoMania then
+			if dam > 0 and dam >= self:getMaxLife() * (def.getManiaDamagePercent(eff.level) / 100) and not self.turn_procs.CoMania then
 
 				local list = {}
 				for tid, cd in pairs(self.talents_cd) do
@@ -2055,7 +2055,7 @@ newEffect{
 				_rst_full=true, can_change_level=table.NIL_MERGE, can_change_zone=table.NIL_MERGE,
 				ai_target={actor=table.NIL_MERGE},
 				max_level = eff.target.level,
-				life = util.bound(eff.target.life, eff.target.die_at, eff.target.max_life),
+				life = util.bound(eff.target.life, eff.target:getMinLife(), eff.target:getMaxLife()),
 				ai = "summoned", ai_real = "tactical",
 				ai_state={ ai_move="move_complex", talent_in=1, ally_compassion = 10},
 				name = ("%s's dream projection"):tformat(eff.target:getName()),
@@ -2119,7 +2119,7 @@ newEffect{
 		end
 
 		-- End the effect early if we've killed enough projections
-		if eff.projections_killed/10 >= eff.target.life/eff.target.max_life then
+		if eff.projections_killed/10 >= eff.target:getLife()/eff.target:getMaxLife() then
 			game:onTickEnd(function()
 				eff.target:die(self)
 				game.logSeen(eff.target, "#LIGHT_RED#%s's mind shatters into %d tiny fragments!", eff.target:getName():capitalize(), eff.target.max_life)
@@ -2225,7 +2225,7 @@ newEffect{
 			-- Apply Dreamscape hit
 			if eff.projections_killed > 0 then
 				local kills = eff.projections_killed
-				eff.target:takeHit(eff.target.max_life/10 * kills, self)
+				eff.target:takeHit(eff.target:getMaxLife()/10 * kills, self)
 				eff.target:setEffect(eff.target.EFF_BRAINLOCKED, kills, {})
 
 				local loss = _t"loss"
@@ -2687,7 +2687,7 @@ newEffect{
 		-- Bypass all shields & such
 		local old = self.onTakeHit
 		self.onTakeHit = nil
-		mod.class.interface.ActorLife.takeHit(self, self.max_life * eff.dam / 100, self, {special_death_msg=_t"suffocated to death"})
+		mod.class.interface.ActorLife.takeHit(self, self:getMaxLife() * eff.dam / 100, self, {special_death_msg=_t"suffocated to death"})
 		eff.dam = util.bound(eff.dam + 5, 20, 100)
 		self.onTakeHit = old
 	end,
@@ -3102,7 +3102,7 @@ newEffect{
 newEffect{
 	name = "UNSTOPPABLE", image = "talents/unstoppable.png",
 	desc = _t"Unstoppable",
-	long_desc = function(self, eff) return ("The target is unstoppable! It refuses to die and cannot heal.  When the effect ends, it will heal %d Life (%d%% of maximum life per foe slain during the frenzy)."):tformat(eff.kills * eff.hp_per_kill * self.max_life / 100, eff.hp_per_kill) end,
+	long_desc = function(self, eff) return ("The target is unstoppable! It refuses to die and cannot heal.  When the effect ends, it will heal %d Life (%d%% of maximum life per foe slain during the frenzy)."):tformat(eff.kills * eff.hp_per_kill * self:getMaxLife() / 100, eff.hp_per_kill) end,
 	type = "other",
 	subtype = { frenzy=true },
 	status = "beneficial",
@@ -3117,7 +3117,7 @@ newEffect{
 		self:removeTemporaryValue("unstoppable", eff.tmpid)
 		self:removeTemporaryValue("no_life_regen", eff.healid)
 		self:removeTemporaryValue("no_healing", eff.nohealid)
-		self:heal(eff.kills * eff.hp_per_kill * self.max_life / 100, eff)
+		self:heal(eff.kills * eff.hp_per_kill * self:getMaxLife() / 100, eff)
 	end,
 }
 

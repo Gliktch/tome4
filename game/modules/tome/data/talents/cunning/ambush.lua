@@ -32,7 +32,7 @@ newTalent{
 	getDefense = function(self, t) return math.floor(self:combatTalentSpellDamage(t, 30, 70)) end,
 	callbackOnHit = function(self, t, cb, src, death_note)
 		if self:isTalentCoolingDown(t) then return end
-		if self.life - cb.value <= self.max_life / 2 then
+		if self:getLife() - cb.value <= self:getMaxLife() / 2 then
 			self:startTalentCooldown(t)
 			self:setEffect(self.EFF_SHADOWGUARD_IMMUNITY, t.getImmuneDuration(self, t), {})
 			self:setEffect(self.EFF_SHADOWGUARD_BUFF, t.getDuration(self, t), {spellpower=t.getSpellpower(self, t), defense=t.getDefense(self, t)})

@@ -26,7 +26,7 @@ newTalent{
 	threshold = function(self,t) return self:combatTalentLimit(t, 10, 45, 20) end, -- Limit >10%
 	getCrit = function(self, t) return self:combatTalentScale(t, 2.8, 14) end,
 	do_terror = function(self, t, target, dam)
-		if dam < target.max_life * t.threshold(self, t) / 100 then return end
+		if dam < target:getMaxLife() * t.threshold(self, t) / 100 then return end
 
 		local weapon = target:getInven("MAINHAND")
 		if type(weapon) == "boolean" then weapon = nil end
@@ -116,7 +116,7 @@ newTalent{
 	tactical = { DEFEND = 4, STAMINA = -2,
 		HEAL = function(self, t, target) -- up to 2 if there are enemies near
 			local val = 0
-			if self.ai_target.actor and self.life < self.max_life then
+			if self.ai_target.actor and self:getLife() < self:getMaxLife() then
 				for act, params in pairs(self.fov.actors) do
 					if act ~= self and self:reactionToward(act) < 0 then val = val + 1/params.sqdist end
 					if val >= 2 then return val end

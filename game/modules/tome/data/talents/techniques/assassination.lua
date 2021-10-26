@@ -47,18 +47,18 @@ newTalent{
 		if not x or not y or not target then return nil end
 
 		local mult = t.getDamage(self,t)
-		if (target.life / target.max_life <= 0.3) then mult = mult * 1.5 end
+		if (target:getLife() / target:getMaxLife() <= 0.3) then mult = mult * 1.5 end
 		-- Attack with offhand first
 		local hits = 0
 		hits = hits + (self:attackTargetWith(target, offweapon.combat, nil, self:getOffHandMult(offweapon.combat, mult)) and 1 or 0)
 		hits = hits + (self:attackTargetWith(target, weapon.combat, nil, mult) and 1 or 0)
 		
 		if hits > 0 then
-			if target:checkHit(self:combatAttack(), target:combatPhysicalResist(), 0, 95) and target:canBe("instakill") and target.life < target.max_life * 0.2 then
+			if target:checkHit(self:combatAttack(), target:combatPhysicalResist(), 0, 95) and target:canBe("instakill") and target:getLife() < target:getMaxLife() * 0.2 then
 				-- KILL IT !
 				self:logCombat(target, "#Source# delivers a Coup de Grace against #Target#!")
 				target:die(self)
-			elseif target.life > 0 and target.life < target.max_life * 0.2 then
+			elseif target:getLife() > target:getMinLife() and target:getLife() < target:getMaxLife() * 0.2 then
 				game.logSeen(target, "%s resists the Coup de Grace!", target:getName():capitalize())
 			end
 		end

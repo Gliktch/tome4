@@ -768,7 +768,7 @@ newTalent{
 	end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
 		if self:isTalentCoolingDown(t) then return end
-		if not ( (self.life - dam) < (self.max_life * 0.5) ) then return end
+		if not ( (self:getLife() - dam) < (self:getMaxLife() * 0.5) ) then return end
 		
 		local nb = self:removeEffectsFilter(self, {status = "detrimental", type = "mental"}, t.getDebuff(self, t))
 		if nb > 0 then
@@ -896,7 +896,7 @@ newTalent{
 			game.logSeen(target, "%s is immune to instakill and mind control effects!", target:getName():capitalize())
 			return
 		end
-		if target.rank > 3 and ((target.life / target.max_life) >= 0.8) then
+		if target.rank > 3 and ((target:getLife() / target:getMaxLife()) >= 0.8) then
 			game.logSeen(target, "%s must be below 80%% of their max life to be controlled!", target:getName():capitalize())
 			return
 		end
@@ -960,7 +960,7 @@ newTalent{
 	end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
 		if self:isTalentCoolingDown(t) then return end
-		if ((self.life-dam) / self.max_life) > 0.3 then return end
+		if ((self:getLife() - dam) / self:getMaxLife()) >= 0.3 then return end
 
 		game.logSeen(self, "#RED#%s reacts immediately after taking severe wounds!#LAST#", self:getName():capitalize())
 		self.energy.value = self.energy.value + game.energy_to_act * 1.5

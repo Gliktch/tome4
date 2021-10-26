@@ -31,7 +31,7 @@ newTalent{
 		end
 	},
 	getMaxHP = function(self, t) return
-		50 + self:combatTalentMindDamage(t, 30, 250) + self.max_life * self:combatTalentLimit(t, 0.25, .035, .125)
+		50 + self:combatTalentMindDamage(t, 30, 250) + self:getMaxLife() * self:combatTalentLimit(t, 0.25, .035, .125)
 	end,
 	getMax = function(self, t) local _, _, max = checkMaxSummon(self, true) return math.min(max, math.max(1, math.floor(self:combatTalentLimit(t, 6, 1.1, 4.1)))) end, --Limit < 6
 	getChance = function(self, t) return self:combatLimit(self:combatTalentStatDamage(t, "cun", 10, 400), 100, 20, 0, 61, 234) end, -- Limit < 100%

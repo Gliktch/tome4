@@ -72,8 +72,8 @@ newTalent{
 			-- Adjust the values onTickEnd for NPCs to make sure these table values are resolved
 			-- If we're not the player, we resetToFull to ensure correct values
 			game:onTickEnd(function()
-				self:incMaxPsi((self:getWil()-10) * 1)
-				self.max_life = self.max_life - (self:getCon()-10) * 0.5
+				--automatically updates to account for changes in inc_resource_multi
+
 				if self ~= game.player then self:resetToFull() end
 			end)
 		end
@@ -105,16 +105,14 @@ newTalent{
 			-- Adjust the values onTickEnd for NPCs to make sure these table values are filled out
 			-- If we're not the player, we resetToFull to ensure correct values
 			game:onTickEnd(function()
-				self:incMaxPsi((self:getWil()-10) * 0.5)
-				self.max_life = self.max_life - (self:getCon()-10) * 0.25
+
 				if self ~= game.player then self:resetToFull() end
 			end)
 		end
 	end,
 	on_unlearn = function(self, t)
 		if not self:knowTalent(t) then
-			self:incMaxPsi(-(self:getWil()-10) * 0.5)
-			self.max_life = self.max_life + (self:getCon()-10) * 0.25
+
 			self.inc_resource_multi.psi = self.inc_resource_multi.psi - 0.5
 			self.inc_resource_multi.life = self.inc_resource_multi.life + 0.25
 			self.solipsism_threshold = self.solipsism_threshold - 0.1
@@ -144,16 +142,14 @@ newTalent{
 			-- Adjust the values onTickEnd for NPCs to make sure these table values are resolved
 			-- If we're not the player, we resetToFull to ensure correct values
 			game:onTickEnd(function()
-				self:incMaxPsi((self:getWil()-10) * 0.5)
-				self.max_life = self.max_life - (self:getCon()-10) * 0.25
+
 				if self ~= game.player then self:resetToFull() end
 			end)
 		end
 	end,
 	on_unlearn = function(self, t)
 		if not self:knowTalent(t) then
-			self:incMaxPsi(-(self:getWil()-10) * 0.5)
-			self.max_life = self.max_life + (self:getCon()-10) * 0.25
+
 			self.inc_resource_multi.psi = self.inc_resource_multi.psi - 0.5
 			self.inc_resource_multi.life = self.inc_resource_multi.life + 0.25
 			self.solipsism_threshold = self.solipsism_threshold - 0.1
@@ -186,16 +182,14 @@ newTalent{
 			-- Adjust the values onTickEnd for NPCs to make sure these table values are resolved
 			-- If we're not the player, we resetToFull to ensure correct values
 			game:onTickEnd(function()
-				self:incMaxPsi((self:getWil()-10) * 0.5)
-				self.max_life = self.max_life - (self:getCon()-10) * 0.25
+
 				if self ~= game.player then self:resetToFull() end
 			end)
 		end
 	end,
 	on_unlearn = function(self, t)
 		if not self:knowTalent(t) then
-			self:incMaxPsi(-(self:getWil()-10) * 0.5)
-			self.max_life = self.max_life + (self:getCon()-10) * 0.25
+
 			self.inc_resource_multi.psi = self.inc_resource_multi.psi - 0.5
 			self.inc_resource_multi.life = self.inc_resource_multi.life + 0.25
 			self.solipsism_threshold = self.solipsism_threshold - 0.1

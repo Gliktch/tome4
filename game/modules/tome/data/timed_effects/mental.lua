@@ -251,19 +251,14 @@ newEffect{
 	status = "beneficial",
 	parameters = { power=10 },
 	activate = function(self, eff)
-		local lifeb = self.max_life * eff.power/100
-		local stamb = self.max_stamina * eff.power/100
-		eff.max_lifeID = self:addTemporaryValue("max_life", lifeb) --Avoid healing effects
-		eff.lifeID = self:addTemporaryValue("life",lifeb)
-		eff.max_stamina = self:addTemporaryValue("max_stamina", stamb)
-		self:incStamina(stamb)
-		eff.stamina = stamb
+		local lifeb = self:getMaxLife() * eff.power/100
+		local stamb = self:getMaxStamina() * eff.power/100
+		self:effectTemporaryValue(eff, "max_life", lifeb)
+		self:effectTemporaryValue(eff, "life", lifeb)
+		self:effectTemporaryValue(eff, "max_stamina", stamb)
+		self:effectTemporaryValue(eff, "stamina", stamb)
 	end,
 	deactivate = function(self, eff)
-		self:removeTemporaryValue("life", eff.lifeID)
-		self:removeTemporaryValue("max_life", eff.max_lifeID)
-		self:removeTemporaryValue("max_stamina", eff.max_stamina)
-		self:incStamina(-eff.stamina)
 	end,
 }
 
@@ -434,7 +429,7 @@ newEffect{
 	name = "STALKER", image = "talents/stalk.png",
 	desc = _t"Stalking",
 	display_desc = function(self, eff)
-		return ([[Stalking %d/%d +%d ]]):tformat(eff.target.life, eff.target.max_life, eff.bonus)
+		return ([[Stalking %d/%d +%d ]]):tformat(eff.target:getLife(), eff.target:getMaxLife(), eff.bonus)
 	end,
 	long_desc = function(self, eff)
 		local t = self:getTalentFromId(self.T_STALK)
@@ -630,11 +625,13 @@ newEffect{
 	callbackPriorities = {callbackOnHit = -220},
 	callbackOnHit = function(self, eff, cb, src, death_note)
 		if cb.value <= 0 then return end
-		eff.resistChance = (eff.resistChance or 0) + math.min(100, math.max(0, cb.value / self.max_life * 100))
+		eff.resistChance = (eff.resistChance or 0) + math.min(100, math.max(0, cb.value / self:getMaxLife() * 100))
 		if rng.percent(eff.resistChance) then
 			game.logSeen(self, "#F53CBE#%s is jolted to attention by the damage and is no longer being beckoned.", self:getName():capitalize())
 			self:removeEffect(self.EFF_BECKONED)
 		end
+
+
 	end,
 }
 
@@ -1782,7 +1779,7 @@ newEffect{
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("global_speed_add", eff.power)
 		eff.critid = self:addTemporaryValue("combat_physcrit", eff.crit)
-		eff.dieatid = self:addTemporaryValue("die_at", -self.max_life * eff.dieat)
+		eff.dieatid = self:addTemporaryValue("die_at", -self:getMaxLife() * eff.dieat)
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("global_speed_add", eff.tmpid)
@@ -1790,7 +1787,7 @@ newEffect{
 		self:removeTemporaryValue("die_at", eff.dieatid)
 
 		-- check negative life first incase the creature has healing
-		if self.life <= (self.die_at or 0) then
+		if self:getLife() <= self:getMinLife() then
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), _t"Falls dead!", {255,0,255})
 			game.logSeen(self, "%s dies when its frenzy ends!", self:getName():capitalize())
@@ -1819,7 +1816,7 @@ newEffect{
 		new_eff.particle2 = old_eff.particle2
 
 		-- Take the new values, dont heal, otherwise you get a free heal each crit .. which is totaly broken
-		local v = new_eff.hp * self.max_life / 100
+		local v = new_eff.hp * self:getMaxLife() / 100
 		new_eff.life_id = self:addTemporaryValue("max_life", v)
 		new_eff.cur_regen = math.min(old_eff.cur_regen + new_eff.regen, new_eff.max)
 		new_eff.life_regen_id = self:addTemporaryValue("life_regen", new_eff.cur_regen)
@@ -1827,7 +1824,7 @@ newEffect{
 		return new_eff
 	end,
 	activate = function(self, eff)
-		local v = eff.hp * self.max_life / 100
+		local v = eff.hp * self:getMaxLife() / 100
 		eff.life_id = self:addTemporaryValue("max_life", v)
 		eff.templife_id = self:addTemporaryValue("life",v) -- Prevent healing_factor affecting activation
 		eff.cur_regen = eff.regen
@@ -1889,13 +1886,12 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# loses extra life.", _t"-Life" end,
 	parameters = { life = 50 },
 	activate = function(self, eff)
-		self.max_life = self.max_life + eff.life
-		self.life = self.life + eff.life
+		self:effectTemporaryValue(eff, "max_life", eff.life)
+		self:effectTemporaryValue(eff, "life", eff.life)
 		self.changed = true
 	end,
 	deactivate = function(self, eff)
-		self.max_life = self.max_life - eff.life
-		self.life = self.life - eff.life
+
 		self.changed = true
 		if self.life <= 0 then
 			self.life = 1
@@ -3080,9 +3076,9 @@ newEffect{
 	end,
 	activate = function(self, eff)
 		self:removeEffect(self.EFF_DAMAGE_SHIELD)
-		--eff.power = self:getShieldAmount(eff.power)
+
 		eff.power_max = eff.power
-		--eff.dur = self:getShieldDuration(eff.dur)
+
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {a=eff.shield_transparency or 1, size_factor=1.4, img="shield3"}, {type="runicshield", ellipsoidalFactor=1, time_factor=-10000, llpow=1, aadjust=7, bubbleColor=colors.hex1alpha"9fe836a0", auraColor=colors.hex1alpha"36bce8da"}))
 		else

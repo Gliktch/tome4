@@ -334,7 +334,7 @@ newTalent{
 			local target = game.level.map(px, py, Map.ACTOR)
 			if not target then return end
 			local percent = t.getPercent(self, t)/target.rank
-			local dam = (target.max_life - target.life) * percent
+			local dam = (target:getMaxLife() - target:getLife()) * percent
 			DamageType:get(DamageType.TEMPORAL).projector(self, px, py, DamageType.TEMPORAL, dam)
 		end)
 		
