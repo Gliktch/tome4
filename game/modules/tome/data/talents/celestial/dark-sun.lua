@@ -125,7 +125,7 @@ newTalent{
 		return ([[Open a radius 1 rift in spacetime at the targeted location for %d turns, increasing in radius by 1 each turn to a maximum of %d.
 		All caught within the rift are pulled towards the center and take %0.2f gravity damage. %s
 The damage will increase with your Spellpower.]]):
-		tformat(t.getDuration(self, t), t.getMaxRadius(self, t), damDesc(self, DamageType.PHYSICAL, t.getDamage(self,t))), Desc.vs"pp")
+		tformat(t.getDuration(self, t), t.getMaxRadius(self, t), damDesc(self, DamageType.PHYSICAL, t.getDamage(self,t)), Desc.vs"pp")
 	end,
 }
 
