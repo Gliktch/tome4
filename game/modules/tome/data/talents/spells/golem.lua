@@ -179,7 +179,6 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getPinDuration(self, t)
 		return ([[Your golem rushes to the target, crushing it into the ground for %d turns %s and doing %d%% damage.
-		Pinning chance will increase with talent level.
 		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):
 		tformat(duration, Desc.vs"pp", 100 * damage)
 	end,
@@ -247,7 +246,6 @@ newTalent{
 		local duration = t.getDazeDuration(self, t)
 		local damage = t.getGolemDamage(self, t)
 		return ([[Your golem rushes to the target and creates a shockwave with radius 2, dazing all foes for %d turns %s and doing %d%% damage.
-		Daze chance increases with talent level.
 		While rushing the golem becomes ethereal, passing harmlessly through creatures on the path to its target.]]):
 		tformat(duration, Desc.vs"pp", 100 * damage)
 	end,

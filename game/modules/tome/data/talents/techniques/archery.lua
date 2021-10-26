@@ -789,8 +789,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fire a pinning shot, doing %d%% damage and pinning your target to the ground for %d turns.]])
+		return ([[You fire a pinning shot, doing %d%% damage and pinning your target to the ground for %d turns %s.]])
 		:tformat(self:combatTalentWeaponDamage(t, 1, 1.4) * 100,
-		t.getDur(self, t))
+		t.getDur(self, t), Desc.vs"ap")
 	end,
 }
