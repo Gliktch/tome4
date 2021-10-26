@@ -30,6 +30,7 @@ newTalent{
 	getImmuneDuration = function(self, t) return 2 end,
 	getSpellpower = function(self, t) return math.floor(self:combatTalentSpellDamage(t, 30, 70)) end,
 	getDefense = function(self, t) return math.floor(self:combatTalentSpellDamage(t, 30, 70)) end,
+	callbackPriorities = {callbackOnHit = 100},	--happens after most reduction
 	callbackOnHit = function(self, t, cb, src, death_note)
 		if self:isTalentCoolingDown(t) then return end
 		if self:getLife() - cb.value <= self:getMaxLife() / 2 then

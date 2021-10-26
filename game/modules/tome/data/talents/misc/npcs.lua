@@ -3698,22 +3698,6 @@ newTalent{
 	getDur = function(self, t) return math.floor(self:combatTalentScale(t, 3, 10)) end,
 	getPower = function(self, t) return 5 + self:combatTalentMindDamage(t, 0, 300) / 8 end,
 	on_pre_use = function(self, t) return self:callTalent(self.T_CALL_SHADOWS, "nbShadowsUp") > 0 end,
-	callbackPriorities = {callbackOnHit = -800},
-	callbackOnHit = function(self, t, cb, src, death_note)
-		local value = cb.value
-		if value <= 0 then return end
-		local shadow = t.getRandomShadow(self, t)
-		if shadow then
-			game:delayedLogMessage(self, src,  "displacement_shield"..(shadow.uid or ""), "#CRIMSON##Source# shares some damage with a shadow!")
-			local displaced = math.min(value * self.shadow_empathy / 100, shadow.life)
-			shadow:takeHit(displaced, src)
-			game:delayedLogDamage(src, self, 0, ("#PINK#(%d linked)#LAST#"):tformat(displaced), false)
-			game:delayedLogDamage(src, shadow, displaced, ("#PINK#%d linked#LAST#"):tformat(displaced), false)
-			value = value - displaced
-			cb.value = value
-			return cb
-		end
-	end,
 	action = function(self, t)
 		self:setEffect(self.EFF_SHADOW_EMPATHY, t.getDur(self, t), {power=t.getPower(self, t)})
 		return true

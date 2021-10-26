@@ -116,6 +116,7 @@ newTalent{
 	end,
 	callbackPriorities = {callbackOnHit = -100},
 	callbackOnHit = function(self, t, cb, src, death_note)
+		if src == self or src == self.summoner then return end
 		local value = cb.value + (self.turn_procs.resonance_field_absorb or 0)
 		self.turn_procs.resonance_field_absorb = nil
 		if value <= 0 then return end
@@ -138,7 +139,6 @@ newTalent{
 	no_unlearn_last = true,
 	on_learn = function(self, t)
 		if self:getMaxFeedback() <= 0 then
---			self:incMaxFeedback(100)
 			self:incMaxFeedback(100 - self:getMaxFeedback())
 		end
 		return true
@@ -260,13 +260,13 @@ newTalent{
 		local hateGain = 0
 		local hateMessage
 
-		if value / self.max_life >= 0.15 then
+		if value / self:getMaxLife() >= 0.15 then
 			-- you take a big hit..adds 2 + 2 for each 5% over 15%
-			hateGain = hateGain + 2 + (((value / self.max_life) - 0.15) * 100 * 0.5)
+			hateGain = hateGain + 2 + (((value / self:getMaxLife()) - 0.15) * 100 * 0.5)
 			hatemessage = _t"#F53CBE#You fight through the pain!"
 		end
 
-		if value / self.max_life >= 0.05 and (self.life - value) / self.max_life < 0.25 then
+		if value / self:getMaxLife() >= 0.05 and (self.life - value) / self:getMaxLife() < 0.25 then
 			-- you take a hit with low health
 			hateGain = hateGain + 4
 			hatemessage = _t"#F53CBE#Your hatred grows even as your life fades!"

@@ -565,7 +565,7 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# is not dazed anymore.", _t"-Dazed" end,
 	callbackPriorities = {callbackOnHit = -1000},
 	callbackOnHit = function(self, eff, cb, src, death_note)
-		if not self:attr("damage_dont_undaze") and (not src or not src.turn_procs or not src.turn_procs.dealing_damage_dont_undaze) then
+		if cb.value > 0 and not self:attr("damage_dont_undaze") and (not src or not src.turn_procs or not src.turn_procs.dealing_damage_dont_undaze) then
 			self:removeEffect(self.EFF_DAZED)
 		end
 	end,
@@ -1469,8 +1469,10 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 	end,
+	callbackPriorities = { callbackOnHit = -210 },
 	callbackOnHit = function(self, eff, cb, src)
 		if not src then return cb.value end
+		if cb.value <= 0 then return true end
 		local share = cb.value * eff.sharePct
 
 		-- deal the redirected damage as physical because I don't know how to preserve the damage type in a callback
@@ -1479,8 +1481,8 @@ newEffect{
 			DamageType:get(DamageType.PHYSICAL).projector(self or eff.src, eff.trgt.x, eff.trgt.y, DamageType.PHYSICAL, share)
 			self.__grapling_feedback_damage = nil
 		end
-
-		return cb.value - share
+		cb.value = cb.value - share
+		return cb.value
 	end,
 }
 
@@ -3346,7 +3348,9 @@ newEffect{
 	on_timeout = function(self, eff)
 		eff.turns = eff.turns + 1
 	end,
+	callbackPriorities = {callbackOnHit = 100},
 	callbackOnHit = function(self, eff, cb)
+		if cb.value <= 0 then return true end
 		eff.dam = eff.dam + (cb.value * eff.perc)
 		return true
 	end,

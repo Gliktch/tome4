@@ -138,7 +138,7 @@ newEffect{
 	callbackPriorities = {callbackOnHit = 200},
 	callbackOnHit = function(self, eff, cb, src, death_note)
 		if cb.value <= 0 then return cb end
-		if cb.value >= self.max_life * 0.3 then
+		if cb.value >= self:getMaxLife() * 0.3 then
 		-- Make the damage high enough to kill it
 			cb.value = self.max_life + 1
 			game.logSeen(self, "%s shatters into pieces!", self:getName():capitalize())
@@ -743,7 +743,7 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
-	callbackPriorities={callbackOnHit = -270}, --Displacement Shield, Time Shield, then Damage Shield.
+	callbackPriorities={callbackOnHit = -280}, --Displacement Shield, Time Shield, then Damage Shield.
 	callbackOnHit = function(self, eff, cb, src, death_note)
 		local value = cb.value
 		if value <= 0 or not eff.target then return cb end
@@ -803,12 +803,12 @@ newEffect{
 		new_eff_adj.dur = self:getShieldDuration(new_eff.dur)
 		-- If the new shield would be stronger than the existing one, just replace it
 		if old_eff.dur > new_eff_adj.dur then return old_eff end
-		if math.max(eff.power, eff.power_max) <= new_eff_adj.power then
+		if math.max(old_eff.power, old_eff.power_max) <= new_eff_adj.power then
 			self:removeEffect(self.EFF_DAMAGE_SHIELD)
 			self:setEffect(self.EFF_DAMAGE_SHIELD, new_eff.dur, new_eff)
 			return self:hasEffect(self.EFF_DAMAGE_SHIELD)
 		end
-		if eff.power <= new_eff_adj.power then
+		if old_eff.power <= new_eff_adj.power then
 			-- Don't update a reflection shield with a normal shield
 			if old_eff.reflect and not new_eff.reflect then
 				return old_eff
@@ -850,7 +850,7 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
-	callbackPriorities={callbackOnHit = -280}, 
+	callbackPriorities={callbackOnHit = -260},
 	callbackOnHit = function(self, eff, cb, src, death_note)
 		local value = cb.value
 		if value <= 0 then return cb end
@@ -896,7 +896,6 @@ newEffect{
 		if not eff.power or eff.power <= 0 then
 			game.logPlayer(self, "Your shield crumbles under the damage!")
 			self:removeEffect(self.EFF_DAMAGE_SHIELD)
-			self:removeEffect(self.EFF_PSI_DAMAGE_SHIELD)
 		end
 		
 		cb.value = value
@@ -4350,7 +4349,7 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
-	callbackPriorities = {callbackOnHit = -260},
+	callbackPriorities = {callbackOnHit = -275},
 	callbackOnHit = function(self, eff, cb, src, death_note)
 		local abs = math.min(cb.value, eff.power)
 		self:incEquilibrium(abs * 2)
@@ -4515,6 +4514,12 @@ newEffect{
 	parameters = {chance=10, power=10},
 	on_gain = function(self, err) return _t"#Target# is hexed!", _t"+Pacification Hex" end,
 	on_lose = function(self, err) return _t"#Target# is free from the hex.", _t"-Pacification Hex" end,
+	callbackPriorities = {callbackOnHit = -1000},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if src and src == eff.src then
+			self:removeEffect(self.EFF_DOMINATION_HEX)
+		end
+	end,
 	-- Damage each turn
 	on_timeout = function(self, eff)
 		if not self:hasEffect(self.EFF_DAZED) and rng.percent(eff.chance) and self:canBe("stun") then

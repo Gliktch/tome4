@@ -170,7 +170,7 @@ newTalent{
 	getPower = function(self, t) return util.bound(self:combatTalentSpellDamage(t, 20, 330) / 10, 5, 40) end,
 	callbackOnHit = function(self, t, cb, src)
 		if not self:isTalentActive(self.T_NECROTIC_AURA) then return end
-		if not cb.value then return end
+		if not cb.value or cb.value <= 0 then return end
 		local stats = necroArmyStats(self)
 		if stats.nb == 0 then return end
 

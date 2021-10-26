@@ -195,7 +195,7 @@ newTalent{
 			self.solipsism_threshold = self.solipsism_threshold - 0.1
 		end
 	end,
-	callbackPriorities = {callbackOnHit = -700},
+	callbackPriorities = {callbackOnHit = -60}, -- This should not have high priority, otherwise this will have very poor effect
 	callbackOnHit = function(self, t, cb, src, death_note)
 		if cb.value > 0 then
 			local saving_throw = self:combatMentalResist() * t.getSavePercentage(self, t)
