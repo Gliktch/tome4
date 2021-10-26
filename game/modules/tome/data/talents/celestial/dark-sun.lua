@@ -122,13 +122,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		local rad = t.getMaxRadius(self,t)
-		local dam = t.getDamage(self,t)/2
-		local dur = t.getDuration(self,t)
 		return ([[Open a radius 1 rift in spacetime at the targeted location for %d turns, increasing in radius by 1 each turn to a maximum of %d.
 		All caught within the rift are pulled towards the center and take %0.2f gravity damage. %s
 The damage will increase with your Spellpower.]]):
-		tformat(dur, rad, damDesc(self, DamageType.PHYSICAL, dam), Desc.vs"pp")
+		tformat(t.getDuration(self, t), t.getMaxRadius(self, t), damDesc(self, DamageType.PHYSICAL, t.getDamage(self,t))), Desc.vs"pp")
 	end,
 }
 
