@@ -315,6 +315,8 @@ function _M:onAddObject(o, inven_id, item)
 	end
 	
 	o.in_inven = {actor = self, id = inven_id}
+
+	self:triggerHook{"Actor:onAddObject", o=o, inven_id=inven_id}
 end
 
 --- Called upon removing an object
@@ -326,6 +328,8 @@ function _M:onRemoveObject(o, inven_id, item)
 	end
 	o.carried = nil
 	o.in_inven = nil
+
+	self:triggerHook{"Actor:onRemoveObject", o=o, inven_id=inven_id}
 end
 
 --- Called upon dropping an object
