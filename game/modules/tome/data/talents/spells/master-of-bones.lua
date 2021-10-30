@@ -483,7 +483,7 @@ newTalent{
 		elseif self:getTalentLevel(t) >= 3 then def = t.minions_list.e_bone_giant
 		end
 
-		pos.x, pos.y = util.findFreeGrid(pos.x, pos.y, 3, false, {Map.ACTOR=true})
+		pos.x, pos.y = util.findFreeGrid(pos.x, pos.y, 3, false, {[Map.ACTOR]=true})
 		
 		if pos.x then
 			necroSetupSummon(self, def, pos.x, pos.y, lev, nil, true)

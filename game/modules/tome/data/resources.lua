@@ -297,10 +297,10 @@ ActorResource:defineResource(_t"Feedback", "feedback", ActorTalents.T_FEEDBACK_P
 	ai = {
 		tactical = {
 			want_level = function(act, aitarget)
-				local val, max = self:getFeedback(), self:getMaxFeedback()
-				local regen = self:hasEffect(self.EFF_FEEDBACK_LOOP) and math.min(max - val, self:getFeedbackDecay()) or 0
+				local val, max = act:getFeedback(), act:getMaxFeedback()
+				local regen = act:hasEffect(act.EFF_FEEDBACK_LOOP) and math.min(max - val, act:getFeedbackDecay()) or 0
 				local depleted = 1 - (val + regen)/max
-				depleted = depleted/math.max(0.001, 1-depleted)*self.global_speed
+				depleted = depleted/math.max(0.001, 1-depleted)*act.global_speed
 				return 10*(depleted/(depleted + 4))^2 -- want vs depleted: 0.00@0%, 0.03@20%, 0.40@50%, 2.00@76%, 4.79@90%, 9.92@100%, (for normal speed)
 			end
 		},
