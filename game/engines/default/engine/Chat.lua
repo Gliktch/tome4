@@ -35,6 +35,13 @@ _M.chat_bold_strings = {"#{bold}#", "#{normal}#"}
 -- @param[type=Actor] player the player
 -- @param[type=table] data
 function _M:init(name, npc, player, data)
+	print("[CHAT] Loading...", name)
+
+	local hd = {"Chat:init", name=name, npc=npc, player=player, data=data}
+	if self:triggerHook(hd) then
+		name, npc, player, data = hd.name, hd.npc, hd.player, hd.data
+	end
+
 	self.chat_env = {}
 	self.quick_replies = 0
 	self.chats = {}
