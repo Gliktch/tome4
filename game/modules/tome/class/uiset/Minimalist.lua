@@ -747,7 +747,7 @@ function _M:displayResources(scale, bx, by, a)
 			
 			local air_level, air_condition = game.level.map:checkEntity(player.x, player.y, Map.TERRAIN, "air_level"), game.level.map:checkEntity(player.x, player.y, Map.TERRAIN, "air_condition")
 			
-			if not (not air_condition or not self.can_breath[air_condition] or self.can_breath[air_condition] <= 0) or self:attr("no_breath") or self:attr("invulnerable") then
+			if not (not air_condition or not player.can_breath or not player.can_breath[air_condition] or player.can_breath[air_condition] <= 0) or player:attr("no_breath") or player:attr("invulnerable") then
 				tile_degen = air_level or 0
 			end
 			
