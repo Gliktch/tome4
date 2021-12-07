@@ -179,15 +179,17 @@ newTalent{
 		}
 	end,
 	deactivate = function(self, t, p)
-		self:removeTemporaryValue("projectile_evasion", p.chance)
-		self:removeTemporaryValue("projectile_evasion_spread", p.spread)
-		self:removeTemporaryValue("slow_projectiles", p.slow)
-		if self:attr("save_cleanup") then return true end
+		if self:attr("save_cleanup") then
+			self:removeTemporaryValue("projectile_evasion", p.chance)
+			self:removeTemporaryValue("projectile_evasion_spread", p.spread)
+			self:removeTemporaryValue("slow_projectiles", p.slow)
+			return true
+		end
 	
 		local tg = self:getTalentTarget(t)
 		local tx, ty = self:getTarget(tg)
 		if not tx or not ty then return nil end
-		
+
 		local grids = core.fov.circle_grids(self.x, self.y, self:getTalentRadius(t), true)
 		for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 			local i = 0
@@ -203,7 +205,10 @@ newTalent{
 		end end
 
 		game.level.map:particleEmitter(self.x, self.y, self:getTalentRadius(t), "shout", {additive=true, life=10, size=3, distorion_factor=0.0, radius=self:getTalentRadius(t), nb_circles=4, rm=0.8, rM=1, gm=0, gM=0, bm=0.8, bM=1.0, am=0.4, aM=0.6})
-		
+
+		self:removeTemporaryValue("projectile_evasion", p.chance)
+		self:removeTemporaryValue("projectile_evasion_spread", p.spread)
+		self:removeTemporaryValue("slow_projectiles", p.slow)
 		return true
 	end,
 	info = function(self, t)
