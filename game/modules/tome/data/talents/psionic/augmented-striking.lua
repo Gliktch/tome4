@@ -102,7 +102,7 @@ newTalent{
 		They will be pinned to the ground for %d turns by the force of this attack %s.
 		Any frozen creature hit by this attack will take an extra %0.2f physical damage.
 		The extra damage will scale with your Mindpower.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), t.getDur(self, t), Desc.vs"mp", damDesc(self, DamageType.PHYSICAL, t.getDam(self, t)))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 3.0), t.getDur(self, t), Desc.vs"mp", damDesc(self, DamageType.PHYSICAL, t.getDam(self, t)))
 	end,
 }
 
