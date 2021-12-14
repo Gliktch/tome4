@@ -1835,7 +1835,7 @@ newTalent{
 	points = 1,
 	type_no_req = true,
 	require = table.merge({ stat={wil=25}}, cuns_req_unlock),
-	unlock_talent = function(self, t) return self.player or self.level > 15, "You have learned how to create Purging traps!" end,
+	unlock_talent = function(self, t) return self.player or self.level > 15 and self:attr("forbid_arcane"), "You have learned how to create Purging traps!" end, -- really nasty, limit to NPCs that are already anti-magic
 	no_unlearn_last = true,
 	cooldown = 15,
 	stamina = 20,
