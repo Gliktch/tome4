@@ -110,7 +110,6 @@ defineTile('+', "DOOR")
 defineTile('!', "DOOR_VAULT")
 defineTile(';', "FLOWER")
 defineTile('~', "DEEP_WATER")
-defineTile('#', "WALL")
 defineTile('X', "TREE")
 
 specialList("actor", {
