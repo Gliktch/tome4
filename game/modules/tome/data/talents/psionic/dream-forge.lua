@@ -256,7 +256,7 @@ newTalent{
 			end
 			local tg = {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=p.radius, talent=t}
 			-- Spell failure handled under "DREAMFORGE" damage type in data\damage_types.lua and transferred to "BROKEN_DREAM" effect in data\timed_effects\mental.lua
-			self:project(tg, self.x, self.y, engine.DamageType.DREAMFORGE, {dam=self:combatMindCrit(p.damage), power=p.power, fail=t.getFailChance(self,t), dur=p.dur, chance=p.chance, do_particles=true })
+			self:project(tg, self.x, self.y, engine.DamageType.DREAMFORGE, {dam=self:mindCrit(p.damage), power=p.power, fail=t.getFailChance(self,t), dur=p.dur, chance=p.chance, do_particles=true })
 		end
 	end,
 	activate = function(self, t)
