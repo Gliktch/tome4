@@ -120,7 +120,7 @@ newTalent{
 	getDefense = function(self, t) return self:combatTalentSpellDamage(t, 15, 50) end,
 	getPenetration = function(self, t) return self:combatTalentSpellDamage(t, 1, 40) end,
 	passives = function(self, t, p)
-		self:talentTemporaryValue(p, "resists_pen", {DARKNESS = 0})  -- Make sure its displayed since we don't modify Actor.resists_pen directly
+		self:talentTemporaryValue(p, "resists_pen", {DARKNESS = 0.001})  -- Make sure its displayed since we don't modify Actor.resists_pen directly
 	end,
 	info = function(self, t)
 		return ([[Your mastery of dark magic empowers you.
