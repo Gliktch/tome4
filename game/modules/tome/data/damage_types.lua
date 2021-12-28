@@ -3640,7 +3640,9 @@ newDamageType{
 			if core.shader.allow("distort") then game.level.map:particleEmitter(x, y, 1, "distortion") end
 
 			-- Spike resists pen
-			src:attr("ignore_enemy_resist", 1)
+			if dam.penetrate then
+				src:attr("ignore_enemy_resist", 1)
+			end
 			-- Handle distortion effects
 			if target:hasEffect(target.EFF_DISTORTION) then
 				-- Explosive?
@@ -3678,7 +3680,9 @@ newDamageType{
 				end
 			end
 			-- Reset resists pen
-			src:attr("ignore_enemy_resist", -1)
+			if dam.penetrate then
+				src:attr("ignore_enemy_resist", -1)
+			end
 		end
 	end,
 }
