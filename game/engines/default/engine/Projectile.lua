@@ -316,6 +316,17 @@ function _M:makeProject(src, display, def, do_move, do_act, do_stop)
 		p.project.def.typ.line_function = def.typ.line_function
 	end
 
+	if def.tg.talent and def.tg.talent.instant_projectile then
+		game:onTickEnd(function()
+			local failsafe = 500 -- in case we somehow get infinite loop'd
+			while not p.dead and failsafe > 0 do
+				p.energy.value = game.energy_to_act
+				failsafe = failsafe - 1
+				p:act()
+			end
+		end)
+	end	
+	
 	game.level.map:checkAllEntities(def.x, def.y, "on_projectile_target", p)
 
 	return p

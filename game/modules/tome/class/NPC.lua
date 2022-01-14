@@ -422,7 +422,7 @@ end
 --	returns the result of typ.talent.onAIGetTarget(self, typ.talent) (if defined)
 function _M:getTarget(typ)
 	-- Free ourselves
-	if self:attr("encased_in_ice") then	return self.x, self.y, self end
+	if self:attr("encased_in_ice") or self:attr("encased") then	return self.x, self.y, self end
 	
 	-- get our ai_target according to the targeting parameters (possibly talent-specific)
 	return Actor.getTarget(self, typ)

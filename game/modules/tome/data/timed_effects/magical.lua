@@ -508,13 +508,20 @@ newEffect{
 	type = "magical",
 	subtype = { bane=true, blind=true },
 	status = "detrimental",
-	parameters = { dam=10},
+	parameters = { dam=10, radius=0 },
 	on_gain = function(self, err) return _t"#Target# loses sight!", _t"+Blind" end,
 	on_lose = function(self, err) return _t"#Target# recovers sight.", _t"-Blind" end,
 	on_timeout = function(self, eff)
 		self.turn_procs.doing_bane_damage = true
 		DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, eff.dam)
 		self.turn_procs.doing_bane_damage = false
+	end,
+	callbackOnTemporaryEffectAdd = function(self, eff, eff_id, e_def, new_eff)
+		if e_def.subtype.desecration and not eff.desecration then
+			eff.desecration = true
+			eff.power = eff.power * (1+new_eff.power/100)
+			eff.dam = eff.dam * (1+new_eff.power/100)
+		end
 	end,
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("blind", 1)
@@ -530,6 +537,18 @@ newEffect{
 			if self.player then for uid, e in pairs(game.level.entities) do if e.x then game.level.map:updateMap(e.x, e.y) end end game.level.map.changed = true end
 		end
 	end,
+	on_die = function(self, eff)
+		if eff.radius > 0 and eff.src then 
+			local tg = {type="ball", radius=eff.radius, selffire=false, x=self.x, y=self.y}
+			eff.src:project(tg, self.x, self.y, function (px, py)
+				local target = game.level.map(px, py, engine.Map.ACTOR)
+				if not target or eff.src:reactionToward(target) >= 0 then return end
+				if target:canBe("blind") then 
+					target:setEffect(target.EFF_BANE_BLINDED, 3, {src=eff.src, dam=eff.dam, radius=0, apply_power=eff.src:combatSpellpower()})
+				end
+			end)
+		end
+	end,
 }
 
 newEffect{
@@ -540,13 +559,20 @@ newEffect{
 	type = "magical",
 	subtype = { bane=true, confusion=true },
 	status = "detrimental",
-	parameters = { power=50, dam=10 },
+	parameters = { power=50, dam=10, radius=0 },
 	on_gain = function(self, err) return _t"#Target# wanders around!", _t"+Confused" end,
 	on_lose = function(self, err) return _t"#Target# seems more focused.", _t"-Confused" end,
 	on_timeout = function(self, eff)
 		self.turn_procs.doing_bane_damage = true
 		DamageType:get(DamageType.DARKNESS).projector(eff.src, self.x, self.y, DamageType.DARKNESS, eff.dam)
 		self.turn_procs.doing_bane_damage = false
+	end,
+	callbackOnTemporaryEffectAdd = function(self, eff, eff_id, e_def, new_eff)
+		if e_def.subtype.desecration and not eff.desecration then
+			eff.desecration = true
+			eff.power = eff.power * (1+new_eff.power/100)
+			eff.dam = eff.dam * (1+new_eff.power/100)
+		end
 	end,
 	activate = function(self, eff)
 		eff.power = math.floor(util.bound(eff.power, 0, 50))
@@ -555,6 +581,18 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("confused", eff.tmpid)
+	end,
+	on_die = function(self, eff)
+		if eff.radius > 0 and eff.src then 
+			local tg = {type="ball", radius=eff.radius, selffire=false, x=self.x, y=self.y}
+			eff.src:project(tg, self.x, self.y, function (px, py)
+				local target = game.level.map(px, py, engine.Map.ACTOR)
+				if not target or eff.src:reactionToward(target) >= 0 then return end
+				if target:canBe("confusion") then 				
+					target:setEffect(target.EFF_BANE_CONFUSED, 3, {src=eff.src, power=50, dam=eff.dam, radius=0, apply_power=eff.src:combatSpellpower()})
+				end
+			end)
+		end
 	end,
 }
 
@@ -5603,3 +5641,4 @@ newEffect{
 		end
 	end,
 }
+
