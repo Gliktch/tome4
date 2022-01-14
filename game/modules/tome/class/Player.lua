@@ -867,7 +867,7 @@ end
 
 --- Tries to get a target from the player
 function _M:getTarget(typ)
-	if self:attr("encased_in_ice") then
+	if self:attr("encased_in_ice") or self:attr("encased") then
 		if type(typ) ~= "table" then
 			return self.x, self.y, self
 		end

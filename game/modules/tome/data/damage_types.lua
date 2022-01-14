@@ -1970,6 +1970,7 @@ newDamageType{
 		state = initState(state)
 		useImplicitCrit(src, state)
 		local feat = game.level.map(x, y, Map.TERRAIN)
+		local target = game.level.map(x, y, Map.ACTOR)
 		if feat then
 			if feat.dig then
 				local newfeat_name, newfeat, silence = feat.dig, nil, false
@@ -1986,6 +1987,8 @@ newDamageType{
 				end
 			end
 		end
+		local hd = {"DamageProjector:dig", src=src, target=target, feat=feat, x=x, y=y, state=state}
+		src:triggerHook(hd)
 	end,
 }
 

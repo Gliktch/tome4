@@ -1392,8 +1392,8 @@ function _M:move(x, y, force)
 		if not force and self:attr("sleep") and not self:attr("lucid_dreamer") then
 			game.logPlayer(self, "You are asleep and unable to move!")
 			can_move = false
-			-- Encased in ice, attack the ice
-		elseif not force and self:attr("encased_in_ice") then
+		-- Encased in ice, attack the ice
+		elseif not force and (self:attr("encased_in_ice") or self:attr("encased")) then
 			self:attackTarget(self)
 			moved = true
 			can_move = false
@@ -1596,6 +1596,7 @@ end
 function _M:probabilityTravel(x, y, dist, checker, ignore_no_teleport)
 	if game.zone.wilderness then return true end
 	if self:attr("encased_in_ice") then return end
+	if self:attr("encased") then return end
 
 	local dirx, diry = x - self.x, y - self.y
 	local tx, ty = x, y
@@ -7390,7 +7391,7 @@ end
 
 --- Called when we have acquired grids
 function _M:on_project_grids(grids)
-	if self:attr("encased_in_ice") then
+	if self:attr("encased_in_ice") or self:attr("encased") then
 		-- Only hit yourself
 		while next(grids) do grids[next(grids)] = nil end
 		grids[self.x] = {[self.y]=true}

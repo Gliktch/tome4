@@ -499,6 +499,10 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 		target:setEffect(target.EFF_STONE_SKIN, 5, {power=target:attr("auto_stoneskin")})
 		repelled = true
 	end
+	
+	if target:attr("melee_repel") and rng.percent(target:attr("melee_repel")) then
+		repelled = true
+	end
 
 	local no_procs = false
 
