@@ -19,6 +19,7 @@
 
 require "engine.class"
 local Actor = require "engine.Actor"
+local Birther = require "mod.dialogs.Birther"
 require "engine.Autolevel"
 require "engine.interface.ActorInventory"
 require "engine.interface.ActorTemporaryEffects"
@@ -374,6 +375,13 @@ function _M:hasDescriptor(kind, value)
 	if self.descriptor[kind] ~= value then return false end
 	return true
 end
+
+function _M:descriptorDisplayName(kind)
+	if not self.descriptor then return nil end
+	if not self.descriptor[kind] then return nil end
+	return Birther:getBirthField(kind, self.descriptor[kind], "display_name")
+end
+
 
 function _M:getSpeed(speed_type)
 	if type(speed_type) == "number" then return speed_type end
