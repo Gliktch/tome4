@@ -395,7 +395,7 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 		end
 
 		-- hook to resolve after a hit is determined, before damage has been projected
-		local hd = {"Combat:archeryDamage", self=self, hitted=hitted, target=target, weapon=weapon, ammo=ammo, damtype=damtype, mult=1, dam=dam}
+		local hd = {"Combat:archeryDamage", hitted=hitted, target=target, weapon=weapon, ammo=ammo, damtype=damtype, mult=1, dam=dam}
 		if self:triggerHook(hd) then
 			dam = dam * hd.mult
 		end
