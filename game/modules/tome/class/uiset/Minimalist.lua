@@ -728,6 +728,7 @@ function _M:resourceOrientStep(orient, bx, by, scale, x, y, w, h)
 end
 
 function _M:displayResources(scale, bx, by, a)
+	if not game.level then return end
 	local player = game.player
 	if player then
 		local orient = self.sizes.resources and self.sizes.resources.orient or "right"
