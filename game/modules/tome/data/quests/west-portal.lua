@@ -114,5 +114,5 @@ create_portal = function(self, npc, player)
 
 	player:setQuestStatus(self.id, engine.Quest.DONE)
 	world:gainAchievement("WEST_PORTAL", game.player)
-	player:grantQuest(data.next_quest)
+	if data.next_quest then player:grantQuest(data.next_quest) end
 end
