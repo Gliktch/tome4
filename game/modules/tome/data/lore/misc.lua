@@ -738,7 +738,7 @@ PS: You might encounter a... benefactor of sorts in your travels. You'll know it
 newLore{
 	id = "shiiak-mantra",
 	category = "spydrë",
-	name = _t"Mantra of a Shiiak",
+	name = _t"Mantra of a Shiaak",
     lore = _t[[Each morning I wake, happy I'm alive;
 the traps of this tomb won't claim me today.
 Though its curse of hunger eats at my insides,
