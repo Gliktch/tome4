@@ -18,7 +18,7 @@
 -- darkgod@te4.org
 
 return _t"New Class: #LIGHT_GREEN#Wanderer",
-_t[[You have wanderer quite a lot since your birth!
+_t[[You have wandered quite a lot since your birth!
 You can now create new characters with the #LIGHT_GREEN#Wanderer class#WHITE#.
 
 Wanderers start the game with 3 randomly selected class trees, 1 randomly selected generic tree and Combat Training.
