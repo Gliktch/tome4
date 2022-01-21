@@ -726,7 +726,19 @@ function _M:generate(lev, old_lev)
 				end
 			end
 
+			-- Replace spots if any
+			for i, spot in ripairs(subspots) do if spot.mode == "replace" then
+				for j, s in ipairs(self.spots) do
+					if s.type == spot.type and s.subtype == spot.subtype then
+						self.spots[j] = spot
+						table.remove(subspots, i)
+					end
+				end
+			end end
+
+			-- Add all others
 			table.append(self.spots, subspots)
+
 			if g.define_up then self.gen_map.startx, self.gen_map.starty = ux + self.data.__import_offset_x+g.x, uy + self.data.__import_offset_y+g.y end
 			if g.define_down then self.gen_map.endx, self.gen_map.endy = dx + self.data.__import_offset_x+g.x, dy + self.data.__import_offset_y+g.y end
 		else -- generator failed
