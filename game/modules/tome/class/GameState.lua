@@ -3858,6 +3858,11 @@ function _M:selectBonusZone()
 	-- list and always_list are provided for weird corner cases, DO NOT USE THEM unless you *reallllllllllllllllllllly* need to
 	self:triggerHook{"GameState:bonusZone", add=add, list=list, always_list=always_list}
 
+	print("============= Possible Bonus Zones (always)")
+	table.print(always_list)
+	print("============= Possible Bonus Zones (normal)")
+	table.print(list)
+
 	if #always_list > 0 then
 		self.selected_bonus_zone = rng.table(always_list)
 		print("[GameState] Selected bonus zone for always condition", self.selected_bonus_zone.zone, self.selected_bonus_zone.event, table.serialize(self.selected_bonus_zone.level_range or {}))

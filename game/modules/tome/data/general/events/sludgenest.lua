@@ -16,9 +16,6 @@
 --
 -- Nicolas Casalini "DarkGod"
 -- darkgod@te4.org
-
-if not game:isCampaign("Maj'Eyal") then return end
-
 level.data.on_enter_list.sludgenest = function()
 	if game.level.data.sludgenest_added then return end
 	if game:getPlayer(true).level < 30 then return end
@@ -37,7 +34,7 @@ level.data.on_enter_list.sludgenest = function()
 	g:initGlow()
 	game.zone:addEntity(game.level, g, "terrain", spot.x, spot.y)
 	print("[WORLDMAP] sludgenest at", spot.x, spot.y)
-	require("engine.ui.Dialog"):simpleLongPopup(_t"Lush forest", _t"Suddenly it comes back to you. You remember long ago somebody told you about a strange lush forest in the cold icy wastes of the northland.", 400)
+	require("engine.ui.Dialog"):simpleLongPopup(_t"Lush forest", _t"Suddenly it comes back to you. You remember long ago somebody told you about a strange lush forest... If only you could remember where!", 400)
 end
 
 return true
