@@ -2034,8 +2034,8 @@ newDamageType{
 				target:setEffect(target.EFF_TIME_PRISON, dam, {no_ct_effect=true})
 				target:setEffect(target.EFF_CONTINUUM_DESTABILIZATION, 100, {power=src:combatSpellpower(0.3), no_ct_effect=true})
 			elseif target:checkHit(src:combatSpellpower() - (target:attr("continuum_destabilization") or 0), target:combatSpellResist(), 0, 95, 15) then
-				target:setEffect(target.EFF_TIME_PRISON, dam, {apply_power=src:combatSpellpower() - (target:attr("continuum_destabilization") or 0), apply_save="combatSpellResist", no_ct_effect=true})
-				target:setEffect(target.EFF_CONTINUUM_DESTABILIZATION, 100, {power=src:combatSpellpower(0.3), no_ct_effect=true})
+				target:setEffect(target.EFF_TIME_PRISON, dam, {src=src}) --no apply_power because there's a special check_hit above.
+				target:setEffect(target.EFF_CONTINUUM_DESTABILIZATION, 100, {power=src:combatSpellpower(0.3)})
 			else
 				game.logSeen(target, "%s resists the time prison.", target:getName():capitalize())
 			end
@@ -4494,7 +4494,7 @@ newDamageType{
 		
 		if target:checkHit(src:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 5) and target:canBe("knockback") then
 			local source = src.__project_source or src
-			target:pull(source.x, source.y, 2)
+			game:onTickEnd(function() target:pull(source.x, source.y, 2) end)
 			game.logSeen(target, "%s is pulled in!", target.name:capitalize())
 		else
 			game.logSeen(target, "%s resists the gravity!", target.name:capitalize())

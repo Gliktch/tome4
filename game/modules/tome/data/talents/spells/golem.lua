@@ -195,7 +195,7 @@ newTalent{
 	stamina = 5,
 	requires_target = true,
 	target = function(self, t)
-		return {type="ballbolt", radius=self:getTalentRadius(t), friendlyfire=false, range=self:getTalentRange(t)}
+		return {type="ballbolt", actorblock=false, radius=self:getTalentRadius(t), friendlyfire=false, range=self:getTalentRange(t)}
 	end,
 	getGolemDamage = function(self, t)
 		return self:combatTalentWeaponDamage(t, 0.4, 1.1)
