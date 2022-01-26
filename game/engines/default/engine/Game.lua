@@ -28,6 +28,8 @@ local Shader = require "engine.Shader"
 -- @classmod engine.Game
 module(..., package.seeall, class.make)
 
+_M.TICK_RESCHEDULE = {}
+
 --- Sets up the default keyhandler
 -- Also requests the display size and stores it in "w" and "h" properties
 -- @param[type=Key] keyhandler the default keyhandler for this game
@@ -324,7 +326,13 @@ function _M:onTickEndExecute()
 		local fs = set.fcts
 		set.fcts = {}
 		set.names = {}
-		for i = 1, #fs do fs[i]() end
+		for i = 1, #fs do
+			local r = fs[i]()
+			if r == self.TICK_RESCHEDULE then
+				set.fcts[#set.fcts+1] = fs[i]
+				core.game.requestNextTick()
+			end
+		end
 	end
 end
 

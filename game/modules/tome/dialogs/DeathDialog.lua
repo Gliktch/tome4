@@ -295,6 +295,15 @@ function _M:generateList()
 		allow_res = false
 	end
 
+	if game.state.death_is_final then
+		allow_res = false
+	end
+
+	local hd = {"DeathDialog:isDeathFinal"}
+	if self:triggerHook(hd) then
+		allow_res = false
+	end
+
 	if config.settings.cheat then list[#list+1] = {name=_t"Resurrect by cheating", action="cheat"} end
 	if not self.actor.no_resurrect and allow_res then
 		if self.actor:hasEffect(self.actor.EFF_SEE_THREADS) and game._chronoworlds then
