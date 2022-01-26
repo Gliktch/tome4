@@ -504,6 +504,9 @@ newEntity{
 		if e.moddable_tile:find("_hand_08_0[1-5]") then
 			e.moddable_tile = e.moddable_tile:gsub("_hand_08_0([1-5])", "_hand_08_0%1_1h")
 		end
+		if e.image:find("staff_") then
+			e.image = e.image:gsub("%.png", "_1h.png")
+		end
 	end),
 }
 
