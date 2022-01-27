@@ -187,7 +187,7 @@ newTalent{
 	tactical = { BUFF = 2 },
 	fixed_cooldown = true,
 	getTalentCount = function(self, t) return math.floor(self:combatTalentScale(t, 2, 7, "log")) end,
-	getMaxLevel = function(self, t) return self:getTalentLevel(t) end,
+	getMaxLevel = function(self, t) return math.floor(self:getTalentLevel(t)) end,
 	action = function(self, t)
 		local nb = t.getTalentCount(self, t)
 		local maxlev = t.getMaxLevel(self, t)

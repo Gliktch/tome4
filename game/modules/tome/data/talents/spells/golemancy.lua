@@ -494,6 +494,12 @@ newTalent{
 		golem:move(px, py, true)
 		game.level.map:particleEmitter(px, py, 1, "teleport")
 		game.level.map:particleEmitter(gx, gy, 1, "teleport")
+		if self:attr("defense_on_teleport") or self:attr("resist_all_on_teleport") or self:attr("effect_reduction_on_teleport") then
+			self:setEffect(self.EFF_OUT_OF_PHASE, 4, {})
+		end
+		if golem:attr("defense_on_teleport") or golem:attr("resist_all_on_teleport") or golem:attr("effect_reduction_on_teleport") then
+			golem:setEffect(golem.EFF_OUT_OF_PHASE, 4, {})
+		end
 
 		for uid, e in pairs(game.level.entities) do
 			if e.getTarget then

@@ -38,7 +38,7 @@ newTalent{
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 		self:projectile(tg, x, y, DamageType.CONGEAL_TIME, {
-			slow = 1 - 1 / (1 + t.getSlow(self, t)),
+			slow = t.getSlow(self, t),
 			proj = t.getProj(self, t),
 		}, {type="manathrust"})
 		game:playSoundNear(self, "talents/spell_generic")

@@ -240,6 +240,9 @@ newTalent{
 							game.level.map:scheduleRedisplay()
 						end
 					end,
+					move = function(self, x, y, force)
+						if force then self.x = x self.y = y end
+					end,
 					dig = function(src, x, y, old)
 						game.level:removeEntity(old)
 						game.level.map:scheduleRedisplay()
