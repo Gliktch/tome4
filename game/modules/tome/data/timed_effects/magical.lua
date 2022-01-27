@@ -3664,7 +3664,7 @@ newEffect{
 newEffect{
 	name = "PRECOGNITION", image = "talents/precognition.png",
 	desc = _t"Precognition",
-	long_desc = function(self, eff) return ("Peer into the future, detecting enemies, increasing defense by %d, and granting a %d%% chance to ignore critical hits."):tformat(eff.defense, eff.crits) end,
+	long_desc = function(self, eff) return ("Peer into the future, detecting enemies, increasing defense by %d, and granting %d%% critical shrug off."):tformat(eff.defense, eff.crits) end,
 	type = "magical",
 	subtype = { sense=true },
 	status = "beneficial",

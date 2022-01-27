@@ -136,8 +136,7 @@ newTalent{
 	info = function(self, t)
 		local resist = t.getResistance(self, t)
 		local crit = t.critResist(self, t)
-		return ([[Turn your body into pure ice, increasing your Cold damage affinity by %d%% and your physical resistance by %d%%.
-		You have a %d%% chance to shrug off all direct critical hits (physical, mental, spell).
+		return ([[Turn your body into pure ice, increasing your Cold damage affinity by %d%% and your physical resistance by %d%%, and reducing the bonus damage multiplier of incoming critical hits by %d%%.
 		The effects increase with your Spellpower.]]):
 		tformat(t.getAffinity(self, t), resist, crit)
 	end,
