@@ -54,6 +54,7 @@ newBirthDescriptor{
 	copy = {
 		-- Force undead faction to undead
 		resolvers.genericlast(function(e) e.faction = "undead" end),
+		default_wilderness = {"playerpop", "low-undead"},
 		starting_zone = "blighted-ruins",
 		starting_level = 3, starting_level_force_down = true,
 		starting_quest = "start-undead",
@@ -118,7 +119,6 @@ newBirthDescriptor
 	},
 	copy = {
 		type = "undead", subtype="ghoul",
-		default_wilderness = {"playerpop", "low-undead"},
 		starting_intro = "ghoul",
 		life_rating=14,
 		poison_immune = 0.8,
@@ -213,7 +213,6 @@ newBirthDescriptor
 	},
 	copy = {
 		type = "undead", subtype="skeleton",
-		default_wilderness = {"playerpop", "low-undead"},
 		starting_intro = "skeleton",
 		life_rating=12,
 		poison_immune = 1,
