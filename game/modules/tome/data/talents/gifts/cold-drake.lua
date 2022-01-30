@@ -181,6 +181,9 @@ newTalent{
 						game.nicer_tiles:updateAround(game.level, self.x, self.y)
 					end
 				end,
+				move = function(self, x, y, force)
+					if force then self.x = x self.y = y end
+				end,
 				dig = function(src, x, y, old)
 					game.level:removeEntity(old, true)
 					return nil, old.old_feat

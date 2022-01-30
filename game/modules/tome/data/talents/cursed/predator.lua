@@ -65,6 +65,7 @@ newTalent{
 	require = cursed_lev_req2,
 	points = 5,
 	cooldown = 10,
+	autolearn_talent = "T_HATE_POOL",
 	no_energy = true,
 	no_npc_use = true,
 	radius = function(self, t) return 4 end,
