@@ -2280,7 +2280,7 @@ newTalent{
 		return ([[Grab a target and pull it next to you, covering it with frost while reducing its movement speed by 50%% for %d turns %s.
 		The ice will also deal %0.2f cold damage.
 		The damage and chance to slow will increase with your Spellpower.]]):
-		tformat(t.getDuration(self, t), damDesc(self, Desc.vs"sp", DamageType.COLD, self:combatTalentSpellDamage(t, 5, 140)))
+		tformat(t.getDuration(self, t), Desc.vs"sp", damDesc(self, DamageType.COLD, self:combatTalentSpellDamage(t, 5, 140)))
 	end,
 }
 
