@@ -153,7 +153,7 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Activate some of your inner magic, using it to power your abilities.  For the next %d turns all active talents will be used without resource cost.
-		Your resources must still be high enough to initially power the talent and failure rates (etc.) still apply.
+		Your resources must still be high enough to initially power the talent and failure rates (etc.) still apply. This does not affect resource drain from sustains, effects, or other sources.
 		]]):tformat(duration)
 	end,
 }
