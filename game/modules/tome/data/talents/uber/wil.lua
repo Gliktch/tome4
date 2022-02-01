@@ -194,7 +194,7 @@ uberTalent{
 	require = { special={desc=_t"Have been close to death(killed a foe while below 1 HP)", fct=function(self) return self:attr("barely_survived") end} },
 	info = function(self, t)
 		return ([[You focus your mind on the task at hand, regardless of how dire the situation is.
-		For 5 turns, none of your talents use any resources.]])
+		For 5 turns, none of your active use talents will consume resources (note: this does not affect resource drain from effects, sustains, or other sources).]])
 		:tformat()
 	end,
 }
