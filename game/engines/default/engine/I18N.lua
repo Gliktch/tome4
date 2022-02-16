@@ -57,6 +57,11 @@ local function set(table, key, tag, value)
 	table["nil"][key] = value
 end
 
+--- Indicates a string to translate for the translation teams but not for the engine
+_G._nt = function(s, tag)
+	return s
+end
+
 _G._t = function(s, tag)
 	if not s then
 		return nil
