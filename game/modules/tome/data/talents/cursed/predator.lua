@@ -28,7 +28,7 @@ newTalent{
 	mode = "passive",
 	points = 5,
 	no_npc_use = true,
-	getATK = function(self, t) return self:combatTalentScale(t, 0.18, 1.2) end,
+	getATK = function(self, t) return self:combatTalentScale(t, 0.3, 1.5) end,
 	-- ATK bonus handled in Combat.lua with comment: -- Predator apr bonus
 	getAPR = function(self, t) return self:combatTalentScale(t, 0.09, 0.6) end,
 	-- APR bonus handled in Combat.lua with comment: -- Predator apr bonus
@@ -65,6 +65,7 @@ newTalent{
 	require = cursed_lev_req2,
 	points = 5,
 	cooldown = 10,
+	autolearn_talent = "T_HATE_POOL",
 	no_energy = true,
 	no_npc_use = true,
 	radius = function(self, t) return 4 end,

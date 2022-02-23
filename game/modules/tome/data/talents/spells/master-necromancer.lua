@@ -49,7 +49,7 @@ newTalent{
 	info = function(self, t)
 		return ([[Your mastery of necromancy becomes so total that an aura of undeath radiates around you in radius %d.
 		Any undead minion standing inside of it is protected, increasing all their resistances by %d%%.
-		In addition when you create new minions they inherit %d%% of your spellpower (applied to any powers), spell crit chance (applied to any crit chances), saves, resists and damage increases (applied to all elements).
+		In addition when you create new minions they inherit %d%% of your spellpower (applied to any powers), spell crit chance (applied to any crit chances), saves, resists, and highest damage increase (applied to all elements).
 		]]):tformat(self:getTalentRadius(t), t:_getResists(self), t:_getInherit(self))
 	end,
 }
@@ -78,7 +78,7 @@ newTalent{
 				if target:canBe("stun") then target:setEffect(target.EFF_DAZED, t:_getDaze(self), {apply_power=self:combatSpellpower()}) end
 			elseif target.summoner == self and target.necrotic_minion then
 				target:setEffect(target.EFF_HASTE, t:_getSpeed(self), {power=0.25})
-				if not target.ghoul_minion then target:heal(target.max_life * t:_getHeal(self) / 100, self) end
+				if not target.ghoul_minion then target:heal(target:getMaxLife() * t:_getHeal(self) / 100, self) end
 			end
 		end)
 
@@ -101,9 +101,9 @@ newTalent{
 		All non-ghoul minions are healed by %d%%.
 		If you know Call of the Mausoleum, the time remaining to the next free ghoul is reduced by %d.
 		if you know Corpse Explosion or Putrescent Liquefaction the duration of those effects are increased by %d.
-		All non-undead foes caught inside are dazed for %d turns.
+		All non-undead foes caught inside are dazed for %d turns %s.
 		In addition all your minions (created after you learn this spell) have a passive health regeneration.]]):
-		tformat(t:_getSpeed(self), t:_getHeal(self), t:_getGhoulDur(self), t:_getGhoulDur(self), t:_getDaze(self))
+		tformat(t:_getSpeed(self), t:_getHeal(self), t:_getGhoulDur(self), t:_getGhoulDur(self), t:_getDaze(self), Desc.vs"sp")
 	end,
 }
 
@@ -170,7 +170,7 @@ newTalent{
 	getPower = function(self, t) return util.bound(self:combatTalentSpellDamage(t, 20, 330) / 10, 5, 40) end,
 	callbackOnHit = function(self, t, cb, src)
 		if not self:isTalentActive(self.T_NECROTIC_AURA) then return end
-		if not cb.value then return end
+		if not cb.value or cb.value <= 0 then return end
 		local stats = necroArmyStats(self)
 		if stats.nb == 0 then return end
 

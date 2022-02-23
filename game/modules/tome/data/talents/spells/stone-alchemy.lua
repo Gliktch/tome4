@@ -225,12 +225,12 @@ newTalent{
 	end,
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Touch your foe and turn it to stone for %d turns.
+		return ([[Touch your foe and turn it to stone for %d turns %s.
 		Stoned creatures are unable to act or regen life, and are very brittle.
 		If a stoned creature is hit by an attack that deals more than 30%% of its life, it will shatter and be destroyed.
 		Stoned creatures are highly resistant to fire and lightning, and somewhat resistant to physical attacks.
 		At level 3 the touch will become a beam.
 		This spell may fail against creatures resistant to being stunned, that are specifically immune to stoning, or certain bosses.]]):
-		tformat(duration)
+		tformat(duration, Desc.vs"ss")
 	end,
 }

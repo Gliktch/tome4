@@ -1023,6 +1023,7 @@ function _M:dayNightCycle()
 	end
 	map._map:setShown(shown[1] * (tint.r+0.4), shown[2] * (tint.g+0.4), shown[3] * (tint.b+0.4), shown[4])
 	map._map:setObscure(obscure[1] * (tint.r+0.2), obscure[2] * (tint.g+0.2), obscure[3] * (tint.b+0.2), obscure[4])
+	return shown[1] * (tint.r+0.4), shown[2] * (tint.g+0.4), shown[3] * (tint.b+0.4), shown[4], obscure[1] * (tint.r+0.2), obscure[2] * (tint.g+0.2), obscure[3] * (tint.b+0.2), obscure[4]
 end
 
 --------------------------------------------------------------------
@@ -2074,6 +2075,14 @@ function _M:applyRandomClass(b, data, instant)
 			}
 			if b.combat_old.sound then b.combat.sound = b.combat_old.sound end
 			if b.combat_old.sound_miss then b.combat.sound_miss = b.combat_old.sound_miss end
+			if b._levelup_info then
+				for i, v in ipairs(b._levelup_info) do
+					if v.kchain[1] == "combat" and v.k == "dam" then
+						table.remove(b._levelup_info, i)
+						break
+					end
+				end
+			end
 		end
 
 		print("[applyRandomClass]", b.uid, b.name, "Adding class", class.name, mclass.name)
@@ -2599,6 +2608,14 @@ function _M:applyRandomClassNew(b, data, instant)
 			}
 			if b.combat_old.sound then b.combat.sound = b.combat_old.sound end
 			if b.combat_old.sound_miss then b.combat.sound_miss = b.combat_old.sound_miss end
+			if b._levelup_info then
+				for i, v in ipairs(b._levelup_info) do
+					if v.kchain[1] == "combat" and v.k == "dam" then
+						table.remove(b._levelup_info, i)
+						break
+					end
+				end
+			end
 		end
 
 		print("[applyRandomClassNew]", b.uid, b.name, "Adding class", class.name, mclass.name, "level_rate", level_rate)
@@ -3841,6 +3858,11 @@ function _M:selectBonusZone()
 
 	-- list and always_list are provided for weird corner cases, DO NOT USE THEM unless you *reallllllllllllllllllllly* need to
 	self:triggerHook{"GameState:bonusZone", add=add, list=list, always_list=always_list}
+
+	print("============= Possible Bonus Zones (always)")
+	table.print(always_list)
+	print("============= Possible Bonus Zones (normal)")
+	table.print(list)
 
 	if #always_list > 0 then
 		self.selected_bonus_zone = rng.table(always_list)

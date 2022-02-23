@@ -164,8 +164,8 @@ newTalent {
 		local shieldMult = t.getShieldMult(self, t) * 100
 		local tiles = t.getDist(self, t)
 		local slingMult = t.getSlingMult(self, t) * 100
-		return ([[Bash an enemy in melee range with your shield (twice for talent level 5 or more), doing %d%% damage and knocking them back %d squares. You may then follow with a deadly short-range sling attack, dealing %d%% damage. The shield bash will use Dexterity instead of Strength for the shield's bonus damage.]])
-		:tformat(shieldMult, tiles, slingMult)
+		return ([[Bash an enemy in melee range with your shield (twice for talent level 5 or more), doing %d%% damage and knocking them back %d squares %s. You may then follow with a deadly short-range sling attack, dealing %d%% damage. The shield bash will use Dexterity instead of Strength for the shield's bonus damage.]])
+		:tformat(shieldMult, tiles, Desc.vs(), slingMult)
 	end,
 }
 

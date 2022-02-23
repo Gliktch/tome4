@@ -114,10 +114,31 @@ newTalent{
 		local mult = 1 + (not raw and self:callTalent(self.T_AMPLIFICATION, "getFeedbackGain") or 0)
 		return ratio*mult
 	end,
+	callbackPriorities = {callbackOnHit = -100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if src == self or src == self.summoner then return end
+		local value = cb.value + (self.turn_procs.resonance_field_absorb or 0)
+		self.turn_procs.resonance_field_absorb = nil
+		if value <= 0 then return end
+		local ratio = t.getFeedbackRatio(self, t)
+		local feedback_gain = value * ratio
+		self:incFeedback(feedback_gain)
+		-- Give feedback to summoner
+		if self.summoner and self.summoner:getTalentLevel(self.summoner.T_OVER_MIND) >=1 and self.summoner:getMaxFeedback() > 0 then
+			self.summoner:incFeedback(feedback_gain)
+		end
+		-- Trigger backlash retribution damage
+		if src and src.turn_procs and self:knowTalent(self.T_BACKLASH) and not src.no_backlash_loops and not src.turn_procs.backlash then
+			if src.y and src.x and not src.dead then
+				local t = self:getTalentFromId(self.T_BACKLASH)
+				t.doBacklash(self, src, feedback_gain, t)
+				src.turn_procs.backlash = true
+			end
+		end
+	end,
 	no_unlearn_last = true,
 	on_learn = function(self, t)
 		if self:getMaxFeedback() <= 0 then
---			self:incMaxFeedback(100)
 			self:incMaxFeedback(100 - self:getMaxFeedback())
 		end
 		return true
@@ -231,6 +252,33 @@ newTalent{
 		if hateMessage then
 			game.logPlayer(self, hateMessage.." (+%d hate)", hateGain - self.hate_per_kill)
 		end
+	end,
+	callbackPriorities = {callbackOnHit = -100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 then return end
+		local hateGain = 0
+		local hateMessage
+
+		if value / self:getMaxLife() >= 0.15 then
+			-- you take a big hit..adds 2 + 2 for each 5% over 15%
+			hateGain = hateGain + 2 + (((value / self:getMaxLife()) - 0.15) * 100 * 0.5)
+			hatemessage = _t"#F53CBE#You fight through the pain!"
+		end
+
+		if value / self:getMaxLife() >= 0.05 and (self.life - value) / self:getMaxLife() < 0.25 then
+			-- you take a hit with low health
+			hateGain = hateGain + 4
+			hatemessage = _t"#F53CBE#Your hatred grows even as your life fades!"
+		end
+
+		if hateGain >= 1 then
+			self:incHate(hateGain)
+			if hateMessage then
+				game.logPlayer(self, ("%s (+%d hate)"):tformat(hateMessage), hateGain)
+			end
+		end
+	
 	end,
 }
 

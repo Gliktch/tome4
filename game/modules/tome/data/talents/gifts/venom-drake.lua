@@ -62,10 +62,10 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Spray forth a glob of acidic moisture at your enemy.
 		The target will take %0.2f Mindpower-based acid damage.
-		Enemies struck have a 25%% chance to be Disarmed for three turns, as their weapon is rendered useless by an acid coating.
+		Enemies struck have a 25%% chance to be disarmed for three turns %s, as their weapon is rendered useless by an acid coating.
 		At Talent Level 5, this becomes a piercing line of acid.
 		Every level in Acidic Spray additionally raises your Mindpower by 4, passively.
-		Each point in acid drake talents also increases your acid resistance by 1%%.]]):tformat(damDesc(self, DamageType.ACID, damage))
+		Each point in acid drake talents also increases your acid resistance by 1%%.]]):tformat(damDesc(self, DamageType.ACID, damage), Desc.vs"mp")
 	end,
 }
 
@@ -125,9 +125,10 @@ newTalent{
 		local atk = t.getAtk(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[Exhale a mist of lingering acid, dealing %0.2f acid damage that can critical in a radius of %d each turn for %d turns.
-		Enemies in this mist will be corroded for %d turns, lowering their Accuracy, their Armour and their Defense by %d.
+		Enemies in this mist will be corroded for %d turns %s, lowering their Accuracy, their Armour and their Defense by %d.
 		The damage and duration will increase with your Mindpower, and the radius will increase with talent level.
-		Each point in acid drake talents also increases your acid resistance by 1%%.]]):tformat(damDesc(self, DamageType.ACID, damage), radius, duration, cordur, atk)
+		Each point in acid drake talents also increases your acid resistance by 1%%.
+		]]):tformat(damDesc(self, DamageType.ACID, damage), radius, duration, cordur, Desc.vs"mp", atk)
 	end,
 }
 
@@ -177,10 +178,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You strike the enemy with a rain of fast, acidic blows. You strike four times for pure acid damage. Every blow does %d%% damage.
-		Every two talent levels, one of your strikes becomes blinding acid instead of normal acid, blinding the target 25%% of the time if it hits.
+		Every two talent levels, one of your strikes becomes blinding acid instead of normal acid, blinding the target 25%% of the time if it hits %s.
 		Each point in acid drake talents also increases your acid resistance by 1%%.
 
-		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.1, 0.6))
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.1, 0.6), Desc.vs(Desc.max("acc", "mp", "sp"), "ps"))
 	end,
 }
 
@@ -232,8 +233,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You breathe acid in a frontal cone of radius %d. Any target caught in the area will take %0.2f acid damage.
-		Enemies caught in the acid are disarmed for 3 turns.
+		Enemies caught in the acid are disarmed for 3 turns %s.
 		The damage will increase with your Strength, the critical chance is based on your Mental crit rate, and the Disarm apply power is based on your Mindpower.
-		Each point in acid drake talents also increases your acid resistance by 1%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.ACID, t.getDamage(self, t)))
+		Each point in acid drake talents also increases your acid resistance by 1%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.ACID, t.getDamage(self, t)), Desc.vs"mp")
 	end,
 }

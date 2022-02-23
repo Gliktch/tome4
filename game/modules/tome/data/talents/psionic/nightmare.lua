@@ -80,10 +80,10 @@ newTalent{
 		local power = t.getSleepPower(self, t)
 		local damage = t.getDamage(self, t)
 		local insomnia = t.getInsomniaPower(self, t)
-		return([[Puts targets in a radius %d cone into a nightmarish sleep for %d turns, rendering them unable to act.  Every %d points of damage the target suffers will reduce the effect duration by one turn.
+		return([[Puts targets in a radius %d cone into a nightmarish sleep for %d turns %s, rendering them unable to act.  Every %d points of damage the target suffers will reduce the effect duration by one turn.
 		Each turn, they'll suffer %0.2f darkness damage.  This damage will not reduce the duration of the effect.
 		When Nightmare ends, the target will suffer from Insomnia for a number of turns equal to the amount of time it was asleep (up to ten turns max), granting it %d%% sleep immunity for each turn of the Insomnia effect.
-		The damage threshold and darkness damage will scale with your Mindpower.]]):tformat(radius, duration, power, damDesc(self, DamageType.DARKNESS, (damage)), insomnia)
+		The damage threshold and darkness damage will scale with your Mindpower.]]):tformat(radius, duration, Desc.vs"mm", power, damDesc(self, DamageType.DARKNESS, (damage)), insomnia)
 	end,
 }
 
@@ -112,13 +112,14 @@ newTalent{
 			return
 		end
 		if target:attr("summon_time") then return end
-		local ml = target.max_life/2/target.rank
+		local ml = target:getMaxLife()/2/target.rank
 		local m = target:cloneActor{
 			shader = "shadow_simulacrum", shader_args = { color = {0.6, 0.0, 0.3}, base = 0.6, time_factor = 1500 },
 			faction = self.faction,
 			summoner = self, summoner_gain_exp=true, exp_worth=0,
 			summon_time = 10,
-			max_life = ml, life = util.bound(target.life, target.die_at, ml),
+			max_life = ml, 
+			life = util.bound(target.life, target:getMinLife(), ml),
 			max_level = target.level,
 			ai_target = {actor=target},
 			ai = "summoned", ai_real = "tactical",
@@ -182,10 +183,10 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		local chance = t.getChance(self, t)
-		return ([[Brings the target's inner demons to the surface.  Each turn, for %d turns, there's a %d%% chance that a demon will surface, requiring the target to make a Mental Save to keep it from manifesting.
+		return ([[Brings the target's inner demons to the surface %s.  Each turn, for %d turns, there's a %d%% chance that a demon will surface, requiring the target to make a Mental Save to keep it from manifesting.
 		If the target is sleeping, the chance to save will be halved, and fear immunity will be ignored.  Otherwise, if the summoning is resisted, the effect will end early.
 		The summon chance will scale with your Mindpower and the demon's life will scale with the target's rank.
-		If a demon manifests the sheer terror will remove all sleep effects from the victim, but not the Inner Demons.]]):tformat(duration, chance)
+		If a demon manifests the sheer terror will remove all sleep effects from the victim, but not the Inner Demons.]]):tformat(Desc.vs"mm", duration, chance)
 	end,
 }
 
@@ -232,10 +233,10 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
 		local chance = t.getChance(self, t)
-		return ([[Inflicts %0.2f darkness damage each turn for %d turns, and has a %d%% chance to randomly cause blindness, stun, or confusion (lasting 3 turns).
+		return ([[Inflicts %0.2f darkness damage each turn for %d turns %s, and has a %d%% chance to randomly cause blindness, stun, or confusion for 3 turns %s.
 		If the target is sleeping, the chance of avoiding a negative effect will be halved and fear immunity will be ignored.
 		The damage will scale with your Mindpower.]]):
-		tformat(damDesc(self, DamageType.DARKNESS, (damage)), duration, chance)
+		tformat(damDesc(self, DamageType.DARKNESS, (damage)), duration, Desc.vs"mm", chance, Desc.vs())
 	end,
 }
 

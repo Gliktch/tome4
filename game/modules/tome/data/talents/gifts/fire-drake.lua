@@ -116,10 +116,10 @@ newTalent{
 	info = function(self, t)
 		local radius = self:getTalentRadius(t)
 		local power = 20 + 6 * self:getTalentLevel(t)
-		return ([[You let out a powerful roar that sends your foes in radius %d into utter confusion (power: %d%%) for 3 turns.
+		return ([[You let out a powerful roar that sends your foes in radius %d into utter confusion (power: %d%%) for 3 turns %s.
 		The sound wave is so strong, your foes also take %0.2f physical damage.
 		The damage improves with your Strength.
-		Each point in fire drake talents also increases your fire resistance by 1%%.]]):tformat(radius, power, self:combatTalentStatDamage(t, "str", 30, 380))
+		Each point in fire drake talents also increases your fire resistance by 1%%.]]):tformat(radius, power, Desc.vs"pm", self:combatTalentStatDamage(t, "str", 30, 380))
 	end,
 }
 

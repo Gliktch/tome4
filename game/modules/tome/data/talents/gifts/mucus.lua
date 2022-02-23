@@ -78,10 +78,10 @@ newTalent{
 		return ([[For %d turns, you lay down mucus where you walk or stand.
 		The mucus is placed automatically every turn and lasts %d turns.
 		At talent level 4 or greater, the mucus will expand to a radius 1 area from where it is placed.
-		Your mucus will poison all foes crossing it, dealing %0.1f nature damage every turn for 5 turns (stacking).
+		Your mucus will poison all foes crossing it, dealing %0.1f nature damage every turn for 5 turns (stacking) %s.
 		In addition, each turn, you will restore %0.1f Equilibrium while in your own mucus, and other friendly creatures in your mucus will restore 1 Equilibrium both for you and for themselves.
 		The Poison damage and Equilibrium regeneration increase with your Mindpower, and laying down more mucus in the same spot will intensify its effects and refresh its duration.]]):
-		tformat(dur, dur, damDesc(self, DamageType.NATURE, dam), equi)
+		tformat(dur, dur, damDesc(self, DamageType.NATURE, dam), Desc.vs"mp",  equi)
 	end,
 }
 

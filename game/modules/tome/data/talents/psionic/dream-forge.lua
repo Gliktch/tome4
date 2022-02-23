@@ -32,12 +32,12 @@ newTalent{
 	getDuration = function(self,t) return math.floor(self:combatTalentScale(t, 1, 2)) end,
 	doForgeShield = function(type, dam, t, self, src)
 		-- Grab our damage threshold
-		local dam_threshold = self.max_life * 0.15
+		local dam_threshold = self:getMaxLife() * 0.15
 		if self:knowTalent(self.T_SOLIPSISM) then
 			local t = self:getTalentFromId(self.T_SOLIPSISM)
 			local ratio = t.getConversionRatio(self, t)
 			local psi_percent =  self:getMaxPsi() * t.getConversionRatio(self, t)
-			dam_threshold = (self.max_life * (1 - ratio) + psi_percent) * 0.15
+			dam_threshold = (self:getMaxLife() * (1 - ratio) + psi_percent) * 0.15
 		end
 
 		local dur = t.getDuration(self,t)
@@ -256,7 +256,7 @@ newTalent{
 			end
 			local tg = {type="ball", range=self:getTalentRange(t), friendlyfire=false, radius=p.radius, talent=t}
 			-- Spell failure handled under "DREAMFORGE" damage type in data\damage_types.lua and transferred to "BROKEN_DREAM" effect in data\timed_effects\mental.lua
-			self:project(tg, self.x, self.y, engine.DamageType.DREAMFORGE, {dam=self:combatMindCrit(p.damage), power=p.power, fail=t.getFailChance(self,t), dur=p.dur, chance=p.chance, do_particles=true })
+			self:project(tg, self.x, self.y, engine.DamageType.DREAMFORGE, {dam=self:mindCrit(p.damage), power=p.power, fail=t.getFailChance(self,t), dur=p.dur, chance=p.chance, do_particles=true })
 		end
 	end,
 	activate = function(self, t)
@@ -278,9 +278,9 @@ newTalent{
 		local fail = t.getFailChance(self,t)
 		return ([[The pounding forge of thought in your mind is released upon your surroundings.  Each turn that you remain stationary, you'll strike the dreamforge, inflicting mind and burning damage on enemies around you.
 		The effect will build over five turns, until it reaches a maximum radius of %d, maximum mind damage of %0.2f, and maximum burning damage of %0.2f.
-		At this point you'll begin breaking the dreams of enemies who hear the forge, reducing their Mental Save by %d and giving them a %d%% chance of spell failure due to the tremendous echo in their minds for %d turns.
-		Broken Dreams has a %d%% chance to brainlock your enemies.
+		At this point you'll begin breaking the dreams of enemies who hear the forge, reducing their Mental Save by %d and giving them a %d%% chance of spell failure due to the tremendous echo in their minds for %d turns %s.
+		Broken Dreams has a %d%% chance to brainlock your enemies %s.
 		The damage and dream breaking effect will scale with your Mindpower.]]):
-		tformat(radius, damDesc(self, DamageType.MIND, damage), damDesc(self, DamageType.FIRE, damage), power, fail, duration, chance)
+		tformat(radius, damDesc(self, DamageType.MIND, damage), damDesc(self, DamageType.FIRE, damage), power, fail, duration, Desc.vs"mm", chance, Desc.vs"mm")
 	end,
 }

@@ -67,11 +67,11 @@ newTalent{
 		local turns, dam, arcanedam = t.getValues(self, t)
 		local xs = arcanedam and (" and %0.1f Arcane"):tformat(damDesc(self, DamageType.ARCANE, arcanedam)) or ""
 		return ([[From the ground around you, you form living stone vines extending from your feet.
-		Each turn, the vines will attempt to seize a random target within radius %d.
+		Each turn, the vines will attempt to seize a random target within radius %d %s.
 		Affected creatures are pinned to the ground and take %0.1f nature%s damage each turn for %d turns.
 		A creature entangled by the vines will have a chance to break free each turn, and will automatically succeed if it is more than %d grids away from you.
-		The chance to affect targets and damage increase with talent level and Willpower.]]):
-		tformat(rad, damDesc(self, DamageType.NATURE, dam), xs, turns, rad+4)
+		Damage increases with talent level and Willpower.]]):
+		tformat(rad, Desc.vs"mp", damDesc(self, DamageType.NATURE, dam), xs, turns, rad+4)
 	end,
 }
 
@@ -103,7 +103,7 @@ newTalent{
 	range = 20,
 	tactical = { HEAL = 2, CLOSEIN = 2 },
 	action = function(self, t)
-		local tg = {type="hit", range=self:getTalentRange(t)}
+		local tg = {type="hit", range=self:getTalentRange(t), nowarning=true}
 		local x, y, target = self:getTarget(tg)
 		if not x or not y or not target then return nil end
 		if not target:hasEffect(target.EFF_STONE_VINE) then return nil end

@@ -69,6 +69,7 @@ newTalent{
 		return tostring(math.ceil(val)), fnt
 	end,
 	callbackOnHit = function(self, t, cb, src)
+		if cb.value <= 0 then return true end
 		local absorb = cb.value * 0.3
 		local paradox = absorb * t.getPercent(self, t)
 		
@@ -140,9 +141,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Deals %0.2f temporal damage over %d turns to all targets in a radius of %d.  Targets with Reality Smearing active will instead recover %d life over four turns.
+		return ([[Deals %0.2f temporal damage over %d turns to all targets in a radius of %d %s.  Targets with Reality Smearing active will instead recover %d life over four turns.
 		If a target is reduced below 20%% life while Attenuate is active it may be instantly slain.
-		The damage will scale with your Spellpower.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), duration, radius, damage *0.4)
+		The damage will scale with your Spellpower.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), duration, radius, Desc.vs"ss", damage *0.4)
 	end,
 }
 

@@ -272,6 +272,7 @@ newEntity{ base = "BASE_TAINT",
 	level_range = {5, 50},
 	cost = 20,
 	material_level = 3,
+	quest = 1,
 	inscription_kind = "protect",
 	inscription_data = {
 		cooldown = 20,

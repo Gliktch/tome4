@@ -66,11 +66,11 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
 		local distort = DistortionCount(self)
-		return ([[Fire a bolt of distortion that ignores resistance and inflicts %0.2f physical damage.  This damage will distort affected targets, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
+		return ([[Fire a bolt of distortion that ignores resistance and inflicts %0.2f physical damage.  This damage will distort affected targets %s, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
 		If the bolt comes in contact with a target that's already distorted, a detonation will occur, inflicting 150%% of the base damage in a radius of %d.
 		Investing in this talent will increase the physical resistance reduction from all of your distortion effects.
 		At talent level 5, you learn to shape your distortion effects, preventing them from hitting you or your allies.
-		The damage will scale with your Mindpower.]]):tformat(damDesc(self, DamageType.PHYSICAL, damage), distort, radius)
+		The damage will scale with your Mindpower.]]):tformat(damDesc(self, DamageType.PHYSICAL, damage), Desc.vs(), distort, radius)
 	end,
 }
 
@@ -111,11 +111,11 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local power = t.getPower(self, t)
 		local distort = DistortionCount(self)
-		return ([[Creates a distortion wave in a radius %d cone that deals %0.2f physical damage and knocks back targets in the blast radius.
-		This damage will distort affected targets, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
+		return ([[Creates a distortion wave in a radius %d cone that deals %0.2f physical damage and knocks back targets in the blast radius %s.
+		This damage will distort affected targets %s, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
 		Investing in this talent will increase the physical resistance reduction from all of your distortion effects.
-		If the target is already distorted, they'll be stunned for %d turns as well.
-		The damage will scale with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, damage), distort, power)
+		If the target is already distorted, they'll be stunned for %d turns as well %s.
+		The damage will scale with your Mindpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, damage), Desc.vs"mp", Desc.vs(), distort, power, Desc.vs"mp")
 	end,
 }
 
@@ -157,11 +157,11 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
 		local distort = DistortionCount(self)
-		return ([[Ravages the target with distortion, inflicting %0.2f physical damage each turn for %d turns.
-		This damage will distort affected targets, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
+		return ([[Ravages the target with distortion %s, inflicting %0.2f physical damage each turn for %d turns.
+		This damage will distort affected targets %s, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
 		If the target is already distorted when Ravage is applied, the damage will be increased by 50%% and the target will lose one beneficial physical effect or sustain each turn.
 		Investing in this talent will increase the physical resistance reduction from all of your distortion effects.
-		The damage will scale with your Mindpower.]]):tformat(damDesc(self, DamageType.PHYSICAL, damage), duration, distort)
+		The damage will scale with your Mindpower.]]):tformat(Desc.vs"mp", damDesc(self, DamageType.PHYSICAL, damage), duration, Desc.vs(), distort)
 	end,
 }
 
@@ -261,8 +261,8 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local distort = DistortionCount(self)
 		return ([[Create a powerful maelstorm for %d turns.  Each turn, the maelstrom will pull in targets within a radius of %d, and inflict %0.2f physical damage.
-		This damage will distort affected targets, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
+		This damage will distort affected targets %s, decreasing physical resistance by %d%% and rendering them vulnerable to distortion effects for two turns.
 		Investing in this talent will increase the physical resistance reduction from all of your distortion effects.
-		The damage will scale with your Mindpower.]]):tformat(duration, radius, damDesc(self, DamageType.PHYSICAL, damage), distort)
+		The damage will scale with your Mindpower.]]):tformat(duration, radius, damDesc(self, DamageType.PHYSICAL, damage), Desc.vs(), distort)
 	end,
 }

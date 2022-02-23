@@ -173,6 +173,22 @@ newTalent{
 	getChance = function(self, t)
 		return 50 --10 + self:getMag() * 0.25 + self:getTalentLevel(t) * 2
 	end,
+	callbackPriorities = {callbackOnHit = 350},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value >= self.life and self.ai_state and self.ai_state.can_reform then
+			if rng.percent(t.getChance(self, t)) then
+				value = 0
+				self.life = self.max_life
+				game.logSeen(self, "%s fades for a moment and then reforms whole again!", self:getName():capitalize())
+				game.level.map:particleEmitter(self.x, self.y, 1, "teleport_out")
+				game:playSoundNear(self, "talents/heal")
+				game.level.map:particleEmitter(self.x, self.y, 1, "teleport_in")
+			end
+		end
+		cb.value = value
+		return cb
+	end,
 	info = function(self, t)
 		local chance = t.getChance(self, t)
 		return ([[When a shadow is hit and killed, there is a %d%% chance it will reform unhurt.]]):tformat(chance)

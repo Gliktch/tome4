@@ -58,9 +58,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Summon an icy spike directly on a foe, impaling it for %0.2f cold damage.
 		At level 5 it hits all foes in range 1 around the target.
-		Any creature hit will take %d%% more damage from your necrotic minions for 3 turns.
+		Any creature hit will take %d%% more damage from your necrotic minions for 3 turns %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.COLD, damage), t:_getMinionsInc(self))
+		tformat(damDesc(self, DamageType.COLD, damage), t:_getMinionsInc(self), Desc.vs"ss")
 	end,
 }
 

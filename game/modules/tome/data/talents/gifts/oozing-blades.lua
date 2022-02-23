@@ -115,10 +115,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You use your psiblades to fire a small worm at a foe.
-		When it hits, it will burrow into the target's brain and stay there for 6 turns, interfering with its ability to use talents.
+		When it hits, it will burrow into the target's brain and stay there for 6 turns %s, interfering with its ability to use talents.
 		Each time a talent is used there is %d%% chance that %d talent(s) are placed on a %d turn(s) cooldown.
 		The chance will increase with your Mindpower.]]):
-		tformat(t.getChance(self, t), t.getNb(self, t), t.getTurns(self, t))
+		tformat(Desc.vs(), t.getChance(self, t), t.getNb(self, t), t.getTurns(self, t))
 	end,
 }
 

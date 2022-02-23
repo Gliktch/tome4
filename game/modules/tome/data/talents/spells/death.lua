@@ -64,7 +64,7 @@ newTalent{
 	info = function(self, t)
 		local dam = damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self))
 		return ([[Press your advantage when your foes are starting to crumble.
-		For every detrimental effect on the target you deals %0.2f frostdusk damage (with diminishing returns) and reduce its global speed by 25%% for one turn per effect (up to a maximum of %d).
+		For every detrimental effect on the target you deals %0.2f frostdusk damage (with diminishing returns) and reduce its global speed by 25%% for one turn per effect (up to a maximum of %d) %s.
 		The diminishing returns on damage bonus works this way:
 		- 2 effects: %0.2f
 		- 5 effects: %0.2f
@@ -72,7 +72,7 @@ newTalent{
 		- 15 effects: %0.2f
 		And so on...
 		Damage increases with your Spellpower.
-		]]):tformat(dam, t:_getMax(self), dam*t.incFormula(2), dam*t.incFormula(5), dam*t.incFormula(10), dam*t.incFormula(15))
+		]]):tformat(dam, t:_getMax(self), Desc.vs"ss", dam*t.incFormula(2), dam*t.incFormula(5), dam*t.incFormula(10), dam*t.incFormula(15))
 	end,
 }
 

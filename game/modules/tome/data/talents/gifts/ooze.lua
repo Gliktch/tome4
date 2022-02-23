@@ -31,7 +31,7 @@ newTalent{
 		end
 	},
 	getMaxHP = function(self, t) return
-		50 + self:combatTalentMindDamage(t, 30, 250) + self.max_life * self:combatTalentLimit(t, 0.25, .035, .125)
+		50 + self:combatTalentMindDamage(t, 30, 250) + self:getMaxLife() * self:combatTalentLimit(t, 0.25, .035, .125)
 	end,
 	getMax = function(self, t) local _, _, max = checkMaxSummon(self, true) return math.min(max, math.max(1, math.floor(self:combatTalentLimit(t, 6, 1.1, 4.1)))) end, --Limit < 6
 	getChance = function(self, t) return self:combatLimit(self:combatTalentStatDamage(t, "cun", 10, 400), 100, 20, 0, 61, 234) end, -- Limit < 100%
@@ -98,6 +98,37 @@ newTalent{
 		game:playSoundNear(self, "talents/spell_generic2")
 
 		return true
+	end,
+	callbackPriorities = {callbackOnHit = -40},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 then return end
+		local chance = t.getChance(self, t)
+		local perc = math.min(1, 3 * value / math.max(self.life, 1))
+		if rng.percent(chance * perc) then
+			t.spawn(self, t, value * 2)
+		end
+
+		local acts = {}
+		if game.party:hasMember(self) then
+			for act, def in pairs(game.party.members) do
+				if act.summoner and act.summoner == self and act.wild_gift_summon and act.bloated_ooze then acts[#acts+1] = act end
+			end
+		else
+			for _, act in pairs(game.level.entities) do
+				if act.summoner and act.summoner == self and act.wild_gift_summon and act.bloated_ooze then acts[#acts+1] = act end
+			end
+		end
+		if #acts > 0 then
+			game:delayedLogMessage(self, nil, "mitosis_damage", "#DARK_GREEN##Source# shares damage with %s oozes!", string.his_her(self))
+			value = value / (#acts+1)
+			for _, act in ipairs(acts) do
+				act:takeHit(value, src)
+			end
+		end
+		
+		cb.value = value
+		return cb
 	end,
 	activate = function(self, t)
 		return {equil_regen = self:knowTalent(self.T_REABSORB) and self:addTemporaryValue("equilibrium_regen", -self:callTalent(self.T_REABSORB, "equiRegen"))}
@@ -183,8 +214,10 @@ newTalent{
 	getLife = function(self, t) return self:callTalent(self.T_MITOSIS, "getMaxHP")*t.getModHP(self, t) end,
 	getWepDamage = function(self, t) return self:combatTalentWeaponDamage(t, 0.7, 1.8) end,
 	on_pre_use = function(self, t)
-		local _, nb = checkMaxSummon(self, true, nil, "bloated_ooze")
-		return nb < t.getMax(self, t)
+		local check, nb = checkMaxSummon(self, true)
+		local max = self:callTalent(self.T_MITOSIS, "getMax") or 0
+		if check or max == 0 then return false end
+		return nb < max
 	end,
 	action = function(self, t)
 		local ot = self:getTalentFromId(self.T_MITOSIS)
@@ -262,8 +295,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Your body's internal organs are indistinct, disguising your vital areas.
-		You have a %d%% chance to shrug off all direct critical hits (physical, mental, spell).
-		In addition you gain %d%% resistance to disease, poison, wounds and blindness.]]):
+		The bonus damage multiplier of critical hits from any direct attack (melee/ranged weapons, spells, mind powers, ...) is reduced by %d%%.
+		In addition you gain %d%% resistance to disease, poison, cuts and blindness.]]):
 		tformat(t.critResist(self, t), 100*t.immunities(self, t))
 	end,
 }

@@ -121,10 +121,10 @@ newTalent{
 		local chance = t.getChance(self, t)
 		local duration = t.getDuration(self, t)
 		local mindpowerChange = gloomTalentsMindpower(self)
-		return ([[A terrible gloom surrounds you, affecting all those who approach to within radius 3. At the end of each game turn, those caught in your gloom must save against your Mindpower, or have a %d%% chance to suffer from slowness (30%%), stun or confusion (30%%) for %d turns.
+		return ([[A terrible gloom surrounds you, affecting all those who approach to within radius 3. At the end of each game turn, those caught in your gloom have a %d%% chance to suffer from slowness (30%%), stun or confusion (30%%) for %d turns %s.
 		The chance increases with your mind speed.
 		This ability is innate, and carries no cost to activate or deactivate.
-		Each point in Gloom talents increases your Mindpower (current total: %d).]]):tformat(chance, duration, mindpowerChange)
+		Each point in Gloom talents increases your Mindpower (current total: %d).]]):tformat(chance, duration, Desc.vs"mm", mindpowerChange)
 	end,
 }
 
@@ -148,9 +148,9 @@ newTalent{
 		local incDamageChange = t.getIncDamageChange(self, t)
 		local hateBonus = t.getHateBonus(self, t)
 		local mindpowerChange = gloomTalentsMindpower(self)
-		return ([[Each turn, those caught in your gloom must save against your Mindpower, or have a %d%% chance to be crippled by fear for %d turns, reducing damage they inflict by %d%%. The first time you melee strike a foe after they have been weakened will give you %d hate.
+		return ([[Each turn, those caught in your gloom have a %d%% chance to be crippled by fear for %d turns, reducing damage they inflict by %d%% %s. The first time you melee strike a foe after they have been weakened will give you %d hate.
 		The chance increases with your mind speed.
-		Each point in Gloom talents increases your Mindpower (current total: %d).]]):tformat(chance, duration, -incDamageChange, hateBonus, mindpowerChange)
+		Each point in Gloom talents increases your Mindpower (current total: %d).]]):tformat(chance, duration, -incDamageChange, Desc.vs"mm", hateBonus, mindpowerChange)
 	end,
 }
 

@@ -47,7 +47,7 @@ newTalent{
 		return 0.5 * bonus
 	end,
 	getAttackChange = function(self, t, bonus)
-		return math.floor(self:combatTalentStatDamage(t, "wil", 10, 30) * math.sqrt(bonus))
+		return math.floor(self:combatTalentStatDamage(t, "wil", 14, 42) * math.sqrt(bonus))
 	end,
 	getStalkedDamageMultiplier = function(self, t, bonus)
 		return 1 + self:combatTalentIntervalDamage(t, "str", 0.1, 0.35, 0.4) * bonus / 3
@@ -77,6 +77,23 @@ newTalent{
 			stalk.hit = false
 			stalk.hit_target = nil
 			stalk.hit_turns = 0
+		end
+	end,
+	callbackPriorities = { callbackOnMeleeAttack = -99 },
+	callbackOnMeleeAttack = function(self, eff, target, hitted)
+		-- handle stalk targeting for hits (also handled in Actor for turn end effects)
+		if hitted and target ~= self and not self:hasEffect(self.EFF_STALKER) then
+			-- mark if stalkee was hit
+			local stalk = self:isTalentActive(self.T_STALK)
+
+			if not stalk.hit then
+				-- mark a new target
+				stalk.hit = true
+				stalk.hit_target = target
+			elseif stalk.hit_target ~= target then
+				-- more than one target; clear it
+				stalk.hit_target = nil
+			end
 		end
 	end,
 	info = function(self, t)

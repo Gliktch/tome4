@@ -547,7 +547,7 @@ newTalent{
 		game.party:hasMember(target).control = "full"
 				
 		-- Store life bonus and heal value
-		local life_bonus = target.max_life * (t.getControlBonus(self, t)/100)
+		local life_bonus = target:getMaxLife() * (t.getControlBonus(self, t)/100)
 		
 		-- Switch on TickEnd so every thing applies correctly
 		game:onTickEnd(function() 

@@ -430,9 +430,9 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local damageIncrease = getDamageIncrease(self)
-		return ([[Sends a torrent of searing darkness through your foes, doing %d darkness damage. There is a 25%% chance the rushing darkness will blind them for 3 turns and cause them to lose track of their target.
+		return ([[Sends a torrent of searing darkness through your foes, doing %d darkness damage. There is a 25%% chance the rushing darkness will blind them for 3 turns %s and cause them to lose track of their target %s.
 		If you know the Creeping Darkness talent, a short-lived trail of darkness is left in the beam's wake. Its damage is identical to that of Creeping Darkness's.
-		The damage will increase with your Mindpower. You do +%d%% damage to anything that has entered your creeping dark.]]):tformat(damDesc(self, DamageType.DARKNESS, damage), damageIncrease)
+		The damage will increase with your Mindpower. You do +%d%% damage to anything that has entered your creeping dark.]]):tformat(damDesc(self, DamageType.DARKNESS, damage), Desc.vs"mp", Desc.vs(), damageIncrease)
 	end,
 }
 
@@ -474,7 +474,7 @@ newTalent{
 		local pinDuration = t.getPinDuration(self, t)
 		local damage = t.getDamage(self, t)
 		local damageIncrease = getDamageIncrease(self)
-		return ([[Spawn tendrils of darkness to pursue a single target for up to 12 turns, leaving behind a trail of creeping darkness as they move. Targets seized by the tendrils are pinned for %d turns and shrouded in darkness. The darkness deals %0.2f damage per turn to those within.
-		The damage will increase with your Mindpower. You do +%d%% damage to anything that has entered your creeping dark.]]):tformat(pinDuration, damage, damageIncrease)
+		return ([[Spawn tendrils of darkness to pursue a single target for up to 12 turns, leaving behind a trail of creeping darkness as they move. Targets seized by the tendrils are pinned for %d turns %s and shrouded in darkness. The darkness deals %0.2f damage per turn to those within.
+		The damage will increase with your Mindpower. You do +%d%% damage to anything that has entered your creeping dark.]]):tformat(pinDuration, Desc.vs(), damage, damageIncrease)
 	end,
 }

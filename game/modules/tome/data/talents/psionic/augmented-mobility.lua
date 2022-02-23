@@ -110,10 +110,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		local range = self:getTalentRange(t)
-		return ([[Briefly extend your telekinetic reach to grab an enemy, haul them towards you and daze them for 1 turn.
+		return ([[Briefly extend your telekinetic reach to grab an enemy, haul them towards you and daze them for 1 turn %s.
 		Works on enemies up to %d squares away.
 		The cooldown decreases, and the range increases, with additional talent points spent.]]):
-		tformat(range)
+		tformat(Desc.vs"mp", range)
 	end,
 }
 

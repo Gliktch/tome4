@@ -62,8 +62,8 @@ newTalent{
 		local damage = t.getDamage(self, t) * 100
 		local bleed = t.getBleedDamage(self, t) * 100
 		local heal_penalty = t.getHealingPenalty(self, t)
-		return ([[A nasty bite that hits for %d%% weapon damage, reduces the targets healing by %d%%, and causes the target to bleed for %d%% weapon damage over 5 turns.
-		Only usable while frenzied.]]):tformat(damage, heal_penalty, bleed)
+		return ([[A nasty bite that hits for %d%% weapon damage, reduces the targets healing by %d%%, and causes the target to bleed for %d%% weapon damage over 5 turns %s.
+		Only usable while frenzied.]]):tformat(damage, heal_penalty, bleed, Desc.vs"pp")
 	end,
 }
 
@@ -170,10 +170,10 @@ newTalent{
 		local damage = t.getDamage(self, t) * 100
 		local bleed = t.getBleedDamage(self, t) * 100
 		local power = t.getPower(self, t) *100
-		return ([[Bites the target for %d%% weapon damage, potentially causing it to bleed for %d%% weapon damage over five turns.
+		return ([[Bites the target for %d%% weapon damage, potentially causing it to bleed for %d%% weapon damage over five turns %s.
 		If the target is affected by the bleed it will send the devourer into a frenzy for %d turns (which in turn will frenzy other nearby devourers).
 		The frenzy will increase global speed by %d%%, physical crit chance by %d%%, and prevent death until -%d%% life.]]):
-		tformat(damage, bleed, t.getDuration(self, t), power, power, power)
+		tformat(damage, bleed, t.getDuration(self, t), Desc.vs"pp", power, power, power)
 	end,
 }
 
@@ -220,8 +220,8 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local light_reduction = t.getLiteReduction(self, t)
 		local darkness_resistance = t.getDarknessPower(self, t)
-		return ([[Creates a shroud of darkness over a radius 3 area that lasts %d turns.  The shroud causes %0.2f darkness damage each turn, reduces light radius by %d, and darkness resistance by %d%% of those within.]]):
-		tformat(duration, damDesc(self, DamageType.DARKNESS, (damage)), light_reduction, darkness_resistance)
+		return ([[Creates a shroud of darkness over a radius 3 area that lasts %d turns.  The shroud causes %0.2f darkness damage each turn, reduces light radius by %d, and darkness resistance by %d%% of those within %s.]]):
+		tformat(duration, damDesc(self, DamageType.DARKNESS, (damage)), light_reduction, darkness_resistance, Desc.vs"ss")
 	end,
 }
 -- Temporal Stalker Powers
@@ -252,8 +252,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Shows the target the madness of the void.  Each turn for 6 turns the target must make a mental save or suffer %0.2f mind damage as well as resource damage (based off the mind damage and nature of the resource).]]):
-		tformat(damDesc(self, DamageType.MIND, (damage)))
+		return ([[Shows the target the madness of the void.  Each turn for 6 turns the target may suffer %0.2f mind damage as well as resource damage %s.]]):
+		tformat(damDesc(self, DamageType.MIND, (damage)), Desc.vs"mm")
 	end,
 }
 
@@ -548,10 +548,10 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Grab a target and drag it to your side, holding it in place and silencing non-undead and creatures that need to breathe for %d turns.
+		return ([[Grab a target and drag it to your side, holding it in place and silencing non-undead and creatures that need to breathe for %d turns. %s
 		The grab will also deal %0.2f slime damage per turn.
 		The damage will increase with your Mindpower.]]):
-		tformat(duration, damDesc(self, DamageType.SLIME, damage))
+		tformat(duration, Desc.vs"mp", damDesc(self, DamageType.SLIME, damage))
 	end,
 }
 
@@ -700,8 +700,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Blast a wave of water all around you with a radius of %d, making all creatures Wet for 10 turns.
-		The damage will increase with your Spellpower.]]):tformat(radius)
+		return ([[Blast a wave of water all around you with a radius of %d, making all creatures Wet for 10 turns %s.
+		The damage will increase with your Spellpower.]]):tformat(radius, Desc.vs())
 	end,
 }
 
@@ -730,9 +730,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local Pdam, Fdam = self:damDesc(DamageType.PHYSICAL, self.level/2), self:damDesc(DamageType.ACID, self.level/2)
-		return ([[Latch on to the target and suck their blood, doing %0.2f physical and %0.2f acid damage per turn.
+		return ([[Latch on to the target and suck their blood, doing %0.2f physical and %0.2f acid damage per turn %s.
 		After 5 turns of drinking, drop off and gain the ability to Multiply.
 		Damage scales with your level.
-		]]):tformat(Pdam, Fdam)
+		]]):tformat(Pdam, Fdam, Desc.vs"as")
 	end,
 }

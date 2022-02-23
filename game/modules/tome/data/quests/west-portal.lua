@@ -20,7 +20,7 @@
 name = _t"There and back again"
 desc = function(self, who)
 	local desc = {}
-	desc[#desc+1] = _t"Zemekkys in the Gates of Morning can build a portal back to Maj'Eyal for you."
+	desc[#desc+1] = _t"Zemekkys in the Gates of Morning can build a portal back to your homeland for you."
 
 	if self:isCompleted("athame") then
 		desc[#desc+1] = _t"#LIGHT_GREEN#* You have found a Blood-Runed Athame.#WHITE#"
@@ -35,7 +35,7 @@ desc = function(self, who)
 
 	if self:isCompleted() then
 		desc[#desc+1] = _t""
-		desc[#desc+1] = _t"#LIGHT_GREEN#* The portal to Maj'Eyal is now functional and can be used to go back, although, like all portals, it is one-way only.#WHITE#"
+		desc[#desc+1] = _t"#LIGHT_GREEN#* The portal is now functional and can be used to go back, although, like all portals, it is one-way only.#WHITE#"
 	end
 
 	return table.concat(desc, "\n")
@@ -68,9 +68,12 @@ wyrm_lair = function(self, who)
 end
 
 create_portal = function(self, npc, player)
+	local data = {portal="WEST_PORTAL", cportal="CWEST_PORTAL", next_quest="east-portal"}
+	self:triggerHook{"WestPortal:data", data=data}
+
 	-- Farportal
-	local g1 = game.zone:makeEntityByName(game.level, "terrain", "WEST_PORTAL")
-	local g2 = game.zone:makeEntityByName(game.level, "terrain", "CWEST_PORTAL")
+	local g1 = game.zone:makeEntityByName(game.level, "terrain", data.portal)
+	local g2 = game.zone:makeEntityByName(game.level, "terrain", data.cportal)
 
 	game.logPlayer(game.player, "#VIOLET#Zemekkys starts to draw runes on the floor using the athame and gem dust.")
 	game.logPlayer(game.player, "#VIOLET#The whole area starts to shake!")
@@ -111,5 +114,5 @@ create_portal = function(self, npc, player)
 
 	player:setQuestStatus(self.id, engine.Quest.DONE)
 	world:gainAchievement("WEST_PORTAL", game.player)
-	player:grantQuest("east-portal")
+	if data.next_quest then player:grantQuest(data.next_quest) end
 end

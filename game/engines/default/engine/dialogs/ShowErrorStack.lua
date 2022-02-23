@@ -81,7 +81,6 @@ function _M:init(errs)
 			fs.mkdir(errlogdir)
 			local errfile = errlogdir.."/"..os.date("%Y-%m-%d_%H-%M-%S")..".txt"
 			local f = fs.open(errfile, "w")
-			truncate_printlog(5000)
 			local log = get_printlog()
 			for _, line in ipairs(log) do
 				local max = 1

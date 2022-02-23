@@ -154,7 +154,8 @@ newTalent{
 
 			summoner = self, summoner_gain_exp=true, wild_gift_summon=true,
 			summon_time = t.summonTime(self, t),
-			ai_target = {actor=target}
+			ai_target = {actor=target},
+			resolvers.sustains_at_birth(),
 		}
 		if self:attr("wild_summon") and rng.percent(self:attr("wild_summon")) then
 			m.name = ("%s (wild summon)"):tformat(_t(m.name))

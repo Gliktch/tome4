@@ -156,10 +156,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		local radius = self:getTalentRadius(t)
-		return ([[Conjures a mudslide, dealing %0.2f physical damage in a radius of %d. Any creatures caught inside will be knocked back 8 spaces.
+		return ([[Conjures a mudslide, dealing %0.2f physical damage in a radius of %d. Any creatures caught inside will be knocked back 8 spaces %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, damage), self:getTalentRadius(t))
+		tformat(damDesc(self, DamageType.PHYSICAL, damage), self:getTalentRadius(t), Desc.vs"sp")
 	end,
 }
 
@@ -240,6 +239,9 @@ newTalent{
 							game.level:removeEntity(self)
 							game.level.map:scheduleRedisplay()
 						end
+					end,
+					move = function(self, x, y, force)
+						if force then self.x = x self.y = y end
 					end,
 					dig = function(src, x, y, old)
 						game.level:removeEntity(old)

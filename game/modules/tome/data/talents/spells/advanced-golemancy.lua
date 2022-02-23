@@ -104,7 +104,7 @@ newTalent{
 			self.alchemy_golem:removeAllEffects()
 			self.alchemy_golem.max_level = self.max_level
 			self.alchemy_golem:forceLevelup(new_level)
-			self.alchemy_golem.life = self.alchemy_golem.max_life / 100 * hp
+			self.alchemy_golem:incLife(self.alchemy_golem:getMaxLife() / 100 * hp, true)
 		end
 
 		local mover, golem = getGolem(self)

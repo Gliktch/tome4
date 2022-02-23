@@ -48,7 +48,9 @@ newTalent{
 	getLifeTrigger = function(self, t) return self:combatTalentLimit(t, 10, 30, 15)	end,
 	getDamageSplit = function(self, t) return self:combatTalentLimit(t, 40, 10, 30)/100 end, -- Limit < 40%
 	unlearn_on_clone = true,
+	callbackPriorities = {callbackOnHit = -40}, -- the same priority as mitosis
 	callbackOnHit = function(self, t, cb, src)
+		if cb.value <= 0 then return true end
 		local split = cb.value * t.getDamageSplit(self, t)
 
 		-- If we already have a guardian, split the damage
@@ -59,7 +61,7 @@ newTalent{
 			self.unity_warden:takeHit(split, src)
 		
 		-- Otherwise, summon a new Guardian
-		elseif not self:isTalentCoolingDown(t) and self.max_life and cb.value >= self.max_life * (t.getLifeTrigger(self, t)/100) then
+		elseif not self:isTalentCoolingDown(t) and self.getMaxLife and cb.value >= self:getMaxLife() * (t.getLifeTrigger(self, t)/100) then
 		
 			-- Look for space first
 			local tx, ty = util.findFreeGrid(self.x, self.y, 5, true, {[Map.ACTOR]=true})
@@ -205,7 +207,7 @@ newTalent{
 		local power = t.getPower(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Attack the target with either your ranged or melee weapons for %d%% weapon damage.  For the next %d turns random targeting, such as from Blink Blade and Warden's Call, will focus on this target.
-		Attacks against this target gain %d%% critical chance and critical strike power while you take %d%% less damage from all enemies whose rank is lower then that of your focus target.]])
-		:tformat(damage, duration, power, power, power)
+		Attacks against this target gain %d%% critical chance and critical strike power %s while you take %d%% less damage from all enemies whose rank is lower then that of your focus target.]])
+		:tformat(damage, duration, power, Desc.vs(), power)
 	end
 }

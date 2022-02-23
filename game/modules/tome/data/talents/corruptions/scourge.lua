@@ -110,6 +110,14 @@ newTalent{
 	deactivate = function(self, t, p)
 		return true
 	end,
+	callbackPriorities = { callbackOnMeleeProject = -25 },
+	callbackOnMeleeProject = function(self, t, target, hitted)
+		-- Ruin
+		if hitted and not target.dead and self:knowTalent(self.T_RUIN) and self:isTalentActive(self.T_RUIN) then
+			local dam = {dam=t.getDamage(self, t), healfactor=0.4, source=t}
+			DamageType:get(DamageType.DRAINLIFE).projector(self, target.x, target.y, DamageType.DRAINLIFE, dam)
+		end
+	end,
 	info = function(self, t)
 		local dam = damDesc(self, DamageType.BLIGHT, t.getDamage(self, t))
 		return ([[Concentrate on the corruption you bring, enhancing each of your melee strikes with %0.2f blight damage (which also heals you for %0.2f each hit).
@@ -217,7 +225,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Corrupt the target reducing disease immunity by 100%% for 2 turns and stripping up to 2 nature sustains then strike with both your weapons dealing %d%% damage.]]):
-		tformat(100 * t.getDamage(self, t))
+		return ([[Corrupt the target reducing disease immunity by 100%% for 2 turns and stripping up to 2 nature sustains then strike with both your weapons dealing %d%% damage %s.]]):
+		tformat(100 * t.getDamage(self, t), Desc.vs())
 	end,
 }

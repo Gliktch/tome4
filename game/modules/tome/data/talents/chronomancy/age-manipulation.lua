@@ -44,8 +44,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local damagestat = t.getDamageStat(self, t)
-		return ([[Projects a bolt of temporal energy that deals %0.2f temporal damage, and reduces the targets three highest stats by %d for 3 turns.
-		The damage dealt will scale with your Spellpower.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), damagestat)
+		return ([[Projects a bolt of temporal energy that deals %0.2f temporal damage, and reduces the targets three highest stats by %d for 3 turns. %s
+		The damage dealt will scale with your Spellpower.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), damagestat, Desc.vs"ss")
 	end,
 }
 
@@ -82,8 +82,8 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getConfuseDuration(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Reverts the minds of all creatures in a radius %d cone to an infantile state, in effect confusing them (%d%% to act randomly) for %d turns.]]):
-		tformat(radius, t.getConfuseEfficency(self, t), duration)
+		return ([[Reverts the minds of all creatures in a radius %d cone to an infantile state, in effect confusing them (%d%% to act randomly) for %d turns %s.]]):
+		tformat(radius, t.getConfuseEfficency(self, t), duration, Desc.vs"sm")
 	end,
 }
 

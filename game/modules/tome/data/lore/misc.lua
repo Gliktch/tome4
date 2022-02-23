@@ -738,7 +738,7 @@ PS: You might encounter a... benefactor of sorts in your travels. You'll know it
 newLore{
 	id = "shiiak-mantra",
 	category = "spydrë",
-	name = _t"Mantra of a Shiiak",
+	name = _t"Mantra of a Shiaak",
     lore = _t[[Each morning I wake, happy I'm alive;
 the traps of this tomb won't claim me today.
 Though its curse of hunger eats at my insides,
@@ -768,7 +768,7 @@ newLore{
 	name = _t"Z'quikzshl",
 	lore = _t[[#{italic}#(The handwriting of this diary entry is poor at best. Whoever wrote this was in poor health.)
 
-#{bold}#53rd Allure, Year 603 of the Age of Pyre#{normal}#
+#{bold}#53rd Regrowth, Year 603 of the Age of Pyre#{normal}#
 
 I have done it! My fool of a master said I was not ready for the rites of lichdom, that I would attract undue attention... what utter idiocy. Already I can feel the transformation taking place, and I am certain that this weakness will only be momentary. My master was foolish to leave the Grimoire of Mortality Transcended open and unattended! All I needed was a bone from a magical creature, and as luck would have it, I had found a skeletal corpse of a dragon not far from our tower. The other ingredients were trivial and in possession of my master... surely he will be astounded that I, Zilquick the Eternal, will have transcended mortality!
 

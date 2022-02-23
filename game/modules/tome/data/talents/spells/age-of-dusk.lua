@@ -46,10 +46,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You unleash the glorious vision of the past when the continent was filled with death and plagues.
-		All foes in range %d catch a dire plague for 5 turns, dealing %0.2f darkness damage each turn.
+		All foes in range %d catch a dire plague for 5 turns %s, dealing %0.2f darkness damage each turn.
 		The Dire Plague is considered a disease but is not prevented by disease immunity.
 		Every turn there is a %d%% chance of a piece of the soul to be ripped away, increasing your souls by 1.
-		]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.DARKNESS, t:_getDamage(self)), t:_getChance(self))
+		]]):tformat(self:getTalentRadius(t), Desc.vs"ss", damDesc(self, DamageType.DARKNESS, t:_getDamage(self)), t:_getChance(self))
 	end,
 }
 
@@ -92,9 +92,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You call upon an eerie night to aid you for %d turns.
-		Each turn you automatically fire a beam of darkness towards a random foe (prioritizing the ones further away) that deals %0.2f darkness damage and has 25%% chance to blind any foes caught inside for 4 turns.
+		Each turn you automatically fire a beam of darkness towards a random foe (prioritizing the ones further away) that deals %0.2f darkness damage and has 25%% chance to blind any foes caught inside for 4 turns %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(t:_getDur(self), damDesc(self, DamageType.DARKNESS, t:_getDamage(self)))
+		tformat(t:_getDur(self), damDesc(self, DamageType.DARKNESS, t:_getDamage(self)), Desc.vs"sp")
 	end,
 }
 
@@ -113,8 +113,8 @@ newTalent{
 		When this happens the darkness damage of the plague is a critical hit and all Dire Plagues in radius %d around it (including itself) have their durations increased by %d turns.
 		The duration increase may happen only once per turn.
 		If Crepuscule is currently active it fires an additional free beam at the target.
-		In addition the chance to rip a soul by Dire Plague increases by %d%%.
-		]]):tformat(self:getTalentRadius(t), t:_getDur(self), t:_getChance(self))
+		In addition the chance to rip a soul by Dire Plague increases by %d%%, to %d%%.
+		]]):tformat(self:getTalentRadius(t), t:_getDur(self), t:_getChance(self), self:callTalent(self.T_DIRE_PLAGUE, "getChance") * (1+t:_getChance(self)/100))
 	end,
 }
 

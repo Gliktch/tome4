@@ -301,22 +301,22 @@ newTalent{
 		if not summon.is_bone_giant and not summon.skeleton_minion then return end
 		-- if killer and killer.reactionToward and killer:reactionToward(summon) >= 0 then return end
 		summon:projectApply({type="ball", radius=self:getTalentRadius(t), ignore_nullify_all_friendlyfire=true}, summon.x, summon.y, Map.ACTOR, function(target)
-			if target.summoner == self and (target.is_bone_giant or target.skeleton_minion) then
+			if target ~= self and target.summoner == self and (target.is_bone_giant or target.skeleton_minion) then
 				target:setEffect(target.EFF_SHATTERED_REMAINS, 20, {health=t:_getHealth(self), armor=t:_getArmor(self), retaliation=t:_getRetaliation(self)})
-			elseif self:reactionToward(target) < 0 and target:canBe("bleed") then
+			elseif self:reactionToward(target) < 0 and target:canBe("cut") then
 				target:setEffect(target.EFF_CUT, 5, {power=t:_getDamage(self) / 5, apply_power=self:combatSpellpower(), src=self})
 			end
 		end)
 
 		game.logSeen(summon, "#GREY#%s shatters!", summon:getName():capitalize())
-		game.level.map:particleEmitter(summon.x, summon.y, self:getTalentRadius(t), "bone_explosion", {radius=self:getTalentRadius(t)})
+		game.level.map:particleEmitter(summon.x, summon.y, self:getTalentRadius(t), "bone_explosion", {radius=self:getTalentRadius(t), alpha = 1.0 / self:getTalentRadius(t)})
 		game:playSoundNear(summon, "talents/skeleton")
 	end,
 	info = function(self, t)
-		return ([[Any time one of your skeleton or bone giant dies, it shatters in radius %d, making any foe bleed for %0.2f physical damage over 5 turns.
+		return ([[Any time one of your skeleton or bone giant dies, it shatters in radius %d, making any foe bleed for %0.2f physical damage over 5 turns %s.
 		If any other skeleton or bone giant minion is in the radius it will pickup some of the bones to enhance itself, increasing maximum and current life by %d, armour by %d and gain %0.2f physical melee retaliation for 20 turns.
 		This talent never works when you kill your own minions.
-		]]):tformat(self:getTalentRadius(t), t:_getDamage(self), t:_getHealth(self), t:_getArmor(self), t:_getRetaliation(self))
+		]]):tformat(self:getTalentRadius(t), t:_getDamage(self), Desc.vs"sp", t:_getHealth(self), t:_getArmor(self), t:_getRetaliation(self))
 	end,
 }
 
@@ -465,7 +465,7 @@ newTalent{
 		table.sort(list, function(a, b)
 			local va, vb = skel_value[a.skeleton_minion], skel_value[b.skeleton_minion]
 			if va ~= vb then return va > vb end
-			local pa, pb = a.life / a.max_life, b.life / b.max_life
+			local pa, pb = a:getLife() / a:getMaxLife(), b:getLife() / b:getMaxLife()
 			if pa == pb then return a.creation_turn > b.creation_turn end
 			return pa > pb
 		end)
@@ -483,7 +483,14 @@ newTalent{
 		elseif self:getTalentLevel(t) >= 3 then def = t.minions_list.e_bone_giant
 		end
 
-		necroSetupSummon(self, def, pos.x, pos.y, lev, nil, true)
+		pos.x, pos.y = util.findFreeGrid(pos.x, pos.y, 3, false, {[Map.ACTOR]=true})
+		
+		if pos.x then
+			necroSetupSummon(self, def, pos.x, pos.y, lev, nil, true)
+		else
+			pos = {x=skel.x, y=skel.y}
+			skel:die(self)
+		end
 
 		game:playSoundNear(self, "talents/skeleton")
 		return true

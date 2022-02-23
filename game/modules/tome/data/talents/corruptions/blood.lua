@@ -71,9 +71,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You extract corrupted blood from your own body, hitting everything in a frontal cone of radius %d for %0.2f blight damage.
-		Each creature hit has a %d%% chance of being infected by a random disease, doing %0.2f blight damage and weakening either Constitution, Strength or Dexterity for 6 turns.
+		Each creature hit has a %d%% chance of being infected by a random disease %s, doing %0.2f blight damage and weakening either Constitution, Strength or Dexterity for 6 turns.
 		The damage will increase with your Spellpower.]]):
-		tformat(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 190)), t.getChance(self, t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 220)))
+		tformat(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 190)), t.getChance(self, t), Desc.vs"ss", damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 10, 220)))
 	end,
 }
 
@@ -103,7 +103,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Project a bolt of corrupted blood, doing %0.2f blight damage and healing you for 20%% the damage dealt.
-			50%% of the damage dealt will be gained as maximum life for 7 turns (before the healing).
+		You also gain Sanguine Infusion for 7 turns, increasing your maximum life by 50%% of the damage dealt. This happens before the healing.
 		The damage will increase with your Spellpower.]]):tformat(damDesc(self, DamageType.BLIGHT, t.getDamage(self, t)))
 	end,
 }
@@ -157,8 +157,8 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Make the impure blood of all creatures around you in radius %d boil.
-				Each enemy afflicted by a disease, poison, or wound will have one removed at random dealing %0.2f blight damage, healing you for %d, and slowing them by %d%% for 5 turns.
-			The damage will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, t.getDamage(self, t)), t.getHeal(self, t), t.getSlow(self, t))
+				Each enemy afflicted by a disease, poison, or wound will have one removed at random dealing %0.2f blight damage, healing you for %d, and slowing them by %d%% for 5 turns %s.
+			The damage will increase with your Spellpower.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, t.getDamage(self, t)), t.getHeal(self, t), t.getSlow(self, t), Desc.vs())
 	end,
 }
 

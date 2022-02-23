@@ -58,6 +58,7 @@ local changer = function(id)
 	grid_list.UP_SUB_VAULT_BACK.nicer_tiles = nil
 	grid_list.UP_SUB_VAULT_BACK.nice_editer = nil
 	grid_list.UP_SUB_VAULT_BACK.nice_editer2 = nil
+	grid_list.UP_SUB_VAULT_BACK:altered()
 	
 	local basemap = table.clone(game.level.data.generator.map, true)
 	basemap.zoneclass = nil

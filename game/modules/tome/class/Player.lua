@@ -387,7 +387,7 @@ function _M:act()
 	self:updateMainShader()
 
 	if config.settings.tome.life_lost_warning and self.shader_old_life then
-		local perc = (self.shader_old_life - self.life) / (self.max_life - self.die_at)
+		local perc = (self.shader_old_life - self:getLife()) / (self:getMaxLife() - self:getMinLife())
 		if perc > (config.settings.tome.life_lost_warning / 100) then
 			game.bignews:say(100, "#LIGHT_RED#LIFE LOST WARNING!")
 			game.key.disable_until = core.game.getTime() + 2000
@@ -395,10 +395,10 @@ function _M:act()
 		end
 	end
 
-	self.shader_old_life = self.life
-	self.old_air = self.air
-	self.old_psi = self.psi
-	self.old_healwarn = (self:attr("no_healing") or ((self.healing_factor or 1) <= 0))
+	self.shader_old_life = self:getLife()
+	self.old_air = self:getAir()
+	self.old_psi = self:getPsi()
+
 
 	-- Clean log flasher
 --	game.flash:empty()
@@ -450,7 +450,6 @@ function _M:resetMainShader()
 	self.shader_old_life = nil
 	self.old_air = nil
 	self.old_psi = nil
-	self.old_healwarn = nil
 	self:updateMainShader()
 end
 
@@ -461,26 +460,25 @@ function _M:updateMainShader()
 		local pf = game.posteffects or {}
 
 		-- Set shader HP warning
-		if self.life ~= self.shader_old_life then
-			if (self.life - self.die_at) < (self.max_life - self.die_at) / 2 then game.fbo_shader:setUniform("hp_warning", 1 - (self.life / (self.max_life - self.die_at)))
+		if self:getLife() ~= self.shader_old_life then
+			if (self:getLife() - self:getMinLife()) < (self:getMaxLife() - self:getMinLife()) / 2 then game.fbo_shader:setUniform("hp_warning", 1 - (self:getLife() / (self:getMaxLife() - self:getMinLife())))
 			else game.fbo_shader:setUniform("hp_warning", 0) end
 		end
 		-- Set shader air warning
-		if self.air ~= self.old_air then
-			if self.air < self.max_air / 2 then game.fbo_shader:setUniform("air_warning", 1 - (self.air / self.max_air))
+		if self:getAir() ~= self.old_air then
+			if self:getAir() < self:getMaxAir() / 2 then game.fbo_shader:setUniform("air_warning", 1 - (self:getAir() / self:getMaxAir()))
 			else game.fbo_shader:setUniform("air_warning", 0) end
 		end
-		if self:attr("solipsism_threshold") and self.psi ~= self.old_psi then
+		if self:attr("solipsism_threshold") and self:getPsi() ~= self.old_psi then
 			local solipsism_power = self:attr("solipsism_threshold") - self:getPsi()/self:getMaxPsi()
 			if solipsism_power > 0 then game.fbo_shader:setUniform("solipsism_warning", solipsism_power)
 			else game.fbo_shader:setUniform("solipsism_warning", 0) end
 		end
-		if ((self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) ~= self.old_healwarn) and not self:attr("no_healing_no_warning") then
-			if (self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) then
-				game.fbo_shader:setUniform("intensify", {0.3,1.3,0.3,1})
-			else
-				game.fbo_shader:setUniform("intensify", {0,0,0,0})
-			end
+		-- Can't heal shader warning
+		if (self:attr("no_healing") or ((self.healing_factor or 1) <= 0)) and not self:attr("no_healing_no_warning") then
+			game.fbo_shader:setUniform("intensify", {0.3,1.3,0.3,1})
+		else
+			game.fbo_shader:setUniform("intensify", {0,0,0,0})
 		end
 
 		-- Colorize shader
@@ -785,15 +783,16 @@ function _M:onTakeHit(value, src, death_note)
 	self:runStop(_t"taken damage")
 	self:restStop(_t"taken damage")
 	local ret = mod.class.Actor.onTakeHit(self, value, src, death_note)
-	if self.life < self.max_life * 0.3 then
+	if self:getLife() < self:getMaxLife() * 0.3 then
 		local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 		game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, 2, _t"LOW HEALTH!", {255,0,0}, true)
 	end
 
 	-- Hit direction warning
-	if src.x and src.y and (self.x ~= src.x or self.y ~= src.y) then
+	if not self.turn_procs.__hit_warning and src.x and src.y and (self.x ~= src.x or self.y ~= src.y) then
 		local range = core.fov.distance(src.x, src.y, self.x, self.y)
 		if range > 1 then
+			self.turn_procs.__hit_warning = true
 			local angle = math.atan2(src.y - self.y, src.x - self.x)
 			game.level.map:particleEmitter(self.x, self.y, 1, "hit_warning", {angle=math.deg(angle)})
 		end
@@ -868,7 +867,7 @@ end
 
 --- Tries to get a target from the player
 function _M:getTarget(typ)
-	if self:attr("encased_in_ice") then
+	if self:attr("encased_in_ice") or self:attr("encased") then
 		if type(typ) ~= "table" then
 			return self.x, self.y, self
 		end
@@ -1075,12 +1074,12 @@ function _M:restCheck()
 	
 	-- Check resources, make sure they CAN go up, otherwise we will never stop
 	if not self.resting.rest_turns then
-		if self.air_regen < 0 then return false, _t"losing breath!" end
-		if self.life_regen <= 0 then return false, _t"losing health!" end
-		if self.life < self.max_life and self.life_regen > 0 and not self:attr("no_life_regen") then return true end
-		if self.air < self.max_air and self.air_regen > 0 and not self.is_suffocating then return true end
+		if self:regenAir(true, true) < 0 then return false, _t"losing breath!" end
+		if self:regenLife(true, true) <= 0 then return false, _t"losing health!" end
+		if self:getLife() < self:getMaxLife() and self:regenLife(true, true) > 0 and not self:attr("no_life_regen") then return true end
+		if self:getAir() < self:getMaxAir() and self:regenAir(true, true) > 0 and not self.is_suffocating then return true end
 		for act, def in pairs(game.party.members) do if game.level:hasEntity(act) and not act.dead then
-			if act.life < act.max_life and act.life_regen > 0 and not act:attr("no_life_regen") then return true end
+			if act:getLife() < act:getMaxLife() and act:regenLife(true, true) > 0 and not act:attr("no_life_regen") then return true end
 		end end
 		if ammo and ammo.combat.shots_left < ammo.combat.capacity then return true end
 
@@ -1088,9 +1087,9 @@ function _M:restCheck()
 		for res, res_def in ipairs(_M.resources_def) do
 			if res_def.wait_on_rest and res_def.regen_prop and self:attr(res_def.regen_prop) then
 				if not res_def.invert_values and not res_def.switch_direction then
-					if self[res_def.regen_prop] > 0.0001 and self:check(res_def.getFunction) < self:check(res_def.getMaxFunction) then return true end
+					if self[res_def.regenFunction](self, true, true) > 0.0001 and self:check(res_def.getFunction) < self:check(res_def.getMaxFunction) then return true end
 				else
-					if self[res_def.regen_prop] < -0.0001 and self:check(res_def.getFunction) > self:check(res_def.getMinFunction) then return true end
+					if self[res_def.regenFunction](self, true, true) < -0.0001 and self:check(res_def.getFunction) > self:check(res_def.getMinFunction) then return true end
 				end
 			end
 		end
@@ -1216,7 +1215,7 @@ function _M:runCheck(ignore_memory)
 
 	if self:fireTalentCheck("callbackOnRun") then return false, _t"talent prevented" end
 
-	if self.air_regen < 0 and self.air < 0.75 * self.max_air then return false, _t"losing breath!" end
+	if self:regenAir(true, true) < 0 and self:getAir() < 0.75 * self:getMaxAir() then return false, _t"losing breath!" end
 
 	-- Notice any noticeable terrain
 	local noticed = _tfalse

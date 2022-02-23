@@ -81,7 +81,7 @@ newTalent{ short_name="SPIDER_WEB",
 		return true
 	end,
 	info = function(self, t)
-		return ([[Spread a web and throw it toward your target. If caught, it won't be able to move for %d turns.]]):tformat(t.getDuration(self, t))
+		return ([[Spread a web and throw it toward your target. If caught, it won't be able to move for %d turns %s.]]):tformat(t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 

@@ -64,8 +64,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Reach out and touch the blood and health of your foes. Any creatures caught in the radius 2 ball will be unable to heal above their current life value (at the time of the casting) for %d turns.]]):
-		tformat(t.getDuration(self, t))
+		return ([[Reach out and touch the blood and health of your foes. Any creatures caught in the radius 2 ball will be unable to heal above their current life value (at the time of the casting) for %d turns %s.]]):
+		tformat(t.getDuration(self, t), Desc.vs"ss")
 	end,
 }
 
@@ -136,7 +136,7 @@ newTalent{
 	callbackPriorities={callbackOnHit = -1},  -- Before Bone Shield but after Rot
 	callbackOnHit = function(self, t, cb)
 		local eff = self:hasEffect(self.EFF_BLOOD_GRASP)
-		local max_life = self.max_life - (eff and eff.life or 0)
+		local max_life = self:getMaxLife() - (eff and eff.life or 0)
 		local l, c = t.getPower(self, t)
 		if cb.value >= max_life * l  / 100 then
 		

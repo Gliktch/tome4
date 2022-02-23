@@ -49,9 +49,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local dam = t.getDamage(self, t)
-		return ([[Channel acid through your psiblades, extending their reach to create a beam doing %0.1f Acid damage (which can disarm them).
+		return ([[Channel acid through your psiblades, extending their reach to create a beam doing %0.1f Acid damage (which can disarm them %s).
 		The damage increases with your Mindpower.]]):
-		tformat(damDesc(self, DamageType.ACID, dam))
+		tformat(damDesc(self, DamageType.ACID, dam), Desc.vs"mp")
 	end,
 }
 
@@ -174,9 +174,9 @@ newTalent{
 		local nb = t.getNb(self, t)
 		return ([[You focus on a target zone of radius 2 to make up to %d corrosive seeds appear.
 		The first seed will appear at the center of the target zone, while others will appear at random spots.
-		Each seed lasts %d turns and will explode when a hostile creature walks over it, knocking the creature back and dealing %0.1f Acid damage within radius 1.
+		Each seed lasts %d turns and will explode when a hostile creature walks over it, knocking the creature back %s and dealing %0.1f Acid damage within radius 1.
 		The damage will increase with your Mindpower.]]):
-		tformat(nb, t.getDuration(self, t), damDesc(self, DamageType.ACID, dam))
+		tformat(nb, t.getDuration(self, t), Desc.vs"mp", damDesc(self, DamageType.ACID, dam))
 	end,
 }
 

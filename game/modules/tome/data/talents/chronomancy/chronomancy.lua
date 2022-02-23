@@ -70,7 +70,7 @@ newTalent{
 	info = function(self, t)
 		local defense = t.getDefense(self, t)
 		local crits = t.getCritDefense(self, t)
-		return ([[Gain %d defense and %d%% chance to shrug off critical hits.
+		return ([[Gain %d defense and reduce the damage multiplier of incoming critical hits by %d%%.
 		If you have Precognition or See the Threads active these bonuses will be added to those effects, granting additional defense and chance to shrug off critical hits.
 		These bonuses scale with your Magic stat.]]):
 		tformat(defense, crits)
@@ -93,10 +93,11 @@ newTalent{
 	on_pre_use = function(self, t, silent) if self ~= game.player and not self:isTalentActive(t) then return false end return true end,  -- but don't let them cast it
 	callbackOnHit = function(self, t, cb, src)
 		if src == self then return cb.value end
+		if cb.value <= 0 then return true end
 	
 		local p = self:isTalentActive(t.id)
-		local life_after = self.life - cb.value
-		local cont_trigger = self.max_life * t.getTrigger(self, t)
+		local life_after = self:getLife() - cb.value
+		local cont_trigger = self:getMaxLife() * t.getTrigger(self, t)
 		
 		-- Cast our contingent spell
 		if p and p.rest_count <= 0 and cont_trigger > life_after then
@@ -204,7 +205,7 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[You peer into three possible futures, allowing you to explore each for %d turns.  When the effect expires, you'll choose which of the three futures becomes your present.
-		If you know Foresight you'll gain additional defense and chance to shrug off critical hits (equal to your Foresight values) while See the Threads is active.
+		If you know Foresight you'll gain additional defense and critical shrug off (equal to your Foresight values) while See the Threads is active.
 		This spell splits the timeline.  Attempting to use another spell that also splits the timeline while this effect is active will be unsuccessful.
 		If you die in any thread you'll revert the timeline to the point when you first cast the spell and the effect will end.
 		This spell may only be used once per zone level.]])

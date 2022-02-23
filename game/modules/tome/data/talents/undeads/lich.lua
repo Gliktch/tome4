@@ -92,7 +92,7 @@ newTalent{
 		end, "hostile")
 	end,
 	info = function(self, t)
-		return ([[Your mere presence is terrying to any foes that dare stand against you.
+		return ([[Your mere presence is terrifying to any foes that dare stand against you.
 		Every turn all foes in radius %d must make a mental save against your spellpower/physical power (whichever is highest) or become frightened (bypassing fear immunity), reducing all their saves by %d, all damage by %d%% and movement speed by %d%%.
 		If they successfully resist, they are immune for %d turns.]]):
 		tformat(self:getTalentRadius(t), t.getSaves(self, t), t.getDam(self, t), t.getSpeed(self, t), t.getImmune(self, t))
@@ -509,7 +509,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You are so full with power that it overflows out of you whenever you cast a spell.
-		Upon spell cast you have %d%% chances to boost the physical power, spellpower, mindpower and all saves of all friendly undeads in sight (including yourself) by %d for 4 turns.]]):
+		Upon spell cast you have a %d%% chance to boost the physical power, spellpower, mindpower and all saves of all friendly undeads in sight (including yourself) by %d for 4 turns.]]):
 		tformat(t.getChance(self, t), t.getPower(self, t))
 	end,
 }

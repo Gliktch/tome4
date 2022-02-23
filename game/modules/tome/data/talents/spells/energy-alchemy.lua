@@ -121,7 +121,6 @@ newTalent{
  			end
  			if actor:canBe("knockback") then
   				actor:knockback(self.x, self.y, 3)
-  				actor:crossTierEffect(actor.EFF_OFFBALANCE, self:combatSpellpower())
   			end
 		end, dam)
 		game.level.map:particleEmitter(self.x, self.y, tg.radius, "gravity_breath", {radius=tg.radius, tx=x-self.x, ty=y-self.y, allow=core.shader.allow("distort")})
@@ -131,8 +130,8 @@ newTalent{
 	info = function(self, t)
 		local radius = self:getTalentRadius(t)
 		return ([[By crushing an alchemist gem you generate a thunderclap in a cone of radius %d dealing %0.2f physical damage and %0.2f lightning damage.
-		All creatures caught inside are knocked back and disarmed for %d turns.
-		The duration and damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), t.getDuration(self, t))
+		All creatures caught inside are knocked back and disarmed %s for %d turns.
+		The duration and damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), damDesc(self, DamageType.LIGHTNING, t.getDamage(self, t)), Desc.vs"sp", t.getDuration(self, t))
 	end,
 }
 
@@ -152,7 +151,7 @@ newTalent{
 	target = function(self, t) return{type="hit", range=self:getTalentRange(t), talent=t, friendlyblock=false, friendlyfire=false} end,
 	callbackOnActBase = function(self, t)
 		local tgts = {}
-		local grids = core.fov.circle_grids(self.x, self.y, 6, true)
+		local grids = core.fov.circle_grids(self.x, self.y, self:getTalentRange(t), true)
 		for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 			local a = game.level.map(x, y, Map.ACTOR)
 			if a and self:reactionToward(a) < 0 then
@@ -176,9 +175,9 @@ newTalent{
 	callbackOnAct = function(self, t)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
-		if not p.last_life then p.last_life = self.life end
-		local min = self.max_life * 0.2
-		if self.life <= p.last_life - min then
+		if not p.last_life then p.last_life = self:getLife() end
+		local minlife = self:getMaxLife() * 0.2
+		if self:getLife() <= p.last_life - minlife then
 			game.logSeen(self, "#LIGHT_STEEL_BLUE#%s is energized by all the damage taken!", self:getName():capitalize())
 			self.energy.value = self.energy.value + (t.getTurn(self, t) * game.energy_to_act / 100)
 		end

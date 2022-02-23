@@ -45,11 +45,11 @@ newTalent{
 		The cooldowns of Kinetic Shield, Kinetic Leech, Kinetic Aura, Kinetic Strike and Mindlash are reset.
 		Kinetic Aura effects will have their radius increased by 1.
 		Your Kinetic Shield will have 100%% absorption efficiency and will absorb twice the normal amount of damage.
-		Mindlash will also inflict stun.
-		Kinetic Leech will put enemies to sleep.
+		Mindlash will also inflict stun %s.
+		Kinetic Leech will put enemies to sleep %s.
 		Kinetic Strike will hit 2 adjacent enemies in a sweeping attack.
 		The damage bonus and resistance penetration scale with your Mindpower.
-		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t))
+		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs"mp", Desc.vs"mm")
 	end,
 }
 
@@ -144,14 +144,14 @@ newTalent{
 		return ([[Build telekinetic power and dump it into an adjacent creature or yourself.
 		This will launch them to a targeted location in radius %d.
 
-		Launched enemies take %0.1f Physical damage and are stunned for %d turns upon landing.
+		Launched enemies take %0.1f Physical damage and are stunned %s for %d turns upon landing.
 		When the target lands, creatures within radius 2 take %0.1f Physical damage and are knocked away from you.
 		This talent ignores %d%% of the knockback resistance of the thrown target, which takes half damage if it resists being thrown.
 
 		When used on yourself, you will launch in a straight line, knocking enemies flying and doing %0.1f Physical damage to each.
 		You can break through %d walls while doing this.
 		The damage and range increases with Mindpower.]]):
-		tformat(range, dam, math.floor(range/2), dam/2, t.getKBResistPen(self, t), dam, math.floor(range/2))
+		tformat(range, dam, Desc.vs"mp", math.floor(range/2), dam/2, t.getKBResistPen(self, t), dam, math.floor(range/2))
 	end,
 }
 
@@ -179,15 +179,17 @@ newTalent{
 		}
 	end,
 	deactivate = function(self, t, p)
-		self:removeTemporaryValue("projectile_evasion", p.chance)
-		self:removeTemporaryValue("projectile_evasion_spread", p.spread)
-		self:removeTemporaryValue("slow_projectiles", p.slow)
-		if self:attr("save_cleanup") then return true end
+		if self:attr("save_cleanup") then
+			self:removeTemporaryValue("projectile_evasion", p.chance)
+			self:removeTemporaryValue("projectile_evasion_spread", p.spread)
+			self:removeTemporaryValue("slow_projectiles", p.slow)
+			return true
+		end
 	
 		local tg = self:getTalentTarget(t)
 		local tx, ty = self:getTarget(tg)
 		if not tx or not ty then return nil end
-		
+
 		local grids = core.fov.circle_grids(self.x, self.y, self:getTalentRadius(t), true)
 		for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 			local i = 0
@@ -203,7 +205,10 @@ newTalent{
 		end end
 
 		game.level.map:particleEmitter(self.x, self.y, self:getTalentRadius(t), "shout", {additive=true, life=10, size=3, distorion_factor=0.0, radius=self:getTalentRadius(t), nb_circles=4, rm=0.8, rM=1, gm=0, gM=0, bm=0.8, bM=1.0, am=0.4, aM=0.6})
-		
+
+		self:removeTemporaryValue("projectile_evasion", p.chance)
+		self:removeTemporaryValue("projectile_evasion_spread", p.spread)
+		self:removeTemporaryValue("slow_projectiles", p.slow)
 		return true
 	end,
 	info = function(self, t)
@@ -253,8 +258,8 @@ newTalent{
 	info = function(self, t)
 		local dur = t.getDuration(self, t)
 		local dam = t.getDamage(self, t)
-		return ([[Bind the target mercilessly with constant, bone-shattering pressure, pinning and slowing it by 50%% for %d turns and dealing %0.1f Physical damage each turn.
+		return ([[Bind the target mercilessly with constant, bone-shattering pressure, pinning %s and slowing it by 50%% %s for %d turns and dealing %0.1f Physical damage each turn.
 		The duration and damage improve with Mindpower.]]):
-		tformat(dur, damDesc(self, DamageType.PHYSICAL, dam))
+		tformat(Desc.vs"mp", Desc.vs(), dur, damDesc(self, DamageType.PHYSICAL, dam))
 	end,
 }

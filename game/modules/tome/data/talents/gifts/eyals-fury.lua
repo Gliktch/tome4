@@ -157,9 +157,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You call upon the earth to create a blinding, corrosive cloud in an area of radius %d for %d turns.
-		Each turn, this cloud deals %0.1f acid damage to each foe with a 25%% chance to blind and a %d%% chance of burning away one magical sustain or beneficial magical effect.
+		Each turn, this cloud deals %0.1f acid damage to each foe with a 25%% chance to blind %s and a %d%% chance of burning away one magical sustain or beneficial magical effect.
 		The damage increases with your Mindpower.]]):
-		tformat(self:getTalentRadius(t), t.getDuration(self, t), damDesc(self, DamageType.ACID, t.getDamage(self, t)), t.getChance(self, t))
+		tformat(self:getTalentRadius(t), t.getDuration(self, t), damDesc(self, DamageType.ACID, t.getDamage(self, t)), Desc.vs(Desc.max("acc", "mp", "sp"), "ps"), t.getChance(self, t))
 	end,
 }
 
@@ -224,7 +224,7 @@ newTalent{
 		local drain = t.getDrain(self, t)
 		return ([[You draw deeply from your connection with nature to create a radius %d storm of natural forces around you for %d turns.
 		This storm moves with you and deals %0.1f Nature damage each turn to all foes it hits.
-		In addtion, it will drain up to %d Mana, %d Vim, %d Positive, and %d Negative energy from each enemy within it's area every turn, while you restore Equilibrium equal to 10%% of the amount drained.
+		In addition, it will drain up to %d Mana, %d Vim, %d Positive, and %d Negative energy from each enemy within its area every turn, while you restore Equilibrium equal to 10%% of the amount drained.
 		The damage and drain increase with your Mindpower.]]):
 		tformat(self:getTalentRadius(t), t.getDuration(self, t), damDesc(self, DamageType.NATURE, t.getDamage(self, t)), drain, drain/2, drain/4, drain/4)
 	end,

@@ -48,6 +48,14 @@ desc = function(self, who)
 	return table.concat(desc, "\n")
 end
 
+on_grant = function(self, who)
+	if who:isQuestStatus("grave-necromancer", engine.Quest.DONE) then
+            game:onTickEnd(function()
+                who:setQuestStatus(self.id, engine.Quest.COMPLETED, "heart")
+            end)
+	end
+end
+
 on_status_change = function(self, who, status, sub)
 	if self:isCompleted() then
 		local q = who:hasQuest("shertul-fortress")

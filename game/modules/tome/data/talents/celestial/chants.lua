@@ -43,7 +43,6 @@ newTalent{
 
 		local ret = {}
 		self:talentTemporaryValue(ret, "combat_mentalresist", power)
-		self:talentTemporaryValue(ret, "max_life", t.getLifePct(self, t)*self.max_life)
 		ret.particle = self:addParticles(Particles.new("golden_shield", 1))
 
 		if self:knowTalent(self.T_CHANT_ILLUMINATE) then
@@ -67,16 +66,17 @@ newTalent{
 		return ret
 	end,
 	deactivate = function(self, t, p)
+		self:incLife(0)
 		self:removeParticles(p.particle)
 		return true
 	end,
 	info = function(self, t)
 		local saves = t.getResists(self, t)
 		local life = t.getLifePct(self, t)
-		return ([[You chant the glory of the Sun, granting you %d Mental Save and increasing your maximum life by %0.1f%% (Currently:  %d).
+		return ([[You chant the glory of the Sun, granting you %d Mental Save and increasing your maximum life by %0.1f%%.
 		You may only have one Chant active at once.
 		The effects will increase with your Spellpower.]]):
-		tformat(saves, life*100, life*self.max_life)
+		tformat(saves, life*100)
 	end,
 }
 

@@ -136,11 +136,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local dam = t.getDamage(self, t)
-		return ([[You focus the aether into a spinning beam of arcane energies, doing %0.2f arcane damage and having 25%% chance to silence the creatures it pierces.
+		return ([[You focus the aether into a spinning beam of arcane energies, doing %0.2f arcane damage and having 25%% chance to silence the creatures it pierces %s.
 		The beam will also damage its epicenter each turn for 10%% of the damage (but it will not silence).
 		The beam spins with incredible speed (1600%%) and can only hit the same target up to 3 times inbetween their turns.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.ARCANE, dam))
+		tformat(damDesc(self, DamageType.ARCANE, dam), Desc.vs"sm")
 	end,
 }
 

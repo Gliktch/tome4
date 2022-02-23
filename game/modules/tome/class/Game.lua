@@ -248,8 +248,8 @@ function _M:newGame()
 		end
 
 		if self.player.max_life_bonus then
-			self.player.max_life = self.player.max_life + self.player.max_life_bonus
-			self.player.life = self.player.life + self.player.max_life_bonus
+			self.player:incMaxLife(self.player.max_life_bonus)
+			self.player:incLife(self.player.max_life_bonus)
 			self.player.max_life_bonus = nil
 		end
 
@@ -380,6 +380,7 @@ function _M:newGame()
 			self.player:inventoryApplyAll(function(inven, item, o) game:addEntity(o) end)
 
 			birth_done()
+			self.state:selectBonusZone()
 			self.player:check("on_birth_done")
 			self:setTacticalMode(self.always_target)
 			self:triggerHook{"ToME:birthDone"}
@@ -1415,7 +1416,7 @@ function _M:changeLevelReal(lev, zone, params)
 		local perc = util.bound(math.floor((self.turn - self.level.last_turn) / 10), 0, 10)
 		for uid, target in pairs(self.level.entities) do
 			if target.life and target.max_life and ((self.player:reactionToward(target) < 0) or target:attr("hostile_for_level_change")) then
-				target.life = util.bound(target.life + target.max_life * perc / 10, 0, target.max_life)
+				target:incLife(target:getMaxLife() * perc / 10, true)
 				target.changed = true
 				target.talents_cd = {}
 
@@ -1818,7 +1819,6 @@ function _M:onTurn()
 
 	if self.turn % 500 ~= 0 then return end
 	self:dieClonesDie()
-	truncate_printlog(Savefile.TRUNCATE_PRINTLOG_TO)
 end
 
 function _M:updateFOV()
@@ -2288,7 +2288,7 @@ do return end
 				else
 					-- Do not unpause, the player is allowed first move on next level
 					if e.change_level_check and e:change_level_check(self.player) then return end
-					self:changeLevel(e.change_zone and e.change_level or self.level.level + e.change_level, e.change_zone, {keep_old_lev=e.keep_old_lev, force_down=e.force_down, auto_zone_stair=e.change_zone_auto_stairs, auto_level_stair=e.change_level_auto_stairs, temporary_zone_shift_back=e.change_level_shift_back})
+					self:changeLevel((e.change_zone or e.change_level_abs) and e.change_level or self.level.level + e.change_level, e.change_zone, {keep_old_lev=e.keep_old_lev, force_down=e.force_down, auto_zone_stair=e.change_zone_auto_stairs, auto_level_stair=e.change_level_auto_stairs, temporary_zone_shift_back=e.change_level_shift_back})
 				end
 			else
 				self.log("There is no way out of this level here.")
@@ -2940,6 +2940,12 @@ function _M:playSoundNear(who, name)
 	if who and (not who.attr or not who:attr("_forbid_sounds")) and self.level and self.level.map.seens(who.x, who.y) then
 		local pos = {x=0,y=0,z=0}
 		if self.player and self.player.x then pos.x, pos.y = who.x - self.player.x, who.y - self.player.y end
+		if who.turn_procs and type(name) == "string" then
+			who.turn_procs.sounds = who.turn_procs.sounds or {}
+			who.turn_procs.sounds[name] = (who.turn_procs.sounds[name] or 0) + 1
+			local time = who.turn_procs.sounds[name]
+			name = { name, vol = math.min(1, 1 / (2^ (time - 2))) }
+		end
 		self:playSound(name, pos)
 	end
 end

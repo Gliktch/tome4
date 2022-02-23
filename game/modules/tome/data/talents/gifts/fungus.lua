@@ -72,7 +72,7 @@ newTalent{
 	getEq = function(self, t) return self:combatTalentScale(t, 0.5, 2.5, 0.5, 0.5) end,
 	getTurn = function(self, t) return math.min(15, self:combatTalentMindDamage(t, 1, 8)) / 100 end,
 	callbackOnHeal = function(self, t, value, src, raw_value)
-		local heal = (self.life + value) < self.max_life and value or self.max_life - self.life
+		local heal = (self:getLife() + value) < self:getMaxLife() and value or self:getMaxLife() - self:getLife()
 		if heal > 0 then
 			local amt = (heal / 100) * (t.getTurn(self, t) * game.energy_to_act)
 			self.energy.value = self.energy.value + amt

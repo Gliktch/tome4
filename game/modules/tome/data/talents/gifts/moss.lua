@@ -67,11 +67,11 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Instantly grow a moss circle of radius %d at your feet.
 		Each turn the moss deals %0.2f nature damage to each foe within its radius.
-		This moss is very thick and sticky causing all foes passing through it have their movement speed reduced by %d%% and have a %d%% chance to be pinned to the ground for 4 turns.
+		This moss is very thick and sticky causing all foes passing through it have their movement speed reduced by %d%% and have a %d%% chance to be pinned to the ground for 4 turns %s.
 		The moss lasts %d turns.
 		Moss talents are instant but place all other moss talents on cooldown for 3 turns.
 		The damage will increase with your Mindpower.]]):
-		tformat(radius, damDesc(self, DamageType.NATURE, damage), slow, pin, duration)
+		tformat(radius, damDesc(self, DamageType.NATURE, damage), slow, pin, Desc.vs"mp", duration)
 	end,
 }
 
@@ -164,11 +164,11 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Instantly grow a moss circle of radius %d at your feet.
 		Each turn the moss deals %0.2f nature damage to each foe within its radius.
-		This moss is very slippery and causes affected foes to have a %d%% chance of failing to perform complex actions.
+		This moss is very slippery and causes affected foes to have a %d%% chance of failing to perform complex actions %s.
 		The moss lasts %d turns.
 		Moss talents are instant but place all other moss talents on cooldown for 3 turns.
-		The damage and the chance to apply the slippery effect increase with your Mindpower.]]):
-		tformat(radius, damDesc(self, DamageType.NATURE, damage), fail, duration)
+		The damage will increase with your Mindpower.]]):
+		tformat(radius, damDesc(self, DamageType.NATURE, damage), fail, Desc.vs"mm", duration)
 	end,
 }
 
@@ -214,10 +214,10 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		return ([[Instantly grow a moss circle of radius %d at your feet.
 		Each turn the moss deals %0.2f nature damage to each foe within its radius.
-		This moss is coated with strange fluids and has a %d%% chance to confuse (power %d%%) foes passing through it for 2 turns.
+		This moss is coated with strange fluids and has a %d%% chance to confuse (power %d%%) foes passing through it for 2 turns %s.
 		The moss lasts %d turns.
 		Moss talents are instant but place all other moss talents on cooldown for 3 turns.
 		The damage will increase with your Mindpower.]]):
-		tformat(radius, damDesc(self, DamageType.NATURE, damage), chance, power, duration)
+		tformat(radius, damDesc(self, DamageType.NATURE, damage), chance, power, Desc.vs"mm", duration)
 	end,
 }

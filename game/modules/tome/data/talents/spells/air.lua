@@ -41,7 +41,7 @@ newTalent{
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 		local dam = thaumaturgyBeamDamage(self, self:spellCrit(t.getDamage(self, t)))
-		self:project(tg, x, y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(dam / 3, dam, 3), daze=self:attr("lightning_daze_tempest") or 0})
+		self:project(tg, x, y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(dam / 3, dam, 3), daze=self:attr("lightning_daze_tempest") or 0, power_check=self:combatSpellpower()})
 		local _ _, x, y = self:canProject(tg, x, y)
 
 		if thaumaturgyCheck(self) then
@@ -123,7 +123,7 @@ newTalent{
 			local tgr = {type="beam", range=self:getTalentRange(t), selffire=false, talent=t, x=sx, y=sy}
 			print("[Chain lightning] jumping from", sx, sy, "to", actor.x, actor.y)
 			local dam = self:spellCrit(t.getDamage(self, t))
-			self:project(tgr, actor.x, actor.y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(rng.avg(dam / 3, dam, 3), dam, 5), daze=self:attr("lightning_daze_tempest") or 0})
+			self:project(tgr, actor.x, actor.y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(rng.avg(dam / 3, dam, 3), dam, 5), daze=self:attr("lightning_daze_tempest") or 0, power_check=self:combatSpellpower()})
 			if core.shader.active() then game.level.map:particleEmitter(sx, sy, math.max(math.abs(actor.x-sx), math.abs(actor.y-sy)), "lightning_beam", {tx=actor.x-sx, ty=actor.y-sy}, {type="lightning"})
 			else game.level.map:particleEmitter(sx, sy, math.max(math.abs(actor.x-sx), math.abs(actor.y-sy)), "lightning_beam", {tx=actor.x-sx, ty=actor.y-sy})
 			end
@@ -215,7 +215,7 @@ newTalent{
 	getTargetCount = function(self, t) return math.floor(self:getTalentLevel(t)) end,
 	callbackOnActBase = function(self, t)
 		local tgts = {}
-		local grids = core.fov.circle_grids(self.x, self.y, 6, true)
+		local grids = core.fov.circle_grids(self.x, self.y, self:getTalentRange(t), true)
 		for x, yy in pairs(grids) do for y, _ in pairs(grids[x]) do
 			local a = game.level.map(x, y, Map.ACTOR)
 			if a and self:reactionToward(a) < 0 then
@@ -230,11 +230,11 @@ newTalent{
 			local a, id = rng.table(tgts)
 			table.remove(tgts, id)
 
-			self:project(tg, a.x, a.y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(1, self:spellCrit(t.getDamage(self, t)), 3), daze=(self:attr("lightning_daze_tempest") or 0) / 2})
+			self:project(tg, a.x, a.y, DamageType.LIGHTNING_DAZE, {dam=rng.avg(1, self:spellCrit(t.getDamage(self, t)), 3), daze=(self:attr("lightning_daze_tempest") or 0) / 2, power_check=self:combatSpellpower()})
 			if core.shader.active() then game.level.map:particleEmitter(a.x, a.y, tg.radius, "ball_lightning_beam", {radius=tg.radius, tx=x, ty=y}, {type="lightning"})
 			else game.level.map:particleEmitter(a.x, a.y, tg.radius, "ball_lightning_beam", {radius=tg.radius, tx=x, ty=y}) end
-			game:playSoundNear(self, "talents/lightning")
 		end
+		game:playSoundNear(self, "talents/lightning")
 	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/thunderstorm")
@@ -250,9 +250,9 @@ newTalent{
 	info = function(self, t)
 		local targetcount = t.getTargetCount(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Conjures a furious, raging lightning storm with a radius of 6 that follows you as long as this spell is active.
+		return ([[Conjures a furious, raging lightning storm with a radius of %d that follows you as long as this spell is active.
 		Each turn, a random lightning bolt will hit up to %d of your foes for 1.00 to %0.2f damage (%0.2f average) in a radius of 1.
 		The damage will increase with your Spellpower.]]):
-		tformat(targetcount, damDesc(self, DamageType.LIGHTNING, damage), damDesc(self, DamageType.LIGHTNING, damage / 2))
+		tformat(self:getTalentRange(t), targetcount, damDesc(self, DamageType.LIGHTNING, damage), damDesc(self, DamageType.LIGHTNING, damage / 2))
 	end,
 }

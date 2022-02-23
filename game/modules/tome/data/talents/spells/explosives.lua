@@ -126,7 +126,9 @@ newTalent{
 			end
 		end)
 
-		if ammo.alchemist_bomb and ammo.alchemist_bomb.leech then self:heal(math.min(self.max_life * ammo.alchemist_bomb.leech / 100, dam_done), ammo) end
+		if ammo.alchemist_bomb and ammo.alchemist_bomb.leech then 
+			self:heal(math.min(self:getMaxLife() * ammo.alchemist_bomb.leech / 100, dam_done), ammo) 
+		end
 
 		local _ _, x, y = self:canProject(tg, x, y)
 		game.level.map:particleEmitter(x, y, tg.radius, particle, {radius=tg.radius, grids=grids, tx=x, ty=y})
@@ -276,7 +278,9 @@ newTalent{
 			end
 		end)
 
-		if ammo.alchemist_bomb and ammo.alchemist_bomb.leech then self:heal(math.min(self.max_life * ammo.alchemist_bomb.leech / 100, dam_done)) end
+		if ammo.alchemist_bomb and ammo.alchemist_bomb.leech then 
+			self:heal(math.min(self:getMaxLife() * ammo.alchemist_bomb.leech / 100, dam_done)) 
+		end
 
 		local _ _, x, y = self:canProject(tg, x, y)
 		game.level.map:particleEmitter(x, y, tg.radius, particle, {radius=tg.radius, grids=grids, tx=x, ty=y})
@@ -292,8 +296,8 @@ newTalent{
 		if ammo then dam = t.computeDamage(self, t, ammo) end
 		dam = damDesc(self, DamageType.PHYSICAL, dam)
 		return ([[Crush together two alchemist gems, making them extremely unstable.
-		You then throw them to a target area, where they explode on impact, dealing %0.2f physical damage and knocking back any creatures in the blast radius.
+		You then throw them to a target area, where they explode on impact, dealing %0.2f physical damage and knocking back any creatures in the blast radius %s.
 		Each kind of gem will also provide a specific effect.
-		The damage will improve with better gems and with your Spellpower.]]):tformat(dam)
+		The damage will improve with better gems and with your Spellpower.]]):tformat(dam, Desc.vs"sp")
 	end,
 }

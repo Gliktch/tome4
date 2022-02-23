@@ -62,11 +62,11 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with two shield strikes, doing %d%% and %d%% shield damage. If it hits a second time, it stuns the target for %d turns.
-		The stun chance increases with your Accuracy and your Strength.]])
+		return ([[Hits the target with two shield strikes, doing %d%% and %d%% shield damage. If it hits a second time, it stuns the target for %d turns %s.]])
 		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.7, self:getTalentLevel(self.T_SHIELD_EXPERTISE)),
 		100 * self:combatTalentWeaponDamage(t, 1.2, 2.1, self:getTalentLevel(self.T_SHIELD_EXPERTISE)),
-		t.getStunDuration(self, t))
+		t.getStunDuration(self, t),
+		Desc.vs(_t"Accuracy(Str)", "ps"))
 	end,
 }
 
@@ -281,10 +281,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Smash your shield into the face of all adjacent foes dealing %d%% shield damage and knocking them back %d grids.
-		In addition, all creatures knocked back will also be dazed for %d turns.
+		return ([[Smash your shield into the face of all adjacent foes dealing %d%% shield damage and knocking them back %d grids %s.
+		In addition, all creatures knocked back will also be dazed for %d turns %s.
 		If known, activating this talent will refresh your Rush cooldown if the attack hits.
-		The distance increases with your talent level, and the Daze duration with your Strength.]]):tformat(t.getShieldDamage(self, t)*100, t.getDist(self, t), t.getDuration(self, t))
+		The distance increases with your talent level, and the Daze duration with your Strength.]]):tformat(t.getShieldDamage(self, t)*100, t.getDist(self, t), Desc.vs"ap", t.getDuration(self, t), Desc.vs())
 	end,
 }
 
@@ -318,9 +318,8 @@ newTalent{
 	no_npc_use = true,
 	no_energy = true,
 	on_pre_use = function(self, t, silent) if not self:hasShield() then if not silent then game.logPlayer(self, "You require a weapon and a shield to use this talent.") end return false end return true end,
-	lifebonus = function(self,t, base_life) -- Scale bonus with max life
-		return self:combatTalentStatDamage(t, "con", 30, 500) + (base_life or self.max_life) * self:combatTalentLimit(t, 1, 0.02, 0.10) -- Limit <100% of base life
-	end,
+	lifebonusAdd = function(self, t) return self:combatTalentStatDamage(t, "con", 30, 500) end,
+	lifebonusMult = function(self, t) return self:combatTalentLimit(t, 1, 0.02, 0.10) end,
 	getDefense = function(self, t) return self:combatTalentStatDamage(t, "dex", 6, 20) end,
 	getArmor = function(self, t) return self:combatTalentStatDamage(t, "dex", 6, 20) end,
 	activate = function(self, t)
@@ -329,15 +328,17 @@ newTalent{
 			game.logPlayer(self, "You cannot use Last Stand without a shield!")
 			return nil
 		end
-		local hp = t.lifebonus(self,t)
+		local add = t.lifebonusAdd(self,t)
+		local mult = t.lifebonusMult(self, t)
+		local cd = add + self:getMaxLife()*mult
 		local ret = {
 			base_life = self.max_life,
-			max_life = self:addTemporaryValue("max_life", hp),
+			max_life = self:addTemporaryValue("max_life", add),
 			def = self:addTemporaryValue("combat_def", t.getDefense(self, t)),
 			armor = self:addTemporaryValue("combat_armor", t.getArmor(self, t)),
 			nomove = self:addTemporaryValue("never_move", 1),
-			dieat = self:addTemporaryValue("die_at", -hp),
-			extra_life = self:addTemporaryValue("life", hp), -- Avoid healing effects
+			dieat = self:addTemporaryValue("die_at", -add),
+			extra_life = self:addTemporaryValue("life", cd), -- Avoid healing effects
 		}
 		return ret
 	end,
@@ -352,16 +353,13 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		local hp = self:isTalentActive(self.T_LAST_STAND)
-		if hp then
-			hp = t.lifebonus(self, t, hp.base_life)
-		else
-			hp = t.lifebonus(self,t)
-		end
-		return ([[You brace yourself for the final stand, increasing Defense and Armor by %d, maximum and current life by %d, but making you unable to move.
+		local add = t.lifeBonusAdd(self, t)
+		local mult = t.lifeBonusMult(self, t)
+		local def = t.getDefense(self, t)
+		return ([[You brace yourself for the final stand, increasing Defense and Armor by %d, maximum and current life by %d plus %d%% of your maximum life, but making you unable to move.
 		Your stand lets you concentrate on every blow, allowing you to avoid death from normally fatal wounds. You can only die when reaching -%d life.
 		If your life is below 0 when Last Stand ends it will be set to 1.
 		The increase in Defense and Armor is based on your Dexterity, and the increase in life is based on your Constitution and normal maximum life.]]):
-		tformat(t.getDefense(self, t), hp, hp)
+		tformat(def, add*(1+mult), mult, add)
 	end,
 }

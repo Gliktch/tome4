@@ -373,7 +373,7 @@ newTalent{
 	info = function(self, t)
 		local radius = self:getTalentRadius(t)
 		local dam = t.getDamage(self, t)
-		return ([[Fires spikes all around you, making your foes within radius %d bleed for %0.2f damage over 6 turns.
-		Damage and chance to apply the effect increase with Willpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, dam))
+		return ([[Fires spikes all around you, making your foes within radius %d bleed for %0.2f damage over 6 turns %s.
+		Damage and chance to apply the effect increase with Willpower.]]):tformat(radius, damDesc(self, DamageType.PHYSICAL, dam), Desc.vs"mp")
 	end,
 }

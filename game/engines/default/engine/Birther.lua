@@ -88,6 +88,17 @@ function _M:getBirthDescriptor(type, name)
 	return self.birth_descriptor_def[type][name]
 end
 
+--- Get one birth descriptor field
+-- @static
+-- @string type type of descriptor
+-- @string name the name of the descriptor
+-- @string field the name of the field
+function _M:getBirthField(type, name, field)
+	if not self.birth_descriptor_def[type] then return nil end
+	if not self.birth_descriptor_def[type][name] then return nil end
+	return self.birth_descriptor_def[type][name][field]
+end
+
 
 --- Instantiates a birther for the given actor
 -- @string title dialog title

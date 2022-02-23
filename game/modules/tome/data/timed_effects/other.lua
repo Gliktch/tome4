@@ -412,15 +412,18 @@ newEffect{
 newEffect{
 	name = "TIME_SHIELD", image = "talents/time_shield.png",
 	desc = _t"Time Shield",
-	long_desc = function(self, eff) return ("The target is surrounded by a time distortion, absorbing %d/%d damage and sending it forward in time. While active all newly applied status effects durations are reduced by %d%%."):tformat(self.time_shield_absorb, eff.power, eff.time_reducer) end,
+	long_desc = function(self, eff) return ("The target is surrounded by a time distortion, absorbing %d/%d damage and sending it forward in time. While active all newly applied status effects durations are reduced by %d%%."):tformat(eff.power, eff.power_max, eff.time_reducer) end,
 	type = "other",
 	subtype = { time=true, shield=true },
 	status = "beneficial",
-	parameters = { power=10, dot_dur=5, time_reducer=20 },
+	parameters = { power=10, power_max=10, dot_dur=5, time_reducer=20 },
+	charges = function(self, eff) return math.ceil(eff.power) end,
+	shield_bar = function(self, eff) return eff.power, eff.power_max end,
 	on_gain = function(self, err) return _t"The very fabric of time alters around #target#.", _t"+Time Shield" end,
 	on_lose = function(self, err) return _t"The fabric of time around #target# stabilizes to normal.", _t"-Time Shield" end,
 	on_aegis = function(self, eff, aegis)
-		self.time_shield_absorb = self.time_shield_absorb + eff.power * aegis / 100
+		self.power = eff.power * (1 + aegis / 100)
+		self.power_max = eff.power_max * (1 + aegis / 100)
 		if core.shader.active(4) then
 			self:removeParticles(eff.particle)
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.3, img="runicshield"}, {type="runicshield", shieldIntensity=0.14, ellipsoidalFactor=1.2, scrollingSpeed=-2, time_factor=4000, bubbleColor={1, 1, 0.3, 1.0}, auraColor={1, 0.8, 0.2, 1}}))
@@ -434,14 +437,34 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
+	callbackPriorities = {callbackOnHit = -270},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 then return cb end
+		-- Absorb damage into the time shield
+		eff.power = eff.power or 0
+		game:delayedLogDamage(src, self, 0, ("#STEEL_BLUE#(%d to time)#LAST#"):tformat(math.min(value, eff.power)), false)
+		if value < eff.power then
+			eff.power = eff.power - value
+			value = 0
+		else
+			value = value - eff.power
+			eff.power = 0
+		end
+
+		-- If we are at the end of the capacity, release the time shield damage
+		if eff.power <= 0 then
+			game.logPlayer(self, "Your time shield crumbles under the damage!")
+			self:removeEffect(self.EFF_TIME_SHIELD)
+		end
+		cb.value = value
+		return cb
+	end,
 	activate = function(self, eff)
 		eff.power = self:getShieldAmount(eff.power)
+		eff.power_max = eff.power
 		eff.dur = self:getShieldDuration(eff.dur)
 		eff.durid = self:addTemporaryValue("reduce_detrimental_status_effects_time", eff.time_reducer)
-		eff.tmpid = self:addTemporaryValue("time_shield", eff.power)
-		--- Warning there can be only one time shield active at once for an actor
-		self.time_shield_absorb = eff.power
-		self.time_shield_absorb_max = eff.power
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {img="shield3"}, {type="shield", shieldIntensity=0.1, horizontalScrollingSpeed=-0.2, verticalScrollingSpeed=-1, time_factor=2000, color={1, 1, 0.3}}))
 		else
@@ -454,15 +477,11 @@ newEffect{
 		self:removeParticles(eff.particle)
 
 		-- Time shield ends, setup a restoration field if needed
-		if eff.power - self.time_shield_absorb > 0 then
-			local val = (eff.power - self.time_shield_absorb) / eff.dot_dur / 2
-			print("Time shield restoration field", eff.power - self.time_shield_absorb, val)
+		if eff.power_max - eff.power > 0 then
+			local val = (eff.power_max - eff.power) / eff.dot_dur / 2 --Why 2?
+			print("Time shield restoration field", eff.power_max - eff.power, val)
 			self:setEffect(self.EFF_TIME_DOT, eff.dot_dur, {power=val})
 		end
-
-		self:removeTemporaryValue("time_shield", eff.tmpid)
-		self.time_shield_absorb = nil
-		self.time_shield_absorb_max = 0
 	end,
 }
 
@@ -996,7 +1015,7 @@ newEffect{
 		if math.min(eff.unlockLevel, eff.level) >= 3 then
 			local retchThreshold = def.getLivingDeathFactor(level)
 			eff.retchCooldown = eff.retchCooldown or 0
-			if eff.retchCooldown == 0 and self.life > self.max_life * retchThreshold and self.life - dam <= self.max_life * retchThreshold then
+			if eff.retchCooldown == 0 and self:getLife() > self:getMaxLife() * retchThreshold and self:getLife() - dam <= self:getMaxLife() * retchThreshold then
 				local retchLevel = def.getRetchLevel(level)
 				self:forceUseTalent(self.T_RETCH, {ignore_cd=true, ignore_energy=true, force_target=self, force_level=retchLevel})
 				eff.retchCooldown = math.max(16, math.floor(30 - level * 2))
@@ -1158,7 +1177,7 @@ newEffect{
 	callbackOnTakeDamage = function(self, eff, src, x, y, type, dam, state)
 		if math.min(eff.unlockLevel, eff.level) >= 4 then
 			local def = self.tempeffect_def[self.EFF_CURSE_OF_MADNESS]
-			if dam > 0 and dam >= self.max_life * (def.getManiaDamagePercent(eff.level) / 100) and not self.turn_procs.CoMania then
+			if dam > 0 and dam >= self:getMaxLife() * (def.getManiaDamagePercent(eff.level) / 100) and not self.turn_procs.CoMania then
 
 				local list = {}
 				for tid, cd in pairs(self.talents_cd) do
@@ -1594,7 +1613,10 @@ newEffect{
 	on_timeout = function(self, eff) -- Chance for nightmare fades over time
 		if eff.nightmareChance then eff.nightmareChance = math.max(0, eff.nightmareChance-1) end
 	end,
-	callbackOnHit = function(self, eff, cb)	game:onTickEnd(function()
+	callbackPriorities = {callbackOnHit = 100},
+	callbackOnHit = function(self, eff, cb)
+		if cb.value <= 0 then return true end
+		game:onTickEnd(function()
 		if math.min(eff.unlockLevel, eff.level) >= 4 then
 			-- build chance for a nightmare
 			local def = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES]
@@ -1784,6 +1806,7 @@ newEffect{
 	subtype = { curse=true },
 	status = "beneficial",
 	decrease = 0,
+	charges = function(self, eff) return eff.increase or 0 end,
 	no_remove = true,
 	cancel_on_level_change = true,
 	parameters = {},
@@ -2035,7 +2058,7 @@ newEffect{
 				_rst_full=true, can_change_level=table.NIL_MERGE, can_change_zone=table.NIL_MERGE,
 				ai_target={actor=table.NIL_MERGE},
 				max_level = eff.target.level,
-				life = util.bound(eff.target.life, eff.target.die_at, eff.target.max_life),
+				life = util.bound(eff.target.life, eff.target:getMinLife(), eff.target:getMaxLife()),
 				ai = "summoned", ai_real = "tactical",
 				ai_state={ ai_move="move_complex", talent_in=1, ally_compassion = 10},
 				name = ("%s's dream projection"):tformat(eff.target:getName()),
@@ -2099,7 +2122,7 @@ newEffect{
 		end
 
 		-- End the effect early if we've killed enough projections
-		if eff.projections_killed/10 >= eff.target.life/eff.target.max_life then
+		if eff.projections_killed/10 >= eff.target:getLife()/eff.target:getMaxLife() then
 			game:onTickEnd(function()
 				eff.target:die(self)
 				game.logSeen(eff.target, "#LIGHT_RED#%s's mind shatters into %d tiny fragments!", eff.target:getName():capitalize(), eff.target.max_life)
@@ -2205,7 +2228,7 @@ newEffect{
 			-- Apply Dreamscape hit
 			if eff.projections_killed > 0 then
 				local kills = eff.projections_killed
-				eff.target:takeHit(eff.target.max_life/10 * kills, self)
+				eff.target:takeHit(eff.target:getMaxLife()/10 * kills, self)
 				eff.target:setEffect(eff.target.EFF_BRAINLOCKED, kills, {})
 
 				local loss = _t"loss"
@@ -2563,6 +2586,15 @@ newEffect{
 		old_eff.dam = old_eff.dam + new_eff.dam
 		return old_eff
 	end,
+	callbackPriorities = {callbackOnHit = -200},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		if eff.invulnerable then
+			eff.dam = eff.dam + cb.value / 10
+			cb.value = 0
+		end
+		return cb
+	end,
 	activate = function(self, eff)
 		self.life = self.old_life or 10
 		eff.invulnerable = true
@@ -2658,7 +2690,7 @@ newEffect{
 		-- Bypass all shields & such
 		local old = self.onTakeHit
 		self.onTakeHit = nil
-		mod.class.interface.ActorLife.takeHit(self, self.max_life * eff.dam / 100, self, {special_death_msg=_t"suffocated to death"})
+		mod.class.interface.ActorLife.takeHit(self, self:getMaxLife() * eff.dam / 100, self, {special_death_msg=_t"suffocated to death"})
 		eff.dam = util.bound(eff.dam + 5, 20, 100)
 		self.onTakeHit = old
 	end,
@@ -2902,6 +2934,7 @@ newEffect{
 	status = "beneficial",
 	parameters = { power=10 },
 	decrease = 0,
+	callbackPriorities = {callbackOnHit = -780},
 	callbackOnTakeDamage = function(self, eff, src, x, y, type, dam, state)
 		if src ~= self and src.hasEffect and src:hasEffect(src.EFF_TEMPORAL_FUGUE) then
 			-- Find our clones
@@ -3073,7 +3106,7 @@ newEffect{
 newEffect{
 	name = "UNSTOPPABLE", image = "talents/unstoppable.png",
 	desc = _t"Unstoppable",
-	long_desc = function(self, eff) return ("The target is unstoppable! It refuses to die and cannot heal.  When the effect ends, it will heal %d Life (%d%% of maximum life per foe slain during the frenzy)."):tformat(eff.kills * eff.hp_per_kill * self.max_life / 100, eff.hp_per_kill) end,
+	long_desc = function(self, eff) return ("The target is unstoppable! It refuses to die and cannot heal.  When the effect ends, it will heal %d Life (%d%% of maximum life per foe slain during the frenzy)."):tformat(eff.kills * eff.hp_per_kill * self:getMaxLife() / 100, eff.hp_per_kill) end,
 	type = "other",
 	subtype = { frenzy=true },
 	status = "beneficial",
@@ -3088,7 +3121,7 @@ newEffect{
 		self:removeTemporaryValue("unstoppable", eff.tmpid)
 		self:removeTemporaryValue("no_life_regen", eff.healid)
 		self:removeTemporaryValue("no_healing", eff.nohealid)
-		self:heal(eff.kills * eff.hp_per_kill * self.max_life / 100, eff)
+		self:heal(eff.kills * eff.hp_per_kill * self:getMaxLife() / 100, eff)
 	end,
 }
 
@@ -3726,12 +3759,12 @@ newEffect{
 	cancel_on_level_change = true,
 	parameters = { },
 	activate = function(self, eff)
-		eff.leveid = (game.zone and game.zone.short_name or "??").."-"..(game.level and game.level.level or "??")
+		eff.leveid = game.zone.short_name.."-"..game.level.level
 	end,
 	deactivate = function(self, eff)
 		if (eff.allow_override or (self == game:getPlayer(true) and self:canBe("worldport") and not self:attr("never_move"))) and eff.dur <= 0 then
 			game:onTickEnd(function()
-				if eff.leveid == (game.zone and game.zone.short_name or "??").."-"..(game.level and game.level.level or "??") and game.player.can_change_zone then
+				if eff.leveid == game.zone.short_name.."-"..game.level.level and game.player.can_change_zone then
 					game.logPlayer(self, "You are yanked out of this place!")
 					game:changeLevel(1, eff.where or game.player.last_wilderness)
 				end

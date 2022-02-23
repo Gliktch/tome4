@@ -61,7 +61,7 @@ function _M:listGivers()
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I will not be able to continue the road alone. Would you help me?]],
 				actor = {
 					name = _t"%s, the injured seer",
-					type = "humanoid", subtype = "elf", female=true, image = "player/halfling_female.png",
+					type = "humanoid", subtype = "halfling", female=true, image = "player/halfling_female.png",
 					display = "@", color=colors.LIGHT_BLUE,
 					desc = _t[[She looks tired and wounded.]],
 					autolevel = "caster",
@@ -89,7 +89,7 @@ function _M:listGivers()
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the repented thief",
-					type = "humanoid", subtype = "halfling", image = "player/cornac_male.png",
+					type = "humanoid", subtype = "human", image = "player/cornac_male.png",
 					display = "@", color=colors.BLUE,
 					desc = _t[[He looks tired and wounded.]],
 					autolevel = "rogue",
@@ -118,7 +118,7 @@ function _M:listGivers()
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the lone alchemist",
-					type = "humanoid", subtype = "human", image = "player/shalore_male.png",
+					type = "humanoid", subtype = "elf", image = "player/shalore_male.png",
 					display = "@", color=colors.AQUAMARINE,
 					desc = _t[[He looks tired and wounded.]],
 					autolevel = "rogue",
@@ -175,7 +175,7 @@ function _M:listGivers()
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the lost defiler",
-					type = "humanoid", subtype = "human", female=true, image = "player/higher_female.png",
+					type = "humanoid", subtype = "human", female=true, image = "player/cornac_female.png",
 					display = "@", color=colors.YELLOW,
 					desc = _t[[She looks tired and wounded.]],
 					autolevel = "caster",
@@ -205,7 +205,7 @@ function _M:listGivers()
 		Please help me! I am afraid I lost myself in this place. I know there is a temporal portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me? Would you help .. yourself?]],
 				actor = {
 					name = _t"%s, temporal explorer",
-					type = "humanoid", subtype = "human", female=true, image = "player/higher_female.png",
+					type = "humanoid", subtype = "elf", female=true, image = "player/shalore_female.png",
 					display = "@", color=colors.YELLOW,
 					desc = _t[[She looks tired and wounded. She is so similar to you and yet completely different. Weird.]],
 					autolevel = "caster",
@@ -233,7 +233,7 @@ function _M:listGivers()
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the worried loremaster",
-					type = "humanoid", subtype = "human", female=true, image = "player/thalore_female.png",
+					type = "humanoid", subtype = "elf", female=true, image = "player/thalore_female.png",
 					display = "@", color=colors.LIGHT_GREEN,
 					desc = _t[[She looks tired and wounded.]],
 					autolevel = "wildcaster",

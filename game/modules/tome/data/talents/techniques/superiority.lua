@@ -36,7 +36,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Concentrate on the battle, ignoring some of the damage you take.
-		Improves physical damage reduction by %d%% and provides a %d%% chance to shrug off critical damage for 20 turns.]]):
+		Improves physical damage resistance by %d%% and reduces the bonus damage multiplier of incoming critical hits by %d%% for 20 turns.]]):
 		tformat(t.getResist(self,t), t.critResist(self, t))
 	end,
 }
@@ -54,20 +54,41 @@ newTalent{
 	range = function(self,t) return math.floor(self:combatTalentLimit(t, 10, 1, 5)) end, -- Limit KB range to <10
 	activate = function(self, t)
 		return {
-			onslaught = self:addTemporaryValue("onslaught", t.range(self,t)), 
 			stamina = self:addTemporaryValue("stamina_regen", -1),
 		}
 	end,
 
 	deactivate = function(self, t, p)
-		self:removeTemporaryValue("onslaught", p.onslaught)
 		self:removeTemporaryValue("stamina_regen", p.stamina)
 		return true
 	end,
+	callbackOnMeleeAttack = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		-- Onslaught
+		if hitted then
+			local dir = util.getDir(target.x, target.y, self.x, self.y) or 6
+			local lx, ly = util.coordAddDir(self.x, self.y, util.dirSides(dir, self.x, self.y).left)
+			local rx, ry = util.coordAddDir(self.x, self.y, util.dirSides(dir, self.x, self.y).right)
+			local lt, rt = game.level.map(lx, ly, Map.ACTOR), game.level.map(rx, ry, Map.ACTOR)
+			local range = self:getTalentRange(t)
+
+			if target:checkHit(self:combatAttack(weapon), target:combatPhysicalResist(), 0, 95, 10) and target:canBe("knockback") then
+				target:knockback(self.x, self.y, range)
+				target:crossTierEffect(target.EFF_OFFBALANCE, self:combatAttack())
+			end
+			if lt and lt:checkHit(self:combatAttack(weapon), lt:combatPhysicalResist(), 0, 95, 10) and lt:canBe("knockback") then
+				lt:knockback(self.x, self.y, range)
+				target:crossTierEffect(target.EFF_OFFBALANCE, self:combatAttack())
+			end
+			if rt and rt:checkHit(self:combatAttack(weapon), rt:combatPhysicalResist(), 0, 95, 10) and rt:canBe("knockback") then
+				rt:knockback(self.x, self.y, range)
+				target:crossTierEffect(target.EFF_OFFBALANCE, self:combatAttack())
+			end
+		end
+	end,
 	info = function(self, t)
-		return ([[Take an offensive stance. As you attack your foes, you knock your target and foes adjacent to them in a frontal arc back (up to %d grids).
+		return ([[Take an offensive stance. As you attack your foes, you knock %s your target and foes adjacent to them in a frontal arc back (up to %d grids).
 		This consumes stamina rapidly (-1 stamina/turn).]]):
-		tformat(t.range(self, t))
+		tformat(Desc.vs"ap", t.range(self, t))
 	end,
 }
 
@@ -102,7 +123,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Call all foes in a radius of %d around you into battle, getting them into melee range in an instant.]]):tformat(t.radius(self,t))
+		return ([[Call all foes in a radius of %d around you into battle, getting them into melee range in an instant %s.]]):tformat(t.radius(self,t), Desc.vs())
 	end,
 }
 
@@ -116,14 +137,20 @@ newTalent{
 	sustain_stamina = 40,
 	tactical = { BUFF = 2 },
 	weaponDam = function(self, t) return (self:combatTalentLimit(t, 1, 0.38, 0.6)) end, -- Limit < 100% weapon damage
-	--Note: Shattering impact effect handled in mod.class.interface.Combat.lua : _M:attackTargetWith
+	callbackOnMeleeProject = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		-- Shattering Impact
+		if hitted and (not self.shattering_impact_last_turn or self.shattering_impact_last_turn < game.turn) then
+			local dam = dam * t.weaponDam(self, t)
+			game.logSeen(target, "The shattering blow creates a shockwave!")
+			self:project({type="ball", radius=1, selffire=false, act_exclude={[target.uid]=true}}, target.x, target.y, DamageType.PHYSICAL, dam)  -- don't hit target with the AOE
+			self:incStamina(-8)
+			self.shattering_impact_last_turn = game.turn
+		end
+	end,
 	activate = function(self, t)
-		return {
-			dam = self:addTemporaryValue("shattering_impact", t.weaponDam(self, t)),
-		}
+		return {}
 	end,
 	deactivate = function(self, t, p)
-		self:removeTemporaryValue("shattering_impact", p.dam)
 		return true
 	end,
 	info = function(self, t)

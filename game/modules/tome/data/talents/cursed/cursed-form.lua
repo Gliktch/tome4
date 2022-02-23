@@ -32,7 +32,7 @@ newTalent{
 		return combatTalentDamage(self, t, 15, 50)
 	end,
 	getMaxUnnaturalBodyHeal = function(self, t) -- Add up to 50% max life to pool
-		return t.getHealPerKill(self, t) * 2 + self:combatTalentLimit(t, .5, 0.03, 0.055) * self.max_life
+		return t.getHealPerKill(self, t) * 2 + self:combatTalentLimit(t, .5, 0.03, 0.055) * self:getMaxLife()
 	end,
 	getRegenRate = function(self, t) return 3 + combatTalentDamage(self, t, 15, 25) end,
 	updateHealingFactor = function(self, t)
@@ -57,8 +57,8 @@ newTalent{
 		end
 	end,
 	on_kill = function(self, t, target) -- called by _M:die in mod.class.Actor.lua
-		if target and target.max_life then
-			local heal = math.min(t.getHealPerKill(self, t), target.max_life)
+		if target and target.getMaxLife then
+			local heal = math.min(t.getHealPerKill(self, t), target:getMaxLife())
 			if heal > 0 then
 				self.unnatural_body_heal = math.min(self.life, (self.unnatural_body_heal or 0) + heal)
 				self.unnatural_body_heal = math.min(self.unnatural_body_heal, t.getMaxUnnaturalBodyHeal(self, t))
@@ -102,6 +102,14 @@ newTalent{
 	getIncDamageChange = function(self, t, increase)
 		return self:combatTalentLimit(t, 60, 5, 10) * increase --I5 Limit < 60%
 	end,
+	callbackPriorities = {callbackOnHit = -500},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if not self:hasEffect(self.EFF_CURSED_FORM) then
+			self:setEffect(self.EFF_CURSED_FORM, 1, { increase=0 })
+		end
+		local eff = self:hasEffect(self.EFF_CURSED_FORM)
+		self.tempeffect_def[self.EFF_CURSED_FORM].do_onTakeHit(self, eff, value)
+	end,
 	info = function(self, t)
 		local incDamageChangeMax = t.getIncDamageChange(self, t, 5)
 		return ([[You have learned to hold onto your hate and use your suffering to fuel your body's rage. Every turn you take damage, the damage you inflict increases, until it reaches a maximum of +%d%% after 5 turns. Any turn in which you do not take damage will reduce the bonus.]]):tformat(incDamageChangeMax)
@@ -116,6 +124,16 @@ newTalent{
 	points = 5,
 	getStatChange = function(self, t, increase) return math.floor(self:combatTalentScale(t, 1, 2.24) * increase) end,
 	getNeutralizeChance = function(self, t) return self:combatTalentLimit(t, 60, 10, 23.4) end, -- Limit < 60%
+	callbackPriorities = {callbackOnHit = -500},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if self:knowTalent(self.EFF_CURSED_FORM) then return end
+	
+		if not self:hasEffect(self.EFF_CURSED_FORM) then
+			self:setEffect(self.EFF_CURSED_FORM, 1, { increase=0 })
+		end
+		local eff = self:hasEffect(self.EFF_CURSED_FORM)
+		self.tempeffect_def[self.EFF_CURSED_FORM].do_onTakeHit(self, eff, value)
+	end,
 	info = function(self, t)
 		local statChangeMax = t.getStatChange(self, t, 5)
 		local neutralizeChance = t.getNeutralizeChance(self, t)

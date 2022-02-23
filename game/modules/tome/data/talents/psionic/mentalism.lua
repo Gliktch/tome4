@@ -152,7 +152,7 @@ newTalent{
 		local m = self:cloneActor{
 			summoner=self, summoner_gain_exp=true, summon_time = t.getDuration(self, t), exp_worth=0,
 			_rst_full=true, can_change_level=table.NIL_MERGE, can_change_zone=table.NIL_MERGE,
-			life = util.bound(self.life, self.die_at, self.max_life),
+			life = util.bound(self.life, self:getMinLife(), self:getMaxLife()),
 			max_level=self.level,
 			ai_target={actor=table.NIL_MERGE},
 			ai = "summoned", ai_real = "tactical",

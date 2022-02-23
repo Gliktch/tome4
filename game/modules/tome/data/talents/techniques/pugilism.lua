@@ -314,9 +314,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t) * 100
-		return ([[Deliver a devastating axe kick dealing %d%% damage. If the blow connects your target is brain damaged, causing all talents to fail for %d turns and earning 2 combo points.
+		return ([[Deliver a devastating axe kick dealing %d%% damage. If the blow connects your target is brain damaged, causing all talents to fail for %d turns %s and earning 2 combo points.
 		This effect cannot be saved against, though it can be dodged and checks confusion immunity.]])
-		:tformat(damage, t.getDuration(self, t))
+		:tformat(damage, t.getDuration(self, t), Desc.vs())
 	end,
 }
 

@@ -194,7 +194,7 @@ uberTalent{
 	require = { special={desc=_t"Have been close to death(killed a foe while below 1 HP)", fct=function(self) return self:attr("barely_survived") end} },
 	info = function(self, t)
 		return ([[You focus your mind on the task at hand, regardless of how dire the situation is.
-		For 5 turns, none of your talents use any resources.]])
+		For 5 turns, none of your active use talents will consume resources (note: this does not affect resource drain from effects, sustains, or other sources).]])
 		:tformat()
 	end,
 }
@@ -206,12 +206,26 @@ uberTalent{
 	on_learn = function(self, t)
 		self.inc_stats[self.STAT_LCK] = (self.inc_stats[self.STAT_LCK] or 0) + 40
 		self:onStatChange(self.STAT_LCK, 40)
-		self:attr("phase_shift", 0.1)
 	end,
 	on_unlearn = function(self, t)
 		self.inc_stats[self.STAT_LCK] = (self.inc_stats[self.STAT_LCK] or 0) - 40
 		self:onStatChange(self.STAT_LCK, -40)
-		self:attr("phase_shift", -0.1)
+	end,
+	callbackPriorities = {callbackOnHit = -1100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		if rng.percent(10) and not self.turn_procs.phase_shift then
+			self.turn_procs.phase_shift = true
+			local nx, ny = util.findFreeGrid(self.x, self.y, 1, true, {[Map.ACTOR]=true})
+			if nx then
+				local ox, oy = self.x, self.y
+				self:move(nx, ny, true)
+				game.level.map:particleEmitter(ox, oy, math.max(math.abs(nx-ox), math.abs(ny-oy)), "lightning", {tx=nx-ox, ty=ny-oy})
+				game:delayedLogDamage(src or {}, self, 0, ("#STEEL_BLUE#(%d shifted)#LAST#"):tformat(cb.value), nil)
+				cb.value = 0
+			end
+		end
+		return cb
 	end,
 	info = function(self, t)
 		return ([[Every day is your lucky day! You gain a permanent +40 luck bonus and 10%% to move out of the way of every attack.]])

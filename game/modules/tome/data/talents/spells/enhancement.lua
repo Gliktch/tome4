@@ -145,10 +145,10 @@ newTalent{
 	info = function(self, t)
 		local icedamage = t.getIceDamage(self, t)
 		local icedamageinc = t.getIceDamageIncrease(self, t)
-		return ([[Engulfs your hands (and weapons) in a sheath of lightning, dealing %d lightning damage with a chance to daze (25%%) per melee attack and increasing all lightning damage dealt by %d%%.
+		return ([[Engulfs your hands (and weapons) in a sheath of lightning, dealing %d lightning damage with 25%% chance to daze %s per melee attack and increasing all lightning damage dealt by %d%%.
 		Each hit will also regenerate %0.2f mana.
 		The effects will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.LIGHTNING, icedamage), icedamageinc, self:getTalentLevel(t) / 3)
+		tformat(damDesc(self, DamageType.LIGHTNING, icedamage), Desc.vs(Desc.max("pp", "sp", "mp"), "ps"), icedamageinc, self:getTalentLevel(t) / 3)
 	end,
 }
 

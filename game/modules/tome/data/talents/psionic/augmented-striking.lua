@@ -99,10 +99,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Focus kinetic energy and strike an enemy for %d%% weapon damage as physical.
-		They will be pinned to the ground for %d turns by the force of this attack.
+		They will be pinned to the ground for %d turns by the force of this attack %s.
 		Any frozen creature hit by this attack will take an extra %0.2f physical damage.
 		The extra damage will scale with your Mindpower.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), t.getDur(self, t), damDesc(self, DamageType.PHYSICAL, t.getDam(self, t)))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 3.0), t.getDur(self, t), Desc.vs"mp", damDesc(self, DamageType.PHYSICAL, t.getDam(self, t)))
 	end,
 }
 
@@ -139,11 +139,11 @@ newTalent{
 			if self:hasEffect(self.EFF_TRANSCENDENT_PYROKINESIS) then
 				local tg = {type="ball", range=1, radius=1, friendlyfire=false}
 				self:project(tg, x, y, DamageType.COLD, dam)
-				self:project(tg, x, y, DamageType.FREEZE, {dur=dur, hp=dam})
+				self:project(tg, x, y, DamageType.FREEZE, {dur=dur, hp=dam, apply_power = self:combatMindpower()})
 				game.level.map:particleEmitter(x, y, tg.radius, "iceflash", {radius=1})
 			else
 				DamageType:get(DamageType.COLD).projector(self, x, y, DamageType.COLD, dam)
-				DamageType:get(DamageType.FREEZE).projector(self, x, y, DamageType.FREEZE, {dur=dur, hp=dam})
+				DamageType:get(DamageType.FREEZE).projector(self, x, y, DamageType.FREEZE, {dur=dur, hp=dam, apply_power = self:combatMindpower()})
 			end
 
 			if target:hasEffect(target.EFF_PINNED) and target:hasEffect(target.EFF_FROZEN) then
@@ -197,10 +197,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Focus thermal energy and strike an enemy for %d%% weapon damage as cold.
-		A burst of cold will then engulf them, doing an extra %0.1f Cold damage and also freeze them for %d turns.
+		A burst of cold will then engulf them, doing an extra %0.1f Cold damage and also freeze them for %d turns %s.
 		If the attack freezes a pinned creature a burst of ice is summoned, circling the caster and the creature with a wall of ice for 3 turns.
 		The cold burst damage will scale with your Mindpower.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), damDesc(self, DamageType.COLD, t.getDam(self, t)), t.getDur(self, t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), damDesc(self, DamageType.COLD, t.getDam(self, t)), t.getDur(self, t), Desc.vs"mp")
 	end,
 }
 
@@ -312,11 +312,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Focus charged energy and strike an enemy for %d%% weapon damage as lightning.
-		Energy will then discharge from your weapon, doing an extra %0.2f lightning damage and halving their stun/daze/freeze/pin resistance for %d turns.
+		Energy will then discharge from your weapon, doing an extra %0.2f lightning damage and halving their stun/daze/freeze/pin resistance for %d turns %s.
 		If the target is pinned and Charged Shield is sustained, its absorb value will be increased by %0.2f.
 		If the target is frozen, the ice will melt in a flash of vapour, knocking back all creatures around it in radius 2.
 		The discharge damage will scale with your Mindpower.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), damDesc(self, DamageType.LIGHTNING, t.getDam(self, t)), t.getDur(self, t), 1.5 * damDesc(self, DamageType.LIGHTNING, t.getDam(self, t)))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 2.0), damDesc(self, DamageType.LIGHTNING, t.getDam(self, t)), t.getDur(self, t), Desc.vs"ms", 1.5 * damDesc(self, DamageType.LIGHTNING, t.getDam(self, t)))
 	end,
 }
 

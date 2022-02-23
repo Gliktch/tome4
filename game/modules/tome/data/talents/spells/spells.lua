@@ -214,6 +214,15 @@ function necroSetupSummon(self, def, x, y, level, turns, no_control)
 		end
 		game.logSeen(self, "#GREY#%s can not be healed this way!", self:getName():capitalize())
 	end
+	
+	m.actBase = function(self)
+		-- summons decay after their summoner dies.
+		if not self.summoner or (self.summoner and self.summoner.dead) then
+			self:takeHit(self.max_life * 0.15)
+		end
+	
+		return mod.class.NPC.actBase(self)
+	end
 
 	if self:knowTalent(self.T_SURGE_OF_UNDEATH) then
 		m.life_regen = 0.5

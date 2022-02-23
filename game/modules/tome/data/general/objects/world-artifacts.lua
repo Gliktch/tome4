@@ -894,9 +894,9 @@ newEntity{ base = "BASE_KNIFE", define_as = "ART_PAIR_MOON",
 			damage = function(self, who)
 				return self.set_complete and who:getCun()*2 or 70
 			end,
-			fct=function(self, who, target, dam, special)
+			fct=function(combat, who, target, dam, special)
 				local tg = {type="hit", range=1, radius=0, selffire=false}
-				local damage = special.damage(self, who)
+				local damage = special.damage(combat.self, who)
 				who:project(tg, target.x, target.y, engine.DamageType.DARKNESS, damage)
 		end},
 	},
@@ -949,9 +949,9 @@ newEntity{ base = "BASE_KNIFE", define_as = "ART_PAIR_STAR",
 			damage = function(self, who)
 				return self.set_complete and who:getDex()*2 or 70
 			end,
-			fct=function(self, who, target, dam, special)
+			fct=function(combat, who, target, dam, special)
 				local tg = {type="hit", range=1, radius=0, selffire=false}
-				local damage = special.damage(self, who)
+				local damage = special.damage(combat.self, who)
 				who:project(tg, target.x, target.y, engine.DamageType.LIGHT, damage)
 		end},
 	},
@@ -3681,23 +3681,19 @@ newEntity{ base = "BASE_WHIP", define_as = "HYDRA_BITE",
 		special_on_hit = {desc=_t"hit up to two adjacent enemies",on_kill=1, fct=function(combat, who, target)
 				local o, item, inven_id = who:findInAllInventoriesBy("define_as", "HYDRA_BITE")
 				if not o or not who:getInven(inven_id).worn then return end
+				if o.running == 1 then return end
+				o.running = 1
 				local tgts = {}
 				local twohits=1
 				for _, c in pairs(util.adjacentCoords(who.x, who.y)) do
-				local targ = game.level.map(c[1], c[2], engine.Map.ACTOR)
-				if targ and targ ~= target and who:reactionToward(target) < 0 then tgts[#tgts+1] = targ end
+					local targ = game.level.map(c[1], c[2], engine.Map.ACTOR)
+					if targ and targ ~= target and who:reactionToward(target) < 0 then tgts[#tgts+1] = targ end
 				end
 				if #tgts == 0 then return end
-					local target1 = rng.table(tgts)
-					local target2 = rng.table(tgts)
-					local tries = 0
-				while target1 == target2 and tries < 100 do
-					local target2 = rng.table(tgts)
-					tries = tries + 1
-				end
-				if o.running == 1 then return end
-				o.running = 1
-				if tries >= 100 or #tgts==1 then twohits=nil end
+				tgts = rng.tableSample(tgts, 2)
+			    local target1 = tgts[1]
+				local target2 = tgts[2]
+				if not target2 or target2 == target1 then twohits=nil end
 				if twohits then
 					who:logCombat(target1, "#Source#'s three headed flail lashes at #Target#%s!",who:canSee(target2) and (" and %s"):tformat(target2.name:capitalize()) or "")
 				else

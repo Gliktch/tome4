@@ -57,8 +57,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[You strike your foe with your two handed weapon, dealing %d%% weapon damage.
-		If the attack hits, all foes in radius 2 will have their light resistance reduced by %d%% and their damage reduced by %d%% for 5 turns.]]):
-		tformat(100 * damage, t.getWeakness(self, t), t.getNumb(self, t))
+		If the attack hits, all foes in radius 2 will have their light resistance reduced by %d%% and their damage reduced by %d%% for 5 turns. %s]]):
+		tformat(100 * damage, t.getWeakness(self, t), t.getNumb(self, t), Desc.vs())
 	end,
 }
 
@@ -86,8 +86,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You mark a target with light for 3 turns, causing all melee hits you deal to it to heal you for %d%% of the damage done.]]):
-		tformat(t.getPower(self, t))
+		return ([[You mark a target with light for 3 turns, causing all melee hits you deal to it to heal you for %d%% of the damage done %s.]]):
+		tformat(t.getPower(self, t), Desc.vs())
 	end,
 }
 
@@ -121,9 +121,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[While wielding a two handed weapon, your critical strike chance is increased by %d%%, and your melee criticals instill you with righteous strength, increasing all physical and light damage you deal by %d%%, stacking up to 3 times.
-		In addition, your melee critical strikes leave a lasting lightburn on the target, dealing %0.2f light damage over 5 turns and reducing opponents armour by %d.
+		In addition, your melee critical strikes leave a lasting lightburn on the target, dealing %0.2f light damage over 5 turns and reducing opponents armour by %d. %s
 		The damage increases with your Spellpower.]]):
-		tformat(t.getCrit(self, t), t.getPower(self, t), damDesc(self, DamageType.LIGHT, t.getDamage(self, t)), t.getArmor(self, t))
+		tformat(t.getCrit(self, t), t.getPower(self, t), damDesc(self, DamageType.LIGHT, t.getDamage(self, t)), t.getArmor(self, t), Desc.vs"ss")
 	end,
 }
 

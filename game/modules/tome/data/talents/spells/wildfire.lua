@@ -58,8 +58,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[A wave of fire emanates from you with a radius of %d, knocking back anything caught inside and setting them ablaze, doing %0.2f fire damage over 3 turns.
-		The damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.FIRE, damage))
+		return ([[A wave of fire emanates from you with a radius of %d, knocking back anything caught inside %s and setting them ablaze, doing %0.2f fire damage over 3 turns.
+		The damage will increase with your Spellpower.]]):tformat(radius, Desc.vs"sp", damDesc(self, DamageType.FIRE, damage))
 	end,
 }
 
@@ -98,6 +98,8 @@ newTalent{
 	require = spells_req_high3,
 	mana = 20,
 	cooldown = 20,
+	no_energy = true,
+	-- considering it used to be passive and could trigger multiple times if there are more than one floor effects, making it instant to slightly compensate.
 	tactical = { CURE = function(self, t, aitarget)
 			local nb = 0
 			for eff_id, p in pairs(self.tmp) do
@@ -115,12 +117,12 @@ newTalent{
 			return nb^0.5
 		end},
 	points = 5,
-	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 55) end,
+	getDamage = function(self, t) return math.floor(self:combatTalentSpellDamage(t, 10, 55)) end,
 	getDur = function(self, t) return math.ceil(self:combatTalentScale(t, 6, 15)) end,
-	getChance = function(self, t) return self:getTalentLevelRaw(t) * 10 end,
+	getChance = function(self, t) return math.floor(math.min(self:getTalentLevel(t) / 1.3 * 10, self:combatTalentLimit(t, 100, 10, 50))) end, -- nerf the chance beyond player tl and makes it use actual tl instead of raw tl
 	on_pre_use = function(self, t) return game.level and self.x and game.level.map:hasEffectType(self.x, self.y, DamageType.INFERNO) end,
 	action = function(self, t)
-		self:setEffect(self.EFF_CLEANSING_FLAMES, t:_getDur(self), {chance=t:_getChance(self)})
+		self:setEffect(self.EFF_CLEANSING_FLAMES, t:_getDur(self), {chance=t:_getChance(self), power = t.getDamage(self, t)})
 		return true
 	end,
 	info = function(self, t)

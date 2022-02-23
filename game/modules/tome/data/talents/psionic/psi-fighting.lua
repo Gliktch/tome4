@@ -58,10 +58,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Gather your will, and brutally smash the target with your mainhand weapon and then your telekinetically wielded weapon, doing %d%% weapon damage.
-		If your mainhand weapon hits, you will also stun the target for %d turns.
+		If your mainhand weapon hits, you will also stun the target for %d turns %s.
 		This attack uses 60%% of your Willpower and Cunning instead of Strength and Dexterity to determine weapon damage and accuracy, for both attacks.
 		Any active Aura damage bonusses will extend to the weapons used for this attack.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 0.9, 1.5), t.duration(self,t))
+		tformat(100 * self:combatTalentWeaponDamage(t, 0.9, 1.5), t.duration(self,t), Desc.vs"mp")
 	end,
 }
 
@@ -129,10 +129,10 @@ newTalent{
 	info = function(self, t)
 		return ([[Assume a defensive mental state.
 		For one turn, you will fully block the next melee attack used against you with your telekinetically-wielded weapon and then strike the attacker with it for %d%% weapon damage.
-		At talent level 3 you will also disarm the attacker for 3 turns.
+		At talent level 3 you will also disarm the attacker for 3 turns %s.
 		At talent level 5 you will be able to reflexively block up to one attack per turn with a %d%% chance, based on your cunning. Each trigger requires and uses 10 Psi.
 		This requires a telekinetically-wielded weapon.]]):
-		tformat(100 * t.getWeaponDamage(self, t), t.getChance(self, t))
+		tformat(100 * t.getWeaponDamage(self, t), Desc.vs"mp", t.getChance(self, t))
 	end,
 }
 
@@ -193,9 +193,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Focus your will into a powerful thrust of your telekinetically-wielded weapon to impale your target and then viciously rip it free.
-		This deals %d%% weapon damage and then causes the victim to bleed for %0.1f Physical damage over four turns.
-		At level 3 the thrust is so powerful that it has %d%% chance to shatter a temporary damage shield if one exists.
+		This deals %d%% weapon damage and then causes the victim to bleed for %0.1f Physical damage over four turns %s.
+		At level 3 the thrust is so powerful that it has %d%% chance to shatter a random temporary magical or psionic damage absorbing shield if one exists.
 		The bleeding damage increases with your Mindpower.]]):
-		tformat(100 * t.getWeaponDamage(self, t), damDesc(self, DamageType.PHYSICAL, t.getDamage(self,t)), t.getShatter(self, t))
+		tformat(100 * t.getWeaponDamage(self, t), damDesc(self, DamageType.PHYSICAL, t.getDamage(self,t)), Desc.vs"mp", t.getShatter(self, t))
 	end,
 }

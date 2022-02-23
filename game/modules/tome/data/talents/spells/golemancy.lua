@@ -210,7 +210,7 @@ newTalent{
 		local ammo = self:hasAlchemistWeapon()
 
 		--	Heal fraction of max life for higher levels
-		local healbase = 44+self.alchemy_golem.max_life*self:combatTalentLimit(self:getTalentLevel(self.T_GOLEM_POWER),0.2, 0.01, 0.05) -- Add up to 20% of max life to heal
+		local healbase = 44+self.alchemy_golem:getMaxLife()*self:combatTalentLimit(self:getTalentLevel(self.T_GOLEM_POWER),0.2, 0.01, 0.05) -- Add up to 20% of max life to heal
 		return healbase + self:combatTalentSpellDamage(self.T_GOLEM_POWER, 15, 550, ((ammo and ammo.alchemist_power or 0) + self:combatSpellpower()) / 2) --I5
 	end,
 	on_learn = function(self, t)
@@ -276,11 +276,11 @@ newTalent{
 			if act and act == self.alchemy_golem then on_level = true break end
 		end end
 
-		if game.level:hasEntity(self.alchemy_golem) and on_level and self.alchemy_golem.life >= self.alchemy_golem.max_life then
+		if game.level:hasEntity(self.alchemy_golem) and on_level and self.alchemy_golem:getLife() >= self.alchemy_golem:getMaxLife() then
 			-- nothing
 			return nil
 		-- heal the golem
-		elseif ((game.level:hasEntity(self.alchemy_golem) and on_level) or self:hasEffect(self.EFF_GOLEM_MOUNT)) and self.alchemy_golem.life < self.alchemy_golem.max_life then
+		elseif ((game.level:hasEntity(self.alchemy_golem) and on_level) or self:hasEffect(self.EFF_GOLEM_MOUNT)) and self.alchemy_golem:getLife() < self.alchemy_golem:getMaxLife() then
 			if not ammo or ammo:getNumber() < 2 then
 				game.logPlayer(self, "You need to ready 2 alchemist gems in your quiver to heal your golem.")
 				return
@@ -308,7 +308,9 @@ newTalent{
 			self:attr("no_sound", -1)
 
 			self.alchemy_golem.dead = nil
-			if self.alchemy_golem.life < 0 then self.alchemy_golem.life = self.alchemy_golem.max_life / 3 end
+			if self.alchemy_golem:getLife() < self.alchemy_golem:getMinLife() then 
+				self.alchemy_golem.life = self.alchemy_golem:getMaxLife() / 3 
+			end
 
 			-- Find space
 			local x, y = util.findFreeGrid(self.x, self.y, 5, true, {[Map.ACTOR]=true})
@@ -492,6 +494,12 @@ newTalent{
 		golem:move(px, py, true)
 		game.level.map:particleEmitter(px, py, 1, "teleport")
 		game.level.map:particleEmitter(gx, gy, 1, "teleport")
+		if self:attr("defense_on_teleport") or self:attr("resist_all_on_teleport") or self:attr("effect_reduction_on_teleport") then
+			self:setEffect(self.EFF_OUT_OF_PHASE, 4, {})
+		end
+		if golem:attr("defense_on_teleport") or golem:attr("resist_all_on_teleport") or golem:attr("effect_reduction_on_teleport") then
+			golem:setEffect(golem.EFF_OUT_OF_PHASE, 4, {})
+		end
 
 		for uid, e in pairs(game.level.entities) do
 			if e.getTarget then

@@ -251,19 +251,14 @@ newEffect{
 	status = "beneficial",
 	parameters = { power=10 },
 	activate = function(self, eff)
-		local lifeb = self.max_life * eff.power/100
-		local stamb = self.max_stamina * eff.power/100
-		eff.max_lifeID = self:addTemporaryValue("max_life", lifeb) --Avoid healing effects
-		eff.lifeID = self:addTemporaryValue("life",lifeb)
-		eff.max_stamina = self:addTemporaryValue("max_stamina", stamb)
-		self:incStamina(stamb)
-		eff.stamina = stamb
+		local lifeb = self:getMaxLife() * eff.power/100
+		local stamb = self:getMaxStamina() * eff.power/100
+		self:effectTemporaryValue(eff, "max_life", lifeb)
+		self:effectTemporaryValue(eff, "life", lifeb)
+		self:effectTemporaryValue(eff, "max_stamina", stamb)
+		self:effectTemporaryValue(eff, "stamina", stamb)
 	end,
 	deactivate = function(self, eff)
-		self:removeTemporaryValue("life", eff.lifeID)
-		self:removeTemporaryValue("max_life", eff.max_lifeID)
-		self:removeTemporaryValue("max_stamina", eff.max_stamina)
-		self:incStamina(-eff.stamina)
 	end,
 }
 
@@ -320,6 +315,13 @@ newEffect{
 		self:removeParticles(eff.particle)
 		self:removeTemporaryValue("inc_damage", eff.incDamageId)
 	end,
+	callbackOnMeleeHitProcs = function(self, eff, target, hitted, crit, weapon, damtype, mult, dam)
+		if hitted and eff.hateBonus and eff.hateBonus > 0 then
+			target:incHate(eff.hateBonus)
+			game.logPlayer(target, "#F53CBE#You revel in attacking a weakened foe! (+%d hate)", eff.hateBonus)
+			eff.hateBonus = nil
+		end
+	end,
 }
 
 newEffect{
@@ -351,7 +353,7 @@ newEffect{
 	status = "detrimental",
 	parameters = {},
 	on_gain = function(self, err) return _t"#F53CBE##Target# is stunned with fear!", _t"+Stunned" end,
-	on_lose = function(self, err) return _t"#Target# overcomes the gloom", _t"-Stunned" end,
+	on_lose = function(self, err) return _t"#Target# overcomes the gloom.", _t"-Stunned" end,
 	activate = function(self, eff)
 		eff.particle = self:addParticles(Particles.new("gloom_stunned", 1))
 		eff.tmpid = self:addTemporaryValue("stunned", 1)
@@ -386,7 +388,7 @@ newEffect{
 	status = "detrimental",
 	parameters = { power = 10 },
 	on_gain = function(self, err) return _t"#F53CBE##Target# is lost in despair!", _t"+Confused" end,
-	on_lose = function(self, err) return _t"#Target# overcomes the gloom", _t"-Confused" end,
+	on_lose = function(self, err) return _t"#Target# overcomes the gloom.", _t"-Confused" end,
 	activate = function(self, eff)
 		eff.particle = self:addParticles(Particles.new("gloom_confused", 1))
 		eff.power = math.floor(util.bound(eff.power, 0, 50))
@@ -408,6 +410,11 @@ newEffect{
 	subtype = { gloom=true, confusion=true },
 	status = "detrimental",
 	parameters = {},
+	callbackOnMeleeHitProcs = function(self, eff, target, hitted, crit)
+		if hitted and crit then
+			self:removeEffect(self.EFF_DISMAYED)
+		end
+	end,
 	on_gain = function(self, err) return _t"#F53CBE##Target# is dismayed!", _t"+Dismayed" end,
 	on_lose = function(self, err) return _t"#Target# overcomes the dismay", _t"-Dismayed" end,
 	activate = function(self, eff)
@@ -422,7 +429,7 @@ newEffect{
 	name = "STALKER", image = "talents/stalk.png",
 	desc = _t"Stalking",
 	display_desc = function(self, eff)
-		return ([[Stalking %d/%d +%d ]]):tformat(eff.target.life, eff.target.max_life, eff.bonus)
+		return ([[Stalking %d/%d +%d ]]):tformat(eff.target:getLife(), eff.target:getMaxLife(), eff.bonus)
 	end,
 	long_desc = function(self, eff)
 		local t = self:getTalentFromId(self.T_STALK)
@@ -447,6 +454,14 @@ newEffect{
 	on_timeout = function(self, eff)
 		if not eff.target or eff.target.dead or not eff.target:hasEffect(eff.target.EFF_STALKED) then
 			self:removeEffect(self.EFF_STALKER)
+		end
+	end,
+	callbackPriorities = { callbackOnMeleeAttack = -100 },
+	callbackOnMeleeAttack = function(self, eff, target, hitted)
+		-- handle stalk targeting for hits (also handled in Actor for turn end effects)
+		if hitted and target ~= self then
+				-- mark if stalkee was hit
+			eff.hit = eff.hit or eff.target == target
 		end
 	end,
 }
@@ -607,14 +622,16 @@ newEffect{
 			end
 		end
 	end,
-	do_onTakeHit = function(self, eff, dam)
-		eff.resistChance = (eff.resistChance or 0) + math.min(100, math.max(0, dam / self.max_life * 100))
+	callbackPriorities = {callbackOnHit = -1000},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return end
+		eff.resistChance = (eff.resistChance or 0) + math.min(100, math.max(0, cb.value / self:getMaxLife() * 100))
 		if rng.percent(eff.resistChance) then
 			game.logSeen(self, "#F53CBE#%s is jolted to attention by the damage and is no longer being beckoned.", self:getName():capitalize())
 			self:removeEffect(self.EFF_BECKONED)
 		end
 
-		return dam
+
 	end,
 }
 
@@ -1762,7 +1779,7 @@ newEffect{
 	activate = function(self, eff)
 		eff.tmpid = self:addTemporaryValue("global_speed_add", eff.power)
 		eff.critid = self:addTemporaryValue("combat_physcrit", eff.crit)
-		eff.dieatid = self:addTemporaryValue("die_at", -self.max_life * eff.dieat)
+		eff.dieatid = self:addTemporaryValue("die_at", -self:getMaxLife() * eff.dieat)
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("global_speed_add", eff.tmpid)
@@ -1770,7 +1787,7 @@ newEffect{
 		self:removeTemporaryValue("die_at", eff.dieatid)
 
 		-- check negative life first incase the creature has healing
-		if self.life <= (self.die_at or 0) then
+		if self:getLife() <= self:getMinLife() then
 			local sx, sy = game.level.map:getTileToScreen(self.x, self.y, true)
 			game.flyers:add(sx, sy, 30, (rng.range(0,2)-1) * 0.5, rng.float(-2.5, -1.5), _t"Falls dead!", {255,0,255})
 			game.logSeen(self, "%s dies when its frenzy ends!", self:getName():capitalize())
@@ -1799,7 +1816,7 @@ newEffect{
 		new_eff.particle2 = old_eff.particle2
 
 		-- Take the new values, dont heal, otherwise you get a free heal each crit .. which is totaly broken
-		local v = new_eff.hp * self.max_life / 100
+		local v = new_eff.hp * self:getMaxLife() / 100
 		new_eff.life_id = self:addTemporaryValue("max_life", v)
 		new_eff.cur_regen = math.min(old_eff.cur_regen + new_eff.regen, new_eff.max)
 		new_eff.life_regen_id = self:addTemporaryValue("life_regen", new_eff.cur_regen)
@@ -1807,7 +1824,7 @@ newEffect{
 		return new_eff
 	end,
 	activate = function(self, eff)
-		local v = eff.hp * self.max_life / 100
+		local v = eff.hp * self:getMaxLife() / 100
 		eff.life_id = self:addTemporaryValue("max_life", v)
 		eff.templife_id = self:addTemporaryValue("life",v) -- Prevent healing_factor affecting activation
 		eff.cur_regen = eff.regen
@@ -1869,13 +1886,12 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# loses extra life.", _t"-Life" end,
 	parameters = { life = 50 },
 	activate = function(self, eff)
-		self.max_life = self.max_life + eff.life
-		self.life = self.life + eff.life
+		self:effectTemporaryValue(eff, "max_life", eff.life)
+		self:effectTemporaryValue(eff, "life", eff.life)
 		self.changed = true
 	end,
 	deactivate = function(self, eff)
-		self.max_life = self.max_life - eff.life
-		self.life = self.life - eff.life
+
 		self.changed = true
 		if self.life <= 0 then
 			self.life = 1
@@ -1973,16 +1989,32 @@ newEffect{
 			end
 		end
 	end,
-	callbackOnHit = function(self, eff, cb, src)
+	callbackPriorities = {callbackOnHit = -295}, -- this works like a shield refresh each turn, and should have higher priority than usual shield.
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return end
 		if not eff.damageShieldMax or eff.damageShield <= 0 then return end
-
 		local absorb = math.min(eff.damageShield, cb.value)
 		eff.damageShield = eff.damageShield - absorb
 		cb.value = cb.value - absorb
 		game:delayedLogDamage(src, self, 0, ("#RED#(%d rampage shugs off#LAST#)"):tformat(absorb), false)
 		--game.logSeen(self, "%s shrugs off %d damage.", self:getName():capitalize(), absorb)
 
-		return true
+		cb.value = cb.value - absorb
+		return cb
+	end,
+	do_onTakeHit = function(self, eff, dam)
+	end,
+	callbackPriorities = {callbackOnMeleeAttack = -1},
+	callbackOnMeleeAttack = function(self, eff, target, hitted, crit)
+		-- Rampage
+		if hitted and crit then
+			if eff and not eff.critHit and eff.actualDuration < eff.maxDuration and self:knowTalent(self.T_BRUTALITY) then
+				game.logPlayer(self, "#F53CBE#Your rampage is invigorated by your fierce attack! (+1 duration)")
+				eff.critHit = true
+				eff.actualDuration = eff.actualDuration + 1
+				eff.dur = eff.dur + 1
+			end
+		end
 	end,
 	do_postUseTalent = function(self, eff)
 		if eff.dur > 0 then
@@ -2032,7 +2064,7 @@ newEffect{
 newEffect{
 	name = "BRAINLOCKED",
 	desc = _t"Brainlocked",
-	long_desc = function(self, eff) return ("Renders a random talent unavailable. Talent cooldown is halved until the effect has worn off."):tformat() end,
+	long_desc = function(self, eff) return ("Renders a random talent unavailable. Talent cooldown is halved until the effect has worn off. This is a special cross-tier effect, may be applied if the attacker's power is on higher tier (every 20 points counts as a tier) than your mental save in a save check."):tformat() end,
 	type = "mental",
 	subtype = { ["cross tier"]=true },
 	status = "detrimental",
@@ -2146,7 +2178,7 @@ newEffect{
 	display_desc = function(self, eff) return ("%s Psionic Shield"):tformat(_t(eff.kind):capitalize()) end,
 	long_desc = function(self, eff) return ("Reduces all incoming %s damage by %d."):tformat(eff.what, eff.power) end,
 	type = "mental",
-	subtype = { psionic=true, shield=true },
+	subtype = { psionic=true },
 	status = "beneficial",
 	parameters = { power=10, kind="kinetic" },
 	activate = function(self, eff)
@@ -2209,11 +2241,13 @@ newEffect{
 newEffect{
 	name = "RESONANCE_FIELD", image = "talents/resonance_field.png",
 	desc = _t"Resonance Field",
-	long_desc = function(self, eff) return ("The target is surrounded by a psychic field, absorbing 50%% of all damage (up to %d/%d)."):tformat(self.resonance_field_absorb, eff.power) end,
+	long_desc = function(self, eff) return ("The target is surrounded by a psychic field, absorbing 50%% of all damage (up to %d/%d)."):tformat(eff.power, eff.power_max) end,
 	type = "mental",
 	subtype = { psionic=true, shield=true },
 	status = "beneficial",
-	parameters = { power=100 },
+	parameters = { power=100, power_max = 100 },
+	charges = function(self, eff) return math.ceil(eff.power) end,
+	shield_bar = function(self, eff) return eff.power, eff.power_max end,
 	on_gain = function(self, err) return _t"A psychic field forms around #target#.", _t"+Resonance Shield" end,
 	on_lose = function(self, err) return _t"The psychic field around #target# crumbles.", _t"-Resonance Shield" end,
 	damage_feedback = function(self, eff, src, value)
@@ -2224,9 +2258,26 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
+	callbackPriorities = {callbackOnHit = -290},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		local absorb = math.min(cb.value/2, eff.power)
+		game:delayedLogDamage(src, self, 0, ("#SLATE#(%d resonance)#LAST#"):tformat(absorb), false)
+		if absorb < eff.power then
+			eff.power = eff.power - absorb
+		else
+			game.logPlayer(self, "Your resonance field crumbles under the damage!")
+			self:removeEffect(self.EFF_RESONANCE_FIELD)
+		end
+		cb.value = cb.value - absorb
+		
+		-- store this absorbed value so you can possibly feedback gain off it later in the callback loop
+		self.turn_procs.resonance_field_absorb = (self.turn_procs.resonance_field_absorb or 0) + absorb
+		
+		return cb
+	end,
 	activate = function(self, eff)
-		self.resonance_field_absorb = eff.power
-		eff.sid = self:addTemporaryValue("resonance_field", eff.power)
+		eff.power_max = eff.power
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {size_factor=1.1}, {type="shield", time_factor=-8000, llpow=1, aadjust=7, color={1, 1, 0}}))
 		--	eff.particle = self:addParticles(Particles.new("shader_shield", 1, {img="shield2", size_factor=1.25}, {type="shield", time_factor=6000, color={1, 1, 0}}))
@@ -2235,9 +2286,7 @@ newEffect{
 		end
 	end,
 	deactivate = function(self, eff)
-		self.resonance_field_absorb = nil
 		self:removeParticles(eff.particle)
-		self:removeTemporaryValue("resonance_field", eff.sid)
 	end,
 }
 
@@ -2338,6 +2387,21 @@ newEffect{
 			self:setEffect(self.EFF_INSOMNIA, 1, {power=eff.insomnia})
 		end
 	end,
+	callbackPriorities = {callbackOnHit = -1000},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		-- Reduce the duration by 1 for every full incriment of the effect power
+		-- We add a temp_power parameter to track total damage over multiple turns
+		eff.temp_power = (eff.temp_power or eff.power) - cb.value
+		while eff.temp_power <= 0 do
+			eff.dur = eff.dur - 1
+			eff.temp_power = eff.temp_power + eff.power
+			if eff.dur <=0 then
+				game:onTickEnd(function() self:removeEffect(self.EFF_SLEEP) end) -- Happens on tick end so Night Terror can work properly
+				break
+			end
+		end
+	end,
 	activate = function(self, eff)
 		eff.sid = self:addTemporaryValue("sleep", 1)
 	end,
@@ -2386,6 +2450,21 @@ newEffect{
 		-- Incriment Insomnia Duration
 		if not self:attr("lucid_dreamer") then
 			self:setEffect(self.EFF_INSOMNIA, 1, {power=eff.insomnia})
+		end
+	end,
+	callbackPriorities = {callbackOnHit = -1000},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		-- Reduce the duration by 1 for every full incriment of the effect power
+		-- We add a temp_power parameter to track total damage over multiple turns
+		eff.temp_power = (eff.temp_power or eff.power) - cb.value
+		while eff.temp_power <= 0 do
+			eff.dur = eff.dur - 1
+			eff.temp_power = eff.temp_power + eff.power
+			if eff.dur <=0 then
+				game:onTickEnd(function() self:removeEffect(self.EFF_SLUMBER) end) -- Happens on tick end so Night Terror can work properly
+				break
+			end
 		end
 	end,
 	activate = function(self, eff)
@@ -2445,6 +2524,21 @@ newEffect{
 		-- Incriment Insomnia Duration
 		if not self:attr("lucid_dreamer") then
 			self:setEffect(self.EFF_INSOMNIA, 1, {power=eff.insomnia})
+		end
+	end,
+	callbackPriorities = {callbackOnHit = -1000},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		-- Reduce the duration by 1 for every full incriment of the effect power
+		-- We add a temp_power parameter to track total damage over multiple turns
+		eff.temp_power = (eff.temp_power or eff.power) - cb.value
+		while eff.temp_power <= 0 do
+			eff.dur = eff.dur - 1
+			eff.temp_power = eff.temp_power + eff.power
+			if eff.dur <=0 then
+				game:onTickEnd(function() self:removeEffect(self.EFF_NIGHTMARE) end) -- Happens on tick end so Night Terror can work properly
+				break
+			end
 		end
 	end,
 	activate = function(self, eff)
@@ -2636,7 +2730,7 @@ newEffect{
 newEffect{
 	name = "SPELL_FEEDBACK", image = "talents/spell_feedback.png",
 	desc = _t"Spell Feedback",
-	long_desc = function(self, eff) return ("The target suffers %d%% spell failue."):tformat(eff.power) end,
+	long_desc = function(self, eff) return ("The target suffers %d%% spell failure."):tformat(eff.power) end,
 	type = "mental",
 	subtype = { nature=true },
 	status = "detrimental",
@@ -2687,11 +2781,27 @@ newEffect{
 	desc = _t"Shadow Empathy",
 	long_desc = function(self, eff) return ("%d%% of all damage is redirected to a random shadow."):tformat(eff.power) end,
 	type = "mental",
-	subtype = { mind=true, shield=true },
+	subtype = { mind=true },
 	status = "beneficial",
 	parameters = { power=10 },
+	callbackPriorities = {callbackOnHit = -790},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 then return end
+		local shadow = t.getRandomShadow(self, t)
+		if shadow then
+			game:delayedLogMessage(self, src,  "displacement_shield"..(shadow.uid or ""), "#CRIMSON##Source# shares some damage with a shadow!")
+			local displaced = math.min(value * eff.power / 100, shadow.life)
+			shadow:takeHit(displaced, src)
+			game:delayedLogDamage(src, self, 0, ("#PINK#(%d linked)#LAST#"):tformat(displaced), false)
+			game:delayedLogDamage(src, shadow, displaced, ("#PINK#%d linked#LAST#"):tformat(displaced), false)
+			value = value - displaced
+			cb.value = value
+			return cb
+		end
+	end,
 	activate = function(self, eff)
-		self:effectTemporaryValue(eff, "shadow_empathy", eff.power)
+		eff.power = math.min(100, eff.power)
 		eff.particle = self:addParticles(Particles.new("darkness_power", 1))
 	end,
 	deactivate = function(self, eff)
@@ -2704,7 +2814,7 @@ newEffect{
 	desc = _t"Shadow Decoy",
 	long_desc = function(self, eff) return ("A random shadow absorbed a fatal blow for you, granting you a negative shield of %d."):tformat(eff.power) end,
 	type = "mental",
-	subtype = { mind=true, shield=true },
+	subtype = { mind=true},
 	status = "beneficial",
 	parameters = { power=10 },
 	activate = function(self, eff)
@@ -2824,6 +2934,14 @@ newEffect{
 		if eff.particle1 then self:removeParticles(eff.particle1) end
 		if eff.particle2 then self:removeParticles(eff.particle2) end
 	end,
+	callbackPriorities = {callbackOnMeleeProject = -12},
+	callbackOnMeleeProject = function(self, eff, target, hitted, crit)
+		-- Static dis-Charge
+		if hitted and not target.dead then
+			DamageType:get(DamageType.LIGHTNING).projector(self, target.x, target.y, DamageType.LIGHTNING, eff.power)
+			self:removeEffect(self.EFF_STATIC_CHARGE)
+		end
+	end,
 }
 
 newEffect{
@@ -2893,7 +3011,6 @@ newEffect{
 		self:effectTemporaryValue(eff, "inc_damage", {[DamageType.LIGHTNING]=eff.power})
 		self:effectTemporaryValue(eff, "resists_pen", {[DamageType.LIGHTNING]=eff.penetration})
 		eff.particle = self:addParticles(Particles.new("circle", 1, {shader=true, toback=true, oversize=1.7, a=155, appear=8, speed=0, img="transcend_electro", radius=0}))
-		self:callTalent(self.T_CHARGED_SHIELD, "adjust_shield_gfx", true)
 	end,
 	deactivate = function(self, eff)
 		self:removeParticles(eff.particle)
@@ -2904,11 +3021,13 @@ newEffect{
 newEffect{
 	name = "PSI_DAMAGE_SHIELD", image = "talents/barrier.png",
 	desc = _t"Psionic Damage Shield",
-	long_desc = function(self, eff) return ("The target is surrounded by a psionic shield, absorbing %d/%d damage before it crumbles."):tformat(self.damage_shield_absorb, eff.power) end,
+	long_desc = function(self, eff) return ("The target is surrounded by a psionic shield, absorbing %d/%d damage before it crumbles."):tformat(eff.power, eff.power_max) end,
 	type = "mental",
 	subtype = { psionic=true, shield=true },
 	status = "beneficial",
-	parameters = { power=100 },
+	parameters = { power=100, power_max=100 },
+	charges = function(self, eff) return math.ceil(eff.power) end,
+	shield_bar = function(self, eff) return eff.power, eff.power_max end,
 	on_gain = function(self, err) return _t"A psionic shield forms around #target#.", _t"+Shield" end,
 	on_lose = function(self, err) return _t"The psionic shield around #target# crumbles.", _t"-Shield" end,
 	damage_feedback = function(self, eff, src, value)
@@ -2919,13 +3038,62 @@ newEffect{
 			eff.particle._shader:setUniform("impact_tick", core.game.getTime())
 		end
 	end,
+	callbackPriorities={callbackOnHit = -260}, -- Psi damage shield has the same priority as normal damage shield
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		local value = cb.value
+		if value <= 0 then return end
+		-- Phased attack?
+		local adjusted_value = value
+		if src and src.attr and src:attr("damage_shield_penetrate") then
+			adjusted_value = value * (1 - (util.bound(src.damage_shield_penetrate, 0, 100) / 100))
+		end
+		-- Shield Reflect?
+		local reflection, reflect_damage = 0
+		if eff.reflect then
+			reflection = eff.reflect/100
+		end
+		-- Absorb damage into the shield
+		eff.power = eff.power or 0
+		if adjusted_value <= eff.power then
+			eff.power = eff.power - adjusted_value
+			if reflection > 0 then reflect_damage = adjusted_value end
+			value = value - adjusted_value
+		else
+			if reflection > 0 then reflect_damage = eff.power end
+			value = adjusted_value - eff.power
+			adjusted_value = eff.power
+			eff.power = 0
+		end
+		game:delayedLogDamage(src, self, 0, ("#SLATE#(%d absorbed)#LAST#"):tformat(adjusted_value), false)
+		if reflection and reflect_damage and reflection > 0 and reflect_damage > 0 and src.y and src.x and not src.dead and not self.__damage_shield_reflect_running then
+			local a = game.level.map(src.x, src.y, Map.ACTOR)
+			if a and self:reactionToward(a) < 0 then
+				local reflected = reflect_damage * reflection
+				self.__damage_shield_reflect_running = true
+				a:takeHit(reflected, self)
+				self.__damage_shield_reflect_running = nil
+				game:delayedLogDamage(self, src, reflected, ("#SLATE#%d reflected#LAST#"):tformat(reflected), false)
+				game:delayedLogMessage(self, src, "reflection" ,"#CRIMSON##Source# reflects damage back to #Target#!#LAST#")
+			end
+		end
+
+		if adjusted_value > 0 and eff and eff.on_absorb then
+			eff.on_absorb(self, eff, src, adjusted_value)
+		end
+
+		if not eff.power or eff.power <= 0 then
+			game.logPlayer(self, "Your shield crumbles under the damage!")
+			self:removeEffect(self.EFF_PSI_DAMAGE_SHIELD)
+		end
+		
+		cb.value = value
+		return cb
+	end,
 	activate = function(self, eff)
 		self:removeEffect(self.EFF_DAMAGE_SHIELD)
-		eff.tmpid = self:addTemporaryValue("damage_shield", eff.power)
-		if eff.reflect then eff.refid = self:addTemporaryValue("damage_shield_reflect", eff.reflect) end
-		--- Warning there can be only one time shield active at once for an actor
-		self.damage_shield_absorb = eff.power
-		self.damage_shield_absorb_max = eff.power
+
+		eff.power_max = eff.power
+
 		if core.shader.active(4) then
 			eff.particle = self:addParticles(Particles.new("shader_shield", 1, {a=eff.shield_transparency or 1, size_factor=1.4, img="shield3"}, {type="runicshield", ellipsoidalFactor=1, time_factor=-10000, llpow=1, aadjust=7, bubbleColor=colors.hex1alpha"9fe836a0", auraColor=colors.hex1alpha"36bce8da"}))
 		else
@@ -2934,10 +3102,6 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 		self:removeParticles(eff.particle)
-		self:removeTemporaryValue("damage_shield", eff.tmpid)
-		if eff.refid then self:removeTemporaryValue("damage_shield_reflect", eff.refid) end
-		self.damage_shield_absorb = nil
-		self.damage_shield_absorb_max = nil
 	end,
 }
 

@@ -260,8 +260,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Breathe poison on your foes, doing %d damage over a few turns.
-		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
+		return ([[Breathe poison on your foes, doing %d damage over a few turns %s.
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)), Desc.vs"mp")
 	end,
 }
 
@@ -291,7 +291,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Spit poison on your foes, doing %d damage over a few turns.
-		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)))
+		The damage will increase with your Willpower.]]):tformat(damDesc(self, DamageType.NATURE, self:combatTalentStatDamage(t, "wil", 30, 460)), Desc.vs"mp")
 	end,
 }
 
@@ -372,10 +372,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Grab a target and pull it next to you, covering it with frost while reducing its movement speed by 50%% for %d turns.
+		return ([[Grab a target and pull it next to you, covering it with frost while reducing its movement speed by 50%% for %d turns %s.
 		The ice will also deal %0.2f cold damage.
 		The damage and chance to slow will increase with your Mindpower.]]):
-		tformat(t.getDuration(self, t), damDesc(self, DamageType.COLD, self:combatTalentMindDamage(t, 5, 140)))
+		tformat(t.getDuration(self, t), Desc.vs"mp", damDesc(self, DamageType.COLD, self:combatTalentMindDamage(t, 5, 140)))
 	end,
 }
 

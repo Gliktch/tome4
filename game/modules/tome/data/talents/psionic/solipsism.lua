@@ -34,7 +34,33 @@ newTalent{
 		local talentmod = self:combatTalentLimit(t, 50, 3, 11) -- Limit < 50%
 		return 100 - (100 - talentmod)/lifemod, 1-1/lifemod, talentmod
 	end,
+	callbackPriorities = {callbackOnHit = -30},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		local damage_to_psi = 0
+		if value > 0 and self:getPsi() > 0 then
+			damage_to_psi = value * t.getConversionRatio(self, t)
+		end
+		
+		if damage_to_psi > 0 then
+			local psi_damage_resist = 1 - t.getPsiDamageResist(self, t)/100
+		--	print("Psi Damage Resist", psi_damage_resist, "Damage", damage_to_psi, "Final", damage_to_psi*psi_damage_resist)
+			if self:getPsi() > damage_to_psi*psi_damage_resist then
+				self:incPsi(-damage_to_psi*psi_damage_resist)
+			else
+				damage_to_psi = self:getPsi()
+				self:incPsi(-damage_to_psi)
+			end
+			local mindcolor = DamageType:get(DamageType.MIND).text_color or "#aaaaaa#"
+			game:delayedLogMessage(self, nil, "Solipsism hit", ("%s#Source# converts some damage to Psi!"):tformat(mindcolor))
+			game:delayedLogDamage(src, self, damage_to_psi*psi_damage_resist, ("%s%d %s#LAST#"):tformat(mindcolor, damage_to_psi*psi_damage_resist, _t"to psi"), false)
 
+			value = value - damage_to_psi
+		end
+		
+		cb.value = value
+		return cb
+	end,
 	on_levelup_close = function(self, t, lvl, old_lvl, lvl_raw, old_lvl_raw)
 		if old_lvl_raw == 0 and lvl_raw >= 1 then
 			self.inc_resource_multi.psi = (self.inc_resource_multi.psi or 0) + 0.5
@@ -46,8 +72,8 @@ newTalent{
 			-- Adjust the values onTickEnd for NPCs to make sure these table values are resolved
 			-- If we're not the player, we resetToFull to ensure correct values
 			game:onTickEnd(function()
-				self:incMaxPsi((self:getWil()-10) * 1)
-				self.max_life = self.max_life - (self:getCon()-10) * 0.5
+				--automatically updates to account for changes in inc_resource_multi
+
 				if self ~= game.player then self:resetToFull() end
 			end)
 		end
@@ -79,16 +105,14 @@ newTalent{
 			-- Adjust the values onTickEnd for NPCs to make sure these table values are filled out
 			-- If we're not the player, we resetToFull to ensure correct values
 			game:onTickEnd(function()
-				self:incMaxPsi((self:getWil()-10) * 0.5)
-				self.max_life = self.max_life - (self:getCon()-10) * 0.25
+
 				if self ~= game.player then self:resetToFull() end
 			end)
 		end
 	end,
 	on_unlearn = function(self, t)
 		if not self:knowTalent(t) then
-			self:incMaxPsi(-(self:getWil()-10) * 0.5)
-			self.max_life = self.max_life + (self:getCon()-10) * 0.25
+
 			self.inc_resource_multi.psi = self.inc_resource_multi.psi - 0.5
 			self.inc_resource_multi.life = self.inc_resource_multi.life + 0.25
 			self.solipsism_threshold = self.solipsism_threshold - 0.1
@@ -118,16 +142,14 @@ newTalent{
 			-- Adjust the values onTickEnd for NPCs to make sure these table values are resolved
 			-- If we're not the player, we resetToFull to ensure correct values
 			game:onTickEnd(function()
-				self:incMaxPsi((self:getWil()-10) * 0.5)
-				self.max_life = self.max_life - (self:getCon()-10) * 0.25
+
 				if self ~= game.player then self:resetToFull() end
 			end)
 		end
 	end,
 	on_unlearn = function(self, t)
 		if not self:knowTalent(t) then
-			self:incMaxPsi(-(self:getWil()-10) * 0.5)
-			self.max_life = self.max_life + (self:getCon()-10) * 0.25
+
 			self.inc_resource_multi.psi = self.inc_resource_multi.psi - 0.5
 			self.inc_resource_multi.life = self.inc_resource_multi.life + 0.25
 			self.solipsism_threshold = self.solipsism_threshold - 0.1
@@ -160,32 +182,30 @@ newTalent{
 			-- Adjust the values onTickEnd for NPCs to make sure these table values are resolved
 			-- If we're not the player, we resetToFull to ensure correct values
 			game:onTickEnd(function()
-				self:incMaxPsi((self:getWil()-10) * 0.5)
-				self.max_life = self.max_life - (self:getCon()-10) * 0.25
+
 				if self ~= game.player then self:resetToFull() end
 			end)
 		end
 	end,
 	on_unlearn = function(self, t)
 		if not self:knowTalent(t) then
-			self:incMaxPsi(-(self:getWil()-10) * 0.5)
-			self.max_life = self.max_life + (self:getCon()-10) * 0.25
+
 			self.inc_resource_multi.psi = self.inc_resource_multi.psi - 0.5
 			self.inc_resource_multi.life = self.inc_resource_multi.life + 0.25
 			self.solipsism_threshold = self.solipsism_threshold - 0.1
 		end
 	end,
-	-- called by _M:onTakeHit in mod.class.Actor.lua
-	doDismissalOnHit = function(self, value, src, t)
-		local saving_throw = self:combatMentalResist() * t.getSavePercentage(self, t)
-		print("[Dismissal] ", self:getName():capitalize(), " attempting to ignore ", value, "damage from ", src.name:capitalize(), "using", saving_throw,  "mental save.")
-		if self:checkHit(saving_throw, value) then
-			local dismissed = value * (1 - (1 / self:mindCrit(2))) -- Diminishing returns on high crits
-			game:delayedLogMessage(self, nil, "Dismissal", "#TAN##Source# mentally dismisses some damage!")
-			game:delayedLogDamage(src, self, 0, ("#TAN#(%d dismissed)#LAST#"):tformat(dismissed))
-			return value - dismissed
-		else
-			return value
+	callbackPriorities = {callbackOnHit = -60}, -- This should not have high priority, otherwise this will have very poor effect
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if cb.value > 0 then
+			local saving_throw = self:combatMentalResist() * t.getSavePercentage(self, t)
+			print("[Dismissal] ", self:getName():capitalize(), " attempting to ignore ", cb.value, "damage from ", src.name:capitalize(), "using", saving_throw,  "mental save.")
+			if self:checkHit(saving_throw, cb.value) then
+				local dismissed = cb.value * (1 - (1 / self:mindCrit(2))) -- Diminishing returns on high crits
+				game:delayedLogMessage(self, nil, "Dismissal", "#TAN##Source# mentally dismisses some damage!")
+				game:delayedLogDamage(src, self, 0, ("#TAN#(%d dismissed)#LAST#"):tformat(dismissed))
+				cb.value = cb.value - dismissed
+			end
 		end
 	end,
 	info = function(self, t)

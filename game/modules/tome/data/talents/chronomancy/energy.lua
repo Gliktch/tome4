@@ -132,9 +132,9 @@ newTalent{
 	info = function(self, t)
 		local talentcount = t.getTalentCount(self, t)
 		local cooldown = t.getCooldown(self, t)
-		return ([[You sap the target's energy and add it to your own, placing up to %d random talents on cooldown for %d turns.
+		return ([[You sap the target's energy and add it to your own, placing up to %d random talents on cooldown for %d turns %s.
 		For each talent put on cooldown, you reduce the cooldown of one of your talents currently on cooldown by %d turns.]]):
-		tformat(talentcount, cooldown, cooldown)
+		tformat(talentcount, cooldown, Desc.vs"ss", cooldown)
 	end,
 }
 
@@ -194,6 +194,6 @@ newTalent{
 	end,
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Each turn, for the next %d turns, one of the target's sustained talents will be deactivated.]]):tformat(duration)
+		return ([[Each turn, for the next %d turns, one of the target's sustained talents will be deactivated %s.]]):tformat(duration, Desc.vs"ss")
 	end,
 }

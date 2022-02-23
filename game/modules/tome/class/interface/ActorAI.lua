@@ -1306,7 +1306,7 @@ function _M:aiTalentTactics(t, aitarget, target_list, tactic, tg, wt_mod)
 	local reset_cache = not tac_cache[t.id] or cache_tactic ~= tac_cache[t.id].tactic
 	local tactical, no_implicit -- final resolved tactical table, flag to exclude implicit tactics
 	local requires_target = self:getTalentRequiresTarget(t)
-	local hostile_target = aitarget and (self:reactionToward(aitarget) < 0 or aitarget:attr("encased_in_ice"))
+	local hostile_target = aitarget and (self:reactionToward(aitarget) < 0 or aitarget:attr("encased_in_ice") or aitarget:attr("encased"))
 	local is_active = self:isTalentActive(t.id)
 	local weight_mod = 1 -- master tactic weight modifier
 	local tactics, has_tacs

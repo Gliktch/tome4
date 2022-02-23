@@ -414,25 +414,29 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 	end
 	self.turn_procs.weapon_type = {kind=weapon and weapon.talented or "unknown", mode=mode}
 
-	-- Does the blow connect? yes .. complex :/
-	local atk, def = self:combatAttack(weapon), target:combatDefense()
+	local atk_bonus = 0
+	do
+		-- add stalker damage and attack bonus
+		local effStalker = self:hasEffect(self.EFF_STALKER)
+		if effStalker and effStalker.target == target then
+			local t = self:getTalentFromId(self.T_STALK)
+			atk_bonus = atk_bonus + t.getAttackChange(self, t, effStalker.bonus)
+			mult = mult * t.getStalkedDamageMultiplier(self, t, effStalker.bonus)
+		end
 
-	-- add stalker damage and attack bonus
-	local effStalker = self:hasEffect(self.EFF_STALKER)
-	if effStalker and effStalker.target == target then
-		local t = self:getTalentFromId(self.T_STALK)
-		atk = atk + t.getAttackChange(self, t, effStalker.bonus)
-		mult = mult * t.getStalkedDamageMultiplier(self, t, effStalker.bonus)
-	end
-
-	-- Predator atk bonus
-	if self:knowTalent(self.T_PREDATOR) then
-		if target and target.type and self.predator_type_history and self.predator_type_history[target.type] then
-			local typebonus = self.predator_type_history[target.type]
-			local t = self:getTalentFromId(self.T_PREDATOR)
-			atk = atk + t.getATK(self, t) * typebonus
+		-- Predator atk bonus
+		if self:knowTalent(self.T_PREDATOR) then
+			if target and target.type and self.predator_type_history and self.predator_type_history[target.type] then
+				local typebonus = self.predator_type_history[target.type]
+				local t = self:getTalentFromId(self.T_PREDATOR)
+				atk_bonus = atk_bonus + t.getATK(self, t) * typebonus
+			end
 		end
 	end
+	self.combat_atk = (self.combat_atk or 0) + atk_bonus
+	-- Does the blow connect? yes .. complex :/
+	local atk, def = self:combatAttack(weapon), target:combatDefense()
+	self.combat_atk = self.combat_atk - atk_bonus
 
 
 	local dam, apr, armor = force_dam or self:combatDamage(weapon), self:combatAPR(weapon), target:combatArmor()
@@ -493,6 +497,10 @@ function _M:attackTargetWith(target, weapon, damtype, mult, force_dam)
 	if target:attr("auto_stoneskin") and rng.percent(15) then
 		game.logSeen(target, "#ORCHID#%s instinctively hardens %s skin and ignores the attack!#LAST#", target:getName():capitalize(), string.his_her(target))
 		target:setEffect(target.EFF_STONE_SKIN, 5, {power=target:attr("auto_stoneskin")})
+		repelled = true
+	end
+	
+	if target:attr("melee_repel") and rng.percent(target:attr("melee_repel")) then
 		repelled = true
 	end
 
@@ -701,6 +709,8 @@ end
 
 --- handle various on hit procs for melee combat
 function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult, atk, def, hitted, crit, evaded, repelled, old_target_life)
+	local old_global_accuracy_damage_bonus = self.__global_accuracy_damage_bonus
+	self.__global_accuracy_damage_bonus = nil
 	if self:isAccuracyEffect(weapon, "staff") then
 		local bonus = 1 + self:getAccuracyEffect(weapon, atk, def, 0.02, 2)  -- +200% proc damage at 100 accuracy
 		print("[ATTACK] staff accuracy bonus", atk, def, "=", bonus)
@@ -715,39 +725,6 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 		self.__global_accuracy_damage_bonus = self.__global_accuracy_damage_bonus / self.__attacktargetwith_recursing_procs_reduce
 	end
 
-	if self:attr("unharmed_attack_on_hit") then
-		local v = self:attr("unharmed_attack_on_hit")
-		self:attr("unharmed_attack_on_hit", -v)
-		if rng.percent(50) then self:attackTarget(target, nil, 1, true, true) end
-		self:attr("unharmed_attack_on_hit", v)
-	end
-
-	-- handle stalk targeting for hits (also handled in Actor for turn end effects)
-	if hitted and target ~= self then
-		local effStalker = self:hasEffect(self.EFF_STALKER)
-		if effStalker then
-			-- mark if stalkee was hit
-			effStalker.hit = effStalker.hit or effStalker.target == target
-		elseif self:isTalentActive(self.T_STALK) then
-			local stalk = self:isTalentActive(self.T_STALK)
-
-			if not stalk.hit then
-				-- mark a new target
-				stalk.hit = true
-				stalk.hit_target = target
-			elseif stalk.hit_target ~= target then
-				-- more than one target; clear it
-				stalk.hit_target = nil
-			end
-		end
-	end
-
-	-- Spread diseases
-	if hitted and self:knowTalent(self.T_CARRIER) and rng.percent(self:callTalent(self.T_CARRIER, "getDiseaseSpread")) then
-		-- Use epidemic talent spreading
-		self:callTalent(self.T_EPIDEMIC, "do_spread", target, dam)
-	end
-
 	-- Melee project
 	if hitted and not target.dead and weapon and weapon.melee_project then for typ, dam in pairs(weapon.melee_project) do
 		if dam > 0 then
@@ -759,30 +736,6 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 			DamageType:get(typ).projector(self, target.x, target.y, typ, dam)
 		end
 	end end
-
-	-- Shadow cast
-	if hitted and not target.dead and self:knowTalent(self.T_SHADOW_COMBAT) and self:isTalentActive(self.T_SHADOW_COMBAT) then
-		local dam = self:callTalent(self.T_SHADOW_COMBAT, "getDamage")
-		DamageType:get(DamageType.DARKNESS).projector(self, target.x, target.y, DamageType.DARKNESS, dam)
-	end
-
-	-- Ruin
-	if hitted and not target.dead and self:knowTalent(self.T_RUIN) and self:isTalentActive(self.T_RUIN) then
-		local t = self:getTalentFromId(self.T_RUIN)
-		local dam = {dam=t.getDamage(self, t), healfactor=0.4, source=t}
-		DamageType:get(DamageType.DRAINLIFE).projector(self, target.x, target.y, DamageType.DRAINLIFE, dam)
-	end
-
-	-- Temporal Cast
-	if hitted and self:knowTalent(self.T_WEAPON_FOLDING) and self:isTalentActive(self.T_WEAPON_FOLDING) then
-		self:callTalent(self.T_WEAPON_FOLDING, "doWeaponFolding", target)
-	end
-
-	-- Autospell cast
-	if hitted and not target.dead and self:knowTalent(self.T_ARCANE_COMBAT) and self:isTalentActive(self.T_ARCANE_COMBAT) then
-		local t = self:getTalentFromId(self.T_ARCANE_COMBAT)
-		t.do_trigger(self, t, target)
-	end
 
 	-- On hit talent
 	-- Disable friendly fire for procs since players can't control when they happen or where they hit
@@ -807,23 +760,6 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 	end
 	self.nullify_all_friendlyfire = old_ff
 
-	-- Shattering Impact
-	if hitted and self:attr("shattering_impact") and (not self.shattering_impact_last_turn or self.shattering_impact_last_turn < game.turn) then
-		local dam = dam * self.shattering_impact
-		game.logSeen(target, "The shattering blow creates a shockwave!")
-		self:project({type="ball", radius=1, selffire=false, act_exclude={[target.uid]=true}}, target.x, target.y, DamageType.PHYSICAL, dam)  -- don't hit target with the AOE
-		self:incStamina(-8)
-		self.shattering_impact_last_turn = game.turn
-	end
-
-	-- Damage Backlash
-	if dam > 0 and self:attr("damage_backfire") then
-		local hurt = math.min(dam, old_target_life) * self.damage_backfire / 100
-		if hurt > 0 then
-			self:takeHit(hurt, self, {cant_die=true})
-		end
-	end
-
 	-- Burst on Hit
 	if hitted and weapon and weapon.burst_on_hit then
 		for typ, dam in pairs(weapon.burst_on_hit) do
@@ -842,40 +778,7 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 		end
 	end
 
-	-- Arcane Destruction
-	if hitted and crit and weapon and self:knowTalent(self.T_ARCANE_DESTRUCTION) then
-		local chance = 100
-		if self:hasShield() then chance = 50
-		elseif self:hasDualWeapon() then chance = 50
-		end
-		if rng.percent(chance) then
-			local t = self:getTalentFromId(self.T_ARCANE_DESTRUCTION)
-			self:project({type="ball", radius=self:getTalentRadius(t), friendlyfire=false}, target.x, target.y, DamageType.ARCANE, t.getDamage(self, t))
-			game.level.map:particleEmitter(target.x, target.y, self:getTalentRadius(t), "ball_arcane", {radius=2, tx=target.x, ty=target.y})
-		end
-	end
-
-	-- Onslaught
-	if hitted and self:attr("onslaught") then
-		local dir = util.getDir(target.x, target.y, self.x, self.y) or 6
-		local lx, ly = util.coordAddDir(self.x, self.y, util.dirSides(dir, self.x, self.y).left)
-		local rx, ry = util.coordAddDir(self.x, self.y, util.dirSides(dir, self.x, self.y).right)
-		local lt, rt = game.level.map(lx, ly, Map.ACTOR), game.level.map(rx, ry, Map.ACTOR)
-
-		if target:checkHit(self:combatAttack(weapon), target:combatPhysicalResist(), 0, 95, 10) and target:canBe("knockback") then
-			target:knockback(self.x, self.y, self:attr("onslaught"))
-			target:crossTierEffect(target.EFF_OFFBALANCE, self:combatAttack())
-		end
-		if lt and lt:checkHit(self:combatAttack(weapon), lt:combatPhysicalResist(), 0, 95, 10) and lt:canBe("knockback") then
-			lt:knockback(self.x, self.y, self:attr("onslaught"))
-			target:crossTierEffect(target.EFF_OFFBALANCE, self:combatAttack())
-		end
-		if rt and rt:checkHit(self:combatAttack(weapon), rt:combatPhysicalResist(), 0, 95, 10) and rt:canBe("knockback") then
-			rt:knockback(self.x, self.y, self:attr("onslaught"))
-			target:crossTierEffect(target.EFF_OFFBALANCE, self:combatAttack())
-		end
-	end
-
+	self:fireTalentCheck("callbackOnMeleeProject", target, hitted, crit, weapon, damtype, mult, dam)
 	-- Reactive target on_melee_hit damage
 	if hitted then
 		local dr, fa, pct = 0
@@ -925,53 +828,6 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 		target.__project_source = old
 
 	end
-	-- Acid splash
-	if hitted and not target.dead and target:knowTalent(target.T_ACID_BLOOD) then
-		local t = target:getTalentFromId(target.T_ACID_BLOOD)
-		t.do_splash(target, t, self)
-	end
-
-	-- Bloodbath
-	if hitted and crit and self:knowTalent(self.T_BLOODBATH) then
-		local t = self:getTalentFromId(self.T_BLOODBATH)
-		t.do_bloodbath(self, t)
-	end
-
-	-- Mortal Terror
-	if hitted and not target.dead and self:knowTalent(self.T_MORTAL_TERROR) then
-		local t = self:getTalentFromId(self.T_MORTAL_TERROR)
-		t.do_terror(self, t, target, dam)
-	end
-
-	-- Psi Auras
-	local psiweapon = self:getInven("PSIONIC_FOCUS") and self:getInven("PSIONIC_FOCUS")[1]
-	if psiweapon and psiweapon.combat and psiweapon.subtype ~= "mindstar"  then
-		if hitted and not target.dead and self:knowTalent(self.T_KINETIC_AURA) and self:isTalentActive(self.T_KINETIC_AURA) and self.use_psi_combat then
-			local t = self:getTalentFromId(self.T_KINETIC_AURA)
-			t.do_combat(self, t, target)
-		end
-		if hitted and not target.dead and self:knowTalent(self.T_THERMAL_AURA) and self:isTalentActive(self.T_THERMAL_AURA) and self.use_psi_combat then
-			local t = self:getTalentFromId(self.T_THERMAL_AURA)
-			t.do_combat(self, t, target)
-		end
-		if hitted and not target.dead and self:knowTalent(self.T_CHARGED_AURA) and self:isTalentActive(self.T_CHARGED_AURA) and self.use_psi_combat then
-			local t = self:getTalentFromId(self.T_CHARGED_AURA)
-			t.do_combat(self, t, target)
-		end
-	end
-
-	-- Static dis-Charge
-	if hitted and not target.dead and self:hasEffect(self.EFF_STATIC_CHARGE) then
-		local eff = self:hasEffect(self.EFF_STATIC_CHARGE)
-		DamageType:get(DamageType.LIGHTNING).projector(self, target.x, target.y, DamageType.LIGHTNING, eff.power)
-		self:removeEffect(self.EFF_STATIC_CHARGE)
-	end
-
-	-- Exploit Weakness
-	if hitted and not target.dead and self:knowTalent(self.T_EXPLOIT_WEAKNESS) and self:isTalentActive(self.T_EXPLOIT_WEAKNESS) then
-		local t = self:getTalentFromId(self.T_EXPLOIT_WEAKNESS)
-		t.do_weakness(self, t, target)
-	end
 
 	-- Special weapon effects  (passing the special definition to facilitate encapsulating multiple special effects)
 	if hitted and weapon and weapon.special_on_hit then
@@ -1019,128 +875,18 @@ function _M:attackTargetHitProcs(target, weapon, dam, apr, armor, damtype, mult,
 		if hitted and self:attr("psi_regen_on_hit") then self:incPsi(self.psi_regen_on_hit) end
 	end
 
-	-- Ablative armor
-	if hitted and not target.dead and target:attr("carbon_spikes") then
-		if target.carbon_armor >= 1 then
-			target.carbon_armor = target.carbon_armor - 1
-		else
-			-- Deactivate without loosing energy
-			target:forceUseTalent(target.T_CARBON_SPIKES, {ignore_energy=true})
-		end
-	end
-
-	if hitted and not target.dead and target:knowTalent(target.T_STONESHIELD) then
-		local t = target:getTalentFromId(target.T_STONESHIELD)
-		local m, mm, e, em = t.getValues(self, t)
-		target:incMana(math.min(dam * m, mm))
-		target:incEquilibrium(-math.min(dam * e, em))
-	end
-
-	-- Set Up
-	if not hitted and not target.dead and not evaded and not target:attr("stunned") and not target:attr("dazed") and not target:attr("stoned") and target:hasEffect(target.EFF_DEFENSIVE_MANEUVER) then
-		local t = target:getTalentFromId(target.T_SET_UP)
-		local power = t.getPower(target, t)
-		self:setEffect(self.EFF_SET_UP, 2, {src = target, power=power})
-	end
-
-	-- Counter Attack!
-	if not hitted and not target.dead and target:knowTalent(target.T_COUNTER_ATTACK) and not target:attr("stunned") and not target:attr("dazed") and not target:attr("stoned") and target:knowTalent(target.T_COUNTER_ATTACK) and self:isNear(target.x,target.y, 1) then --Adjacency check
-		local cadam = target:callTalent(target.T_COUNTER_ATTACK,"checkCounterAttack")
-		if cadam then
-			local t = target:getTalentFromId(target.T_COUNTER_ATTACK)
-			t.do_counter(target, self, t)
-		end
-	end
-
-	-- Gesture of Guarding counterattack
-	if hitted and not target.dead and not target:attr("stunned") and not target:attr("dazed") and not target:attr("stoned") and target:hasEffect(target.EFF_GESTURE_OF_GUARDING) then
-		local t = target:getTalentFromId(target.T_GESTURE_OF_GUARDING)
-		t.on_hit(target, t, self)
-	end
-
-	-- Defensive Throw!
-	if not hitted and not target.dead and target:knowTalent(target.T_DEFENSIVE_THROW) and not target:attr("stunned") and not target:attr("dazed") and not target:attr("stoned") and target:isNear(self.x,self.y,1) then
-		local t = target:getTalentFromId(target.T_DEFENSIVE_THROW)
-		t.do_throw(target, self, t)
-	end
-
 	-- Zero gravity
 	if hitted and game.level.data.zero_gravity and rng.percent(util.bound(dam, 0, 100)) then
 		target:knockback(self.x, self.y, math.ceil(math.log(dam)))
 	end
 
-	-- Roll with it
-	if hitted and target:attr("knockback_on_hit") and not target.turn_procs.roll_with_it and rng.percent(util.bound(dam, 0, 100)) then
-		local ox, oy = self.x, self.y
-		game:onTickEnd(function()
-			target:knockback(ox, oy, 1)
-			if not target:hasEffect(target.EFF_WILD_SPEED) then target:setEffect(target.EFF_WILD_SPEED, 1, {power=200}) end
-		end)
-		target.turn_procs.roll_with_it = true
-	end
-
-	-- Weakness hate bonus
-	local effGloomWeakness = target:hasEffect(target.EFF_GLOOM_WEAKNESS)
-	if hitted and effGloomWeakness and effGloomWeakness.hateBonus or 0 > 0 then
-		self:incHate(effGloomWeakness.hateBonus)
-		game.logPlayer(self, "#F53CBE#You revel in attacking a weakened foe! (+%d hate)", effGloomWeakness.hateBonus)
-		effGloomWeakness.hateBonus = nil
-	end
-
-	-- Rampage
-	if hitted and crit then
-		local eff = self:hasEffect(self.EFF_RAMPAGE)
-		if eff and not eff.critHit and eff.actualDuration < eff.maxDuration and self:knowTalent(self.T_BRUTALITY) then
-			game.logPlayer(self, "#F53CBE#Your rampage is invigorated by your fierce attack! (+1 duration)")
-			eff.critHit = true
-			eff.actualDuration = eff.actualDuration + 1
-			eff.dur = eff.dur + 1
-		end
-	end
-
-	if hitted and crit and target:hasEffect(target.EFF_DISMAYED) then
-		target:removeEffect(target.EFF_DISMAYED)
-	end
-
-	if hitted and not target.dead then
-		-- Curse of Madness: Twisted Mind
-		--[[if self.hasEffect and self:hasEffect(self.EFF_CURSE_OF_MADNESS) then
-			local eff = self:hasEffect(self.EFF_CURSE_OF_MADNESS)
-			local def = self.tempeffect_def[self.EFF_CURSE_OF_MADNESS]
-			def.doConspirator(self, eff, target)
-		end
-		if target.hasEffect and target:hasEffect(target.EFF_CURSE_OF_MADNESS) then
-			local eff = target:hasEffect(target.EFF_CURSE_OF_MADNESS)
-			local def = target.tempeffect_def[target.EFF_CURSE_OF_MADNESS]
-			def.doConspirator(target, eff, self)
-		end]]
-
-		-- Curse of Nightmares: Suffocate
-		--[[if self.hasEffect and self:hasEffect(self.EFF_CURSE_OF_NIGHTMARES) then
-			local eff = self:hasEffect(self.EFF_CURSE_OF_NIGHTMARES)
-			local def = self.tempeffect_def[self.EFF_CURSE_OF_NIGHTMARES]
-			def.doSuffocate(self, eff, target)
-		end
-		if target.hasEffect and target:hasEffect(target.EFF_CURSE_OF_NIGHTMARES) then
-			local eff = target:hasEffect(target.EFF_CURSE_OF_NIGHTMARES)
-			local def = target.tempeffect_def[target.EFF_CURSE_OF_NIGHTMARES]
-			def.doSuffocate(target, eff, self)
-		end]]
-	end
-
-	if target:isTalentActive(target.T_SHARDS) and hitted and not target.dead and not target.turn_procs.shield_shards then
-		local t = target:getTalentFromId(target.T_SHARDS)
-		target.turn_procs.shield_shards = true
-		self.logCombat(target, self, "#Source# counter attacks #Target# with %s shield shards!", string.his_her(target))
-		target:attr("ignore_counterstrike", 1)
-		target:attackTarget(self, DamageType.NATURE, self:combatTalentWeaponDamage(t, 0.4, 1), true)
-		target:attr("ignore_counterstrike", -1)
-	end
+	local missed = not hitted and not evaded and not repelled
 	-- post melee attack hooks/callbacks, not included: apr, armor, atk, def, evaded, repelled, old_target_life
-	local hd = {"Combat:attackTargetWith", hitted=hitted, crit=crit, target=target, weapon=weapon, damtype=damtype, mult=mult, dam=dam}
+	local hd = {"Combat:attackTargetWith", hitted=hitted, crit=crit, target=target, weapon=weapon, damtype=damtype, mult=mult, dam=dam, missed = missed}
 	if self:triggerHook(hd) then hitted = hd.hitted end
-	self:fireTalentCheck("callbackOnMeleeAttack", target, hitted, crit, weapon, damtype, mult, dam, hd)
-	self.__global_accuracy_damage_bonus = nil
+	target:fireTalentCheck("callbackOnMeleeHitProcs", self, hitted, crit, weapon, damtype, mult, dam, missed)
+	self:fireTalentCheck("callbackOnMeleeAttack", target, hitted, crit, weapon, damtype, mult, dam, hd, missed)
+	self.__global_accuracy_damage_bonus = old_global_accuracy_damage_bonus
 
 	return hitted
 end

@@ -1166,9 +1166,9 @@ newTalent{
 		return ([[Deals %0.2f physical damage.  Target removed from combat or pinned 5 turns.]]):tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
 	end,
 	info = function(self, t)
-		return ([[Lay a pressure triggered trap that collapses the ground under the target, dealing %0.2f physical damage while burying them (removing from combat) for 5 turns.
-Victims may resist being buried, in which case they are pinned (ignores 50%% pin immunity) instead.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		return ([[Lay a pressure triggered trap that collapses the ground under the target, dealing %0.2f physical damage while burying them (removing from combat) for 5 turns %s.
+Victims may resist being buried, in which case they are pinned (ignores 50%% pin immunity) instead %s.]]):
+		tformat(damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), Desc.vs"ap", Desc.vs())
 	end,
 }
 
@@ -1459,9 +1459,9 @@ newTalent{
 	info = function(self, t)
 		local instant = self.trap_primed == t.id and _t"\n#YELLOW#Triggers immediately when placed.#LAST#" or ""
 		return ([[Lay a trap that releases a radius 3 cloud of thick poisonous gas lasting 4 turns.
-		Each turn, the cloud poisons all within (%0.2f nature damage over 5 turns).   There is a 25%% chance the poison is enhanced with crippling, numbing or insidious effects.
+		Each turn, the cloud poisons all within (%0.2f nature damage over 5 turns) %s.   There is a 25%% chance the poison is enhanced with crippling, numbing or insidious effects.
 		This trap can use a primed trigger and a high level lure can trigger it.%s]]):
-		tformat(damDesc(self, DamageType.POISON, t.getDamage(self, t)), instant)
+		tformat(damDesc(self, DamageType.POISON, t.getDamage(self, t)), Desc.vs"ap", instant)
 	end,
 }
 
@@ -1756,15 +1756,15 @@ newTalent{
 		return true
 	end,
 	short_info = function(self, t)
-		return ([[Creates a radius 5 gravitic anomaly lasting up to %d turns.  Hostile creatures are dealt %d temporal damgae and pulled in.  Triggers out to range 1.]]):
+		return ([[Creates a radius 5 gravitic anomaly lasting up to %d turns.  Hostile creatures are dealt %d temporal damage and pulled in.  Triggers out to range 1.]]):
 		tformat(t.getDuration(self,t), damDesc(self, engine.DamageType.TEMPORAL, t.getDamage(self, t)))
 	end,
 	info = function(self, t)
-		return ([[Lay a trap that creates a radius 5 gravitic anomaly when triggered by foes approaching within range 1.  Each turn, the anomaly deals %0.2f temporal damage (based on your Magic) to foes while pulling them towards its center (chance increases with your combat accuracy or spell power, whichever is higher).
+		return ([[Lay a trap that creates a radius 5 gravitic anomaly when triggered by foes approaching within range 1.  Each turn, the anomaly deals %0.2f temporal damage (based on your Magic) to foes while pulling them towards its center %s.
 		Each anomaly lasts %d turns (up to the amount of time since the last anomaly dissipated, based on your Trap Mastery skill).
 		The trap may trigger more than once, but requires at least 2 turns to recharge between activations.
 This design does not require advanced preparation to use.]]):
-		tformat(damDesc(self, engine.DamageType.TEMPORAL, t.getDamage(self, t)), t.getDuration(self,t))
+		tformat(damDesc(self, engine.DamageType.TEMPORAL, t.getDamage(self, t)), Desc.vs(Desc.max("acc", "sp"), "ps"), t.getDuration(self,t))
 	end,
 }
 
@@ -1835,7 +1835,7 @@ newTalent{
 	points = 1,
 	type_no_req = true,
 	require = table.merge({ stat={wil=25}}, cuns_req_unlock),
-	unlock_talent = function(self, t) return self.player or self.level > 15, "You have learned how to create Purging traps!" end,
+	unlock_talent = function(self, t) return self.player or self.level > 15 and self:attr("forbid_arcane"), "You have learned how to create Purging traps!" end, -- really nasty, limit to NPCs that are already anti-magic
 	no_unlearn_last = true,
 	cooldown = 15,
 	stamina = 20,
@@ -1883,8 +1883,12 @@ newTalent{
 					local who = game.level.map(px, py, engine.Map.ACTOR)
 					if who == self.summoner then return end
 					if who then
-						who:setEffect(who.EFF_SILENCED, self.dur, {apply_power=self.check_hit})
 						
+						if who:canBe("silence") then
+        					who:setEffect(who.EFF_SILENCED, self.dur, {apply_power=self.check_hit})
+        				else
+        					game.logSeen(who, "%s resists the silence!", who:getName():capitalize())
+        				end
 						local effs = {}
 
 						-- Go through all spell effects
@@ -2145,10 +2149,10 @@ newTalent{
 		tformat(t.getDistance(self, t))
 	end,
 	info = function(self, t)
-		return ([[Deploy a hidden spring-loaded catapult that will trigger (by pressure) for any creature passing over it.  Victims will be knocked back towards a target location up to %d grids away and be dazed for 5 turns.
+		return ([[Deploy a hidden spring-loaded catapult that will trigger (by pressure) for any creature passing over it.  Victims will be knocked back %s towards a target location up to %d grids away and be dazed for 5 turns.
 		This trap has a %d%% chance to reset itself after triggering, but can only trigger once per turn.
 		The chance to affect the target improves with your combat accuracy.]]):
-		tformat(t.getDistance(self, t), t.resetChance(self, t))
+		tformat(t.getDistance(self, t),  Desc.vs"ap", t.resetChance(self, t))
 	end,
 }
 

@@ -232,7 +232,7 @@ newTalent{
 			when = ("\n#DARK_SEA_GREEN#Next free ghoul in %d turn(s).\n#LAST#"):tformat(t:_getEvery(self) - self.__call_mausoleum_turns)
 		end
 
-		return ([[You control dead matter around you, lyring in the ground, decaying.
+		return ([[You control dead matter around you, lying in the ground, decaying.
 		When you enter combat and every %d turns thereafter a ghoul of level %d automatically raises to fight for you.
 		At level 3 you can forcefully activate this spell to summon up to %d ghasts around you.
 		At level 5 every 4 summoned ghouls or ghasts a ghoulking is summoned for free.
@@ -265,11 +265,11 @@ newTalent{
 	info = function(self, t)
 		return ([[Ghouls are nothing but mere tools to you, for %d turns you render them bloated with dark forces.
 		Anytime a ghoul or ghast is hit it will explode in a messy splash of gore, dealing %0.2f frostdusk damage to all foes in radius %d of it.
-		Any creature caught in the blast also receives a random disease that deals %0.2f blight damage over 6 turns and reduces one attribute by %d.
+		Any creature caught in the blast also receives a random disease %s that deals %0.2f blight damage over 6 turns and reduces one attribute by %d.
 		Only one ghoul may explode per turn. The one with the least time left to live is always the first to do so.
 		The damage and disease power is increased by your Spellpower.
 		]]):
-		tformat(t:_getDur(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), self:getTalentRadius(t), damDesc(self, DamageType.BLIGHT, t:_getDamage(self)), t:_getDiseasePower(self))
+		tformat(t:_getDur(self), damDesc(self, DamageType.FROSTDUSK, t:_getDamage(self)), self:getTalentRadius(t), Desc.vs"ss", damDesc(self, DamageType.BLIGHT, t:_getDamage(self)), t:_getDiseasePower(self))
 	end,
 }
 

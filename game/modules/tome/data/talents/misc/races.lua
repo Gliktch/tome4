@@ -153,7 +153,7 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Activate some of your inner magic, using it to power your abilities.  For the next %d turns all active talents will be used without resource cost.
-		Your resources must still be high enough to initially power the talent and failure rates (etc.) still apply.
+		Your resources must still be high enough to initially power the talent and failure rates (etc.) still apply. This does not affect resource drain from sustains, effects, or other sources.
 		]]):tformat(duration)
 	end,
 }
@@ -227,6 +227,14 @@ newTalent{
 		self:removeTemporaryValue("invis_on_hit_power", p.power)
 		self:removeTemporaryValue("invis_on_hit_disable", p.talent)
 		return true
+	end,
+	callbackPriorities = {callbackOnHit = 100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value >= self.max_life * 0.10 and rng.percent(t.getChance(self, t)) then
+			self:setEffect(self.EFF_INVISIBILITY, 5, {power=t.getInvis(self, t)})
+			for tid, _ in pairs(self.invis_on_hit_disable) do self:forceUseTalent(tid, {ignore_energy=true}) end
+		end
 	end,
 	info = function(self, t)
 		return ([[As the only immortal race of Eyal, Shaloren have learnt over the long years to use their innate inner magic to protect themselves.
@@ -609,6 +617,13 @@ newTalent{
 		local oldevasion = self:hasEffect(self.EFF_EVASION)
 		return self:getStat("lck")/200*(self:combatDefenseBase() - (oldevasion and oldevasion.defense or 0)) -- Prevent stacking
 	end,
+	callbackPriorities = {callbackOnHit = 100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value >= self.max_life * t.getThreshold(self, t) then
+			self:setEffect(self.EFF_EVASION, t.getDuration(self, t), {chance=t.getEvasionChance(self, t), defense = t.getDefense(self)})
+		end
+	end,
 	info = function(self, t)
 		local threshold = t.getThreshold(self, t)
 		local evasion = t.getEvasionChance(self, t)
@@ -753,7 +768,7 @@ newTalent{
 	end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
 		if self:isTalentCoolingDown(t) then return end
-		if not ( (self.life - dam) < (self.max_life * 0.5) ) then return end
+		if not ( (self:getLife() - dam) < (self:getMaxLife() * 0.5) ) then return end
 		
 		local nb = self:removeEffectsFilter(self, {status = "detrimental", type = "mental"}, t.getDebuff(self, t))
 		if nb > 0 then
@@ -881,7 +896,7 @@ newTalent{
 			game.logSeen(target, "%s is immune to instakill and mind control effects!", target:getName():capitalize())
 			return
 		end
-		if target.rank > 3 and ((target.life / target.max_life) >= 0.8) then
+		if target.rank > 3 and ((target:getLife() / target:getMaxLife()) >= 0.8) then
 			game.logSeen(target, "%s must be below 80%% of their max life to be controlled!", target:getName():capitalize())
 			return
 		end
@@ -945,7 +960,7 @@ newTalent{
 	end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
 		if self:isTalentCoolingDown(t) then return end
-		if ((self.life-dam) / self.max_life) > 0.3 then return end
+		if ((self:getLife() - dam) / self:getMaxLife()) >= 0.3 then return end
 
 		game.logSeen(self, "#RED#%s reacts immediately after taking severe wounds!#LAST#", self:getName():capitalize())
 		self.energy.value = self.energy.value + game.energy_to_act * 1.5

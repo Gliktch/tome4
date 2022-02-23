@@ -732,6 +732,14 @@ function _M:finishEntity(level, type, e, ego_filter)
 		for i = 1, #s do e:stack(s[i], true) end
 	end
 
+	-- Add self-referential property to combat tables
+	if e.combat then
+		e.combat.self = e
+	end
+	if e.special_combat then
+		e.special_combat.self = e
+	end
+	
 	e:resolve(nil, true)
 	e:check("finish", e, self, level)
 	self:triggerHook{"Zone:finishEntity", type=type, e=e}

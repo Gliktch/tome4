@@ -20,6 +20,7 @@
 require "engine.class"
 require "mod.class.interface.TooltipsData"
 local Dialog = require "engine.ui.Dialog"
+local Birther = require "mod.dialogs.Birther"
 local DamageType = require "engine.DamageType"
 local Talents = require "engine.interface.ActorTalents"
 local Tab = require "engine.ui.Tab"
@@ -615,10 +616,10 @@ function _M:drawDialog(kind, actor_to_compare)
 		h = 0
 		w = 0
 		s:drawStringBlended(self.font, _t"Sex  : "..((player.descriptor and _t(player.descriptor.sex)) or (player.female and _t"Female" or _t"Male")), w, h, 0, 200, 255, true) h = h + self.font_h
-		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptor and _t(player.descriptor.subrace, "birth descriptor name")) or _t(player.type, "entity type"):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
+		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subrace") or "", "birth descriptor name")) or _t(player.type, "entity type"):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		local class_evo = ""
 		if player.descriptor and player.descriptor.class_evolution then class_evo = " ("..player.descriptor.class_evolution..")" end
-		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptor and _t(player.descriptor.subclass or "", "birth descriptor name")) or _t(player.subtype, "entity subtype"):capitalize())..class_evo, w, h, 0, 200, 255, true)
+		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subclass") or "", "birth descriptor name")) or _t(player.subtype, "entity subtype"):capitalize())..class_evo, w, h, 0, 200, 255, true)
 		if player:attr("forbid_arcane") then
 			local follow = (player.faction == "zigur" or player:attr("zigur_follower")) and _t"Zigur follower" or _t"Antimagic adherent"
 			self:mouseTooltip(self.TOOLTIP_ANTIMAGIC_USER, s:drawColorStringBlended(self.font, "#ORCHID#"..follow, w+200, h, 255, 255, 255, true))
@@ -640,9 +641,9 @@ function _M:drawDialog(kind, actor_to_compare)
 		h = h + self.font_h
 
 		s:drawColorStringBlended(self.font, _t"#LIGHT_BLUE#Resources:", w, h, 255, 255, 255, true) h = h + self.font_h
-		text = compare_fields(player, actor_to_compare, "max_life", "%d", _t"%+.0f max")
-		if player.die_at ~=  0 or (actor_to_compare and actor_to_compare.die_at ~=0) then 
-			text = text .. " #a08080#[" .. compare_fields(player, actor_to_compare, "die_at", _t"die:%+d","%+.0f", 1, true) .. "]"
+		text = compare_fields(player, actor_to_compare, function(actor) return actor:getMaxLife() end, "%d", _t"%+.0f max")
+		if player:getMinLife() ~=  0 or (actor_to_compare and actor_to_compare:getMinLife() ~=0) then 
+			text = text .. " #a08080#[" .. compare_fields(player, actor_to_compare, function(actor) return actor:getMinLife() end, _t"die:%+d","%+.0f", 1, true) .. "]"
 		end
 		self:mouseTooltip(self.TOOLTIP_LIFE, s:drawColorStringBlended(self.font, ("#c00000#Life    : #00ff00#%d/%s"):tformat(player.life, text), w, h, 255, 255, 255, true)) h = h + self.font_h
 
@@ -650,7 +651,7 @@ function _M:drawDialog(kind, actor_to_compare)
 		for res, res_def in ipairs(player.resources_def) do
 			local rname = res_def.short_name
 			local val_text, reg_text
-			if not res_def.hidden_resource and player:knowTalent(res_def.talent) then
+			if not res_def.hidden_resource and player:knowTalent(res_def.talent) and res_def.short_name ~= "life" then
 				local status_text = table.get(res_def.CharacterSheet, "status_text") or res_def.status_text
 				if status_text then --use resource specific status text if available
 					val_text = status_text(player, actor_to_compare, compare_fields)
@@ -663,11 +664,12 @@ function _M:drawDialog(kind, actor_to_compare)
 %s]]):format(res_def.name, res_def.description or _t"No Description")
 
 				-- display regen property if present
-				if (player[res_def.regen_prop] and player[res_def.regen_prop] ~= 0) or (actor_to_compare and actor_to_compare[res_def.regen_prop] and actor_to_compare[res_def.regen_prop] ~= 0) then
-					local _, reg_fmt = string.limit_decimals(player[res_def.regen_prop], 3, "+")
+				
+				if (player[res_def.regenFunction] and player[res_def.regenFunction](player, true, true) ~= 0) or (actor_to_compare and actor_to_compare[res_def.regenFunction] and actor_to_compare[res_def.regenFunction](actor_to_compare, true, true) ~= 0) then
+					local _, reg_fmt = string.limit_decimals(player[res_def.regenFunction](player, true, true), 3, "+")
 
-					reg_text = compare_fields(player, actor_to_compare, function(act) return act[res_def.regen_prop] or 0 end, reg_fmt, reg_fmt, nil, res_def.invert_values)
-					reg_text = ((player[res_def.regen_prop] or 0)*(res_def.invert_values and -1 or 1) >= 0 and "#LIGHT_GREEN#" or "#LIGHT_RED#")..reg_text.."#LAST#"
+					reg_text = compare_fields(player, actor_to_compare, function(act) return act[res_def.regenFunction](act, true, true) or 0 end, reg_fmt, reg_fmt, nil, res_def.invert_values)
+					reg_text = ((player[res_def.regenFunction](player, true, true) or 0)*(res_def.invert_values and -1 or 1) >= 0 and "#LIGHT_GREEN#" or "#LIGHT_RED#")..reg_text.."#LAST#"
 				end
 				self:mouseTooltip(tt, s:drawColorStringBlended(self.font, ("%s%-8.8s: #00ff00#%s "):tformat(res_def.color or "#WHITE#", res_def.name, val_text), w, h, 255, 255, 255, true))
 				if reg_text then
@@ -680,7 +682,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 		
 		end
 		-- special resources
-		if player:getMaxFeedback() > 0 then
+		--[[if player:getMaxFeedback() > 0 then
 			text = compare_fields(player, actor_to_compare, "psionic_feedback_max", "%d", "%+.0f")
 			local tt = self.TOOLTIP_FEEDBACK..("Current Feedback gain is %0.1f%% of damage taken."):tformat(player:callTalent(player.T_FEEDBACK_POOL, "getFeedbackRatio")*100)
 			self:mouseTooltip(tt, s:drawColorStringBlended(self.font, ("#7fffd4#Feedback: #00ff00#%d/%s"):tformat(player:getFeedback(), text), w, h, 255, 255, 255, true))
@@ -689,7 +691,7 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 				self:mouseTooltip(tt, s:drawColorStringBlended(self.font, " "..decay_text, self.w*.17, h, 255, 255, 255, true)) 
 			end
 			h = h + self.font_h
-		end
+		end]]
 		-- could put a hook here for any really strange resources
 		
 -- Note: color codes confusing %xs format 
@@ -843,9 +845,10 @@ The amount of %s automatically gained or lost each turn.]]):tformat(res_def.name
 		h = h + self.font_h
 
 		local nb_inscriptions = 0
-		for i = 1, player.max_inscriptions do if player.inscriptions[i] then nb_inscriptions = nb_inscriptions + 1 end end
-		self:mouseTooltip(self.TOOLTIP_INSCRIPTIONS, s:drawColorStringBlended(self.font, ("#AQUAMARINE#Inscriptions (%d/%d)"):tformat(nb_inscriptions, player.max_inscriptions), w, h, 255, 255, 255, true)) h = h + self.font_h
-		for i = 1, player.max_inscriptions do if player.inscriptions[i] then
+		local max_inscriptions = (player == game.player) and player.max_inscriptions or 6
+		for i = 1, max_inscriptions do if player.inscriptions[i] then nb_inscriptions = nb_inscriptions + 1 end end
+		self:mouseTooltip(self.TOOLTIP_INSCRIPTIONS, s:drawColorStringBlended(self.font, ("#AQUAMARINE#Inscriptions (%d/%d)"):tformat(nb_inscriptions, math.max(nb_inscriptions, player.max_inscriptions)), w, h, 255, 255, 255, true)) h = h + self.font_h
+		for i = 1, max_inscriptions do if player.inscriptions[i] then
 			local t = player:getTalentFromId("T_"..player.inscriptions[i])
 			local desc = player:getTalentFullDescription(t)
 			self:mouseTooltip("#GOLD##{bold}#"..t.name.."#{normal}##WHITE#\n"..tostring(desc), s:drawColorStringBlended(self.font, ("#LIGHT_GREEN#%s"):format(t.name), w, h, 255, 255, 255, true)) h = h + self.font_h
@@ -1589,12 +1592,12 @@ function _M:dump()
 
 	nl()
 	nnl(("%-32s"):format(strings[1]))
-	nnl(("%-32s"):format(makelabel("Life", ("    %d/%d"):format(player.life, player.max_life))))
+	nnl(("%-32s"):format(makelabel("Life", ("    %d/%d"):format(player:getLife(), player:getMaxLife()))))
 	nl(makelabel("Encumbrance", enc .. "/" .. max))
 
 	nnl(("%-32s"):format(strings[2]))
 	if player:knowTalent(player.T_STAMINA_POOL) then
-		nnl(("%-32s"):format(makelabel("Stamina", ("    %d/%d"):format(player:getStamina(), player.max_stamina))))
+		nnl(("%-32s"):format(makelabel("Stamina", ("    %d/%d"):format(player:getStamina(), player:getMaxStamina()))))
 	else
 		 nnl(("%-32s"):format(" "))
 	end
@@ -1603,25 +1606,25 @@ function _M:dump()
 
 	nnl(("%-32s"):format(strings[3]))
 	if player:knowTalent(player.T_MANA_POOL) then
-		nl(makelabel("Mana", ("    %d/%d"):format(player:getMana(), player.max_mana)))
+		nl(makelabel("Mana", ("    %d/%d"):format(player:getMana(), player:getMaxMana())))
 	else
 		nl()
 	end
 	nnl(("%-32s"):format(strings[4]))
 	if player:knowTalent(player.T_POSITIVE_POOL) then
-		nl(makelabel("Positive", ("    %d/%d"):format(player:getPositive(), player.max_positive)))
+		nl(makelabel("Positive", ("    %d/%d"):format(player:getPositive(), player:getMaxPositive())))
 	else
 		nl()
 	end
 	nnl(("%-32s"):format(strings[5]))
 	if player:knowTalent(player.T_NEGATIVE_POOL) then
-		nl(makelabel("Negative", ("    %d/%d"):format(player:getNegative(), player.max_negative)))
+		nl(makelabel("Negative", ("    %d/%d"):format(player:getNegative(), player:getMaxNegative())))
 	else
 		nl()
 	end
 	nnl(("%-32s"):format(strings[6]))
 	if player:knowTalent(player.T_VIM_POOL) then
-		nl(makelabel("Vim", ("    %d/%d"):format(player:getVim(), player.max_vim)))
+		nl(makelabel("Vim", ("    %d/%d"):format(player:getVim(), player:getMaxVim())))
 	else
 		nl()
 	end

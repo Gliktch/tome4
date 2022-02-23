@@ -185,8 +185,7 @@ newTalent{
 		local damInstil = t.getDamage(self, t) / 2
 		local damTerri = t.getTerrifiedDamage(self, t) / 2
 		local damHaunt = t.getHauntedDamage(self, t) / 2
-		return ([[Instill fear in your foes within %d radius of a target location dealing %0.2f mind and %0.2f darkness damage and causing one of 4 possible fears that last for %d turns.
-		The targets can save vs your Mindpower to resist the effect.
+		return ([[Instill fear in your foes within %d radius of a target location dealing %0.2f mind and %0.2f darkness damage and causing one of 4 possible fears that last for %d turns %s.
 		Fear effects improve with your Mindpower.
 
 		Possible fears are:
@@ -194,7 +193,7 @@ newTalent{
 		#ORANGE#Despair:#LAST# Reduces mind resist, mindsave, armour and defence by %d.
 		#ORANGE#Terrified:#LAST# Deals %0.2f mind and %0.2f darkness damage per turn and increases cooldowns by %d%%.
 		#ORANGE#Haunted:#LAST# Causes the target to suffer %0.2f mind and %0.2f darkness damage for each detrimental mental effect every turn.
-		]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.MIND, damInstil), damDesc(self, DamageType.DARKNESS, damInstil), t.getDuration(self, t),
+		]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.MIND, damInstil), damDesc(self, DamageType.DARKNESS, damInstil), t.getDuration(self, t), Desc.vs"mm",
 		t.getParanoidAttackChance(self, t),
 		-t.getDespairStatChange(self, t),
 		damDesc(self, DamageType.MIND, damTerri), damDesc(self, DamageType.DARKNESS, damTerri), t.getTerrifiedPower(self, t),

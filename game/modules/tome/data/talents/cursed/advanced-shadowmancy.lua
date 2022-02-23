@@ -57,9 +57,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Target a nearby shadow, and command it to merge into a nearby enemy, reducing their damage by %d%% for 5 turns.
+		return ([[Target a nearby shadow, and command it to merge into a nearby enemy, reducing their damage by %d%% for 5 turns %s.
 		Killing your shadow releases some of your inner hatred, restoring 8 Hate to yourself.]]):
-		tformat(t.getReduction(self, t))
+		tformat(t.getReduction(self, t), Desc.vs())
 	end,
 }
 

@@ -30,6 +30,9 @@ load("/data/general/objects/random-artifacts/melee.lua", function(e)
 		e.wielder.ranged_project = table.clone(e.wielder.melee_project)
 		e.wielder.melee_project = nil
 	end
+	if e.combat and e.combat.dam then -- bows & slings should not have base damage
+		e.rarity = nil
+	end
 end)
 
 ----------------------------------------------------------------

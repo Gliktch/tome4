@@ -73,9 +73,9 @@ uberTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You accurately jump to the target and deal 200%% weapon damage to all foes within radius 1 on impact as well as dazing them for 3 turns.
+		return ([[You accurately jump to the target and deal 200%% weapon damage to all foes within radius 1 on impact as well as dazing them for 3 turns %s.
 		When you jump you free yourself from any stun, daze and pinning effects.]])
-		:tformat()
+		:tformat(Desc.vs())
 	end,
 }
 
@@ -283,7 +283,7 @@ uberTalent{
 	require = {
 		birth_descriptors={{"subclass", "Sun Paladin"}},
 		special={desc=_t"Unlocked the evolution", fct=function(self) return profile.mod.allow_build.paladin_avatar end},
-		special2={desc=_t"Found a distant patron", fct=function(self) return not self:attr("pissed_of_distant_sun") end},
+		special2={desc=_t"Has not angered distant patron", fct=function(self) return not self:attr("pissed_of_distant_sun") end},
 		stat = {mag=25},
 		talent = {"T_SUN_VENGEANCE", "T_WEAPON_OF_LIGHT", "T_SEARING_SIGHT", "T_JUDGEMENT"},
 	},

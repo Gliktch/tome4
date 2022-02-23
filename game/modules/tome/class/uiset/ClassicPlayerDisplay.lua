@@ -137,13 +137,13 @@ end
 function _M:makePortrait(a, current, x, y)
 	local def = game.party.members[a]
 
-	self:mouseTooltip(("#GOLD##{bold}#%s\n#WHITE##{normal}#Life: %d%%\nLevel: %d\n%s"):tformat(a.name, math.floor(100 * a.life / a.max_life), a.level, def.title), 40, 40, x, y, function()
+	self:mouseTooltip(("#GOLD##{bold}#%s\n#WHITE##{normal}#Life: %d%%\nLevel: %d\n%s"):tformat(a.name, math.floor(100 * a:getLife() / a:getMaxLife()), a.level, def.title), 40, 40, x, y, function()
 		if def.control == "full" then
 			game.party:select(a)
 		end
 	end)
 
-	local hl = 32 * math.max(0, a.life) / a.max_life
+	local hl = 32 * math.max(0, a:getLife()) / a:getMaxLife()
 	self.items[#self.items+1] = function(disp_x, disp_y)
 		core.display.drawQuad(disp_x + x + 4, disp_y + y + 4, 32, 32, 0, 0, 0, 255)
 		core.display.drawQuad(disp_x + x + 4, disp_y + y + (40 - 4) - hl, 32, hl, 255 * 0.7, 0, 0, 255)
@@ -291,7 +291,7 @@ function _M:display()
 		h = h + self.font_h
 	end
 
-	if player:getAir() < player.max_air then
+	if player:getAir() < player:getMaxAir() then
 		self:mouseTooltip(self.TOOLTIP_AIR, self:makeTexture(("Air level: %d/%d"):tformat(player:getAir(), player:getMaxAir()), x, h, 255, 0, 0)) h = h + self.font_h
 		h = h + self.font_h
 	end
@@ -305,12 +305,26 @@ function _M:display()
 	self:mouseTooltip(self.TOOLTIP_MAGWILCUN, self:makeTexture(("Mag/Wil/Cun: #00ff00#%3d/%3d/%3d"):tformat(player:getMag(), player:getWil(), player:getCun()), x, h, 255, 255, 255)) h = h + self.font_h
 	h = h + self.font_h
 
-	self:mouseTooltip(self.TOOLTIP_LIFE, self:makeTextureBar(_t"#c00000#Life    :", nil, player.life, player.max_life, player.life_regen * util.bound((player.healing_factor or 1), 0, 2.5), x, h, 255, 255, 255, colors.DARK_RED, colors.VERY_DARK_RED)) h = h + self.font_h
+	self:mouseTooltip(self.TOOLTIP_LIFE, self:makeTextureBar(_t"#c00000#Life    :", nil, player:getLife(), player:getMaxLife(), player:regenLife(true, true), x, h, 255, 255, 255, colors.DARK_RED, colors.VERY_DARK_RED)) h = h + self.font_h
 
 	local shield, max_shield = 0, 0
-	if player:attr("time_shield") then shield = shield + player.time_shield_absorb max_shield = max_shield + player.time_shield_absorb_max end
-	if player:attr("damage_shield") then shield = shield + player.damage_shield_absorb max_shield = max_shield + player.damage_shield_absorb_max end
-	if player:attr("displacement_shield") then shield = shield + player.displacement_shield max_shield = max_shield + player.displacement_shield_max end
+	for eff_id, p in pairs(player.tmp) do
+		if player.tempeffect_def[eff_id].shield_bar then
+			local eshield, emax_shield = player.tempeffect_def[eff_id].shield_bar(player, p)
+			shield = shield + eshield
+			max_shield = max_shield + emax_shield
+		end
+	end
+	
+	for tid, act in pairs(player.sustain_talents) do
+		local t = player:getTalentFromId(tid)
+		if t and t.shield_bar then
+			local eshield, emax_shield = t.shield_bar(player, t, act)
+			shield = shield + eshield
+			max_shield = max_shield + emax_shield
+		end
+	end
+	
 	if max_shield > 0 then
 		self:mouseTooltip(self.TOOLTIP_DAMAGE_SHIELD, self:makeTextureBar(_t"#WHITE#Shield:", nil, shield, max_shield, nil, x, h, 255, 255, 255, {r=colors.GREY.r / 3, g=colors.GREY.g / 3, b=colors.GREY.b / 3}, {r=colors.GREY.r / 6, g=colors.GREY.g / 6, b=colors.GREY.b / 6})) h = h + self.font_h
 	end
@@ -345,12 +359,6 @@ function _M:display()
 	end
 	
 	-- special resources
-	if player:knowTalent(player.T_FEEDBACK_POOL) then
-		self:mouseTooltip(self.TOOLTIP_FEEDBACK, self:makeTextureBar(_t"#7fffd4#Feedback:", nil, player:getFeedback(), player:getMaxFeedback(), player:getFeedbackDecay(), x, h, 255, 255, 255,
-			{r=colors.YELLOW.r / 2, g=colors.YELLOW.g / 2, b=colors.YELLOW.b / 2},
-			{r=colors.YELLOW.r / 5, g=colors.YELLOW.g / 5, b=colors.YELLOW.b / 5}
-		)) h = h + self.font_h
-	end
 	if (player.unnatural_body_heal  or 0) > 0 and player:knowTalent(player.T_UNNATURAL_BODY) then
 		local t = player:getTalentFromId(player.T_UNNATURAL_BODY)
 		local regen = t.getRegenRate(player, t)

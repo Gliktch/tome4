@@ -183,9 +183,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local dazedur = t.getDazeDuration(self, t)
-		return ([[Hit a target for %d%% melee damage and stun it for %d turns.
-		Stun chance will improve with Spellpower.
+		return ([[Hit a target for %d%% melee damage and stun it for %d turns %s.
 		At level 5, this attack cannot miss.]]):
-		tformat(100 * damage, dazedur)
+		tformat(100 * damage, dazedur, Desc.vs"sp")
 	end,
 }

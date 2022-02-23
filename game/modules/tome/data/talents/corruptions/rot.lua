@@ -51,9 +51,9 @@ newTalent{
 		local damage = t.getDamage(self, t) * 100
 		local poison = t.getPoisonDamage(self, t)
 		return ([[Bite the target, dealing %d%% melee damage  
-		If the attack hits you'll inject blight poison into the target, dealing %0.2f blight damage and a further %0.2f blight damage over 4 turns.
+		If the attack hits you'll inject blight poison into the target, dealing %0.2f blight damage and a further %0.2f blight damage over 4 turns %s.
 		The bonus damage improves with your Spellpower.]])
-		:tformat(damage, damDesc(self, DamageType.BLIGHT, poison/4), damDesc(self, DamageType.BLIGHT, poison) )
+		:tformat(damage, damDesc(self, DamageType.BLIGHT, poison/4), damDesc(self, DamageType.BLIGHT, poison), Desc.vs"ss" )
 	end
 }
 
@@ -176,7 +176,7 @@ newTalent{
 		return true
 	end,
 	callbackOnTakeDamage = function(self, t, src, x, y, type, dam, state)
-		if ( dam > (0.15 * self.max_life) ) then
+		if ( dam > (0.15 * self:getMaxLife()) ) then
 			local damageReduction = dam * t.getDamageReduction(self, t)
 			dam = dam - damageReduction
 
@@ -332,11 +332,10 @@ newTalent{
 info = function(self, t)
 	local chance = t.getChance(self,t)
 	local duration = t.getDuration(self,t)
-		return ([[You have a %d%% chance on dealing blight damage to cause the target to rot away, silencing, disarming, blinding or pinning them for %d turns. This effect has a cooldown.
+		return ([[You have a %d%% chance on dealing blight damage to cause the target to rot away, silencing, disarming, blinding or pinning them for %d turns %s. This effect has a cooldown.
 At talent level 4, this affects targets in a radius 1 ball.
-Your worms also have a %d%% chance to blind, silence, disarm or pin with their melee attacks, lasting 2 turns.
-The chance to apply this effect will increase with your Spellpower.]]):
-		tformat(chance, duration, chance/2)
+Your worms also have a %d%% chance to blind, silence, disarm or pin with their melee attacks %s, lasting 2 turns.]]):
+		tformat(chance, duration, Desc.vs("sp", Desc.max("ps", "ms")), chance/2, Desc.vs"ss")
 	end,
 }
 
@@ -389,11 +388,11 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local burst = t.getBurstDamage(self, t)
 		local chance = t.getChance(self,t)
-		return ([[Infects the target with parasitic carrion worm larvae for 5 turns.  Each turn the disease will remove a beneficial physical effect and deal %0.2f acid and %0.2f blight damage.
+		return ([[Infects the target with parasitic carrion worm larvae for 5 turns %s.  Each turn the disease will remove a beneficial physical effect and deal %0.2f acid and %0.2f blight damage.
 If not cleared after five turns it will inflict %0.2f blight damage as the larvae hatch, removing the effect but spawning a full grown carrion worm mass near the target's location.
 Even if this disease is removed early, there is still a %d%% chance for the larvae to hatch.
 You can never have more than 5 worms active from any source at a time.
 The damage dealt will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.ACID, (damage/2)), damDesc(self, DamageType.BLIGHT, (damage/2)), damDesc(self, DamageType.BLIGHT, (burst)), chance)
+		tformat(Desc.vs"ss", damDesc(self, DamageType.ACID, (damage/2)), damDesc(self, DamageType.BLIGHT, (damage/2)), damDesc(self, DamageType.BLIGHT, (burst)), chance)
 	end,
 }

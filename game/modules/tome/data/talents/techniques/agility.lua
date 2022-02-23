@@ -93,7 +93,13 @@ newTalent{
 	range = 1,
 	is_special_melee = true,
 	on_pre_use = function(self, t, silent)
-		return preUse(self, t, silent)
+		if not self:hasShield() then
+		    if not silent then
+			    game.logPlayer(self, "You require a shield to use this talent.")
+			end
+			return false
+		end
+		return true
 	end,
 	getDamage = function(self, t) return self:combatTalentWeaponDamage(t, 1.5, 3.0) end,
 	getDist = function(self, t) return math.floor(self:combatTalentScale(t, 3, 5)) end,
@@ -157,10 +163,10 @@ newTalent{
 	info = function(self, t)
 		local dam = t.getDamage(self, t) * 100
 		local range = t.getDist(self, t)
-		return ([[Leap onto an adjacent target with your shield, striking them for %d%% damage and dazing them for 2 turns, then using them as a springboard to leap to a tile within range %d.
+		return ([[Leap onto an adjacent target with your shield, striking them for %d%% damage and dazing them for 2 turns %s, then using them as a springboard to leap to a tile within range %d.
 The shield bash will use Dexterity instead of Strength for the shield's bonus damage.
 At talent level 5, you will immediately enter a blocking stance on landing.]])
-		:tformat(dam, range)
+		:tformat(dam, Desc.vs"pp", range)
 	end,
 }
 
@@ -232,10 +238,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[You rush toward your foe, readying your shot. If you reach the enemy, you release the shot, imbuing it with great power.
-		The shot does %d%% weapon damage and knocks back your target by %d.
+		The shot does %d%% weapon damage and knocks back your target by %d %s.
 		The cooldown of this talent is reduced by 1 each time you move.
 		This requires a sling to use.]]):
-		tformat(t.getDamage(self,t)*100, t.getDist(self, t))
+		tformat(t.getDamage(self,t)*100, t.getDist(self, t), Desc.vs())
 	end,
 }
 

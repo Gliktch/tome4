@@ -52,11 +52,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned for %d turns and has their bleed resistance reduced by 50%%.
-The stun chance increases with your Physical Power.
+		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned for %d turns and has their bleed resistance reduced by 50%%. %s
 
 #{italic}#It may not bleed, exactly, but you'll make it hurt.#{normal}#]])
-		:tformat(100 * damage, t.getDuration(self, t))
+		:tformat(100 * damage, t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -172,10 +171,10 @@ newTalent{
 		local damage = t.getDamage(self, t)*100
 		local mult = t.getMult(self, t)
 		return ([[Put all of your physical and magical might into one devastating attack.
-Strike all adjacent enemies for %d%% weapon damage and daze them (using your highest power) for 3 turns.
+Strike all adjacent enemies for %d%% weapon damage and daze them for 3 turns %s.
 
 Using this talent consumes all of your Positive Energy and prevents you from generating positive energy for 5 turns.
 Every point of positive energy increases the damage by %.2f%%.
-Every %d points of positive energy increase the radius by 1 (up to 10).]]):tformat(damage, mult, t.getRadiusScale(self, t))
+Every %d points of positive energy increase the radius by 1 (up to 10).]]):tformat(damage, Desc.vs(Desc.max("pp", "sp", "mp"), "ps"), mult, t.getRadiusScale(self, t))
 	end,
 }

@@ -117,8 +117,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Your skin drips with acid, damaging all that hit you for %0.1f disarming acid damage.
-		The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.ACID, t.getDamage(self, t)))
+		return ([[Your skin drips with acid, damaging all that hit you for %0.1f acid damage with a %d%% chance to disarm them for 3 turns %s.
+		The damage increases with your Mindpower.]]):tformat(damDesc(self, DamageType.ACID, t.getDamage(self, t)), t.getChance(self, t), Desc.vs"mp")
 	end,
 }
 

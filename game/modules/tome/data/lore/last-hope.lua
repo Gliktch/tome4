@@ -111,7 +111,7 @@ newLore{
 	category = "last hope",
 	name = _t"All Hail King Toknor the Brave!",
 	always_pop = true,
-	lore = _t[[Born the 23th Allure, Year of Pyre 682
+	lore = _t[[Born the 7th Allure, Year of Pyre 682
 Died the 2th Summertide, Year of Ascendancy 108
 
 King of Kings, Founder of Last Hope, Purger of Orcs, Father of the Age of Ascendancy. Great is the memory of the warrior who fought for peace, and won.
@@ -302,7 +302,7 @@ i=i+1 newLore{ id = "last-hope-graveyard-"..i, category = "last hope graveyard",
 Inilasac Salocin
 #{normal}#32 - 120#{italic}#
 All tomes shall remember thee
-And thine dark blessings
+And thy dark blessings
 #{normal}#]]}
 
 i=i+1 newLore{ id = "last-hope-graveyard-"..i, category = "last hope graveyard", name = _t"gravestone", text_color = {r=255,g=255,b=255}, special_ui = "tombstone", always_pop = true, red_rose=true, lore = _t[[#{bold}#

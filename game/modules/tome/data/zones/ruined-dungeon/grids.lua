@@ -62,7 +62,7 @@ newEntity{
 		if not who.player then return end
 		local p = game:getPlayer(true)
 		if p.winner then
-			require("engine.ui.Dialog"):yesnoLongPopup(_t"Infinite Dungeon", _t"You have accomplished great deads, but if you enter the infinite dungeon there will be no way back you will go on and on until you meet your glorious death.", 400, function(ret)
+			require("engine.ui.Dialog"):yesnoLongPopup(_t"Infinite Dungeon", _t"You have accomplished great deeds, but if you enter the infinite dungeon there will be no way back. You will go on and on until you meet your glorious death.", 400, function(ret)
 				if ret then
 					game:changeLevel(math.ceil(game.player.level * 1.5), "infinite-dungeon")
 				end

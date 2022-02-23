@@ -172,9 +172,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
 		local duration = t.getDuration(self, t)
-		return ([[Creates a time distortion in a radius of %d that lasts for %d turns, decreasing global speed by %d%% for 3 turns and inflicting %0.2f temporal damage each turn to all targets within the area.
+		return ([[Creates a time distortion in a radius of %d that lasts for %d turns, decreasing global speed by %d%% for 3 turns %s and inflicting %0.2f temporal damage each turn to all targets within the area.
 		The slow effect and damage dealt will scale with your Spellpower.]]):
-		tformat(radius, duration, 100 * slow, damDesc(self, DamageType.TEMPORAL, damage))
+		tformat(radius, duration, 100 * slow, Desc.vs"sp", damDesc(self, DamageType.TEMPORAL, damage))
 	end,
 }
 
@@ -715,8 +715,8 @@ newTalent{
 		local range = self:getTalentRange(t)
 		local duration = t.getConfuseDuration(self, t)
 		local power = t.getConfuseEfficency(self, t)
-		return ([[You manipulate the spacetime continuum in such a way that you switch places with another creature with in a range of %d.  The targeted creature will be confused (power %d%%) for %d turns.
-		The spell's hit chance will increase with your Spellpower.]]):tformat (range, power, duration)
+		return ([[You manipulate the spacetime continuum in such a way that you switch places with another creature with in a range of %d.  The targeted creature will be confused (power %d%%) for %d turns %s.
+		The spell's hit chance will increase with your Spellpower.]]):tformat (range, power, duration, Desc.vs"sm")
 	end,
 }
 
@@ -783,9 +783,9 @@ newTalent{
 		local stun = t.getDuration(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Violently fold the space between yourself and another point within range.
-		You teleport to the target location, and leave a temporal wake behind that stuns for %d turns and deals %0.2f temporal and %0.2f physical warp damage to targets in the path.
+		You teleport to the target location, and leave a temporal wake behind that stuns for %d turns %s and deals %0.2f temporal and %0.2f physical warp damage to targets in the path.
 		The damage will scale with your Spellpower.]]):
-		tformat(stun, damDesc(self, DamageType.TEMPORAL, damage/2), damDesc(self, DamageType.PHYSICAL, damage/2))
+		tformat(stun, Desc.vs"sp", damDesc(self, DamageType.TEMPORAL, damage/2), damDesc(self, DamageType.PHYSICAL, damage/2))
 	end,
 }
 
@@ -804,6 +804,17 @@ newTalent{
 		local maxspikes = t.getArmor(self, t)
 		if self.carbon_armor and self.carbon_armor < maxspikes then
 			self.carbon_armor = self.carbon_armor + 1
+		end
+	end,
+	callbackOnMeleeHitProcs = function(self, t, target, hitted)
+		-- Ablative armor
+		if hitted and not self.dead and self:attr("carbon_spikes") then
+			if self.carbon_armor >= 1 then
+				self.carbon_armor = self.carbon_armor - 1
+			else
+				-- Deactivate without loosing energy
+				self:forceUseTalent(self.T_CARBON_SPIKES, {ignore_energy=true})
+			end
 		end
 	end,
 	do_carbonLoss = function(self, t)

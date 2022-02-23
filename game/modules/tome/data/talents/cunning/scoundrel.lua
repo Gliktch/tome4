@@ -150,10 +150,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Your abilities in sowing confusion and chaos have reached their peak.  Whenever a foe attempts to apply a detrimental physical effect to you, they have a %d%% chance to fail. If there is an adjacent enemy to you, you misdirect your foe into applying it to them at %d%% duration.
-You gain %d defense.
-The chance to apply status effects increases with your Accuracy and the Defense with your Cunning.]]):
-		tformat(t.getChance(self,t),t.getDuration(self,t), t.getDefense(self, t))
+		return ([[Your abilities in sowing confusion and chaos have reached their peak.  Whenever a foe attempts to apply a detrimental physical effect to you, they have a %d%% chance to fail. If there is an adjacent enemy to you, you misdirect your foe into applying it to them at %d%% duration %s.
+You gain %d defense.]]):
+		tformat(t.getChance(self,t),t.getDuration(self,t), Desc.vs"ap", t.getDefense(self, t))
 	end,
 }
 

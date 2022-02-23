@@ -22,12 +22,15 @@ uberTalent{
 	mode = "passive",
 	cooldown = 15,
 	require = { special={desc=_t"Be close to the draconic world", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:attr("drake_touched") and self:attr("drake_touched") >= 2) end} },
-	trigger = function(self, t, value)
-		if self.life - value < self.max_life * 0.3 and not self:isTalentCoolingDown(t) then
-			self:heal(self.max_life * 0.4, t)
+	callbackPriorities = {callbackOnHit = 300},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if cb.value <= 0 then return end
+		if (self:getLife() - cb.value) < (self:getMaxLife() * 0.3) and not self:isTalentCoolingDown(t) then
+			self:heal(self:getMaxLife() * 0.4, t)
 			self:startTalentCooldown(t)
 			game.logSeen(self,"%s's draconic body hardens and heals!",self:getName())
 		end
+		return cb
 	end,
 	info = function(self, t)
 		return ([[Your body hardens and recovers quickly. When pushed below 30%% life, you instantly restore 40%% of your total life.]])
@@ -40,27 +43,35 @@ uberTalent{
 	mode = "passive",
 	cooldown = 12,
 	require = { special={desc=_t"Have let Melinda be sacrificed", fct=function(self) return game.state.birth.ignore_prodigies_special_reqs or (self:hasQuest("kryl-feijan-escape") and self:hasQuest("kryl-feijan-escape"):isStatus(engine.Quest.FAILED)) end} },
+	callbackPriorities = {callbackOnHit = 100},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		if cb.value <= 0 or self:isTalentCoolingDown(t) then return end
+		if cb.value >= self.max_life * 0.15 then
+			-- Add a lasting map effect
+			game.level.map:addEffect(self,
+				self.x, self.y, 4,
+				DamageType.BLOODSPRING, {dam={dam=100 + self:getCon() * 3, healfactor=0.5}, x=self.x, y=self.y, st=DamageType.DRAINLIFE, power=50 + self:getCon() * 2},
+				1,
+				5, nil,
+				MapEffect.new{color_br=255, color_bg=20, color_bb=20, effect_shader="shader_images/darkness_effect.png"},
+				function(e, update_shape_only)
+					if not update_shape_only then e.radius = e.radius + 0.5 end
+					return true
+				end,
+				false
+			)
+			game:playSoundNear(self, "talents/tidalwave")
+			self:startTalentCooldown(t)
+			game.logSeen(self,"%s's blood gushes out in a torrent!",self:getName())
+		end
+	end,
 	trigger = function(self, t)
-		-- Add a lasting map effect
-		game.level.map:addEffect(self,
-			self.x, self.y, 4,
-			DamageType.BLOODSPRING, {dam={dam=100 + self:getCon() * 3, healfactor=0.5}, x=self.x, y=self.y, st=DamageType.DRAINLIFE, power=50 + self:getCon() * 2},
-			1,
-			5, nil,
-			MapEffect.new{color_br=255, color_bg=20, color_bb=20, effect_shader="shader_images/darkness_effect.png"},
-			function(e, update_shape_only)
-				if not update_shape_only then e.radius = e.radius + 0.5 end
-				return true
-			end,
-			false
-		)
-		game:playSoundNear(self, "talents/tidalwave")
-		self:startTalentCooldown(t)
+		
 	end,
 	info = function(self, t)
-		return ([[When a single blow deals more than 15%% of your total life, a torrent of blood gushes from your body, creating a bloody tidal wave for 4 turns that deals %0.2f blight damage, heals you for 50%% of the damage done, and knocks foes back.
+		return ([[When a single blow deals more than 15%% of your total life, a torrent of blood gushes from your body, creating a bloody tidal wave for 4 turns that deals %0.2f blight damage, heals you for 50%% of the damage done, and knocks foes back %s.
 		The damage increases with your Constitution.]])
-		:tformat(100 + self:getCon() * 3)
+		:tformat(100 + self:getCon() * 3, Desc.vs"sp")
 	end,
 }
 
@@ -140,8 +151,8 @@ uberTalent{
 			(not self.inscription_forbids or not self.inscription_forbids['inscriptions/infusions'])
 	end} },
 	tactical = { HEAL = function(self) return not self:hasEffect(self.EFF_FUNGAL_BLOOD) and 0 or math.ceil(self:hasEffect(self.EFF_FUNGAL_BLOOD).power / 150) end },
-	healmax = function(self, t) return self.max_life * self:combatStatLimit("con", 0.5, 0.1, 0.25) end, -- Limit < 50% max life
-	fungalPower = function(self, t) return self:getCon()*2 + self.max_life * self:combatStatLimit("con", 0.05, 0.005, 0.01) end,
+	healmax = function(self, t) return self:getMaxLife() * self:combatStatLimit("con", 0.5, 0.1, 0.25) end, -- Limit < 50% max life
+	fungalPower = function(self, t) return self:getCon()*2 + self:getMaxLife() * self:combatStatLimit("con", 0.05, 0.005, 0.01) end,
 	on_pre_use = function(self, t) return self:hasEffect(self.EFF_FUNGAL_BLOOD) and self:hasEffect(self.EFF_FUNGAL_BLOOD).power > 0 and not self:attr("undead") end,
 	trigger = function(self, t)
 		if self.inscription_restrictions and not self.inscription_restrictions['inscriptions/infusions'] then return end
@@ -184,11 +195,11 @@ uberTalent{
 		))
 	end} },
 	on_learn = function(self, t)
-		self.max_life = self.max_life + 500
+		self:incMaxLife(500)
 		self.combat_armor_hardiness = self.combat_armor_hardiness + 20
 	end,
 	on_unlearn = function(self, t)
-		self.max_life = self.max_life - 500
+		self:incMaxLife(-500)
 		self.combat_armor_hardiness = self.combat_armor_hardiness - 20
 	end,
 	info = function(self, t)

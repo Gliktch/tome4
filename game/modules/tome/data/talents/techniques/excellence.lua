@@ -213,8 +213,7 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You fire a shot at your target's throat, mouth, or equivalent body part, doing %d%% damage and silencing it for %d turns.
-		The silence chance increases with your Accuracy.]])
-		:tformat(self:combatTalentWeaponDamage(t, 0.9, 1.7) * 100, t.getDur(self,t))
+		return ([[You fire a shot at your target's throat, mouth, or equivalent body part, doing %d%% damage and silencing it for %d turns %s.]])
+		:tformat(self:combatTalentWeaponDamage(t, 0.9, 1.7) * 100, t.getDur(self,t), Desc.vs"am")
 	end,
 }

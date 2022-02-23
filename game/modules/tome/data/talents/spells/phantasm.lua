@@ -58,8 +58,8 @@ newTalent{
 		local turn = t.getBlindPower(self, t)
 		local dam = t.getDamage(self, t)
 		return ([[Creates a globe of pure light within a radius of %d that illuminates the area and deals %0.2f damage to all creatures.
-		At level 3, it also blinds all who see it (except the caster) for %d turns.]]):
-		tformat(radius, damDesc(self, DamageType.LIGHT, dam), turn)
+		At level 3, it also blinds all who see it (except the caster) for %d turns %s.]]):
+		tformat(radius, damDesc(self, DamageType.LIGHT, dam), turn, Desc.vs"sp")
 	end,
 }
 
@@ -73,7 +73,7 @@ newTalent{
 	cooldown = 10,
 	tactical = { BUFF = 2 },
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 200) end,
-	getEvade = function(self, t) return self:combatTalentSpellDamage(t, 1, 16) + 5 end,
+	getEvade = function(self, t) return math.min(50, self:combatTalentSpellDamage(t, 1, 16) + 5) end,
 	getDur = function(self, t) return self:combatTalentLimit(t, 5, 15, 9) end,
 	radius = function(self, t) return self:combatTalentScale(t, 1, 4) end,
 	callbackOnActBase = function(self, t)
@@ -83,6 +83,7 @@ newTalent{
 		p.icd = p.icd - 1
 		if p.icd <= 0 then p.icd = nil end
 	end,
+	callbackPriorities = {callbackOnHit = -100},	-- happens after shields but before most other reduction
 	callbackOnHit = function(self, t, cb, src, dt)
 		local p = self:isTalentActive(t.id)
 		if not p then return end
@@ -114,9 +115,9 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		return ([[Surround yourself with a phantasmal shield of pure light.
 		Whenever you would take damage there is %d%% chance to become ethereal for an instant and fully ignore it.
-		If you do get hit, the shield glows brightly, sending triggering a flash of light on the attacker, dealing %0.2f light damage in radius %d around it and dazzling any affected creature (deal 10%% less damage) for 5 turns. This can only happen every %d turns.
+		If you do get hit, the shield glows brightly, sending triggering a flash of light on the attacker, dealing %0.2f light damage in radius %d around it and dazzling any affected creature (deal 10%% less damage) for 5 turns %s. This can only happen every %d turns.
 		The damage and ignore chance will increase with your Spellpower.]]):
-		tformat(t.getEvade(self, t), damDesc(self, DamageType.LIGHT, damage), self:getTalentRadius(t), t.getDur(self, t))
+		tformat(t.getEvade(self, t), damDesc(self, DamageType.LIGHT, damage), self:getTalentRadius(t), Desc.vs"ss", t.getDur(self, t))
 	end,
 }
 

@@ -323,7 +323,7 @@ local function archery_projectile(tx, ty, tg, self, tmp)
 	local hitted = false
 	local crit = false
 	local deflect = 0
-	if self:checkHit(atk, def) and (self:canSee(target) or self:attr("blind_fight") or rng.chance(3)) then
+	if self:checkHit(atk, def) and (self:canSee(target) or self:attr("blind_fight") or rng.chance(3) or talent.archery_auto_hit) then
 		print("[ATTACK ARCHERY] raw dam", dam, "versus", armor, "with APR", apr)
 
 		local pres = util.bound(target:combatArmorHardiness() / 100, 0, 1)

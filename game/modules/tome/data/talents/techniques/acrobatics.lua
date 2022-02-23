@@ -217,7 +217,7 @@ newTalent {
 		-- Don't have trigger cooldown.
 
 		local cost = t.stamina_per_use(self, t)
-		if damage >= self.max_life * t.getLifeTrigger(self, t) * 0.01 then
+		if damage >= self:getMaxLife() * t.getLifeTrigger(self, t) * 0.01 then
 			
 			local nx, ny = util.findFreeGrid(self.x, self.y, 1, true, {[Map.ACTOR]=true})
 			if nx and ny and use_stamina(self, cost) then
@@ -239,7 +239,14 @@ newTalent {
 		end
 		return damage
 	end,
-
+	callbackPriorities = {callbackOnHit = -50},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		value = t.onHit(self, t, value)
+		print("[onTakeHit] After Trained Reactions life% trigger ", value)
+		cb.value = value
+		return cb
+	end,
 	info = function(self, t)
 		local trigger = t.getLifeTrigger(self, t)
 		local reduce = t.getReduction(self, t)

@@ -30,9 +30,10 @@ newTalent{
 	getImmuneDuration = function(self, t) return 2 end,
 	getSpellpower = function(self, t) return math.floor(self:combatTalentSpellDamage(t, 30, 70)) end,
 	getDefense = function(self, t) return math.floor(self:combatTalentSpellDamage(t, 30, 70)) end,
+	callbackPriorities = {callbackOnHit = 100},	--happens after most reduction
 	callbackOnHit = function(self, t, cb, src, death_note)
 		if self:isTalentCoolingDown(t) then return end
-		if self.life - cb.value <= self.max_life / 2 then
+		if self:getLife() - cb.value <= self:getMaxLife() / 2 then
 			self:startTalentCooldown(t)
 			self:setEffect(self.EFF_SHADOWGUARD_IMMUNITY, t.getImmuneDuration(self, t), {})
 			self:setEffect(self.EFF_SHADOWGUARD_BUFF, t.getDuration(self, t), {spellpower=t.getSpellpower(self, t), defense=t.getDefense(self, t)})
@@ -101,10 +102,10 @@ newTalent{
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[You reach out with the shadows silencing and disarming your target for %d turns.
+		return ([[You reach out with the shadows silencing %s and disarming %s your target for %d turns.
 		The shadows will deal %d darkness damage to the target and pull it to you.
 		The chance to apply debuffs improves with your Accuracy and the damage with your Spellpower.]]):
-		tformat(duration, damDesc(self, DamageType.DARKNESS, damage))
+		tformat(Desc.vs"am", Desc.vs"ap", duration, damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
 
@@ -119,7 +120,7 @@ newTalent{
 	getDefense = function(self, t) return self:combatTalentSpellDamage(t, 15, 50) end,
 	getPenetration = function(self, t) return self:combatTalentSpellDamage(t, 1, 40) end,
 	passives = function(self, t, p)
-		self:talentTemporaryValue(p, "resists_pen", {DARKNESS = 0})  -- Make sure its displayed since we don't modify Actor.resists_pen directly
+		self:talentTemporaryValue(p, "resists_pen", {DARKNESS = 0.001})  -- Make sure its displayed since we don't modify Actor.resists_pen directly
 	end,
 	info = function(self, t)
 		return ([[Your mastery of dark magic empowers you.

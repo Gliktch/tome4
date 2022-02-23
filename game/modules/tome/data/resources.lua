@@ -40,8 +40,18 @@ print("[Resources] Defining Actor Resources")
 -- CharacterSheet = table of parameters to be used with the CharacterSheet (mod.dialogsCharacterSheet.lua):
 --		status_text = function(act1, act2, compare_fields) generate text of resource status
 -- Minimalist = table of parameters to be used with the Minimalist uiset (see uiset.Minimalist.lua)
+-- no_reset = true prevents refilling to full on levelup (Actor:resetToFull())
 
 -- == Resource Definitions ==
+
+ActorResource:defineResource(_t"Life", "life", nil, "life_regen", _t"This is your life force, which is reduced each time you take damage.", nil, nil, 
+	{
+		color = '#c00000#',
+		wait_on_rest = true,
+		ai = {no_want = true},
+	}
+)
+
 ActorResource:defineResource(_t"Air", "air", nil, "air_regen", _t"Air capacity in your lungs. Entities that need not breathe are not affected.", nil, nil, {
 	color = "#LIGHT_STEEL_BLUE#",
 	ai = {-- if drowning/suffocating due to terrain, try to move to a safe tile (simple AIs)
@@ -158,6 +168,7 @@ ActorResource:defineResource(_t"Positive energy", "positive", ActorTalents.T_POS
 	randomboss_enhanced = true,
 	cost_factor = function(self, t, check, value) if value < 0 then return 1 else return (100 + self:combatFatigue()) / 100 end end,
 	Minimalist = {highlight = function(player, vc, vn, vm, vr) return vc >=0.7*vm end},
+	rating = 'positive_negative_rating',
 })
 ActorResource:defineResource(_t"Negative energy", "negative", ActorTalents.T_NEGATIVE_POOL, "negative_regen", _t"Negative energy represents your reserve of negative power. It slowly increases.", nil, nil, {
 	color = "#7f7f7f#",
@@ -166,6 +177,7 @@ ActorResource:defineResource(_t"Negative energy", "negative", ActorTalents.T_NEG
 	wait_on_rest = true,
 	cost_factor = function(self, t, check, value) if value < 0 then return 1 else return (100 + self:combatFatigue()) / 100 end end,
 	Minimalist = {highlight = function(player, vc, vn, vm, vr) return vc >=0.7*vm end},
+	rating = 'positive_negative_rating',
 })
 ActorResource:defineResource(_t"Hate", "hate", ActorTalents.T_HATE_POOL, "hate_regen", _t"Hate represents your soul's primal antipathy towards others.  It generally decreases whenever you have no outlet for your rage, and increases when you are damaged or destroy others.", nil, nil, {
 	color = "#ffa0ff#",
@@ -271,8 +283,26 @@ ActorResource:defineResource(_t"Psi", "psi", ActorTalents.T_PSI_POOL, "psi_regen
 		end
 	},
 })
+
 ActorResource:defineResource(_t"Souls", "soul", ActorTalents.T_SOUL_POOL, "soul_regen", _t"This is the number of soul fragments you have extracted from your foes for your own use.", 0, 10, {
 	color = "#bebebe#",
 	randomboss_enhanced = true,
 	Minimalist = {images = {front = "resources/front_souls.png", front_dark = "resources/front_souls_dark.png"}},
+})
+
+ActorResource:defineResource(_t"Feedback", "feedback", ActorTalents.T_FEEDBACK_POOL, "feedback_regen", _t"Feedback represents using pain as a means of psionic grounding and it can be used to power feedback abilities.", 0, 100, {
+	color = "#FFFF00#",
+	cost_factor = function(self, t) return (100 + 2 * self:combatFatigue()) / 100 end,
+	Minimalist = {images = {front = "resources/front_psi.png", front_dark = "resources/front_psi_dark.png"}},
+	ai = {
+		tactical = {
+			want_level = function(act, aitarget)
+				local val, max = act:getFeedback(), act:getMaxFeedback()
+				local regen = act:hasEffect(act.EFF_FEEDBACK_LOOP) and math.min(max - val, act:getFeedbackDecay()) or 0
+				local depleted = 1 - (val + regen)/max
+				depleted = depleted/math.max(0.001, 1-depleted)*act.global_speed
+				return 10*(depleted/(depleted + 4))^2 -- want vs depleted: 0.00@0%, 0.03@20%, 0.40@50%, 2.00@76%, 4.79@90%, 9.92@100%, (for normal speed)
+			end
+		},
+	},
 })

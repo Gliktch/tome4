@@ -26,7 +26,7 @@ newTalent{
 	threshold = function(self,t) return self:combatTalentLimit(t, 10, 45, 20) end, -- Limit >10%
 	getCrit = function(self, t) return self:combatTalentScale(t, 2.8, 14) end,
 	do_terror = function(self, t, target, dam)
-		if dam < target.max_life * t.threshold(self, t) / 100 then return end
+		if dam < target:getMaxLife() * t.threshold(self, t) / 100 then return end
 
 		local weapon = target:getInven("MAINHAND")
 		if type(weapon) == "boolean" then weapon = nil end
@@ -40,14 +40,22 @@ newTalent{
 			game.logSeen(target, "%s resists the terror!", target:getName():capitalize())
 		end
 	end,
+	callbackPriorities = {
+		callbackOnMeleeAttack = -30,
+	},
+	callbackOnMeleeAttack = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
+		-- Mortal Terror
+		if hitted and not target.dead then
+			t.do_terror(self, t, target, dam)
+		end
+	end,
 	passives = function(self, t, p)
 		self:talentTemporaryValue(p, "combat_physcrit", t.getCrit(self, t))
 	end,
 	info = function(self, t)
-		return ([[Your mighty blows inspire utter terror on your foes. Any melee strike you do that deals more than %d%% of the target's total life puts them in a mortal terror, dazing them for 5 turns.
-		Your critical strike chance also increase by %d%%.
-		The daze chance increase with your Physical Power.]]):
-		tformat(t.threshold(self, t), t.getCrit(self, t))
+		return ([[Your mighty blows inspire utter terror on your foes. Any melee strike you do that deals more than %d%% of the target's total life puts them in a mortal terror, dazing %s them for 5 turns.
+		Your critical strike chance also increase by %d%%.]]):
+		tformat(t.threshold(self, t), Desc.vs"pp", t.getCrit(self, t))
 	end,
 }
 
@@ -64,6 +72,11 @@ newTalent{
 	-- called by _M:attackTargetWith in mod.class.interface.Combat.lua
 	do_bloodbath = function(self, t)
 		self:setEffect(self.EFF_BLOODBATH, t.getDuration(self, t), {regen=t.getRegen(self, t), max=t.getMax(self, t), hp=t.getHealth(self,t)})
+	end,
+	callbackOnMeleeAttack = function(self, t, target, hitted, crit)
+		if hitted and crit then
+			t.do_bloodbath(self, t)
+		end
 	end,
 	info = function(self, t)
 		local regen = t.getRegen(self, t)
@@ -103,7 +116,7 @@ newTalent{
 	tactical = { DEFEND = 4, STAMINA = -2,
 		HEAL = function(self, t, target) -- up to 2 if there are enemies near
 			local val = 0
-			if self.ai_target.actor and self.life < self.max_life then
+			if self.ai_target.actor and self:getLife() < self:getMaxLife() then
 				for act, params in pairs(self.fov.actors) do
 					if act ~= self and self:reactionToward(act) < 0 then val = val + 1/params.sqdist end
 					if val >= 2 then return val end

@@ -46,11 +46,11 @@ newTalent{
 		The cooldowns of Thermal Shield, Thermal Leech, Thermal Aura, Thermal Strike and Pyrokinesis are reset.
 		Thermal Aura effects will have their radius increased by 1.
 		Your Thermal Shield will have 100%% absorption efficiency and will absorb twice the normal amount of damage.
-		Pyrokinesis will inflict Flameshock.
-		Thermal Leech will reduce enemy damage by %d%%.
+		Pyrokinesis will inflict Flameshock %s.
+		Thermal Leech will reduce enemy damage by %d%% %s.
 		Thermal Strike will have its secondary cold/freeze explode in radius 1.
 		The damage bonus and resistance penetration scale with your Mindpower.
-		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), t.getDamagePenalty(self, t))
+		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs"mp", t.getDamagePenalty(self, t), Desc.vs"mp")
 	end,
 }
 
@@ -89,9 +89,9 @@ newTalent{
 	info = function(self, t)
 		local dam = t.getDamage(self, t)
 		return ([[Quickly drain the heat from your target's brain, dealing %0.1f Cold damage.
-		Affected creatures will also be brainlocked for 4 turns, putting a random talent on cooldown, and freezing cooldowns.
-		The damage and chance to brainlock increase with your Mindpower.]]):
-		tformat(damDesc(self, DamageType.COLD, dam))
+		Affected creatures will also be brainlocked for 4 turns %s, putting a random talent on cooldown, and talents cooldown halved.
+		The damage increases with your Mindpower.]]):
+		tformat(damDesc(self, DamageType.COLD, dam), Desc.vs"mm")
 	end,
 }
 
@@ -143,10 +143,10 @@ newTalent{
 		local rad = self:getTalentRadius(t)
 		local dam = t.getDamage(self, t)
 		return ([[Within radius %d, transfer heat from a group of enemies bodies to their equipment, freezing them to the floor while the excess heat disables their weapons and armor.
-		Those afflicted will be dealt %0.1f Cold and %0.1f Fire damage, and be pinned (Frozen Feet) and disarmed for %d turns.
-		Targets suffering both types of damage will also have have their Armour and saves reduced by %d.
+		Those afflicted will be dealt %0.1f Cold and %0.1f Fire damage, and be pinned (Frozen Feet) and disarmed for %d turns %s.
+		Targets suffering both types of damage will also have have their Armour and saves reduced by %d %s.
 		The chance to apply the effects and the duration increase with your Mindpower.]]):
-		tformat(rad, damDesc(self, DamageType.COLD, dam), damDesc(self, DamageType.FIRE, dam), dur, t.getArmor(self, t))
+		tformat(rad, damDesc(self, DamageType.COLD, dam), damDesc(self, DamageType.FIRE, dam), dur, Desc.vs"mp", t.getArmor(self, t), Desc.vs())
 	end,
 }
 

@@ -46,11 +46,11 @@ newTalent{
 		The cooldowns of Charged Shield, Charged Leech, Charged Aura, Charged Strike and Brainstorm are reset.
 		Charged Aura effects will have their radius increased by 1.
 		Your Charged Shield will have 100%% absorption efficiency and will absorb twice the normal amount of damage.
-		Brainstorm will also inflict blindness.
-		Charge Leech will also inflict confusion (%d%% effect).
+		Brainstorm will also inflict blindness %s.
+		Charge Leech will also inflict confusion (%d%% effect) %s.
 		Charged Strike will have its secondary lightning burst chain to up to 3 targets in a radius of 3.
 		The damage bonus and resistance penetration scale with your Mindpower.
-		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), t.getConfuse(self, t))
+		Only one Transcendent talent may be in effect at a time.]]):tformat(t.getDuration(self, t), t.getPower(self, t), t.getPenetration(self, t), Desc.vs"mp", t.getConfuse(self, t), Desc.vs"mm")
 	end,
 }
 
@@ -117,10 +117,10 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
 		return ([[Cast a net of static electricity in a radius of %d for %d turns.
-		Enemies standing in the net will take %0.1f Lightning damage and be slowed by %d%%.
+		Enemies standing in the net will take %0.1f Lightning damage and be slowed by %d%% %s.
 		When you move through the net, a static charge will accumulate on your weapon which will add %0.1f additional Lightning damage to your next attack for each turn you spend within its area.
 		These effects scale with your Mindpower.]]):
-		tformat(self:getTalentRadius(t), duration, damDesc(self, DamageType.LIGHTNING, damage), t.getSlow(self, t), damDesc(self, DamageType.LIGHTNING, t.getWeaponDamage(self, t)))
+		tformat(self:getTalentRadius(t), duration, damDesc(self, DamageType.LIGHTNING, damage), t.getSlow(self, t), Desc.vs"mp", damDesc(self, DamageType.LIGHTNING, t.getWeaponDamage(self, t)))
 	end,
 }
 
@@ -135,9 +135,16 @@ newTalent{
 	cooldown = 60,
 	tactical = { BUFF = 10},
 	getPower = function(self, t) -- Similar to blurred mortality
-		return self:combatTalentMindDamage(t, 0, 300) + self.max_life * self:combatTalentLimit(t, 1, .015, .055)
+		return self:combatTalentMindDamage(t, 0, 300) + self:getMaxLife() * self:combatTalentLimit(t, 1, .015, .055)
 	end,
 	getDuration = function(self, t) return math.floor(self:combatTalentScale(t, 1, 5)) end,
+	callbackPriorities = {callbackOnHit = 350},
+	callbackOnHit = function(self, t, cb, src, death_note)
+		local value = cb.value
+		if value > self.life then
+			self:forceUseTalent(t.id, {ignore_energy=true})
+		end
+	end,
 	activate = function(self, t)
 		return {}
 	end,

@@ -55,9 +55,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hit the target twice with your two-handed weapon, doing %d%% damage. Each hit will try to stun the target for %d turns.
-		The stun chance increases with your Physical Power.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 0.7), t.getDuration(self, t))
+		return ([[Hit the target twice with your two-handed weapon, doing %d%% damage. Each hit will try to stun the target for %d turns %s.]])
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.5, 0.7), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -157,7 +156,7 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Spin around, extending your weapon in radius %d and damaging all targets around you for %d%% weapon damage.
-		At level 3 all damage done will also make the targets bleed for an additional %d%% damage over 5 turns]]):tformat(self:getTalentRadius(t), 100 * self:combatTalentWeaponDamage(t, 1.4, 2.1), t.getBleed(self, t) * 100)
+		At level 3 all damage done will also make the targets bleed for an additional %d%% damage over 5 turns %s.]]):tformat(self:getTalentRadius(t), 100 * self:combatTalentWeaponDamage(t, 1.4, 2.1), t.getBleed(self, t) * 100, Desc.vs())
 	end,
 }
 
@@ -182,7 +181,7 @@ newTalent{
 		local x, y, target = self:getTarget(tg)
 		if not target or not self:canProject(tg, x, y) then return nil end
 
-		local perc = 1 - (target.life / target.max_life)
+		local perc = 1 - (target:getLife() / target:getMaxLife())
 		local power = t.getPower(self, t)
 --		game.logPlayer(self, "perc " .. perc .. " power " .. power) -- debugging code
 		self.turn_procs.auto_phys_crit = true

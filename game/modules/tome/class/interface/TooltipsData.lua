@@ -98,7 +98,7 @@ Negative energy represents your reserve of negative "celestial" power, most clos
 TOOLTIP_VIM = _t[[#GOLD#Vim#LAST#
 Vim represents the amount of life energy you control. Each corruption talent requires some.
 It does not regenerate naturally; you need to drain it from yourself or your victims.
-Each time you kill a creature you gain 30% of your Willpower + 1 as Vim.  This value is multiplied by half the rank of the creature.
+Each time you kill a creature you gain 50% of your Willpower + 1 as Vim.  This value is multiplied by the rank of the creature.
 If you can't pay for the Vim cost of a talent you may instead pay with life at a rate of 200% of the Vim cost.
 ]]
 
@@ -144,7 +144,7 @@ The energy of the Sher'Tul Fortress. It is replenished by transmogrifying items 
 ]]
 
 TOOLTIP_LEVEL = _t[[#GOLD#Level and experience#LAST#
-Each time you kill a creature that is over your own level - 5 you gain some experience.
+Each time you kill a creature that is over your own level - 8 you gain some experience.
 When you reach enough experience you advance to the next level. There is a maximum of 50 levels you can gain.
 Each time you level you gain stat and talent points to use to improve your character.
 ]]
@@ -197,8 +197,8 @@ Specific information on each talent appears its tooltip.]]
 -------------------------------------------------------------
 TOOLTIP_SPEED_GLOBAL = _t[[#GOLD#Global Speed#LAST#
 Global speed represents how fast you are and affects everything you do.
-Higher is faster, so at 200% global speed you can performa twice as many actions as you would at 100% speed.
-Note that the amount of time to performa various actions like moving, casting spells, and attacking is also affected by their respective speeds.
+Higher is faster, so at 200% global speed you can perform twice as many actions as you would at 100% speed.
+Note that the amount of time to perform various actions like moving, casting spells, and attacking is also affected by their respective speeds.
 ]]
 TOOLTIP_SPEED_MOVEMENT = _t[[#GOLD#Movement Speed#LAST#
 How quickly you move compared to normal.
@@ -266,8 +266,8 @@ This damage can be reduced by the target's armour or by percentile damage resist
 It is improved by Strength or Dexterity, depending on your weapon. Some talents can change the stats that affect it.
 ]]
 TOOLTIP_COMBAT_BLOCK = _t[[#GOLD#Shield Block Value#LAST#
-The amount of damage a shield will block when actively used in defense.
-Usually this is only effective against Physical damage, but some special shields (and talents) allow the wearer to block other types.
+The base amount of damage a shield will block when actively used in defense.
+Mind damage cannot be blocked. Against other damage types you gain a 50%% bonus to the block value if the shield used grants resistance to that damage type.
 ]]
 TOOLTIP_COMBAT_APR = _t[[#GOLD#Armour Penetration#LAST#
 Armour penetration allows you to ignore a part of the target's armour (this only works for armour, not damage resistance).
@@ -313,10 +313,10 @@ Armour hardiness represents how much of each incoming blows the armour will affe
 Absorbs (hardiness)% of incoming weapon damage, up to a maximum of (armour) damage absorbed.
 ]]
 TOOLTIP_CRIT_REDUCTION = _t[[#GOLD#Crit Reduction#LAST#
-Crit reduction reduces the chance an opponent has of landing a critical strike with a melee or ranged attack.
+Reduces the chance an opponent has of landing a critical strike with a melee or ranged weapon attack.
 ]]
 TOOLTIP_CRIT_SHRUG = _t[[#GOLD#Crits Shrug Off#LAST#
-Gives a chance to ignore the bonus critical damage from any direct damage attacks (melee, spells, ranged, mind powers, ...).
+Reduces the critical damage bonus multiplier from any direct damage attacks (melee/ranged weapons, spells, mind powers, ...).
 ]]
 TOOLTIP_DEFENSE = _t[[#GOLD#Defense#LAST#
 Defense represents your chance to avoid melee weapon attacks and reduces the chance you'll be knocked off-balance by an enemy's attack. It is measured against the attacker's Accuracy.

@@ -318,7 +318,7 @@ function _M:onTakeHit(value, src, death_note)
 	if value > 0 and src and src ~= self and src.resolveSource then
 		if not src.targetable then src = util.getval(src.resolveSource, src) end
 		if src then
-			if src.targetable and not self.ai_target.actor and not (self.never_anger and self:reactionToward(src) > 0) then self:setTarget(src) end
+			if src.targetable and not self.ai_target.actor and not (self.never_anger and self:reactionToward(src) >= 0) then self:setTarget(src) end
 			-- Get angry if hurt by a friend
 			if src.faction and self:reactionToward(src) >= 0 and self.fov and self.checkAngered then
 				self:checkAngered(src, false, -50)
@@ -422,7 +422,7 @@ end
 --	returns the result of typ.talent.onAIGetTarget(self, typ.talent) (if defined)
 function _M:getTarget(typ)
 	-- Free ourselves
-	if self:attr("encased_in_ice") then	return self.x, self.y, self end
+	if self:attr("encased_in_ice") or self:attr("encased") then	return self.x, self.y, self end
 	
 	-- get our ai_target according to the targeting parameters (possibly talent-specific)
 	return Actor.getTarget(self, typ)
@@ -480,13 +480,14 @@ function _M:addedToLevel(level, x, y)
 
 				-- Does this always happen after classes are fully resolved?
 				if self.ai_calculate_tactical then self[#self+1] = resolvers.talented_ai_tactic("instant") end -- regenerate AI TACTICS with the new class(es)
-				self:resolve() self:resolve(nil, true)
+				self:resolve() 
+				self:resolve(nil, true)
 				self:resetToFull()
 			end
 			
 			-- increase maximum life
 			self.max_life = self.max_life*life_mult
-			self.life = self.max_life
+			self:incLife(self:getMaxLife(), true)
 			self:attr("difficulty_boosted", 1)
 		end
 		-- try to equip items in inventory

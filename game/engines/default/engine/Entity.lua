@@ -1257,12 +1257,14 @@ function _M:loadList(file, no_default, res, mod, loaded)
 			return self:loadList(f, no_default, list, new_mod or mod, loaded)
 		end,
 	}
+	local first_add_index = #res+1
 	setfenv(f, setmetatable(newenv, {__index=_G}))
 	f()
 	setfenv(f, {})
 	newenv.currentZone = nil
+	local last_add_index = #res
 
-	self:triggerHook{"Entity:loadList", file=file, no_default=no_default, res=res, mod=mod, loaded=loaded}
+	self:triggerHook{"Entity:loadList", file=file, no_default=no_default, res=res, first_add_index=first_add_index, last_add_index=last_add_index, mod=mod, loaded=loaded}
 
 	res.__loaded_files = loaded
 

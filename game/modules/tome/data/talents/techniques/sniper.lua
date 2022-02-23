@@ -143,10 +143,10 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local sight = t.getSightLoss(self,t)
 		local cooldown = t.getCooldownReduction(self,t)
-		return ([[Fire an arrow tipped with a smoke bomb inflicting %d%% damage and creating a radius %d cloud of thick, disorientating smoke. Those caught within will have their vision range reduced by %d for 5 turns.
+		return ([[Fire an arrow tipped with a smoke bomb inflicting %d%% damage and creating a radius %d cloud of thick, disorientating smoke. Those caught within will have their vision range reduced by %d for 5 turns %s.
 The distraction caused by this effect reduces the cooldown of your Concealment by %d turns. If the cooldown is reduced to 0, you instantly activate Concealment regardless of whether foes are too close.
-The chance for the smoke bomb to affect your targets increases with your Accuracy. This requires a bow to use.]]):
-		tformat(dam, radius, sight, cooldown)
+This requires a bow to use.]]):
+		tformat(dam, radius, sight, Desc.vs"ap", cooldown)
 	end,
 }
 

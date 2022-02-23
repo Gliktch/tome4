@@ -52,8 +52,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Shout your warcry in a frontal cone of radius %d. Any targets caught inside will be confused (50%% confusion power) for %d turns.]]):
-		tformat(self:getTalentRadius(t), t.getDuration(self, t))
+		return ([[Shout your warcry in a frontal cone of radius %d. Any targets caught inside will be confused (50%% confusion power) %s for %d turns.]]):
+		tformat(self:getTalentRadius(t), Desc.vs"pm", t.getDuration(self, t))
 	end,
 }
 
@@ -80,15 +80,15 @@ newTalent{
 	end,
 	callbackOnActBase = function(self, t)
 		if t.hasFoes(self) then
-			local v = (self.max_life * 0.02)
-			if v >= self.life then v = 0 end
+			local v = (self:getMaxLife() * 0.02)
+			if v >= self:getLife() then v = 0 end
 
-			if self:knowTalent(self.T_VITALITY) and self.life > self.max_life /2 and self.life - v <= self.max_life/2 then
+			if self:knowTalent(self.T_VITALITY) and self:getLife() > self:getMaxLife() /2 and self:getLife() - v <= self:getMaxLife()/2 then
 				local tt = self:getTalentFromId(self.T_VITALITY)
 				tt.do_vitality_recovery(self, tt)
 			end
 
-			self.life = self.life - v
+			self:incLife(-v)
 		end
 	end,
 	callbackOnAct = function(self, t)
@@ -198,10 +198,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns.
-		Also if the target is protected by a temporary damage shield there is %d%% chance to shatter it.
-		Armor reduction chance increases with your Physical Power.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.5), t.getArmorReduc(self, t), t.getDuration(self, t), t.getShatter(self, t))
+		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns %s.
+		Also if the target is protected by any temporary magical or psionic damage absorbing shields there is %d%% chance to shatter a random shield %s.]])
+		:tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.5), t.getArmorReduc(self, t), t.getDuration(self, t), Desc.vs"pp", t.getShatter(self, t), Desc.vs())
 	end,
 }
 

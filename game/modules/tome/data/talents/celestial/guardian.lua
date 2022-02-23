@@ -43,6 +43,29 @@ newTalent{
 	deactivate = function(self, t, p)
 		return true
 	end,
+	callbackPriorities = {callbackOnHit = -500},
+	callbackOnHit = function(self, t, cb, src, dt)
+		tal = self:isTalentActive(t.id)
+		if tal and self.life < self.max_life then
+			if cb.value <= 2 then
+				drain = cb.value
+			else
+				drain = 2
+			end
+			if self:getPositive() >= drain then
+				self:incPositive(- drain)
+
+				-- Only calculate crit once per turn to avoid log spam
+				if not self.turn_procs.shield_of_light_heal then
+					local t = self:getTalentFromId(self.T_SHIELD_OF_LIGHT)
+					self.turn_procs.shield_of_light_heal = true
+					self.shield_of_light_heal = self:spellCrit(t.getHeal(self, t))
+				end
+
+				self:heal(self.shield_of_light_heal, tal)
+			end
+		end
+	end,
 	callbackOnMeleeAttack = function(self, t, target, hitted, crit, weapon, damtype, mult, dam)
 		local shield = self:hasShield()
 		if hitted and not target.dead and shield and not self.turn_procs.shield_of_light then
@@ -129,11 +152,48 @@ newTalent{
 	tactical = { DEFEND = 2 },
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 40, 400) end,
 	iconOverlay = function(self, t, p)
-		local val = self.retribution_absorb or 0
+		local val = p.power or 0
 		if val <= 0 then return "" end
 		local fnt = "buff_font_small"
 		if val >= 1000 then fnt = "buff_font_smaller" end
 		return "#RED#"..tostring(math.ceil(val)).."#LAST#", fnt
+	end,
+	shield_bar = function(self, t, p)
+		local power = p.power or 0
+		local power_max = p.power_max or 0
+		return power, power_max
+	end,
+	callbackPriorities = {callbackOnHit = -290},
+	callbackOnHit = function(self, t, cb, src, dt)
+		local p = self:isTalentActive(t.id)
+		if not p then return end
+	
+		local value = cb.value
+		-- Absorb damage into the retribution
+		local absorb = math.min(value/2, p.power)
+		game:delayedLogDamage(src, self, 0, ("#SLATE#(%d absorbed)#LAST#"):tformat(absorb), false)
+		if absorb < p.power then
+			p.power = p.power - absorb
+			value = value - absorb
+		else
+			value = value - p.power
+			p.power = 0
+			
+			local dam = p.dam
+
+			-- Deactivate without loosing energy
+			self:forceUseTalent(self.T_RETRIBUTION, {ignore_energy=true, ignore_cd=true})
+			self:startTalentCooldown(self.T_RETRIBUTION)
+
+			-- Explode!
+			game.logSeen(self, "%s unleashes the stored damage in retribution!", self:getName():capitalize())
+			local tg = {type="ball", range=0, radius=self:getTalentRange(self:getTalentFromId(self.T_RETRIBUTION)), selffire=false, talent=t}
+			local grids = self:project(tg, self.x, self.y, DamageType.LIGHT, dam)
+			game.level.map:particleEmitter(self.x, self.y, tg.radius, "sunburst", {radius=tg.radius, grids=grids, tx=self.x, ty=self.y})
+		end
+		
+		cb.value = value
+		return cb
 	end,
 	activate = function(self, t)
 		local shield = self:hasShield()
@@ -142,17 +202,14 @@ newTalent{
 			return nil
 		end
 		local power = t.getDamage(self, t)
-		self.retribution_absorb = power
-		self.retribution_strike = power
 		game:playSoundNear(self, "talents/generic")
 		return {
-			shield = self:addTemporaryValue("retribution", power),
+			power = power,
+			power_max = power,
+			dam = power
 		}
 	end,
 	deactivate = function(self, t, p)
-		self:removeTemporaryValue("retribution", p.shield)
-		self.retribution_absorb = nil
-		self.retribution_strike = nil
 		return true
 	end,
 	callbackOnRest = function(self, t)  -- Make sure we've actually started resting/running before disabling the sustain
@@ -232,7 +289,7 @@ newTalent{
 
 newTalent{
 	name = "Avatar Distant Sun Unlock Checker", short_name = "AVATAR_DISTANT_SUN_UNLOCK_CHECKER", image = "talents/avatar_of_a_distant_sun.png",
-	type = {"celestial/other",1},
+	type = {"base/class",1},
 	mode = "passive",
 	hide = "always",
 	no_unlearn_last = true,

@@ -100,9 +100,9 @@ newTalent{ short_name = "NATURE_TOUCH",
 	onAIGetTarget = function(self, t) -- find target to heal (prefers self, usually, doesn't consider Solipsism)
 		local target
 		local heal, bestheal = t.getHeal(self, t), 0
-		if not self:attr("undead") and self.max_life - self.life > 0 then -- check self
+		if not self:attr("undead") and self:getMaxLife() - self:getLife() > 0 then -- check self
 			target = self
-			bestheal = math.min(self.max_life - self.life, heal*self.healing_factor)*(self.ai_state.self_compassion or 5)
+			bestheal = math.min(self:getMaxLife() - self:getLife(), heal*self.healing_factor)*(self.ai_state.self_compassion or 5)
 		end
 		local adjacents = util.adjacentCoords(self.x, self.y)
 		local act
@@ -110,7 +110,7 @@ newTalent{ short_name = "NATURE_TOUCH",
 			act = game.level.map(coords[1], coords[2], Map.ACTOR)
 		--if act then game.log("heal...found actor %s at (%d, %d)", act.name, act.x, act.y) end
 			if act and self:reactionToward(act) > 0 and not act:attr("undead") then
-				local effectheal = math.min(act.max_life - act.life, heal*act.healing_factor)*(self.ai_state.ally_compassion or 1)
+				local effectheal = math.min(act:getMaxLife() - act:getLife(), heal*act.healing_factor)*(self.ai_state.ally_compassion or 1)
 				if effectheal > bestheal then
 					target, bestheal = act, effectheal
 				end
@@ -187,7 +187,7 @@ newTalent{
 	tactical = { BUFF = 2 },
 	fixed_cooldown = true,
 	getTalentCount = function(self, t) return math.floor(self:combatTalentScale(t, 2, 7, "log")) end,
-	getMaxLevel = function(self, t) return self:getTalentLevel(t) end,
+	getMaxLevel = function(self, t) return math.floor(self:getTalentLevel(t)) end,
 	action = function(self, t)
 		local nb = t.getTalentCount(self, t)
 		local maxlev = t.getMaxLevel(self, t)

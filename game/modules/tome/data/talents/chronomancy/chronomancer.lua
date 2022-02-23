@@ -257,7 +257,7 @@ makeParadoxClone = function(self, target, duration, alt_nodes)
 	local clone_copy = {name=("%s's temporal clone"):tformat(target:getName()),
 		desc=_t[[A creature from another timeline.]],
 		faction=target.faction, exp_worth=0,
-		life=util.bound(target.life, target.die_at, target.max_life),
+		life=util.bound(target:getLife(), target:getMinLife(), target:getMaxLife()),
 		summoner=target, summoner_gain_exp=true, summon_time=duration,
 		max_level=target.level,
 		ai_target={actor=table.NIL_MERGE}, ai="summoned",

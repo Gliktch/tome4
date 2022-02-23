@@ -26,7 +26,7 @@ newTalent{
 	hate = -8,
 	cooldown = function(self, t) return math.ceil(self:combatTalentLimit(t, 5, 14, 6)) end,
 	getDamage = function(self, t)
-		return self.max_life / math.ceil(self:combatTalentLimit(t, 50, 10, 20))
+		return self:getMaxLife() / math.ceil(self:combatTalentLimit(t, 50, 10, 20))
 	end,
 	getHate = function(self, t) return 2 end,
 	
@@ -135,11 +135,10 @@ newTalent{
 	callbackOnActBase = function(self, t)
 		-- Pay life
 		local price = t.getPrice(self, t)
-    game:delayedLogDamage(self, self, 0, ("#CRIMSON#%d#LAST#"):tformat(self.max_life * price / 100), false)
-		self:takeHit(self.max_life * price / 100, self, {special_death_msg=_t"tore themself apart"})
+		game:delayedLogDamage(self, self, 0, ("#CRIMSON#%d#LAST#"):tformat(self:getMaxLife() * price / 100), false)
+		self:takeHit(self:getMaxLife() * price / 100, self, {special_death_msg=_t"tore themself apart"})
 		t.surge(self, t)
 	end,
-	
 	info = function(self, t)
 		local price = t.getPrice(self, t)
 		return ([[Call upon your deepest reserves of strength to win no matter the cost. 
@@ -166,21 +165,11 @@ newTalent{
 		if not state then return {dam = dam} end
 		if self:attr("invulnerable") then return {dam = dam} end
 		
-		local psrc = src.__project_source
-		if psrc then
-			local kind = util.getval(psrc.getEntityKind)
-			if kind == "projectile" or kind == "trap" or kind == "object" then
-				-- continue
-			else
-				return
-			end
-		end
-		
 		local lt = t.getThreshold(self, t)/100
 		local st = t.getSpillThreshold(self, t)/100
-		if dam > self.max_life*lt then
-			local reduce = dam - self.max_life*lt
-			if reduce > self.max_life * (st - lt) then
+		if dam > self:getMaxLife()*lt then
+			local reduce = dam - self:getMaxLife()*lt
+			if reduce > self:getMaxLife() * (st - lt) then
 				reduce = math.floor(dam * (st - lt) / (st))
 			end
 			local length = t.getTime(self, t)

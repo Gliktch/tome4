@@ -214,7 +214,7 @@ _M.shader_params = {default = {name = "resources", require_shader=4, delay_load=
 	vim={name = "resources", require_shader=4, delay_load=true, color={210/255, 180/255, 140/255}, speed=1000, distort={0.4,0.4}},
 	hate={name = "resources", require_shader=4, delay_load=true, color={0xF5/255, 0x3C/255, 0xBE/255}, speed=1000, distort={0.4,0.4}},
 	psi={name = "resources", require_shader=4, delay_load=true, color={colors.BLUE.r/255, colors.BLUE.g/255, colors.BLUE.b/255}, speed=2000, distort={0.4,0.4}},
-	feedback={require_shader=4, delay_load=true, speed=2000, distort={0.4,0.4}},
+	feedback={name = "resources", require_shader=4, delay_load=true, color={0xff/255, 0xff/255, 0x00/255}, speed=2000, distort={0.4,0.4}},
 }
 
 _M:triggerHook{"UISet:Minimalist:Load", alterlocal=function(k, v)
@@ -697,7 +697,6 @@ function _M:showResourceTooltip(x, y, w, h, id, desc, is_first)
 								list[#list+1] = {name=res_def.name, id=rname}
 							end
 						end
-						if player:knowTalent(player.T_FEEDBACK_POOL) then list[#list+1] = {name=_t"Feedback", id="feedback"} end
 						if player.is_fortress and player:hasQuest("shertul-fortress") then list[#list+1] = {name=_t"Fortress Energy", id="fortress"} end
 						
 						Dialog:listPopup(_t"Display/Hide resources", _t"Toggle:", list, 300, util.bound((8+#list)*(self.init_font_h+1), 14*(self.init_font_h+1), game.h*.75), function(sel)
@@ -729,6 +728,7 @@ function _M:resourceOrientStep(orient, bx, by, scale, x, y, w, h)
 end
 
 function _M:displayResources(scale, bx, by, a)
+	if not game.level then return end
 	local player = game.player
 	if player then
 		local orient = self.sizes.resources and self.sizes.resources.orient or "right"
@@ -736,19 +736,27 @@ function _M:displayResources(scale, bx, by, a)
 
 		-----------------------------------------------------------------------------------
 		-- Air
-		if player.air < player.max_air then
+		if player:getAir() < player:getMaxAir() then
 			sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a)
 			bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a)
 			if air_sha.shad then air_sha:setUniform("a", a) air_sha.shad:use(true) end
-			local p = math.min(1, math.max(0, player:getAir() / player.max_air))
+			local p = util.bound(player:getAir() / player:getMaxAir(), 0, 1)
 			shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], air_c[1], air_c[2], air_c[3], a)
 			if air_sha.shad then air_sha.shad:use(false) end
 
-			if not self.res.air or self.res.air.vc ~= player.air or self.res.air.vm ~= player.max_air or self.res.air.vr ~= player.air_regen then
+			local tile_degen = 0
+			
+			local air_level, air_condition = game.level.map:checkEntity(player.x, player.y, Map.TERRAIN, "air_level"), game.level.map:checkEntity(player.x, player.y, Map.TERRAIN, "air_condition")
+			
+			if not (not air_condition or not player.can_breath or not player.can_breath[air_condition] or player.can_breath[air_condition] <= 0) or player:attr("no_breath") or player:attr("invulnerable") then
+				tile_degen = air_level or 0
+			end
+			
+			if not self.res.air or self.res.air.vc ~= player:getAir() or self.res.air.vm ~= player:getMaxAir() or self.res.air.vr ~= player:regenAir(true, true) + tile_degen then
 				self.res.air = {
-					vc = player.air, vm = player.max_air, vr = player.air_regen,
-					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(player.air, player.max_air), 255, 255, 255):glTexture()},
-					regen={core.display.drawStringBlendedNewSurface(sfont_sha, ("%+0.2f"):format(player.air_regen), 255, 255, 255):glTexture()},
+					vc = player:getAir(), vm = player:getMaxAir(), vr = player:regenAir(true, true) + tile_degen,
+					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(player:getAir(), player:getMaxAir()), 255, 255, 255):glTexture()},
+					regen={core.display.drawStringBlendedNewSurface(sfont_sha, ("%+0.2f"):format(player:regenAir(true, true) + tile_degen), 255, 255, 255):glTexture()},
 				}
 			end
 			local dt = self.res.air.cur
@@ -759,7 +767,7 @@ function _M:displayResources(scale, bx, by, a)
 			dt[1]:toScreenFull(x+144, y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
 
 			local front = fshat_air_dark
-			if player.air >= player.max_air * 0.5 then front = fshat_air end
+			if player:getAir() >= player:getMaxAir() * 0.5 then front = fshat_air end
 			front[1]:toScreenFull(x, y, front[6], front[7], front[2], front[3], 1, 1, 1, a)
 			self:showResourceTooltip(bx+x*scale, by+y*scale, fshat[6], fshat[7], "res:air", self.TOOLTIP_AIR)
 			x, y = self:resourceOrientStep(orient, bx, by, scale, x, y, fshat[6], fshat[7])
@@ -769,39 +777,49 @@ function _M:displayResources(scale, bx, by, a)
 		-- Life & shield
 		sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a)
 		bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a)
-		local bar_c = player.life < 0 and neg_life_c or life_c
+		local bar_c = player:getLife() < 0 and neg_life_c or life_c
 		if life_sha.shad then life_sha:setUniform("a", a) life_sha:setUniform("color", bar_c) life_sha.shad:use(true) end
-		local p = math.min(1, math.max(0, (player.life - player.die_at) / (player.max_life - player.die_at)))
+		local p = math.min(1, math.max(0, (player:getLife() - player:getMinLife()) / (player:getMaxLife() - player:getMinLife())))
 		shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], bar_c[1], bar_c[2], bar_c[3], a)
 		if life_sha.shad then life_sha.shad:use(false) end
-		if player.die_at ~= 0 then
-			core.display.drawQuad(x+49 + shat[6] * (-player.die_at / (player.max_life - player.die_at)), y+10, 2, shat[7], 0, 0, 0, 255)
+		if player:getMinLife() ~= 0 then
+			core.display.drawQuad(x+49 + shat[6] * (-player:getMinLife() / (player:getMaxLife() - player:getMinLife())), y+10, 2, shat[7], 0, 0, 0, 255)
 		end
 
-		local life_regen = player.life_regen * util.bound((player.healing_factor or 1), 0, 2.5)
-		if not self.res.life or self.res.life.vc ~= player.life or self.res.life.vm ~= player.max_life or self.res.life.vr ~= life_regen then
-			local status_text = ("%s/%d"):format(math.round(player.life), math.round(player.max_life))
+		local life_regen = player:regenLife(true, true)
+		if not self.res.life or self.res.life.vc ~= player:getLife() or self.res.life.vm ~= player:getMaxLife() or self.res.life.vr ~= life_regen then
+			local status_text = ("%s/%d"):format(math.round(player:getLife()), math.round(player:getMaxLife()))
 			local reg_text = string.limit_decimals(life_regen,3, "+")
 			self.res.life = {
-				vc = player.life, vm = player.max_life, vr = life_regen,
+				vc = player:getLife(), vm = player:getMaxLife(), vr = life_regen,
 				cur = {core.display.drawStringBlendedNewSurface(#status_text*1.1 + #reg_text <=14 and font_sha or sfont_sha, status_text, 255, 255, 255):glTexture()}, -- adjust font for space
 				regen={core.display.drawStringBlendedNewSurface(sfont_sha, reg_text, 255, 255, 255):glTexture()},
 			}
 		end
 
 		local shield, max_shield = 0, 0
-		if player:attr("time_shield") then shield = shield + (player.time_shield_absorb or 0) max_shield = max_shield + (player.time_shield_absorb_max or 0) end
-		if player:attr("damage_shield") then shield = shield + (player.damage_shield_absorb or 0) max_shield = max_shield + (player.damage_shield_absorb_max or 0) end
-		if player:attr("displacement_shield") then shield = shield + (player.displacement_shield or 0) max_shield = max_shield + (player.displacement_shield_max or 0) end
-		if player:attr("disruption_shield_power") then shield = shield + (player.disruption_shield_power or 0) max_shield = max_shield + (player:callTalent(player.T_DISRUPTION_SHIELD, "getMaxAbsorb") or 0) end
-		local necroshield = player:isTalentActive(player.T_HIEMAL_SHIELD)
-		if necroshield then shield = shield + (necroshield.shield or 0) max_shield = max_shield + (necroshield.original_shield or 0) end
+		for eff_id, p in pairs(player.tmp) do
+			if player.tempeffect_def[eff_id].shield_bar then
+				local eshield, emax_shield = player.tempeffect_def[eff_id].shield_bar(player, p)
+				shield = shield + eshield
+				max_shield = max_shield + emax_shield
+			end
+		end
+		
+		for tid, act in pairs(player.sustain_talents) do
+			local t = player:getTalentFromId(tid)
+			if t and t.shield_bar then
+				local eshield, emax_shield = t.shield_bar(player, t, act)
+				shield = shield + eshield
+				max_shield = max_shield + emax_shield
+			end
+		end
 		
 		local front = fshat_life_dark
 		if max_shield > 0 then
 			front = fshat_shield_dark
 			if shield >= max_shield * 0.8 then front = fshat_shield end
-		elseif player.life >= player.max_life then front = fshat_life end
+		elseif player:getLife() >= player:getMaxLife() then front = fshat_life end
 		front[1]:toScreenFull(x, y, front[6], front[7], front[2], front[3], 1, 1, 1, a)
 	
 		-- draw text on top of graphic for legibility
@@ -853,7 +871,7 @@ function _M:displayResources(scale, bx, by, a)
 				if player:knowTalent(res_def.talent) and not player["_hide_resource_"..res_def.short_name] then
 					sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a) --shadow
 					bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a) --background
-					vc, vn, vm, vr = player[res_def.getFunction](player), player[res_def.getMinFunction](player), player[res_def.getMaxFunction](player), player[res_def.regen_prop]
+					vc, vn, vm, vr = player[res_def.getFunction](player), player[res_def.getMinFunction](player), player[res_def.getMaxFunction](player), player[res_def.regenFunction](player, true, true)
 
 					-- draw the resource bar
 					if rshad_args.display_resource_bar then -- use a resource-specific method
@@ -906,40 +924,7 @@ function _M:displayResources(scale, bx, by, a)
 					x, y = self:resourceOrientStep(orient, bx, by, scale, x, y, fshat[6], fshat[7])
 				elseif game.mouse:getZone("res:"..rname) then game.mouse:unregisterZone("res:"..rname) end
 			end
-		end
-
-		-----------------------------------------------------------------------------------
-		-- Feedback -- pseudo resource
-		if player.psionic_feedback_max and player:knowTalent(player.T_FEEDBACK_POOL) and not player._hide_resource_feedback then
-			sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a)
-			bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a)
-			if feedback_sha.shad then feedback_sha:setUniform("a", a) feedback_sha.shad:use(true) end
-			local p = player:getFeedback() / player:getMaxFeedback()
-			shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], feedback_c[1], feedback_c[2], feedback_c[3], a)
-			if feedback_sha.shad then feedback_sha.shad:use(false) end
-
-			local front = fshat_feedback_dark
-			if player.psionic_feedback >= player.psionic_feedback_max then front = fshat_feedback end
-			front[1]:toScreenFull(x, y, front[6], front[7], front[2], front[3], 1, 1, 1, a)
-			
-			if not self.res.feedback or self.res.feedback.vc ~= player:getFeedback() or self.res.feedback.vm ~= player:getMaxFeedback() or self.res.feedback.vr ~= player:getFeedbackDecay() then
-				self.res.feedback = {
-					hidable = _t"Feedback",
-					vc = player:getFeedback(), vm = player:getMaxFeedback(), vr = player:getFeedbackDecay(),
-					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(player:getFeedback(), player:getMaxFeedback()), 255, 255, 255):glTexture()},
-					regen={core.display.drawStringBlendedNewSurface(sfont_sha, ("%+0.2f"):format(-player:getFeedbackDecay()), 255, 255, 255):glTexture()},
-				}
-			end
-			local dt = self.res.feedback.cur
-			dt[1]:toScreenFull(2+x+64, 2+y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 0, 0, 0, 0.7 * a)
-			dt[1]:toScreenFull(x+64, y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
-			dt = self.res.feedback.regen
-			dt[1]:toScreenFull(2+x+144, 2+y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 0, 0, 0, 0.7 * a)
-			dt[1]:toScreenFull(x+144, y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
-
-			self:showResourceTooltip(bx+x*scale, by+y*scale, fshat[6], fshat[7], "res:feedback", self.TOOLTIP_FEEDBACK)
-			x, y = self:resourceOrientStep(orient, bx, by, scale, x, y, fshat[6], fshat[7])
-		elseif game.mouse:getZone("res:feedback") then game.mouse:unregisterZone("res:feedback") end
+		end		
 
 		-----------------------------------------------------------------------------------
 		-- Fortress Energy -- special
@@ -1420,7 +1405,7 @@ function _M:displayParty(scale, bx, by)
 			if not self.party[a] then
 				local def = game.party.members[a]
 
-				local text = ("#GOLD##{bold}#%s\n#WHITE##{normal}#Life: %d%%\nLevel: %d\n%s"):tformat(a:getName(), math.floor(100 * a.life / a.max_life), a.level, def.title)
+				local text = ("#GOLD##{bold}#%s\n#WHITE##{normal}#Life: %d%%\nLevel: %d\n%s"):tformat(a:getName(), math.floor(100 * a:getLife() / a:getMaxLife()), a.level, def.title)
 				if a.summon_time then
 					text = text..("\nTurns remaining: %s"):tformat(a.summon_time)
 				end
@@ -1450,7 +1435,7 @@ function _M:displayParty(scale, bx, by)
 				self.party[a] = {a, "party"..a.uid, function(x, y)
 					core.display.drawQuad(x, y, 40, 40, 0, 0, 0, 255)
 					if life_sha.shad then life_sha.shad:use(true) end
-					local p = math.min(1, math.max(0, a.life / a.max_life))
+					local p = math.min(1, math.max(0, a:getLife() / a:getMaxLife()))
 					core.display.drawQuad(x+1, y+1 + (1-p)*hs, 38, p*38, life_c[1]*255, life_c[2]*255, life_c[3]*255, 178)
 					if life_sha.shad then life_sha.shad:use(false) end
 

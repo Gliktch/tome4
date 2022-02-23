@@ -59,11 +59,11 @@ newTalent{
 		end
 		if not hit then return true end
 
-		if (target.life * 100 / target.max_life > t.maxSwallow(self, t, target.size_category)) and not target.dead then
+		if (target:getLife() * 100 / target:getMaxLife() > t.maxSwallow(self, t, target.size_category)) and not target.dead then
 			return true
 		end
 
-		if (target:checkHit(self:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 15) or target.dead) and (target:canBe("instakill") or target.life * 100 / target.max_life <= 5) then
+		if (target:checkHit(self:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 15) or target.dead) and (target:canBe("instakill") or target:getLife() * 100 / target:getMaxLife() <= 5) then
 			if not target.dead then target:die(self) end
 			world:gainAchievement("EAT_BOSSES", self, target)
 			self:incEquilibrium(-target.level - 5)
@@ -81,8 +81,7 @@ newTalent{
 	end,
 	info = function(self, t)
 return ([[Attack the target for %d%% Nature weapon damage.
-		If the attack brings your target below a percent of its max life (based on talent level and relative size) or kills it, you attempt to swallow it, killing it automatically and regaining life and equilibrium depending on its level.
-		The target may save against your physical power to prevent this attempt.
+		If the attack brings your target below a percent of its max life (based on talent level and relative size) or kills it, you attempt to swallow it, killing it automatically %s and regaining life and equilibrium depending on its level.
 		Levels in Swallow raise your Physical and Mental critical rate by %d%%.
 		Each point in sand drake talents increase your physical resistance by 0.5%%.
 		This talent will also attack with your shield, if you have one equipped.
@@ -94,7 +93,9 @@ return ([[Attack the target for %d%% Nature weapon damage.
 		Big:  %d%%
 		Huge:  %d%%
 		Gargantuan:  %d%%]]):
-		tformat(100 * t.getDamage(self, t), t.getPassiveCrit(self, t),
+		tformat(100 * t.getDamage(self, t),
+			Desc.vs"pp",
+			t.getPassiveCrit(self, t),
 			t.maxSwallow(self, t, 1),
 			t.maxSwallow(self, t, 2),
 			t.maxSwallow(self, t, 3),
@@ -218,8 +219,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[You breathe sand in a frontal cone of radius %d. Any target caught in the area will take %0.2f physical damage, and will be blinded for %d turns.
+		return ([[You breathe sand in a frontal cone of radius %d. Any target caught in the area will take %0.2f physical damage, and will be blinded for %d turns %s.
 		The damage will increase with your Strength, the critical chance is based on your Mental crit rate, and the Blind apply power is based on your Mindpower.
-		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.PHYSICAL, damage), duration)
+		Each point in sand drake talents also increases your physical resistance by 0.5%%.]]):tformat(self:getTalentRadius(t), damDesc(self, DamageType.PHYSICAL, damage), duration, Desc.vs"mp")
 	end,
 }

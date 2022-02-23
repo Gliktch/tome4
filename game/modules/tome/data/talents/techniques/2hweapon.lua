@@ -145,8 +145,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Shout your warcry in a frontal cone of radius %d. Any targets caught inside will be confused (power %d%%) for %d turns.]]):
-		tformat(self:getTalentRadius(t),t.getConfusion(self, t), t.getDuration(self, t))
+		return ([[Shout your warcry in a frontal cone of radius %d. Any targets caught inside will be confused (power %d%%) for %d turns %s.]]):
+		tformat(self:getTalentRadius(t),t.getConfusion(self, t), t.getDuration(self, t), Desc.vs"pm")
 	end,
 }
 
@@ -190,20 +190,19 @@ newTalent{
 
 		-- Try to insta-kill
 		if hit then
-			if target:checkHit(self:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 5 - self:getTalentLevel(t) / 2) and target:canBe("instakill") and target.life > 0 and target.life < target.max_life * 0.2 then
+			if target:checkHit(self:combatPhysicalpower(), target:combatPhysicalResist(), 0, 95, 5 - self:getTalentLevel(t) / 2) and target:canBe("instakill") and target:getLife() > target:getMinLife() and target:getLife() < target:getMaxLife() * 0.2 then
 				-- KILL IT !
 				game.logSeen(target, "%s feels the pain of the death blow!", target:getName():capitalize())
 				target:die(self)
-			elseif target.life > 0 and target.life < target.max_life * 0.2 then
+			elseif target:getLife() > target:getMinLife() and target:getLife() < target:getMaxLife() * 0.2 then
 				game.logSeen(target, "%s resists the death blow!", target:getName():capitalize())
 			end
 		end
 		return true
 	end,
 	info = function(self, t)
-		return ([[Tries to perform a killing blow, doing %d%% weapon damage and dealing an automatic critical hit. If the target ends up with low enough life (<20%%), it might be instantly killed.
-		At level 4, it drains half your remaining stamina, and uses it to increase the blow damage by 100%% of it.
-		The chance to instantly kill will increase with your Physical Power.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3))
+		return ([[Tries to perform a killing blow, doing %d%% weapon damage and dealing an automatic critical hit. If the target ends up with low enough life (<20%%), it might be instantly killed %s.
+		At level 4, it drains half your remaining stamina, and uses it to increase the blow damage by 100%% of it.]]):tformat(100 * self:combatTalentWeaponDamage(t, 0.8, 1.3), Desc.vs"pp")
 	end,
 }
 
@@ -249,9 +248,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned for %d turns.
-		The stun chance increases with your Physical Power.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5), t.getDuration(self, t))
+		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target is stunned for %d turns. %s]])
+		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 
@@ -314,10 +312,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns.
-		Also if the target is protected by a temporary damage shield there is %d%% chance to shatter it.
-		Armor reduction chance increases with your Physical Power.]])
-		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5),t.getArmorReduc(self, t), t.getDuration(self, t), t.getShatter(self, t))
+		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's armour and saves are reduced by %d for %d turns %s.
+		Also if the target is protected by any temporary magical or psionic damage absorbing shields there is %d%% chance to shatter one random shield.]])
+		:tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.5),t.getArmorReduc(self, t), t.getDuration(self, t), Desc.vs"pp", t.getShatter(self, t))
 	end,
 }
 
@@ -356,10 +353,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's Accuracy is reduced by %d for %d turns.
-		Accuracy reduction chance increases with your Physical Power.]])
+		return ([[Hits the target with your weapon, doing %d%% damage. If the attack hits, the target's Accuracy is reduced by %d for %d turns %s.]])
 		:tformat(
-			100 * self:combatTalentWeaponDamage(t, 1, 1.5), 3 * self:getTalentLevel(t), t.getDuration(self, t))
+			100 * self:combatTalentWeaponDamage(t, 1, 1.5), 3 * self:getTalentLevel(t), t.getDuration(self, t), Desc.vs"pp")
 	end,
 }
 

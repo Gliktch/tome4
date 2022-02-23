@@ -96,11 +96,11 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Dark fumes erupt from the ground in radius %d for 5 turns. Any creature entering the circle will receive either a bane of confusion or a bane of blindness.
+		return ([[Dark fumes erupt from the ground in radius %d for 5 turns. Any creature entering the circle will receive either a bane of confusion or a bane of blindness %s.
 		Only one bane can affect a creature.
 		Banes last for %d turns, and also deal %0.2f darkness damage.
 		The damage will increase with your Spellpower.]]):
-		tformat(self:getTalentRadius(t), t.getBaneDur(self,t), damDesc(self, DamageType.DARKNESS, damage))
+		tformat(self:getTalentRadius(t), Desc.vs"ss", t.getBaneDur(self,t), damDesc(self, DamageType.DARKNESS, damage))
 	end,
 }
 

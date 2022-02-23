@@ -33,7 +33,7 @@ newTalent{
 	getResist = function(self, t) return math.floor(self:combatTalentScale(t, 5, 15)) end,
 	getCooldown = function(self, t) return math.floor(self:combatTalentScale(t, 10, 30)) end,
 	getPower = function(self, t) return math.floor(self:combatTalentScale(t, 10, 55)) end,
-	getResurrect = function(self, t) return math.floor(self:combatTalentScale(t, 1, 9)) end,
+	getResurrect = function(self, t) return 100 end,
 	callbackOnSummonDeath = function(self, t, summon, src, death_note)
 		if summon.summoner ~= self or not summon.necrotic_minion or summon.boneyard_resurrected or summon.no_boneyard_resurrect then return end
 		local ok = false
@@ -43,7 +43,9 @@ newTalent{
 		if not ok then return end
 
 		if summon.summon_time_max then summon.summon_time = math.ceil(summon.summon_time_max * 0.66) end
+		summon.life = summon:getMaxLife() * t:_getResurrect(self) / 100
 		summon.boneyard_resurrected = true
+		summon:takeHit(0)
 		game.logSeen(summon, "#GREY#%s is resurrected by the boneyard!", summon:getName():capitalize())
 		return true
 	end,
@@ -62,10 +64,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Spawn a boneyard of radius %d around you that lasts for 8 turns.
-		Any foes inside gain the brittle bones effect, reducing their physical resistance by %d%% and making all cooldowns %d%% longer.
+		Any foes inside gain the brittle bones effect, reducing their physical resistance by %d%% and making all cooldowns %d%% longer %s.
 		When one of your minions stands in the boneyard they gain %d more physical and spell power.
-		At level 5 when a minion dies inside the boneyard it has a %d%% chance to resurrect instantly. This effect may only happen once per minion.
-		]]):tformat(self:getTalentRadius(t), t:_getResist(self), t:_getCooldown(self), t:_getPower(self), t:_getResurrect(self))
+		When a minion dies inside the boneyard, it resurrects instantly with %d%% of its maximum health. This effect may only happen once per minion.]]):
+		tformat(self:getTalentRadius(t), t:_getResist(self), t:_getCooldown(self), Desc.vs"ss",  t:_getPower(self), t:_getResurrect(self))
 	end,
 }
 
@@ -134,9 +136,9 @@ newTalent{
 		return true
 	end,	
 	info = function(self, t)
-		return ([[Teleport all foes in radius %d to your boneyard, as close to its center as possible.
+		return ([[Teleport all foes in radius %d to your boneyard, as close to its center as possible %s.
 		Up to %d ghouls or skeletons are created around them by the boneyard, without any additional soul cost, but they only last 5 turns.
-		]]):tformat(self:getTalentRadius(t), t:_getNb(self))
+		]]):tformat(self:getTalentRadius(t), Desc.vs"ss", t:_getNb(self))
 	end,
 }
 
@@ -161,17 +163,17 @@ newTalent{
 		self:project(tg, x, y, function(px, py)
 			local target = game.level.map(px, py, Map.ACTOR)
 			if not target then return end
-			local dam = target.life * t.getDamage(self, t) / 100
+			local dam = target:getLife() * t.getDamage(self, t) / 100
 			dam = math.min(dam, t.getMax(self, t))
 			target:setEffect(target.EFF_IMPENDING_DOOM, 10, {apply_power=self:combatSpellpower(), dam=dam/10, src=self})
 		end, 1, {type="freeze"})
 		return true
 	end,
 	info = function(self, t)
-		return ([[Your target's doom draws near. Its healing factor is reduced by 80%%, and it will take %d%% of its remaining life (or %0.2f, whichever is lower) over 10 turns as frostdusk damage.
+		return ([[Your target's doom draws near %s. Its healing factor is reduced by 80%%, and it will take %d%% of its remaining life (or %0.2f, whichever is lower) over 10 turns as frostdusk damage.
 		This spell is so powerful that every 3 turns it tears a part of the target's soul, generating one soul for you.
 		The damage will increase with your Spellpower.]]):
-		tformat(t.getDamage(self, t), t.getMax(self, t))
+		tformat(Desc.vs"ss", t.getDamage(self, t), t.getMax(self, t))
 	end,
 }
 
@@ -191,7 +193,7 @@ newTalent{
 	callbackPriorities={callbackOnActBase = 100}, -- trigger after most others
 	callbackOnActBase = function(self, t)
 		local p = self:isTalentActive(t.id) if not p then return end
-		if p.cur_value > 0 and self.life < 1 then self:heal(p.cur_value, self) end
+		if p.cur_value > 0 and self:getLife() < 1 then self:heal(p.cur_value, self) end
 		p.cur_value = 0
 	end,
 	callbackOnDealDamage = function(self, t, value, target, dead, death_node)

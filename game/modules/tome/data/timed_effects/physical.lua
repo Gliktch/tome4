@@ -563,6 +563,12 @@ newEffect{
 	parameters = {},
 	on_gain = function(self, err) return _t"#Target# is dazed!", _t"+Dazed" end,
 	on_lose = function(self, err) return _t"#Target# is not dazed anymore.", _t"-Dazed" end,
+	callbackPriorities = {callbackOnHit = -1000},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value > 0 and not self:attr("damage_dont_undaze") and (not src or not src.turn_procs or not src.turn_procs.dealing_damage_dont_undaze) then
+			self:removeEffect(self.EFF_DAZED)
+		end
+	end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "dazed", 1)
 		self:effectTemporaryValue(eff, "never_move", 1)
@@ -780,6 +786,22 @@ newEffect{
 		if target and (target.dead or not game.level:hasEntity(target)) then
 			eff.target = nil
 		end
+	end,
+	callbackPriorities = {callbackOnHit = -950},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return end
+		local absorb = 0.4
+		if src and src.attr then
+			absorb = absorb - absorb * (util.bound(src:attr("iceblock_pierce") or 0, 0, 100)) / 100
+		end
+		eff.hp = eff.hp - cb.value * absorb
+		game:delayedLogDamage(src or {}, self, 0, ("#STEEL_BLUE#(%d to ice)#LAST#"):tformat(cb.value*absorb), nil)
+		cb.value = cb.value * (1 - absorb)
+		if eff.hp < 0 and not eff.begone then
+			game:onTickEnd(function() self:removeEffect(self.EFF_FROZEN) end)
+			eff.begone = game.turn
+		end
+		return cb
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("encased_in_ice", eff.tmpid)
@@ -1277,21 +1299,30 @@ newEffect{
 newEffect{
 	name = "STEP_UP", image = "talents/step_up.png",
 	desc = _t"Step Up",
-	long_desc = function(self, eff) return ("Movement is %d%% faster."):tformat(eff.power) end,
+	long_desc = function(self, eff) return ("Movement is 1000%% faster for next %d moves."):tformat(eff.nb or 1) end,
 	type = "physical",
 	subtype = { speed=true, tactic=true },
 	status = "beneficial",
 	parameters = {power=1000},
 	on_gain = function(self, err) return _t"#Target# prepares for the next kill!", _t"+Step Up" end,
 	on_lose = function(self, err) return _t"#Target# slows down.", _t"-Step Up" end,
+	charges = function(self, eff) return eff.nb or 1 end,
 	get_fractional_percent = function(self, eff)
 		local d = game.turn - eff.start_turn
 		return util.bound(360 - d / eff.possible_end_turns * 360, 0, 360)
 	end,
 	lists = 'break_with_step_up',
+	callbackOnMove = function(self, eff, moved, force, ox, oy)
+		if not moved or force then return end
+		if self:attr("free_movement") then return end
+		eff.nb = (eff.nb or 1) - 1
+		if eff.nb <= 0 then
+			self:removeEffect(self.EFF_STEP_UP, false, true)
+		end
+	end,
 	activate = function(self, eff)
 		eff.start_turn = game.turn
-		eff.possible_end_turns = 10 * (eff.dur+1)
+		eff.possible_end_turns = 10 * (eff.dur+2)
 		eff.tmpid = self:addTemporaryValue("step_up", 1)
 		eff.moveid = self:addTemporaryValue("movement_speed", eff.power/100)
 -- should change priorities rather than forbid all talents
@@ -1300,7 +1331,7 @@ newEffect{
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("step_up", eff.tmpid)
 		if eff.aiid then self:removeTemporaryValue("ai_state", eff.aiid) end
-		self:removeTemporaryValue("movement_speed", eff.moveid)
+		if eff.moveid then self:removeTemporaryValue("movement_speed", eff.moveid) end
 	end,
 }
 
@@ -1438,8 +1469,10 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 	end,
+	callbackPriorities = { callbackOnHit = -210 },
 	callbackOnHit = function(self, eff, cb, src)
 		if not src then return cb.value end
+		if cb.value <= 0 then return true end
 		local share = cb.value * eff.sharePct
 
 		-- deal the redirected damage as physical because I don't know how to preserve the damage type in a callback
@@ -1448,8 +1481,8 @@ newEffect{
 			DamageType:get(DamageType.PHYSICAL).projector(self or eff.src, eff.trgt.x, eff.trgt.y, DamageType.PHYSICAL, share)
 			self.__grapling_feedback_damage = nil
 		end
-
-		return cb.value - share
+		cb.value = cb.value - share
+		return cb.value
 	end,
 }
 
@@ -1624,6 +1657,14 @@ newEffect{
 	end,
 	deactivate = function(self, eff)
 		self:removeTemporaryValue("combat_def", eff.defense)
+	end,
+	callbackPriorities = { callbackOnMeleeHitProcs = -2, },
+	callbackOnMeleeHitProcs = function(self, eff, target, hitted, crit, weapon, damtype, mult, dam, missed)
+		if not hitted and not self.dead and missed and not self:attr("stunned") and not self:attr("dazed") and not self:attr("stoned") then
+			local t = self:getTalentFromId(self.T_SET_UP)
+			local power = t.getPower(self, t)
+			target:setEffect(target.EFF_SET_UP, 2, {src = self, power=power})
+		end
 	end,
 }
 
@@ -1947,7 +1988,7 @@ newEffect{
 newEffect{
 	name = "OFFBALANCE",
 	desc = _t"Off-balance",
-	long_desc = function(self, eff) return (_t"Badly off balance. Global damage is reduced by 15%.") end,
+	long_desc = function(self, eff) return (_t"Badly off balance. Global damage is reduced by 15%. This is a special cross-tier effect, may be applied if the attacker's power is on higher tier (every 20 points counts as a tier) than your physical save in a save check.") end,
 	type = "physical",
 	subtype = { ["cross tier"]=true },
 	status = "detrimental",
@@ -2389,11 +2430,11 @@ newEffect{
 newEffect{
 	name = "COUNTERSTRIKE", image = "effects/counterstrike.png",
 	desc = _t"Counterstrike",
-	long_desc = function(self, eff) return _t"Vulnerable to deadly counterstrikes. Next melee attack will inflict double damage." end,
+	long_desc = function(self, eff) return ("Vulnerable to deadly counterstrikes. Next melee or ranged weapon attack will inflict double damage. Defense is reduced by %d."):tformat(eff.power) end,
 	type = "physical",
 	subtype = { tactic=true },
 	status = "detrimental",
-	parameters = { nb=1 },
+	parameters = { nb=1, power = 5 },
 	on_gain = function(self, eff) return nil, _t"+Counter" end,
 	on_lose = function(self, eff) return nil, _t"-Counter" end,
 	onStrike = function(self, eff, dam, src)
@@ -2643,14 +2684,30 @@ newEffect{
 	type = "physical",
 	subtype = { speed=true },
 	status = "beneficial",
-	parameters = { },
+	parameters = {power = 0.5 },
 	on_merge = function(self, old_eff, new_eff)
 		return old_eff
 	end,
 	on_gain = function(self, err) return _t"#Target# is speeding up.", _t"+Fast As Lightning" end,
 	on_lose = function(self, err) return _t"#Target# is slowing down.", _t"-Fast As Lightning" end,
+	callbackPriorities = {callbackOnHit = -1100},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		if rng.percent(eff.power * 100) and not self.turn_procs.phase_shift then
+			self.turn_procs.phase_shift = true
+			local nx, ny = util.findFreeGrid(self.x, self.y, 1, true, {[Map.ACTOR]=true})
+			if nx then
+				local ox, oy = self.x, self.y
+				self:move(nx, ny, true)
+				game.level.map:particleEmitter(ox, oy, math.max(math.abs(nx-ox), math.abs(ny-oy)), "lightning", {tx=nx-ox, ty=ny-oy})
+				game:delayedLogDamage(src or {}, self, 0, ("#STEEL_BLUE#(%d shifted)#LAST#"):tformat(value), nil)
+				cb.value = 0
+			end
+		end
+		return cb
+	end,
 	activate = function(self, eff)
-		self:effectTemporaryValue(eff, "phase_shift", 0.5)
+		--self:effectTemporaryValue(eff, "phase_shift", 0.5)
 	end,
 	deactivate = function(self, eff)
 		if eff.particle then
@@ -2853,7 +2910,7 @@ newEffect{
 newEffect{
 	name = "JUGGERNAUT", image = "talents/juggernaut.png",
 	desc = _t"Juggernaut",
-	long_desc = function(self, eff) return ("Reduces physical damage received by %d%% and provides a %d%% chance to ignore critical hits."):tformat(eff.power, eff.crits) end,
+	long_desc = function(self, eff) return ("Reduces physical damage received by %d%% and provides a %d%% critical shrug off."):tformat(eff.power, eff.crits) end,
 	type = "physical",
 	subtype = { superiority=true },
 	status = "beneficial",
@@ -3093,7 +3150,7 @@ newEffect {
 	},
 	on_gain = function(self, eff) return _t"#Target# assumes an extreme defensive posture, avoiding some damage!" end,
 	activate = function(self, eff)
-		self:effectTemporaryValue(eff, "incoming_reduce", eff.reduce)
+		self:effectTemporaryValue(eff, "resists", {absolute = eff.reduce})
 	end,
 	long_desc = function(self, eff)
 		return ([[The target is in an extreme defensive posture, avoiding %d%% of all incoming damage.]])
@@ -3291,7 +3348,9 @@ newEffect{
 	on_timeout = function(self, eff)
 		eff.turns = eff.turns + 1
 	end,
+	callbackPriorities = {callbackOnHit = 100},
 	callbackOnHit = function(self, eff, cb)
+		if cb.value <= 0 then return true end
 		eff.dam = eff.dam + (cb.value * eff.perc)
 		return true
 	end,
@@ -3498,6 +3557,21 @@ newEffect{
 		end
 				
 	end,
+	callbackPriorities = {callbackOnHit = -1000},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		-- Reduce the duration by 1 for every full incriment of the effect power
+		-- We add a temp_power parameter to track total damage over multiple turns
+		eff.temp_power = (eff.temp_power or eff.power) - cb.value
+		while eff.temp_power <= 0 do
+			eff.dur = eff.dur - 1
+			eff.temp_power = eff.temp_power + eff.power
+			if eff.dur <=0 then
+				game:onTickEnd(function() self:removeEffect(self.EFF_SLEEP) end) -- Happens on tick end so Night Terror can work properly
+				break
+			end
+		end
+	end,
 	activate = function(self, eff)
 		if eff.cancel then self:removeEffect(eff.effect_id, true) return end
 		eff._from_toxic_death = false
@@ -3665,7 +3739,7 @@ newEffect{
 	desc = _t"Stone Link",
 	long_desc = function(self, eff) return ("The target protects all those around it in radius %d by redirecting all damage against them to itself."):tformat(eff.rad) end,
 	type = "physical",
-	subtype = { earth=true, shield=true },
+	subtype = { earth=true },
 	status = "beneficial",
 	parameters = { rad=3 },
 	on_gain = function(self, err) return ("#Target# begins protecting %s friends with a stone shield."):tformat(string.his_her(self)), _t"+Stone Link" end,
@@ -3694,11 +3768,25 @@ newEffect{
 	desc = _t"Stone Link",
 	long_desc = function(self, eff) return ("The target is protected by %s, redirecting all damage to it."):tformat(eff.src:getName()) end,
 	type = "physical",
-	subtype = { earth=true, shield=true },
+	subtype = { earth=true },
 	status = "beneficial",
 	parameters = { },
 	on_gain = function(self, err) return _t"#Target# is protected by a stone shield.", _t"+Stone Link" end,
 	on_lose = function(self, err) return _t"#Target# is less protected.", _t"-Stone Link" end,
+	callbackPriorities = {callbackOnHit = -800},
+	callbackOnHit = function(self, eff, cb, src, death_note)
+		if cb.value <= 0 then return cb end
+		if eff.src:attr("dead") then
+			self:removeEffect(self.EFF_STONE_LINK)
+		else
+			game:delayedLogMessage(eff.src, self, "stone_link"..(self.uid or ""), "#OLIVE_DRAB##Source# redirects damage from #Target# to %s!#LAST#", string.his_her_self(eff.src))
+			game:delayedLogDamage(src, self, 0, ("#OLIVE_DRAB#(%d redirected)#LAST#"):tformat(cb.value), false)
+			eff.src:takeHit(cb.value, src)
+			game:delayedLogDamage(src, eff.src, cb.value, ("#OLIVE_DRAB#%d redirected#LAST#"):tformat(cb.value), false)
+			cb.value = 0
+		end
+		return cb
+	end,
 	activate = function(self, eff)
 	end,
 	deactivate = function(self, eff)
@@ -3830,7 +3918,7 @@ newEffect{
 newEffect{
 	name = "ESCAPE", image = "talents/escape.png",
 	desc = _t"Escape",
-	long_desc = function(self, eff) return ("Focusing on defense and mobility, reducing all damage taken by %d%%, stamina regeneration by %0.1f and movement speed by %d%%. Melee and ranged attacks will break this effect."):tformat(eff.power, eff.stamina, eff.speed) end,
+	long_desc = function(self, eff) return ("Focusing on defense and mobility: reducing all damage taken by %d%%, and increasing stamina regeneration by %0.1f and movement speed by %d%%. Melee and ranged attacks will break this effect."):tformat(eff.power, eff.stamina, eff.speed) end,
 	type = "physical",
 	subtype = { tactic=true, speed=true },
 	status = "beneficial",
@@ -4005,7 +4093,7 @@ newEffect{
 	on_lose = function(self, err) return _t"#Target# is no longer aiming.", _t"-Snipe" end,
 	activate = function(self, eff)
 		self:effectTemporaryValue(eff, "negative_status_effect_immune", 1)
-		self:effectTemporaryValue(eff, "incoming_reduce", eff.power)
+		self:effectTemporaryValue(eff, "resists", {absolute = eff.power})
 
 		if self.hotkey and self.isHotkeyBound then
 			local pos = self:isHotkeyBound("talent", self.T_SNIPE)

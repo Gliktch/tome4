@@ -38,7 +38,7 @@ newTalent{
 		local x, y = self:getTarget(tg)
 		if not x or not y then return nil end
 		self:projectile(tg, x, y, DamageType.CONGEAL_TIME, {
-			slow = 1 - 1 / (1 + t.getSlow(self, t)),
+			slow = t.getSlow(self, t),
 			proj = t.getProj(self, t),
 		}, {type="manathrust"})
 		game:playSoundNear(self, "talents/spell_generic")
@@ -47,8 +47,8 @@ newTalent{
 	info = function(self, t)
 		local slow = t.getSlow(self, t)
 		local proj = t.getProj(self, t)
-		return ([[Project a bolt of time distortion, decreasing the target's global speed by %d%% and all projectiles it fires by %d%% for 7 turns.]]):
-		tformat(100 * slow, proj)
+		return ([[Project a bolt of time distortion, decreasing the target's global speed by %d%% and all projectiles it fires by %d%% for 7 turns %s.]]):
+		tformat(100 * slow, proj, Desc.vs"ss")
 	end,
 }
 
@@ -109,10 +109,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Removes the target from the flow of time for %d turns. In this state, the target can neither act nor be harmed.
+		return ([[Removes the target from the flow of time for %d turns %s. In this state, the target can neither act nor be harmed.
 		Time does not pass at all for the target, no talents will cooldown, no resources will regen, and so forth.
 		The duration will increase with your Spellpower.]]):
-		tformat(duration)
+		tformat(duration, Desc.vs"ss")
 	end,
 }
 

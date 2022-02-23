@@ -60,7 +60,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local penetration = t.getResistancePenetration(self, t)
 		local cooldownreduction = t.getCooldownReduction(self, t)
-		return ([[Increases your light and darkness resistance penetration by %d%% for %d turns, and reduces the cooldown of all Celestial skills by %d.
+		return ([[Increase your light and darkness resistance penetration by %d%% for %d turns and reduce the remaining cooldown of any Celestial talent by up to %d turns.
 		The resistance penetration will increase with your Cunning.]]):
 		tformat(penetration, duration, cooldownreduction)
 	end,
@@ -169,6 +169,6 @@ newTalent{
 		local dotDam = t.getDotDamage(self, t)
 		local conversion = t.getConversion(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Shroud foes within radius %d in darkest light, dealing %0.2f light and %0.2f darkness damage per turn and converting %d%% of the damage they deal between light and darkness for %d turns.]]):tformat(radius, damDesc(self, DamageType.LIGHT, dotDam), damDesc(self, DamageType.DARKNESS, dotDam), conversion*100, duration)
+		return ([[Shroud foes within radius %d in darkest light, dealing %0.2f light and %0.2f darkness damage per turn and converting %d%% of the damage they deal between light and darkness for %d turns. %s]]):tformat(radius, damDesc(self, DamageType.LIGHT, dotDam), damDesc(self, DamageType.DARKNESS, dotDam), conversion*100, duration, Desc.vs())
 	end,
 }

@@ -75,10 +75,10 @@ newTalent{
 		local healFactorChange = t.getHealFactorChange(self, t)
 		local woundDuration = t.getWoundDuration(self, t)
 		return ([[You slash wildly at your target for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage.
-		At level 3, any wound you inflict with this carries a part of your curse, reducing the effectiveness of healing by %d%% for %d turns. The effect will stack.
+		At level 3, any wound you inflict with this carries a part of your curse, reducing the effectiveness of healing by %d%% for %d turns %s. The effect will stack.
 		The damage multiplier increases with your Strength.
 
-		This talent will also attack with your shield, if you have one equipped.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, -healFactorChange * 100, woundDuration)
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, -healFactorChange * 100, woundDuration, Desc.vs())
 	end,
 }
 
@@ -151,10 +151,10 @@ newTalent{
 	info = function(self, t)
 		local defenseChange = t.getDefenseChange(self, t)
 		return ([[Assault nearby foes with 4 fast attacks for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage each. Stalked prey are always targeted if nearby.
-		At level 3 the intensity of your assault overwhelms anyone who is struck, reducing their Defense by %d for 4 turns.
+		At level 3 the intensity of your assault overwhelms anyone who is struck, reducing their Defense by %d for 4 turns %s.
 		The damage multiplier and Defense reduction increase with your Strength.
 
-		This talent will also attack with your shield, if you have one equipped.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, -defenseChange)
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, -defenseChange, Desc.vs())
 	end,
 }
 
@@ -265,7 +265,7 @@ newTalent{
 		else
 			size = _t"Small"
 		end
-		return ([[Charge through your opponents, attacking anyone near your path for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage. %s opponents may be knocked away from your path. You can attack a maximum of %d times, and can hit targets along your path more than once.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, size, maxAttackCount)
+		return ([[Charge through your opponents, attacking anyone near your path for %d%% (at 0 Hate) to %d%% (at 100+ Hate) damage. %s opponents may be knocked away from your path %s. You can attack a maximum of %d times, and can hit targets along your path more than once.]]):tformat(t.getDamageMultiplier(self, t, 0) * 100, t.getDamageMultiplier(self, t, 100) * 100, size, Desc.vs"pp", maxAttackCount)
 	end,
 }
 

@@ -88,11 +88,11 @@ newTalent{
 		game:playSoundNear(self, "talents/slime")
 	end,
 	info = function(self, t)
-		return ([[Whenever you deal non-disease blight damage you apply a disease dealing %0.2f blight damage per turn for 6 turns and reducing one of its physical stats (strength, constitution, dexterity) by %d. The three diseases can stack.
+		return ([[Whenever you deal non-disease blight damage you apply a disease dealing %0.2f blight damage per turn for 6 turns %s and reducing one of its physical stats (strength, constitution, dexterity) by %d. The three diseases can stack.
 		Virulent Disease will always try to apply a disease the target does not currently have, and also one that will have the most debilitating effect for the target.
 		This disease will try to prioritize being applied to an enemy with a high disease count near the target.
 		The effect will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.BLIGHT, 7 + self:combatTalentSpellDamage(t, 6, 45)), self:combatTalentSpellDamage(t, 5, 35))
+		tformat(damDesc(self, DamageType.BLIGHT, 7 + self:combatTalentSpellDamage(t, 6, 45)), Desc.vs"ss", self:combatTalentSpellDamage(t, 5, 35))
 	end,
 }
 
@@ -178,9 +178,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		return ([[Make your target's diseases burst, doing %0.2f blight damage for each disease it is infected with.
-		This will also spread any diseases to any nearby foes in a radius of %d with a minimum duration of 6.
+		This will also spread any diseases to any nearby foes in a radius of %d with a minimum duration of 6 %s.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 15, 115)), self:getTalentRadius(t))
+		tformat(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 15, 115)), self:getTalentRadius(t), Desc.vs"ss")
 	end,
 }
 
@@ -248,8 +248,8 @@ newTalent{
 		local radius = t.getRadius(self, t)
 		local duration = t.getDuration(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[All your foes within a radius %d ball infected with a disease enter a cataleptic state, stunning them for %d turns and dealing %d%% of all remaining disease damage instantly.]]):
-		tformat(radius, duration, damage * 100)
+		return ([[All your foes within a radius %d ball infected with a disease enter a cataleptic state, stunning them for %d turns %s and dealing %d%% of all remaining disease damage instantly.]]):
+		tformat(radius, duration, Desc.vs"sp", damage * 100)
 	end,
 }
 
@@ -272,7 +272,7 @@ newTalent{
 	
 	do_spread = function(self, t, carrier, dam)
 		if not dam or type(dam) ~= "number" then return end
-		if not rng.percent(100*dam/(t.spreadFactor(self, t)*carrier.max_life)) then return end
+		if not rng.percent(100*dam/(t.spreadFactor(self, t)*carrier:getMaxLife())) then return end
 		game.logSeen(self, "The diseases of %s spread!", self:getName())
 		-- List all diseases
 		local diseases = {}
@@ -320,12 +320,12 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[Infects the target with a very contagious disease, doing %0.2f damage per turn for 6 turns.
-		If any blight damage from non-diseases hits the target, the epidemic may activate and spread a random disease to nearby targets within a radius 2 ball.
+		return ([[Infects the target with a very contagious disease, doing %0.2f damage per turn for 6 turns %s.
+		If any blight damage from non-diseases hits the target, the epidemic may activate and spread a random disease to nearby targets within a radius 2 ball %s.
 		The chance to spread increases with the blight damage dealt and is 100%% if it is at least %d%% of the target's maximum life.
 		Creatures suffering from that disease will also suffer healing reduction (%d%%) and diseases immunity reduction (%d%%).
 		Epidemic is an extremely potent disease; as such, it fully ignores the target's diseases immunity.
 		The damage will increase with your Spellpower, and the spread chance increases with the amount of blight damage dealt.]]):
-		tformat(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 15, 70)), t.spreadFactor(self, t)*100 ,t.healloss(self,t), t.disfact(self,t))
+		tformat(damDesc(self, DamageType.BLIGHT, self:combatTalentSpellDamage(t, 15, 70)), Desc.vs"ss", Desc.vs"ss", t.spreadFactor(self, t)*100 ,t.healloss(self,t), t.disfact(self,t))
 	end,
 }

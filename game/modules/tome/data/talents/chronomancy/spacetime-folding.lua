@@ -148,10 +148,10 @@ newTalent{
 		local duration = self:callTalent(self.T_WARP_MINES, "getDuration")
 		local detect = self:callTalent(self.T_WARP_MINES, "trapPower") * 0.8
 		local disarm = self:callTalent(self.T_WARP_MINES, "trapPower")
-		return ([[Lay Warp Mines in a radius of 1 that teleport enemies to you and inflict %0.2f physical and %0.2f temporal (warp) damage.
+		return ([[Lay Warp Mines in a radius of 1 that teleport enemies to you %s and inflict %0.2f physical and %0.2f temporal (warp) damage.
 		The mines are hidden traps (%d detection and %d disarm power based on your Magic) and last for %d turns.
 		The damage caused by your Warp Mines will improve with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), detect, disarm, duration)
+		tformat(Desc.vs"ss", damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), detect, disarm, duration)
 	end,
 }
 
@@ -198,10 +198,10 @@ newTalent{
 		local duration = self:callTalent(self.T_WARP_MINES, "getDuration")
 		local detect = self:callTalent(self.T_WARP_MINES, "trapPower") * 0.8
 		local disarm = self:callTalent(self.T_WARP_MINES, "trapPower")
-		return ([[Lay Warp Mines in a radius of 1 that teleport enemies away from you and inflict %0.2f physical and %0.2f temporal (warp) damage.
+		return ([[Lay Warp Mines in a radius of 1 that teleport enemies away from you %s and inflict %0.2f physical and %0.2f temporal (warp) damage.
 		The mines are hidden traps (%d detection and %d disarm power based on your Magic) and last for %d turns.
 		The damage caused by your Warp Mines will improve with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), detect, disarm, duration) 
+		tformat(Desc.vs"ss", damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), detect, disarm, duration)
 	end,
 }
 
@@ -235,12 +235,12 @@ newTalent{
 		local detect = t.trapPower(self,t)*0.8
 		local disarm = t.trapPower(self,t)
 		local duration = t.getDuration(self, t)
-		return ([[Learn to lay Warp Mines in a radius of 1.  Warp Mines teleport targets that trigger them either toward you or away from you depending on the type of mine used and inflict %0.2f physical and %0.2f temporal (warp) damage.
+		return ([[Learn to lay Warp Mines in a radius of 1.  Warp Mines teleport targets that trigger them either toward you or away from you depending on the type of mine used %s and inflict %0.2f physical and %0.2f temporal (warp) damage.
 		The mines are hidden traps (%d detection and %d disarm power based on your Magic), last for %d turns, and each have a ten turn cooldown.
 		Investing in this talent improves the range of all Spacetime Folding talents and the damage caused by your Warp Mines will improve with your Spellpower.
 		
 		Current Spacetime Folding Range: %d]]):
-		tformat(damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), detect, disarm, duration, range) --I5
+		tformat(Desc.vs"ss", damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), detect, disarm, duration, range) --I5
 	end,
 }
 
@@ -302,7 +302,11 @@ newTalent{
 				local trigger = rng.percent(self.chance * core.fov.distance(self.x, self.y, target.x, target.y))
 				
 				if game.level and game.level:hasEntity(target) and tether and not target.dead then
-					self.temporary = tether.dur
+					if self.x == tether.x and self.y == tether.y then
+						self.temporary = tether.dur
+					else
+						self.temporary = math.min(self.temporary or 0, tether.dur)
+					end
 				end
 
 				if game.level and game.level:hasEntity(target) and tether and trigger and not target.dead then
@@ -386,10 +390,11 @@ newTalent{
 		local chance = t.getChance(self, t)
 		local damage = t.getDamage(self, t)/2
 		local radius = self:getTalentRadius(t)
-		return ([[Tether the target to the location for %d turns.  
-		Each turn the target has a %d%% chance per tile it's travelled away from the tether to be teleported back, inflicting %0.2f physical and %0.2f temporal (warp) damage to all enemies in a radius of %d at both the entrance and exit locations.
+		return ([[Tether the target to the location for %d turns %s.
+		Each turn the target has a %d%% chance per tile it's travelled away from the tether to be teleported back %s, inflicting %0.2f physical and %0.2f temporal (warp) damage to all enemies in a radius of %d at both the entrance and exit locations.
+		If the target has already been tethered, it will also be tethered to the new location. The old tether still exists and can function normally, but cannot be extended by any means.
 		The damage will scale with your Spellpower.]])
-		:tformat(duration, chance, damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), radius)
+		:tformat(duration, Desc.vs(), chance, Desc.vs"ss", damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage), radius)
 	end,
 }
 
@@ -443,8 +448,9 @@ newTalent{
 	info = function(self, t)
 		local range = t.getTeleport(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Randomly teleports all enemies within a radius of three.  Enemies will be teleported between %d and %d tiles from you and may be stunned, blinded, confused, or pinned for %d turns.
-		The chance of teleportion will scale with your Spellpower.]]):tformat(range / 2, range, duration)
+		return ([[Randomly teleports all enemies within a radius of three %s.  Enemies will be teleported between %d and %d tiles from you and may be stunned %s, blinded %s, confused %s, or pinned %s for %d turns.
+		The chance of teleportation will scale with your Spellpower.]]
+		):tformat(Desc.vs"ss", range / 2, range, Desc.vs"sp",Desc.vs"sp",Desc.vs"sm",Desc.vs"sp", duration)
 	end,
 }
 
@@ -500,8 +506,8 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)/2
 		local duration = t.getDuration(self, t)
-		return ([[Create a radius three anti-teleport field for %d turns and daze all enemies in the area of effect for two turns.
+		return ([[Create a radius three anti-teleport field %s for %d turns and daze all enemies in the area of effect for two turns %s.
 		Enemies attempting to teleport while anchored take %0.2f physical and %0.2f temporal (warp) damage.
-		The damage will scale with your Spellpower.]]):tformat(duration, damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage))
+		The damage will scale with your Spellpower.]]):tformat(Desc.vs"ss", duration, Desc.vs(), damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.TEMPORAL, damage))
 	end,
 }

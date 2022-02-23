@@ -40,16 +40,25 @@ newTalent{
 	end,
 }
 
-newTalent{ -- Doesn't scale past level 5, could use some bonus for higher talent levels
+newTalent{
 	name = "Step Up",
 	type = {"technique/battle-tactics", 2},
 	require = techs_req_high2,
 	mode = "passive",
 	points = 5,
+	getSteps = function(self, t)
+		local globalSpeedBonus = math.max(1, self.global_speed or 1)
+		return math.ceil(self:combatTalentScale(t, 1, 7) * globalSpeedBonus)
+	end,
+	callbackOnKill = function(self, t)
+		game:onTickEnd(function() self:setEffect(self.EFF_STEP_UP, 2, { nb = t.getSteps(self, t)}) end)
+	end,
 	info = function(self, t)
-		return ([[After killing a foe, you have a %d%% chance to gain a 1000%% movement speed bonus for 1 game turn.
+		local steps = t.getSteps(self, t)
+		return ([[After killing a foe, you gain a 1000%% movement speed bonus in next %d steps for 2 turns.
 		The bonus disappears as soon as any action other than moving is done.
-		Note: since you will be moving very fast, game turns will pass very slowly.]]):tformat(math.min(100, self:getTalentLevelRaw(t) * 20))
+		The maximum steps increases with your current global speed.
+		Note: since you will be moving very fast, game turns will pass very slowly.]]):tformat(steps)
 	end,
 }
 
@@ -92,8 +101,8 @@ newTalent{
 	info = function(self, t)
 		local heal = t.healloss(self,t)
 		return ([[Lashes at the target, doing %d%% weapon damage.
-		If the attack hits, the target will bleed for %d%% weapon damage over 7 turns, and all healing will be reduced by %d%%.]]):
-		tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.7), 100 * self:combatTalentWeaponDamage(t, 2, 3.2), heal)
+		If the attack hits, the target will bleed %s for %d%% weapon damage over 7 turns, and all healing will be reduced by %d%%.]]):
+		tformat(100 * self:combatTalentWeaponDamage(t, 1, 1.7), Desc.vs"ap", 100 * self:combatTalentWeaponDamage(t, 2, 3.2), heal)
 	end,
 }
 
@@ -110,7 +119,7 @@ newTalent{
 	--Note: this can result in > 100% resistancs (before cap) at high talent levels to keep up with opposing resistance lowering talents
 	resistCoeff = function(self, t) return self:combatTalentScale(t, 25, 45) end,
 	getCapApproach = function(self, t) return self:combatTalentLimit(t, 1, 0.25, 0.5) end,
-	getResist = function(self, t) return (1 - self.life / self.max_life)*t.resistCoeff(self, t) end,
+	getResist = function(self, t) return (1 - self:getLife() / self:getMaxLife())*t.resistCoeff(self, t) end,
 	getResistCap = function(self, t) return util.bound((100-(self.resists_cap.all or 100))*t.getCapApproach(self, t), 0, 100) end,
 	remove_on_zero = true,
 	drain_stamina = function(self, t, turn)

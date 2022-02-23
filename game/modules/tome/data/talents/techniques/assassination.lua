@@ -30,7 +30,6 @@ newTalent{
 	stamina = 24,
 	require = techs_dex_req_high1,
 	getDamage = function (self, t) return self:combatTalentWeaponDamage(t, 1.0, 1.5) end,
-	getPercent = function(self, t) return self:combatTalentLimit(t, 0.3, 0.1, 0.25) end,
 	target = function(self, t) return {type="hit", range=self:getTalentRange(t)} end,
 	range = 1,
 	requires_target = true,
@@ -48,18 +47,18 @@ newTalent{
 		if not x or not y or not target then return nil end
 
 		local mult = t.getDamage(self,t)
-		if (target.life / target.max_life <= 0.3) then mult = mult * 1.5 end
+		if (target:getLife() / target:getMaxLife() <= 0.3) then mult = mult * 1.5 end
 		-- Attack with offhand first
 		local hits = 0
 		hits = hits + (self:attackTargetWith(target, offweapon.combat, nil, self:getOffHandMult(offweapon.combat, mult)) and 1 or 0)
 		hits = hits + (self:attackTargetWith(target, weapon.combat, nil, mult) and 1 or 0)
 		
 		if hits > 0 then
-			if target:checkHit(self:combatAttack(), target:combatPhysicalResist(), 0, 95) and target:canBe("instakill") and target.life < target.max_life * 0.2 then
+			if target:checkHit(self:combatAttack(), target:combatPhysicalResist(), 0, 95) and target:canBe("instakill") and target:getLife() < target:getMaxLife() * 0.2 then
 				-- KILL IT !
 				self:logCombat(target, "#Source# delivers a Coup de Grace against #Target#!")
 				target:die(self)
-			elseif target.life > 0 and target.life < target.max_life * 0.2 then
+			elseif target:getLife() > target:getMinLife() and target:getLife() < target:getMaxLife() * 0.2 then
 				game.logSeen(target, "%s resists the Coup de Grace!", target:getName():capitalize())
 			end
 		end
@@ -78,11 +77,10 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		dam = t.getDamage(self,t)*100
-		perc = t.getPercent(self,t)*100
-		return ([[Attempt to finish off a wounded enemy, striking them with both weapons for %d%% increased by 50%% if their life is below 30%%.  A target brought below 20%% of its maximum life must make a physical save against your Accuracy or be instantly slain.
+		local dam = t.getDamage(self,t)*100
+		return ([[Attempt to finish off a wounded enemy, striking them with both weapons for %d%% increased by 50%% if their life is below 30%%.  A target brought below 20%% of its maximum life may be instantly slain %s.
 		You may take advantage of finishing your foe this way to activate stealth (if known).]]):
-		tformat(dam, perc)
+		tformat(dam, Desc.vs"ap")
 	end,
 }
 
@@ -106,9 +104,8 @@ newTalent{
 		local radius = self:getTalentRadius(t)
 		local duration = t.getDuration(self,t)
 		return ([[When you exit stealth, you reveal yourself dramatically, intimidating foes around you. 
-		All foes within radius %d that witness you leaving stealth will be stricken with terror, which randomly inflicts stun, slow (40%% power), or confusion (50%% power) for %d turns.
-		The chance to terrorize improves with your combat accuracy.]])
-		:tformat(radius, duration)
+		All foes within radius %d that witness you leaving stealth will be stricken with terror, which randomly inflicts stun, slow (40%% power), or confusion (50%% power) for %d turns %s.]])
+		:tformat(radius, duration, Desc.vs"am")
 	end,
 }
 
@@ -146,10 +143,10 @@ newTalent{
 		local damage = t.getDamage(self, t)*100
 		local dur = t.getDuration(self,t)
 		local sdur = math.ceil(t.getDuration(self,t)/2)
-		return ([[When attacking from stealth, you slip a garrote over the target’s neck (or other vulnerable part).  This strangles for %d turns and silences for %d turns.  Strangled targets are pinned and suffer an automatic unarmed attack for %d%% damage each turn. 
-		Your chance to apply the garrote increases with your Accuracy and you must stay adjacent to your target to maintain it.
+		return ([[When attacking from stealth, you slip a garrote over the target's neck (or other vulnerable part) %s.  This strangles for %d turns and silences for %d turns.  Strangled targets are pinned and suffer an automatic unarmed attack for %d%% damage each turn.
+		You must stay adjacent to your target to maintain the garrote.
 		This talent has a cooldown.]])
-		:tformat(dur, sdur, damage)
+		:tformat(Desc.vs"ap", dur, sdur, damage)
 	end,
 }
 

@@ -332,7 +332,7 @@ function _M:webPopup(url)
 	if w.unusable then return nil end
 	local b = require("engine.ui.ButtonImage").new{no_decoration=true, alpha_unfocus=0.5, file="copy-icon.png", fct=function()
 		if w.cur_url then
-			local url = w.cur_url:gsub("%?_te4&", "?"):gsub("%?_te4", ""):gsub("&_te4", "")
+			local url = w.cur_url:gsub("%?_te4.*", ""):gsub("%&_te4.*", "")
 			core.key.setClipboard(url)
 			print("[WEBVIEW] url copy", url)
 			self:simplePopup(_t"Copy URL", _t"URL copied to your clipboard.")

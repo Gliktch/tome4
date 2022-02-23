@@ -268,7 +268,7 @@ newAI("shadow", function(self)
 	end
 
 	-- chance to heal
-	if self.life < self.max_life * 0.75 and rng.percent(5) then
+	if self:getLife() < self:getMaxLife() * 0.75 and rng.percent(5) then
 		self:healSelf()
 		return true
 	end

@@ -35,7 +35,7 @@ newTalent{
 		end
 		return false
 	end,
-	is_heal = true,
+	is_heal = true, ignore_is_heal_test = true,
 	getdur = function(self,t) return math.floor(self:combatTalentLimit(t, 30, 6, 14)) end, -- limit to <30
 	action = function(self, t)
 		local nb = 0
@@ -172,10 +172,10 @@ newTalent{
 	end,
 	info = function(self, t)
 		local pct = t.getPct(self, t)*100
-		return ([[A wave of natural energies flow around you in a radius of %d.  All creatures in the area will be affected by the Healing Nexus effect for %d turns.
+		return ([[A wave of natural energies flow around you in a radius of %d.  All creatures in the area will be affected by the Healing Nexus effect for %d turns %s.
 		On you, this effect causes each heal received to restore %d equilibrium and be %d%% effective.
 		On other creatures, all healing is intercepted and redirected to you at %d%% efficiency.
 		Only direct healing (not normal regeneration) is affected.]]):
-		tformat(self:getTalentRadius(t), t.getDur(self, t), t.getEquilibrium(self, t), 100 + pct, pct)
+		tformat(self:getTalentRadius(t), t.getDur(self, t), Desc.vs(), t.getEquilibrium(self, t), 100 + pct, pct)
 	end,
 }

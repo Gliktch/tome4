@@ -108,13 +108,13 @@ newTalent{
 	end,
 	info = function(self, t)
 		local rad = self:getTalentRadius(t)
-		return ([[Let out a burst of sound that silences for %d turns all those affected in a radius of %d.
+		return ([[Let out a burst of sound that silences %s for %d turns all those affected in a radius of %d.
 		Each turn for %d turns the effected area will cause %0.2f manaburn damage to all creatures inside.
 		For each creature silenced your equilibrium is reduced by %d (up to 5 times).
-		The damage and apply power will increase with the greater of your Mindpower or Physical power.
+		The damage will increase with the greater of your Mindpower or Physical power.
 
 		Learning this talent will let your Nature damage and penetration bonuses apply to all Manaburn damage regardless of source.]]):
-		tformat(t.getduration(self,t), rad, t.getFloorDuration(self,t), t.getDamage(self, t), t.getEquiRegen(self, t))
+		tformat(Desc.vs(Desc.max("pp", "mp"), "ms"), t.getduration(self,t), rad, t.getFloorDuration(self,t), t.getDamage(self, t), t.getEquiRegen(self, t))
 	end,
 }
 

@@ -105,6 +105,8 @@ function _M:doQuake(rad, x, y, check)
 		for z, e in pairs(m.map or {}) do
 			if e.move then
 				e:move(l.x, l.y, true)
+			elseif e.x and e.y then
+				e.x, e.y = l.x, l.y
 			end
 		end
 	end

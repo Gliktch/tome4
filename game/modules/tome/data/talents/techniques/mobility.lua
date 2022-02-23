@@ -327,7 +327,7 @@ newTalent {
 			end
 			stam, stam_cost = self:getStamina(), stam_cost or t.getStamina(self, t)
 			local lt = t.getLifeTrigger(self, t)/100
-			if stam_cost == 0 or dam > self.max_life*lt then
+			if stam_cost == 0 or dam > self:getMaxLife()*lt then
 				--print(("[PROJECTOR: Trained Reactions] PASSED life/stam test for %s: %s %s damage (%s) (%0.1f/%0.1f stam) from %s (state:%s)"):tformat(self.name, dam, type, is_attk, stam_cost, stam, src.name, state)) -- debugging
 				self.turn_procs[t.id] = state
 				self:incStamina(-stam_cost) -- Note: force_talent_ignore_ressources has no effect on this

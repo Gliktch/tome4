@@ -65,19 +65,26 @@ end
 
 local printlog = {}
 local oprint = print
+local cur_index = 0
+local recent_print_log_max_size = 5000
+
 function print(...)
 	local t = {}
 	for k, e in pairs{...} do t[k] = tostring(e) end
-	printlog[#printlog+1] = t
 	oprint(...)
+	cur_index = math.max(1, (cur_index + 1) % recent_print_log_max_size)
+	printlog[cur_index] = t
 end
 
 function get_printlog()
-	return printlog
-end
-
-function truncate_printlog(nb)
-	while #printlog > nb do table.remove(printlog, 1) end
+	local log_sequence = { }
+	for index = cur_index + 1, #printlog do
+		log_sequence[#log_sequence + 1] = printlog[index]
+	end
+	for index = 1, cur_index do
+		log_sequence[#log_sequence + 1] = printlog[index]
+	end
+	return log_sequence
 end
 
 local rngavg = rng.avg

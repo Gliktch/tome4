@@ -57,10 +57,10 @@ newTalent{
 				local shield, shield_combat = self:hasShield()
 				local weapon = self:hasMHWeapon() and self:hasMHWeapon().combat or self.combat
 				if not shield then
-					self:attackTarget(target, DamageType.ICE, t.damagemult(self, t), true)
+					self:attackTarget(target, DamageType.ICE_MIND, t.damagemult(self, t), true)
 				else
-					self:attackTargetWith(target, weapon, DamageType.ICE, t.damagemult(self, t))
-					self:attackTargetWith(target, shield_combat, DamageType.ICE, t.damagemult(self, t))
+					self:attackTargetWith(target, weapon, DamageType.ICE_MIND, t.damagemult(self, t))
+					self:attackTargetWith(target, shield_combat, DamageType.ICE_MIND, t.damagemult(self, t))
 				end
 			end
 		end)
@@ -68,11 +68,11 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You call upon the mighty claw of a cold drake and rake a wave of freezing cold in front of you, doing %d%% weapon damage as Ice damage in a cone of radius %d. Ice damage gives a chance of freezing the target.
+		return ([[You call upon the mighty claw of a cold drake and rake a wave of freezing cold in front of you, doing %d%% weapon damage as Ice damage in a cone of radius %d. Ice damage gives 25%% chance of freezing the target %s.
 		Every level in Ice Claw additionally raises your Physical Save by 2.
 		Each point in cold drake talents also increases your cold resistance by 1%%.
 
-		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * t.damagemult(self, t), self:getTalentRadius(t))
+		This talent will also attack with your shield, if you have one equipped.]]):tformat(100 * t.damagemult(self, t), self:getTalentRadius(t), Desc.vs"mp")
 	end,
 }
 
@@ -94,12 +94,11 @@ newTalent{
 	activate = function(self, t)
 		return {
 			onhit = self:addTemporaryValue("on_melee_hit", {[DamageType.COLD]=t.getDamageOnMeleeHit(self, t)}),
-			life = self:addTemporaryValue("max_life", t.getLifePct(self, t)*self.max_life),
 			armor = self:addTemporaryValue("combat_armor", t.getArmor(self, t)),
 		}
 	end,
 	deactivate = function(self, t, p)
-		self:removeTemporaryValue("max_life", p.life)
+		self:incLife(0)
 		self:removeTemporaryValue("combat_armor", p.armor)
 		self:removeTemporaryValue("on_melee_hit", p.onhit)
 		return true
@@ -171,7 +170,7 @@ newTalent{
 					local t = self.summoner:getTalentFromId(self.T_ICE_WALL)
 					local tg = {type="ball", range=0, radius=self.radius, friendlyfire=false, talent=t, x=self.x, y=self.y}
 					self.summoner.__project_source = self
-					self.summoner:project(tg, self.x, self.y, engine.DamageType.ICE, self.dam)
+					self.summoner:project(tg, self.x, self.y, engine.DamageType.ICE_MIND, self.dam)
 					self.summoner.__project_source = nil
 					self:useEnergy()
 					self.temporary = self.temporary - 1
@@ -181,6 +180,9 @@ newTalent{
 						game.level.map:updateMap(self.x, self.y)
 						game.nicer_tiles:updateAround(game.level, self.x, self.y)
 					end
+				end,
+				move = function(self, x, y, force)
+					if force then self.x = x self.y = y end
 				end,
 				dig = function(src, x, y, old)
 					game.level:removeEntity(old, true)
@@ -201,8 +203,8 @@ newTalent{
 		local icerad = t.getIceRadius(self, t)
 		local icedam = t.getIceDamage(self, t)
 		return ([[Summons an icy wall of %d length for %d turns. Ice walls are transparent, but block projectiles and enemies.
-		Ice walls also emit freezing cold, dealing %0.2f damage for each ice wall within radius %d of an enemy, and with each wall giving a 25%% chance to freeze an enemy. This cold cannot hurt the talent user or their allies.
-		Each point in cold drake talents also increases your cold resistance by 1%%.]]):tformat(3 + math.floor(self:getTalentLevel(t) / 2) * 2, t.getDuration(self, t), damDesc(self, DamageType.COLD, icedam),  icerad)
+		Ice walls also emit freezing cold, dealing %0.2f damage for each ice wall within radius %d of an enemy, and with each wall giving a 25%% chance to freeze an enemy %s. This cold cannot hurt the talent user or their allies.
+		Each point in cold drake talents also increases your cold resistance by 1%%.]]):tformat(3 + math.floor(self:getTalentLevel(t) / 2) * 2, t.getDuration(self, t), damDesc(self, DamageType.COLD, icedam),  icerad, Desc.vs"mp")
 	end,
 }
 
@@ -257,8 +259,8 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[You breathe ice in a frontal cone of radius %d. Any target caught in the area will take %0.2f cold damage and be frozen for 3 turns.
+		return ([[You breathe ice in a frontal cone of radius %d. Any target caught in the area will take %0.2f cold damage and be frozen for 3 turns %s.
 		The damage will increase with your Strength, the critical chance is based on your Mental crit rate, and the Freeze apply power is based on your Mindpower.
-		Each point in cold drake talents also increases your cold resistance by 1%%.]]):tformat( self:getTalentRadius(t), damDesc(self, DamageType.COLD, t.getDamage(self, t)))
+		Each point in cold drake talents also increases your cold resistance by 1%%.]]):tformat( self:getTalentRadius(t), damDesc(self, DamageType.COLD, t.getDamage(self, t)), Desc.vs"mp")
 	end,
 }

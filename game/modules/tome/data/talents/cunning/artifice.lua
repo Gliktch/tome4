@@ -579,10 +579,10 @@ newTalent{
 		for slot_id, tool_id in pairs(self.artifice_tools or {}) do
 			if tool_id == t.id then slot = self:getTalentFromId(slot_id).name break end
 		end
-		return ([[Throw a vial of volatile liquid that explodes in a radius %d cloud of smoke lasting %d turns.  The smoke blocks line of sight, and enemies within will have their vision range reduced by %d.
+		return ([[Throw a vial of volatile liquid that explodes in a radius %d cloud of smoke lasting %d turns.  The smoke blocks line of sight, and enemies within will have their vision range reduced by %d %s.
 		Use of this talent will not break stealth, and creatures affected by the smokes can never prevent you from activating stealth, even if their proximity would normally forbid it.
 		#YELLOW#Prepared with: %s#LAST#]]):
-		tformat(self:getTalentRadius(t), t.getDuration(self, t), t.getSightLoss(self,t), slot)
+		tformat(self:getTalentRadius(t), t.getDuration(self, t), t.getSightLoss(self,t), Desc.vs"ap", slot)
 	end,
 }
 
@@ -657,10 +657,10 @@ newTalent{
 		for slot_id, tool_id in pairs(self.artifice_tools or {}) do
 			if tool_id == t.id then slot = self:getTalentFromId(slot_id).name break end
 		end
-		return ([[Fire a poisoned dart from a silent, concealed launcher on your person that deals %0.2f physical damage and puts the target (living only) to sleep for 4 turns, rendering them unable to act. Every %d points of damage the target takes brings it closer to waking by 1 turn.
+		return ([[Fire a poisoned dart from a silent, concealed launcher on your person that deals %0.2f physical damage and puts the target (living only) to sleep for 4 turns %s, rendering them unable to act. Every %d points of damage the target takes brings it closer to waking by 1 turn.
 This can be used without breaking stealth.
 #YELLOW#Prepared with: %s#LAST#]]):
-	tformat(damDesc(self, DamageType.PHYSICAL, dam), power, slot)
+	tformat(damDesc(self, DamageType.PHYSICAL, dam), Desc.vs"ap", power, slot)
 	end,
 }
 
@@ -798,10 +798,10 @@ newTalent{
 		for slot_id, tool_id in pairs(self.artifice_tools or {}) do
 			if tool_id == t.id then slot = self:getTalentFromId(slot_id).name break end
 		end
-		return ([[Toss out a grappling hook to a target within range %d.  If this strikes either a wall or a creature that is immovable or larger than you, you will pull yourself towards it, otherwise, you will drag the target towards you.  Creatures struck by the hook will be pinned for 2 turns.
+		return ([[Toss out a grappling hook to a target within range %d.  If this strikes either a wall or a creature that is immovable or larger than you, you will pull yourself towards it, otherwise, you will drag the target towards you.  Creatures struck by the hook will be pinned for 2 turns %s.
 		Your grapple target must be at least 2 tiles from you.
 #YELLOW#Prepared with: %s#LAST#]]):
-	tformat(range, slot)
+	tformat(range, Desc.vs"ap", slot)
 	end,
 }
 

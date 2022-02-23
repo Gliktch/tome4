@@ -39,6 +39,11 @@ newTalent{
 		if val >= 1000 then fnt = "buff_font_smaller" end
 		return tostring(math.ceil(val)), fnt
 	end,
+	shield_bar = function(self, t, p)
+		local power = p.shield or 0
+		local power_max = t.getMaxAbsorb(self, t)
+		return power, power_max
+	end,
 	resetShield = function(self, t, ret)
 		ret.been_used = nil
 		ret.shield = t:_getMaxAbsorb(self)
@@ -49,6 +54,7 @@ newTalent{
 			ret.waste_counter = 0
 		end
 	end,
+	callbackPriorities = {callbackOnHit = -290},
 	callbackOnAct = checkLifeThreshold(1, function(self, t)
 		local p = self:isTalentActive(t.id)
 		if not p then return end

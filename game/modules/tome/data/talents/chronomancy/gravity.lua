@@ -95,12 +95,11 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Sends out a blast wave of gravity in a radius %d cone, dealing %0.2f base physical (gravity) damage and knocking back targets caught in the area.
+		return ([[Sends out a blast wave of gravity in a radius %d cone, dealing %0.2f base physical (gravity) damage and knocking back targets caught in the area %s.
 		Targets knocked into walls or other targets take 25%% additional damage and deal 25%% damage to targets they're knocked into.
 		Closer targets will be knocked back further and the damage will scale with your Spellpower.]]):
-		tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)))
+		tformat(radius, damDesc(self, DamageType.PHYSICAL, t.getDamage(self, t)), Desc.vs"sp")
 	end,
 }
 
@@ -175,11 +174,11 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Creates a gravity spike in a radius of %d that moves all targets towards the spell's center and inflicts %0.2f physical (gravity) damage.
+		return ([[Creates a gravity spike in a radius of %d that moves all targets towards the spell's center %s and inflicts %0.2f physical (gravity) damage.
 		Each target moved beyond the first increases the damage by %0.2f (up to a maximum of %0.2f bonus damage).
 		Targets take reduced damage the further they are from the epicenter (20%% less per tile).
 		The damage dealt will scale with your Spellpower.]])
-		:tformat(radius, damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.PHYSICAL, damage/8), damDesc(self, DamageType.PHYSICAL, damage/2))
+		:tformat(radius, Desc.vs"sp", damDesc(self, DamageType.PHYSICAL, damage), damDesc(self, DamageType.PHYSICAL, damage/8), damDesc(self, DamageType.PHYSICAL, damage/2))
 	end,
 }
 
@@ -217,7 +216,7 @@ newTalent{
 		local proj = t.getSlow(self, t)
 		local anti = t.getAnti(self, t)
 		return ([[Create a gravity field around you that converts %d%% all damage you deal into physical damage, slows incoming projectiles by %d%%, and protects you from all gravity damage and effects.
-		Additionally, damage dealt by Repulsion Blast has a %d%% chance to reduce the target's knockback resistance by half for two turns.]]):tformat(conv, proj, anti)
+		Additionally, damage dealt by Repulsion Blast has a %d%% chance to reduce the target's knockback resistance by half for two turns %s.]]):tformat(conv, proj, anti, Desc.vs())
 	end,
 }
 
@@ -263,7 +262,7 @@ newTalent{
 		local duration = t.getDuration(self, t)
 		local radius = self:getTalentRadius(t)
 		local slow = t.getSlow(self, t)
-		return ([[Increases local gravity in a radius of %d for %d turns, dealing %0.2f physical (gravity) damage as well as decreasing the global speed of all affected targets by %d%%.
-		The damage done will scale with your Spellpower.]]):tformat(radius, duration, damDesc(self, DamageType.PHYSICAL, damage), slow*100)
+		return ([[Increases local gravity in a radius of %d for %d turns, dealing %0.2f physical (gravity) damage as well as decreasing the global speed of all affected targets by %d%% %s.
+		The damage done will scale with your Spellpower.]]):tformat(radius, duration, damDesc(self, DamageType.PHYSICAL, damage), slow*100, Desc.vs"sp")
 	end,
 }

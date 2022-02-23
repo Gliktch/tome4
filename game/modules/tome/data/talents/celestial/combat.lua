@@ -92,8 +92,7 @@ newTalent{
 			local shield_power = t.getShieldFlat(self, t)
 
 			shield.power = shield.power + shield_power
-			self.damage_shield_absorb = self.damage_shield_absorb + shield_power
-			self.damage_shield_absorb_max = self.damage_shield_absorb_max + shield_power
+			shield.power_max = shield.power_max + shield_power
 			shield.dur = math.max(2, shield.dur)
 		end
 		if hitted and self:isTalentActive(self.T_GRAVITIC_EFFULGENCE) then
@@ -109,7 +108,7 @@ newTalent{
 		local damage = t.getDamage(self, t)
 		local shieldflat = t.getShieldFlat(self, t)
 		return ([[Infuse your weapon with the power of the Sun, adding %0.1f light damage on each melee hit.
-		Additionally, if you have a temporary damage shield active, melee hits will increase its power by %d once per turn.
+		Additionally, if you have a temporary damage shield active, melee hits will increase its power by %d and set its duration to 2 (if not already higher), once per turn.
 		The damage dealt and shield bonus will increase with your Spellpower.]]):
 		tformat(damDesc(self, DamageType.LIGHT, damage), shieldflat)
 	end,
@@ -183,7 +182,7 @@ newTalent{
 	getLifeDamage = function(self, t) return self:combatTalentScale(t, 0.55, 0.95) end, -- Limit < 100%
 	getMaxDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 400) end,
 	getDamage = function(self, t)
-		local damage = (self:attr("weapon_of_wrath_life") or t.getLifeDamage(self, t)) * (self.max_life - math.max(0, self.life)) -- avoid problems with die_at
+		local damage = (self:attr("weapon_of_wrath_life") or t.getLifeDamage(self, t)) * (self:getMaxLife() - math.max(0, self:getLife())) -- avoid problems with die_at
 		return math.min(t.getMaxDamage(self, t), damage) -- The Martyr effect provides the upside for high HP NPC's
 	end,
 	activate = function(self, t)
@@ -215,9 +214,9 @@ newTalent{
 		local damagepct = t.getLifeDamage(self, t)
 		local damage = t.getDamage(self, t)
 		return ([[Your weapon attacks burn with righteous fury, dealing %d%% of your lost HP as additional Fire damage (up to %d, Current:  %d).
-		Targets struck are also afflicted with a Martyrdom effect that causes them to take %d%% of all damage they deal for 4 turns.
+		Targets struck are also afflicted with a Martyrdom effect %s that causes them to take %d%% of all damage they deal for 4 turns.
 		The bonus damage can only occur once per turn.]]):
-		tformat(damagepct*100, t.getMaxDamage(self, t, 10, 400), damage, martyr)
+		tformat(damagepct*100, t.getMaxDamage(self, t, 10, 400), damage, Desc.vs(), martyr)
 	end,
 }
 
@@ -232,7 +231,26 @@ newTalent{
 	sustain_positive = 20,
 	cooldown = 30,
 	tactical = { DEFEND = 2 },
-	getLife = function(self, t) return self.max_life * self:combatTalentLimit(t, 1.5, 0.2, 0.5) end, -- Limit < 150% max life (to survive a large string of hits between turns)
+	getLife = function(self, t) return self:getMaxLife() * self:combatTalentLimit(t, 1.5, 0.2, 0.5) end, -- Limit < 150% max life (to survive a large string of hits between turns)
+	callbackPriorities = {callbackOnHit = 350},
+	callbackOnHit = function(self, t, cb, src, death_note)		
+		if cb.value  >= self.life then
+			local sl = t.getLife(self, t)
+			cb.value = 0
+			self.life = 1
+			self:forceUseTalent(self.T_SECOND_LIFE, {ignore_energy=true})
+			local value = self:heal(sl, self)
+			game.logSeen(self, "#YELLOW#%s has been healed by a blast of positive energy!#LAST#", self:getName():capitalize())
+			if value > 0 then
+				if self.player then
+					self:setEmote(require("engine.Emote").new("The Sun Protects!", 45))
+					world:gainAchievement("AVOID_DEATH", self)
+				end
+			end
+		end
+		
+		return cb
+	end,
 	activate = function(self, t)
 		game:playSoundNear(self, "talents/heal")
 		local ret = {}

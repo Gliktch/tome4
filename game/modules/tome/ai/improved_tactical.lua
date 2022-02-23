@@ -415,7 +415,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 	local dep_low = 1 - self.AI_RESOURCE_LEVEL_TRIGGER; dep_low = dep_low/(math.max(0.001, 1 - dep_low))
 	local dep_high = 1 - 0.35*self.AI_RESOURCE_LEVEL_TRIGGER; dep_high = dep_high/(math.max(0.001, 1 - dep_high))
 	for res, res_def in ipairs(self.resources_def) do
-		if not res_def.talent or self:knowTalent(res_def.talent) then -- determine want for this resource
+		if not (res_def.ai and res_def.ai.no_want) and (not res_def.talent or self:knowTalent(res_def.talent)) then -- determine want for this resource
 			-- resource-defined want calculation
 			if res_def.ai and res_def.ai.tactical and res_def.ai.tactical.want_level then 
 				want[res_def.short_name] = util.getval(res_def.ai.tactical.want_level, self, aitarget)
@@ -455,7 +455,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 	local life -- fraction of maximum life
 	local life_regen, psi_regen = self:regenLife(true) -- regeneration, accounting for caps
 	life_regen, psi_regen = (life_regen or 0)/self.global_speed, (psi_regen or 0)/self.global_speed
-	local effect_life, life_range = self.life - self.die_at, self.max_life - self.die_at -- effective total life and maximum used by buff/disable calculation
+	local effect_life, life_range = self:getLife() - self:getMinLife(), self:getMaxLife() - self:getMinLife() -- effective total life and maximum used by buff/disable calculation
 	
 	-- Note: The want function defined in the psi resource definition adjusts for Solipsism
 	if self:knowTalent(self.T_SOLIPSISM) then
@@ -463,7 +463,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 		life_range = math.min(life_range/(1 - ratio), life_range + self:getMaxPsi())
 		effect_life = math.min(effect_life/(1 - ratio), effect_life + self:getPsi())
 		-- psi deficit is exaggerated to promote pre-emptive healing (for clarity/solipsism)
-		life = (((self:getPsi() + psi_regen)/self:getMaxPsi())^2 * ratio + (self.life + life_regen- self.die_at)/(self.max_life-self.die_at)*(1-ratio))
+		life = (((self:getPsi() + psi_regen)/self:getMaxPsi())^2 * ratio + (self:getLife() + life_regen- self:getMinLife())/(self:getMaxLife()-self:getMinLife())*(1-ratio))
 	else
 		life = (effect_life + life_regen)/life_range
 	end
@@ -482,7 +482,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 	--== PROTECT ==--
 	-- like LIFE but for SELF's summoner
 	if self.summoner then
-		local life = math.max(0, self.summoner.life)/(self.summoner.max_life - self.summoner.die_at/2)
+		local life = math.max(0, self.summoner:getLife())/(self.summoner:getMaxLife() - self.summoner:getMinLife()/2)
 		life = (1 - life)/(math.max(.001, life)) -- modified life loss
 		want.protect = 10*(life*ally_compassion/(life*ally_compassion + 2.5))^2
 	end
@@ -664,15 +664,6 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 		end
 	end
 
-	--== FEEDBACK ==-- -- pseudo resource uses std want formula, but ignores decay w/o feedback loop
-	if avail.feedback and self.psionic_feedback then 
-		local val, max = self:getFeedback(), self:getMaxFeedback()
-		local regen = self:hasEffect(self.EFF_FEEDBACK_LOOP) and math.min(max - val, self:getFeedbackDecay()) or 0
-		local depleted = 1 - (val + regen)/max
-		depleted = depleted/math.max(0.001, 1-depleted)*self.global_speed
-		want.feedback = 10*(depleted/(depleted + 4))^2 -- want vs depleted: 0.00@0%, 0.03@20%, 0.40@50%, 2.00@76%, 4.79@90%, 9.92@100%, (for normal speed)
-	end
-
 	--== CURE ==--
 	if avail.cure then
 		local detriment_dur = 0 -- calculate total duration of all detrimental effects
@@ -789,7 +780,7 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 
 		if avail.buff or avail.disable then -- buff and disable depend on target's condition and fight_data
 			-- note: effect_life, life_range, calculated above for want.life
-			local aitarget_life, aitarget_life_range = (aitarget.life or 1) - (aitarget.die_at or 0), (aitarget.max_life or 1) - (aitarget.die_at or 0)
+			local aitarget_life, aitarget_life_range = (aitarget:getLife() or 1) - (aitarget:getMinLife() or 0), (aitarget:getMaxLife() or 1) - (aitarget:getMinLife() or 0)
 			
 			if aitarget.knowTalent and aitarget:knowTalent(aitarget.T_SOLIPSISM) then
 				local ratio = aitarget:callTalent(aitarget.T_SOLIPSISM, "getConversionRatio")
@@ -855,8 +846,8 @@ newAI("use_improved_tactical", function(self, t_filter, t_list)
 		if dam > 0 then -- want to move away from damaging terrain
 			want.move = math.max(want.move or 0, math.max(0.1, want.life*5*dam/(5*dam + effect_life))) -- equal to 50% of want.life if 20% life will be lost (for self_compassion = 5)
 			if log_detail > 2 then
-				print(("%s wants escape(move) %0.2f (heal) in %s at(%d, %d) dam %d vs %d avail life)"):format(self.name:capitalize(), want.move, game.level.map(self.x, self.y, engine.Map.TERRAIN).name, self.x, self.y, dam, self.life-self.die_at))
-				if config.settings.cheat then game.log("#ORCHID#%s wants escape(move) %0.2f (heal) in %s at(%d, %d) dam %d vs %d avail life)", self.name:capitalize(), want.move, game.level.map(self.x, self.y, engine.Map.TERRAIN).name, self.x, self.y, dam, self.life-self.die_at) end -- debugging
+				print(("%s wants escape(move) %0.2f (heal) in %s at(%d, %d) dam %d vs %d avail life)"):format(self.name:capitalize(), want.move, game.level.map(self.x, self.y, engine.Map.TERRAIN).name, self.x, self.y, dam, self:getLife()-self:getMinLife()))
+				if config.settings.cheat then game.log("#ORCHID#%s wants escape(move) %0.2f (heal) in %s at(%d, %d) dam %d vs %d avail life)", self.name:capitalize(), want.move, game.level.map(self.x, self.y, engine.Map.TERRAIN).name, self.x, self.y, dam, self:getLife()-self:getMinLife()) end -- debugging
 			end
 		end
 		

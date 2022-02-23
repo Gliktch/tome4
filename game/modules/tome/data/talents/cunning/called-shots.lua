@@ -107,13 +107,14 @@ newTalent {
 	speed = "archery",
 	action = fire_shot,
 	info = function(self, t)
-		return ([[Strike your opponent in the knee (or other critical point in an ambulatory appendage) for %d%% weapon damage, knocking them down (%d turn pin) and slowing their movement by %d%% for %d turns afterwards.
+		return ([[Strike your opponent in the knee (or other critical point in an ambulatory appendage) for %d%% weapon damage, knocking them down (%d turn pin) and slowing their movement by %d%% for %d turns afterwards %s.
 		This shot will bypass other enemies between you and your target.
 		The slow effect becomes more powerful with your Cunning.]])
 		:tformat(t.damage_multiplier(self, t) * 100,
 				t.pin_duration(self, t),
 				t.slow_power(self, t) * 100,
-				t.slow_duration(self, t))
+				t.slow_duration(self, t),
+				Desc.vs"ap")
 	end,
 }
 
@@ -216,10 +217,9 @@ newTalent {
 	action = fire_shot,
 	info = function(self, t)
 		return ([[Fire three shots in quick succession at a vulnerable point on the target (usually the head).
-		Each shot deals %d%% Ranged damage and will try to stun or increase the target's stun duration by 1.
-		These shots will bypass other enemies between you and your target.
-		The chance to stun increases with your Accuracy.]])
-		:tformat(t.damage_multiplier(self, t) * 100)
+		Each shot deals %d%% Ranged damage and will try to stun or increase the target's stun duration by 1 %s.
+		These shots will bypass other enemies between you and your target.]])
+		:tformat(t.damage_multiplier(self, t) * 100, Desc.vs"ap")
 	end,
 }
 

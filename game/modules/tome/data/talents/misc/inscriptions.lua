@@ -233,18 +233,18 @@ newInscription{
 	tactical = { DEFEND = 1 },
 	action = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		local bonus = 1 + (1 - self.life / self.max_life)
+		local bonus = 1 + (1 - math.max(0,self:getLife()) / self:getMaxLife())
 		self:setEffect(self.EFF_HEROISM, math.floor(data.dur * bonus), {die_at=(data.die_at + data.inc_stat * 30) * bonus})
 		return true
 	end,
 	info = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
-		local bonus = 1 + (1 - self.life / self.max_life)
+		local bonus = 1 + (1 - math.max(0,self:getLife()) / self:getMaxLife())
 		local bonus1 = (data.die_at + data.inc_stat * 30) * bonus
 		local bonus2 = math.floor(data.dur * bonus)
 		return ([[Activate the infusion to endure even the most grievous of wounds for %d turns.
 		While Heroism is active, you will only die when reaching -%d life.
-		The duration and life will increase by 1%% for every 1%% life you have lost (currently %d life, %d duration)
+		The duration and life will increase by 1%% for every 1%% life you have lost, to a maximum of 100%% at 0 life or less (currently %d life, %d duration)
 		If your life is below 0 when this effect wears off it will be set to 1.]]):tformat(data.dur, data.die_at + data.inc_stat * 30, bonus1, bonus2)
 	end,
 	short_info = function(self, t)
@@ -632,9 +632,9 @@ newInscription{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local duration = t.getDuration(self, t)
-		return ([[Inflicts %0.2f temporal damage.  If your target survives, it will be sent %d turns into the future.
+		return ([[Inflicts %0.2f temporal damage.  If your target survives, it will be sent %d turns into the future %s.
 		It will also lower your paradox by 25 (if you have any).
-		Note that messing with the spacetime continuum may have unforeseen consequences.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), duration)
+		Note that messing with the spacetime continuum may have unforeseen consequences.]]):tformat(damDesc(self, DamageType.TEMPORAL, damage), duration, Desc.vs"ss")
 	end,
 	short_info = function(self, t)
 		return ("%0.2f temporal damage, removed from time %d turns"):tformat(t.getDamage(self, t), t.getDuration(self, t))
@@ -751,11 +751,11 @@ newInscription{
 	end,
 	getThreshold = function(self, t) 
 		local data = self:getInscriptionData(t.short_name)
-		return data.threshold
+		return math.ceil(data.threshold)
 	end,
 	getBlocks = function(self, t) 
 		local data = self:getInscriptionData(t.short_name)
-		return data.blocks + data.inc_stat
+		return math.ceil(data.blocks + data.inc_stat)
 	end,
 	action = function(self, t)
 		local data = self:getInscriptionData(t.short_name)
@@ -862,8 +862,8 @@ newInscription{
 						add_mos = table.clone(caster.add_mos, true),
 						shader = "shadow_simulacrum", shader_args = { color = {0.0, 0.4, 0.8}, base = 0.6, time_factor = 1500 },
 						exp_worth=0,
-						max_life = caster.max_life,
-						life = caster.max_life, -- We don't want to make this only useful before you take damage
+						max_life = caster:getMaxLife(),
+						life = caster:getMaxLife(), -- We don't want to make this only useful before you take damage
 						combat_armor_hardiness = caster:combatArmorHardiness(),
 						combat_def = caster:combatDefense(),
 						combat_armor = caster:combatArmor(),

@@ -108,10 +108,9 @@ newTalent{
 		return true
 	end,
 	info = function(self, t)
-		return ([[A mighty kick that pushes your target away %d grids.
-		If another creature is in the way, it will also be pushed away.
-		The Knockback chance increases with your Accuracy or your Physical Power, whichever is greater.]])
-		:tformat(t.getDist(self, t))
+		return ([[A mighty kick that pushes your target away %d grids %s.
+		If another creature is in the way, it will also be pushed away.]])
+		:tformat(t.getDist(self, t), Desc.vs(Desc.max("acc", "pp"), "ps"))
 	end,
 }
 

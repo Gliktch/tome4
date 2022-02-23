@@ -43,7 +43,7 @@ newTalent{
 
 		local dam = self:spellCrit(t.getDamage(self, t))
 		self:project(tg, x, y, DamageType.COLD, dam, {type="freeze"})
-		self:project(tg, x, y, DamageType.FREEZE, {dur=t.getDuration(self, t), hp=70 + dam * 0.7})
+		self:project(tg, x, y, DamageType.FREEZE, {dur=t.getDuration(self, t), hp=70 + dam * 0.7, apply_power=self:combatSpellpower()})
 
 		tg.type = "hit"
 		self:projectApply(tg, x, y, Map.ACTOR, function(target)
@@ -57,9 +57,9 @@ newTalent{
 	end,
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
-		return ([[Condenses ambient water on a target, freezing it for %d turns and damaging it for %0.2f.
+		return ([[Condenses ambient water on a target, freezing it for %d turns %s and damaging it for %0.2f.
 		If this is used on a friendly target the cooldown is reduced by 33%%.
-		The damage will increase with your Spellpower.]]):tformat(t.getDuration(self, t), damDesc(self, DamageType.COLD, damage))
+		The damage will increase with your Spellpower.]]):tformat(t.getDuration(self, t), Desc.vs"sp", damDesc(self, DamageType.COLD, damage))
 	end,
 }
 
@@ -80,7 +80,7 @@ newTalent{
 	getDamage = function(self, t) return self:combatTalentSpellDamage(t, 10, 280) end,
 	action = function(self, t)
 		local tg = self:getTalentTarget(t)
-		local grids = self:project(tg, self.x, self.y, DamageType.COLDNEVERMOVE, {shatter_reduce=2, dur=4, dam=self:spellCrit(t.getDamage(self, t))})
+		local grids = self:project(tg, self.x, self.y, DamageType.COLDNEVERMOVE, {shatter_reduce=2, dur=4, dam=self:spellCrit(t.getDamage(self, t)), apply_power=self:combatSpellpower()})
 --		game.level.map:particleEmitter(self.x, self.y, tg.radius, "ball_ice", {radius=tg.radius})
 		game.level.map:particleEmitter(self.x, self.y, tg.radius, "circle", {oversize=1.1, a=255, limit_life=16, grow=true, speed=0, img="ice_nova", radius=tg.radius})
 		game:playSoundNear(self, "talents/ice")
@@ -89,10 +89,10 @@ newTalent{
 	info = function(self, t)
 		local damage = t.getDamage(self, t)
 		local radius = self:getTalentRadius(t)
-		return ([[Blast a wave of cold all around you with a radius of %d, doing %0.2f cold damage and freezing creatures to the ground for 4 turns.
+		return ([[Blast a wave of cold all around you with a radius of %d, doing %0.2f cold damage and freezing creatures to the ground for 4 turns %s.
 		Affected creatures can still act, but cannot move.
 		For each affected creature that is also wet the cooldown of Shatter decreases by 2.
-		The damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.COLD, damage))
+		The damage will increase with your Spellpower.]]):tformat(radius, damDesc(self, DamageType.COLD, damage), Desc.vs"sp")
 	end,
 }
 
@@ -150,11 +150,11 @@ newTalent{
 		* Critters will be instantly killed
 		* +50%% critical chance against Normal rank
 		* +25%% critical chance against Elites or Bosses
-		All affected foes will get the wet effect.
+		All affected foes will get the wet effect %s.
 		At most, it will affect %d foes.
 		If you are yourself Frozen, it will instantly be destroyed.
 		The damage will increase with your Spellpower.]]):
-		tformat(damDesc(self, DamageType.COLD, damage), targetcount)
+		tformat(damDesc(self, DamageType.COLD, damage), Desc.vs"ss", targetcount)
 	end,
 }
 
