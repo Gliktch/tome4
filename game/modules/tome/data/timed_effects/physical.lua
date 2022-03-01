@@ -2529,7 +2529,7 @@ newEffect{
 	desc = _t"Ravage",
 	long_desc = function(self, eff)
 		local ravaged = _t"each turn."
-		if eff.ravage then ravaged = _t"and is losing one physical effect turn." end
+		if eff.ravage then ravaged = _t"and losing one beneficial physical timed effect or non-spell, non-mind sustained effect each turn." end
 		return ("The target is being ravaged by distortion, taking %0.2f physical damage %s"):tformat(eff.dam, ravaged)
 	end,
 	type = "physical",
