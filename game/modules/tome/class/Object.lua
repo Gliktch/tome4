@@ -573,6 +573,10 @@ function _M:getName(t)
 		name = (type(self.been_reshaped) == "string" and self.been_reshaped or "") .. name .. (type(self.been_imbued) == "string" and self.been_imbued or "")
 	end
 
+	if t.use_shimmer_suffix and self.shimmer_suffix then
+		name = name .. " " .. self.shimmer_suffix
+	end
+
 	if not self:isIdentified() and not t.force_id and self:getUnidentifiedName() then name = self:getUnidentifiedName() end
 
 	-- To extend later
