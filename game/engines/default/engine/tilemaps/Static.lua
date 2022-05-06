@@ -28,7 +28,7 @@ function _M:init(file, args)
 	Tilemap.init(self)
 
 	if file:find("%.tmx$") then self.data = self:tmxLoad(file)
-	else self.data = self:mapLoad(file) end
+	else self.data = self:mapLoad(file, args and args.raw) end
 	self.data_h = #self.data
 	self.data_w = self.data[1] and #self.data[1] or 0
 	self.data_size = self:point(self.data_w, self.data_h)

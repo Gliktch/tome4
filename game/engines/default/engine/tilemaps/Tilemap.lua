@@ -369,12 +369,17 @@ function _M:scale(sx, sy)
 end
 
 --- Used internally to load a tilemap from a lua map file
-function _M:mapLoad(file)
-	local f, err = loadfile(file)
-	if not f then error(err) end
-	setfenv(f, {})
-	local ok, raw = pcall(f)
-	if not ok then error(raw) end
+function _M:mapLoad(file, is_raw)
+	local raw
+	if not is_raw then
+		local f, err = loadfile(file)
+		if not f then error(err) end
+		setfenv(f, {})
+		local ok; ok, raw = pcall(f)
+		if not ok then error(raw) end
+	else
+		raw = file
+	end
 
 	raw = raw:split('\n')
 	local h = #raw
