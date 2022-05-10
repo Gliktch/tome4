@@ -99,10 +99,20 @@ function _M:redo()
 	self.force_redo = true
 end
 
+function _M:loadString(mapscript, lev, old_lev, args)
+	local f, err = loadstring(mapscript)
+	if not f and err then error(err) end
+	return self:loadFunction(f, lev, old_lev, args)
+end
+
 function _M:loadFile(mapscript, lev, old_lev, args)
 	local file = self:getFile(mapscript..".lua", "mapscripts")
 	local f, err = loadfile(file)
 	if not f and err then error(err) end
+	return self:loadFunction(f, lev, old_lev, args)
+end
+
+function _M:loadFunction(f, lev, old_lev, args)
 	local nenv = {
 		args = args,
 		self = self,
