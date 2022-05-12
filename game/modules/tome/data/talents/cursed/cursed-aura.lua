@@ -82,12 +82,14 @@ newTalent{
 			local curses = t.getCurses(self, t)
 			curse = rng.table(curses)
 		end
-
+		return t.curseItemRaw(self, t, item, curse)
+	end,
+	curseItemRaw = function(self, t, item, curse, curse_count, curse_bypass)
 		local def = self.tempeffect_def[curse]
 		local ego = Entity.new{
 			name = _t"curse",
 			display_string = " ("..def.short_desc..")",
-			curse = curse,
+			curse = curse, curse_count = curse_count, curse_bypass = curse_bypass,
 			fake_ego = true, unvault_ego = true,
 		}
 		game.zone:applyEgo(item, ego, "object")
@@ -191,10 +193,10 @@ newTalent{
 		for id, inven in pairs(self.inven) do
 			if self.inven_def[id].is_worn then
 				for i, item in ipairs(inven) do
-					if item.curse and t.canCurseItem(self, t, item) then
-						if item.type == "armor" then armorCount = armorCount + 1 end
+					if item.curse and (t.canCurseItem(self, t, item) or item.curse_bypass) then
+						if item.type == "armor" then armorCount = armorCount + (item.curse_count or 1) end
 
-						itemCounts[item.curse] = (itemCounts[item.curse] or 0) + 1
+						itemCounts[item.curse] = (itemCounts[item.curse] or 0) + (item.curse_count or 1)
 					end
 				end
 			end
