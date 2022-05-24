@@ -1344,10 +1344,17 @@ function _M:editTileGenericBorders(level, i, j, g, nt, type)
 	local id = rng.range(1,NB_VARIATIONS).."genbord:"..table.concat({g.define_as or "--",type,tostring(g1==g5),tostring(g2==g5),tostring(g3==g5),tostring(g4==g5),tostring(g5==g5),tostring(g6==g5),tostring(g7==g5),tostring(g8==g5),tostring(g9==g5)}, ",")
 
 	-- Sides
-	if g5 ~= g8 then self:edit(i, j, id, nt[g8.."8"] or nt["default8"]) end
-	if g5 ~= g2 then self:edit(i, j, id, nt[g2.."2"] or nt["default2"]) end
-	if g5 ~= g4 then self:edit(i, j, id, nt[g4.."4"] or nt["default4"]) end
-	if g5 ~= g6 then self:edit(i, j, id, nt[g6.."6"] or nt["default6"]) end
+	if nt.no_overlap_sides then
+		if g5 ~= g8 and g5 ~= g7 and g5 ~= g9 then self:edit(i, j, id, nt[g8.."8"] or nt["default8"]) end
+		if g5 ~= g2 and g5 ~= g1 and g5 ~= g3 then self:edit(i, j, id, nt[g2.."2"] or nt["default2"]) end
+		if g5 ~= g4 and g5 ~= g7 and g5 ~= g1 then self:edit(i, j, id, nt[g4.."4"] or nt["default4"]) end
+		if g5 ~= g6 and g5 ~= g9 and g5 ~= g3 then self:edit(i, j, id, nt[g6.."6"] or nt["default6"]) end
+	else
+		if g5 ~= g8 then self:edit(i, j, id, nt[g8.."8"] or nt["default8"]) end
+		if g5 ~= g2 then self:edit(i, j, id, nt[g2.."2"] or nt["default2"]) end
+		if g5 ~= g4 then self:edit(i, j, id, nt[g4.."4"] or nt["default4"]) end
+		if g5 ~= g6 then self:edit(i, j, id, nt[g6.."6"] or nt["default6"]) end
+	end
 	-- Corners
 	if g5 ~= g7 and g5 == g4 and g5 == g8 then self:edit(i, j, id, nt[g7.."7"] or nt["default7"]) end
 	if g5 ~= g9 and g5 == g6 and g5 == g8 then self:edit(i, j, id, nt[g9.."9"] or nt["default9"]) end
