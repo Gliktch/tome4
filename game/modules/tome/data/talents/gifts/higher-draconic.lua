@@ -62,7 +62,7 @@ newTalent{
 		if elem == "phys" then
 			attack_mode(self, target, DamageType.PHYSICAL, t.getWeaponDamage(self, t))
 			local tg = {type="ball", range=1, selffire=false, friendlyfire = false, radius=self:getTalentRadius(t), talent=t}
-			local grids = self:project(tg, x, y, DamageType.PHYSICAL, {dur=3, dam=self:mindCrit(t.getBurstDamage(self, t))})
+			local grids = self:project(tg, x, y, DamageType.PHYSICAL, self:mindCrit(t.getBurstDamage(self, t)))
 			self:projectApply(tg, x, y, Map.ACTOR, function(tg) if tg:canBe("blind") then tg:setEffect(tg.EFF_BLINDED, 3, {apply_power = apply_power}) end end, "hostile")
 			game.level.map:particleEmitter(x, y, tg.radius, "ball_matter", {radius=tg.radius, grids=grids, tx=x, ty=y, max_alpha=80})
 			game:playSoundNear(self, "talents/flame")
