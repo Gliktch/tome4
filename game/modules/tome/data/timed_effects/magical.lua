@@ -388,7 +388,7 @@ newEffect{
 		game:delayedLogDamage(src, self, 0, ("%s(%d stormshielded#LAST#%s)#LAST#"):tformat(d_color, dam, d_color), false)
 		eff.blocks = eff.blocks - 1
 		if eff.blocks <= 0 then
-			src:logCombat(self, "#BLUE##Target#'s stormshield is out of charges and disspitates!#LAST#.")
+			src:logCombat(self, "#BLUE##Target#'s stormshield is out of charges and dissipates!#LAST#.")
 			self:removeEffect(self.EFF_STORMSHIELD)
 		end
 		return {dam = 0}

@@ -768,28 +768,6 @@ function _M:displayResources(scale, bx, by, a)
 
 		-----------------------------------------------------------------------------------
 		-- Life & shield
-		sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a)
-		bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a)
-		local bar_c = player.life < 0 and neg_life_c or life_c
-		if life_sha.shad then life_sha:setUniform("a", a) life_sha:setUniform("color", bar_c) life_sha.shad:use(true) end
-		local p = math.min(1, math.max(0, (player.life - player.die_at) / (player.max_life - player.die_at)))
-		shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], bar_c[1], bar_c[2], bar_c[3], a)
-		if life_sha.shad then life_sha.shad:use(false) end
-		if player.die_at ~= 0 then
-			core.display.drawQuad(x+49 + shat[6] * (-player.die_at / (player.max_life - player.die_at)), y+10, 2, shat[7], 0, 0, 0, 255)
-		end
-
-		local life_regen = player.life_regen * util.bound((player.healing_factor or 1), 0, 2.5)
-		if not self.res.life or self.res.life.vc ~= player.life or self.res.life.vm ~= player.max_life or self.res.life.vr ~= life_regen then
-			local status_text = ("%s/%d"):format(math.round(player.life), math.round(player.max_life))
-			local reg_text = string.limit_decimals(life_regen,3, "+")
-			self.res.life = {
-				vc = player.life, vm = player.max_life, vr = life_regen,
-				cur = {core.display.drawStringBlendedNewSurface(#status_text*1.1 + #reg_text <=14 and font_sha or sfont_sha, status_text, 255, 255, 255):glTexture()}, -- adjust font for space
-				regen={core.display.drawStringBlendedNewSurface(sfont_sha, reg_text, 255, 255, 255):glTexture()},
-			}
-		end
-
 		local shield, max_shield = 0, 0
 		if player:attr("time_shield") then shield = shield + (player.time_shield_absorb or 0) max_shield = max_shield + (player.time_shield_absorb_max or 0) end
 		if player:attr("damage_shield") then shield = shield + (player.damage_shield_absorb or 0) max_shield = max_shield + (player.damage_shield_absorb_max or 0) end
@@ -797,42 +775,70 @@ function _M:displayResources(scale, bx, by, a)
 		if player:attr("disruption_shield_power") then shield = shield + (player.disruption_shield_power or 0) max_shield = max_shield + (player:callTalent(player.T_DISRUPTION_SHIELD, "getMaxAbsorb") or 0) end
 		local necroshield = player:isTalentActive(player.T_HIEMAL_SHIELD)
 		if necroshield then shield = shield + (necroshield.shield or 0) max_shield = max_shield + (necroshield.original_shield or 0) end
-		
-		local front = fshat_life_dark
-		if max_shield > 0 then
-			front = fshat_shield_dark
-			if shield >= max_shield * 0.8 then front = fshat_shield end
-		elseif player.life >= player.max_life then front = fshat_life end
-		front[1]:toScreenFull(x, y, front[6], front[7], front[2], front[3], 1, 1, 1, a)
-	
-		-- draw text on top of graphic for legibility
-		local dt = self.res.life.cur
-		dt[1]:toScreenFull(2+x+64, 2+y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 0, 0, 0, 0.7 * a)
-		dt[1]:toScreenFull(x+64, y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
-		dt = self.res.life.regen
-		dt[1]:toScreenFull(2+x+144, 2+y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 0, 0, 0, 0.7 * a)
-		dt[1]:toScreenFull(x+144, y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
-		
-		if max_shield > 0 then
-			if shield_sha.shad then shield_sha:setUniform("a", a * 0.5) shield_sha.shad:use(true) end
-			local p = math.min(1, math.max(0, shield / max_shield))
-			shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], shield_c[1], shield_c[2], shield_c[3], 0.5 * a)
-			if shield_sha.shad then shield_sha.shad:use(false) end
 
-			if not self.res.shield or self.res.shield.vc ~= shield or self.res.shield.vm ~= max_shield then
-				self.res.shield = {
-					vc = shield, vm = max_shield,
-					cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(shield, max_shield), 255, 215, 0):glTexture()},
+		if not player.hide_lifebar or max_shield > 0 then
+			sshat[1]:toScreenFull(x-6, y+8, sshat[6], sshat[7], sshat[2], sshat[3], 1, 1, 1, a)
+			bshat[1]:toScreenFull(x, y, bshat[6], bshat[7], bshat[2], bshat[3], 1, 1, 1, a)
+
+			local bar_c = player.life < 0 and neg_life_c or life_c
+			if life_sha.shad then life_sha:setUniform("a", a) life_sha:setUniform("color", bar_c) life_sha.shad:use(true) end
+			local p = math.min(1, math.max(0, (player.life - player.die_at) / (player.max_life - player.die_at)))
+			shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], bar_c[1], bar_c[2], bar_c[3], a)
+			if life_sha.shad then life_sha.shad:use(false) end
+			if player.die_at ~= 0 then
+				core.display.drawQuad(x+49 + shat[6] * (-player.die_at / (player.max_life - player.die_at)), y+10, 2, shat[7], 0, 0, 0, 255)
+			end
+
+			local life_regen = player.life_regen * util.bound((player.healing_factor or 1), 0, 2.5)
+			if not self.res.life or self.res.life.vc ~= player.life or self.res.life.vm ~= player.max_life or self.res.life.vr ~= life_regen then
+				local status_text = ("%s/%d"):format(math.round(player.life), math.round(player.max_life))
+				local reg_text = string.limit_decimals(life_regen,3, "+")
+				self.res.life = {
+					vc = player.life, vm = player.max_life, vr = life_regen,
+					cur = {core.display.drawStringBlendedNewSurface(#status_text*1.1 + #reg_text <=14 and font_sha or sfont_sha, status_text, 255, 255, 255):glTexture()}, -- adjust font for space
+					regen={core.display.drawStringBlendedNewSurface(sfont_sha, reg_text, 255, 255, 255):glTexture()},
 				}
 			end
-			local dt = self.res.shield.cur
-			dt[1]:toScreenFull(2+x+45+(shat[6]-dt[6])/2, 2+y+front[7]-dt[7], dt[6], dt[7], dt[2], dt[3], 0, 0, 0, 0.7 * a) -- shadow
-			dt[1]:toScreenFull(x+45+(shat[6]-dt[6])/2, y+front[7]-dt[7], dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
-			self:showResourceTooltip(bx+x*scale, by+y*scale, fshat[6], fshat[7], "res:shield", self.TOOLTIP_DAMAGE_SHIELD.."\n---\n"..self.TOOLTIP_LIFE, true)
-			if game.mouse:getZone("res:life") then game.mouse:unregisterZone("res:life") end
-		else
-			self:showResourceTooltip(bx+x*scale, by+y*scale, fshat[6], fshat[7], "res:life", self.TOOLTIP_LIFE, true)
-			if game.mouse:getZone("res:shield") then game.mouse:unregisterZone("res:shield") end
+			
+			local front = fshat_life_dark
+			if max_shield > 0 then
+				front = fshat_shield_dark
+				if shield >= max_shield * 0.8 then front = fshat_shield end
+			elseif player.life >= player.max_life then front = fshat_life end
+			front[1]:toScreenFull(x, y, front[6], front[7], front[2], front[3], 1, 1, 1, a)
+			
+			if not player.hide_lifebar then
+				-- draw text on top of graphic for legibility
+				local dt = self.res.life.cur
+				dt[1]:toScreenFull(2+x+64, 2+y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 0, 0, 0, 0.7 * a)
+				dt[1]:toScreenFull(x+64, y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
+				dt = self.res.life.regen
+				dt[1]:toScreenFull(2+x+144, 2+y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 0, 0, 0, 0.7 * a)
+				dt[1]:toScreenFull(x+144, y+10 + (shat[7]-dt[7])/2, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
+			end
+			
+			if max_shield > 0 then
+				if shield_sha.shad then shield_sha:setUniform("a", a * 0.5) shield_sha.shad:use(true) end
+				local p = math.min(1, math.max(0, shield / max_shield))
+				shat[1]:toScreenPrecise(x+49, y+10, shat[6] * p, shat[7], 0, p * 1/shat[4], 0, 1/shat[5], shield_c[1], shield_c[2], shield_c[3], 0.5 * a)
+				if shield_sha.shad then shield_sha.shad:use(false) end
+
+				if not self.res.shield or self.res.shield.vc ~= shield or self.res.shield.vm ~= max_shield then
+					self.res.shield = {
+						vc = shield, vm = max_shield,
+						cur = {core.display.drawStringBlendedNewSurface(font_sha, ("%d/%d"):format(shield, max_shield), 255, 215, 0):glTexture()},
+					}
+				end
+				local dt = self.res.shield.cur
+				local y_spot = player.hide_lifebar and (y+10 + (shat[7]-dt[7])/2) or (y+front[7]-dt[7])
+				dt[1]:toScreenFull(2+x+45+(shat[6]-dt[6])/2, 2+y_spot, dt[6], dt[7], dt[2], dt[3], 0, 0, 0, 0.7 * a) -- shadow
+				dt[1]:toScreenFull(x+45+(shat[6]-dt[6])/2, y_spot, dt[6], dt[7], dt[2], dt[3], 1, 1, 1, a)
+				self:showResourceTooltip(bx+x*scale, by+y*scale, fshat[6], fshat[7], "res:shield", self.TOOLTIP_DAMAGE_SHIELD.."\n---\n"..self.TOOLTIP_LIFE, true)
+				if game.mouse:getZone("res:life") then game.mouse:unregisterZone("res:life") end
+			else
+				self:showResourceTooltip(bx+x*scale, by+y*scale, fshat[6], fshat[7], "res:life", self.TOOLTIP_LIFE, true)
+				if game.mouse:getZone("res:shield") then game.mouse:unregisterZone("res:shield") end
+			end
 		end
 
 		x, y = self:resourceOrientStep(orient, bx, by, scale, x, y, fshat[6], fshat[7])

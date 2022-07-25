@@ -2827,6 +2827,9 @@ function _M:onTakeHit(value, src, death_note)
 		else
 			damage_to_psi = self:getPsi()
 			self:incPsi(-damage_to_psi)
+			if self.die_from_damage_to_psi then
+				self:die(src or self, {special_death_msg=death_message or "lost all psionic focus and dissipated into nothingness"})
+			end
 		end
 		local mindcolor = DamageType:get(DamageType.MIND).text_color or "#aaaaaa#"
 		game:delayedLogMessage(self, nil, "Solipsism hit", ("%s#Source# converts some damage to Psi!"):tformat(mindcolor))
