@@ -504,7 +504,7 @@ function _M:locateTile(char, erase, min_x, min_y, max_x, max_y, allow_position)
 			end
 		end
 	end
-	if #res == 0 then return nil end
+	if #res == 0 then return nil, {} end
 	return rng.table(res), res
 end
 
