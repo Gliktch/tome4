@@ -4347,22 +4347,22 @@ function _M:updateModdableTile()
 
 	if self.shader_auras and next(self.shader_auras) then
 		for _, def in pairs(self.shader_auras) do
-			add[#add+1] = {image_alter="sdm", sdm_double="dynamic", image=base..(self.moddable_tile_base or "base_01.png"), bodyplace="aura", shader=def.shader, shader_args=def.shader_args, textures=def.textures, display_h=2, display_y=-1}
+			add[#add+1] = {image_alter="sdm", sdm_double="dynamic", image=base..(self.moddable_tile_base or "base_01.png"), is_inate=true, bodyplace="aura", shader=def.shader, shader_args=def.shader_args, textures=def.textures, display_h=2, display_y=-1}
 		end
 	end
 	if self.moddable_tile_base_shimmer_aura then
 		for _, def in ipairs(self.moddable_tile_base_shimmer_aura) do
-			add[#add+1] = {image_alter="sdm", sdm_double="dynamic", image=base..(self.moddable_tile_base or "base_01.png"), bodyplace="aura", shader=def.shader, shader_args=def.shader_args, textures=def.textures, display_h=2, display_y=-1}
+			add[#add+1] = {image_alter="sdm", sdm_double="dynamic", image=base..(self.moddable_tile_base or "base_01.png"), is_inate=true, bodyplace="aura", shader=def.shader, shader_args=def.shader_args, textures=def.textures, display_h=2, display_y=-1}
 		end
 	end
 
 	local basebody = self.moddable_tile_base_shimmer or self.moddable_tile_base or "base_01.png"
 	if self.moddable_tile_base_alter then basebody = self:moddable_tile_base_alter(basebody) end
-	add[#add+1] = {image = base..basebody, bodyplace="body", auto_tall=1}
+	add[#add+1] = {image = base..basebody, is_inate="base", bodyplace="body", auto_tall=1}
 
 	self:triggerHook{"Actor:updateModdableTile:skin", base=base, add=add}
 
-	if self.moddable_tile_tatoo then add[#add+1] = {image = base..self.moddable_tile_tatoo..".png", bodyplace="body", auto_tall=1} end
+	if self.moddable_tile_tatoo then add[#add+1] = {image = base..self.moddable_tile_tatoo..".png", is_inate=true, bodyplace="body", auto_tall=1} end
 
 	if not self:attr("disarmed") then
 		local hd = {"Actor:updateModdableTile:weapon", base=base, add=add, back=true, replace=false}
@@ -4386,14 +4386,14 @@ function _M:updateModdableTile()
 	local done_head = false
 	i = self:getObjectModdableTile(self.INVEN_CLOAK); if config.settings.tome.show_cloak_hoods and i and i.moddable_tile_hood then add[#add+1] = {image = base..(i.moddable_tile):format("hood")..".png", bodyplace="head", auto_tall=1} done_head = true end
 
-	if self.moddable_tile_hair then add[#add+1] = {image = base..self.moddable_tile_hair..".png", bodyplace="head", auto_tall=1} end
-	if self.moddable_tile_facial_features then for _, f in ipairs(self.moddable_tile_facial_features) do add[#add+1] = {image = base..f..".png", bodyplace="head", auto_tall=1} end end
+	if self.moddable_tile_hair then add[#add+1] = {image = base..self.moddable_tile_hair..".png", is_inate=true, bodyplace="head", auto_tall=1} end
+	if self.moddable_tile_facial_features then for _, f in ipairs(self.moddable_tile_facial_features) do add[#add+1] = {image = base..f..".png", is_inate=true, bodyplace="head", auto_tall=1} end end
 
 	i = self:getObjectModdableTile(self.INVEN_HEAD); if not done_head and i and i.moddable_tile then add[#add+1] = {image = base..(i.moddable_tile)..".png", bodyplace="head", auto_tall=1} done_head = true end
 	if not done_head and self:attr("moddable_tile_head_underwear") then add[#add+1] = {image = base..self:attr("moddable_tile_head_underwear"), bodyplace="head", auto_tall=1} end
 	self:triggerHook{"Actor:updateModdableTile:middle", base=base, add=add}
 
-	if self.moddable_tile_horn then add[#add+1] = {image = base..self.moddable_tile_horn..".png", bodyplace="head", auto_tall=1} end
+	if self.moddable_tile_horn then add[#add+1] = {image = base..self.moddable_tile_horn..".png", is_inate=true, bodyplace="head", auto_tall=1} end
 
 	i = self:getObjectModdableTile(self.INVEN_HANDS); if i and i.moddable_tile then add[#add+1] = {image = base..(i.moddable_tile)..".png", bodyplace="hands", auto_tall=1} end
 	i = self:getObjectModdableTile(self.INVEN_QUIVER); if i and i.moddable_tile then add[#add+1] = {image = base..(i.moddable_tile)..".png", bodyplace="body", auto_tall=1} end
