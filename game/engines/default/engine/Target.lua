@@ -171,7 +171,9 @@ end
 
 _M.defaults.display_check_block_path = function(self, d)
 	d.block, d.hit, d.hit_radius = false, true, true
-	d.block, d.hit, d.hit_radius = self.target_type:block_path(d.lx, d.ly, true)
+	if self.target_type.block_path then
+		d.block, d.hit, d.hit_radius = self.target_type:block_path(d.lx, d.ly, true)
+	end
 end
 
 -- Update coordinates and set color
