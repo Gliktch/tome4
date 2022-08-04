@@ -121,8 +121,7 @@ function _M:setEffect(eff_id, dur, p, silent)
 	if dur <= 0 then return self:removeEffect(eff_id) end
 	dur = math.floor(dur)
 
-	p.__orig_params = table.clone(p, true)
-
+	p.__orig_params = table.clone(p, true, {__orig_params=true})
 	local ed = _M.tempeffect_def[eff_id]
 	for k, e in pairs(ed.parameters) do
 		if not p[k] then p[k] = e end
