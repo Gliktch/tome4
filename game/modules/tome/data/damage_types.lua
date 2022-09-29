@@ -1434,9 +1434,9 @@ newDamageType{
 		local chance = 25
 
 		local target = game.level.map(x, y, Map.ACTOR)
-		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 chance = 50 end
 
 		dam = _G.type(dam) == "number" and {dam=dam} or dam
+		if target and target:hasEffect(target.EFF_WET) then dam.dam = dam.dam * 1.3 chance = 50 end
 		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam.dam, state)
 		if rng.percent(chance) then
 			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam.dam*1.5, apply_power=dam.apply_power}, state)
@@ -1453,8 +1453,8 @@ newDamageType{
 		useImplicitCrit(src, state)
 		local chance = 0
 		local target = game.level.map(x, y, Map.ACTOR)
-		if target and target:hasEffect(target.EFF_WET) then dam = dam * 1.3 chance = 15 end
 		dam = _G.type(dam) == "number" and {dam=dam} or dam
+		if target and target:hasEffect(target.EFF_WET) then dam.dam = dam.dam * 1.3 chance = 15 end
 		local realdam = DamageType:get(DamageType.COLD).projector(src, x, y, DamageType.COLD, dam.dam, state)
 		if rng.percent(chance) then
 			DamageType:get(DamageType.FREEZE).projector(src, x, y, DamageType.FREEZE, {dur=2, hp=70+dam.dam*1.2, apply_power=dam.apply_power}, state)
