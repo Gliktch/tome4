@@ -1480,12 +1480,6 @@ function _M:playerTakeoff()
 end
 
 function _M:playerUseObject(o, item, inven)
-	-- Count magic devices
-	if (o.power_source and o.power_source.arcane) and self:attr("forbid_arcane") then
-		game.logPlayer(self, "Your antimagic disrupts %s.", o:getName{no_count=true, do_color=true})
-		return true
-	end
-
 	local ret = o:use(self, nil, inven, item) or {}
 	if not ret.used then return end
 	if ret.id then

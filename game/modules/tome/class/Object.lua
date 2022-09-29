@@ -193,6 +193,11 @@ function _M:canUseObject(who)
 		if who:attr("sleep") and not who:attr("lucid_dreamer") then
 			return false, _t"You can not use objects while sleeping!"
 		end
+
+		-- Count magic devices
+		if (self.power_source and self.power_source.arcane) and who:attr("forbid_arcane") then
+			return false, ("Your antimagic disrupts %s."):tformat(self:getName{no_count=true, do_color=true})
+		end
 	end
 	return true, _t"Object can be used."
 end
@@ -245,7 +250,7 @@ function _M:useObject(who, ...)
 
 			who:attr("force_talent_ignore_ressources", 1)
 			local ret = false
-			if not who:preUseTalent(ab) then 
+			if not who:preUseTalent(ab) then
 				ret = false
 			else
 				local ok, special
