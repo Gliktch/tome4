@@ -94,7 +94,7 @@ newChat{ id="unique1",
 
 local maker_list = function()
 	local mainbases = {
-		armours = {
+		[_nt"armours"] = {
 			"elven-silk robe",
 			"drakeskin leather armour",
 			"voratun mail armour",
@@ -110,7 +110,7 @@ local maker_list = function()
 			"drakeskin leather belt",
 			"voratun shield",
 		},
-		weapons = {
+		[_nt"weapons"] = {
 			"voratun battleaxe",
 			"voratun greatmaul",
 			"voratun greatsword",
@@ -125,7 +125,7 @@ local maker_list = function()
 			"dragonbone staff",
 			"pouch of voratun shots",
 		},
-		misc = {
+		[_nt"misc"] = {
 			"voratun ring",
 			"voratun amulet",
 			"dwarven lantern",

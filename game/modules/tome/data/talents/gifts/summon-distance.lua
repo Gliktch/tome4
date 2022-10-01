@@ -566,9 +566,9 @@ newTalent{
 
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{
-			type = "hydra", subtype = "3head",
+			type = _nt("hydra", "entity type"), subtype = _nt("3head", "entity subtype"),
 			display = "M", color=colors.GREEN, image = "npc/summoner_hydra.png",
-			name = "3-headed hydra", faction = self.faction,
+			name = _nt("3-headed hydra", "entity name"), faction = self.faction,
 			desc = _t[[A strange reptilian creature with three smouldering heads.]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "tactical", ai_state = { talent_in=1, ally_compassion=10},
@@ -687,7 +687,7 @@ newTalent{
 		local m = NPC.new{
 			type = "immovable", subtype = "plants",
 			display = "#", color=colors.WHITE,
-			name = "rimebark", faction = self.faction, image = "npc/immovable_plants_rimebark.png",
+			name = _nt"rimebark", faction = self.faction, image = "npc/immovable_plants_rimebark.png",
 			resolvers.nice_tile{image="invis.png", add_mos = {{image="npc/immovable_plants_rimebark.png", display_h=2, display_y=-1}}},
 			desc = _t[[This huge treant-like being is embedded with the fury of winter itself.]],
 			autolevel = "none",

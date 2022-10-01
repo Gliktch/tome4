@@ -272,7 +272,7 @@ newEntity{ base = "BASE_GREATSWORD",
 			if not rng.percent(10) then return end
 			who:setEffect(who.EFF_FRENZY, 3, {crit=12, power=0.3, dieat=0.25})
 		end},
-		inc_damage_type = {living=20},
+		inc_damage_type = {[_nt"living"]=20},
 	},
 	wielder = {
 		inc_stats = { [Stats.STAT_CON] = 15, [Stats.STAT_STR] = 15, [Stats.STAT_DEX] = 5, },
@@ -282,7 +282,7 @@ newEntity{ base = "BASE_GREATSWORD",
 			["technique/2hweapon-offense"] = 0.2,
 			["technique/2hweapon-assault"] = 0.2,
 		},
-		resists_actor_type = {living=20},
+		resists_actor_type = {[_nt"living"]=20},
 	},
 }
 

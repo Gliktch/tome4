@@ -2182,7 +2182,7 @@ newEffect{
 	status = "beneficial",
 	parameters = { power=10, kind="kinetic" },
 	activate = function(self, eff)
-		if eff.kind == "kinetic" then
+		if eff.kind == _nt"kinetic" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				[DamageType.PHYSICAL] = eff.power,
 				[DamageType.ACID] = eff.power,
@@ -2190,7 +2190,7 @@ newEffect{
 				[DamageType.TEMPORAL] = eff.power,
 			})
 			eff.what = _t"physical, nature, acid, temporal"
-		elseif eff.kind == "thermal" then
+		elseif eff.kind == _nt"thermal" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				[DamageType.FIRE] = eff.power,
 				[DamageType.COLD] = eff.power,
@@ -2198,7 +2198,7 @@ newEffect{
 				[DamageType.ARCANE] = eff.power,
 				})
 			eff.what = _t"fire, cold, light, arcane"
-		elseif eff.kind == "charged" then
+		elseif eff.kind == _nt"charged" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				[DamageType.LIGHTNING] = eff.power,
 				[DamageType.BLIGHT] = eff.power,

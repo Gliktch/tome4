@@ -356,7 +356,7 @@ newEntity{ base="WATER_BASE_DEEP", define_as = "LAKE_SPELLMURK", name = "Spellmu
 -- Mountains
 --------------------------------------------------------------------------------
 
-for id, name in pairs{['']='mountain chain', DAIKARA_='daikara', IRONTHRONE_='Iron Throne', VOLCANIC_='volcanic mountains'} do
+for id, name in pairs{['']=_nt'mountain chain', DAIKARA_=_nt'daikara', IRONTHRONE_=_nt'Iron Throne', VOLCANIC_=_nt'volcanic mountains'} do
 newEntity{
 	define_as = id.."MOUNTAIN",
 	type = "rockwall", subtype = "grass",

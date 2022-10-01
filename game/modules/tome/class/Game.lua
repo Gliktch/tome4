@@ -111,8 +111,7 @@ end
 function _M:runReal()
 	self.delayed_log_damage = {}
 	self.delayed_log_messages = {}
-	self.calendar = Calendar.new("/data/calendar_allied.lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
-
+	self.calendar = Calendar.new("/data/calendar_allied.lua", _nt("Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", "tformat"), 122, 167, 11)
 	self.uiset:activate()
 
 	local flyfont, flysize = FontPackage:getFont("flyer")

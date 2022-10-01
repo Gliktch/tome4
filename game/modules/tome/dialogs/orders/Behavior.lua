@@ -54,11 +54,11 @@ end
 
 function _M:generateList()
 	local list = {
-		{name=_t"Default", set="default"},
-		{name=_t"Melee", set="melee"},
-		{name=_t"Ranged", set="ranged"},
-		{name=_t"Tank", set="tank"},
-		{name=_t"Standby", set="standby"},
+		{name=_t"Default", set=_nt"default"},
+		{name=_t"Melee", set=_nt"melee"},
+		{name=_t"Ranged", set=_nt"ranged"},
+		{name=_t"Tank", set=_nt"tank"},
+		{name=_t"Standby", set=_nt"standby"},
 	}
 
 	local chars = {}

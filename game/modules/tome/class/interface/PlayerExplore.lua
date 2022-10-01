@@ -2108,7 +2108,7 @@ function _M:autoExplore()
 			for _, c in ipairs(exits) do
 				local x, y = toDouble(c)
 				if x == self.running_prev.target.x and y == self.running_prev.target.y then
-					target_type = "exit"
+					target_type = _nt"exit"
 					choices[1] = c
 					distances[c] = 1
 					mindist = 1
@@ -2119,7 +2119,7 @@ function _M:autoExplore()
 				for _, c in ipairs(portals) do
 					local x, y = toDouble(c)
 					if x == self.running_prev.target.x and y == self.running_prev.target.y then
-						target_type = "portal"
+						target_type = _nt"portal"
 						choices[1] = c
 						distances[c] = 1
 						mindist = 1
@@ -2139,7 +2139,7 @@ function _M:autoExplore()
 		if #choices == 0 and minval_special <= minval + special_greed then
 			for _, c in ipairs(unseen_special) do
 				if values[c] == minval_special then
-					target_type = "special"
+					target_type = _nt"special"
 					choices[#choices + 1] = c
 					local x, y = toDouble(c)
 					local dist = distance_cost(x, y)
@@ -2154,7 +2154,7 @@ function _M:autoExplore()
 		if #choices == 0 and minval_items <= minval + item_greed then
 			for _, c in ipairs(unseen_items) do
 				if values[c] == minval_items then
-					target_type = "object"
+					target_type = _nt"object"
 					choices[#choices + 1] = c
 					local x, y = toDouble(c)
 					local dist = distance_cost(x, y)
@@ -2169,7 +2169,7 @@ function _M:autoExplore()
 		if #choices == 0 then
 			for _, c in ipairs(unseen_singlets) do
 				if values[c] <= minval + singlet_greed then
-					target_type = "unseen"
+					target_type = _nt"unseen"
 					choices[#choices + 1] = c
 					local x, y = toDouble(c)
 					local dist = distance_cost(x, y)
@@ -2208,7 +2208,7 @@ function _M:autoExplore()
 			end
 			for _, c in ipairs(hack_tiles) do
 				if hack_distances[c] == min_hack_dist and values[c] == min_hack_val then
-					target_type = "unseen"
+					target_type = _nt"unseen"
 					choices[#choices + 1] = c
 					local x, y = toDouble(c)
 					local dist = distance_cost(x, y)
@@ -2225,7 +2225,7 @@ function _M:autoExplore()
 		if #choices == 0 then
 			for _, c in ipairs(unseen_tiles) do
 				if values[c] <= minval + 2 then  -- have some flexibility to explore based on "distance_cost"
-					target_type = "unseen"
+					target_type = _nt"unseen"
 					choices[#choices + 1] = c
 					local x, y = toDouble(c)
 					local dist = distance_cost(x, y) + 0.3*values[c]
@@ -2243,7 +2243,7 @@ function _M:autoExplore()
 				local x, y = toDouble(c)
 				local terrain = game.level.map(x, y, Map.TERRAIN)
 				if not terrain.door_player_check and not terrain.door_player_stop then
-					target_type = "door"
+					target_type = _nt"door"
 					choices[#choices + 1] = c
 					-- we may take an extra step to approach a door squarely from a cardinal direction, so let's account for this
 					local door_val = door_values[c]
@@ -2286,7 +2286,7 @@ function _M:autoExplore()
 				local x, y = toDouble(c)
 				local terrain = game.level.map(x, y, Map.TERRAIN)
 				if terrain.door_player_check or terrain.door_player_stop then
-					target_type = "door"
+					target_type = _nt"door"
 					choices[#choices + 1] = c
 					local dist = distance_cost(x, y) + 10*door_values[c]
 					distances[c] = dist
@@ -2302,7 +2302,7 @@ function _M:autoExplore()
 				local x, y = toDouble(c)
 				local terrain = game.level.map(x, y, Map.TERRAIN)
 				if terrain.change_level > 0 and not terrain.change_zone then
-					target_type = "exit"
+					target_type = _nt"exit"
 					choices[#choices + 1] = c
 					local dist = distance_cost(x, y) + 10*values[c]
 					distances[c] = dist
@@ -2318,7 +2318,7 @@ function _M:autoExplore()
 				local x, y = toDouble(c)
 				local terrain = game.level.map(x, y, Map.TERRAIN)
 				if terrain.change_zone then
-					target_type = "exit"
+					target_type = _nt"exit"
 					choices[#choices + 1] = c
 					local dist = distance_cost(x, y) + 10*values[c]
 					distances[c] = dist
@@ -2334,7 +2334,7 @@ function _M:autoExplore()
 				local x, y = toDouble(c)
 				local terrain = game.level.map(x, y, Map.TERRAIN)
 				if terrain.change_level < 0 then
-					target_type = "exit"
+					target_type = _nt"exit"
 					choices[#choices + 1] = c
 					local dist = distance_cost(x, y) + 10*values[c]
 					distances[c] = dist
@@ -2348,7 +2348,7 @@ function _M:autoExplore()
 		if #choices == 0 then
 			for _, c in ipairs(portals) do
 				if values[c] == minval_portals then
-					target_type = "portal"
+					target_type = _nt"portal"
 					choices[#choices + 1] = c
 					local x, y = toDouble(c)
 					local dist = distance_cost(x, y)

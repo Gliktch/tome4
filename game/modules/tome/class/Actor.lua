@@ -388,8 +388,8 @@ function _M:getSpeed(speed_type)
 
 	local speed
 
-	if speed_type == "weapon" or speed_type == "mainhand" or
-		speed_type == "offhand" or speed_type == "combat"
+	if speed_type == _nt"weapon" or speed_type == _nt"mainhand" or
+		speed_type == _nt"offhand" or speed_type == _nt"combat"
 	then
 		if (speed_type == "weapon" or speed_type == "mainhand") and
 			self:getInven(self.INVEN_MAINHAND)
@@ -413,7 +413,7 @@ function _M:getSpeed(speed_type)
 			speed = self:combatSpeed()
 		end
 
-	elseif speed_type == "archery" then
+	elseif speed_type == _nt"archery" then
 		if self:getInven(self.INVEN_MAINHAND) then
 			local o = self:getInven(self.INVEN_MAINHAND)[1]
 			if o and o.archery then
@@ -430,7 +430,7 @@ function _M:getSpeed(speed_type)
 
 		if not speed then speed = self:combatSpeed() end
 
-	elseif speed_type == "shield" then
+	elseif speed_type == _nt"shield" then
 		if self:getInven(self.INVEN_OFFHAND) then
 			local o = self:getInven(self.INVEN_OFFHAND)[1]
 			if o and o.special_combat then
@@ -446,14 +446,14 @@ function _M:getSpeed(speed_type)
 		end
 
 		if not speed then speed = self:combatSpeed() end
-	elseif speed_type == "throwing" then
+	elseif speed_type == _nt"throwing" then
 		speed = 1
 		if self:knowTalent(self.T_QUICKDRAW) then speed = speed/(1 + self:callTalent("T_QUICKDRAW", "getSpeed")) end
-	elseif speed_type == "spell" then speed = self:combatSpellSpeed()
-	elseif speed_type == "summon" then speed = self:combatSummonSpeed()
-	elseif speed_type == "mind" then speed = self:combatMindSpeed()
-	elseif speed_type == "movement" then speed = self:combatMovementSpeed()
-	elseif speed_type == "standard" then speed = 1
+	elseif speed_type == _nt"spell" then speed = self:combatSpellSpeed()
+	elseif speed_type == _nt"summon" then speed = self:combatSummonSpeed()
+	elseif speed_type == _nt"mind" then speed = self:combatMindSpeed()
+	elseif speed_type == _nt"movement" then speed = self:combatMovementSpeed()
+	elseif speed_type == _nt"standard" then speed = 1
 	end
 
 	local hd = {"Actor:getSpeed", speed_type = speed_type, speed = speed,}
@@ -2089,9 +2089,9 @@ function _M:tooltip(x, y, seen_by)
 	ts:add({"color", "ANTIQUE_WHITE"}, _t"Resists: ")
 	for t, ov, is_last in table.orderedPairs2(self.resists or {}, dt_order) do
 		local v = self:combatGetResist(t)
-		if t == "all" then
+		if t == _nt"all" then
 			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(v)) .. "%", " ", {"color", "LAST"}, _t(t)) if not is_last then ts:add(", ") end
-		elseif t == "absolute" then
+		elseif t == _nt"absolute" then
 			ts:add({"color", "LIGHT_BLUE"}, tostring(math.floor(ov)) .. "%", " ", {"color", "LAST"}, _t(t)) if not is_last then ts:add(", ") end
 		elseif type(t) == "string" and math.abs(v) >= 20 then
 			local res = tostring(math.floor(v)) .. "%"

@@ -460,7 +460,7 @@ newEntity{
 	rarity = 20,
 	cost = 40,
 	wielder = {
-		resists_actor_type = {["summoned"] = resolvers.mbonus_material(30, 15),},
+		resists_actor_type = {[_nt"summoned"] = resolvers.mbonus_material(30, 15),},
 		inc_damage_actor_type = {["summoned"] = resolvers.mbonus_material(30, 15),},
 		inc_stats = {
 			[Stats.STAT_WIL] = resolvers.mbonus_material(5, 3),

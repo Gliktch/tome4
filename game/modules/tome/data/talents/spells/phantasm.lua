@@ -181,7 +181,7 @@ newTalent{
 		local NPC = require "mod.class.NPC"
 		local image = NPC.new{
 			name = ("Mirror Image (%s)"):tformat(self:getName()),
-			type = "image", subtype = "image",
+			type = _nt("image", "entity type"), subtype = _nt("image", "entity subtype"),
 			ai = "mirror_image", ai_real = nil, ai_state = { talent_in=1, }, ai_target = {actor=nil},
 			desc = _t"A blurred image.",
 			image = self.image,
