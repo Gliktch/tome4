@@ -56,4 +56,4 @@ function(self)
 	end
 end,
 1,
-"shockbolt/object/lava_boulder"
+image or "shockbolt/object/lava_boulder"

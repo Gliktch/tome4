@@ -191,7 +191,9 @@ uberTalent{
 		if who.is_blighted_summon or not self:knowTalent(self.T_BLIGHTED_SUMMONING) then return false end
 		who:learnTalent(who.T_BONE_SHIELD, true, 3, {no_unlearn=true})
 		who:forceUseTalent(who.T_BONE_SHIELD, {ignore_energy=true})
-		if who.necrotic_minion then
+		if self:triggerHook{"BlightedSummoning:apply", who=who, t=t} then
+			-- let addons do stuff
+		elseif who.necrotic_minion then
 			if who.name == "dread" or who.name == "dreadmaster" then
 				who:learnTalent(who.T_SLUMBER, true, 3, {no_unlearn=true})				
 			elseif who.subtype == "giant" then
@@ -252,6 +254,10 @@ uberTalent{
 		who.is_blighted_summon = true
 	end,
 	info = function(self, t)
+		local extra = {}
+		self:triggerHook{"BlightedSummoning:desc", t=t, descs=extra}
+		extra = table.concat(extra, "\n")
+		
 		return ([[You infuse blighted energies into all of your summons, granting them Bone Shield (level 3) and a bonus to Spellpower equal to your Magic.
 		Your Wilder Summons and Necrotic Minions will gain special corrupted talents (level 3), other summons will gain 10%% Blight damage conversion and Virulent Disease (level 3).
 		#GREEN#Wilder Summons:#LAST#
@@ -272,7 +278,8 @@ uberTalent{
 		- Bone Giants: Bone Spike and Ruin
 		- Ghouls: Virulent Disease
 		- Dread: Slumber
-		]]):tformat()
+		%s
+		]]):tformat(extra)
 	end,
 }
 
