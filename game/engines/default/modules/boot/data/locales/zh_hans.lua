@@ -85,12 +85,12 @@ This is all optional, you are not forced to use this feature at all, but the dev
 * 记录你的击杀数量，死亡次数，以及最喜欢的职业…
 * 统计你的游戏数据，来记录你的游戏风格
 * 在游戏里直接安装官方扩展包和第三方插件，免去手动安装的麻烦
-* 如果你购买了游戏或是在 https:/te4.org/ 上进行了捐助，你可以获得获得你的购买者/赞助者独享权益
+* 如果你购买了游戏或是在 https:/te4.org/ 上进行了捐助，你可以获得你的购买者/赞助者独享权益
 * 帮助游戏开发者调整游戏平衡，让这个游戏变得更好。
 
 你也会在获得一个 #LIGHT_BLUE#https:/te4.org/#LAST# 上的用户页面，可以用来向你的朋友炫耀。
 这一切都是可选的，你可以自愿使用或者关闭这些功能。开发者会根据你的用户反馈来协助调整游戏平衡。]], "_t")
-t("Login in...", "登录中…", "_t")
+t("Logging in...", "登录中…", "_t")
 t("Please wait...", "请等待…", "_t")
 t("Profile logged in!", "账户登录成功！", "_t")
 t("Your online profile is now active. Have fun!", "你的在线账户已可用。玩得开心！", "_t")
@@ -261,9 +261,13 @@ t("Expert Shaders Design", "特效设计", "_t")
 t("Soundtracks", "游戏音乐", "_t")
 t("Sound Designer", "音效设计", "_t")
 t("Lore Creation and Writing", "剧情撰写", "_t")
-t("Code Helpers", "程序设计", "_t")
+t("Code Heroes", "程序设计", "_t")
 t("Community Managers", "社区经理", "_t")
 t("Text Editors", "文本编辑", "_t")
+t("Chinese Translation Lead", "汉化组组长", "_t")
+t("Chinese Translators", "汉化组成员", "_t")
+t("Korean Translation", "韩文翻译组成员", "_t")
+t("Japanese Translation", "日文翻译组成员", "_t")
 t("The Community", "游戏社区", "_t")
 t("Others", "其他", "_t")
 
@@ -446,7 +450,7 @@ t("Your username is too short", "你的用户名过短", "_t")
 t("Password", "密码", "_t")
 t("Your password is too short", "你的密码过短", "_t")
 t("Login...", "登录中…", "_t")
-t("Login in your account, please wait...", "正在登录账户，请稍后…", "_t")
+t("Logging in your account, please wait...", "正在登录账户，请稍候…", "_t")
 t("Steam client not found.", "找不到Steam客户端", "_t")
 -- untranslated text
 --[==[
