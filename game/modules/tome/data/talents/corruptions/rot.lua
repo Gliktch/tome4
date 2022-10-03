@@ -189,7 +189,7 @@ newTalent{
 			
 			if nb >= 5 then return nil end
 
-			game.logPlayer(self, "#GREEN#A carrion worm mass bursts forth from your wounds, softening the blow and reducing damage taken by #ORCHID#" .. math.ceil(damageReduction) .. "#LAST#.")
+			game.logPlayer(self, "#GREEN#A carrion worm mass bursts forth from your wounds, softening the blow and reducing damage taken by #ORCHID# %d #LAST#.", math.ceil(damageReduction))
 			
 			if not self.turn_procs.infestation then
 				self.turn_procs.infestation = true

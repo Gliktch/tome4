@@ -90,7 +90,7 @@ _M.max = _M.concat
 _M.vs = function(power, save)
 	if not save and _M.power_save_simple_pairs[power] then
 		local pair = _M.power_save_simple_pairs[power]
-		return string.tformat("(%s vs %s)", pair[1], pair[2])
+		return ("(%s vs %s)"):tformat(pair[1], pair[2])
 	end
 	if type(power) == "table" then
 		power = table.concat(power, "/")
@@ -103,7 +103,7 @@ _M.vs = function(power, save)
 		save = _M.saves[save] or _M.powers_saves[save] or save
 	end
 	if power and save then
-		return string.tformat("(%s vs %s)", power, save)
+		return ("(%s vs %s)"):tformat(power, save)
 	else
 		return _t"(bypass saves)"
 	end
