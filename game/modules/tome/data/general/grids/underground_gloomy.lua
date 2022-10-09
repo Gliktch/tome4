@@ -51,7 +51,7 @@ local treesdef = {
 	{"small_gloomy_mushroom_04", {"trunk", {"head_%02d", 1, 3}}},
 	{"gloomy_mushroom_01", {tall=-1, "trunk", {"head_%02d", 1, 2}}},
 	{"gloomy_mushroom_02", {tall=-1, "trunk", {"head_%02d", 1, 3}}},
-	{"gloomy_mushroom_03", {tall=-1, "trunk", {"head_%02d", 1, 4}}},
+	{"gloomy_mushroom_03", {tall=-1, "trunk", {"head_%02d", 1, 3}}},
 	{"gloomy_mushroom_04", {tall=-1, "trunk", {"head_%02d", 1, 2}}},
 	{"gloomy_mushroom_05", {tall=-1, "trunk", {"head_%02d", 1, 2}}},
 	{"gloomy_mushroom_06", {tall=-1, "trunk", {"head_%02d", 1, 2}}},
