@@ -777,9 +777,9 @@ t(" base dam (max 20%)", " 基础伤害(最大20%)", "_t")
 t(" proc dam (max 200%)", " 触发伤害(最大200%)", "_t")
 t(" APR (max 50%)", " 护甲穿透 (最大 50%)", "_t")
 t("%d%% %s", "%d%%%s", "tformat")
-t("Power: %3d%% (%s)  Range: %.1fx (%s)", "伤害：%3d%% (%s)  范围：%.1fx (%s)", "tformat")
-t("Power: %3d%%  Range: %.1fx", "伤害：%3d%%  范围：%.1fx", "tformat")
-t("Base power: %.1f - %.1f", "基础伤害：%.1f-%.1f", "tformat")
+t("Power: %3d%% (%s)  Range: %.1fx (%s)", "伤害： %3d%% (%s)  范围：%.1fx (%s)", "tformat")
+t("Power: %3d%%  Range: %.1fx", "伤害： %3d%%  范围：%.1fx", "tformat")
+t("Base power: %.1f - %.1f", "基础伤害： %.1f-%.1f", "tformat")
 t("Uses %s: %s", "使用%s: %s", "tformat")
 t("stats", "属性", "_t")
 t("stat", "属性", "_t")
@@ -1273,6 +1273,7 @@ t("#CRIMSON#%s#WHITE#", "#CRIMSON#%s#WHITE#", "tformat")
 section "mod-tome/class/World.lua"
 
 t("%s the %s %s level %s", "%s，%s%s，等级%s", "tformat")
+t("Gained new achievement: %s", "获得新成就: %s", "tformat")
 t("#LIGHT_BLUE#New shimmer option unlocked: #{italic}#%s#{normal}#", "#LIGHT_BLUE#新幻化选项解锁：#{italic}#%s#{normal}#", "log")
 
 ------------------------------------------------
@@ -1432,6 +1433,7 @@ t("mindpower", "精神强度", "_t")
 t("physical save", "物理豁免", "_t")
 t("spell save", "法术豁免", "_t")
 t("mental save", "精神豁免", "_t")
+t("(%s vs %s)", "(%s 对抗 %s)", "tformat")
 t("(bypass saves)", "(无视豁免)", "_t")
 
 ------------------------------------------------
@@ -5130,7 +5132,7 @@ The known bastions of the Pride are:
 - Vor Pride, in the northeast
 - Grushnak Pride, on the eastern slope of the High Peak]], [[我真的很想帮助你，不过我们的军队已经十分分散而且薄弱，我们无法直接给你提供军事援助。
 但是我尽我所能，告诉你兽人部落的组成结构。
-最近我们接到情报说兽人选举了新的领袖，他们很有可能就是抢夺神秘法杖的幕后主使人。
+最近我们接到情报说兽人选举了一个新的领袖，也可能是好几个，他们很有可能就是抢夺神秘法杖的幕后主使人。
 我们相信，他们的力量中心就是巅峰，在这个大陆的中部区域。不过它被某种护罩保护无法进入。
 你必须调查兽人部落的各个基地，或许你能找到更多有关巅峰的线索，而且你每杀死一个兽人，我们就少了一个攻击我们的敌人。
 已知的兽人部落有：
@@ -5151,11 +5153,11 @@ t("I have heard about that; good men lost their lives for this. I hope it was wo
 t("Yes, my lady, they delayed the orcs so that I could get to the heart of the volcano. *#LIGHT_GREEN#Tell her what happened#WHITE#*", "是的，我的女士。他们拖住了敌人，使我能够前进至火山中心。*#LIGHT_GREEN#告诉她发生的事。#WHITE#*", "_t")
 t("I am afraid I was too late, but I still have some valuable information. *#LIGHT_GREEN#Tell her what happened#WHITE#*", "恐怕我太迟了，不过我还是带来了有价值的消息。*#LIGHT_GREEN#告诉她发生的事。#WHITE#*", "_t")
 t([[Sorcerers? I have never heard of them. There were rumours about a new master of the Pride, but it seems they have two.
-Thank you for everything. You must continue your hunt now that you know what to look for.]], [[法师会？我从来没听说过他们。传说部落有了一个新的领袖，看样子现在应该有两个。
+Thank you for everything. You must continue your hunt now that you know what to look for.]], [[魔法师？我从来没听说过他们。传说部落有了一个新的领袖，看样子现在应该有两个。
 感谢你所做的事，你必须进一步搜寻更多的消息，你知道你该去做什么。]], "_t")
 t("I will avenge your men.", "我会替你的人报仇！", "_t")
 t([[Sorcerers? I have never heard of them. There were rumours about a new master of the Pride, but it seems they have two.
-I am afraid with the power they gained today they will be even harder to stop, but we do not have a choice.]], [[法师会？我从来没听说过他们。传说部落有了一个新的领袖，看样子现在应该有两个。
+I am afraid with the power they gained today they will be even harder to stop, but we do not have a choice.]], [[魔法师？我从来没听说过他们。传说部落有了一个新的领袖，看样子现在应该有两个。
 恐怕依他们现在所具有的力量我们更难阻止他们了，不过我们别无选择。]], "_t")
 t("Ah! This is wonderful! Finally a ray of hope amidst the darkness. I will assign my best troops to this. Thank you, @playername@ - take this as a token of gratitude.", "太好了！一线希望的曙光终于穿过了黑暗。我会派我最好的军队去那里。多谢你了，@playername@——以此物来表示我们对你的感激。", "_t")
 t("Good luck.", "祝你们好运。", "_t")
@@ -10485,8 +10487,8 @@ t(" of sensing", "感觉之", "entity name")
 t("sensing", "感觉", "entity keyword")
 t(" of clarity", "清晰之", "entity name")
 t("clarity", "清晰", "entity keyword")
-t(" of tenacity", "固执之", "entity name")
-t("tenacity", "固执", "entity keyword")
+t(" of tenacity", "强韧之", "entity name")
+t("tenacity", "强韧", "entity keyword")
 t(" of perseverance", "不懈之", "entity name")
 t("perseverance", "不懈", "entity keyword")
 t(" of arcana (#REGEN#)", "奥术之 (#REGEN#)", "entity name")
@@ -12928,7 +12930,7 @@ t("ethereal blue lantern", "天蓝色的灯笼", "_t")
 t("This ancient, weathered lantern glows with a pale blue light emanating from several ghostly forms trapped within.  The metal is icy cold to the touch.", "这个古老、褪色的灯笼放射出淡蓝色的光芒。它的金属表面摸上去像冰一样冷。", "_t")
 t("release a will o' the wisp that will explode against your foes for %d cold damage (based on your Magic)", "放出鬼火，可以对你的敌人自爆，造成%d寒冷伤害（基于魔法）", "tformat")
 t("Not enough space to summon!", "没有足够的空间召唤。", "logPlayer")
-t("will o' the wisp", "鬼火", "_t")
+t("will o' the wisp", "鬼火", "_nt")
 t("A chilling, ghostly form that floats in the air.", "空中悬浮的寒冷鬼火。", "_t")
 t("#Source# releases an icy whisp from %s %s!", "#Source#从%s%s中放出寒冷鬼火!", "logCombat")
 t("Summon", "召唤", "_t")
@@ -20143,8 +20145,8 @@ t("Honor their sacrifice; do not let the orcs finish their work!", " 向他们�
 t("You arrived too late. The place has been drained of its power and the sorcerers have left.", " 你来的太晚了，这里的能量已经被吸干，而那些法师已经离开了。", "_t")
 t("Use the portal to go back to the Far East. You *MUST* stop them, no matter the cost.", " 使用传送门到达远东大陆，你必须阻止他们，不惜一切代价！ ", "_t")
 t("You arrived in time and interrupted the ritual. The sorcerers have departed.", " 你终于及时赶来阻止了仪式，法师们被驱散了。", "_t")
-t("#VIOLET#A portal activates in the distance. You hear the orcs shout, 'The Sorcerers have departed! Follow them!'", "#VIOLET#远处一个传送门被激活，你听到兽人们吼道：“恶魔法师已经离开！跟上他们！”", "logPlayer")
-t("#VIOLET#The Sorcerers flee through a portal. As you prepare to follow them, a huge faeros appears to block the way.", "#VIOLET#恶魔法师从传送门逃跑了，当你准备跟随他们时，一个巨大的法罗挡住了去路。", "logPlayer")
+t("#VIOLET#A portal activates in the distance. You hear the orcs shout, 'The Sorcerers have departed! Follow them!'", "#VIOLET#远处一个传送门被激活，你听到兽人们吼道：“法师已经离开！跟上他们！”", "logPlayer")
+t("#VIOLET#The Sorcerers flee through a portal. As you prepare to follow them, a huge faeros appears to block the way.", "#VIOLET#法师从传送门逃跑了，当你准备跟随他们时，一个巨大的法罗挡住了去路。", "logPlayer")
 -- untranslated text
 --[==[
 t("", "", "_t")
@@ -22858,6 +22860,7 @@ t("A worm spawned from a damaged horror.  Destroying it may have consequences.",
 t("%s exudes a corrupted gas as it dies.", "%s死亡时释放出腐气。", "logSeen")
 t("Summon", "召唤", "_t")
 t("Infestation", "侵扰", "talent name")
+t("#GREEN#A carrion worm mass bursts forth from your wounds, softening the blow and reducing damage taken by #ORCHID# %d #LAST#.", "#GREEN#一只蠕虫从你的伤口中爆裂出来，减轻所受到的伤害#ORCHID# %d #LAST#。", "logPlayer")
 t([[Your body has become a mass of living corruption, increasing your blight and acid resistance by %d%% and blight affinity by %d%%.
 On taking damage greater than 15%% of your maximum health, the damage will be reduced by %d%% and a carrion worm mass will burst forth onto a nearby tile, attacking your foes for 5 turns.
 You can never have more than 5 worms active from any source at a time.
@@ -24379,13 +24382,13 @@ t([[You attack with mindless brutality. The first critical hit inflicted while r
 		Rampage Bonus: Your Physical Save increases by %d and Mental Save increases by %d.]], [[使你的暴走更加无情，暴走状态下的第一次暴击可延长暴走效果 1 回合。 
 		暴走加成：你的物理伤害增加 %d%% 。 
 		暴走加成：你的物理豁免增加 %d ，精神豁免增加 %d 。]], "tformat")
-t("Tenacity", "不屈不挠", "talent name")
+t("Tenacity", "强韧", "talent name")
 t([[Nothing will stop your rampage.
 		Rampage Bonus: You shrug off up to %d damage each turn during your rampage. If you shrug off more than %d damage, the rampage duration increases by 1.
 		The amount of damage you can shrug off improves with your Strength.]], [[你的暴走变得势不可挡。 
 		暴走加成：暴走状态下每回合你最多可以无视 %d 伤害，当你无视超过 %d 伤害时，暴走效果延长 1 回合。 
 		受力量加成，你无视的伤害有额外加成。]], "tformat")
-t("Slam", "猛力抨击", "talent name")
+t("Slam", "猛击", "talent name")
 t("You must be rampaging to use this talant.", "只有在暴走状态下才能使用这个技能。", "logPlayer")
 t("#F53CBE#%s slams %s!", "#F53CBE#%s 猛击了 %s ！", "logSeen")
 t("#F53CBE#%s resists the stunning blow!", "#F53CBE#%s抵抗了震慑一击！", "logSeen")
@@ -25276,7 +25279,7 @@ t("Indiscernible Anatomy", "奇异骨骼", "talent name")
 t([[Your body's internal organs are indistinct, disguising your vital areas.
 		The bonus damage multiplier of critical hits from any direct attack (melee/ranged weapons, spells, mind powers, ...) is reduced by %d%%.
 		In addition you gain %d%% resistance to disease, poison, cuts and blindness.]], [[ 你身体里的内脏全都融化在一起，隐藏了你的要害部位。 
-		你可以摆脱受到的直接暴击伤害，减轻%d%%暴击造成的额外伤害。
+		你可以摆脱受到的直接暴击伤害，减轻 %d%% 被暴击造成的额外伤害。
 		此外，你额外获得 %d%% 的疾病、毒素、切割和目盲免疫。]], "tformat")
 
 ------------------------------------------------
@@ -28564,13 +28567,13 @@ t([[Conjures a mudslide, dealing %0.2f physical damage in a radius of %d. Any cr
 		The damage will increase with your Spellpower.]], [[召唤一次山崩对敌人造成 %0.2f 点物理伤害（ %d 码锥形范围）。 
 		范围内的任何敌人都将被击退8格%s。 
 		伤害受法术强度加成。]], "tformat")
-t("Stone Wall", "岩石堡垒", "talent name")
+t("Stone Wall", "石墙", "talent name")
 t("stone wall", "石墙", "_t")
 t("a summoned wall of stone", "召唤的岩石墙壁", "_t")
 t([[Entomb yourself in a wall of stone for %d turns.
 		At level 4, it becomes targetable.
 		Any hostile creature caught in the radius will also suffer %0.2f physical damage.
-		Duration and damage will improve with your Spellpower.]], [[召唤岩石堡垒环绕着你，持续 %d 回合。 
+		Duration and damage will improve with your Spellpower.]], [[召唤石墙环绕着你，持续 %d 回合。
 		在等级 4 时，它可以环绕其他目标。
 		范围内的任何敌对生物将受到 %0.2f 点物理伤害。 
 		持续时间和伤害受法术强度加成。]], "tformat")
@@ -31015,7 +31018,7 @@ t("When you're targeted by a projectile, your global speed is increased by %d%% 
 		除了移动外的任何动作均会打破此效果。]], "tformat")
 t("Reflex Defense", "闪避神经", "talent name")
 t("Your understanding of physiology allows you to apply your reflexes in new ways, increasing the flat damage reduction granted by Striking Stance by %d%% and causing direct critical hits (physical, mental, spells) against you to have a %d%% lower Critical multiplier (but always do at least normal damage).", [[你对生理的了解让你能在新的领域运用你的闪避神经。 
-		攻击姿态的减伤效果增强 %d%% ，对你的暴击伤害的暴击系数下降 %d%% 。]], "tformat")
+		攻击姿态的减伤效果增强 %d%% ，减轻 %d%% 被暴击造成的额外伤害。]], "tformat")
 
 ------------------------------------------------
 section "mod-tome/data/talents/techniques/warcries.lua"
@@ -31795,6 +31798,7 @@ t("Shadow Cold Touch", "阴影冰冷之触", "talent name")
 t([[Bathes the target in frost doing %0.2f damage
 		The damage will increase with Spellpower]], [[用霜冻侵袭你的目标造成 %0.2f 寒冷伤害。 
 		伤害受魔力值加成。]], "tformat")
+t("lich shadow", "巫妖阴影", "_nt")
 t("Doomed For Eternity", "永恒毁灭", "talent name")
 t([[While this ability is active, you will continually call up to %d level %d shadows to aid you in battle. Shadows are weak combatants that can: Use Arcane Reconstruction to heal themselves (level %d), Blindside their opponents (level %d), and Phase Door from place to place.
 		Shadows ignore %d%% of the damage dealt to them by their master.]], [[当这一技能启用的时候，你会不断召唤 %d 个等级为 %d 的阴影来协助你战斗。阴影是脆弱的战士，可以使用以下能力：使用奥术重组治疗自己（等级 %d ），使用闪电突袭攻击敌人（等级 %d ），使用相位之门移动。
@@ -36598,29 +36602,29 @@ t("#LIGHT_RED#The spell fizzles.", "#LIGHT_RED#法术失败了。", "logSeen")
 t("#LIGHT_BLUE#You go back in time to rewrite history!", "#LIGHT_BLUE#你及时返回，改写了历史！", "logPlayer")
 t("aura", "光环", "effect subtype")
 t("Oil mist", "油雾", "_t")
-t("Zone-wide effect: +10% fire damage, -10% fire resistance, -10% armour, -2 sight range.", "范围效果： +10% 火焰伤害， -10% 火焰抗性， -10% 护甲值， -2 可视范围。", "_t")
+t("Zone-wide effect: +10% fire damage, -10% fire resistance, -10% armour, -2 sight range.", "地图效果 ： +10% 火焰伤害， -10% 火焰抗性， -10% 护甲值， -2 可视范围。", "_t")
 t("Grave chill", "墓地深寒", "_t")
-t("Zone-wide effect: +10% cold damage, -10% cold resistance, -10% physical save, -20% confusion immunity.", "范围效果： +10% 寒冰伤害， -10% 寒冰抗性， -10% 物理豁免， -20% 混乱抗性。", "_t")
+t("Zone-wide effect: +10% cold damage, -10% cold resistance, -10% physical save, -20% confusion immunity.", "地图效果 ： +10% 寒冰伤害， -10% 寒冰抗性， -10% 物理豁免， -20% 混乱抗性。", "_t")
 t("Static discharge", "静电放射", "_t")
-t("Zone-wide effect: +10% lightning damage, -10% lightning resistance, -10% physical power, -20% stun immunity.", "范围效果： +10% 闪电伤害， -10% 闪电抗性， -10% 物理强度， -20% 震慑抗性。", "_t")
+t("Zone-wide effect: +10% lightning damage, -10% lightning resistance, -10% physical power, -20% stun immunity.", "地图效果 ： +10% 闪电伤害， -10% 闪电抗性， -10% 物理强度， -20% 震慑抗性。", "_t")
 t("Noxious fumes", "毒性气体", "_t")
-t("Zone-wide effect: +10% acid damage, -10% acid resistance, -10% defense, -20% disarm immunity.", "范围效果： +10% 酸性伤害， -10% 酸性抗性， -10% 闪避， -20% 缴械抗性。", "_t")
+t("Zone-wide effect: +10% acid damage, -10% acid resistance, -10% defense, -20% disarm immunity.", "地图效果 ： +10% 酸性伤害， -10% 酸性抗性， -10% 闪避， -20% 缴械抗性。", "_t")
 t("Echoes of the void", "虚空回响", "_t")
-t("Zone-wide effect: +10% darkness damage, -10% darkness resistance, -10% mental save, -20% fear immunity.", "范围效果： +10% 暗影伤害， -10% 暗影抗性， -10% 精神豁免， -20% 恐惧抗性。", "_t")
+t("Zone-wide effect: +10% darkness damage, -10% darkness resistance, -10% mental save, -20% fear immunity.", "地图效果 ： +10% 暗影伤害， -10% 暗影抗性， -10% 精神豁免， -20% 恐惧抗性。", "_t")
 t("Eerie silence", "恐惧噤声", "_t")
-t("Zone-wide effect: +10% mind damage, -10% mind resistance, -10% spellpower, -20% silence immunity.", "范围效果： +10% 精神伤害， -10% 精神抗性， -10% 法术强度， -20% 沉默抗性。", "_t")
+t("Zone-wide effect: +10% mind damage, -10% mind resistance, -10% spellpower, -20% silence immunity.", "地图效果 ： +10% 精神伤害， -10% 精神抗性， -10% 法术强度， -20% 沉默抗性。", "_t")
 t("Aura of light", "光明光环", "_t")
-t("Zone-wide effect: +10% light damage, -10% light resistance, -10% accuracy, -20% blind immunity.", "范围效果： +10% 光系伤害， -10% 光系抗性， -10% 命中， -20% 致盲抗性。", "_t")
+t("Zone-wide effect: +10% light damage, -10% light resistance, -10% accuracy, -20% blind immunity.", "地图效果 ： +10% 光系伤害， -10% 光系抗性， -10% 命中， -20% 致盲抗性。", "_t")
 t("Aether residue", "以太残渣", "_t")
-t("Zone-wide effect: +10% arcane damage, -10% arcane resistance, -10% armour hardiness, -20% stoning immunity.", "范围效果： +10% 奥术伤害， -10% 奥术抗性， -10% 护甲强度， -20% 石化抗性。", "_t")
+t("Zone-wide effect: +10% arcane damage, -10% arcane resistance, -10% armour hardiness, -20% stoning immunity.", "地图效果 ： +10% 奥术伤害， -10% 奥术抗性， -10% 护甲强度， -20% 石化抗性。", "_t")
 t("Impossible geometries", "扭曲空间", "_t")
-t("Zone-wide effect: +10% temporal damage, -10% temporal resistance, -10% spell save, -20% pinning immunity.", "范围效果： +10% 时空伤害， -10% 时空抗性， -10% 法术豁免， -20% 定身抗性。", "_t")
+t("Zone-wide effect: +10% temporal damage, -10% temporal resistance, -10% spell save, -20% pinning immunity.", "地图效果 ： +10% 时空伤害， -10% 时空抗性， -10% 法术豁免， -20% 定身抗性。", "_t")
 t("Uncontrolled anger", "无边愤怒", "_t")
-t("Zone-wide effect: +10% physical damage, -10% physical resistance, -10% mindpower, -20% knockback immunity.", "范围效果： +10% 物理伤害 , -10% 物理抗性 , -10% 精神强度 , -20% 击退免疫。", "_t")
+t("Zone-wide effect: +10% physical damage, -10% physical resistance, -10% mindpower, -20% knockback immunity.", "地图效果 ： +10% 物理伤害 , -10% 物理抗性 , -10% 精神强度 , -20% 击退免疫。", "_t")
 t("Miasma", "瘴气", "_t")
-t("Zone-wide effect: +10% blight damage, -10% blight resistance, -20% healing mod, -20% disease immunity.", "范围效果： +10% 枯萎伤害， -10% 枯萎抗性， -20% 治疗加成， -20% 疾病抗性。", "_t")
+t("Zone-wide effect: +10% blight damage, -10% blight resistance, -20% healing mod, -20% disease immunity.", "地图效果 ： +10% 枯萎伤害， -10% 枯萎抗性， -20% 治疗加成， -20% 疾病抗性。", "_t")
 t("Slimy floor", "泥泞之地", "_t")
-t("Zone-wide effect: +10% nature damage, -10% nature resistance, -10% ranged defense, -20% poison immunity.", "范围效果： +10% 自然伤害， -10% 自然抗性， -10% 远程闪避， -20% 毒素抗性。", "_t")
+t("Zone-wide effect: +10% nature damage, -10% nature resistance, -10% ranged defense, -20% poison immunity.", "地图效果 ： +10% 自然伤害， -10% 自然抗性， -10% 远程闪避， -20% 毒素抗性。", "_t")
 t("vault", "宝库", "effect subtype")
 t("In Vault", "陷入迷宫", "_t")
 t("The target is part of a vault and cannot act until it has been openend.", "目标在宝藏房间里。除非房间被打开，否则不会行动。", "_t")
@@ -37552,6 +37556,7 @@ t("-Sedated", "-被镇静", "_t")
 t("Rogue's Brew", "盗贼佳酿", "_t")
 t("The target will not die until falling below -%d life.", "目标直到生命降为 -%d 前不会死去。", "tformat")
 t("Bear Trap", "捕熊陷阱", "_t")
+t("pinned", "定身", "_t")
 t("slowed (%d%%)", "减速 (%d%%)", "tformat")
 t("taking %0.2f physical damage each turn", "每回合受到 %0.2f 物理伤害", "tformat")
 t("Caught in a bear trap: ", "被捕熊陷阱捕获：", "_t")
@@ -37648,6 +37653,7 @@ t("Shadowstrike", "影袭", "_t")
 t("The target's critical strike damage bonus is increased by %d%%.", "目标的暴击系数增加 %d%%。", "tformat")
 t("resist", "抵抗", "effect subtype")
 t("Chromatic Resonance", "多彩共振", "_t")
+t(", or ", " 或 ", "_t")
 t("Preemptively reacts to %s damage, increasing the appropriate resistance by %d for 5 turns.", "对 %s 伤害共振，增加 %d 相应抗性 5 回合。", "tformat")
 t("#Target##OLIVE_DRAB# shimmers in multiple hues.", "#Target##OLIVE_DRAB# 发出多彩的闪光。", "_t")
 t("#Target#'s#OLIVE_DRAB# multi-hued shimmer fades.", "#Target##OLIVE_DRAB# 的多彩闪光消退了。", "_t")
