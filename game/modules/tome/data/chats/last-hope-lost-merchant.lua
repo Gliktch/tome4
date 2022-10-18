@@ -92,135 +92,53 @@ newChat{ id="unique1",
 	}
 }
 
-local maker_list = function()
-	local mainbases = {
-		armours = {
-			"elven-silk robe",
-			"drakeskin leather armour",
-			"voratun mail armour",
-			"voratun plate armour",
-			"elven-silk cloak",
-			"drakeskin leather gloves",
-			"voratun gauntlets",
-			"elven-silk wizard hat",
-			"drakeskin leather cap",
-			"voratun helm",
-			"pair of drakeskin leather boots",
-			"pair of voratun boots",
-			"drakeskin leather belt",
-			"voratun shield",
-		},
-		weapons = {
-			"voratun battleaxe",
-			"voratun greatmaul",
-			"voratun greatsword",
-			"voratun waraxe",
-			"voratun mace",
-			"voratun longsword",
-			"voratun dagger",
-			"living mindstar",
-			"quiver of dragonbone arrows",
-			"dragonbone longbow",
-			"drakeskin leather sling",
-			"dragonbone staff",
-			"pouch of voratun shots",
-		},
-		misc = {
-			"voratun ring",
-			"voratun amulet",
-			"dwarven lantern",
-			"voratun pickaxe",
-			{"dragonbone wand", _t"dragonbone wand"},
-			{"dragonbone totem", _t"dragonbone totem"},
-			{"voratun torque", _t"voratun torque"},
-		},
-	}
-	local l = {{_t"I've changed my mind.", jump = "welcome"}}
-	for kind, bases in pairs(mainbases) do
-		l[#l+1] = {_t(kind):capitalize(), action=function(npc, player)
-			local l = {{_t"I've changed my mind.", jump = "welcome"}}
-			newChat{ id="makereal",
-				text = _t[[Which kind of item would you like ?]],
-				answers = l,
-			}
-
-			for i, name in ipairs(bases) do
-				local dname = nil
-				if type(name) == "table" then name, dname = name[1], name[2] end
-				local not_ps, force_themes
-				not_ps = game.state:attrPowers(player) -- make sure randart is compatible with player
-				if not_ps.arcane then force_themes = {'antimagic'} end
-				
-				local o, ok
-				local tries = 100
-				repeat
-					o = game.zone:makeEntity(game.level, "object", {name=name, ignore_material_restriction=true, no_tome_drops=true, ego_filter={keep_egos=true, ego_chance=-1000}}, nil, true)
-					if o then ok = true end
-					if o and not game.state:checkPowers(player, o, nil, "antimagic_only") then
-						ok = false o = nil 
-					end
-					tries = tries - 1
-				until ok or tries < 0
-				if o then
-					if not dname then dname = o:getName{force_id=true, do_color=true, no_count=true}
-					else dname = "#B4B4B4#"..o:getDisplayString()..dname.."#LAST#" end
-					l[#l+1] = {dname, action=function(npc, player)
-						local art, ok
-						local nb = 0
-						repeat
-							art = game.state:generateRandart{base=o, lev=70, egos=4, force_themes=force_themes, forbid_power_source=not_ps}
-							if art then ok = true end
-							if art and not game.state:checkPowers(player, art, nil, "antimagic_only") then
-								ok = false
-							end
-							nb = nb + 1
-							if nb == 40 then break end
-						until ok
-						if art and nb < 40 then
-							art:identify(true)
-							player:addObject(player.INVEN_INVEN, art)
-							player:incMoney(-4000)
-							-- clear chrono worlds and their various effects
-							game:chronoCancel(_t"#CRIMSON#Your timetravel has no effect on pre-determined outcomes such as this.")
-							if not config.settings.cheat then game:saveGame() end
-
-							newChat{ id="naming",
-								text = ("Do you want to name your item?\n%s"):tformat(tostring(art:getTextualDesc())),
-								answers = {
-									{_t"Yes, please.", action=function(npc, player)
-										local d = require("engine.dialogs.GetText").new(_t"Name your item", _t"Name", 2, 40, function(txt)
-											art.name = txt:removeColorCodes():gsub("#", " ")
-											game.log("#LIGHT_BLUE#The merchant carefully hands you: %s", art:getName{do_color=true})
-										end, function() game.log("#LIGHT_BLUE#The merchant carefully hands you: %s", art:getName{do_color=true}) end)
-										game:registerDialog(d)
-									end},
-									{_t"No thanks.", action=function() game.log("#LIGHT_BLUE#The merchant carefully hands you: %s", art:getName{do_color=true}) end},
-								},
-							}
-							return "naming"
-						else
-							newChat{ id="oups",
-								text = _t"Oh I am sorry, it seems we could not make the item your require.",
-								answers = {
-									{_t"Oh, let's try something else then.", jump="make"},
-									{_t"Oh well, maybe later then."},
-								},
-							}
-							return "oups"
-						end
-					end}
-				end
-			end
-
-			return "makereal"
-		end}
-	end
-	return l
-end
-
+local maker_list = loadChatFile("artifact-maker")
+local artifacts_bases = {
+	armours = {
+		"elven-silk robe",
+		"drakeskin leather armour",
+		"voratun mail armour",
+		"voratun plate armour",
+		"elven-silk cloak",
+		"drakeskin leather gloves",
+		"voratun gauntlets",
+		"elven-silk wizard hat",
+		"drakeskin leather cap",
+		"voratun helm",
+		"pair of drakeskin leather boots",
+		"pair of voratun boots",
+		"drakeskin leather belt",
+		"voratun shield",
+	},
+	weapons = {
+		"voratun battleaxe",
+		"voratun greatmaul",
+		"voratun greatsword",
+		"voratun waraxe",
+		"voratun mace",
+		"voratun longsword",
+		"voratun dagger",
+		"living mindstar",
+		"quiver of dragonbone arrows",
+		"dragonbone longbow",
+		"drakeskin leather sling",
+		"dragonbone staff",
+		"pouch of voratun shots",
+	},
+	misc = {
+		"voratun ring",
+		"voratun amulet",
+		"dwarven lantern",
+		"voratun pickaxe",
+		{"dragonbone wand", _t"dragonbone wand"},
+		{"dragonbone totem", _t"dragonbone totem"},
+		{"voratun torque", _t"voratun torque"},
+	},
+}
+cur_chat:triggerHook{"LostMerchant:artifactList", artifacts_bases=artifacts_bases}
 newChat{ id="make",
 	text = _t[[Which kind of item would you like ?]],
-	answers = maker_list(),
+	answers = maker_list("welcome", function(player, art) player:incMoney(-4000) end, artifacts_bases),
 }
 
 else
