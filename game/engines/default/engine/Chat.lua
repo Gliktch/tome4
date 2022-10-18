@@ -53,24 +53,28 @@ function _M:init(name, npc, player, data)
 	if not data.player then data.player = player end
 	if not data.npc then data.npc = npc end
 
-	local filepath, is_chat_format = self:getChatFile(name)
-	if not is_chat_format then
-		local f, err = loadfile(filepath)
-		if not f and err then error(err) end
-		local env = setmetatable({
-			cur_chat = self,
-			setDialogWidth = function(w) self.force_dialog_width = w end,
-			newChat = function(c) self:addChat(c) end,
-			setTextFont = function(font, size) self.dialog_text_font = {font, size} end,
-			setAnswerFont = function(font, size) self.dialog_answer_font = {font, size} end,
-		}, {__index=data})
-		setfenv(f, env)
-		self.default_id = f()
-	else
-		self:loadChatFormat(filepath)
+	local function loadchat(name, setid)
+		local filepath, is_chat_format = self:getChatFile(name)
+		if not is_chat_format then
+			local f, err = loadfile(filepath)
+			if not f and err then error(err) end
+			local env = setmetatable({
+				cur_chat = self,
+				loadChatFile = function(file) return loadchat(file, false) end,
+				setDialogWidth = function(w) self.force_dialog_width = w end,
+				newChat = function(c) self:addChat(c) end,
+				setTextFont = function(font, size) self.dialog_text_font = {font, size} end,
+				setAnswerFont = function(font, size) self.dialog_answer_font = {font, size} end,
+			}, {__index=data})
+			setfenv(f, env)
+			if setid then self.default_id = f() else return f() end
+		else
+			self:loadChatFormat(filepath)
+		end
 	end
+	loadchat(name, true)
 
-	self:triggerHook{"Chat:load", data=data, env=env}
+	self:triggerHook{"Chat:load", data=data}
 end
 
 --- Get chat file
