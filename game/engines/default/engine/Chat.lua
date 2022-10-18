@@ -72,6 +72,7 @@ function _M:init(name, npc, player, data)
 			self:loadChatFormat(filepath)
 		end
 	end
+	self._loadchat = loadchat
 	loadchat(name, true)
 
 	self:triggerHook{"Chat:load", data=data}
@@ -93,7 +94,9 @@ end
 function _M:setFunctionEnv(fct)
 	local env = setmetatable({
 		self = self,
+		cur_chat = self,
 		chat_env = self.chat_env,
+		loadChatFile = function(file) return self._loadchat(file, false) end,
 		newChat = function(c) self:addChat(c) end,
 	}, {__index=_G})
 	setfenv(fct, env)
@@ -137,7 +140,7 @@ function _M:chatFormatActions(nodes, answer, node, stop_at)
 	end
 
 	---------------------------------------------------------------------------
-	if node.name == "chat" or node.name == "entry-selector" then
+	if node.name == "chat" or node.name == "entry-selector" or node.name == "dynamic" then
 		answer.jump = node.data.chatid
 	---------------------------------------------------------------------------
 	elseif node.name == "lua-code" then
@@ -369,6 +372,15 @@ function _M:loadChatFormat(filepath)
 			self:addChat{ id = node.data.chatid,
 				text = "",
 				auto = auto,
+				answers = answers,
+			}	
+		elseif node.name == "dynamic" then
+			local auto, err = loadstring(node.data.code)
+			if not auto and err then error("[Chat] chatFormatActions ERROR: "..err) end
+			self:setFunctionEnv(auto)
+			local text, answers = auto()
+			self:addChat{ id = node.data.chatid,
+				text = text,
 				answers = answers,
 			}	
 		end
