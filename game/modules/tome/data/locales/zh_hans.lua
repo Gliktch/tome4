@@ -4655,6 +4655,24 @@ t("I hereby stand victorious, awaiting future challenges!", "吾凯旋而归，�
 t("#LIGHT_GREEN#*dance*", "#LIGHT_GREEN#*跳舞*", "_t")
 
 ------------------------------------------------
+section "mod-tome/data/chats/artifact-maker.lua"
+
+t("I've changed my mind.", "我决定不买了。", "_t")
+t("Which kind of item would you like ?", "你喜欢什么类型的装备？", "_t")
+t("#CRIMSON#Your timetravel has no effect on pre-determined outcomes such as this.", "#CRIMSON#你的时间穿越对这种已经预设好的结局没有任何作用。", "_t")
+t([[Do you want to name your item?
+%s]], [[你想要命名你的物品吗？
+%s]], "tformat")
+t("Yes, please.", "是的。", "_t")
+t("Name your item", "给你的装备起名", "_t")
+t("Name", "名称", "_t")
+t("#LIGHT_BLUE#You are given: %s", "#LIGHT_BLUE#你获得了：%s", "log")
+t("No thanks.", "不用了，谢谢。", "_t")
+t("Oh I am sorry, it seems we could not make the item your require.", "啊真抱歉，这东西我们可做不了。", "_t")
+t("Oh, let's try something else then.", "好吧，我们试试别的东西。", "_t")
+t("Oh well, maybe later then.", "好吧，以后再说。", "_t")
+
+------------------------------------------------
 section "mod-tome/data/chats/artifice-mastery.lua"
 
 t("Cancel", "取消", "_t")
@@ -5367,20 +5385,7 @@ t("misc", "杂项", "_nt")
 t("dragonbone wand", "龙骨魔杖", "_t")
 t("dragonbone totem", "龙骨图腾", "_t")
 t("voratun torque", "沃瑞钽项圈", "_t")
-t("I've changed my mind.", "我决定不买了。", "_t")
 t("Which kind of item would you like ?", "你喜欢什么类型的装备？", "_t")
-t("#CRIMSON#Your timetravel has no effect on pre-determined outcomes such as this.", "#CRIMSON#你的时间穿越对这种已经预设好的结局没有任何作用。", "_t")
-t([[Do you want to name your item?
-%s]], [[你想要命名你的物品吗？
-%s]], "tformat")
-t("Yes, please.", "是的。", "_t")
-t("Name your item", "给你的装备起名", "_t")
-t("Name", "名称", "_t")
-t("#LIGHT_BLUE#The merchant carefully hands you: %s", "#LIGHT_BLUE#商人小心的交给了你：%s", "log")
-t("No thanks.", "不用了，谢谢。", "_t")
-t("Oh I am sorry, it seems we could not make the item your require.", "啊真抱歉，这东西我们可做不了。", "_t")
-t("Oh, let's try something else then.", "好吧，我们试试别的东西。", "_t")
-t("Oh well, maybe later then.", "好吧，以后再说。", "_t")
 t("*This store does not appear to be open yet*", "*这个商店好像还没开张。*", "_t")
 t("[leave]", "[离开]", "_t")
 -- untranslated text
@@ -13348,6 +13353,8 @@ t("A fine mesh of metal threads held together by a sturdy chain. Sparks dance ac
 t([[Taking lightning damage or making critical hits builds 2 energy charges, which give you +5% lightning damage and +1 to all stats.
 The charges decay at a rate of 1 per turn. Max 10 charges.]], [[每次接受雷电伤害或造成暴击雷电伤害时获得两点充能，每点充能提供 5%% 雷电伤害加成和 1 点全属性。
 每回合损失一点加成。加成最多10层。]], "_t")
+-- old translated text
+t("will o' the wisp", "鬼火", "_t")
 
 ------------------------------------------------
 section "mod-tome/data/general/stores/basic.lua"
