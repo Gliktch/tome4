@@ -149,9 +149,9 @@ function makeAlchemistGolem(self)
 
 	if self.alchemist_golem_is_drolem then
 		g.name = _t"drolem"
-		g.image="invis.png"
-		g.add_mos = {{image="npc/construct_golem_drolem.png", display_h=2, display_y=-1}}
-		g.moddable_tile = nil
+		g.moddable_tile = "runic_golem_drolem"
+		g.moddable_tile_nude = 1
+		g.moddable_tile_base = "base_01.png"
 		g:learnTalentType("golem/drolem", true)
 	end
 
