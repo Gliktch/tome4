@@ -32,6 +32,7 @@ local Textzone = require "engine.ui.Textzone"
 local FontPackage = require "engine.FontPackage"
 local EquipDoll = require "engine.ui.EquipDoll"
 local TextzoneList = require "engine.ui.TextzoneList"
+local Savefile = require "engine.Savefile"
 
 module(..., package.seeall, class.inherit(Dialog, mod.class.interface.TooltipsData))
 
@@ -1519,7 +1520,7 @@ function _M:dump()
 	local player = self.actor
 
 	fs.mkdir("/character-dumps")
-	local file = "/character-dumps/"..(player.name:gsub("[^a-zA-Z0-9_-.]", "_")).."-"..os.date("%Y%m%d-%H%M%S")..".txt"
+	local file = "/character-dumps/"..(Savefile:toSavefileName(player.name)).."-"..os.date("%Y%m%d-%H%M%S")..".txt"
 	local fff = fs.open(file, "w")
 	local labelwidth = 17
 	local nl = function(s) s = s or "" fff:write(s:removeColorCodes()) fff:write("\n") end

@@ -37,12 +37,18 @@ _M.current_save = false
 _M.hotkeys_file = "/save/quick_hotkeys"
 _M.md5_types = {}
 
+--- Static, returns the savefile name for this name
+function _M:toSavefileName(name)
+	return name:gsub("[^a-zA-Z0-9_-.]", function(c)
+		return c:toHex()
+	end):lower()
+end
 
 --- Init a savefile
 -- @param savefile the name of the savefile, usually the player's name. It will be sanitized so dont bother doing it
 -- @param coroutine if true the saving will yield sometimes to let other code run
 function _M:init(savefile, coroutine)
-	self.short_name = savefile:gsub("[^a-zA-Z0-9_-.]", "_"):lower()
+	self.short_name = self:toSavefileName(savefile)
 	self.save_dir = "/save/"..self.short_name.."/"
 	self.quickbirth_file = "/save/"..self.short_name..".quickbirth"
 	self.load_dir = "/tmp/loadsave/"
@@ -406,12 +412,12 @@ end
 --- Get a savename for an entity
 -- @return "entity-%s.teae"
 function _M:nameSaveEntity(e)
-	return ("entity-%s.teae"):format(e.name:gsub("[^a-zA-Z0-9_-.]", "_"):lower())
+	return ("entity-%s.teae"):format(self:toSavefileName(e.name))
 end
 --- Get a savename for an entity
 -- @return "entity-%s.teae"
 function _M:nameLoadEntity(name)
-	return ("entity-%s.teae"):format(name:gsub("[^a-zA-Z0-9_-.]", "_"):lower())
+	return ("entity-%s.teae"):format(self:toSavefileName(name))
 end
 
 --- Save an entity

@@ -220,7 +220,7 @@ end
 
 function _M:checkNew(fct)
 	local function checkfct()
-		local savename = self.c_name.text:gsub("[^a-zA-Z0-9_-.]", "_")
+		local savename = Savefile:toSavefileName(self.c_name.text)
 		if fs.exists(("/save/%s/game.teag"):format(savename)) then
 			Dialog:yesnoPopup(_t"Overwrite character?", _t"There is already a character with this name, do you want to overwrite it?", function(ret)
 				if not ret then fct() end
@@ -1140,7 +1140,7 @@ function _M:selectType(type) end
 
 function _M:on_register()
 	if __module_extra_info.auto_quickbirth then
-		local qb_short_name = __module_extra_info.auto_quickbirth:gsub("[^a-zA-Z0-9_-.]", "_")
+		local qb_short_name = Savefile:toSavefileName(__module_extra_info.auto_quickbirth)
 		local lss = Module:listVaultSavesForCurrent()
 		for i, pm in ipairs(lss) do
 			if pm.short_name == qb_short_name then
