@@ -530,6 +530,16 @@ function _M:saveSettings(file, data)
 	if restore then fs.setWritePath(restore) end
 end
 
+--- Remove a settings file
+-- @string file
+function _M:removeSettings(file)
+	core.game.resetLocale()
+	local restore = fs.getWritePath()
+	fs.setWritePath(engine.homepath)
+	fs.delete("/settings/"..file..".cfg")
+	if restore then fs.setWritePath(restore) end
+end
+
 available_resolutions =
 {
 	["800x600 Windowed"] 	= {800, 600, false},

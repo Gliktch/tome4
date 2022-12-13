@@ -97,5 +97,9 @@ audio.enable = %s
 		config.settings.audio.effects_volume,
 		tostring(config.settings.audio.enable)
 	))
-end
 
+	-- To ensure compatibility
+	self:removeSettings("audio.music_volume")
+	self:removeSettings("audio.effects_volume")
+	self:removeSettings("audio.enable")
+end
