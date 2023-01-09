@@ -50,6 +50,8 @@ _M.cosmetic_options_config = {
 	facial_features = "multiple",
 	tatoos = "single",
 	horns = "single",
+	tail = "single",
+	behinds = "multiple",
 	special = "multiple",
 	golem = "single",
 }
@@ -1293,6 +1295,8 @@ function _M:applyCosmeticActor(last)
 	self.actor.moddable_tile_facial_features = nil
 	self.actor.moddable_tile_tatoo = nil
 	self.actor.moddable_tile_horn = nil
+	self.actor.moddable_tile_tail = nil
+	self.actor.moddable_tile_behinds = nil
 
 	-- Grab defaults if we have no custom selection
 	local cosmetics = self.selected_cosmetic_options
@@ -1331,6 +1335,8 @@ function _M:applyCosmeticActor(last)
 	for kind, d in pairs(cosmetics) do
 		if kind == "hairs" then
 			self.actor.moddable_tile_hair = d.file
+		elseif kind == "tail" then
+			self.actor.moddable_tile_tail = d.file
 		elseif kind == "tatoos" then
 			self.actor.moddable_tile_tatoo = d.file
 		elseif kind == "horns" then
@@ -1341,6 +1347,11 @@ function _M:applyCosmeticActor(last)
 			for _, dd in ipairs(d) do
 				self.actor.moddable_tile_facial_features = self.actor.moddable_tile_facial_features or {}
 				table.insert(self.actor.moddable_tile_facial_features, dd.file)
+			end
+		elseif kind == "behinds" then
+			for _, dd in ipairs(d) do
+				self.actor.moddable_tile_behinds = self.actor.moddable_tile_behinds or {}
+				table.insert(self.actor.moddable_tile_behinds, dd.file)
 			end
 		end
 
@@ -1776,7 +1787,7 @@ end
 -- Statics
 --------------------------------------------------
 
-function _M:showCosmeticCustomizer(actor, title, on_end)
+function _M:showCosmeticCustomizer(actor, title, on_end, force_sex, force_race, force_subrace)
 	if not actor.descriptor or not actor.descriptor.sex or not actor.descriptor.race or not actor.descriptor.subrace then
 		return nil, "no actor descriptor infos"
 	end
@@ -1786,9 +1797,9 @@ function _M:showCosmeticCustomizer(actor, title, on_end)
 	local birther = _M.new("", clone_dummy, {}, function() end, nil, nil, nil)
 	birther.not_birthing = true
 
-	birther:setDescriptor("sex", actor.descriptor.sex)
-	birther:setDescriptor("race", actor.descriptor.race)
-	birther:setDescriptor("subrace", actor.descriptor.subrace)
+	birther:setDescriptor("sex", force_sex or actor.descriptor.sex)
+	birther:setDescriptor("race", force_race or actor.descriptor.race)
+	birther:setDescriptor("subrace", force_subrace or actor.descriptor.subrace)
 
 	birther:customizeOptions(clone, function()
 		self:yesnoPopup(_t"Confirm", ("Apply the selected cosmetics to %s?"):tformat(actor:getName()), function(ret) if ret then
