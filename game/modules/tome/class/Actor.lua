@@ -4343,6 +4343,9 @@ function _M:updateModdableTile()
 
 	self:triggerHook{"Actor:updateModdableTile:back", base=base, add=add}
 
+	if self.moddable_tile_tail then add[#add+1] = {image = base..self.moddable_tile_tail..".png", is_inate=true, bodyplace="tail", auto_tall=1} end
+	if self.moddable_tile_behinds then for _, f in ipairs(self.moddable_tile_behinds) do add[#add+1] = {image = base..f..".png", is_inate=true, bodyplace="behind", auto_tall=1} end end
+
 	i = self:getObjectModdableTile(self.INVEN_CLOAK); if i and i.moddable_tile then add[#add+1] = {image = base..(i.moddable_tile):format("behind")..".png", bodyplace="back", auto_tall=1} end
 
 	if self.shader_auras and next(self.shader_auras) then
