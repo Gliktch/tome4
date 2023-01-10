@@ -1321,11 +1321,11 @@ function _M:applyCosmeticActor(last)
 
 		if default_cosmetics then for _, d in ipairs(default_cosmetics) do
 			if self.cosmetic_options_config[d[1]] == "single" then
-				local c = finder(d[1], d[2], d[3])
+				local c = finder(d[1], d[2], d[3] or d.only_for)
 				if c then cosmetics[d[1]] = c end
 			elseif self.cosmetic_options_config[d[1]] == "multiple" then
 				cosmetics[d[1]] = cosmetics[d[1]] or {}
-				local c = finder(d[1], d[2], d[3])
+				local c = finder(d[1], d[2], d[3] or d.only_for)
 				if c then table.insert(cosmetics[d[1]], c) end
 			end
 		end end
