@@ -57,7 +57,7 @@ function _M:connected()
 	end
 
 	print("[PROFILE] Thread connecting to "..tostring(profilehost).." on ports ", mport, pport)
-	self.sock = socket.connect("profiles.te4.org", mport)
+	self.sock = socket.connect(profilehost, mport)
 	if not self.sock then self:disconnect() return false end
 --	self.sock:settimeout(10)
 	print("[PROFILE] Thread connected to profiles.te4.org")
@@ -71,7 +71,7 @@ end
 --- Connects the second tcp channel to receive data
 function _M:connectedPull()
 	if self.psock then return true end
-	self.psock = socket.connect("profiles.te4.org", pport)
+	self.psock = socket.connect(profilehost, pport)
 	if not self.psock then return false end
 --	self.psock:settimeout(10)
 	print("[PROFILE] Pull socket connected to profiles.te4.org")
