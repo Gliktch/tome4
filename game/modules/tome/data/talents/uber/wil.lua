@@ -351,6 +351,13 @@ uberTalent{
 		
 		t.learnAndMaster(self, "cursed/crimson-templar", self:knowTalentType("celestial/guardian"), 1.3 + (self.__increased_talent_types["celestial/guardian"] and 0.2 or 0))
 		t.learnAndMaster(self, "celestial/dark-sun", self:knowTalentType("celestial/crusader"), 1.3 + (self.__increased_talent_types["celestial/crusader"] and 0.2 or 0))
+		self.__increased_talent_types = self.__increased_talent_types or {}
+		if self.__increased_talent_types["celestial/guardian"] then
+			self.__increased_talent_types["cursed/crimson-templar"] = 1
+		end
+		if self.__increased_talent_types["celestial/crusader"] then
+			self.__increased_talent_types["celestial/dark-sun"] = 1
+		end
 		
 		t.learnAndMaster(self, "cursed/hatred", true, 1.3)
 		t.learnAndMaster(self, "celestial/dirge", true, 1.3)
