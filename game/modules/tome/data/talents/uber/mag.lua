@@ -401,6 +401,8 @@ uberTalent{
 			self.moddable_tile_facial_features = nil
 			self.moddable_tile_tatoo = nil
 			self.moddable_tile_horn = nil
+			self.moddable_tile_tail = nil
+			self.moddable_tile_behinds = nil
 			self.attachement_spots = "race_skeleton"
 		end
 		self.blood_color = colors.GREY

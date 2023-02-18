@@ -31,7 +31,7 @@ function _M:init(savefile, coroutine)
 	Savefile.init(self, savefile, coroutine)
 
 	fs.mkdir("/vault")
-	self.short_name = savefile:gsub("[^a-zA-Z0-9_-.]", "_")
+	self.short_name = Savefile:toSavefileName(savefile)
 	self.save_dir = "/vault/"..self.short_name.."/"
 	self.quickbirth_file = "/vault/"..self.short_name..".quickbirth"
 	self.load_dir = "/tmp/loadsave/"

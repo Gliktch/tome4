@@ -77,7 +77,6 @@ end
 
 function _M:volumeMusic(vol)
 	vol = util.bound(vol, 0, 100)
-	print("====",vol)
 	if vol then
 		config.settings.audio = config.settings.audio or {}
 		config.settings.audio.music_volume = vol
@@ -97,5 +96,9 @@ audio.enable = %s
 		config.settings.audio.effects_volume,
 		tostring(config.settings.audio.enable)
 	))
-end
 
+	-- To ensure compatibility
+	self:removeSettings("audio.music_volume")
+	self:removeSettings("audio.effects_volume")
+	self:removeSettings("audio.enable")
+end

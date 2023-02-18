@@ -25,6 +25,7 @@ local Textzone = require "engine.ui.Textzone"
 local Separator = require "engine.ui.Separator"
 local Checkbox = require "engine.ui.Checkbox"
 local Button = require "engine.ui.Button"
+local Savefile = require "engine.Savefile"
 
 module(..., package.seeall, class.inherit(Dialog))
 
@@ -91,7 +92,7 @@ function _M:generateList()
 						Module:instanciate(mod, "player", true, false)
 					else
 						game:registerDialog(require('engine.dialogs.GetText').new(_t"Enter your character's name", "Name", 2, 25, function(text)
-							local savename = text:gsub("[^a-zA-Z0-9_-.]", "_")
+							local savename = Savefile:toSavefileName(text)
 							if fs.exists(("/%s/save/%s/game.teag"):format(mod.short_name, savename)) then
 								Dialog:yesnoPopup(_t"Overwrite character?", _t"There is already a character with this name, do you want to overwrite it?", function(ret)
 									if not ret then Module:instanciate(mod, text, true) end
