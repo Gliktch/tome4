@@ -61,8 +61,8 @@ function _M:init(actor, start_tab)
 	self.c_talents = Tab.new{title=_t"[T]alents", default=start_tab == "talents", fct=function() end, on_change=function(s) if s then self:switchTo("talents") end end }
 
 	-- Select equipment/switch sets
-	self.equip_set = self.actor.off_weapon_slots and _t"off" or _t"main"
-	self.c_equipment = Tab.new{title=("[E]quipment: %s set"):tformat(self.equip_set), default=start_tab == "equipment",
+	self.equip_set = self.actor.off_weapon_slots and _nt"off" or _nt"main"
+	self.c_equipment = Tab.new{title=("[E]quipment: %s set"):tformat(_t(self.equip_set)), default=start_tab == "equipment",
 		fct=function()
 		end,
 		on_change=function(s)
@@ -72,7 +72,7 @@ function _M:init(actor, start_tab)
 					local switch_set = self.equip_set == "off" and "main" or "off"
 					if self:updateEquipDollRefs(switch_set) then
 						self.equip_set = switch_set
-						game.logPlayer(self.actor, "#RED#Displaying %s set for %s (equipment NOT switched)", self.equip_set, self.actor:getName():capitalize())
+						game.logPlayer(self.actor, "#RED#Displaying %s set for %s (equipment NOT switched)", _t(self.equip_set), self.actor:getName():capitalize())
 					end
 				end
 				self:switchTo("equipment")
@@ -81,7 +81,7 @@ function _M:init(actor, start_tab)
 		end
 	}
 	self.c_equipment.generate = function(tab)
-		tab.title = ("[E]quipment: %s set"):tformat(self.equip_set)
+		tab.title = ("[E]quipment: %s set"):tformat(_t(self.equip_set))
 		Tab.generate(tab)
 	end
 	self.b_talents_sorting = Button.new{text=("Sort: %s"):tformat(({_t"Groups", _t"Name", _t"Type"})[self.talent_sorting]), hide=true, width=100, fct=function()
