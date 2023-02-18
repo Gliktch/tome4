@@ -37,7 +37,7 @@ function _M:init(title, store_inven, actor_inven, store_filter, actor_filter, ac
 	self.actor_filter = actor_filter
 	self.store_actor = store_actor
 	self.actor_actor = actor_actor
-	self.base_title = title or "Store"
+	self.base_title = title or _t"Store"
 	Dialog.init(self, self:getStoreTitle(), game.w * 0.8, game.h * 0.8)
 
 	if store_actor.faction then

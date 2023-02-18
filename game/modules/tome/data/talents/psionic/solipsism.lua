@@ -162,7 +162,7 @@ newTalent{
 		local threshold = t.getClarityThreshold(self, t)
 		local bonus = ""
 		if not self.max_level or self.max_level > 50 then
-			bonus = " Exceptional focus on this talent can suppress your solipsism threshold."
+			bonus = _t" Exceptional focus on this talent can suppress your solipsism threshold."
 		end
 		return ([[For every percent that your Psi pool exceeds %d%%, you gain 1%% global speed (up to a maximum of %+d%%).
 		The first talent point invested will also increase the amount of Psi you gain from Willpower by 0.5, but reduce the amount of life you gain from Constitution by 0.25 and will increase your solipsism threshold by 10%% (currently %d%%).]]):

@@ -93,7 +93,7 @@ function _M:onPartyDeath(src, death_note)
 			end
 			local killermsg = (src.killer_message and " "..src.killer_message or ""):gsub("#sex#", game.player.female and _t"her" or _t"him")
 			if src.name == game.player.name then
-				srcname = game.player.female and _t"herself" or _t"himself"
+				srcname = game.player.female and _t("herself", "killer_message pronoun") or _t("himself", "killer_message pronoun")
 				killermsg = rng.table{
 					_t" (the fool)",
 					_t" in an act of extreme incompetence",

@@ -1442,8 +1442,8 @@ section "mod-tome/class/interface/PartyDeath.lua"
 t("unknown", "未知", "entity name")
 t("her", "她的", "_t")
 t("him", "他", "_t")
-t("herself", "她自己", "_t")
-t("himself", "他自己", "_t")
+t("herself", "她自己", "killer_message pronoun")
+t("himself", "他自己", "killer_message pronoun")
 t(" (the fool)", " (笨蛋)", "_t")
 t(" in an act of extreme incompetence", " 操作太不给力了", "_t")
 t(" out of supreme humility", " 显然玩家太谦虚了", "_t")
@@ -27882,6 +27882,7 @@ t([[You now substitute %d%% of your Mental Save for %d%% of your Physical and Sp
 		学习此技能时，（高于基础值 10 的）每点意志会额外增加 0.5 点灵能值上限，而（高于基础值 10 的）每点体质会减少 0.25 点生命上限（若低于基础值 10 则增加生命上限）。 
 		学习此技能也会增加你 10 %%唯我临界点（当前 %d%% ）。]], "tformat")
 t("Clarity", "唯我论：明晰", "talent name")
+t(" Exceptional focus on this talent can suppress your solipsism threshold.", "在该技能上投入额外点数可以降低你的唯我论阈值。", "_t")
 t([[For every percent that your Psi pool exceeds %d%%, you gain 1%% global speed (up to a maximum of %+d%%).
 		The first talent point invested will also increase the amount of Psi you gain from Willpower by 0.5, but reduce the amount of life you gain from Constitution by 0.25 and will increase your solipsism threshold by 10%% (currently %d%%).]], [[当你的灵能值超过 %d%% 时，每超过 1%% 你增加 1%% 整体速度（最大值 %+d%% ）。
 		学习此技能时，（高于基础值 10 的）每点意志会额外增加 0.5 点灵能值上限，而（高于基础值 10 的）每点体质会减少 0.25 点生命上限（若低于基础值 10 则增加生命上限），增加你 10%% 唯我临界点（当前 %d%% ）。]], "tformat")
@@ -42227,10 +42228,10 @@ t("Map: #0080FF#%s", "地图：#0080FF#%s", "tformat")
 ------------------------------------------------
 section "mod-tome/dialogs/ShowStore.lua"
 
+t("Store", "商店", "_t")
 t("Inventory", "物品栏", "_t")
 t("Category", "分类", "_t")
 t("Price", "价格", "_t")
-t("Store", "商店", "_t")
 t(" (pays up to %0.2f gold, Your Gold: %0.2f)", " (付款 %0.2f 金币，你的金币：%0.2f)", "tformat")
 -- untranslated text
 --[==[
