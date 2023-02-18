@@ -487,7 +487,7 @@ t("The teleport fizzles!", "传送失败了！", "_t")
 section "mod-tome/class/Game.lua"
 
 t([[Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.
-The time is %02d:%02d.]], [[今天是马基·埃亚尔卓越纪%s年，%s %s 。
+The time is %02d:%02d.]], [[今天是马基·埃亚尔卓越纪%s年%s%s日。
 当前时间 %02d:%02d。]], "tformat", {3,2,1,4,5})
 t("<Scroll mode, press direction keys to scroll, press again to exit>", "<地图滚动模式，按上下左右键滚动地图，再次按键退出>", "_t")
 t("Main character", "主角色", "_t")
@@ -3716,7 +3716,7 @@ t("Tatoos", "纹身", "birth facial category")
 t("Ghoul", "食尸鬼", "birth descriptor name")
 t("Slow to shuffle, quick to bite, learn from master, rule the night!", "动如磐石，撕咬如火，跟随主人，平定江山！", "_t")
 t("Ghouls are dumb, but resilient, rotting undead creatures, making good fighters.", "食尸鬼是不能说话、身体腐烂，不知疲倦的不死生物，适合成为战士。", "_t")
-t("They have access to #GOLD#special ghoul talents#WHITE# and a wide range of undead abilities:", "他们天生有独特的 #GOLD# 食尸鬼 #WHITE# 技能和一系列不死系技能：", "_t")
+t("They have access to #GOLD#special ghoul talents#WHITE# and a wide range of undead abilities:", "他们天生有独特的 #GOLD# 食尸鬼 #WHITE# 技能和一系列不死系能力：", "_t")
 t("- great poison resistance", "- 极高的毒素抗性", "_t")
 t("- bleeding immunity", "- 流血免疫", "_t")
 t("- stun resistance", "- 震慑抵抗", "_t")

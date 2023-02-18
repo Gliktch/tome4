@@ -3,7 +3,7 @@ locale "zh_hans"
 section "mod-example_realtime/class/Actor.lua"
 
 t("%s uses %s.", "%s使用了%s。", "logSeen")
--- untranslated text
+-- new text
 --[==[
 t("You do not have enough power to activate %s.", "You do not have enough power to activate %s.", "logPlayer")
 t("You do not have enough power to cast %s.", "You do not have enough power to cast %s.", "logPlayer")
@@ -26,7 +26,7 @@ t("taken damage", "受到伤害", "_t")
 t("LOW HEALTH!", "生命值低!", "_t")
 t("#00ff00#Talent %s is ready to use.", "#00ff00#技能%s已经可以使用了。", "log")
 t("LEVEL UP!", "升级了！", "_t")
--- untranslated text
+-- new text
 --[==[
 t("#00ffff#Welcome to level %d.", "#00ffff#Welcome to level %d.", "log")
 --]==]
@@ -43,7 +43,7 @@ t("Acid-maniac", "狂酸使", "birth descriptor name")
 section "mod-example_realtime/data/damage_types.lua"
 
 t("Kill!", "击杀!", "_t")
--- untranslated text
+-- new text
 --[==[
 t("%s hits %s for %s%0.2f %s damage#LAST#.", "%s hits %s for %s%0.2f %s damage#LAST#.", "logSeen")
 --]==]
@@ -58,7 +58,7 @@ t("floor", "地板", "entity name")
 t("wall", "墙壁", "entity name")
 t("door", "门", "entity name")
 t("open door", "敞开的门", "entity name")
--- untranslated text
+-- new text
 --[==[
 t("exit to the wilds", "exit to the wilds", "entity name")
 --]==]
@@ -68,7 +68,7 @@ t("exit to the wilds", "exit to the wilds", "entity name")
 section "mod-example_realtime/data/general/npcs/kobold.lua"
 
 t("humanoid", "人形生物", "entity type")
--- untranslated text
+-- new text
 --[==[
 t("kobold", "kobold", "entity subtype")
 t("Ugly and green!", "Ugly and green!", "_t")
@@ -82,7 +82,7 @@ section "mod-example_realtime/data/talents.lua"
 
 t("Kick", "踢", "talent name")
 t("Acid Spray", "酸液喷吐", "talent name")
--- untranslated text
+-- new text
 --[==[
 t("role", "role", "talent category")
 --]==]
@@ -92,7 +92,7 @@ t("role", "role", "talent category")
 section "mod-example_realtime/data/zones/dungeon/zone.lua"
 
 
--- untranslated text
+-- new text
 --[==[
 t("Old ruins", "Old ruins", "_t")
 --]==]
@@ -102,7 +102,7 @@ t("Old ruins", "Old ruins", "_t")
 section "mod-example_realtime/dialogs/DeathDialog.lua"
 
 
--- untranslated text
+-- new text
 --[==[
 t("Death!", "Death!", "_t")
 t("#LIGHT_BLUE#You resurrect! CHEATER !", "#LIGHT_BLUE#You resurrect! CHEATER !", "logPlayer")
@@ -113,7 +113,7 @@ t("#LIGHT_BLUE#You resurrect! CHEATER !", "#LIGHT_BLUE#You resurrect! CHEATER !"
 section "mod-example_realtime/dialogs/Quit.lua"
 
 
--- untranslated text
+-- new text
 --[==[
 t("Really exit Example Module?", "Really exit Example Module?", "_t")
 --]==]
@@ -123,7 +123,7 @@ t("Really exit Example Module?", "Really exit Example Module?", "_t")
 section "mod-example_realtime/init.lua"
 
 
--- untranslated text
+-- new text
 --[==[
 t("Realtime Example Module for T-Engine4", "Realtime Example Module for T-Engine4", "init.lua long_name")
 t([[This is *NOT* a game, just an example/template to make your own using the T-Engine4.
