@@ -147,7 +147,7 @@ newBirthDescriptor{
 newBirthDescriptor{
 	type = "difficulty",
 	name = "Easy",
-	display_name = _t("Easier", "birth descriptor name"),
+	display_name = _t("Easier", "birth descriptor difficulty"),
 	selection_default = config.settings.tome.default_birth and config.settings.tome.default_birth.difficulty == "Easy",
 	desc =
 	{

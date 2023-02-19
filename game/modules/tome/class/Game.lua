@@ -812,8 +812,8 @@ function _M:getSaveDescription()
 Difficulty: %s / %s
 Campaign: %s
 Exploring level %s of %s.]]):tformat(
-		player.name, player.level, _t(player.descriptor.subrace, "birth descriptor name"), _t(player.descriptor.subclass, "birth descriptor name"),
-		_t(player.descriptor.difficulty, "birth descriptor name"), _t(player.descriptor.permadeath),
+		player.name, player.level, _t(player.descriptor.subrace, "birth descriptor subrace"), _t(player.descriptor.subclass, "birth descriptor subclass"),
+		_t(player.descriptor.difficulty, "birth descriptor difficulty"), _t(player.descriptor.permadeath),
 		_t(player.descriptor.world),
 		self.level and self.level.level or "--", self.zone and self.zone.name or "--"
 		),
@@ -823,12 +823,12 @@ end
 function _M:getVaultDescription(e)
 	e = e:findMember{main=true} -- Because vault "chars" are actualy parties for tome
 	return {
-		name = ([[%s the %s %s]]):tformat(e.name, _t(e.descriptor.subrace, "birth descriptor name"), _t(e.descriptor.subclass, "birth descriptor name")),
+		name = ([[%s the %s %s]]):tformat(e.name, _t(e.descriptor.subrace, "birth descriptor subrace"), _t(e.descriptor.subclass, "birth descriptor subclass")),
 		descriptors = e.descriptor,
 		description = ([[%s the %s %s.
 Difficulty: %s / %s
 Campaign: %s]]):tformat(
-		e.name, _t(e.descriptor.subrace, "birth descriptor name"), _t(e.descriptor.subclass, "birth descriptor name"),
+		e.name, _t(e.descriptor.subrace, "birth descriptor subrace"), _t(e.descriptor.subclass, "birth descriptor subclass"),
 		_t(e.descriptor.difficulty), _t(e.descriptor.permadeath),
 		_t(e.descriptor.world)
 		),

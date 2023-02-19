@@ -617,10 +617,10 @@ function _M:drawDialog(kind, actor_to_compare)
 		h = 0
 		w = 0
 		s:drawStringBlended(self.font, _t"Sex  : "..((player.descriptor and _t(player.descriptor.sex)) or (player.female and _t"Female" or _t"Male")), w, h, 0, 200, 255, true) h = h + self.font_h
-		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subrace") or "", "birth descriptor name")) or _t(player.type, "entity type"):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
+		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subrace") or "", "birth descriptor subrace")) or _t(player.type, "entity type"):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		local class_evo = ""
 		if player.descriptor and player.descriptor.class_evolution then class_evo = " ("..player.descriptor.class_evolution..")" end
-		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subclass") or "", "birth descriptor name")) or _t(player.subtype, "entity subtype"):capitalize())..class_evo, w, h, 0, 200, 255, true)
+		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subclass") or "", "birth descriptor subclass")) or _t(player.subtype, "entity subtype"):capitalize())..class_evo, w, h, 0, 200, 255, true)
 		if player:attr("forbid_arcane") then
 			local follow = (player.faction == "zigur" or player:attr("zigur_follower")) and _t"Zigur follower" or _t"Antimagic adherent"
 			self:mouseTooltip(self.TOOLTIP_ANTIMAGIC_USER, s:drawColorStringBlended(self.font, "#ORCHID#"..follow, w+200, h, 255, 255, 255, true))

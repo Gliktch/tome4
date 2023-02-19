@@ -1077,8 +1077,6 @@ t(" %s (%+d(-) %s)", " %s (%+d(-) %s)", "tformat")
 t(".", ".", "_t")
 --]==]
 
--- old translated text
-t("Your antimagic disrupts %s.", "你的反魔法技能打断了 %s 。", "tformat")
 
 ------------------------------------------------
 section "mod-tome/class/Party.lua"
@@ -2889,16 +2887,17 @@ t("Removed 89 beneficial effects from enemies via Disintegration.", "使用裂�
 ------------------------------------------------
 section "mod-tome/data/birth/classes/adventurer.lua"
 
-t("Adventurer", "冒险家", "birth descriptor name")
+t("Adventurer", "冒险家", "birth descriptor class")
 t("Adventurers can learn to do a bit of everything, getting training in whatever they happen to find.", "冒险家可以学习很多技能，他们可以学习任何碰巧发现的技能。", "_t")
 t("#{bold}##GOLD#This is a bonus class for winning the game.  It is by no means balanced.#WHITE##{normal}#", "#{bold}##GOLD#这是通关后获得的奖励职业，显然它绝对是不平衡的。#WHITE##{normal}#", "_t")
+t("Adventurer", "冒险家", "birth descriptor subclass")
 t("Their most important stats depend on what they wish to do.", "他们的职业倾向决定了他们的主属性。", "_t")
 t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +2 Strength, +2 Dexterity, +2 Constitution", "#LIGHT_BLUE# * +2 力量, +2 敏捷, +2 体质", "_t")
 t("#LIGHT_BLUE# * +2 Magic, +2 Willpower, +2 Cunning", "#LIGHT_BLUE# * +2 魔力, +2 意志, +2 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +0", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +0", "_t")
 t("Wanderer seed", "流浪者随机种子", "birth facial category")
-t("Wanderer", "流浪者", "birth descriptor name")
+t("Wanderer", "流浪者", "birth descriptor subclass")
 t("Wanderers are adventurers who embrace the chaotic nature of the world. They start the game with the Combat Training talent tree, 3 random class trees and 1 random generic tree.", "流浪者是拥抱世界混乱本质的冒险家。进入游戏时，他们初始拥有战斗训练系，3个随机职业技能系以及1个随机通用技能系。", "_t")
 t("#{bold}##PURPLE#Every 5 levels they gain a new unlocked class tree, at random.#{normal}##LAST#", "#{bold}##PURPLE#每升5级，获得一系解锁的随机职业技能树。#{normal}##LAST#", "_t")
 t("#{bold}##PURPLE#Every 10 levels starting at level 2 they gain a new unlocked generic tree, at random.#{normal}##LAST#", "#{bold}##PURPLE#从2级开始，每升10级获得一系解锁的随机通用技能树。#{normal}##LAST#", "_t")
@@ -2911,11 +2910,11 @@ t("Wanderer Seed", "流浪者随机种子", "_t")
 ------------------------------------------------
 section "mod-tome/data/birth/classes/afflicted.lua"
 
-t("Afflicted", "痛苦系", "birth descriptor name")
+t("Afflicted", "痛苦系", "birth descriptor class")
 t("Some walk in shadow, alone, unloved, unwanted. What powers they wield may be mighty, but their names are forever cursed.", "他们是一群漫步于阴影中、孤独的、讨人厌的、被遗弃的人。他们的力量或许很强大，但他们的名字永远被诅咒着。", "_t")
 t("Afflicted classes have been twisted by their association with evil forces.", "痛苦系因为他们使用了邪恶的力量而变得扭曲。", "_t")
 t("They can use these forces to their advantage, but at a cost...", "他们能将这股力量转化为优势，但会为此付出一定的代价……", "_t")
-t("Cursed", "被诅咒者", "birth descriptor name")
+t("Cursed", "被诅咒者", "birth descriptor subclass")
 t("Affliction can run to the soul, and hatred can fill one's entire being. Overcome someone else's hated curse to know its dreaded meaning.", "诅咒可以深入灵魂，使某人充满憎恨。战胜另外一个人的憎恨诅咒来领会这种可怕的力量。", "_t")
 t("Through ignorance, greed or folly the Cursed served some dark design and are now doomed to pay for their sins.", "被诅咒者曾经因为无知、贪婪或者愚昧，服从于黑暗的指示。现在，他们因罪恶而身受灾难折磨。", "_t")
 t("Their only master now is the hatred they carry for every living thing.", "他们现在唯一的主人，是对那些生者心中的憎恨。", "_t")
@@ -2926,7 +2925,7 @@ t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +5 Strength, +0 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +5 力量 , +0 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +0 Magic, +4 Willpower, +0 Cunning", "#LIGHT_BLUE# * +0 魔法 , +4 意志 , +0 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +2", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +2", "_t")
-t("Doomed", "末日使者", "birth descriptor name")
+t("Doomed", "末日使者", "birth descriptor subclass")
 t("In shaded places in unknown lands thou must overcome thyself and see thy doom.", "在遥远大陆的一个一男的地方，你必须战胜你自己并看到你自己的末日。", "_t")
 t("The Doomed are fallen mages who once wielded powerful magic wrought by ambition and dark bargains.", "末日使者是一些堕落的法师，他们曾经由于野心，通过黑暗的契约，获得了强大的魔法。", "_t")
 t("Stripped of their magic by the dark forces that once served them, they have learned to harness the hatred that burns in their minds.", "被黑暗剥夺了魔法力量的他们，开始学习如何驱使他们心头燃烧的憎恨的力量。", "_t")
@@ -2941,11 +2940,11 @@ t("#GOLD#Life per level:#LIGHT_BLUE# +0", "#GOLD# 每等级生命加值： #LIGH
 ------------------------------------------------
 section "mod-tome/data/birth/classes/celestial.lua"
 
-t("Celestial", "天空系", "birth descriptor name")
+t("Celestial", "天空系", "birth descriptor class")
 t("The magic of the heavens is known to but a few, and that knowledge has long passed east, forgotten.", "天空魔法很少被人了解，这些知识在失落的远东大陆。", "_t")
 t("Celestial classes are arcane users focused on the heavenly bodies.", "天空系职业是使用天体能量的奥术使用者。", "_t")
 t("Most draw their powers from the Sun and the Moons.", "大部分都是从太阳和月亮汲取能量。", "_t")
-t("Sun Paladin", "太阳骑士", "birth descriptor name")
+t("Sun Paladin", "太阳骑士", "birth descriptor subclass")
 t("The sun rises in the east in full glory, but you must look for it first amidst the darkest places.", "东方升起的太阳充满荣耀，但你首先得从黑暗之地寻找到它。", "_t")
 t("Sun Paladins hail from the Gates of Morning, the last bastion of the free people in the Far East.", "太阳骑士出生于晨曦之门，那是遥远东方自由生活的人们的最后堡垒。", "_t")
 t("Their way of life is well represented by their motto 'The Sun is our giver, our purity, our essence. We carry the light into dark places, and against our strength none shall pass.'", "他们的事业受人尊敬，他们的座右铭是：太阳赐予我们力量、圣洁和精华。我们为黑暗带去光明，任何反抗我们的力量都休想通过。", "_t")
@@ -2956,7 +2955,7 @@ t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +5 Strength, +0 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +5 力量 , +0 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +4 Magic, +0 Willpower, +0 Cunning", "#LIGHT_BLUE# * +4 魔法 , +0 意志 , +0 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +2", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +2", "_t")
-t("Anorithil", "星月术士", "birth descriptor name")
+t("Anorithil", "星月术士", "birth descriptor subclass")
 t("The balance of the heavens' powers is a daunting task. Mighty are those that stand in the twilight places, wielding both light and darkness in their mind.", "平衡天空的力量是一件令人望而生畏的任务。他们站在黎明深处同时掌控着黑暗与光明的力量。", "_t")
 t("Anorithils hail from the Gates of Morning, the last bastion of the free people in the Far East.", "星月术士出生于晨曦之门，那是遥远东方自由生活的人们的最后堡垒。", "_t")
 t("Their way of life is well represented by their motto 'We stand betwixt the Sun and Moon, where light and darkness meet. In the grey twilight we seek our destiny.'", "他们的事业受人尊敬，他们的座右铭是：我们站在太阳与月亮之间，光暗交替之界。在灰色的黎明中寻找我们的使命。", "_t")
@@ -2970,12 +2969,12 @@ t("#GOLD#Life per level:#LIGHT_BLUE# +0", "#GOLD# 每等级生命加值： #LIGH
 ------------------------------------------------
 section "mod-tome/data/birth/classes/chronomancer.lua"
 
-t("Chronomancer", "时空系", "birth descriptor name")
+t("Chronomancer", "时空系", "birth descriptor class")
 t("Some do not walk upon the straight road others follow. Seek the hidden paths outside the normal course of life.", "他们是一些另辟蹊径的人，在平凡的道路上寻找出一条隐藏的路。", "_t")
 t("Exploiting a hole in the fabric of spacetime, Chronomancers learn to pull threads from other timelines into their own.", "通过在时空的连续性上打开孔洞，时空法师可以在时间线中来回穿梭。", "_t")
 t("Pulling these threads creates tension and the harder they pull the more tension is produced.", "这些穿梭时空的行为会在时空中留下张力，他们改变现实的程度越大，造成的张力就越大。", "_t")
 t("Constantly they manage this tension, which they call Paradox, to avoid or control the anomalies they inevitably unleash on the world around them.", "他们需要小心控制这些被他们成为紊乱值的时空张力。否则，这样的张力会不可避免在他们周围的世界产生各种异常现象。", "_t")
-t("Paradox Mage", "时空法师", "birth descriptor name")
+t("Paradox Mage", "时空法师", "birth descriptor subclass")
 t("A hand may clap alone if it returns to clap itself. Search for the power in the paradox.", "如果一只手能拍到过去的自己，那么就可以单手鼓掌。在时空悖论中寻求力量吧。", "_t")
 t("A Paradox Mage studies the very fabric of spacetime, learning not just to bend it but shape it and remake it.", "时光法师学习时空的构造，不仅仅是扭曲时空而且还能重塑时空。", "_t")
 t("Most Paradox Mages lack basic skills that others take for granted (like general fighting sense), but they make up for it through control of cosmic forces.", "大多数时光法师没有基本的格斗技能，但他们可以利用宇宙的力量来进行战斗。", "_t")
@@ -2985,7 +2984,7 @@ t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +2 Constitution", "#LIGHT_BLUE# * +0 力量 , +0 敏捷 , +2 体质", "_t")
 t("#LIGHT_BLUE# * +5 Magic, +2 Willpower, +0 Cunning", "#LIGHT_BLUE# * +5 魔法 , +2 意志 , +0 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +0", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +0", "_t")
-t("Temporal Warden", "时空守卫", "birth descriptor name")
+t("Temporal Warden", "时空守卫", "birth descriptor subclass")
 t("We preserve the past to protect the future. The hands of time are guarded by the arms of war.", "我们平衡过去，守护未来，我们用战斗来维持时间的秩序。", "_t")
 t("Their lifelines braided, Temporal Wardens have learned to work with their other selves across multiple timelines.", "通过缠结不同的时间线，时空守卫可以召唤其他世界线的分身，和自己一同战斗。", "_t")
 t("Through their study of chronomancy, they learn to blend archery and dual-weapon fighting, seamlessly switching from one to the other.", "时空守卫通过学习时空法术，可以将箭术和双手武器格斗联合在一起，在两者之间随意切换。", "_t")
@@ -2997,10 +2996,10 @@ t("#GOLD#Life per level:#LIGHT_BLUE# +2", "#GOLD# 每等级生命加值： #LIGH
 ------------------------------------------------
 section "mod-tome/data/birth/classes/corrupted.lua"
 
-t("Defiler", "堕落系", "birth descriptor name")
+t("Defiler", "堕落系", "birth descriptor class")
 t("Dark thoughts, black bloods, vile deeds... Those who spill their brethren's blood will find its power.", "黑暗的思想、黑色的血液、卑鄙的行为……那些背信弃义的人会发现他们的力量所在。", "_t")
 t("Defilers are touched by the mark of evil. They are a blight on the world. Working to promote the cause of evil, they serve their masters, or themselves become masters.", "腐化者身上有邪恶的印记，他们是世界的祸害，服务于他们的邪恶主人，或者他们自己成为主人。", "_t")
-t("Reaver", "收割者", "birth descriptor name")
+t("Reaver", "收割者", "birth descriptor subclass")
 t("Reap thee the souls of thine enemies, and the powers of darkness shall enter thy flesh.", "收割敌人的灵魂，你会发现黑暗的力量涌入体内。", "_t")
 t("Reavers are terrible foes, charging their enemies with a weapon in each hand.", "收割者是一个恐怖的对手，他可以向敌人挥舞两把单手武器。", "_t")
 t("They can harness the blight of evil, infecting their foes with terrible contagious diseases while crushing their skulls with devastating combat techniques.", "他们可以驾驭邪恶的枯萎术，将恐怖的疾病传染给目标，然后击碎他们的头颅。", "_t")
@@ -3009,7 +3008,7 @@ t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +4 Strength, +1 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +4 力量 , +1 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +4 Magic, +0 Willpower, +0 Cunning", "#LIGHT_BLUE# * +4 魔法 , +0 意志 , +0 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +2", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +2", "_t")
-t("Corruptor", "腐化者", "birth descriptor name")
+t("Corruptor", "腐化者", "birth descriptor subclass")
 t("Blight and depravity hold the greatest powers. Accept temptation and become one with corruption.", "枯萎和邪恶掌握了强大的力量。接受诱惑成为腐化者中的一员吧。", "_t")
 t("A corruptor is a terrible foe, wielding dark magics that can sap the very soul of her target.", "腐化者是一个恐怖的对手，使用黑暗魔法并汲取目标的灵魂。", "_t")
 t("They can harness the blight of evil, crushing souls, stealing life force to replenish themselves.", "他们驾驭邪恶的枯萎术，粉碎灵魂，偷取生命力量来治疗自己。", "_t")
@@ -3022,10 +3021,10 @@ t("#GOLD#Life per level:#LIGHT_BLUE# +0", "#GOLD# 每等级生命加值： #LIGH
 ------------------------------------------------
 section "mod-tome/data/birth/classes/mage.lua"
 
-t("Mage", "法师系", "birth descriptor name")
+t("Mage", "法师系", "birth descriptor class")
 t("Mages are the wielders of arcane powers, able to cast powerful spells of destruction or to heal their wounds with nothing but a thought.", "法师们用奥术魔法来武装自己，只要一闪念就能够释放破坏性的法术或者治疗自己", "_t")
 t("Golem", "傀儡", "birth facial category")
-t("Alchemist", "炼金术师", "birth descriptor name")
+t("Alchemist", "炼金术师", "birth descriptor subclass")
 t("An Alchemist is a manipulator of materials using magic.", "炼金术士使用魔法来操纵物质。", "_t")
 t("They do not use the forbidden arcane arts practised by the mages of old - such perverters of nature have been shunned or actively hunted down since the Spellblaze.", "他们不使用那些远古的被禁止的法术，那些法术自从魔法大爆炸之后就被人们禁止和追捕。", "_t")
 t("Alchemists can transmute gems to bring forth elemental effects, turning them into balls of fire, torrents of acid, and other effects.  They can also reinforce armour with magical effects using gems, and channel arcane staffs to produce bolts of energy.", "炼金术士可以将元素力量输入各种宝石，使它们变成火球、酸液和其他效果。另外他们也可以利用宝石来强化装甲并使用法杖发射能量球。", "_t")
@@ -3036,7 +3035,7 @@ t("#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +3 Constitution", "#LIGHT_BLUE# * +
 t("#LIGHT_BLUE# * +5 Magic, +1 Willpower, +0 Cunning", "#LIGHT_BLUE# * +5 魔法 , +1 意志 , +0 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# -1", "#GOLD# 每等级生命加值： #LIGHT_BLUE# -1", "_t")
 t("Golem becomes a Drolem", "傀儡成为龙傀儡", "_t")
-t("Archmage", "元素法师", "birth descriptor name")
+t("Archmage", "元素法师", "birth descriptor subclass")
 t("Hated, harrowed, hunted, hidden... Our ways are forbidden, but our cause is just. In our veiled valley we find solace from the world's wrath, free to study our arts. Only through charity and friendship can you earn our trust.", "憎恨、折磨、追捕、隐藏……我们的道路被禁止，但是我们的事业是正义的。在我们隐藏的山谷里我们自由学习我们自己的魔法艺术，从这个世界的愤怒中寻求安慰。只有友谊和宽容才能获得我们的信任。", "_t")
 t("An Archmage devotes his whole life to the study of magic above anything else.", "对一个元素法师来说魔法超越一切，他们倾尽一生学习魔法。", "_t")
 t("Most Archmagi lack basic skills that others take for granted (like general fighting sense), but they make up for it by their raw magical power.", "元素法师缺乏最基本的物理格斗技能，他们用魔法取而代之。", "_t")
@@ -3046,7 +3045,7 @@ t("Their most important stats are: Magic and Willpower", "他们最重要的属�
 t("#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +0 力量 , +0 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +5 Magic, +3 Willpower, +1 Cunning", "#LIGHT_BLUE# * +5 魔法 , +3 意志 , +1 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# -4", "#GOLD# 每等级生命加值： #LIGHT_BLUE# -4", "_t")
-t("Necromancer", "死灵法师", "birth descriptor name")
+t("Necromancer", "死灵法师", "birth descriptor subclass")
 t("The road to necromancy is a macabre path indeed. Walk with the dead, and drink deeply of their black knowledge.", "通往死灵法师的道路是极其可怕的，与死亡相伴随并沉溺在他们的黑暗知识之中。", "_t")
 t("While most magic is viewed with suspicion since the Spellblaze, the stigma surrounding the black art of Necromancy has been around since time immemorial.", "尽管自从魔法大爆炸以来，大部分魔法受到质疑，但自远古以来，死灵法师的黑暗魔法始终背负着骂名。", "_t")
 t("These dark spellcasters extinguish life, twist death, and raise armies of undead monsters to sate their lust for power and pursue their ultimate goal: Eternal life.", "这些黑暗的施法者泯灭生命、扭曲死亡、召唤不死亡灵作为他们的军队来满足他们对力量的渴求，达到他们的最终目标：永垂不朽。", "_t")
@@ -3055,16 +3054,17 @@ t("#GOLD#Life per level:#LIGHT_BLUE# -3", "#GOLD# 每等级生命加值： #LIGH
 ------------------------------------------------
 section "mod-tome/data/birth/classes/none.lua"
 
-t("None", "无", "birth descriptor name")
+t("None", "无", "birth descriptor class")
 t("Your race cannot select a class; it has its own powers.", "你的种族不能选择职业。它有自己的内在能力。", "_t")
+t("None", "无", "birth descriptor subclass")
 
 ------------------------------------------------
 section "mod-tome/data/birth/classes/psionic.lua"
 
-t("Psionic", "灵能系", "birth descriptor name")
+t("Psionic", "灵能系", "birth descriptor class")
 t("Weakness of flesh can be overcome by mental prowess. Find the way and fight for the way to open the key to your mind.", "肉体的软弱可以被精神的强大所克服。寻找一条能够进入你精神世界的路。", "_t")
 t("Psionics find their power within themselves. Their highly trained minds can harness energy from many different sources and manipulate it to produce physical effects.", "灵能力者发掘自身的潜在力量。他们经过高度开发的精神力能够利用许多不同的能量源吸收能量，并对现实世界产生影响。", "_t")
-t("Mindslayer", "心灵杀手", "birth descriptor name")
+t("Mindslayer", "心灵杀手", "birth descriptor subclass")
 t("A thought can inspire; a thought can kill. After centuries of oppression, years of imprisonment, a thought shall break us free and vengeance will strike from our darkest dreams.", "思想可以鼓舞人，思想也能杀人，在几个世纪的压抑、数年的监禁之后，我们心中的复仇思想会从我们最黑暗的梦境中爆发。", "_t")
 t("Mindslayers specialize in direct and brutal application of mental forces to their immediate surroundings.", "心灵杀手专门使用直接而残酷的精神力量来对付周围的敌人。", "_t")
 t("When Mindslayers do battle, they will most often be found in the thick of the fighting, vast energies churning around them and telekinetically-wielded weapons hewing nearby foes at the speed of thought.", "心灵杀手在战斗时，他们总是在战场中心，大量的敌人包围他们，他们以心灵感应控制武器极快地挥砍敌人。", "_t")
@@ -3073,7 +3073,7 @@ t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +1 Strength, +0 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +1 力量 , +0 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +0 Magic, +4 Willpower, +4 Cunning", "#LIGHT_BLUE# * +0 魔法 , +4 意志 , +4 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# -2", "#GOLD# 每等级生命加值： #LIGHT_BLUE# -2", "_t")
-t("Solipsist", "织梦者", "birth descriptor name")
+t("Solipsist", "织梦者", "birth descriptor subclass")
 t("Some believe that the world is the collective dream of those that live in it.  Find and wake the sleeper and you'll unlock the potential of your dreams.", "有些人认为世界由许多个梦境组成，而我们生活在这些梦境里。寻找并唤醒沉睡者，你可以打开通往梦境之门。", "_t")
 t("The Solipsist believes that reality is malleable and nothing more than the collective vision of those that experience it.", "织梦者们相信现实具有可塑性，而没有任何方面能比的过幻想对这个世界的重塑能力。", "_t")
 t("They wield this knowledge to both create and destroy, to invade the minds of others, and to manipulate the dreams of those around them.", "他们依靠此理论进行创造和毁灭，侵入他人的思维并操纵他人的梦境。", "_t")
@@ -3085,8 +3085,9 @@ t("#GOLD#Life per level:#LIGHT_BLUE# -4 (*special*)", "#GOLD# 每等级生命加
 ------------------------------------------------
 section "mod-tome/data/birth/classes/rogue.lua"
 
-t("Rogue", "盗贼", "birth descriptor name")
+t("Rogue", "盗贼系", "birth descriptor class")
 t("Rogues are masters of tricks; they can strike from the shadows, and lure monsters into deadly traps.", "盗贼是诡计大师，他们可以从阴影中发动攻击，也可以引诱怪物到他们的死亡陷阱里。", "_t")
+t("Rogue", "盗贼", "birth descriptor subclass")
 t("Rogues are masters of tricks. A Rogue can get behind you unnoticed and stab you in the back for tremendous damage.", "盗贼是诡计专家。盗贼可以潜行到你背后而不被发现，然后通过背后刺杀中造成巨大伤害。", "_t")
 t("Rogues usually prefer to dual-wield daggers. They can also become trapping experts, detecting and disarming traps as well as setting them.", "盗贼通常双持匕首，他们同样可以成为陷阱专家，除了安装陷阱以外他们可以侦测并拆除陷阱。", "_t")
 t("Their most important stats are: Dexterity and Cunning", "他们最重要的属性是：敏捷和灵巧", "_t")
@@ -3094,21 +3095,21 @@ t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +1 Strength, +3 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +1 力量 , +3 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +0 Magic, +0 Willpower, +5 Cunning", "#LIGHT_BLUE# * +0 魔法 , +0 意志 , +5 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +0", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +0", "_t")
-t("Shadowblade", "影舞者", "birth descriptor name")
+t("Shadowblade", "影舞者", "birth descriptor subclass")
 t("Shadowblades are Rogues that are touched by the gift of magic, able to kill with their daggers under a veil of stealth while casting spells to enhance their performance and survival.", "影舞者是拥有魔法天赋的特殊盗贼，他们可以在阴影之中发动偷袭同时可以施展魔法来强化他们的攻击和生存能力。", "_t")
 t("Their use of magic is innate and not really studied; as such they do not naturally regenerate mana and must use external means of recharging.", "他们的魔法并非习得而是与生俱来的，因此他们不能依靠自然的法力恢复而必须依靠额外的方法来恢复法力值。", "_t")
 t("They use the schools of Phantasm, Temporal, Divination and Conveyance magic to enhance their arts.", "他们使用幻觉、时间、预知和传送技能来增强他们的能力。", "_t")
 t("Their most important stats are: Dexterity, Cunning and Magic", "他们最重要的属性是：敏捷、灵巧和魔法。", "_t")
 t("#LIGHT_BLUE# * +0 Strength, +3 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +0 力量 , +3 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +3 Magic, +0 Willpower, +3 Cunning", "#LIGHT_BLUE# * +3 魔法 , +0 意志 , +3 灵巧", "_t")
-t("Marauder", "掠夺者", "birth descriptor name")
+t("Marauder", "掠夺者", "birth descriptor subclass")
 t("I will not hide and I will not sneak - come dance with my blades and we'll see who's weak. Snapping bone and cracking skull, it's the sounds of battle that make life full!", "我不会隐藏也不潜行，与我的双刀起舞看看谁才是最终的强者，撕碎骨头敲碎头颅，战斗的声响让生活丰富多彩！", "_t")
 t("The wilds of Maj'Eyal are not a safe place. Untamed beasts and wandering dragons may seem a great threat, but the true perils walk on two legs. Thieves and brigands, assassins and opportunistic adventurers, even mad wizards and magic-hating zealots all carry danger to those who venture beyond the safety of city walls.", "埃亚尔的野外不是个安全的地方。野兽和到处游荡的龙似乎是巨大的威胁，然而真正危险的是两条腿的人。窃贼、强盗、刺客投机冒险家、疯狂的巫师甚至狂热的猎魔者都会让那些走出安全的城墙之外的冒险者丧命。", "_t")
 t("Amidst this chaos wanders one class of rogue that has learned to take by force rather than subterfuge. With refined techniques, agile feats and brawn-backed blades the Marauder seeks out his targets and removes them by the most direct methods. He uses dual weapons backed by advanced combat training to become highly effective in battle, and he is unafraid to use the dirtiest tactics when the odds are against him.", "在这混乱之中诞生了一种特殊的盗贼，他们擅于正面交锋而不是使用诡计。拥有精准特技、灵巧步伐和锋利刀刃的掠夺者搜寻他的目标并直接消灭他们。他们通过高等战斗训练使双持武器更加有效，情形不利时他们不会忌讳使用肮脏的手段取得胜利。", "_t")
 t("Their most important stats are: Strength, Dexterity and Cunning", "他们最重要的技能是：力量、敏捷和灵巧。", "_t")
 t("#LIGHT_BLUE# * +4 Strength, +4 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +4 力量 , +4 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +0 Magic, +0 Willpower, +1 Cunning", "#LIGHT_BLUE# * +0 魔法 , +0 意志 , +1 灵巧", "_t")
-t("Skirmisher", "散兵", "birth descriptor name")
+t("Skirmisher", "散兵", "birth descriptor subclass")
 t("Fleet of foot and strong of throw, overwhelming every foe, from afar we counter, strike and thud, in the chaos'd skirmish spilling blood.", "脚底抹油，百发百中，从远处发动格挡反击，在混战中给予敌人痛击。", "_t")
 t("While able to take maximum advantage of their sling by using deft movements to avoid and confuse enemies that try to get close, the Skirmisher truly excels when fighting other ranged users.", "灵活的移动让散兵甩开试图接近的对手，并得以最大程度地发挥投石索的威力，这让他们在与其他远程职业作战时也占据优势。", "_t")
 t("They have mastered the use of their shield as well as their sling and are nearly impossible to defeat in a standoff.", "他们也精通盾牌的使用，这让他们在持久战中也几乎处于不败之地。", "_t")
@@ -3118,15 +3119,16 @@ t("#LIGHT_BLUE# * +0 Magic, +1 Willpower, +4 Cunning", "#LIGHT_BLUE# * +0 魔法
 ------------------------------------------------
 section "mod-tome/data/birth/classes/tutorial.lua"
 
-t("Tutorial Adventurer", "探索模式冒险家", "birth descriptor name")
+t("Tutorial Adventurer", "探索模式冒险家", "birth descriptor class")
 t("Adventurers have a generic talent set to teach to young ones.", "冒险家们有一套通用的理论可以传授给菜鸟们。", "_t")
+t("Tutorial Adventurer", "探索模式冒险家", "birth descriptor subclass")
 
 ------------------------------------------------
 section "mod-tome/data/birth/classes/warrior.lua"
 
-t("Warrior", "战士系", "birth descriptor name")
+t("Warrior", "战士系", "birth descriptor class")
 t("Warriors train in all aspects of physical combat. They can be juggernauts of destruction wielding two-handed greatswords, or massive iron-clad protectors with gleaming shields.", "战士精通于各种物理系战斗技能，他们可以手持双手大剑造成成吨的打击，也可以身穿重甲手持盾牌成为一个强大的护卫。", "_t")
-t("Berserker", "狂战士", "birth descriptor name")
+t("Berserker", "狂战士", "birth descriptor subclass")
 t("A Berserker wields huge two-handed weapons of destruction, bringing pain and death to his foes as he cleaves them in two.", "狂战士手持双手武器，以毁灭性的伤害将他的敌人砍成两半。", "_t")
 t("A Berserker usually forfeits all ideas of self-defense to concentrate on what he does best: killing things.", "狂战士通常专注于造成伤害而忽视自我防御。", "_t")
 t("Their most important stats are: Strength and Constitution", "他们最重要的属性是力量和体质。", "_t")
@@ -3134,13 +3136,13 @@ t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +5 Strength, +1 Dexterity, +3 Constitution", "#LIGHT_BLUE# * +5 力量 , +1 敏捷 , +3 体质", "_t")
 t("#LIGHT_BLUE# * +0 Magic, +0 Willpower, +0 Cunning", "#LIGHT_BLUE# * +0 魔法 , +0 意志 , +0 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +3", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +3", "_t")
-t("Bulwark", "盾战士", "birth descriptor name")
+t("Bulwark", "盾战士", "birth descriptor subclass")
 t("A Bulwark specializes in weapon and shield combat, rarely leaving the cover of her many protective techniques.", "盾战士精通于武器和使用盾牌格斗，并拥有极高的防御技能。", "_t")
 t("A good Bulwark is able to withstand terrible attacks from all sides, protected by her shield, and when the time comes lash out at her foes with incredible strength.", "一个好的盾战士能够使用盾牌承受来自各方的攻击，当时机一到就立即将对手置于死地。", "_t")
 t("Their most important stats are: Strength and Dexterity", "他们最重要的属性是：力量和敏捷。", "_t")
 t("#LIGHT_BLUE# * +5 Strength, +2 Dexterity, +2 Constitution", "#LIGHT_BLUE# * +5 力量 , +2 敏捷 , +2 体质", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +6", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +6", "_t")
-t("Archer", "弓箭手", "birth descriptor name")
+t("Archer", "弓箭手", "birth descriptor subclass")
 t("Archers are dexterous ranged fighters, able to pin their foes to the ground and rain down a carpet of arrows on them.", "弓箭手是身手矫健的远程战士，能将他的敌人钉在原地再射出如雨般的箭矢消灭对手。", "_t")
 t("Skilled archers can fire special shots that pierce, cripple or pin their foes.", "高等级的弓箭手可以射出特殊的箭矢，可以是射穿目标，减速或者使目标钉在原地。", "_t")
 t("Archers can become good with either longbows or slings.", "弓箭手可以使用长弓和投石索。", "_t")
@@ -3148,7 +3150,7 @@ t("Their most important stats are: Dexterity and Strength (when using bows) or C
 t("#LIGHT_BLUE# * +2 Strength, +5 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +2 力量 , +5 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +0 Magic, +0 Willpower, +2 Cunning", "#LIGHT_BLUE# * +0 魔法 , +0 意志 , +2 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +0", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +0", "_t")
-t("Arcane Blade", "奥术之刃", "birth descriptor name")
+t("Arcane Blade", "奥术之刃", "birth descriptor subclass")
 t("The Arcane Blade is a warrior who has been touched by the gift of magic.", "奥术之刃是一个拥有魔法的战士。", "_t")
 t("Their use of magic is innate and not really studied; as such they do not naturally regenerate mana and must use external means of recharging.", "他们的魔法并非习得而是与生俱来的，因此他们不能依靠自然的法力恢复而必须依靠额外的方法来恢复法力值。", "_t")
 t("They can cast spells from a limited selection but have the unique capacity to 'channel' their attack spells through their melee attacks.", "他们能施展一些有限的法术，同时也能将法术融合在他们的近战攻击中。", "_t")
@@ -3157,7 +3159,7 @@ t("Their most important stats are: Strength, Cunning and Magic", "他们最重�
 t("#LIGHT_BLUE# * +3 Strength, +0 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +3 力量 , +0 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +3 Magic, +0 Willpower, +3 Cunning", "#LIGHT_BLUE# * +3 魔法 , +0 意志 , +3 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +2", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +2", "_t")
-t("Brawler", "格斗家", "birth descriptor name")
+t("Brawler", "格斗家", "birth descriptor subclass")
 t("Though you may fight alone against many, destined to fight till you die, still you do not relent. In a ring of blood you learn that a pair of fists can face the world.", "虽然你击败了许多对手，你也知道你命中注定要战斗至死，但你毫不退缩，在鲜血之环你会知道只有依靠你的双拳来面对这个世界。", "_t")
 t("The ravages of the Spellblaze stretched armies thin and left many unprotected. Not everyone could afford the luxury of a weapon.", "魔法大爆炸造成的物资匮乏使得武器成为一种奢侈品，并不是每个人都能担负的起。", "_t")
 t("Without steel or iron, poor communities of all races turned to the strength of their own bodies for defense against the darkness.", "没有钢铁打造的装备，穷人们开始依靠他们自身的力量开始与黑暗斗争。", "_t")
@@ -3171,11 +3173,11 @@ t("#LIGHT_BLUE# * +0 Magic, +0 Willpower, +3 Cunning", "#LIGHT_BLUE# * +0 魔法
 ------------------------------------------------
 section "mod-tome/data/birth/classes/wilder.lua"
 
-t("Wilder", "野性系", "birth descriptor name")
+t("Wilder", "野性系", "birth descriptor class")
 t("Natural abilities can go beyond mere skill. Experience the true powers of nature to learn of its amazing gifts.", "自然能力超越了纯粹的技能。经历自然的真正力量来领略它神奇的恩赐。", "_t")
 t("Wilders are one with nature, in one manner or another. There are as many different Wilders as there are aspects of nature.", "无论从哪一方面来说，野性系都是大自然的守护者。就像自然的力量多种多样一样，也有着不同的野性系职业。", "_t")
 t("They can take on the aspects of creatures, summon creatures to them, feel the druidic call, ...", "他们可以继承某些生物的特性技能，也可以召唤生物，或感受德鲁伊的召唤，……", "_t")
-t("Summoner", "召唤师", "birth descriptor name")
+t("Summoner", "召唤师", "birth descriptor subclass")
 t("Not all might comes from within. Hear the invocations of nature, hear its calling power. See that from without we can find our true strengths.", "不是所有的力量来自于你自己，倾听自然的祈祷，感受自然的力量，从中发现我们真正的力量。", "_t")
 t("Summoners never fight alone. They are always ready to summon one of their many minions to fight at their side.", "召唤师从不孤身战斗，他们时刻准备召唤出宠物为他们而战。", "_t")
 t("Summons can range from a combat hound to a fire drake.", "召唤师可以召唤从战争猎犬到火龙的各种生物。", "_t")
@@ -3185,7 +3187,7 @@ t("#LIGHT_BLUE# * +0 Strength, +1 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +
 t("#LIGHT_BLUE# * +0 Magic, +5 Willpower, +3 Cunning", "#LIGHT_BLUE# * +0 魔法 , +5 意志 , +3 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +0", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +0", "_t")
 t("Max summons: %d", "最大召唤数： %d", "tformat")
-t("Wyrmic", "龙战士", "birth descriptor name")
+t("Wyrmic", "龙战士", "birth descriptor subclass")
 t("Sleek, majestic, powerful... In the path of dragons we walk, and their breath is our breath. See their beating hearts with your eyes and taste their majesty between your teeth.", "雄伟、庄严、强壮……在通往龙的道路上和他们一同呼吸，用你的眼睛凝视他们跳动的心脏，在你的唇间品味他们的威严。", "_t")
 t("Wyrmics are fighters who have learnt how to mimic some of the aspects of the dragons.", "龙战士是学习守护巨龙战斗方式的战士。", "_t")
 t("They have access to talents normally belonging to the various kind of drakes.", "他们从不同的龙中学习技能。", "_t")
@@ -3193,14 +3195,14 @@ t("Their most important stats are: Strength and Willpower", "他们最重要的�
 t("#LIGHT_BLUE# * +5 Strength, +0 Dexterity, +1 Constitution", "#LIGHT_BLUE# * +5 力量 , +0 敏捷 , +1 体质", "_t")
 t("#LIGHT_BLUE# * +0 Magic, +3 Willpower, +0 Cunning", "#LIGHT_BLUE# * +0 魔法 , +3 意志 , +0 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# +2", "#GOLD# 每等级生命加值： #LIGHT_BLUE# +2", "_t")
-t("Oozemancer", "软泥使", "birth descriptor name")
+t("Oozemancer", "软泥使", "birth descriptor subclass")
 t("Magic must fail, magic must lose, nothing arcane can face the ooze...", "魔法必定失败，魔法终会消亡，任何奥术能量都不能对抗软泥的力量…", "_t")
 t("Oozemancers separate themselves from normal civilisation so that they be more in harmony with Nature. Arcane force are reviled by them, and their natural attunement to the wilds lets them do battle with abusive magic-users on an equal footing.", "软泥使将自己和正常文明割裂，让自己与自然更加和谐。他们拒绝奥术能量，同时，与生俱来的自然和野性力量让他们成为了对抗魔法使用者的中坚力量。", "_t")
 t("They can spawn oozes to protect and attack from a distance while also being adept at harnessing the power of mindstars and psiblades.", "他们能制造软泥怪，来保护自己或远距离攻击对方，同时也能利用灵晶和心灵利刃来强化自己。", "_t")
 t("#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +0 力量 , +0 敏捷 , +0 体质", "_t")
 t("#LIGHT_BLUE# * +0 Magic, +5 Willpower, +4 Cunning", "#LIGHT_BLUE# * +0 魔法 , +5 意志 , +4 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# -3", "#GOLD# 每等级生命加值： #LIGHT_BLUE# -3", "_t")
-t("Stone Warden", "岩石守卫", "birth descriptor name")
+t("Stone Warden", "岩石守卫", "birth descriptor subclass")
 t([[The Spellblaze's scars may be starting to heal,
 but little can change how the partisans feel.
 Nature and arcane could bridge their divide -
@@ -3218,14 +3220,14 @@ t("#LIGHT_BLUE# * +4 Magic, +3 Willpower, +0 Cunning", "#LIGHT_BLUE# * +4 魔法
 ------------------------------------------------
 section "mod-tome/data/birth/descriptors.lua"
 
-t("base", "基础", "birth descriptor name")
-t("Tutorial", "教程", "birth descriptor name")
+t("base", "基础", "birth descriptor base")
+t("Tutorial", "教程", "birth descriptor difficulty")
 t("#GOLD##{bold}#Tutorial mode", "#GOLD##{bold}#教程模式", "_t")
 t("#WHITE#Start with a simplified character and discover the game in a simple quest.#{normal}#", "#WHITE#以一个简化的人物开始游戏并通过一个简单的任务来探索这个游戏。#{normal}#", "_t")
 t("All damage done to the player reduced by 20%", "角色所受伤害减少 20%", "_t")
 t("All healing for the player increased by 10%", "角色治疗效果增加 10%", "_t")
 t("No main game achievements possible.", "无法获得主游戏的成就。", "_t")
-t("Easier", "简单", "birth descriptor name")
+t("Easier", "简单", "birth descriptor difficulty")
 t("#GOLD##{bold}#Easier mode#WHITE##{normal}#", "#GOLD##{bold}#简单难度#WHITE##{normal}#", "_t")
 t("Provides an easier game experience.", "提供一个较简单的游戏体验。", "_t")
 t("Use it if you feel uneasy tackling the harder modes.", "其他难度游戏困难时请选择此模式。", "_t")
@@ -3233,11 +3235,11 @@ t("All damage done to the player decreased by 30%", "角色所受所有伤害减
 t("All healing for the player increased by 30%", "角色所受所有治疗增加 30%", "_t")
 t("All detrimental status effects durations reduced by 50%", "所有负面状态持续时间减少 50%", "_t")
 t("Achievements are not granted.", "不能完成游戏成就。", "_t")
-t("Normal", "普通", "birth descriptor name")
+t("Normal", "普通", "birth descriptor difficulty")
 t("#GOLD##{bold}#Normal mode#WHITE##{normal}#", "#GOLD##{bold}#普通难度#WHITE##{normal}#", "_t")
 t("Provides the normal level of challenges.", "普通难度的挑战。", "_t")
 t("Stairs can not be used for 2 turns after a kill.", "你杀死生物 2 回合内不能使用楼梯。", "_t")
-t("Nightmare", "梦魇", "birth descriptor name")
+t("Nightmare", "梦魇", "birth descriptor difficulty")
 t("#GOLD##{bold}#Nightmare mode#WHITE##{normal}#", "#GOLD##{bold}#噩梦难度#WHITE##{normal}#", "_t")
 t("Unfair game setting", "高难度游戏设定", "_t")
 t("All zone levels increased by 25% by the time Player reaches level 10", "玩家等级 10 后，所有地区等级提高 25%", "_t")
@@ -3246,7 +3248,7 @@ t("Unique (fixed) bosses advance in bonus classes 30% faster", "固定或随机B
 t("Rare creatures are slightly more frequent", "稀有生物出现率略微增加", "_t")
 t("Stairs can not be used for 3 turns after a kill.", "你杀死生物 3 回合内不能使用楼梯", "_t")
 t("Player can earn Nightmare version of achievements if also playing in Roguelike or Adventure permadeath mode.", "玩家如果选择永久死亡模式或冒险模式可以达成噩梦难度成就。", "_t")
-t("Insane", "疯狂", "birth descriptor name")
+t("Insane", "疯狂", "birth descriptor difficulty")
 t("Easy is for the weak! Normal is for the weak! Nightmare is too easy! Bring on the true pain!", "简单难度，弱鸡！普通难度，菜鸟！噩梦难度，弱爆了！想成为王者领略最强的挑战吗？解锁疯狂模式！", "_t")
 t("#GOLD##{bold}#Insane mode#WHITE##{normal}#", "#GOLD##{bold}#疯狂难度#WHITE##{normal}#", "_t")
 t("Similar rules to Nightmare, but with more random bosses!", "和噩梦难度相似，但随机 Boss 出现更加频繁！", "_t")
@@ -3256,7 +3258,7 @@ t("Unique (fixed) bosses advance in bonus classes 70% faster", "固定或随机B
 t("Rare creatures are far more frequent and random bosses start to appear", "稀有怪出现频率大幅增加，同时出现随机 Boss", "_t")
 t("Stairs can not be used for 5 turns after a kill.", "你杀死生物 5 回合内不能使用楼梯。", "_t")
 t("Player can earn Insane version of achievements if also playing in Roguelike or Adventure permadeath mode.", "玩家如果选择永久死亡或冒险模式可以达成疯狂难度成就。", "_t")
-t("Madness", "绝望", "birth descriptor name")
+t("Madness", "疯狂", "birth descriptor difficulty")
 t("Insane is for the weak! Bring on the true mind-shattering experience!", "疯狂难度也弱爆了！来体验真正让大脑崩溃的感觉吧！", "_t")
 t("#GOLD##{bold}#Madness mode#WHITE##{normal}#", "#GOLD##{bold}#绝望难度#WHITE##{normal}#", "_t")
 t("Absolutely unfair game setting. Prepare for the full wrath of DarkGod!", "绝对不公平的游戏设定。感受DarkGod的愤怒吧！", "_t")
@@ -3268,7 +3270,7 @@ t("Stairs can not be used for 9 turns after a kill.", "你杀死生物 9 回合�
 t("Player starts with 100 more life and 500 gold, but trust us, you'll need it!", "玩家起始获得100额外生命值和500金钱，相信我，你会用到它们的！", "_t")
 t("Player is being hunted! Randomly all foes in a radius will get a feeling of where she/he is", "玩家处于被捕猎的状态，一定半径内所有生物都能感知到你的位置。", "_t")
 t("Player can earn Madness version of achievements if also playing in Roguelike or Adventure permadeath mode.", "玩家如果选择永久死亡模式或冒险模式可以达成绝望难度成就。", "_t")
-t("Exploration", "探索模式", "birth descriptor name")
+t("Exploration", "探索模式", "birth descriptor permadeath")
 t("Exploration mode: Infinite lives (donator feature)", "探索模式：无限生命（捐赠者特权）", "_t")
 t("#GOLD##{bold}#Exploration mode#WHITE#", "#GOLD##{bold}#探索模式#WHITE#", "_t")
 t("Provides you with infinite lives.#{normal}#", "拥有无限次生命。#{normal}#", "_t")
@@ -3276,21 +3278,23 @@ t("This is not the way the game is meant to be played, but it allows you to have
 t("Remember though that dying is an integral part of the game and helps you become a better player.", "请记住死也是游戏不可或缺的一部分，这可以帮助你成为一个更好的玩家。", "_t")
 t("Exploration version of achievements will be granted in this mode.", "此模式你可以完成探索模式成就。", "_t")
 t("Full talent respec is always available.", "此模式下你可以无限洗点。", "_t")
-t("Adventure", "冒险模式", "birth descriptor name")
+t("Adventure", "冒险模式", "birth descriptor permadeath")
 t("#GOLD##{bold}#Adventure mode#WHITE#", "#GOLD##{bold}#冒险模式#WHITE#", "_t")
 t("Provides you with limited extra lives.", "你拥有有限的额外生命。", "_t")
 t("Use it if you want normal playing conditions but do not feel ready for just one life.#{normal}#", "如果还没有准备好一条命通关就用这个模式进行。#{normal}#", "_t")
 t("At level 1,2,5,7,14,24,35 get one more 'life' that allows you to resurrect at the start of the level.", "在达到 1,2,5,7,14,24,35 级时你分别可以得到额外一次额外生命的奖励。", "_t")
-t("Roguelike", "永久死亡模式", "birth descriptor name")
+t("Roguelike", "永久死亡模式", "birth descriptor permadeath")
 t("#GOLD##{bold}#Roguelike mode#WHITE#", "#GOLD##{bold}#永久死亡模式#WHITE#", "_t")
 t("Provides the closer experience to 'classic' roguelike games.", "经典的 Roguelike 模式。", "_t")
 t("You will only have one life; you *ARE* your character.#{normal}#", "你就是这个角色，你只有一次生命机会。#{normal}#", "_t")
 t("Only one life, unless ways to self-resurrect are found in-game.", "除非你在游戏内找到某些原地复活的能力。", "_t")
+-- old translated text
+t("Easier", "简单", "birth descriptor name")
 
 ------------------------------------------------
 section "mod-tome/data/birth/races/construct.lua"
 
-t("Construct", "构装生物", "birth descriptor name")
+t("Construct", "构装生物", "birth descriptor race")
 t("Constructs are not natural creatures.", "构装生物是非自然的生物。", "_t")
 t("The most usual contructs are golems, but they can vary in shape, form and abilities.", "最平凡的构装生物是傀儡，但是它们有着多样的形状、风格和能力。", "_t")
 t("Skin", "皮肤", "birth facial category")
@@ -3298,7 +3302,7 @@ t("Hairs", "发型", "birth facial category")
 t("Facial features", "脸部特征", "birth facial category")
 t("Tatoos", "纹身", "birth facial category")
 t("Special", "特殊", "birth facial category")
-t("Runic Golem", "符文傀儡", "birth descriptor name")
+t("Runic Golem", "符文傀儡", "birth descriptor subrace")
 t("Runic Golems are creatures made of solid rock and animated using arcane forces.", "符文傀儡是由石头构成的并擅长使用奥术力量。", "_t")
 t("They cannot be of any class, but they have many intrinsic abilities.", "它们无法选择任何职业，但是它们有着许多的天赋能力。", "_t")
 t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
@@ -3340,7 +3344,7 @@ t("", "", "_t")
 ------------------------------------------------
 section "mod-tome/data/birth/races/dwarf.lua"
 
-t("Dwarf", "矮人", "birth descriptor name")
+t("Dwarf", "矮人", "birth descriptor race")
 t("Dwarves are a secretive people, hailing from their underground home of the Iron Throne.", "矮人是一支隐秘的种族，生活于地下世界钢铁王座。", "_t")
 t("They are a sturdy race and are known for their masterwork, yet they are not well loved, having left other races to fend for themselves in past conflicts.", "他们是支强壮的种族并以大师级手艺而闻名，但是，由于在过去的战乱中为了自身利益抛弃了其他种族，他们仍然不受欢迎。", "_t")
 t("All dwarves are united under the Empire and their love of money.", "矮人们出于对金钱的热衷和他们对王国的热爱而联合在一起。", "_t")
@@ -3348,6 +3352,7 @@ t("Skin", "皮肤", "birth facial category")
 t("Hairs", "发型", "birth facial category")
 t("Facial features", "脸部特征", "birth facial category")
 t("Special", "特殊", "birth facial category")
+t("Dwarf", "矮人", "birth descriptor subrace")
 t("They possess the #GOLD#Resilience of the Dwarves#WHITE# which allows them to increase their armour, physical and spell saves for a few turns.", "他们天生掌握 #GOLD# 钢筋铁骨 #WHITE#，允许他们在短时间内提高护甲和抵抗。", "_t")
 t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * +4 Strength, -2 Dexterity, +3 Constitution", "#LIGHT_BLUE# * +4 力量 , -2 敏捷 , +3 体质", "_t")
@@ -3443,7 +3448,7 @@ section "mod-tome/data/birth/races/elf.lua"
 t("Skin", "皮肤", "birth facial category")
 t("Hairs", "发型", "birth facial category")
 t("Special", "特殊", "birth facial category")
-t("Elf", "精灵", "birth descriptor name")
+t("Elf", "精灵", "birth descriptor race")
 t("The elven races are usually named as a whole 'elves', but this is incorrect.", "精灵这个名字通常被用来不正确地称呼整个精灵种族。", "_t")
 t("Elves are split into three separate races - albeit related - of which only two remain in the current age.", "精灵分为 3 个相互联系的种族，而目前只有两种还幸存着。", "_t")
 t("Elves usually live about one thousand years, except for the Shaloren who magically sustain themselves forever.", "除了永恒精灵用魔法保持永生，其他精灵通常能活一千年。", "_t")
@@ -3473,7 +3478,7 @@ t("Redhead Hair 3", "红发3", "_t")
 t("Redhead Hair 4", "红发4", "_t")
 t("Redhead Hair 5", "红发5", "_t")
 t("Bikini / Mankini", "比基尼/男性比基尼", "_t")
-t("Shalore", "永恒精灵", "birth descriptor name")
+t("Shalore", "永恒精灵", "birth descriptor subrace")
 t("Shaloren elves have close ties with the magic of the world, and produced in the past many great mages.", "永恒精灵与魔法世界有着很强的联系，曾一度出现过许多伟大的魔法师。", "_t")
 t("Yet they remain quiet and try to hide their magic from the world, for they remember too well the Spellblaze - and the Spellhunt that followed.", "尽管如此，他们仍试图保持避世并隐藏他们的魔法能力。因为他们深深记得那一段血腥的历史——魔法大爆炸还有紧随其后的猎魔行动。", "_t")
 t("They possess the #GOLD#Grace of the Eternals#WHITE# talent which allows them a boost of speed every once in a while.", "他们天生掌握 #GOLD# 不朽的恩赐 #WHITE#，允许他们在短时间内提高整体速度。", "_t")
@@ -3482,7 +3487,7 @@ t("#LIGHT_BLUE# * -2 Strength, +1 Dexterity, +0 Constitution", "#LIGHT_BLUE# * -
 t("#LIGHT_BLUE# * +2 Magic, +3 Willpower, +1 Cunning", "#LIGHT_BLUE# * +2 魔法 , +3 意志 , +1 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# 9", "#GOLD# 每等级生命加值： #LIGHT_BLUE# 9", "_t")
 t("#GOLD#Experience penalty:#LIGHT_BLUE# 12%", "#GOLD#经验惩罚： #LIGHT_BLUE# 12%", "_t")
-t("Thalore", "自然精灵", "birth descriptor name")
+t("Thalore", "自然精灵", "birth descriptor subrace")
 t("Thaloren elves have spent most of the ages hidden within their forests, seldom leaving them.", "在大部分岁月里，自然精灵隐藏在丛林里，很少离开。", "_t")
 t("The ages of the world passed by and yet they remained unchanged.", "岁月流逝，这一习惯都没有改变。", "_t")
 t("Their affinity for nature and their reclusion have made them great protectors of the natural order, often opposing their Shaloren cousins.", "他们长期隐居在自然中，由于和自然的紧密联系，自然精灵成为自然秩序的保护者，并与他们的近亲永恒精灵处于对立状态。", "_t")
@@ -3495,7 +3500,7 @@ t("#GOLD#Experience penalty:#LIGHT_BLUE# 0%", "#GOLD#经验惩罚： #LIGHT_BLUE
 ------------------------------------------------
 section "mod-tome/data/birth/races/giant.lua"
 
-t("Giant", "巨人", "birth descriptor name")
+t("Giant", "巨人", "birth descriptor race")
 t("Powerful beings that tower over all, but the bigger they are, the harder they fall...", "庞然的巨物傲视着渺小的生灵。然而须知，高处不胜寒，站得越高，跌得越惨……", "_t")
 t("#{italic}#\"Giant\"#{normal}# is a catch-all term for humanoids which are typically over eight feet in height.  Their origins, cultures, and relationships to other races differ wildly, but they tend to live as refugees and outcasts, shunned by smaller sentient races who usually see them as a threat.", "#{italic}#\"巨人\"#{normal}# 是对那些身高超过八英尺的人型生物的统称。他们的起源、文化和关系与其他种族迥异。他们被其他矮小的种族视为威胁而躲避，作为避难的流浪者而生存。", "_t")
 t("Skin", "皮肤", "birth facial category")
@@ -3503,7 +3508,7 @@ t("Hairs", "发型", "birth facial category")
 t("Facial features", "脸部特征", "birth facial category")
 t("Tatoos", "纹身", "birth facial category")
 t("Special", "特殊", "birth facial category")
-t("Ogre", "食人魔", "birth descriptor name")
+t("Ogre", "食人魔", "birth descriptor subrace")
 t([[Forged in the hatred of ages long passed,
 made for a war that they've come to outlast.
 Their forgotten birthplace lies deep underground,
@@ -3582,7 +3587,7 @@ section "mod-tome/data/birth/races/halfling.lua"
 t("Skin", "皮肤", "birth facial category")
 t("Hairs", "发型", "birth facial category")
 t("Special", "特殊", "birth facial category")
-t("Halfling", "半身人", "birth descriptor name")
+t("Halfling", "半身人", "birth descriptor race")
 t("Halflings are a race of very short stature, rarely exceeding four feet in height.", "半身人是一个身材十分矮小的种族，高度很少有超过 4 英尺。", "_t")
 t("They are like humans in that they can do just about anything they set their minds to, yet they excel at ordering and studying things.", "只要愿意，他们可以像人类一样做到任何事情，并且更有纪律，更擅长学习。", "_t")
 t("Halfling armies have brought many kingdoms to their knees and they kept a balance of power with the Human kingdoms during the Age of Allure.", "半身人军队曾经征服了很多国家，并且在厄流纪时他们可以和人类联合王国制衡。", "_t")
@@ -3606,6 +3611,7 @@ t("Redhead 2", "红发2", "_t")
 t("Redhead 3", "红发3", "_t")
 t("Redhead 4", "红发4", "_t")
 t("Bikini / Mankini", "比基尼/男性比基尼", "_t")
+t("Halfling", "半身人", "birth descriptor subrace")
 t("They possess the #GOLD#Luck of the Little Folk#WHITE# which allows them to increase their critical strike chance and saves for a few turns.", "他们天生掌握 #GOLD# 小不点的幸运 #WHITE# 技能可以使他们在几个回合内提高暴击几率。", "_t")
 t("#GOLD#Stat modifiers:", "#GOLD# 属性修正：", "_t")
 t("#LIGHT_BLUE# * -3 Strength, +3 Dexterity, +1 Constitution", "#LIGHT_BLUE# * -3 力量 , +3 敏捷 , +1 体质", "_t")
@@ -3621,7 +3627,7 @@ t("Skin", "皮肤", "birth facial category")
 t("Hairs", "发型", "birth facial category")
 t("Facial features", "脸部特征", "birth facial category")
 t("Special", "特殊", "birth facial category")
-t("Human", "人类", "birth descriptor name")
+t("Human", "人类", "birth descriptor race")
 t("The Humans are one of the main races on Maj'Eyal, along with the Halflings. For many thousands of years they fought each other until events, and great people, unified all the Human and Halfling nations under one rule.", "人类与半身人一起是马基·埃亚尔的主要种族，他们曾互相争战了几千年，直到在领袖们的伟大领导下，人类和半身人的国度再度联合起来。", "_t")
 t("Humans of these Allied Kingdoms have known peace for over a century now.", "联合王国的人们已经保持了一个世纪的和平。", "_t")
 t("Humans are split into two categories: the Highers, and the rest. Highers have latent magic in their blood which gives them higher attributes and senses along with a longer life.", "人类被分为两个亚种：高等人类和普通人类。高等人类体内流淌着魔法的血液，他们拥有额外的属性和感知能力并更长寿。", "_t")
@@ -3675,7 +3681,7 @@ t("Blond Mustache 2", "金色八字胡2", "_t")
 t("Redhead Mustache 1", "红色八字胡1", "_t")
 t("Redhead Mustache 2", "红色八字胡2", "_t")
 t("Bikini / Mankini", "比基尼/男性比基尼", "_t")
-t("Higher", "高等人类", "birth descriptor name")
+t("Higher", "高等人类", "birth descriptor subrace")
 t("Highers are a special branch of Humans that have been imbued with latent magic since the Age of Allure.", "自厄流纪起，高等人类就是人类种族的一支特殊分支，他们的身体里潜藏着魔力。", "_t")
 t("They usually do not breed with other Humans, trying to keep their blood 'pure'.", "为了保持血统的纯正，他们一般不和普通人类通婚。", "_t")
 t("They possess the #GOLD#Wrath of the Highborn#WHITE# which allows them to increase damage dealt and decrease damage taken once in a while.", "他们天生掌握 #GOLD# 高等人类之怒 #WHITE#，允许他们在短时间内提高伤害和抵抗。", "_t")
@@ -3684,7 +3690,7 @@ t("#LIGHT_BLUE# * +1 Strength, +1 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +
 t("#LIGHT_BLUE# * +1 Magic, +1 Willpower, +0 Cunning", "#LIGHT_BLUE# * +1 魔法 , +1 意志 , +0 灵巧", "_t")
 t("#GOLD#Life per level:#LIGHT_BLUE# 11", "#GOLD# 每等级生命加值： #LIGHT_BLUE# 11", "_t")
 t("#GOLD#Experience penalty:#LIGHT_BLUE# 0%", "#GOLD#经验惩罚： #LIGHT_BLUE# 0%", "_t")
-t("Cornac", "科纳克人", "birth descriptor name")
+t("Cornac", "科纳克人", "birth descriptor subrace")
 t("Cornacs are Humans from the northern parts of the Allied Kingdoms.", "科纳克人是来自联合王国北部的普通人类。", "_t")
 t("Humans are an inherently very adaptable race and as such they gain a #GOLD#talent category point#WHITE# at birth (others only gain one at levels 10, 20 and 34). They also gain #GOLD#a class and a generic talent point#WHITE# at birth and every 10 levels.", "人类天生适应性强，他们可以在出生时获得1点#GOLD#技能树解锁点#WHITE#（其他种族只能在10、20和34级时获得1点）。此外，出生时以及每10级时，他们可以获得额外1点#GOLD#职业技能点和通用技能点#WHITE#", "_t")
 t("#LIGHT_BLUE# * +0 Strength, +0 Dexterity, +0 Constitution", "#LIGHT_BLUE# * +0 力量 , +0 敏捷 , +0 体质", "_t")
@@ -3694,17 +3700,17 @@ t("#GOLD#Life per level:#LIGHT_BLUE# 10", "#GOLD# 每等级生命加值： #LIGH
 ------------------------------------------------
 section "mod-tome/data/birth/races/tutorial.lua"
 
-t("Tutorial Human", "教程人类", "birth descriptor name")
+t("Tutorial Human", "教程人类", "birth descriptor race")
 t("A special tutorial race.", "一只特殊的教学种族。", "_t")
-t("Tutorial Basic", "教程基础", "birth descriptor name")
+t("Tutorial Basic", "教程基础", "birth descriptor subrace")
 t("A Human hailing from the northern town of Derth. A common kind of man, unremarkable in all respects.", "来自德斯镇北部的普通人。非常平凡，毫无特点。", "_t")
-t("Tutorial Stats", "教程属性", "birth descriptor name")
+t("Tutorial Stats", "教程属性", "birth descriptor subrace")
 
 ------------------------------------------------
 section "mod-tome/data/birth/races/undead.lua"
 
 t("Special", "特殊", "birth facial category")
-t("Undead", "不死族", "birth descriptor name")
+t("Undead", "不死族", "birth descriptor race")
 t("Grave strength, dread will, this flesh cannot stay still. Kings die, masters fall, we will outlast them all.", "死亡的力量，恐惧的意志，这些肉体不会沉寂。国王去世，主人陨落，我们才是永生。", "_t")
 t("Undead are humanoids (Humans, Elves, Dwarves, ...) that have been brought back to life by the corruption of dark magics.", "不死族是被黑暗魔法复活的人形生物（人类，精灵，矮人…）。", "_t")
 t("Undead can take many forms, from ghouls to vampires and liches.", "不死族有多种形态，从食尸鬼、吸血鬼到巫妖。", "_t")
@@ -3713,7 +3719,7 @@ t("Skin", "皮肤", "birth facial category")
 t("Hairs", "发型", "birth facial category")
 t("Facial features", "脸部特征", "birth facial category")
 t("Tatoos", "纹身", "birth facial category")
-t("Ghoul", "食尸鬼", "birth descriptor name")
+t("Ghoul", "食尸鬼", "birth descriptor subrace")
 t("Slow to shuffle, quick to bite, learn from master, rule the night!", "动如磐石，撕咬如火，跟随主人，平定江山！", "_t")
 t("Ghouls are dumb, but resilient, rotting undead creatures, making good fighters.", "食尸鬼是不能说话、身体腐烂，不知疲倦的不死生物，适合成为战士。", "_t")
 t("They have access to #GOLD#special ghoul talents#WHITE# and a wide range of undead abilities:", "他们天生有独特的 #GOLD# 食尸鬼 #WHITE# 技能和一系列不死系能力：", "_t")
@@ -3761,7 +3767,7 @@ t("Bones", "骨骼", "_t")
 t("Guts", "碎肉", "_t")
 t("Runes 1", "符文1", "_t")
 t("Runes 2", "符文2", "_t")
-t("Skeleton", "骷髅", "birth descriptor name")
+t("Skeleton", "骷髅", "birth descriptor subrace")
 t("The marching bones, each step we rattle; but servants no more, we march to battle!", "行进之骨，咯吱有声；奴役不再，战士永存！", "_t")
 t("Skeletons are animated bones, undead creatures both strong and dexterous.", "骷髅是由有灵性的骨头组成的强壮而敏捷的不死生物。", "_t")
 t("They have access to #GOLD#special skeleton talents#WHITE# and a wide range of undead abilities:", "它们天生具有独特的 #GOLD# 骷髅 #WHITE# 技能和一系列不死系技能：", "_t")
@@ -3781,7 +3787,7 @@ t("Cracks", "碎裂", "_t")
 t("Iron Bolt", "铁箍", "_t")
 t("Molds", "苔藓", "_t")
 t("Rust", "锈蚀", "_t")
-t("Lich", "巫妖", "birth descriptor name")
+t("Lich", "巫妖", "birth descriptor subrace")
 t("You should not see this!", "你不应该看见这个！", "_t")
 t("Lich Eyes 1", "巫妖眼睛1", "_t")
 t("Lich Eyes 2", "巫妖眼睛2", "_t")
@@ -3805,7 +3811,7 @@ t("Hairs", "发型", "birth facial category")
 t("Facial features", "脸部特征", "birth facial category")
 t("Tatoos", "纹身", "birth facial category")
 t("Special", "特殊", "birth facial category")
-t("Yeek", "夺心魔", "birth descriptor name")
+t("Yeek", "夺心魔", "birth descriptor race")
 t("One race, one mind, one way. Our oppression shall end, and we shall inherit Eyal. Do not presume we are weak - our way is true, and only those who help us shall see our strength.", "一个种族，一种思想，一种道路。我们的压抑终于要终结，而我们将继承埃亚尔，不要认为我们很柔弱，只有那些帮助我们的人才能见识到我们的力量。", "_t")
 t("Yeeks are a mysterious race of small humanoids native to the tropical island of Rel.", "夺心魔是一支神秘的矮小人形种族，生活于热带岛屿瑞尔。", "_t")
 t("Their body is covered with white fur and their disproportionate heads give them a ridiculous look.", "他们的身体覆盖着白色的皮肤，他们奇怪的身材比例使他们看上去滑稽可笑。", "_t")
@@ -3862,6 +3868,7 @@ t("Tatoos 1", "纹身1", "_t")
 t("Tatoos 2", "纹身2", "_t")
 t("Redfur", "红发", "_t")
 t("Bikini / Mankini", "比基尼/男性比基尼", "_t")
+t("Yeek", "夺心魔", "birth descriptor subrace")
 t("Yeeks are a mysterious race native to the tropical island of Rel.", "夺心魔是一支神秘的种族，生活于热带岛屿瑞尔。", "_t")
 t("Although they are now nearly unheard of in Maj'Eyal, they spent many centuries as secret slaves to the Halfling nation of Nargol.", "尽管他们在马基·埃亚尔中几乎不曾人们被提到过，他们已经作为半身人王国纳格尔的奴隶存在了数个世纪。", "_t")
 t("They possess the #GOLD#Dominant Will#WHITE# talent which allows them to temporarily subvert the mind of a lesser creature. When the effect ends, the creature dies.", "他们天生掌握 #GOLD# 主导思维 #WHITE#，允许他们在短时间内控制一个较弱生物的思维。当效果结束时，被控制目标死亡。", "_t")
@@ -3876,10 +3883,10 @@ t("#GOLD#Confusion resistance:#LIGHT_BLUE# 35%", "#GOLD#混乱抗性:#LIGHT_BLUE
 ------------------------------------------------
 section "mod-tome/data/birth/sexes.lua"
 
-t("Female", "女性", "birth descriptor name")
+t("Female", "女性", "birth descriptor sex")
 t("You are a female of the species.", "你是一位女性角色。", "_t")
 t("There is no in-game difference between the two sexes.", "除了外貌性别在实际游戏中没有任何分别。", "_t")
-t("Male", "男性", "birth descriptor name")
+t("Male", "男性", "birth descriptor sex")
 t("You are a male of the species.", "你是一位男性角色。", "_t")
 
 ------------------------------------------------
@@ -13353,8 +13360,6 @@ t("A fine mesh of metal threads held together by a sturdy chain. Sparks dance ac
 t([[Taking lightning damage or making critical hits builds 2 energy charges, which give you +5% lightning damage and +1 to all stats.
 The charges decay at a rate of 1 per turn. Max 10 charges.]], [[每次接受雷电伤害或造成暴击雷电伤害时获得两点充能，每点充能提供 5%% 雷电伤害加成和 1 点全属性。
 每回合损失一点加成。加成最多10层。]], "_t")
--- old translated text
-t("will o' the wisp", "鬼火", "_t")
 
 ------------------------------------------------
 section "mod-tome/data/general/stores/basic.lua"
@@ -31764,17 +31769,6 @@ t([[Gnaw your target for %d%% damage.  If your attack hits, the target may be in
 		目标被杀死时会变成你的可以完全控制的食尸鬼傀儡。
 		食尸鬼傀儡持续 %d 回合，可以使用侵蚀、定向跳跃、震慑、腐烂疫病。
 		受体质影响，枯萎伤害按比例加成。]], "tformat")
--- old translated text
-t([[Gnaw your target for %d%% damage.  If your attack hits, the target may be infected with Ghoul Rot for %d turns %s.
-		Each turn, Ghoul Rot inflicts %0.2f blight damage.
-		Targets suffering from Ghoul Rot rise as friendly ghouls when slain.
-		Ghouls last for %d turns and can use Gnaw, Ghoulish Leap, Stun, and Rotting Disease.
-		The blight damage scales with your Constitution.]], [[撕咬你的目标造成 %d%% 伤害。
-		如果你的攻击命中，目标会感染食尸鬼腐烂疫病持续 %d 回合 %s。
-		食尸鬼腐烂疫病每回合造成 %0.2f 枯萎伤害。
-		目标被杀死时会变成你的可以完全控制的食尸鬼傀儡。
-		食尸鬼傀儡持续 %d 回合，可以使用侵蚀、定向跳跃、震慑、腐烂疫病。
-		受体质影响，枯萎伤害按比例加成。]], "tformat")
 
 ------------------------------------------------
 section "mod-tome/data/talents/undeads/lich.lua"
@@ -41290,8 +41284,8 @@ t("[G]eneral", "常规[G]", "_t")
 t("[A]ttack", "攻击[A]", "_t")
 t("[D]efense", "防御[D]", "_t")
 t("[T]alents", "技能[T]", "_t")
-t("off", "副手", "_t")
-t("main", "主手", "_t")
+t("off", "副手", "_nt")
+t("main", "主手", "_nt")
 t("[E]quipment: %s set", "装备[E]：%s 套装", "tformat")
 t("#RED#Displaying %s set for %s (equipment NOT switched)", "#RED#展示 %s 套装给 %s 看 (装备未切换)", "logPlayer")
 t("Sort: %s", "排序：%s", "tformat")

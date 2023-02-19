@@ -1398,9 +1398,9 @@ t("LEVEL UP!", "升级了！", "_t")
 ------------------------------------------------
 section "engine/modules/boot/data/birth/descriptors.lua"
 
-t("base", "基础", "birth descriptor name")
-t("Destroyer", "毁灭者", "birth descriptor name")
-t("Acid-maniac", "狂酸使", "birth descriptor name")
+t("base", "基础", "birth descriptor base")
+t("Destroyer", "毁灭者", "birth descriptor role")
+t("Acid-maniac", "狂酸使", "birth descriptor role")
 
 ------------------------------------------------
 section "engine/modules/boot/data/damage_types.lua"
@@ -1736,7 +1736,7 @@ t("Your password is too short", "你的密码过短", "_t")
 t("Login...", "登录中…", "_t")
 t("Logging in your account, please wait...", "正在登录账户，请稍候…", "_t")
 t("Steam client not found.", "找不到Steam客户端", "_t")
--- untranslated text
+-- new text
 --[==[
 t("#LIGHT_BLUE##{underline}#%s#LAST##{normal}#", "#LIGHT_BLUE##{underline}#%s#LAST##{normal}#", "tformat")
 --]==]

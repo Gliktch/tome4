@@ -2214,7 +2214,7 @@ function _M:tooltip(x, y, seen_by)
 
 	if self.desc then ts:add(self.desc, true) end
 	if self.descriptor and self.descriptor.classes then
-		ts:add(_t"Classes: ", table.concat(table.ts(self.descriptor.classes or {}, "birth descriptor name"), ","), true)
+		ts:add(_t"Classes: ", table.concat(table.ts(self.descriptor.classes or {}, "birth descriptor subclass"), ","), true)
 	end
 
 	if self.custom_tooltip then
