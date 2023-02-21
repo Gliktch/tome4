@@ -69,6 +69,20 @@ _G._t = function(s, tag)
 	return get(cur_locale, s, tag or "_t") or s
 end
 
+local function reorder(fmt, ...)
+	local args, order = {...}, {}
+
+	fmt = fmt:gsub('%%(%d+)%$', function(i)
+		table.insert(order, args[tonumber(i)])
+		return '%'
+	end)
+
+	if #order > 0 then
+		return string.format(fmt, unpack(order)), true
+	else return fmt, nil
+	end
+end
+
 _G.default_tformat = function(s, tag, ...)
 	local args_order = get(cur_locale_args, s, tag)
 	if args_order then
@@ -81,7 +95,9 @@ _G.default_tformat = function(s, tag, ...)
 		return s:format(unpack(args))
 	else
 		s = _t(s, tag)
-		return s:format(...)
+		local finish
+		s, finish = reorder(s, ...)
+		if finish then return s else return s:format(...) end
 	end
 end
 function string.tformat(s, ...)
