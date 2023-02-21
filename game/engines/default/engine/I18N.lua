@@ -69,7 +69,7 @@ _G._t = function(s, tag)
 	return get(cur_locale, s, tag or "_t") or s
 end
 
-local function reorder(fmt, ...)
+_G.indexed_parameter_reorder = function(fmt, ...)
 	local args, order = {...}, {}
 
 	fmt = fmt:gsub('%%(%d+)%$', function(i)
@@ -96,12 +96,12 @@ _G.default_tformat = function(s, tag, ...)
 	else
 		s = _t(s, tag)
 		local finish
-		s, finish = reorder(s, ...)
+		s, finish = indexed_parameter_reorder(s, ...)
 		if finish then return s else return s:format(...) end
 	end
 end
 function string.tformat(s, ...)
-	if get(cur_locale_special, s, nil) then
+	if _getFlagI18N("tformat_special") then
 		local args_proc = _getFlagI18N("tformat_special") or default_tformat
 		return args_proc(s, "tformat", get(cur_locale_args, s, nil), get(cur_locale_special, s, "tformat"), ...)
 	end
