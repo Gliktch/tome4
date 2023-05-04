@@ -55,6 +55,9 @@ newBirthDescriptor{
 	},
 	not_on_random_boss = true,
 	stats = { str=2, con=2, dex=2, mag=2, wil=2, cun=2 },
+	talents = {
+		[ActorTalents.T_SHOOT] = 1,
+	},
 	talents_types = function(birth)
 		local tts = {}
 		for _, class in ipairs(birth.all_classes) do
@@ -138,6 +141,9 @@ newBirthDescriptor{
 	},
 	not_on_random_boss = true,
 	stats = { str=2, con=2, dex=2, mag=2, wil=2, cun=2 },
+	talents = {
+		[ActorTalents.T_SHOOT] = 1,
+	},
 	talents_types = function(birth)
 		return {["technique/combat-training"] = {true, 0}}
 	end,
