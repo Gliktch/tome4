@@ -164,6 +164,7 @@ newBirthDescriptor{
 					game.bignews:say(90, "#GOLD#As you level up you learn the talent tree: #LIGHT_BLUE#%s", tostring(name))
 				end
 				self:learnTalentType(tt)
+				self:triggerHook({"Wanderer:learntCategory", wanderer=self, tt=tt_def, silent=silent})
 			end
 		end,
 		randventurer_last_learn_level = 0,
