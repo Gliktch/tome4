@@ -169,7 +169,7 @@ _M.useObjectBaseTalent ={
 		if cooldown and cooldown > 0 then
 			return false
 		end
-		local useable, msg = o:canUseObject(who)
+		local useable, msg = o:canUseObject(self)
 		if not useable and not (silent or fake) then
 			game.logPlayer(self, msg)
 			return false
