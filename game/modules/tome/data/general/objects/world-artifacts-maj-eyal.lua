@@ -359,7 +359,7 @@ newEntity{ base = "BASE_GREATSWORD",
 		apr = 4,
 		physcrit = 18,
 		dammod = {str=1.2},
-		inc_damage_type = {["humanoid/orc"]=25},
+		inc_damage_type = {[_nt"humanoid/orc"]=25},
 	},
 	wielder = {
 		resists_actor_type = {["humanoid/orc"]=15},

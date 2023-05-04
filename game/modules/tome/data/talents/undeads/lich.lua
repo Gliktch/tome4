@@ -156,7 +156,7 @@ newTalent{
 
 local function createLichShadow(self, level, tCallShadows, tShadowWarriors, tShadowMages, duration, target)
 	local npc = require("mod.class.NPC").new{
-		type = "undead", subtype = "lich shadow",
+		type = "undead", subtype = _nt"lich shadow",
 		name = "shadow",
 		desc = [[]], image = "npc/lich_s_shadow.png",
 		display = 'b', color=colors.BLACK,

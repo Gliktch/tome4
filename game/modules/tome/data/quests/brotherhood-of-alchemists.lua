@@ -436,7 +436,7 @@ recipes = function(self)
 	}
 
 	-- another relic from the pre-e days.
-	local alchemists = {"Stire of Derth", "Marus of Elvala", "Agrimley the hermit", "Ungrol of Last Hope", }
+	local alchemists = {_nt"Stire of Derth", _nt"Marus of Elvala", _nt"Agrimley the hermit", _nt"Ungrol of Last Hope", }
 
 	return cookbook, elixirs, alchemists, e
 end

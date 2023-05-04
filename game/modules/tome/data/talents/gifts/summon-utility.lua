@@ -157,9 +157,9 @@ newTalent{
 
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{
-			type = "animal", subtype = "turtle",
+			type = "animal", subtype = _nt("turtle", "entity subtype"),
 			display = "R", color=colors.GREEN, image = "npc/summoner_turtle.png",
-			name = "turtle", faction = self.faction,
+			name = _nt("turtle", "entity name"), faction = self.faction,
 			desc = [[]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "tactical", ai_state = { talent_in=1, ally_compassion=10},

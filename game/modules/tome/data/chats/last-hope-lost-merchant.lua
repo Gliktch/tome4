@@ -93,6 +93,7 @@ newChat{ id="unique1",
 }
 
 local maker_list = loadChatFile("artifact-maker")
+local artifacts_bases_types = {_nt"armours", _nt"weapons", _nt"misc"}
 local artifacts_bases = {
 	armours = {
 		"elven-silk robe",

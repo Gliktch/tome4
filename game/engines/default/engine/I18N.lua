@@ -69,6 +69,20 @@ _G._t = function(s, tag)
 	return get(cur_locale, s, tag or "_t") or s
 end
 
+_G.indexed_parameter_reorder = function(fmt, ...)
+	local args, order = {...}, {}
+
+	fmt = fmt:gsub('%%(%d+)%$', function(i)
+		table.insert(order, args[tonumber(i)])
+		return '%'
+	end)
+
+	if #order > 0 then
+		return string.format(fmt, unpack(order)), true
+	else return fmt, nil
+	end
+end
+
 _G.default_tformat = function(s, tag, ...)
 	local args_order = get(cur_locale_args, s, tag)
 	if args_order then
@@ -81,11 +95,13 @@ _G.default_tformat = function(s, tag, ...)
 		return s:format(unpack(args))
 	else
 		s = _t(s, tag)
-		return s:format(...)
+		local finish
+		s, finish = indexed_parameter_reorder(s, ...)
+		if finish then return s else return s:format(...) end
 	end
 end
 function string.tformat(s, ...)
-	if get(cur_locale_special, s, nil) then
+	if _getFlagI18N("tformat_special") then
 		local args_proc = _getFlagI18N("tformat_special") or default_tformat
 		return args_proc(s, "tformat", get(cur_locale_args, s, nil), get(cur_locale_special, s, "tformat"), ...)
 	end
@@ -144,14 +160,14 @@ function _M:t(lc, src, dst, tag, args_order, special)
 	if args_order then
 		locales_args[lc] = locales_args[lc] or {}
 		set(locales_args[lc], src, tag, args_order)
-	elseif locales_args[lc] and locales_args[lc][tag] then
-		locales_args[lc][tag] = {}
+	elseif locales_args[lc] and locales_args[lc][tag] and locales_args[lc][tag][src] then
+		locales_args[lc][tag][src] = nil
 	end
 	if special then
 		locales_special[lc] = locales_special[lc] or {}
 		set(locales_special[lc], src, tag, special)
-	elseif locales_special[lc] and locales_special[lc][tag] then
-		locales_special[lc][tag] = {}
+	elseif locales_special[lc] and locales_special[lc][tag] and locales_special[lc][tag][src] then
+		locales_special[lc][tag][src] = nil
 	end
 end
 

@@ -132,9 +132,9 @@ newTalent{
 		end
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{
-			type = "animal", subtype = "canine",
+			type = "animal", subtype = _nt("canine", "entity subtype"),
 			display = "C", color=colors.LIGHT_DARK, image = "npc/summoner_wardog.png",
-			name = "war hound", faction = self.faction,
+			name = _nt("war hound", "entity name"), faction = self.faction,
 			desc = _t[[]],
 			autolevel = "none",
 			ai = "summoned", ai_real = "dumb_talented_simple", ai_state = { talent_in=5, },
@@ -482,9 +482,9 @@ newTalent{
 
 		local NPC = require "mod.class.NPC"
 		local m = NPC.new{
-			type = "golem", subtype = "stone",
+			type = "golem", subtype = _nt("stone", "entity subtype"),
 			display = "g",
-			name = "stone golem", color=colors.WHITE, image = "npc/summoner_golem.png",
+			name = _nt("stone golem", "entity name"), color=colors.WHITE, image = "npc/summoner_golem.png",
 
 			body = { INVEN = 10, MAINHAND=1, OFFHAND=1, BODY=1 },
 

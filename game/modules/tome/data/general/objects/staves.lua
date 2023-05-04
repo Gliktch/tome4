@@ -21,7 +21,7 @@ local Talents = require "engine.interface.ActorTalents"
 
 newEntity{
 	define_as = "BASE_STAFF",
-	flavor_names = {"staff", "magestaff", "starstaff", "vilestaff"},
+	flavor_names = {_nt"staff", _nt"magestaff", _nt"starstaff", _nt"vilestaff"},
 	slot = "MAINHAND",
 	slot_forbid = "OFFHAND",
 	type = "weapon", subtype="staff",

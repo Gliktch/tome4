@@ -3,151 +3,6 @@ locale "zh_hans"
 forceFontPackage("chinese")
 setFlag("break_text_all_character", true)
 ------------------------------------------------
-section ".always_merge"
-
-t("3-head", "三头蛇", "nil")
-t("3-headed hydra", "三头蛇", "nil")
-t("Agrimley the hermit", "隐居者亚格雷姆利", "nil")
-t("Allied Kingdoms", "联合王国", "nil")
-t("Angolwen", "安格利文", "nil")
-t("Assassin lair", "盗贼巢穴", "nil")
-t("Control Room", "控制室", "nil")
-t("Cosmic Fauna", "太空生物", "nil")
-t("Dreadfell", "恐惧王座", "nil")
-t("Enemies", "敌人", "nil")
-t("Experimentation Room", "实验室", "nil")
-t("Exploratory Farportal", "异度传送门", "nil")
-t("FINGER", "戒指", "nil")
-t("Fearscape", "恶魔空间", "nil")
-t("Hall of Reflection", "反射之间", "nil")
-t("Horrors", "恐魔", "nil")
-t("Iron Throne", "钢铁王座", "nil")
-t("Keepers of Reality", "现实守卫", "nil")
-t("MAINHAND", "主手", "nil")
-t("Marus of Elvala", "埃尔瓦拉的马鲁斯", "nil")
-t("OFFHAND", "副手", "nil")
-t("Orc Pride", "兽人部落", "nil")
-t("Portal Room", "传送门房间", "nil")
-t("Rhalore", "罗兰精灵", "nil")
-t("Sandworm Burrowers", "钻地沙虫", "nil")
-t("Shalore", "永恒精灵", "nil")
-t("Shasshhiy'Kaish", "莎西·凯希", "nil")
-t("Sher'Tul", "夏·图尔", "nil")
-t("Slavers", "奴隶贩子", "nil")
-t("Sorcerers", "法师", "nil")
-t("Stire of Derth", "德斯镇的斯泰尔", "nil")
-t("Storage Room", "存储间", "nil")
-t("Sunwall", "太阳堡垒", "nil")
-t("Temple of Creation", "造物者神庙", "nil")
-t("Thalore", "自然精灵", "nil")
-t("The Way", "维网", "nil")
-t([[Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.
-The time is %02d:%02d.]], [[今天是马基·埃亚尔卓越纪%s年，%s %s 。
-当前时间 %02d:%02d。]], "nil", {3,2,1,4,5})
-t("Undead", "不死族", "nil")
-t("Ungrol of Last Hope", "最后的希望的温格洛", "nil")
-t("Vargh Republic", "瓦尔弗娜迦共和国", "nil")
-t("Victim", "受害者", "nil")
-t("Water lair", "水下墓穴", "nil")
-t("Zigur", "伊格", "nil")
-t("absolute", "绝对", "nil")
-t("armours", "护甲", "nil")
-t("bomb", "炸弹", "nil")
-t("bonestaff", "白骨法杖", "nil")
-t("cannister", "罐子", "nil")
-t("charged", "电能", "nil")
-t("combat", "战斗", "nil")
-t("daikara", "岱卡拉", "nil")
-t("default", "默认", "nil")
-t("demon", "恶魔", "nil")
-t("dragon", "龙", "nil")
-t("dream", "梦境", "nil")
-t("east", "东面", "nil")
-t("exit", "出口", "nil")
-t("harmonystaff", "和谐法杖", "nil")
-t("humanoid", "人形生物", "nil")
-t("humanoid/orc", "人形生物/兽人", "nil")
-t("husk", "尸傀", "nil")
-t("hydra", "多头蛇", "nil")
-t("image", "镜像", "nil")
-t("injured seer", "受伤的先知", "nil")
-t("kinetic", "动能", "nil")
-t("living", "生命", "nil")
-t("lone alchemist", "落单的炼金术师", "nil")
-t("lost defiler", "迷路的堕落者", "nil")
-t("lost sun paladin", "迷路的太阳骑士", "nil")
-t("lost warrior", "迷路的战士", "nil")
-t("magestaff", "元素法杖", "nil")
-t("magical", "魔法", "nil")
-t("mainhand", "主手", "nil")
-t("melee", "近战", "nil")
-t("mental", "精神", "nil")
-t("mountain chain", "山脉", "nil")
-t("movement", "移动", "nil")
-t("north", "北面", "nil")
-t("northeast", "东北面", "nil")
-t("northwest", "西北面", "nil")
-t("offhand", "副手", "nil")
-t("portal", "传送门", "nil")
-t("portal back", "返回传送门", "nil")
-t("ranged", "远程", "nil")
-t("repented thief", "忏悔的盗贼", "nil")
-t("rimebark", "雾凇", "nil")
-t("seed", "种子", "nil")
-t("south", "南面", "nil")
-t("southeast", "东南面", "nil")
-t("southwest", "西南面", "nil")
-t("spell", "法术", "nil")
-t("standard", "标准", "nil")
-t("standby", "乖乖站好", "nil")
-t("starstaff", "群星法杖", "nil")
-t("steambot", "蒸汽机器人", "nil")
-t("stone golem", "岩石傀儡", "nil")
-t("summon", "召唤", "nil")
-t("summoned", "召唤物", "nil")
-t("tank", "肉盾", "nil")
-t("temporal explorer", "时空旅行者", "nil")
-t("temporal hound", "时空猎犬", "nil")
-t("thermal", "热能", "nil")
-t("throwing", "投掷", "nil")
-t("turtle", "乌龟", "nil")
-t("unarmed", "徒手", "nil")
-t("undead", "亡灵", "nil")
-t("unliving", "非活物", "nil")
-t("unnatural", "非自然生物", "nil")
-t("unseen", "没有看见", "nil")
-t("vilestaff", "邪恶法杖", "nil")
-t("volcanic mountains", "火山山脉", "nil")
-t("war hound", "战争猎犬", "nil")
-t("weapons", "武器", "nil")
-t("west", "西面", "nil")
-t("worried loremaster", "担忧的贤者", "nil")
-
-------------------------------------------------
-section "tome-orcs/data/general/events/celestial-well.lua"
-
-
--- untranslated text
---[==[
-t("sunwell", "sunwell", "entity name")
-t("moonwell", "moonwell", "entity name")
---]==]
-
-
-------------------------------------------------
-section "tome-cults/data/zones/ft-illusory-castle/generatorMap.lua"
-
-t("left", "左线", "ft-illusory-castle branch name")
-t("main", "主线", "ft-illusory-castle branch name")
-t("right", "右线", "ft-illusory-castle branch name")
-t("nil", "空", "ft-illusory-castle branch name")
--- old translated text
-t("shortcut to chapter \"%s\"", "通向章节\"%s\"的近路", "tformat")
-t("[actual level %d, on branch %s]", "[实际楼层%d，分支%s]", "tformat")
-t("Illusory Castle", "虚幻城堡", "_t")
-t("Something blocks the way to this chapter...", "有东西挡住了通往这一章的路……", "_t")
-
-------------------------------------------------
 section "engine/data/keybinds/actions.lua"
 
 t("Go to next/previous level", "到下一层/上一层地图", "_t")
@@ -357,7 +212,7 @@ t("", "", "_t")
 ------------------------------------------------
 section "engine/engine/Chat.lua"
 
-
+t("[leave]", "[离开]", "_t")
 -- untranslated text
 --[==[
 t("???", "???", "_t")
@@ -411,6 +266,18 @@ t("#LIGHT_RED#Keyboard input temporarily disabled.", "#LIGHT_RED#暂时禁用键
 section "engine/engine/LogDisplay.lua"
 
 t("Message Log", "消息日志", "_t")
+
+------------------------------------------------
+section "engine/engine/Map.lua"
+
+t("north", "北面", "_nt")
+t("south", "南面", "_nt")
+t("west", "西面", "_nt")
+t("east", "东面", "_nt")
+t("northwest", "西北面", "_nt")
+t("northeast", "东北面", "_nt")
+t("southwest", "西南面", "_nt")
+t("southeast", "东南面", "_nt")
 
 ------------------------------------------------
 section "engine/engine/MicroTxn.lua"
@@ -1502,7 +1369,7 @@ This is all optional, you are not forced to use this feature at all, but the dev
 * 记录你的击杀数量，死亡次数，以及最喜欢的职业…
 * 统计你的游戏数据，来记录你的游戏风格
 * 在游戏里直接安装官方扩展包和第三方插件，免去手动安装的麻烦
-* 如果你购买了游戏或是在 https:/te4.org/ 上进行了捐助，你可以获得获得你的购买者/赞助者独享权益
+* 如果你购买了游戏或是在 https:/te4.org/ 上进行了捐助，你可以获得你的购买者/赞助者独享权益
 * 帮助游戏开发者调整游戏平衡，让这个游戏变得更好。
 
 你也会在获得一个 #LIGHT_BLUE#https:/te4.org/#LAST# 上的用户页面，可以用来向你的朋友炫耀。
@@ -1531,9 +1398,9 @@ t("LEVEL UP!", "升级了！", "_t")
 ------------------------------------------------
 section "engine/modules/boot/data/birth/descriptors.lua"
 
-t("base", "基础", "birth descriptor name")
-t("Destroyer", "毁灭者", "birth descriptor name")
-t("Acid-maniac", "狂酸使", "birth descriptor name")
+t("base", "基础", "birth descriptor base")
+t("Destroyer", "毁灭者", "birth descriptor role")
+t("Acid-maniac", "狂酸使", "birth descriptor role")
 
 ------------------------------------------------
 section "engine/modules/boot/data/damage_types.lua"
@@ -1869,7 +1736,7 @@ t("Your password is too short", "你的密码过短", "_t")
 t("Login...", "登录中…", "_t")
 t("Logging in your account, please wait...", "正在登录账户，请稍候…", "_t")
 t("Steam client not found.", "找不到Steam客户端", "_t")
--- untranslated text
+-- new text
 --[==[
 t("#LIGHT_BLUE##{underline}#%s#LAST##{normal}#", "#LIGHT_BLUE##{underline}#%s#LAST##{normal}#", "tformat")
 --]==]

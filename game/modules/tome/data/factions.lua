@@ -53,6 +53,13 @@ Cosmic Fauna,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,,-1,-1,-1,-1,-1,,-1,-1,-1,,-1,-1,-1,,
 Horrors,,-1,-1,-1,-1,-1,-1,-1,-1,,,-1,-1,-1,-1,-1,,-1,-1,-1,,,-1,-1,,-1,-1,,,-1,
 ]]
 
+local fact_names = {_nt("Enemies", "faction name"), _nt("Undead", "faction name"), _nt("Allied Kingdoms", "faction name"), _nt("Shalore", "faction name"), _nt("Thalore", "faction name"),
+_nt("Iron Throne", "faction name"), _nt("The Way", "faction name"), _nt("Angolwen", "faction name"), _nt("Keepers of Reality", "faction name"), _nt("Dreadfell", "faction name"),
+_nt("Temple of Creation", "faction name"), _nt("Water lair", "faction name"), _nt("Assassin lair", "faction name"),
+_nt("Rhalore", "faction name"), _nt("Zigur", "faction name"), _nt("Vargh Republic", "faction name"), _nt("Sunwall", "faction name"),
+_nt("Orc Pride", "faction name"), _nt("Sandworm Burrowers", "faction name"), _nt("Victim", "faction name"), _nt("Slavers", "faction name"),
+_nt("Sorcerers", "faction name"), _nt("Fearscape", "faction name"), _nt("Sher'Tul", "faction name"), _nt("Cosmic Fauna", "faction name"), _nt("Horrors", "faction name")}
+
 local facts = {}
 local factsid = {}
 local lines = src:split("\n")
@@ -87,14 +94,14 @@ for f1, data in pairs(facts) do
 	end
 end
 
-engine.Faction:add{ name="Neutral", reaction={}, }
+engine.Faction:add{ name=_nt("Neutral", "faction name"), reaction={}, }
 engine.Faction:setInitialReaction("neutral", "enemies", -100, true)
 
-engine.Faction:add{ name="Unaligned", reaction={}, }
-engine.Faction:add{ shortname="merchant-caravan", name="Merchant Caravan", reaction={}, }
+engine.Faction:add{ name=_nt("Unaligned", "faction name"), reaction={}, }
+engine.Faction:add{ shortname="merchant-caravan", name=_nt("Merchant Caravan", "faction name"), reaction={}, }
 
-engine.Faction:add{ name="Point Zero Onslaught", reaction={}, }
-engine.Faction:add{ name="Point Zero Guardians", reaction={}, }
+engine.Faction:add{ name=_nt("Point Zero Onslaught", "faction name"), reaction={}, }
+engine.Faction:add{ name=_nt("Point Zero Guardians", "faction name"), reaction={}, }
 engine.Faction:setInitialReaction("point-zero-onslaught", "point-zero-guardians", -100, true)
 engine.Faction:setInitialReaction("enemies", "point-zero-guardians", -100, true)
 engine.Faction:setInitialReaction("keepers-of-reality", "point-zero-guardians", 100, true)

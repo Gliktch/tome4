@@ -40,9 +40,9 @@ t("#00ffff#Welcome to level %d.", "#00ffff#Welcome to level %d.", "log")
 ------------------------------------------------
 section "mod-example/data/birth/descriptors.lua"
 
-t("base", "基础", "birth descriptor name")
-t("Destroyer", "毁灭者", "birth descriptor name")
-t("Acid-maniac", "狂酸使", "birth descriptor name")
+t("base", "基础", "birth descriptor base")
+t("Destroyer", "毁灭者", "birth descriptor role")
+t("Acid-maniac", "狂酸使", "birth descriptor role")
 
 ------------------------------------------------
 section "mod-example/data/damage_types.lua"

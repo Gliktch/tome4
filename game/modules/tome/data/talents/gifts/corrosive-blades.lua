@@ -144,7 +144,7 @@ newTalent{
 			local spot = i == 1 and {x=x, y=y} or rng.tableRemove(grids)
 			if not spot then break end
 			local t = basetrap(self, t, spot.x, spot.y, t.getDuration(self, t), {
-				type = "seed", name = "corrosive seed", color=colors.VIOLET, image = "trap/corrosive_seeds.png",
+				type = "seed", name = _t"corrosive seed", color=colors.VIOLET, image = "trap/corrosive_seeds.png",
 				disarm_power = self:combatMindpower(),
 				dam = self:mindCrit(t.getDamage(self, t)),
 				triggered = function(self, x, y, who) return true, true end,

@@ -61,8 +61,8 @@ function _M:init(actor, start_tab)
 	self.c_talents = Tab.new{title=_t"[T]alents", default=start_tab == "talents", fct=function() end, on_change=function(s) if s then self:switchTo("talents") end end }
 
 	-- Select equipment/switch sets
-	self.equip_set = self.actor.off_weapon_slots and _t"off" or _t"main"
-	self.c_equipment = Tab.new{title=("[E]quipment: %s set"):tformat(self.equip_set), default=start_tab == "equipment",
+	self.equip_set = self.actor.off_weapon_slots and _nt"off" or _nt"main"
+	self.c_equipment = Tab.new{title=("[E]quipment: %s set"):tformat(_t(self.equip_set)), default=start_tab == "equipment",
 		fct=function()
 		end,
 		on_change=function(s)
@@ -72,7 +72,7 @@ function _M:init(actor, start_tab)
 					local switch_set = self.equip_set == "off" and "main" or "off"
 					if self:updateEquipDollRefs(switch_set) then
 						self.equip_set = switch_set
-						game.logPlayer(self.actor, "#RED#Displaying %s set for %s (equipment NOT switched)", self.equip_set, self.actor:getName():capitalize())
+						game.logPlayer(self.actor, "#RED#Displaying %s set for %s (equipment NOT switched)", _t(self.equip_set), self.actor:getName():capitalize())
 					end
 				end
 				self:switchTo("equipment")
@@ -81,7 +81,7 @@ function _M:init(actor, start_tab)
 		end
 	}
 	self.c_equipment.generate = function(tab)
-		tab.title = ("[E]quipment: %s set"):tformat(self.equip_set)
+		tab.title = ("[E]quipment: %s set"):tformat(_t(self.equip_set))
 		Tab.generate(tab)
 	end
 	self.b_talents_sorting = Button.new{text=("Sort: %s"):tformat(({_t"Groups", _t"Name", _t"Type"})[self.talent_sorting]), hide=true, width=100, fct=function()
@@ -617,10 +617,10 @@ function _M:drawDialog(kind, actor_to_compare)
 		h = 0
 		w = 0
 		s:drawStringBlended(self.font, _t"Sex  : "..((player.descriptor and _t(player.descriptor.sex)) or (player.female and _t"Female" or _t"Male")), w, h, 0, 200, 255, true) h = h + self.font_h
-		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subrace") or "", "birth descriptor name")) or _t(player.type, "entity type"):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
+		s:drawStringBlended(self.font, (player.descriptor and _t"Race : " or _t"Type : ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subrace") or "", "birth descriptor subrace")) or _t(player.type, "entity type"):capitalize()), w, h, 0, 200, 255, true) h = h + self.font_h
 		local class_evo = ""
 		if player.descriptor and player.descriptor.class_evolution then class_evo = " ("..player.descriptor.class_evolution..")" end
-		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subclass") or "", "birth descriptor name")) or _t(player.subtype, "entity subtype"):capitalize())..class_evo, w, h, 0, 200, 255, true)
+		s:drawStringBlended(self.font, (player.descriptor and _t"Class: " or _t"Stype: ")..((player.descriptorDisplayName and _t(player:descriptorDisplayName("subclass") or "", "birth descriptor subclass")) or _t(player.subtype, "entity subtype"):capitalize())..class_evo, w, h, 0, 200, 255, true)
 		if player:attr("forbid_arcane") then
 			local follow = (player.faction == "zigur" or player:attr("zigur_follower")) and _t"Zigur follower" or _t"Antimagic adherent"
 			self:mouseTooltip(self.TOOLTIP_ANTIMAGIC_USER, s:drawColorStringBlended(self.font, "#ORCHID#"..follow, w+200, h, 255, 255, 255, true))

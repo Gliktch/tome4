@@ -429,7 +429,7 @@ newTalent{
 		local sentry = NPC.new {
 			type = "construct", subtype = "weapon",
 			display = o.display, color=o.color, image = o.image, blood_color = colors.GREY,
-			name = ("animated %s"):tformat(o:getName()),
+			name = ("animated %s"):tformat(o:getName({no_add_name=true})),
 			neuter = true,
 			faction = self.faction,
 			desc = _t"A weapon imbued with a living curse. It seems to be searching for its next victim.",

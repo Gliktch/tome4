@@ -1986,7 +1986,7 @@ newEntity{ base = "BASE_CLOAK",
 		name = function(self, who)
 			local resists={"Fire", "Cold", "Lightning", "Nature", "Darkness"}
 			if self.set_complete then table.insert(resists, "Arcane") end
-			return ("energize the scales for 16 turns, increasing resistance to %s damage by 15%% just before you are damaged. (This effect lasts 5 turns and only works on one type of damage.)"):tformat(table.concatNice(table.capitalize(table.ts(table.lower(resists))), ", ", _t", or "))
+			return ("energize the scales for 16 turns, increasing resistance to %s damage by 15%% just before you are damaged. (This effect lasts 5 turns and only works on one type of damage.)"):tformat(table.concatNice(table.capitalize(table.ts(table.lower(resists), "damage type")), ", ", _t", or "))
 		end,
 		tactical = { DEFEND = 1 },
 		power = 50,
@@ -4534,7 +4534,7 @@ newEntity{ base = "BASE_LITE", --Thanks Grayswandir!
 			local NPC = require "mod.class.NPC"
 			local Talents = require "engine.interface.ActorTalents"
 			local m = NPC.new{
-				name = _t"will o' the wisp",
+				name = _nt"will o' the wisp",
 				desc = _t"A chilling, ghostly form that floats in the air.",
 				type = "undead", subtype = "ghost",
 				blood_color = colors.GREY,

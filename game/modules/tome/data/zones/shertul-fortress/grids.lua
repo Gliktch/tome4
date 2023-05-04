@@ -20,6 +20,10 @@
 load("/data/general/grids/basic.lua")
 load("/data/general/grids/fortress.lua")
 
+local room_names = {_nt"Control Room", _nt"Portal Room", _nt"Storage Room", _nt"Exploratory Farportal",
+_nt"Library of Lost Mysteries", _nt"Experimentation Room", _nt"Hall of Reflection",
+_nt"portal back"}
+
 local energycount = function(self)
 	if not self._mo then return end
 	local tex, nblines, wline = nil

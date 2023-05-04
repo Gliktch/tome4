@@ -435,7 +435,7 @@ newEffect{
 		local t = self:getTalentFromId(self.T_STALK)
 		local effStalked = eff.target:hasEffect(eff.target.EFF_STALKED)
 		local desc = ([[Stalking %s. Bonus level %d: +%d accuracy, +%d%% melee damage, +%0.2f hate/turn prey was hit.]]):tformat(
-			eff.target.name, eff.bonus, t.getAttackChange(self, t, eff.bonus), t.getStalkedDamageMultiplier(self, t, eff.bonus) * 100 - 100, t.getHitHateChange(self, t, eff.bonus))
+			eff.target:getName(), eff.bonus, t.getAttackChange(self, t, eff.bonus), t.getStalkedDamageMultiplier(self, t, eff.bonus) * 100 - 100, t.getHitHateChange(self, t, eff.bonus))
 		if effStalked and effStalked.damageChange and effStalked.damageChange > 0 then
 			desc = desc..("Prey damage modifier: %d%%."):tformat(effStalked.damageChange)
 		end
@@ -2182,7 +2182,7 @@ newEffect{
 	status = "beneficial",
 	parameters = { power=10, kind="kinetic" },
 	activate = function(self, eff)
-		if eff.kind == "kinetic" then
+		if eff.kind == _nt"kinetic" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				[DamageType.PHYSICAL] = eff.power,
 				[DamageType.ACID] = eff.power,
@@ -2190,7 +2190,7 @@ newEffect{
 				[DamageType.TEMPORAL] = eff.power,
 			})
 			eff.what = _t"physical, nature, acid, temporal"
-		elseif eff.kind == "thermal" then
+		elseif eff.kind == _nt"thermal" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				[DamageType.FIRE] = eff.power,
 				[DamageType.COLD] = eff.power,
@@ -2198,7 +2198,7 @@ newEffect{
 				[DamageType.ARCANE] = eff.power,
 				})
 			eff.what = _t"fire, cold, light, arcane"
-		elseif eff.kind == "charged" then
+		elseif eff.kind == _nt"charged" then
 			eff.sid = self:addTemporaryValue("flat_damage_armor", {
 				[DamageType.LIGHTNING] = eff.power,
 				[DamageType.BLIGHT] = eff.power,

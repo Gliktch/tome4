@@ -855,7 +855,7 @@ newInscription{
 					local caster = self
 					local image = NPC.new{
 						name = _t"Mirror Image",
-						type = "image", subtype = "image",
+						type = _nt("image", "entity type"), subtype = _nt("image", "entity subtype"),
 						ai = "summoned", ai_real = nil, ai_state = { talent_in=1, }, ai_target = {actor=nil},
 						desc = _t"A blurred image.",
 						image = caster.image,

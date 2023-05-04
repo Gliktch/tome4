@@ -111,10 +111,30 @@ setFlag("tformat_special", function(s, tag, locales_args, special, ...)
 		args = {...}
 	end
 	s = _t(s, tag)
-	for k, v in pairs(special) do
-		args[k] = addJosa(args[k], v)
+
+	local finish
+	if special then
+		for k, v in pairs(special) do
+			args[k] = addJosa(args[k], v)
+		end
+	elseif not locales_args then
+		local args, order = {...}, {}
+		s = s:gsub('%%(%d+)%$(.+)%^', function(i, x)
+			table.insert(order, addJosa(args[tonumber(i)], x))
+			return '%'
+		end):gsub('%%(%d+)%$', function(i)
+			table.insert(order, args[tonumber(i)])
+			return '%'
+		end)
+		if #order > 0 then
+			finish = true
+			s = string.format(s, unpack(order))
+		end
 	end
-	return s:format(unpack(args))
+	if not special and not locales_args and not finish then
+		s, finish = indexed_parameter_reorder(s, args)
+	end
+	if finish then return s else return s:format(unpack(args)) end
 end)
 ------------------------------------------------
 section "always_merge"

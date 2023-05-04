@@ -28,7 +28,7 @@ function _M:listGivers()
 		warrior = {
 			chance = 70,
 			classes = {"Berserker", "Bulwark"},
-			escort = { name="lost warrior", random="male",
+			escort = { name=_nt"lost warrior", random="male",
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					type = "humanoid", subtype = "human", image = "player/higher_male.png",
@@ -57,7 +57,7 @@ function _M:listGivers()
 		divination = {
 			chance = 70,
 			classes = {"Archmage"},
-			escort = { name="injured seer", random="female",
+			escort = { name=_nt"injured seer", random="female",
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I will not be able to continue the road alone. Would you help me?]],
 				actor = {
 					name = _t"%s, the injured seer",
@@ -85,7 +85,7 @@ function _M:listGivers()
 		survival = {
 			chance = 70,
 			classes = {"Rogue", "Shadowblade", "Marauder"},
-			escort = { name="repented thief", random="male",
+			escort = { name=_nt"repented thief", random="male",
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the repented thief",
@@ -114,7 +114,7 @@ function _M:listGivers()
 		alchemy = {
 			chance = 70,
 			classes = {"Alchemist"},
-			escort = { name="lone alchemist", random="male",
+			escort = { name=_nt"lone alchemist", random="male",
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the lone alchemist",
@@ -142,7 +142,7 @@ function _M:listGivers()
 		sun_paladin = {
 			chance = 70,
 			classes = {"Sun Paladin"},
-			escort = { name="lost sun paladin", random="female",
+			escort = { name=_nt"lost sun paladin", random="female",
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the lost sun paladin",
@@ -171,7 +171,7 @@ function _M:listGivers()
 		defiler = {
 			chance = 70,
 			classes = {"Corruptor", "Reaver"},
-			escort = { name="lost defiler", random="female",
+			escort = { name=_nt"lost defiler", random="female",
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the lost defiler",
@@ -199,7 +199,7 @@ function _M:listGivers()
 		temporal = {
 			chance = 30,
 			classes = {"Paradox Mage", "Temporal Warden"},
-			escort = { name="temporal explorer", random="player", portal=_t"temporal portal",
+			escort = { name=_nt"temporal explorer", random="player", portal=_t"temporal portal",
 				text = _t[[Oh but you are ... are you ?! ME?!
 		So I was right, this is not my original time-thread!
 		Please help me! I am afraid I lost myself in this place. I know there is a temporal portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me? Would you help .. yourself?]],
@@ -229,7 +229,7 @@ function _M:listGivers()
 		exotic = {
 			chance = 30,
 			classes = "any",
-			escort = { name="worried loremaster", random="female",
+			escort = { name=_nt"worried loremaster", random="female",
 				text = _t[[Please help me! I am afraid I lost myself in this place. I know there is a recall portal left around here by a friend, but I have fought too many battles, and I fear I will not make it. Would you help me?]],
 				actor = {
 					name = _t"%s, the worried loremaster",

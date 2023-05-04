@@ -329,7 +329,7 @@ newEntity{
 	cost = 10,
 	greater_ego = 1,
 	wielder = {
-		resists_actor_type = {unnatural=resolvers.mbonus_material(10, 5)},
+		resists_actor_type = {[_nt"unnatural"]=resolvers.mbonus_material(10, 5)},
 		resists={
 			[DamageType.NATURE] = resolvers.mbonus_material(10, 10),
 			[DamageType.BLIGHT] = resolvers.mbonus_material(10, 10),

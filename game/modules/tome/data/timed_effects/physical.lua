@@ -3611,7 +3611,7 @@ newEffect{
 	desc = _t"Bear Trap",
 	long_desc = function(self, eff)
 		local desc = {}
-		if eff.pinid then desc[#desc+1] = "pinned" end
+		if eff.pinid then desc[#desc+1] = _t"pinned" end
 		if eff.slowid then desc[#desc+1] = ("slowed (%d%%)"):tformat(eff.power*100) end
 		if eff.dam > 0 then desc[#desc+1] = ("taking %0.2f physical damage each turn"):tformat(eff.dam) end
 		return _t"Caught in a bear trap: "..table.concat(desc, ", ")
@@ -4201,7 +4201,7 @@ newEffect{
 	name = "CHROMATIC_RESONANCE", image = "shockbolt/object/artifact/ureslaks_molted_scales.png",
 	desc = _t"Chromatic Resonance",
 	long_desc = function(self, eff)
-		local dt_descs = table.concatNice(eff.type_descs, ", ", ", or ")
+		local dt_descs = table.concatNice(eff.type_descs, ", ", _t", or ")
 		return ("Preemptively reacts to %s damage, increasing the appropriate resistance by %d for 5 turns."):tformat(dt_descs, eff.power)
 	end,
 	type = "physical",
