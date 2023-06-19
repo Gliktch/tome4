@@ -81,7 +81,7 @@ newTalent{
 		return ([[When you hit with Weapon Folding you have a %d%% chance of dealing an additional %0.2f temporal damage to enemies in a radius of %d.
 		Affected targets may also have their physical and temporal resistance reduced by %d%% for %d turns %s.
 		This effect has a cooldown.  If it triggers while on cooldown it will reduce the cooldown of Fold Gravity and Fold Warp by one turn.]])
-		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage), radius, resists, Desc.vs"ss", duration)
+		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage), radius, resists, duration, Desc.vs"ss")
 	end,
 }
 
@@ -127,7 +127,7 @@ newTalent{
 		return ([[When you hit with Weapon Folding you have a %d%% chance of dealing an additional %0.2f physical and %0.2f temporal (warp) damage to enemies in a radius of %d.
 		Each target hit may be stunned, blinded, pinned, or confused for %d turns %s.
 		This effect has a cooldown.  If it triggers while on cooldown it will reduce the cooldown of Fold Gravity and Fold Fate by one turn.]])
-		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage/2), damDesc(self, DamageType.PHYSICAL, damage/2), radius, Desc.vs("sp", Desc.max("ms", "ps")), duration)
+		:tformat(chance, damDesc(self, DamageType.TEMPORAL, damage/2), damDesc(self, DamageType.PHYSICAL, damage/2), radius, duration, Desc.vs("sp", Desc.max("ms", "ps")))
 	end,
 }
 
