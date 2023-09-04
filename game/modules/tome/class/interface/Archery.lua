@@ -722,7 +722,7 @@ function _M:archeryShoot(targets, talent, tg, params, force)
 			print("[ARCHERY SHOOT dofire] Shooting weapon:", realweapon and realweapon.name, "to:", targets[i].x, targets[i].y)
 			if realweapon.on_archery_trigger then realweapon.on_archery_trigger(realweapon, self, tg, params, targets[i], talent) end -- resources must be handled by the weapon function
 			-- hook to trigger as each archery projectile is created
-			local hd = {"Combat:archeryFire", tg=tg, archery = tg.archery, weapon=weapon, realweapon = realweapon, ammo=ammo}
+			local hd = {"Combat:archeryFire", tg=tg, archery = tg.archery, weapon=weapon, realweapon = realweapon, ammo=ammo, target={x=targets[i].x, y=targets[i].y}}
 			self:triggerHook(hd)
 			local proj = self:projectile(tg, targets[i].x, targets[i].y, archery_projectile)
 		end
