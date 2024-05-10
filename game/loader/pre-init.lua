@@ -209,14 +209,13 @@ function table.serialize(src, sub, no_G, base)
 end
 
 function string.unserialize(str)
-	local f, err = loadstring(str)
+	local f, err = loadstring(str,nil,"t") -- only allow loading source code, not bytecode
 	if not f then print("[UNSERIALIZE] error", err) return nil end
 	local t = {}
 	setfenv(f, setmetatable(t, {__index={_G=t}}))
 	local ok, err = pcall(f)
 	if ok then return setmetatable(t, nil) else print("[UNSERIALIZE] error", err) return nil end
 end
-
 --------------------------------------------------------------
 -- Remove invalidate some dangerous functions
 --------------------------------------------------------------
