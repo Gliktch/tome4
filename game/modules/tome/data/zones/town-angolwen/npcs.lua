@@ -116,6 +116,15 @@ newEntity{ define_as = "SUPREME_ARCHMAGE_LINANIIL",
 	on_die = function(self)
 		world:gainAchievement("LINANIIL_DEAD", game.player)
 	end,
+	on_angered = function(self, src)
+		if self.add_mos then
+			for _, mo in ipairs(self.add_mos) do if mo.image == "npc/humanoid_human_linaniil_supreme_archmage.png" then
+				mo.image = "npc/humanoid_human_linaniil_supreme_archmage_battle.png"
+			end end
+			self:removeAllMOs()
+			game.level.map:updateMap(self.x, self.y)
+		end
+	end,
 }
 
 newEntity{ define_as = "TARELION",

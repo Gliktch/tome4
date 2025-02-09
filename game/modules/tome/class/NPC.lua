@@ -281,6 +281,7 @@ function _M:checkAngered(src, set, value)
 		if self.anger_emote then
 			self:doEmote(self.anger_emote:gsub("@himher@", src.female and _t"her" or _t"him"), 30)
 		end
+		self:check("on_angered", src)
 	end
 end
 
